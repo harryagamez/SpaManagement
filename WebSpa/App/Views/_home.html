@@ -28,8 +28,15 @@
     </ui-view>
 </div>-->
 
+<header>
+        <h4 style="color: #151719; text-align: center; font-size: 62px;"><a ui-sref="home">HEADER</a></h4>
+</header>
+
+<nav></nav>
+
 <!-- Menu 1 -->
-<div id="sidebar">
+<!--<div id="sidebar">-->
+<aside id="sidebar">
     <div class="toggle-btn" data-ng-click="toggleSidebar()">
         <span></span>
         <span></span>
@@ -85,17 +92,18 @@
             Cerrar sesión
         </li>
     </ul>
-</div>
+</aside>
+<!--</div>-->
 
-<div>
-    <h4 style="color: #151719; text-align: center; font-size: 62px;">SPA</h4>
-</div>
-
-<div>
+<section>
     <ui-view>
         <div>
             <h4 style="color: #151719; text-align: center; font-size: 62px;">SPA</h4>
         </div>
     </ui-view>
-</div>
+</section>
+
+<footer>
+    <h4 style="color: #151719; text-align: center; font-size: 62px;">FOOTER</h4>
+</footer>
 
