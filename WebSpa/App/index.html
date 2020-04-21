@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+
+    <title>SPA</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="X-UA-Compatible" content="IE=11" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- JQuery Plugins -->
+    <script src="../Scripts/JQuery/jquery-1.11.3.js"></script>
+    <script src="../Scripts/jQueryUI/jquery-ui1.11.4.min.js"></script>
+
+    <!--<%-- Bootstrap Plugins --%>-->
+    <link href="../Scripts/Bootstrap/v4.0.0/bootstrap.min.css" rel="stylesheet" />
+    <link href="../Scripts/Bootstrap/v4.0.0/bootstrap-reboot.min.css" rel="stylesheet" />
+    <script src="../Scripts/Bootstrap/v4.0.0/popper.min.js"></script>
+    <script src="../Scripts/Bootstrap/v4.0.0/bootstrap.min.js"></script>
+
+    <!--<%-- LINQ --%>-->
+
+    <script src="../Scripts/Linq/linq3.js"></script>
+
+    <!-- Angular Plugins -->
+    <!--<script type="text/javascript" src="../Scripts/Angular_1.6.0_rc2/angular.min.js"></script>
+    <script type="text/javascript" src="../Scripts/Angular_1.6.0_rc2/angular-animate.min.js"></script>
+    <script type="text/javascript" src="../Scripts/Angular_1.6.0_rc2/angular-aria.min.js"></script>
+    <script type="text/javascript" src="../Scripts/Angular_1.6.0_rc2/angular-sanitize.min.js"></script>
+    <script src="../Scripts/Angular_1.6.0_rc2/angular-route.min.js"></script>-->
+
+    <link href="../Scripts/Angular/angular-material.min.css" rel="stylesheet" />
+    <script src="../Scripts/Angular/angular.min.js"></script>
+    <script src="../Scripts/Angular/angular-animate.js"></script>
+    <script src="../Scripts/Angular/angular-aria.min.js"></script>
+    <script src="../Scripts/Angular/angular-material.min.js"></script>
+    <script src="../Scripts/Angular/angular-ui-router.min.js"></script>
+    <script src="../Scripts/Angular/angular-route.min.js"></script>
+    <script src="../Scripts/Angular/angular-local-storage.min.js"></script>
+    <script src="../Scripts/Angular/ui-bootstrap.min.js"></script>
+
+    <!--<%-- Ag-Grid --%>-->
+    <script type="text/javascript" src="../Scripts/Ag-Grid/v17.1.1/ag-grid.min.js"></script>
+    <link rel="stylesheet" href="../Scripts/Ag-Grid/v17.1.1/ag-grid.css" />
+    <link rel="stylesheet" href="../Scripts/Ag-Grid/v17.1.1/themes/ag-theme-fresh.css" />
+    <link rel="stylesheet" href="../Scripts/Ag-Grid/v17.1.1/themes/ag-theme-material.css" />
+
+    <!-- Angular Material -->
+    <!--<script type="text/javascript" src="../Scripts/AngularUI/angular-material_1.1.4.js"></script>
+    <link type="text/css" href="../Scripts/AngularUI/angular-material_1.1.4.css" rel="stylesheet" />-->
+
+    <!-- Angular DateTimePicker  -->
+    <script type="text/javascript" src="../Scripts/AngularDatePicker/v1.2.0/ADM-dateTimePicker.js"></script>
+    <link type="text/css" href="../Scripts/AngularDatePicker/v1.2.0/ADM-dateTimePicker.css" rel="stylesheet" />
+
+    <!--<%-- Toaster --%>-->
+    <!--<script src="../Scripts/AngularToaster/angular-toaster.min.js"></script>
+    <link href="../Scripts/AngularToaster/angular-toaster.min.css" rel="stylesheet" />-->
+
+    <!--<%-- Bootstrap DateTimePicker --%>-->
+    <script src="../Scripts/Moment/Moment-Locales_2.20.0.js"></script>
+    <link href="../Scripts/Bootstrap_DateTime-Picker/v.4.17.47/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <script src="../Scripts/Bootstrap_DateTime-Picker/v.4.17.47/bootstrap-datetimepicker.min.js"></script>
+
+    <!-- Alert puglins -->
+    <link href="../Scripts/SweetAlert/sweet-alert.css" rel="stylesheet" />
+    <script src="../Scripts/SweetAlert/sweet-alert.min.js"></script>
+
+    <link href="../Scripts/Toaster/toastr.min.css" rel="stylesheet" />
+    <script src="../Scripts/Toaster/toastr.js"></script>
+
+    <link href="app.css" rel="stylesheet" />  
+    <link href="../Styles/wspa.common.css" rel="stylesheet" />
+    <script src="app.js"></script>
+    <script src="Controllers/controller.js"></script>
+    <script src="Services/services.js"></script>
+    <script src="Directives/directives.js"></script>
+</head>
+<body>
+
+    <ui-view></ui-view>
+
+</body>
+</html>

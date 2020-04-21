@@ -1,0 +1,31 @@
+﻿<md-list ng-cloak class="col-xs-12" style="background: #fff;">
+    <div class="col-xs-12 outline categoriesrow" ng-show="menu.settings.length > 0" ng-repeat-start="menu in menus">
+        <div layout="row" layout-align="start center" style="padding:0px 15px">
+            <md-checkbox class="md-primary" aria-label="Select All"
+                         ng-checked="isChecked(menu.menuId)"
+                         md-indeterminate="isIndeterminate(menu.menuId)"
+                         ng-click="toggleAll(menu.menuId)"></md-checkbox>
+            <label class="no-margin" style="outline: none;" flex>{{ menu.name }}</label>
+        </div>
+    </div>
+    <div ng-repeat-end class="col-xs-12 no-padding">
+        <md-list-item ng-repeat="setting in menu.settings">
+            <md-divider></md-divider>
+            <md-checkbox class="md-primary" ng-model="setting.isActive"></md-checkbox>
+            <p> {{ setting.name }} </p>
+        </md-list-item>
+    </div>
+</md-list>
+
+<div style="position:fixed;right: 25px;bottom: 20px;">
+    <md-button aria-label="send" style="background-color:#0268AD" class="md-fab buttons" ng-click="sendSettings()">
+        <md-icon md-svg-src="../../Images/send_1.svg">
+    </md-button>
+</div>
+
+<div data-ng-if="IsLoading" class="background" style="width: 100%; height: 100%; top: 0; left: 0; position: fixed; display: block; opacity: 0.7; background-color: #fff; z-index: 9999; text-align: center; display: block">
+    <div data-icon="progressGeneral"></div>
+</div>
+<div data-ng-if="!IsLoading" class="background" style="display: none">
+    <div data-icon="progressGeneral"></div>
+</div>
