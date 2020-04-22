@@ -107,23 +107,8 @@ a {
         color: #005580;
         text-decoration: none;
     }
-footer {
-    background-color: red;
+footer {    
     width: 100%;
     bottom: 0;
     position: fixed;    
 }
-
-/*Ignore Webkit input*/
-input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 50px white inset !important; /* Change the color to your own background color */
-    -webkit-text-fill-color: #333 !important;
-    outline: none !important;
-}
-
-    input:-webkit-autofill:focus {
-        -webkit-box-shadow: 0 0 0 50px white inset !important; /*your box-shadow*/
-        -webkit-text-fill-color: #333 !important;
-        outline: none !important;
-    } 
-
