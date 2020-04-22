@@ -187,13 +187,14 @@ table, input, select, .form-control {
 }
 
 .btn-primary {
-	background-color: #3a6ea5;
-	border-color: #3a6ea5;
+	background-color: #FF4081;
+	border-color: #FF4081;
+	box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
 	font-size: 13px;
 }
 
 	.btn-primary:hover {
-		background-color: #305a7f;
+		background-color: #FF4081;
 	}
 
 	.btn-primary :visited, .btn-wf:active, .btn-wf:hover,

@@ -11,8 +11,12 @@
     background: #fff;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px #000;
+    box-shadow: 1px 1px 15px rgba(0,0,0,0.1);
     margin-top: 45px;
+}
+
+input[type=submit]:focus, input[type=text]:focus, input[type=password]:focus {    
+    outline: none !important;
 }
 
 @media only screen and (max-width: 678px) {
@@ -113,4 +117,15 @@ footer {
     bottom: 0;
     position: fixed;    
 }
+
+/*Ignore Webkit input*/
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 50px white inset; /* Change the color to your own background color */
+    -webkit-text-fill-color: #333;
+}
+
+    input:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 50px white inset; /*your box-shadow*/
+        -webkit-text-fill-color: #333;
+    } 
 
