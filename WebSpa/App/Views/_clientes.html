@@ -5,8 +5,31 @@
     <title>Clientes</title>
 </head>
 <body>
-    <div>
-        <h4 style="color: #151719; text-align: center; font-size: 62px;">Clientes</h4>
-    </div>
+    <form id="frmClientes">
+        <div class="container-fluid">
+            <div class="row mb-3">
+                <div class="col-md-12" data-role="pageHeader" btn-theme>
+                    <span style="vertical-align: middle;">Clientes</span>
+                </div>
+            </div>
+
+            <div id="divButtons" class="row mt-2">
+                <div class="col-12">
+                    <button type="button" id="btnGuardar" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Search" data-ng-click="Search()">
+                        <i class="material-icons md-18" style="transform: scaleX(-1)">search</i>Guardar
+                    </button>
+
+                    <button type="button" id="btnNuevo" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="New" data-ng-click="showModalNewDebit()">
+                        <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                    </button>
+
+                    <button type="button" id="btnDocumentos" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Print" data-ng-click="Print()">
+                        <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Documentos
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </form>
 </body>
 </html>

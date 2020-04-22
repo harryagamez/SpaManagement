@@ -1,4 +1,4 @@
 ﻿{
-  "API_URL": "https://localhost:44357/Api/",
+  "API_URL": "https://localhost:44357/api/",
   "TOKEN_URL": "https://localhost:44357"
 }

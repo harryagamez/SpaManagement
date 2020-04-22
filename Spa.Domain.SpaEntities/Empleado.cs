@@ -4,6 +4,7 @@ namespace Spa.Domain.SpaEntities
 {
     public class Empleado
     {
+        public int Id_Empleado { get; set; }
         public string Cedula { get; set; }
         public string Id_TipoPago { get; set; }
         public string Nombres { get; set; }

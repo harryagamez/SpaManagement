@@ -3,6 +3,7 @@ using Spa.Infrastructure.SpaRepository;
 using System;
 using Spa.InfraCommon.SpaCommon.Models;
 using Spa.InfraCommon.SpaCommon.Helpers;
+using System.Collections.Generic;
 
 namespace Spa.Application.SpaService
 {
@@ -42,6 +43,46 @@ namespace Spa.Application.SpaService
                 }
 
                 return _usuario;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public bool RegistrarActualizarCliente(Cliente cliente)
+        {
+            try
+            {
+                return _spaRepository.RegistrarActualizarCliente(cliente);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<Menu> ConsultarMenu(int IdUsuario)
+        {
+            try
+            {
+                List<Menu> _listMenu = _spaRepository.ConsultarMenu(IdUsuario);
+
+                return _listMenu;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<Cliente> ConsultarClientes(string IdEmpresa)
+        {
+            try
+            {
+                List<Cliente> _clientes = _spaRepository.ConsultarClientes(IdEmpresa);
+
+                return _clientes;
             }
             catch
             {

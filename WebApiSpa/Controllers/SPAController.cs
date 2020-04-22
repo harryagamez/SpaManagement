@@ -1,6 +1,7 @@
 ﻿using Spa.Application.SpaService;
 using Spa.Domain.SpaEntities;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
 
@@ -19,6 +20,7 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpGet]
+        [Route("api/SPA/ValidarUsuario")]
         public IHttpActionResult ValidarUsuario(string Nombre, string Password, bool ValidarIntegracion, string CodigoIntegracion)
         {
             try
@@ -34,6 +36,54 @@ namespace WebApiSpa.Controllers
             catch (Exception ex)
             {
                 return Content(HttpStatusCode.InternalServerError, "Error validando el usuario: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarClientes")]
+        public IHttpActionResult ConsultarClientes(string IdEmpresa)
+        {
+            try
+            {
+                List<Cliente> _clientes = _spaService.ConsultarClientes(IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _clientes);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando la lista de clientes: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/RegistrarActualizarCliente")]
+        public IHttpActionResult RegistrarActualizarCliente(Cliente cliente)
+        {
+            try
+            {
+                bool result = _spaService.RegistrarActualizarCliente(cliente);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error actualizando el cliente: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarMenu")]
+        public IHttpActionResult ConsultarMenu(int IdUsuario)
+        {
+            try
+            {
+                List<Menu> _listMenu = _spaService.ConsultarMenu(IdUsuario);
+
+                return Content(HttpStatusCode.OK, _listMenu);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando el menu: " + ex.Message);
             }
         }
     }

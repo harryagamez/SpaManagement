@@ -1,41 +1,9 @@
-﻿<!--<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" ui-sref="home">
-                <img src="../../Images/Logo.png" class="img-fluid" alt="Responsive image">
-            </a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li ng-repeat="item in menu" ><a ui-sref="{{item.path}}">{{item.name}}</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li ng-click="logout()"><a title="Logout" style="padding-bottom: 7pt;padding-top: 7pt;font-size: 20pt;"><span class="glyphicon glyphicon-log-in"></span></a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<div>
-    <ui-view>
-        <div>
-            <h4 style="color: #0484FF; text-align: center; margin-top: 150px; font-size: 62px;">DSD</h4>
-        </div>
-    </ui-view>
-</div>-->
-
-<header>
-        <h4 style="color: #151719; text-align: center; font-size: 62px;"><a ui-sref="home">HEADER</a></h4>
+﻿<header>
+    <h4 style="color: #151719; text-align: center; font-size: 62px;"><a ui-sref="home">HEADER</a></h4>
 </header>
 
 <nav></nav>
 
-<!-- Menu 1 -->
-<!--<div id="sidebar">-->
 <aside id="sidebar">
     <div class="toggle-btn" data-ng-click="toggleSidebar()">
         <span></span>
@@ -43,57 +11,15 @@
         <span></span>
     </div>
     <ul>
-        <li class="li-padding">
+        <li class="li-padding" ng-repeat="item in Menu">
             <i class="material-icons md-24" style="transform: scaleX(-1)">perm_contact_calendar</i>
-            <a ui-sref="home.clientes">Clientes</a>
-        </li>
-        <li class="li-padding">
-            <i class="material-icons md-24" style="transform: scaleX(-1)">person</i>
-            Empleados
-        </li>
-        <li class="li-padding">
-            <i class="material-icons md-24" style="transform: scaleX(-1)">settings</i>
-            Servicios
-        </li>
-        <li class="li-padding">
-            <i class="material-icons md-24" style="">shopping_cart</i>
-            Gastos
-        </li>
-        <li class="li-padding">
-            <i class="material-icons md-24" style="transform: scaleX(-1)">shopping_basket</i>
-            Productos
-        </li>
-        <li class="li-padding">
-            <i class="material-icons md-24" style="">monetization_on</i>
-            Transacciones
-        </li>
-        <li class="li-padding">
-            <i class="material-icons md-24" style="">assignment</i>
-            Agenda
-        </li>
-        <li class="li-padding">
-            <i class="material-icons md-24" style="transform: scaleX(-1)">assignment_ind</i>
-            Visitas
-        </li>
-        <li class="li-padding">
-            <i class="material-icons md-24" style="">chat</i>
-            Encuesta
-        </li>
-        <li class="li-padding">
-            <i class="material-icons md-24" style="">assessment</i>
-            Informes
-        </li>
-        <li class="li-padding">
-            <i class="material-icons md-24" style="transform: scaleX(-1)">build</i>
-            Gestión
-        </li>
-        <li class="li-padding">
-            <i class="material-icons md-24" style="transform: scaleX(-1)">power_settings_new</i>
-            Cerrar sesión
+            <a ui-sref="{{item.ruta_Acceso}}">{{item.descripcion}}</a>
         </li>
     </ul>
+    <ul>
+        <li ng-click="logout()"><a title="Logout" style="padding-bottom: 7pt;padding-top: 7pt;font-size: 20pt;"><span class="glyphicon glyphicon-log-in"></span></a>Cerrar sesión</li>
+    </ul>
 </aside>
-<!--</div>-->
 
 <section>
     <ui-view>

@@ -4,6 +4,8 @@ using System.Data;
 using System.Data.SqlClient;
 using Spa.InfraCommon.SpaCommon.Helpers;
 using System.Linq;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Spa.Infrastructure.SpaRepository
 {
@@ -62,18 +64,12 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-        }
-
         public bool ActualizarCodigoIntegracion(int IdUsuario, string IdEmpresa, string CodigoIntegracion)
         {
             try
             {
                 using (SqlConnection _connection = new SqlConnection(_connectionString))
                 {
-
                     if (_connection.State == ConnectionState.Closed)
                     {
                         _connection.Open();
@@ -104,6 +100,131 @@ namespace Spa.Infrastructure.SpaRepository
             {
                 throw;
             }
+        }
+
+        public bool RegistrarActualizarCliente(Cliente cliente)
+        {
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "RegistrarActualizarCliente";
+                        _command.Parameters.AddWithValue("@Cliente", JsonConvert.SerializeObject(cliente));
+
+                        try
+                        {
+                            _command.ExecuteNonQuery();
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<Menu> ConsultarMenu(int IdUsuario)
+        {
+            DataTable _datatable = new DataTable();
+            List<Menu> _listMenu = new List<Menu>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarMenu";
+                        _command.Parameters.AddWithValue("@IdUsuario", IdUsuario);
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _listMenu = _datatable.DataTableToList<Menu>();
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _listMenu;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<Cliente> ConsultarClientes(string IdEmpresa)
+        {
+            DataTable _datatable = new DataTable();
+            List<Cliente> _clientes = new List<Cliente>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarClientes";
+                        _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _clientes = _datatable.DataTableToList<Cliente>();
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _clientes;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }

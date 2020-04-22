@@ -1,27 +1,24 @@
 ﻿(function () {
+
+    agGrid.initialiseAgGridWithAngular1(angular);
+
     angular.module('app.controllers', [])
         .controller("LoginController", LoginController)
         .controller("HomeController", HomeController)
         .controller("ClientesController", ClientesController)
-    //.controller("ShrinkController", ShrinkController)
-    //.controller("ProductsController", ProductsController)
-    //.controller("SettingsController", SettingsController)
 
     LoginController.$inject = ['$scope', '$state', '$location', '$mdDialog', '$rootScope', '$timeout', 'AuthService'];
-    HomeController.$inject = ['$scope', '$rootScope', 'localStorageService', 'AuthService'];
-    ClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', 'localStorageService'];
-    //ShrinkController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', 'DSDService'];
-    //ProductsController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$window', 'DSDService'];
-    //SettingsController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$window', 'localStorageService', 'DSDService', 'AuthService'];
+    HomeController.$inject = ['$scope', '$rootScope', '$element', 'localStorageService', 'AuthService'];
+    ClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', 'localStorageService', 'SPAService'];
 
     function LoginController($scope, $state, $location, $mdDialog, $rootScope, $timeout, authService) {
 
-        $scope.validate = validate;
+        $scope.ValidarDatos = ValidarDatos;
         $scope.login = login;
         $scope.ValidarIntegracion = false;
 
         function login() {
-            if ($scope.validate()) {
+            if ($scope.ValidarDatos()) {
                 authService.login($scope.DatosUsuario.Usuario, $scope.DatosUsuario.Password, $scope.ValidarIntegracion, $scope.DatosUsuario.CodigoIntegracion)
                     .then(
                         function (result) {
@@ -46,7 +43,8 @@
             }
         }
 
-        function validate() {
+        function ValidarDatos() {
+
             if ($scope.DatosUsuario === undefined
                 && $scope.DatosUsuario.Usuario === ''
                 || $scope.DatosUsuario.Password === '') {
@@ -62,12 +60,29 @@
 
     function HomeController($scope, $rootScope, $element, localStorageService, authService) {
 
+        $scope.Menu = [];
+        $scope.logout = logout;
+
+        $scope.$on('successfull.menuload', function () {
+            $scope.Menu = localStorageService.get("menu");
+        });
+
         $scope.toggleSidebar = function () {
             document.getElementById("sidebar").classList.toggle('active');
         }
+
+        function logout() {
+            authService.logOut();
+        }
     }
 
-    function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, localStorageService) {
+    function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, localStorageService, SPAService) {
+
+        $scope.Clientes = [];
+        $scope.Clientes = localStorageService.get("clientes");
+
+        if ($scope.Clientes.length > 0)
+            toastr.success('Clientes OK', '', $scope.toastrOptions);
 
     }
 
