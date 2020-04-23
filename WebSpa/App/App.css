@@ -11,8 +11,7 @@
     background: #fff;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 1px 1px 15px rgba(0,0,0,0.1);
-    margin-top: 45px;
+    box-shadow: 1px 1px 15px rgba(0,0,0,0.1);  
 }
 
 @media only screen and (max-width: 678px) {
@@ -58,7 +57,7 @@ aside {
     width: 200px;
     height: 100%;
     background: #151719;
-    left: -200px;
+    /*left: -200px;*/
     transition: all 500ms linear;
     font-size: 15px;
     top: 0;
