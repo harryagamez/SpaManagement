@@ -47,6 +47,10 @@
 
         var _login = function (userName, password, validatedIntegration, integrationCode) {
 
+            localStorageService.remove('authorizationData');
+            localStorageService.remove('menu');
+            localStorageService.remove('clientes');
+
             var deferred = $q.defer();
 
             $http({
@@ -90,8 +94,10 @@
         };
 
         var _logOut = function () {
+
             localStorageService.remove('authorizationData');
             localStorageService.remove('menu');
+            localStorageService.remove('clientes');
 
             _authentication.isAuth = false;
             _authentication.userName = "";
