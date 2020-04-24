@@ -1,0 +1,9 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "DBConnection": "Data Source=DESKTOP-VND45SN\\DEVELOPMENTSQL;database=DBSPA;uid=sa;pwd=123456GS2020;",
+    "ENDPOINT_ARCGIS": "https://opendata.arcgis.com/"
+  }
+}
