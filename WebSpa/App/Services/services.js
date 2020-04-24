@@ -34,6 +34,7 @@
         authInterceptorServiceFactory.responseError = _responseError;
 
         return authInterceptorServiceFactory;
+
     }
 
     function AuthService($http, $q, $rootScope, $state, localStorageService, $timeout, $filter, serviceRest) {
@@ -92,6 +93,7 @@
             )
 
             return deferred.promise;
+
         };
 
         var _logOut = function () {
@@ -106,6 +108,7 @@
             $rootScope.userData = { userName: '', userId: '', userRole: '' }
 
             $timeout(function () { $state.go('login') }, 0);
+
         };
 
         var _fillAuthData = function () {
@@ -173,10 +176,10 @@
             var deferred = $q.defer();
 
             serviceRest.Post('SPA', 'RegistrarActualizarCliente', cliente,
-                function (data, status) {
+                function (data) {
                     deferred.resolve(data);
                 },
-                function (err, status) {
+                function (err) {
                     deferred.reject(err);
                 });
 
@@ -249,4 +252,5 @@
             }
         };
     }
+
 })();

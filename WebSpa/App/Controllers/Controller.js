@@ -79,6 +79,7 @@
 
     function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, localStorageService, SPAService) {
 
+        debugger;
         $scope.Clientes = [];
         $scope.Clientes = localStorageService.get("clientes");
 

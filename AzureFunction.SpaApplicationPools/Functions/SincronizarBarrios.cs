@@ -72,7 +72,6 @@ namespace AzureFunction.SpaApplicationPools.Functions
                     dynamic _error = JsonConvert.DeserializeObject<dynamic>(_response.Content.ReadAsStringAsync().Result);
                     Console.WriteLine(_error.Message);
                 }
-
             }
             catch (Exception ex)
             {
