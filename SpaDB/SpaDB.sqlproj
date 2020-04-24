@@ -217,5 +217,6 @@
     <Build Include="dbo\Tables\MENU.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarMenu.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarClientes.sql" />
+    <Build Include="dbo\Stored Procedures\SincronizarBarrios.sql" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 ﻿using Spa.Domain.SpaEntities;
+using Spa.InfraCommon.SpaCommon.Models;
 using System.Collections.Generic;
 
 namespace Spa.Application.SpaService
@@ -9,5 +10,6 @@ namespace Spa.Application.SpaService
         bool RegistrarActualizarCliente(Cliente cliente);
         List<Menu> ConsultarMenu(int IdUsuario);
         List<Cliente> ConsultarClientes(string IdEmpresa);
+        bool SincronizarBarrios(List<Properties> _Properties);
     }
 }

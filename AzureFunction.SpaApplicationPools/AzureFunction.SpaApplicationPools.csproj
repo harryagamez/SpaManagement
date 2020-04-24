@@ -9,6 +9,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Spa.Application.SpaService\Spa.Application.SpaService.csproj" />
+    <ProjectReference Include="..\Spa.InfraCommon.SpaCommon\Spa.InfraCommon.SpaCommon.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
@@ -18,5 +19,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entities\" />
   </ItemGroup>
 </Project>

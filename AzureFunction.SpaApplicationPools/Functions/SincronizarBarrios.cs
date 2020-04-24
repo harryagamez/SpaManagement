@@ -4,10 +4,11 @@ using System.Net.Http;
 using System;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
-using AzureFunction.SpaApplicationPools.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using Spa.Application.SpaService;
+using Newtonsoft.Json;
+using Spa.InfraCommon.SpaCommon.Models;
 
 namespace AzureFunction.SpaApplicationPools.Functions
 {
@@ -15,6 +16,7 @@ namespace AzureFunction.SpaApplicationPools.Functions
     {
         private static string _connectionString;
         private static string _endPoint;
+        private static string _api;
 
         public static ISpaService SpaService { get; set; }
 
@@ -23,44 +25,54 @@ namespace AzureFunction.SpaApplicationPools.Functions
         {
             try
             {
-                _endPoint = Environment.GetEnvironmentVariable("ENDPOINT_ARCGIS");
-                _connectionString = Environment.GetEnvironmentVariable("DBConnection");
+                _endPoint = Environment.GetEnvironmentVariable("ENDPOINT");
+                _api = Environment.GetEnvironmentVariable("API");
+                _connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
 
                 SpaService = new SpaService(_connectionString);
 
-                using HttpClient client = new HttpClient
+                using HttpClient _client = new HttpClient
                 {
                     BaseAddress = new Uri(_endPoint)
                 };
 
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                _client.DefaultRequestHeaders.Accept.Clear();
+                _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage responde = client.GetAsync("datasets/c844f0fd764f41b2a808d8747457de8a_4.geojson")
+                HttpResponseMessage _response = _client.GetAsync(_api)
                     .GetAwaiter()
                     .GetResult();
 
-                if (responde.IsSuccessStatusCode)
+                if (_response.IsSuccessStatusCode)
                 {
-                    JObject json = responde.Content.ReadAsAsync<JObject>()
+                    JObject _json = _response.Content.ReadAsAsync<JObject>()
                         .GetAwaiter()
                         .GetResult();
 
-                    JArray features = (JArray)json["features"];
+                    JArray _features = (JArray)_json["features"];
 
-                    List<Properties> _properties = features
-                        .Where(x => Convert.ToInt32(x["properties"]["SUBTIPO_BARRIOVEREDA"]) == 1)
-                        .Select(p => new Properties
+                    List<Properties> _properties = _features
+                        .Where(f => Convert.ToInt32(f["properties"]["SUBTIPO_BARRIOVEREDA"]) == 1)
+                        .Select(f => new Properties
                         {
-                            ObjectId = Convert.ToString(p["properties"]["OBJECTID"]),
-                            Codigo = Convert.ToString(p["properties"]["CODIGO"]),
-                            Nombre = Convert.ToString(p["properties"]["NOMBRE"]),
-                            Subtipo_BarrioVereda = Convert.ToInt32(p["properties"]["SUBTIPO_BARRIOVEREDA"]),
-                            ShapeArea = Convert.ToDecimal(p["properties"]["SHAPEAREA"]),
-                            ShapeLen = Convert.ToDecimal(p["properties"]["SHAPELEN"])
+                            ObjectId = Convert.ToString(f["properties"]["OBJECTID"]),
+                            Codigo = Convert.ToString(f["properties"]["CODIGO"]),
+                            Nombre = Convert.ToString(f["properties"]["NOMBRE"]),
+                            Subtipo_BarrioVereda = Convert.ToInt32(f["properties"]["SUBTIPO_BARRIOVEREDA"]),
+                            ShapeArea = Convert.ToDecimal(f["properties"]["SHAPEAREA"]),
+                            ShapeLen = Convert.ToDecimal(f["properties"]["SHAPELEN"])
 
                         }).ToList();
+
+                    if (_properties.Any())
+                        SpaService.SincronizarBarrios(_properties);
                 }
+                else
+                {
+                    dynamic _error = JsonConvert.DeserializeObject<dynamic>(_response.Content.ReadAsStringAsync().Result);
+                    Console.WriteLine(_error.Message);
+                }
+
             }
             catch (Exception ex)
             {

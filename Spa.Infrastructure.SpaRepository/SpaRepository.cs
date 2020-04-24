@@ -6,6 +6,7 @@ using Spa.InfraCommon.SpaCommon.Helpers;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Spa.InfraCommon.SpaCommon.Models;
 
 namespace Spa.Infrastructure.SpaRepository
 {
@@ -215,6 +216,42 @@ namespace Spa.Infrastructure.SpaRepository
                 }
 
                 return _clientes;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool SincronizarBarrios(List<Properties> _Properties)
+        {
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "SincronizarBarrios";
+                        _command.Parameters.AddWithValue("@Json", JsonConvert.SerializeObject(_Properties));
+
+                        try
+                        {
+                            _command.ExecuteNonQuery();
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return true;
             }
             catch (Exception)
             {

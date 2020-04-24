@@ -1,4 +1,4 @@
-﻿namespace AzureFunction.SpaApplicationPools.Entities
+﻿namespace Spa.InfraCommon.SpaCommon.Models
 {
     public class Properties
     {

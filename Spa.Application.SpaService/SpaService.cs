@@ -90,6 +90,20 @@ namespace Spa.Application.SpaService
             }
         }
 
+        public bool SincronizarBarrios(List<Properties> _Properties)
+        {
+            try
+            {
+                bool _result = _spaRepository.SincronizarBarrios(_Properties);
+
+                return _result;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public void Dispose()
         {
             GC.SuppressFinalize(this);
