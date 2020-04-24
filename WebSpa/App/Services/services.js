@@ -12,6 +12,7 @@
     SPAService.$inject = ['$http', '$rootScope', '$q', 'serviceRest'];
 
     function AuthtenticantionIntecerptorService($q, $location, localStorageService, $stateParams) {
+
         var authInterceptorServiceFactory = {};
 
         var _request = function (config) {

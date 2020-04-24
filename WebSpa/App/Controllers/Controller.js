@@ -56,6 +56,7 @@
         }
 
         $scope.DatosUsuario = { Usuario: '', Clave: '', CodigoIntegracion: '' }
+
     }
 
     function HomeController($scope, $rootScope, $element, localStorageService, authService) {
