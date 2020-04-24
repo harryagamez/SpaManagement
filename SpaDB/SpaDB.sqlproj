@@ -218,5 +218,9 @@
     <Build Include="dbo\Stored Procedures\ConsultarMenu.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarClientes.sql" />
     <Build Include="dbo\Stored Procedures\SincronizarBarrios.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarMunicipios.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarBarrios.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarTipoClientes.sql" />
+    <Build Include="dbo\Stored Procedures\RegistrarActualizarClientes.sql" />
   </ItemGroup>
 </Project>

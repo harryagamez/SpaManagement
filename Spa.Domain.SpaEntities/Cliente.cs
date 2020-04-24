@@ -19,5 +19,6 @@ namespace Spa.Domain.SpaEntities
         public DateTime? Fecha_Registro { get; set; }
         public DateTime? Fecha_Modificacion { get; set; }
         public string Id_Empresa { get; set; }
+        public int Id_Usuario_Creacion { get; set; }
     }
 }

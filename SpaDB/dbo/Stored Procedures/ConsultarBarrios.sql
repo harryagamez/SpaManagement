@@ -1,0 +1,10 @@
+﻿CREATE PROCEDURE ConsultarBarrios
+AS
+
+BEGIN
+	
+	SELECT * FROM BARRIOS
+
+END
+
+GO

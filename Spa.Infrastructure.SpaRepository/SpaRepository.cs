@@ -103,7 +103,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool RegistrarActualizarCliente(Cliente cliente)
+        public bool RegistrarActualizarCliente(List<Cliente> cliente)
         {
             try
             {
@@ -118,7 +118,7 @@ namespace Spa.Infrastructure.SpaRepository
                     {
                         _command.CommandType = CommandType.StoredProcedure;
                         _command.CommandText = "RegistrarActualizarCliente";
-                        _command.Parameters.AddWithValue("@Cliente", JsonConvert.SerializeObject(cliente));
+                        _command.Parameters.AddWithValue("@JsonCliente", JsonConvert.SerializeObject(cliente));
 
                         try
                         {
@@ -127,6 +127,15 @@ namespace Spa.Infrastructure.SpaRepository
                         catch (Exception)
                         {
                             throw;
+                        }
+                        finally
+                        {
+                            if (_command.Connection.State == ConnectionState.Open)
+                            {
+                                _command.Connection.Close();
+                            }
+
+                            _command.Dispose();
                         }
                     }
                 }
@@ -262,6 +271,129 @@ namespace Spa.Infrastructure.SpaRepository
         public void Dispose()
         {
             GC.SuppressFinalize(this);
+        }
+
+        public List<Municipio> ConsultarMunicipios()
+        {
+            DataTable _datatable = new DataTable();
+            List<Municipio> _listMunicipios = new List<Municipio>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarMunicipios";
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _listMunicipios = _datatable.DataTableToList<Municipio>();
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _listMunicipios;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<Barrio> ConsultarBarrios()
+        {
+            DataTable _datatable = new DataTable();
+            List<Barrio> _listBarrios = new List<Barrio>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarBarrios";
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _listBarrios = _datatable.DataTableToList<Barrio>();
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _listBarrios;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<TipoCliente> ConsultarTipoClientes()
+        {
+            DataTable _datatable = new DataTable();
+            List<TipoCliente> _listTipoClientes = new List<TipoCliente>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarTipoClientes";
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _listTipoClientes = _datatable.DataTableToList<TipoCliente>();
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _listTipoClientes;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

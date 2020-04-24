@@ -8,9 +8,12 @@ namespace Spa.Infrastructure.SpaRepository
     {
         Usuario ValidarUsuario(string Nombre, string Password, bool ValidarIntegracion, string CodigoIntegracion);
         bool ActualizarCodigoIntegracion(int IdUsuario, string IdEmpresa, string CodigoIntegracion);
-        bool RegistrarActualizarCliente(Cliente cliente);
+        bool RegistrarActualizarCliente(List<Cliente> cliente);
         List<Menu> ConsultarMenu(int IdUsuario);
         List<Cliente> ConsultarClientes(string IdEmpresa);
         bool SincronizarBarrios(List<Properties> _Properties);
+        List<Municipio> ConsultarMunicipios();
+        List<Barrio> ConsultarBarrios();
+        List<TipoCliente> ConsultarTipoClientes();
     }
 }

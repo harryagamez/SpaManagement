@@ -50,7 +50,7 @@ namespace Spa.Application.SpaService
             }
         }
 
-        public bool RegistrarActualizarCliente(Cliente cliente)
+        public bool RegistrarActualizarCliente(List<Cliente> cliente)
         {
             try
             {
@@ -107,6 +107,48 @@ namespace Spa.Application.SpaService
         public void Dispose()
         {
             GC.SuppressFinalize(this);
+        }
+
+        public List<Municipio> ConsultarMunicipios()
+        {
+            try
+            {
+                List<Municipio> _municipios = _spaRepository.ConsultarMunicipios();
+
+                return _municipios;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<Barrio> ConsultarBarrios()
+        {
+            try
+            {
+                List<Barrio> _barrios = _spaRepository.ConsultarBarrios();
+
+                return _barrios;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<TipoCliente> ConsultarTipoClientes()
+        {
+            try
+            {
+                List<TipoCliente> _tipoClientes = _spaRepository.ConsultarTipoClientes();
+
+                return _tipoClientes;
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }
