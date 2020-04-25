@@ -114,9 +114,7 @@
     function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
 
         // Inicializacion
-        let offsetDivGrid = $("#divClientesGridOptions").offset();
-        let heightPage = $(document).height();
-        document.getElementById("divClientesGridOptions").style.height = (heightPage - offsetDivGrid.top - 10) + "px";
+        document.getElementById("divGridClientes").style.height = (window.innerHeight - 300) + "px"
 
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
@@ -230,9 +228,11 @@
         };
 
         window.onresize = function () {
-            let offsetDivGrid = $("#divCreditGridOptions").offset();
-            let heightPage = $(document).height();
-            document.getElementById("divCreditGridOptions").style.height = (heightPage - offsetDivGrid.top - 10) + "px";
+            document.getElementById("divGridClientes").style.height = (window.innerHeight - 300) + "px"
+
+            $timeout(function () {
+                $scope.ClientesGridOptions.api.sizeColumnsToFit();
+            }, 400);
         }
 
         // Agr-grid Options
