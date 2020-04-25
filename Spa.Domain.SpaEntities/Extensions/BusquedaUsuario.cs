@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Spa.Domain.SpaEntities.Extensions
+﻿namespace Spa.Domain.SpaEntities.Extensions
 {
     public class BusquedaUsuario
     {

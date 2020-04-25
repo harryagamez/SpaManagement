@@ -143,6 +143,7 @@
     <Content Include="Scripts\Bootstrap\v4.0.0\popper.min.js" />
     <Content Include="Scripts\Bootstrap_DateTime-Picker\v.4.17.47\bootstrap-datetimepicker.min.css" />
     <Content Include="Scripts\Bootstrap_DateTime-Picker\v.4.17.47\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\ExportTools\v0.3\alasql.min.js" />
     <Content Include="Scripts\JQueryUI\jquery-ui1.11.4.min.js" />
     <Content Include="Scripts\JQuery\jquery-1.11.3.js" />
     <Content Include="Scripts\Linq\linq3.js" />
@@ -151,6 +152,7 @@
     <Content Include="Scripts\SweetAlert\sweet-alert.min.js" />
     <Content Include="Scripts\Toaster\toastr.js" />
     <Content Include="Scripts\Toaster\toastr.min.css" />
+    <Content Include="Scripts\Xlsx\xlsx.core.min.js" />
     <Content Include="Styles\Fonts\Glyphicons\glyphicons-codes.css" />
     <Content Include="Styles\Fonts\Glyphicons\glyphicons-halflings-regular.svg" />
     <Content Include="Styles\Fonts\Glyphicons\glyphicons.css" />

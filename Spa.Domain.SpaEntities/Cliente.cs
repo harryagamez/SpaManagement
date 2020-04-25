@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Spa.Domain.SpaEntities.Extensions;
+using System;
 
 namespace Spa.Domain.SpaEntities
 {
-    public class Cliente
+    public class Cliente : BusquedaCliente
     {
         public int Id_Cliente { get; set; }
         public string Cedula { get; set; }

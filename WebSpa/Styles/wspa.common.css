@@ -8,13 +8,13 @@
 @import url('Fonts/glyphicons/glyphicons.css');*/
 /*@import url('fonts/glyphicons/glyphicons-codes.css');*/
 
-@font-face {
+/*@font-face {
 	font-family: 'Roboto';
 	src: url('../Fonts/Roboto/Roboto-Regular-webfont.eot');
 	src: url('../Fonts/Roboto/Roboto-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('../Fonts/Roboto/Roboto-Regular-webfont.woff') format('woff'), url('../Fonts/Roboto/Roboto-Regular-webfont.ttf') format('truetype'), url('../Fonts/Roboto/Roboto-Regular-webfont.svg#RobotoRegular') format('svg');
 	font-weight: normal;
 	font-style: normal;
-}
+}*/
 
 body {
 	/*font-family: Roboto;*/
@@ -45,7 +45,7 @@ div ::-webkit-scrollbar-thumb {
 /*Tables*/
 
 table, input, select {
-	font-family: Roboto !important;
+	/*font-family: Roboto !important;*/
 }
 
 table, input, select, .form-control {
@@ -564,7 +564,7 @@ md-tabs .md-tab.md-active {
 }
 
 md-select {
-	font-family: Roboto !important;
+	/*font-family: Roboto !important;*/
 	margin: 0;
 	background-color: #fff;
 	border-radius: 3px;
@@ -643,7 +643,7 @@ md-option {
 /*ag grid */
 
 .ag-fresh, .ag-theme-fresh {
-	font-family: Roboto !important;
+	/*font-family: Roboto !important;*/
 	font-size: 13px !important;
 }
 
@@ -707,7 +707,7 @@ md-option {
 	.ag-theme-fresh .ag-header-cell-text,
 	.ag-theme-fresh .ag-header-group-text {
 		font-weight: bold;
-		font-family: Roboto;
+		/*font-family: Roboto;*/
 		margin: 0 auto !important;
 	}
 
@@ -822,7 +822,7 @@ md-option {
 
 /*Tooltips*/
 .tooltip, .tooltip-inner {
-	font-family: Roboto !important;
+	/*font-family: Roboto !important;*/
 	font-size: 0.9em;
 }
 

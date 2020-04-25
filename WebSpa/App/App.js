@@ -3,6 +3,8 @@
         "ngRoute",
         "ngAnimate",
         "ngMaterial",
+        "ADM-dateTimePicker",
+        "agGrid",
         "LocalStorageModule",
         "ui.bootstrap",
         "ui.router",
@@ -14,7 +16,7 @@
         .run(Initialize)
         .filter('sumInventory', sumInventory)
         .filter('sumShrink', sumShrink)
-    Configuration.$inject = ['$stateProvider', '$urlRouterProvider', '$routeProvider', '$httpProvider', '$locationProvider', '$mdDateLocaleProvider', '$mdThemingProvider'];
+    Configuration.$inject = ['$stateProvider', '$urlRouterProvider', '$routeProvider', '$httpProvider', '$locationProvider', '$mdDateLocaleProvider', '$mdThemingProvider', 'ADMdtpProvider'];
     Initialize.$inject = ['$rootScope', '$http', '$window', 'localStorageService', 'AuthService'];
 
     function Configuration($stateProvider, $urlRouterProvider, $routeProvider, $httpProvider, $locationProvider, $mdDateLocaleProvider, $mdThemingProvider) {
@@ -45,21 +47,21 @@
                 templateUrl: 'Views/_clientes.html',
                 controller: "ClientesController"
             })
-            //.state('home.shrink', {
-            //    url: '/shrink',
-            //    templateUrl: 'views/_shrink.html',
-            //    controller: "ShrinkController"
-            //})
-            //.state('home.products', {
-            //    url: '/products',
-            //    templateUrl: 'views/_products.html',
-            //    controller: "ProductsController"
-            //})
-            //.state('home.settings', {
-            //    url: '/settings',
-            //    templateUrl: 'views/_settings.html',
-            //    controller: "SettingsController"
-            //})
+        //.state('home.shrink', {
+        //    url: '/shrink',
+        //    templateUrl: 'views/_shrink.html',
+        //    controller: "ShrinkController"
+        //})
+        //.state('home.products', {
+        //    url: '/products',
+        //    templateUrl: 'views/_products.html',
+        //    controller: "ProductsController"
+        //})
+        //.state('home.settings', {
+        //    url: '/settings',
+        //    templateUrl: 'views/_settings.html',
+        //    controller: "SettingsController"
+        //})
 
         $mdDateLocaleProvider.formatDate = function (date) {
 

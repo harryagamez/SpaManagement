@@ -22,6 +22,7 @@ namespace WebApiSpa.Controllers
 
         [HttpGet]
         [Route("api/SPA/ValidarUsuario")]
+        [HttpCache(DefaultExpirySeconds = 2)]
         public IHttpActionResult ValidarUsuario(string Nombre, string Password, bool ValidarIntegracion, string CodigoIntegracion)
         {
             try
@@ -42,6 +43,7 @@ namespace WebApiSpa.Controllers
 
         [HttpGet]
         [Route("api/SPA/ConsultarClientes")]
+        [HttpCache(DefaultExpirySeconds = 2)]
         public IHttpActionResult ConsultarClientes(string IdEmpresa)
         {
             try
@@ -75,6 +77,7 @@ namespace WebApiSpa.Controllers
 
         [HttpGet]
         [Route("api/SPA/ConsultarMenu")]
+        [HttpCache(DefaultExpirySeconds = 2)]
         public IHttpActionResult ConsultarMenu(int IdUsuario)
         {
             try
@@ -91,6 +94,7 @@ namespace WebApiSpa.Controllers
 
         [HttpGet]
         [Route("api/SPA/ConsultarMunicipios")]
+        [HttpCache(DefaultExpirySeconds = 2)]
         public IHttpActionResult ConsultarMunicipios()
         {
             try
@@ -107,6 +111,7 @@ namespace WebApiSpa.Controllers
 
         [HttpGet]
         [Route("api/SPA/ConsultarBarrios")]
+        [HttpCache(DefaultExpirySeconds = 2)]
         public IHttpActionResult ConsultarBarrios()
         {
             try
@@ -123,6 +128,7 @@ namespace WebApiSpa.Controllers
 
         [HttpGet]
         [Route("api/SPA/ConsultarTipoClientes")]
+        [HttpCache(DefaultExpirySeconds = 2)]
         public IHttpActionResult ConsultarTipoClientes()
         {
             try

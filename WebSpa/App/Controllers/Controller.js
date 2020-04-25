@@ -8,16 +8,22 @@
         .controller("ClientesController", ClientesController)
 
     LoginController.$inject = ['$scope', '$state', '$location', '$mdDialog', '$rootScope', '$timeout', 'AuthService'];
-    HomeController.$inject = ['$scope', '$rootScope', '$element', 'localStorageService', 'AuthService'];
-    ClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', 'localStorageService', 'SPAService'];
+    HomeController.$inject = ['$scope', '$rootScope', '$element', '$location', 'localStorageService', 'AuthService'];
+    ClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
     function LoginController($scope, $state, $location, $mdDialog, $rootScope, $timeout, authService) {
 
+        // Variables
         $scope.ValidarDatos = ValidarDatos;
         $scope.Login = Login;
         $scope.ValidarIntegracion = false;
         $scope.IsLoading = false;
         $scope.ProcessQueu = [];
+        $scope.DatosUsuario = { Usuario: '', Clave: '', CodigoIntegracion: '' }
+
+        $scope.$on('$viewContentLoaded', function () {
+            $location.replace();
+        });
 
         function Login() {
 
@@ -64,8 +70,6 @@
 
         }
 
-        $scope.DatosUsuario = { Usuario: '', Clave: '', CodigoIntegracion: '' }
-
         $scope.BeginProcess = function (processName) {
             $scope.ProcessQueu.push(processName);
             $scope.IsLoading = true;
@@ -85,13 +89,17 @@
 
     }
 
-    function HomeController($scope, $rootScope, $element, localStorageService, authService) {
+    function HomeController($scope, $rootScope, $element, $location, localStorageService, authService) {
 
         $scope.Menu = [];
         $scope.Logout = Logout;
 
         $scope.$on('successfull.menuload', function () {
             $scope.Menu = localStorageService.get("menu");
+        });
+
+        $scope.$on('$viewContentLoaded', function () {
+            $location.replace();
         });
 
         $scope.toggleSidebar = function () {
@@ -103,7 +111,19 @@
         }
     }
 
-    function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, localStorageService, SPAService) {
+    function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+
+        // Inicializacion
+        let offsetDivGrid = $("#divClientesGridOptions").offset();
+        let heightPage = $(document).height();
+        document.getElementById("divClientesGridOptions").style.height = (heightPage - offsetDivGrid.top - 10) + "px";
+
+        //$timeout(function () {
+        //    window.onresize();
+        //});
+
+        $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.IdUsuario = parseInt($rootScope.userData.userId);
 
         // Variables
         $scope.Clientes = [];
@@ -115,12 +135,10 @@
         $scope.IsLoading = false;
         $scope.ProcessQueu = [];
 
-        $scope.IdEmpresa = $rootScope.Id_Empresa;
-        $scope.IdUsuario = parseInt($rootScope.userData.userId);
-
         // Enviar - Traer Datos
-        $scope.EstadoClientes.push({ 'Id': 1, 'Descripcion': 'ACTIVO' });
-        $scope.EstadoClientes.push({ 'Id': 2, 'Descripcion': 'INACTIVO' });
+        $scope.EstadoClientes.push({ Id: -1, Descripcion: '[Seleccione]' });
+        $scope.EstadoClientes.push({ Id: 1, Descripcion: 'ACTIVO' });
+        $scope.EstadoClientes.push({ Id: 2, Descripcion: 'INACTIVO' });
 
         $scope.Clientes = localStorageService.get("clientes");
         $scope.Municipios = localStorageService.get("municipios");
@@ -135,9 +153,9 @@
             Telefono_Fijo: '4678902', Telefono_Movil: '3224567812',
             Mail: 'camila78@gmail.com', Direccion: 'Calle 47D # 72-36',
             Id_Barrio: $scope.Barrios[68].id_Barrio,
-            Fecha_Nacimiento: $filter('date')(new Date(), 'yyyy-MM-dd'),
+            Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
             Id_Tipo: $scope.TipoClientes[0].id_Tipo,
-            Estado: $scope.EstadoClientes[0].Descripcion,
+            Estado: -1,
             Id_Empresa: $scope.IdEmpresa,
             Id_Usuario_Creacion: $scope.IdUsuario
         }
@@ -181,6 +199,7 @@
                             $scope.Clientes = [];
                             $scope.Clientes = result.data;
                             localStorageService.remove("clientes");
+                            $scope.ClientesGridOptions.api.setRowData($scope.Clientes);
                         }
                     }, function (err) {
                         toastr.remove();
@@ -190,14 +209,12 @@
                     })
         }
 
-
-        // Handlers
+        // Eventos
         $("body").tooltip({
             selector: '[data-toggle="tooltip"]',
             trigger: 'hover'
         });
 
-        // Eventos
         $scope.BeginProcess = function (processName) {
             $scope.ProcessQueu.push(processName);
             $scope.IsLoading = true;
@@ -213,7 +230,66 @@
             if ($scope.ProcessQueu.length === 0) {
                 $scope.IsLoading = false;
             }
+
         };
+
+        window.onresize = function () {
+            let offsetDivGrid = $("#divCreditGridOptions").offset();
+            let heightPage = $(document).height();
+            document.getElementById("divCreditGridOptions").style.height = (heightPage - offsetDivGrid.top - 10) + "px";
+        }
+
+        // Agr-grid Options
+        $scope.ClientesGridOptionsColumns = [
+            {
+                headerName: "Cédula", field: 'cedula', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Nombres(s)", field: 'nombres', width: 120, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Apellido(s)", field: 'apellidos', width: 120, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Celular", field: 'telefono_Movil', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Mail", field: 'mail', width: 220, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Dirección", field: 'direccion', width: 240, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Barrio", field: 'barrio', width: 170, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Registro", field: 'fecha_Registro', width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
+            }
+        ];
+
+        $scope.ClientesGridOptions = {
+            defaultColDef: {
+                resizable: true
+            },
+            columnDefs: $scope.ClientesGridOptionsColumns,
+            rowData: [],
+            enableSorting: true,
+            enableFilter: true,
+            enableColResize: true,
+            angularCompileRows: true,
+            onGridReady: function (params) {
+                $timeout(function () {
+                    var allColumnIds = [];
+                    $scope.ClientesGridOptions.columnApi.getAllColumns().forEach(function (column) {
+                        allColumnIds.push(column.colId);
+                    });
+                }, 400)
+            },
+            fullWidthCellRenderer: true,
+            animateRows: true,
+            suppressRowClickSelection: true,
+            rowSelection: 'multiple'
+        }
 
     }
 

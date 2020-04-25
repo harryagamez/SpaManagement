@@ -27,7 +27,8 @@
 
 /* Font Size */
 .control-label, .col-form-label {
-    font-size: 15px !important;
+    font-size: 13px !important;
+    font-weight: bold;
 }
 
 body {
