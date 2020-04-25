@@ -1,4 +1,5 @@
-﻿using Spa.Application.SpaService;
+﻿using CacheCow.Server.WebApi;
+using Spa.Application.SpaService;
 using Spa.Domain.SpaEntities;
 using System;
 using System.Collections.Generic;
@@ -57,7 +58,8 @@ namespace WebApiSpa.Controllers
 
         [HttpPost]
         [Route("api/SPA/RegistrarActualizarCliente")]
-        public IHttpActionResult RegistrarActualizarCliente(Cliente cliente)
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult RegistrarActualizarCliente(List<Cliente> cliente)
         {
             try
             {
@@ -84,6 +86,54 @@ namespace WebApiSpa.Controllers
             catch (Exception ex)
             {
                 return Content(HttpStatusCode.InternalServerError, "Error consultando el menu: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarMunicipios")]
+        public IHttpActionResult ConsultarMunicipios()
+        {
+            try
+            {
+                List<Municipio> _listMunicipios = _spaService.ConsultarMunicipios();
+
+                return Content(HttpStatusCode.OK, _listMunicipios);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los municipios: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarBarrios")]
+        public IHttpActionResult ConsultarBarrios()
+        {
+            try
+            {
+                List<Barrio> _listBarrios = _spaService.ConsultarBarrios();
+
+                return Content(HttpStatusCode.OK, _listBarrios);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los barrios: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarTipoClientes")]
+        public IHttpActionResult ConsultarTipoClientes()
+        {
+            try
+            {
+                List<TipoCliente> _listTipoClientes = _spaService.ConsultarTipoClientes();
+
+                return Content(HttpStatusCode.OK, _listTipoClientes);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los tipos de clientes: " + ex.Message);
             }
         }
     }

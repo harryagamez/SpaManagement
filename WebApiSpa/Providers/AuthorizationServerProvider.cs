@@ -20,6 +20,7 @@ namespace WebApiSpa.Providers
             _connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SpaDBConnection"].ConnectionString.ToString();
             _spaService = new SpaService(_connectionString);
         }
+
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             context.Validated();

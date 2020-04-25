@@ -7,43 +7,63 @@ namespace WebApiSpa
     {
         public static void Register(HttpConfiguration config)
         {
-            config.MapHttpAttributeRoutes();
+
+                config.MapHttpAttributeRoutes();
+
+                config.Routes.MapHttpRoute(
+                name: "ValidarUsuario",
+                routeTemplate: "api/{controller}/{Nombre}/{PassWord}/{ValidarIntegracion}/{CodigoIntegracion}",
+                defaults: new { Nombre = RouteParameter.Optional, Password = RouteParameter.Optional }
+             );
+
+                config.Routes.MapHttpRoute(
+                name: "ConsultarMenu",
+                routeTemplate: "api/{controller}/{IdUsuario}",
+                defaults: new { Nombre = RouteParameter.Optional, Password = RouteParameter.Optional }
+             );
+
+                config.Routes.MapHttpRoute(
+                name: "ConsultarTipoClientes",
+                routeTemplate: "api/{controller}",
+                defaults: new { Nombre = RouteParameter.Optional, Password = RouteParameter.Optional }
+             );
 
             config.Routes.MapHttpRoute(
-             name: "ValidarUsuario",
-             routeTemplate: "api/{controller}/{Nombre}/{PassWord}/{ValidarIntegracion}/{CodigoIntegracion}",
-             defaults: new { Nombre = RouteParameter.Optional, Password = RouteParameter.Optional }
-         );
+                name: "ConsultarClientes",
+                routeTemplate: "api/{controller}/{IdEmpresa}",
+                defaults: new { Nombre = RouteParameter.Optional, Password = RouteParameter.Optional }
+             );
 
-            config.Routes.MapHttpRoute(
-             name: "ConsultarMenu",
-             routeTemplate: "api/{controller}/{IdUsuario}",
-             defaults: new { Nombre = RouteParameter.Optional, Password = RouteParameter.Optional }
-         );
+                config.Routes.MapHttpRoute(
+                name: "ConsultarMunicipios",
+                routeTemplate: "api/{controller}",
+                defaults: new { Nombre = RouteParameter.Optional, Password = RouteParameter.Optional }
+             );
 
-            config.Routes.MapHttpRoute(
-                    name: "ConsultarClientes",
-                    routeTemplate: "api/{controller}/{IdEmpresa}",
-                    defaults: new { Nombre = RouteParameter.Optional, Password = RouteParameter.Optional }
-         );
+                config.Routes.MapHttpRoute(
+                name: "ConsultarBarrios",
+                routeTemplate: "api/{controller}",
+                defaults: new { Nombre = RouteParameter.Optional, Password = RouteParameter.Optional }
+             );
 
-            config.Routes.MapHttpRoute(
-                    name: "RegistrarActualizarCliente",
-                    routeTemplate: "api/{controller}/{cliente}",
-                    defaults: new { Nombre = RouteParameter.Optional, Password = RouteParameter.Optional }
-         );
+                config.Routes.MapHttpRoute(
+                name: "RegistrarActualizarCliente",
+                routeTemplate: "api/{controller}/{cliente}",
+                defaults: new { Nombre = RouteParameter.Optional, Password = RouteParameter.Optional }
+             );
 
-            config.Routes.MapHttpRoute(
+                config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
-        );
+            );
 
             config.Formatters.JsonFormatter.SerializerSettings.Formatting =
                 Newtonsoft.Json.Formatting.Indented;
 
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
                 new CamelCasePropertyNamesContractResolver();
+
         }
     }
 }

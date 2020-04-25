@@ -1,0 +1,10 @@
+﻿CREATE PROCEDURE ConsultarTipoClientes
+AS
+
+BEGIN
+	
+	SELECT * FROM TIPO_CLIENTE
+
+END
+
+GO

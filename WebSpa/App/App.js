@@ -18,6 +18,7 @@
     Initialize.$inject = ['$rootScope', '$http', '$window', 'localStorageService', 'AuthService'];
 
     function Configuration($stateProvider, $urlRouterProvider, $routeProvider, $httpProvider, $locationProvider, $mdDateLocaleProvider, $mdThemingProvider) {
+
         $httpProvider.interceptors.push('AuthtenticantionIntecerptorService');
 
         $locationProvider.hashPrefix('');
@@ -61,6 +62,7 @@
             //})
 
         $mdDateLocaleProvider.formatDate = function (date) {
+
             if (date) {
                 var day = date.getDate();
                 var monthIndex = date.getMonth() + 1;
@@ -87,6 +89,7 @@
     }
 
     function sumInventory() {
+
         return function (data, key) {
 
             if (typeof (data) === 'undefined' || typeof (key) === 'undefined') {
@@ -107,9 +110,11 @@
             return sum;
 
         };
+
     }
 
     function sumShrink() {
+
         return function (data, key) {
 
             if (typeof (data) === 'undefined' || typeof (key) === 'undefined') {

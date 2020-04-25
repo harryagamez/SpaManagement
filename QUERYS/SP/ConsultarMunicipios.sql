@@ -1,0 +1,10 @@
+ALTER PROCEDURE ConsultarMunicipios
+AS
+
+BEGIN
+	
+	SELECT * FROM MUNICIPIOS
+
+END
+
+GO

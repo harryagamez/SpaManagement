@@ -12,6 +12,7 @@
     SPAService.$inject = ['$http', '$rootScope', '$q', 'serviceRest'];
 
     function AuthtenticantionIntecerptorService($q, $location, localStorageService, $stateParams) {
+
         var authInterceptorServiceFactory = {};
 
         var _request = function (config) {
@@ -33,6 +34,7 @@
         authInterceptorServiceFactory.responseError = _responseError;
 
         return authInterceptorServiceFactory;
+
     }
 
     function AuthService($http, $q, $rootScope, $state, localStorageService, $timeout, $filter, serviceRest) {
@@ -45,11 +47,16 @@
             userPassword: ""
         };
 
+        $rootScope.Id_Empresa = '';
+
         var _login = function (userName, password, validatedIntegration, integrationCode) {
 
             localStorageService.remove('authorizationData');
             localStorageService.remove('menu');
+            localStorageService.remove('tipo_clientes');
             localStorageService.remove('clientes');
+            localStorageService.remove('municipios');
+            localStorageService.remove('barrios');
 
             var deferred = $q.defer();
 
@@ -76,11 +83,16 @@
 
                     $rootScope.userData = { userName: response.data.UserName, userId: response.data.UserId, userRole: response.data.Role }
 
+                    $rootScope.Id_Empresa = response.data.CompanyId;
+
                     _authentication.isAuth = true;
                     _authentication.userName = userName;
                     _authentication.userPassword = password;
                     _consultarMenu($rootScope.userData.userId);
+                    _consultarTipoClientes();
                     _consultarClientes();
+                    _consultarMunicipios();
+                    _consultarBarrios();
 
                     deferred.resolve(response);
                 },
@@ -91,13 +103,17 @@
             )
 
             return deferred.promise;
+
         };
 
         var _logOut = function () {
 
             localStorageService.remove('authorizationData');
             localStorageService.remove('menu');
+            localStorageService.remove('tipo_clientes');
             localStorageService.remove('clientes');
+            localStorageService.remove('municipios');
+            localStorageService.remove('barrios');
 
             _authentication.isAuth = false;
             _authentication.userName = "";
@@ -105,6 +121,7 @@
             $rootScope.userData = { userName: '', userId: '', userRole: '' }
 
             $timeout(function () { $state.go('login') }, 0);
+
         };
 
         var _fillAuthData = function () {
@@ -137,6 +154,18 @@
 
         }
 
+        var _consultarTipoClientes = function () {
+
+            $http({
+                headers: { 'Content-Type': 'application/json' },
+                method: 'GET',
+                url: $rootScope.config.data.API_URL + 'SPA/ConsultarTipoClientes'
+            }).then(function (result) {
+                localStorageService.set('tipo_clientes', result.data);
+            })
+
+        }
+
         var _consultarClientes = function () {
 
             var authorizationData = localStorageService.get('authorizationData');
@@ -151,14 +180,42 @@
 
         }
 
+        var _consultarMunicipios = function () {
+
+            $http({
+                headers: { 'Content-Type': 'application/json' },
+                method: 'GET',
+                url: $rootScope.config.data.API_URL + 'SPA/ConsultarMunicipios'
+            }).then(function (result) {
+                localStorageService.set('municipios', result.data);
+            })
+
+        }
+
+        var _consultarBarrios = function () {
+
+            $http({
+                headers: { 'Content-Type': 'application/json' },
+                method: 'GET',
+                url: $rootScope.config.data.API_URL + 'SPA/ConsultarBarrios'
+            }).then(function (result) {
+                localStorageService.set('barrios', result.data);
+            })
+
+        }
+
         authServiceFactory.login = _login;
         authServiceFactory.logOut = _logOut;
         authServiceFactory.fillAuthData = _fillAuthData;
         authServiceFactory.authentication = _authentication;
         authServiceFactory.consultarMenu = _consultarMenu
         authServiceFactory.consultarClientes = _consultarClientes;
+        authServiceFactory.consultarMunicipios = _consultarMunicipios;
+        authServiceFactory.consultarBarrios = _consultarBarrios;
+        authServiceFactory.consultarTipoClientes = _consultarTipoClientes
 
         return authServiceFactory;
+
     }
 
     function SPAService($http, $rootScope, $q, serviceRest) {
@@ -172,10 +229,10 @@
             var deferred = $q.defer();
 
             serviceRest.Post('SPA', 'RegistrarActualizarCliente', cliente,
-                function (data, status) {
+                function (data) {
                     deferred.resolve(data);
                 },
-                function (err, status) {
+                function (err) {
                     deferred.reject(err);
                 });
 
@@ -248,4 +305,5 @@
             }
         };
     }
+
 })();
