@@ -118,10 +118,6 @@
         let heightPage = $(document).height();
         document.getElementById("divClientesGridOptions").style.height = (heightPage - offsetDivGrid.top - 10) + "px";
 
-        //$timeout(function () {
-        //    window.onresize();
-        //});
-
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
 
@@ -241,6 +237,7 @@
 
         // Agr-grid Options
         $scope.ClientesGridOptionsColumns = [
+
             {
                 headerName: "Cédula", field: 'cedula', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
             },
@@ -265,6 +262,7 @@
             {
                 headerName: "Registro", field: 'fecha_Registro', width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
             }
+
         ];
 
         $scope.ClientesGridOptions = {
@@ -290,7 +288,6 @@
             suppressRowClickSelection: true,
             rowSelection: 'multiple'
         }
-
     }
 
 })();
