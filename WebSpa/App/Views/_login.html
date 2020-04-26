@@ -8,21 +8,21 @@
         <section class="row justify-content-center">
             <section class="col-12 col-sm-6 col-md-3">
                 <form class="form-container">
-                    <div class="form-group row" style="margin:-30px -30px 0 -30px; padding:30px; border-radius:10px 10px 0 0; background:url('../../Images/login-header.jpg'); background-size: cover;">
+                    <div class="form-group row login-header">
                         <!--<img src="../../Images/login-header.jpg" style="margin-left:auto; margin-right:auto;">-->
-                        <h2 class="text-center" style="width:100%; color: var(--light-text); font-weight:600;">BIENVENIDO</h2>
+                        <h2 class="text-center" style="width:100%; color: var(--light-text); font-weight:600; padding-top: 70px;">BIENVENIDO</h2>
                     </div>
                     <div class="form-group row">
                         <label class="col-form-label" for="txtUsuario">Usuario</label>
                         <div style="display:flex; width:100%;">
-                            <i class="material-icons md-24" style="transform: scaleX(-1); padding-top:5px; color:var(--primary-color);">person</i>
+                            <i class="material-icons login-icons md-24">person</i>
                             <input type="text" ng-model="DatosUsuario.Usuario" class="form-control form-control-md form-control-login" id="txtUsuario" aria-describedby="emailHelp" placeholder="Nombre de usuario">
                         </div>                        
                     </div>
                     <div class="form-group row">
                         <label class="col-form-label" for="txtContraseña">Contraseña</label>
                         <div style="display:flex; width:100%;">
-                            <i class="material-icons md-24" style="transform: scaleX(-1); padding-top:5px; color:var(--primary-color);">lock</i>
+                            <i class="material-icons login-icons md-24">lock</i>
                             <input type="password" ng-model="DatosUsuario.Password" class="form-control form-control-md form-control-login" id="txtContraseña" placeholder="Contraseña">
                         </div>                       
                     </div>
