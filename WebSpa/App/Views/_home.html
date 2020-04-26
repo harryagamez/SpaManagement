@@ -1,13 +1,12 @@
 ﻿<header id="header">
-    <h4 style="color: #151719; text-align: center; font-size: 62px;"><a ui-sref="home">HEADER</a></h4>
+    <p style="color: #151719; text-align: center; font-size: 24px;"><a ui-sref="home">HEADER</a></p>
 </header>
 
 <nav></nav>
 
 <aside id="sidebar">    
     <ul>
-        <li class="li-padding" ng-repeat="item in Menu">
-            <i class="material-icons md-24" style="transform: scaleX(-1)">perm_contact_calendar</i>
+        <li class="li-padding" ng-repeat="item in Menu">           
             <a ui-sref="{{item.ruta_Acceso}}">{{item.descripcion}}</a>
         </li>
     </ul>
@@ -23,8 +22,3 @@
         </div>
     </ui-view>
 </section>
-
-<footer id="footer">
-    <h4 style="color: #151719; text-align: center; font-size: 62px;">FOOTER</h4>
-</footer>
-

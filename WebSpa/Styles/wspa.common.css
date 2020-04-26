@@ -186,16 +186,10 @@ table, input, select, .form-control {
 	padding: 3px 8px;
 }
 
-.btn-primary {
-	background-color: #FF4081;
-	border-color: #FF4081;
+.btn-primary {		
 	box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
 	font-size: 13px;
-}
-
-	.btn-primary:hover {
-		background-color: #FF4081;
-	}
+}	
 
 	.btn-primary :visited, .btn-wf:active, .btn-wf:hover,
 	.btn-secondary :visited {

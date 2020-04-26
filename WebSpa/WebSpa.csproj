@@ -105,7 +105,7 @@
     <Content Include="App\Views\_settings.html" />
     <Content Include="App\Views\_shrink.html" />
     <Content Include="Images\img_spa.jpg" />
-    <Content Include="Images\spa.png" />
+    <Content Include="Images\login-header.jpg" />
     <Content Include="Scripts\Ag-Grid\v17.1.1\ag-grid.css" />
     <Content Include="Scripts\Ag-Grid\v17.1.1\ag-grid.min.js" />
     <Content Include="Scripts\Ag-Grid\v17.1.1\themes\ag-theme-balham-dark.css" />
