@@ -47,7 +47,7 @@
                                 }
                             }
                         }, function (err) {
-                            $scope.EndProcess("login");
+                            $scope.EndProcess("Login");
                             toastr.remove();
                             if (err.data.error == "invalid_grant" && err.status === 400)
                                 toastr.warning(err.data.error_description, '', $scope.toastrOptions);
@@ -91,11 +91,11 @@
 
     function HomeController($scope, $rootScope, $element, $location, localStorageService, authService) {
 
-        $scope.Menu = [];
         $scope.Logout = Logout;
 
         $scope.$on('successfull.menuload', function () {
-            $scope.Menu = localStorageService.get("menu");
+            $scope.Menu = [];
+            $scope.Menu = $rootScope.Menu;
         });
 
         $scope.$on('$viewContentLoaded', function () {
@@ -114,7 +114,8 @@
     function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
 
         // Inicializacion
-        document.getElementById("divGridClientes").style.height = (window.innerHeight - 300) + "px"
+        document.getElementById("divGridClientes").style.height = (window.innerHeight - 260) + "px"
+        $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
 
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
@@ -134,10 +135,10 @@
         $scope.EstadoClientes.push({ Id: 1, Descripcion: 'ACTIVO' });
         $scope.EstadoClientes.push({ Id: 2, Descripcion: 'INACTIVO' });
 
-        $scope.Clientes = localStorageService.get("clientes");
-        $scope.Municipios = localStorageService.get("municipios");
-        $scope.Barrios = localStorageService.get("barrios");
-        $scope.TipoClientes = localStorageService.get("tipo_clientes");
+        $scope.Clientes = $rootScope.Clientes;
+        $scope.Municipios = $rootScope.Municipios;
+        $scope.Barrios = $rootScope.Barrios;
+        $scope.TipoClientes = $rootScope.TipoClientes;
 
         // Objecto Cliente
         $scope.Cliente =
@@ -194,6 +195,10 @@
                             $scope.Clientes = result.data;
                             localStorageService.remove("clientes");
                             $scope.ClientesGridOptions.api.setRowData($scope.Clientes);
+
+                            $timeout(function () {
+                                $scope.ClientesGridOptions.api.sizeColumnsToFit();
+                            }, 300);
                         }
                     }, function (err) {
                         toastr.remove();
@@ -228,24 +233,27 @@
         };
 
         window.onresize = function () {
-            document.getElementById("divGridClientes").style.height = (window.innerHeight - 300) + "px"
+            document.getElementById("divGridClientes").style.height = (window.innerHeight - 260) + "px"
 
             $timeout(function () {
                 $scope.ClientesGridOptions.api.sizeColumnsToFit();
-            }, 400);
+            }, 300);
         }
 
         // Agr-grid Options
         $scope.ClientesGridOptionsColumns = [
 
             {
-                headerName: "Cédula", field: 'cedula', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
+                headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
             },
             {
-                headerName: "Nombres(s)", field: 'nombres', width: 120, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Cédula", field: 'cedula', width: 130, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
             },
             {
-                headerName: "Apellido(s)", field: 'apellidos', width: 120, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Nombres(s)", field: 'nombres', width: 130, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Apellido(s)", field: 'apellidos', width: 130, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
                 headerName: "Celular", field: 'telefono_Movil', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
@@ -260,7 +268,7 @@
                 headerName: "Barrio", field: 'barrio', width: 170, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Registro", field: 'fecha_Registro', width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
+                headerName: "Registro", field: 'fecha_Registro', width: 130, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
             }
 
         ];
@@ -277,10 +285,6 @@
             angularCompileRows: true,
             onGridReady: function (params) {
                 $timeout(function () {
-                    var allColumnIds = [];
-                    $scope.ClientesGridOptions.columnApi.getAllColumns().forEach(function (column) {
-                        allColumnIds.push(column.colId);
-                    });
                 }, 400)
             },
             fullWidthCellRenderer: true,

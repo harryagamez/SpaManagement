@@ -20,7 +20,7 @@
     Initialize.$inject = ['$rootScope', '$http', '$window', 'localStorageService', 'AuthService'];
 
     function Configuration($stateProvider, $urlRouterProvider, $routeProvider, $httpProvider, $locationProvider, $mdDateLocaleProvider, $mdThemingProvider) {
-
+        debugger;
         $httpProvider.interceptors.push('AuthtenticantionIntecerptorService');
 
         $locationProvider.hashPrefix('');
