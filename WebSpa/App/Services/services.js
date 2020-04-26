@@ -47,16 +47,16 @@
             userPassword: ""
         };
 
-        $rootScope.Id_Empresa = '';
-
         var _login = function (userName, password, validatedIntegration, integrationCode) {
 
             localStorageService.remove('authorizationData');
-            localStorageService.remove('menu');
-            localStorageService.remove('tipo_clientes');
-            localStorageService.remove('clientes');
-            localStorageService.remove('municipios');
-            localStorageService.remove('barrios');
+            localStorageService.remove('masterdataMenu');
+            localStorageService.remove('masterDataTipoClientes');
+            localStorageService.remove('masterdataClientes');
+            localStorageService.remove('masterdataMunicipios');
+            localStorageService.remove('masterdataBarrios');
+
+            $rootScope.Id_Empresa = '';
 
             var deferred = $q.defer();
 
@@ -79,7 +79,18 @@
                 }
             }).then(
                 function (response) {
-                    localStorageService.set('authorizationData', { token: response.data.access_token, userName: response.data.UserName, userId: response.data.UserId, userRole: response.data.Role, integrationCode: response.data.IntegrationCode, companyId: response.data.CompanyId });
+
+                    $rootScope.Id_Empresa = '';
+
+                    localStorageService.set('authorizationData',
+                        {
+                            token: response.data.access_token,
+                            userName: response.data.UserName,
+                            userId: response.data.UserId,
+                            userRole: response.data.Role,
+                            integrationCode: response.data.IntegrationCode,
+                            companyId: response.data.CompanyId
+                        });
 
                     $rootScope.userData = { userName: response.data.UserName, userId: response.data.UserId, userRole: response.data.Role }
 
@@ -107,13 +118,13 @@
         };
 
         var _logOut = function () {
-
+           
             localStorageService.remove('authorizationData');
-            localStorageService.remove('menu');
-            localStorageService.remove('tipo_clientes');
-            localStorageService.remove('clientes');
-            localStorageService.remove('municipios');
-            localStorageService.remove('barrios');
+            localStorageService.remove('masterdataMenu');
+            localStorageService.remove('masterDataTipoClientes');
+            localStorageService.remove('masterdataClientes');
+            localStorageService.remove('masterdataMunicipios');
+            localStorageService.remove('masterdataBarrios');
 
             _authentication.isAuth = false;
             _authentication.userName = "";
@@ -125,13 +136,35 @@
         };
 
         var _fillAuthData = function () {
-
+      
             var authData = localStorageService.get('authorizationData');
             if (authData) {
                 _authentication.isAuth = true;
                 _authentication.userName = authData.userName;
 
                 $rootScope.userData = { userName: authData.userName, userId: authData.userId }
+                $rootScope.Id_Empresa = authData.companyId;
+
+                var masterDataMenu = localStorageService.get('masterdataMenu');
+                if (masterDataMenu)
+                    $rootScope.Menu = masterDataMenu.menu;
+
+                var masterDataTipoClientes = localStorageService.get('masterdataTipoClientes');
+                if (masterDataTipoClientes)
+                    $rootScope.TipoClientes = masterDataTipoClientes.tipoClientes;
+
+                var masterDataClientes = localStorageService.get('masterdataClientes');
+                if (masterDataClientes)
+                    $rootScope.Clientes = masterDataClientes.clientes;
+
+                var masterDataMunicipios = localStorageService.get('masterdataMunicipios');
+                if (masterDataMunicipios)
+                    $rootScope.Municipios = masterDataMunicipios.municipios;
+
+                var masterDataBarrios = localStorageService.get('masterdataBarrios');
+                if (masterDataBarrios)
+                    $rootScope.Barrios = masterDataBarrios.barrios;
+
             }
             else {
                 _logOut();
@@ -149,7 +182,12 @@
                 url: $rootScope.config.data.API_URL + 'SPA/ConsultarMenu?IdUsuario=' + parseInt(authorizationData.userId)
             }).then(function (result) {
                 localStorageService.set('menu', result.data);
+                $rootScope.Menu = result.data;
                 $rootScope.$broadcast('successfull.menuload');
+                localStorageService.set('masterdataMenu',
+                    {
+                        menu: result.data
+                    });
             })
 
         }
@@ -162,6 +200,11 @@
                 url: $rootScope.config.data.API_URL + 'SPA/ConsultarTipoClientes'
             }).then(function (result) {
                 localStorageService.set('tipo_clientes', result.data);
+                $rootScope.TipoClientes = result.data;
+                localStorageService.set('masterdataTipoClientes',
+                    {
+                        tipoClientes: result.data
+                    });
             })
 
         }
@@ -176,6 +219,11 @@
                 url: $rootScope.config.data.API_URL + 'SPA/ConsultarClientes?IdEmpresa=' + authorizationData.companyId
             }).then(function (result) {
                 localStorageService.set('clientes', result.data);
+                $rootScope.Clientes = result.data;
+                localStorageService.set('masterdataClientes',
+                    {
+                        clientes: result.data
+                    });
             })
 
         }
@@ -188,6 +236,11 @@
                 url: $rootScope.config.data.API_URL + 'SPA/ConsultarMunicipios'
             }).then(function (result) {
                 localStorageService.set('municipios', result.data);
+                $rootScope.Municipios = result.data;
+                localStorageService.set('masterdataMunicipios',
+                    {
+                        municipios: result.data
+                    });
             })
 
         }
@@ -200,6 +253,11 @@
                 url: $rootScope.config.data.API_URL + 'SPA/ConsultarBarrios'
             }).then(function (result) {
                 localStorageService.set('barrios', result.data);
+                $rootScope.Barrios = result.data;
+                localStorageService.set('masterdataBarrios',
+                    {
+                        barrios: result.data
+                    });
             })
 
         }

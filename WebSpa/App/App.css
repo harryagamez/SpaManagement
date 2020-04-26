@@ -75,6 +75,10 @@ a:hover {
     }
 }
 
+table, input, select {
+    font-family: var(--main-font) !important;
+}
+
 .form-container {
     position: absolute;
     background: white;    
@@ -214,4 +218,8 @@ aside .toggle-btn span {
     border-radius: 10px 10px 0 0;
     background: url('../../Images/login-header.jpg');
     background-size: cover;
+}
+
+.md-primary.md-checked .md-icon {
+    background-color: #3A6EA5 !important;
 }

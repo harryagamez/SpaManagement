@@ -1207,3 +1207,31 @@ header {
 		transform: rotate(360deg);
 	}
 }
+
+.ag-theme-fresh .ag-selection-checkbox span {
+	position: relative !important;
+	top: 1px !important;
+}
+
+.ag-theme-fresh .ag-selection-checkbox span, .ag-theme-fresh .ag-group-expanded span, .ag-theme-fresh .ag-group-contracted span {
+	margin-right: 0 !important;
+}
+
+.ag-header-cell[col-id='Checked'] {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.ag-theme-fresh .ag-cell {
+	padding-right: 12px;
+}
+
+.ag-theme-fresh .ag-header-cell, .ag-theme-fresh .ag-header-group-cell {
+	padding-left: 12px;
+	padding-right: 12px;
+}
+
+.ag-icon ag-icon-checkbox-unchecked {
+	margin-right: 0 !important;
+}
