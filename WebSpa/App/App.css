@@ -15,9 +15,9 @@
     padding: 0px;    
 }
 
-body {
-    font-size: 15px !important;
+body {    
     background: var(--light-background) !important;
+    font-size: 14px !important;
 }
 
 a {
@@ -93,11 +93,7 @@ table, input, select, .form-control {
     transform: translateY(2px);
 }
 
-.btn-secondary {
-    font-size: 15px !important;
-}
-
-.btn-primary {
+.btn-primary, .btn-secondary {
     font-size: 15px !important;
 }
 
@@ -113,8 +109,7 @@ aside {
     height: 100%;
     background: var(--primary-color) !important;
     /*left: -200px;*/
-    transition: all 500ms linear;
-    font-size: 15px;
+    transition: all 500ms linear;    
     top: 0;
     height: 100%;
     z-index: 999;
@@ -159,22 +154,31 @@ aside .toggle-btn span {
     padding: 12px 12px 12px 20px;
 }
 
-/*Form Fixes*/
+/*Form Input Fixes*/
+
 .form-control {
-    margin-left: -20px;
-    padding-left: 25px !important;
     outline: 0;
-    border-radius: 0;
-    border-width: 0 0 2px;
+    border-radius: 0;    
 }
 
 .form-control:focus {
     transition: all 0.3s ease-in-out;
     outline: 0;
-    box-shadow: none !important;
-    border-color:darkgray;
+    box-shadow: none !important;    
+}
+
+.form-control-login {
+    margin-left: -20px;
+    padding-left: 25px !important;    
+    border-width: 0 0 2px;
+}
+
+.form-control-login:focus {
+    transition: all 0.3s ease-in-out;   
+    border-color: var(--dark-primary-color);
 }
 
 .tooltip .tooltip-inner {
-    background-color: var(--primary-color) !important;
+    background-color: var(--accent-color) !important;
+    color:var(--dark-text) !important;
 }
