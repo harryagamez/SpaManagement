@@ -18,7 +18,7 @@
 }
 
 body {    
-    background: var(--light-background) !important;
+    background: white !important;
     font-size: 14px !important;
 }
 
@@ -66,11 +66,11 @@ table, input, select {
 
 .form-container {
     position: absolute;
-    background: white;    
+    background: white;
     top: 15vh;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 2px 1px 5px rgba(100,100,100,0.3);
+    box-shadow: 0px 0px 6px #999;
 }
 
 @media only screen and (max-width: 678px) {
@@ -115,34 +115,45 @@ aside {
     position: fixed;
     width: 200px;
     height: 100%;
-    background: var(--primary-color);
+    background: var(--dark-background);
     /*left: -200px;*/
     transition: all 500ms linear;
     top: 0;
     height: 100%;
     z-index: 999;
+    padding-top: 40px;
 }
 
 aside a {
     color:var(--light-text) !important;
+    font-weight:500;
 }
-
-aside a:hover {
-    color: var(--light-text) !important; 
-}
-
 
 aside ul li {
     color: rgba(230,230,230,0.9);
     list-style: none;
     /*padding:15px 10px;*/
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    background-size: 200% 100%;
+    background-image: linear-gradient(to right, var(--dark-background) 50%, white 50%);
+    transition: background-position 0.7s;
 }
 
-aside ul li:hover{
-    background:var(--dark-primary-color) !important;
+aside ul li:hover {
+    /*background: white !important;*/
     transition: all 0.3s ease-in-out;
-}    
+    color: var(--dark-text);
+    font-weight: 600;
+    margin-left: 10px;    
+    border-radius: 10px 0 0 10px;
+    background-position: -100% 0;
+    box-shadow: -7px 0px 5px rgba(0,0,0,0.87);
+}
+
+aside ul li:hover a {
+    color: inherit !important;
+    font-weight:inherit;
+}
 
 aside .toggle-btn {
     position:absolute;
@@ -210,6 +221,27 @@ aside .toggle-btn span {
     background-color: #3A6EA5 !important;
 }
 
+/*AG-GRID*/
+
 .ag-theme-fresh .ag-header-select-all span {
     margin-left:12px;
+}
+
+.ag-fresh .ag-header, .ag-theme-fresh .ag-header {    
+    border-radius: 10px 10px 0 0;
+}
+
+.ag-fresh .ag-root, .ag-theme-fresh .ag-root {    
+    border-radius: 10px 10px 0 0;
+}
+
+/*Container Fluid*/
+
+.container-fluid {
+    background-color: white !important;
+    border-radius: 10px;
+    box-shadow: 0px 0px 6px #999;
+    padding: 15px;
+    width: 98%;
+    height:auto;
 }
