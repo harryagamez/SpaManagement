@@ -135,7 +135,7 @@ aside ul li {
     /*padding:15px 10px;*/
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     background-size: 200% 100%;
-    background-image: linear-gradient(to right, var(--dark-background) 50%, white 50%);
+    background-image: linear-gradient(to left, white 50%, var(--dark-background) 50%);
     transition: background-position 0.7s;
 }
 
@@ -146,7 +146,7 @@ aside ul li:hover {
     font-weight: 600;
     margin-left: 10px;    
     border-radius: 10px 0 0 10px;
-    background-position: -100% 0;
+    background-position: 100% 0;
     box-shadow: -7px 0px 5px rgba(0,0,0,0.87);
 }
 
