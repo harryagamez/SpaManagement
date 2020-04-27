@@ -235,13 +235,13 @@ aside .toggle-btn span {
     border-radius: 10px 10px 0 0;
 }
 
-/*Container Fluid*/
+/*Container Fluid Ag Grid*/
 
-.container-fluid {
+#frmClientes .container-fluid {
     background-color: white !important;
     border-radius: 10px;
     box-shadow: 0px 0px 6px #999;
     padding: 15px;
     width: 98%;
-    height:auto;
+    height: auto;
 }
