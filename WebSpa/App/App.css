@@ -6,11 +6,13 @@
     --primary-color: #005eb8;
     --accent-color: #ffeb3b;
     --dark-primary-color: #003d78;
-    --main-font: 'Open Sans', sans-serif;
+    --main-font: Open Sans, sans-serif;
 }
 
 * {
-    font-family: var(--main-font);
+    font-family: var(--main-font) !important;
+    font-style:normal;
+    font-weight:400;
     margin: 0px;
     padding: 0px;    
 }
