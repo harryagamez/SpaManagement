@@ -1,4 +1,5 @@
 ﻿(function () {
+
     angular.module('app.directives', [])
         .directive('cbutton', cbutton)
         .directive('limitTo', limitTo)
@@ -127,4 +128,5 @@
 
         };
     }
+
 })();

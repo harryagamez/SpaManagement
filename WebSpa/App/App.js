@@ -1,4 +1,5 @@
 ﻿(function () {
+
     angular.module('app', [
         "ngRoute",
         "ngAnimate",
@@ -20,7 +21,7 @@
     Initialize.$inject = ['$rootScope', '$http', '$window', 'localStorageService', 'AuthService'];
 
     function Configuration($stateProvider, $urlRouterProvider, $routeProvider, $httpProvider, $locationProvider, $mdDateLocaleProvider, $mdThemingProvider) {
-        debugger;
+    
         $httpProvider.interceptors.push('AuthtenticantionIntecerptorService');
 
         $locationProvider.hashPrefix('');
@@ -47,21 +48,6 @@
                 templateUrl: 'Views/_clientes.html',
                 controller: "ClientesController"
             })
-        //.state('home.shrink', {
-        //    url: '/shrink',
-        //    templateUrl: 'views/_shrink.html',
-        //    controller: "ShrinkController"
-        //})
-        //.state('home.products', {
-        //    url: '/products',
-        //    templateUrl: 'views/_products.html',
-        //    controller: "ProductsController"
-        //})
-        //.state('home.settings', {
-        //    url: '/settings',
-        //    templateUrl: 'views/_settings.html',
-        //    controller: "SettingsController"
-        //})
 
         $mdDateLocaleProvider.formatDate = function (date) {
 
@@ -136,4 +122,5 @@
 
         };
     }
+
 })();

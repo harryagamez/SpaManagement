@@ -48,7 +48,7 @@
                             Fecha Nacimiento:
                         </label>
                         <div class="col-sm-8">
-                            <adm-dtp style="width: 190px" ng-change="ValidarFechaNacimiento()" ng-model="Cliente.Fecha_Nacimiento" options='{dtpType:"date", autoClose:true, freezeInput:true, format: "MM/DD/YYYY"}'></adm-dtp>
+                            <adm-dtp ng-change="ValidarFechaNacimiento()" ng-model="Cliente.Fecha_Nacimiento" options='{dtpType:"date", autoClose:true, freezeInput:true, format: "MM/DD/YYYY"}'></adm-dtp>
                         </div>
                     </div>
 

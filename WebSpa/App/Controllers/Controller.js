@@ -183,7 +183,7 @@
         }
 
         function ConsultarClientes() {
-
+          
             $scope.BeginProcess("ConsultarClientes");
 
             SPAService._consultarClientes($scope.IdEmpresa)
@@ -292,6 +292,8 @@
             suppressRowClickSelection: true,
             rowSelection: 'multiple'
         }
+
+        $scope.ConsultarClientes();
     }
 
 })();
