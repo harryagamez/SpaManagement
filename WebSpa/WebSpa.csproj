@@ -118,6 +118,10 @@
     <Content Include="Scripts\Ag-Grid\v17.1.1\themes\compiled-icons.css" />
     <Content Include="Scripts\AngularDatePicker\v1.2.0\ADM-dateTimePicker.css" />
     <Content Include="Scripts\AngularDatePicker\v1.2.0\ADM-dateTimePicker.js" />
+    <Content Include="Scripts\AngularSpinner\angular-loading-spinner.js" />
+    <Content Include="Scripts\AngularSpinner\angular-spinner.min.js" />
+    <Content Include="Scripts\AngularSpinner\spin.js" />
+    <Content Include="Scripts\AngularSpinner\spin.min.js" />
     <Content Include="Scripts\AngularToaster\angular-animate.min.js" />
     <Content Include="Scripts\AngularToaster\angular-toaster.min.css" />
     <Content Include="Scripts\AngularToaster\angular-toaster.min.js" />

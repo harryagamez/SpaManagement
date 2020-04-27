@@ -42,6 +42,12 @@
     <script src="../Scripts/Angular/angular-local-storage.min.js"></script>
     <script src="../Scripts/Angular/ui-bootstrap.min.js"></script>
 
+    <script src="../Scripts/AngularSpinner/spin.min.js"></script>
+    <script src="../Scripts/AngularSpinner/angular-loading-spinner.js"></script>
+    <script src="../Scripts/AngularSpinner/angular-spinner.min.js"></script>
+
+
+
     <!--<%-- Ag-Grid --%>-->
     <script type="text/javascript" src="../Scripts/Ag-Grid/v17.1.1/ag-grid.min.js"></script>
     <link rel="stylesheet" href="../Scripts/Ag-Grid/v17.1.1/ag-grid.css" />
@@ -86,6 +92,8 @@
 
 </head>
 <body>
+
+    <div us-spinner="{radius:30, width:8, length: 16}" style="position: fixed;background-color: rgba(0,0,0,0.3);width: 100%;height:100%;z-index: 2000000000;"></div>
 
     <ui-view></ui-view>
 

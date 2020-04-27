@@ -11,7 +11,8 @@
         "ui.router",
         "app.controllers",
         "app.services",
-        "app.directives"
+        "app.directives",
+        "ngLoadingSpinner"
     ])
         .config(Configuration)
         .run(Initialize)

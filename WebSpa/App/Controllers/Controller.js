@@ -29,28 +29,23 @@
 
             if ($scope.ValidarDatos()) {
 
-                $scope.BeginProcess("Login");
-
-                authService.login($scope.DatosUsuario.Usuario, $scope.DatosUsuario.Password, $scope.ValidarIntegracion, $scope.DatosUsuario.CodigoIntegracion)
+                authService.login($scope.DatosUsuario.Usuario, $scope.DatosUsuario.Clave, $scope.ValidarIntegracion, $scope.DatosUsuario.CodigoIntegracion)
                     .then(
                         function (result) {
                             if (result.data !== undefined && result.data !== null) {
                                 if (result.data.access_token !== undefined && result.data.access_token !== null) {
                                     if (result.data.IntegrationCode == null || result.data.IntegrationCode === "undefined") {
-                                        $scope.EndProcess("Login");
                                         $scope.validarIntegracion = true;
                                         $('#ctlIntegration').focus();
                                     } else {
-                                        $scope.EndProcess("Login");
                                         $state.go('home')
                                     }
                                 }
                             }
                         }, function (err) {
-                            $scope.EndProcess("Login");
                             toastr.remove();
                             if (err.data.error == "invalid_grant" && err.status === 400)
-                                toastr.warning(err.data.error_description, '', $scope.toastrOptions);
+                                toastr.error(err.data.error_description, '', $scope.toastrOptions);
                             else if (err.data !== null && err.status === 500)
                                 toastr.error(err.data, '', $scope.toastrOptions);
                         })
@@ -59,13 +54,14 @@
         }
 
         function ValidarDatos() {
-
+            
             if ($scope.DatosUsuario === undefined
-                && $scope.DatosUsuario.Usuario === ''
-                || $scope.DatosUsuario.Password === '') {
-                toastr.error('Debe digitar nombre y contraseña', '', $scope.toastrOptions);
+                || $scope.DatosUsuario.Usuario === ''
+                || $scope.DatosUsuario.Clave === '') {
+                toastr.info('Debe digitar nombre de usuario y contraseña', '', $scope.toastrOptions);
                 return false
             }
+
             return true;
 
         }
@@ -114,9 +110,6 @@
     function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
 
         // Inicializacion
-        document.getElementById("divGridClientes").style.height = (window.innerHeight - 260) + "px"
-        $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
-
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
 
@@ -160,22 +153,19 @@
         // Invocaciones API
         $scope.GuardarCliente = GuardarCliente;
         $scope.ConsultarClientes = ConsultarClientes;
+        $scope.Inicializacion = Inicializacion;
 
         function GuardarCliente() {
-
-            $scope.BeginProcess("GuardarCliente");
 
             SPAService._registrarActualizarCliente(JSON.stringify($scope.ObjetoCliente))
                 .then(
                     function (result) {
                         if (result.data === true) {
-                            $scope.EndProcess("GuardarCliente");
                             toastr.success('Cliente registrado y/o actualizado correctamente', '', $scope.toastrOptions);
                             $scope.ConsultarClientes();
                         }
                     }, function (err) {
                         toastr.remove();
-                        $scope.EndProcess("GuardarCliente");
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
@@ -183,14 +173,11 @@
         }
 
         function ConsultarClientes() {
-          
-            $scope.BeginProcess("ConsultarClientes");
-
+         
             SPAService._consultarClientes($scope.IdEmpresa)
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
-                            $scope.EndProcess("ConsultarClientes");
                             $scope.Clientes = [];
                             $scope.Clientes = result.data;
                             localStorageService.remove("clientes");
@@ -202,10 +189,14 @@
                         }
                     }, function (err) {
                         toastr.remove();
-                        $scope.EndProcess("ConsultarClientes");
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
+        }
+
+        function Inicializacion() {
+            document.getElementById("divGridClientes").style.height = (window.innerHeight - 260) + "px"
+            $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
         }
 
         // Eventos
@@ -294,6 +285,7 @@
         }
 
         $scope.ConsultarClientes();
+        $scope.Inicializacion();
     }
 
 })();
