@@ -54,7 +54,7 @@
         }
 
         function ValidarDatos() {
-            
+
             if ($scope.DatosUsuario === undefined
                 || $scope.DatosUsuario.Usuario === ''
                 || $scope.DatosUsuario.Clave === '') {
@@ -90,8 +90,8 @@
         $scope.Logout = Logout;
 
         $scope.$on('successfull.menuload', function () {
-            $scope.Menu = [];
-            $scope.Menu = $rootScope.Menu;
+            if ($scope.Menu.length == 0)
+                $scope.Menu = $rootScope.Menu;
         });
 
         $scope.$on('$viewContentLoaded', function () {
@@ -178,7 +178,7 @@
         }
 
         function ConsultarClientes() {
-         
+
             SPAService._consultarClientes($scope.IdEmpresa)
                 .then(
                     function (result) {
