@@ -13,11 +13,7 @@
                         <div class="form-group row login-header">
                             <!--<img src="../../Images/login-header.jpg" style="margin-left:auto; margin-right:auto;">-->
                             <h2 class="text-center" style="width:100%; color: var(--light-text); font-weight:600; padding-top: 50px;">SPA<br />MANAGEMENT</h2>
-                        </div>
-                        <div class="form-group row">
-                            <!--<img src="../../Images/login-header.jpg" style="margin-left:auto; margin-right:auto;">-->
-                            <h3 class="text-center" style="width:100%; color: darkgray; font-weight:400; padding-top: 20px;">ACCESO</h3>
-                        </div>
+                        </div>                        
                         <div class="form-group row">
                             <label class="col-form-label" for="txtUsuario">Usuario</label>
                             <div style="display:flex; width:100%;">
@@ -34,13 +30,16 @@
                         </div>
                         <div class="form-group row" data-ng-show="validarIntegracion">
                             <label class="col-form-label" for="txtCodIntegracion">Código validación</label>
-                            <input id="ctlIntegration" type="text" ng-model="DatosUsuario.CodigoIntegracion" class="form-control form-control-md" placeholder="Código validación">
+                            <div style="display:flex; width:100%" ;>
+                                <i class="material-icons login-icons md-24">Warning</i>
+                                <input id="ctlIntegration" type="text" ng-model="DatosUsuario.CodigoIntegracion" class="form-control form-control-md" placeholder="Código validación">
+                            </div>                            
                         </div>
                         <div class="form-group row" style="margin-top: 30px;">
                             <button type="button" class="btn btn-primary btn-md btn-block" style="margin-right: 0px !important; height: 40px !important; box-shadow: 1px 1px 15px rgba(0,0,0,0.1);" ng-click="Login()">Ingresar</button>
                         </div>
                         <div class="form-group row login-footer">
-                            <p style="vertical-align:middle; width:100%; color:white; text-align:right;">¿Olvidaste tu contraseña?</p>
+                            <p style="vertical-align:middle; width:100%;">¿Olvidaste tu contraseña?</p>
                         </div>
                     </form>
                 </section>

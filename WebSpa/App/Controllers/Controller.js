@@ -264,10 +264,12 @@
                 headerName: "Barrio", field: 'barrio', width: 170, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Registro", field: 'fecha_Registro', width: 130, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
+                headerName: "Registro", field: 'fecha_Registro', width: 130, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: function (params) {
+                    return moment(params.value).format('DD/MM/YYYY');
+                },                
             }
-
         ];
+
 
         $scope.ClientesGridOptions = {
             defaultColDef: {
