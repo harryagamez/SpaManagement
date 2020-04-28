@@ -9,11 +9,11 @@
 }
 
 * {
-    font-family: var(--main-font) !important;
+    font-family: var(--main-font);
     font-style:normal;
     font-weight:400;
-    margin: 0px;
-    padding: 0px;    
+    margin: 0;
+    padding: 0;    
 }
 
 body {    
@@ -48,7 +48,7 @@ a:hover {
 }
 
 .material-icons {
-    font-family: 'Material Icons' !important;
+    font-family: 'Material Icons';
 }
 
 .bg {
@@ -60,7 +60,7 @@ a:hover {
 }
 
 table, input, select {
-    font-family: var(--main-font) !important;
+    font-family: var(--main-font);
 }
 
 .form-container {
@@ -69,7 +69,7 @@ table, input, select {
     top: 15vh;
     padding: 30px 30px 0 30px;
     border-radius: 10px;
-    box-shadow: 0px 0px 6px #999;
+    box-shadow: 0 0 6px #999;
 }
 
 @media only screen and (max-width: 678px) {
@@ -91,7 +91,7 @@ table, input, select, .form-control {
 .btn-primary, .btn-primary:hover {
     background: var(--primary-color) !important;
     border-color: var(--dark-primary-color);
-    font-family: var(--main-font) !important;    
+    font-family: var(--main-font);    
 }
 
 .btn-primary:active {
@@ -136,7 +136,7 @@ aside ul li {
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     background-size: 200% 100%;
     background-image: linear-gradient(to left, white 50%, transparent 50%);
-    transition: background-position 0.7s;
+    transition: background-position 0.3s;
 }
 
 aside ul li:hover {
@@ -144,10 +144,10 @@ aside ul li:hover {
     transition: all 0.3s ease-in-out;
     color: var(--dark-text);
     font-weight: 600;
-    margin-left: 10px;    
+    margin-left: 25px;    
     border-radius: 10px 0 0 10px;
     background-position: 100% 0;
-    box-shadow: -7px 0px 5px rgba(0,0,0,0.87);
+    box-shadow: -7px 0 5px rgba(0,0,0,0.87);
 }
 
 aside ul li:hover a {
@@ -166,7 +166,7 @@ aside .toggle-btn span {
     width:30px;
     height:5px;
     background:#151719;
-    margin:3px 0px;
+    margin:3px 0;
 }
 
 .li-padding {
@@ -176,7 +176,7 @@ aside .toggle-btn span {
 /*Form Input Fixes*/
 
 .form-control {
-    font-family:var(--main-font) !important;
+    font-family:var(--main-font);
     outline: 0;
     border-radius: 0;    
 }
@@ -218,9 +218,9 @@ aside .toggle-btn span {
 }
 
 .login-footer {
-    margin: 0px -30px 0px -30px;
+    margin: 0 -30px 0px -30px;
     padding: 10px;
-    margin-bottom: 0px !important;
+    margin-bottom: 0 !important;
     margin-top: 30px;
     padding-top: 30px;
     border-radius: 85% 0 10px 10px;
@@ -242,7 +242,7 @@ aside .toggle-btn span {
 #frmClientes .container-fluid {
     background-color: white !important;
     border-radius: 10px;
-    box-shadow: 0px 0px 6px #999;
+    box-shadow: 0 0 6px #999;
     padding: 15px;
     width: 98%;
     height: auto;
