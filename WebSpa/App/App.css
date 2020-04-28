@@ -288,3 +288,7 @@ input:-webkit-autofill:active {
     z-index: 9;
     margin:0 15px 15px 15px;
 }
+
+.ADMdtpInput input {
+    font-family: var(--main-font) !important;
+}
