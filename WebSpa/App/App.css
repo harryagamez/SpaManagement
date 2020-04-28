@@ -2,9 +2,8 @@
     --dark-text: #212121;
     --light-text: #FFFFFF;
     --light-background: #f0f4f5;
-    --dark-background: #132644;
-    --primary-color: #005eb8;
-    --accent-color: #ffeb3b;
+    --primary-color: #132644;
+    --accent-color: #ff7c0f;
     --dark-primary-color: #003d78;
     --main-font: Open Sans, sans-serif;
 }
@@ -68,7 +67,7 @@ table, input, select {
     position: absolute;
     background: white;
     top: 15vh;
-    padding: 30px;
+    padding: 30px 30px 0 30px;
     border-radius: 10px;
     box-shadow: 0px 0px 6px #999;
 }
@@ -115,7 +114,8 @@ aside {
     position: fixed;
     width: 200px;
     height: 100%;
-    background: var(--dark-background);
+    /*background: var(--primary-color);*/
+    background: linear-gradient(rgba(19, 38, 68, 0.90), rgba(19, 38, 68, 0.90)), url('../Images/img_spa.jpg');    
     /*left: -200px;*/
     transition: all 500ms linear;
     top: 0;
@@ -135,7 +135,7 @@ aside ul li {
     /*padding:15px 10px;*/
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     background-size: 200% 100%;
-    background-image: linear-gradient(to left, white 50%, var(--dark-background) 50%);
+    background-image: linear-gradient(to left, white 50%, transparent 50%);
     transition: background-position 0.7s;
 }
 
@@ -217,6 +217,16 @@ aside .toggle-btn span {
     background-size: cover;
 }
 
+.login-footer {
+    margin: 0px -30px 0px -30px;
+    padding: 10px;
+    margin-bottom: 0px !important;
+    margin-top: 30px;
+    padding-top: 30px;
+    border-radius: 85% 0 10px 10px;
+    background-color: var(--accent-color);
+}
+
 .md-primary.md-checked .md-icon {
     background-color: #3A6EA5 !important;
 }
@@ -225,14 +235,6 @@ aside .toggle-btn span {
 
 .ag-theme-fresh .ag-header-select-all span {
     margin-left:12px;
-}
-
-.ag-fresh .ag-header, .ag-theme-fresh .ag-header {    
-    border-radius: 10px 10px 0 0;
-}
-
-.ag-fresh .ag-root, .ag-theme-fresh .ag-root {    
-    border-radius: 10px 10px 0 0;
 }
 
 /*Container Fluid Ag Grid*/
@@ -244,4 +246,34 @@ aside .toggle-btn span {
     padding: 15px;
     width: 98%;
     height: auto;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.background-image {
+    background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('../Images/img_spa.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: block;
+    height: 100%;    
+    filter: blur(5px) grayscale(100%);        
+}
+
+.wrapper {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    margin-left: 20px;
+    margin-right: 20px;    
 }
