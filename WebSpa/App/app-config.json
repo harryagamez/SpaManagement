@@ -1,4 +1,4 @@
 ﻿{
-  "API_URL": "https://localhost:44357/api/",
-  "TOKEN_URL": "https://localhost:44357"
+  "API_URL": "http://webapispamanagement.azurewebsites.net/api/",
+  "TOKEN_URL": "http://webapispamanagement.azurewebsites.net/"
 }

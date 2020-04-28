@@ -67,7 +67,7 @@
     }
 
     function Initialize($rootScope, $http, $window, localStorageService, authService) {
-        $http.get('app-config.json').then(function (data, status, headers, config) {
+        $http.get('app-config-dev.json').then(function (data, status, headers, config) {
             $rootScope.config = data;
         },
             function (data, status, headers, config) {
