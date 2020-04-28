@@ -125,6 +125,11 @@
             localStorageService.remove('masterdataClientes');
             localStorageService.remove('masterdataMunicipios');
             localStorageService.remove('masterdataBarrios');
+            $rootScope.Menu = [];
+            $rootScope.TipoClientes = [];
+            $rootScope.Clientes = [];
+            $rootScope.Municipios = [];
+            $rootScope.Barrios = [];
 
             _authentication.isAuth = false;
             _authentication.userName = "";

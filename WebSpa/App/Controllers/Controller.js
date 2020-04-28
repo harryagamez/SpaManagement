@@ -98,6 +98,10 @@
             $location.replace();
         });
 
+        $scope.$on("$destroy", function () {
+            $scope.Menu = [];
+        });
+
         $scope.toggleSidebar = function () {
             document.getElementById("sidebar").classList.toggle('active');
         }
@@ -105,6 +109,7 @@
         function Logout() {
             authService.logOut();
         }
+
     }
 
     function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
