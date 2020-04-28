@@ -256,8 +256,7 @@ aside .toggle-btn span {
     background-color: white !important;
     border-radius: 10px;
     box-shadow: 0 0 6px #999;
-    padding: 15px;
-    width: 98%;
+    padding: 15px;    
     height: auto;
 }
 
@@ -287,6 +286,5 @@ input:-webkit-autofill:active {
     left: 0;
     right: 0;
     z-index: 9;
-    margin-left: 20px;
-    margin-right: 20px;    
+    margin:0 15px 15px 15px;
 }
