@@ -135,7 +135,7 @@
                             Municipio:
                         </label>
                         <div class="col-sm-7">                            
-                            <select ng-model="Cliente.Id_Municipio" ng-options="municipio.id_Municipio as municipio.nombre for municipio in Municipios" ng-change="updateSelectBarrios(Cliente.Id_Municipio)" class="form-control form-control-sm"  tabindex=4>
+                            <select ng-model="MunicipioSeleccionado" ng-options="municipio.id_Municipio as municipio.nombre for municipio in Municipios" ng-change="updateSelectBarrios(MunicipioSeleccionado)" class="form-control form-control-sm"  tabindex=4>
                             </select>
                         </div>
                     </div>
@@ -145,8 +145,8 @@
                             Barrio:
                         </label>
                         <div class="col-sm-7">
-                            <select ng-model="Cliente.Id_Barrio" ng-disabled="Cliente.Id_Municipio==-1" ng-options="barrio.id_Barrio as barrio.nombre for barrio in barrios_filter" class="form-control form-control-sm"  tabindex = 8>                            
-                                
+                            <select   ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" ng-options="barrio.id_Barrio as barrio.nombre for barrio in Barrios" class="form-control form-control-sm"  tabindex = 8>                                
+ 
                             </select>
                         </div>
                     </div>

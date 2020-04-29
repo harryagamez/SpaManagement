@@ -126,7 +126,8 @@
         $scope.EstadoClientes = [];
         $scope.MunicipioSeleccionado = -1;
         $scope.BarrioSeleccionado = -1;
-        
+
+        //$scope.EstadoSeleccionado = '[Seleccione]';
 
         $scope.TipoClientes = [];
         $scope.IsLoading = false;
@@ -136,24 +137,29 @@
         $scope.EstadoClientes.push({ Id: '[Seleccione]', Descripcion: '[Seleccione]' });
         $scope.EstadoClientes.push({ Id: 'ACTIVO', Descripcion: 'ACTIVO' });
         $scope.EstadoClientes.push({ Id: 'INACTIVO', Descripcion: 'INACTIVO' });  
-        
+
+
+
+        debugger;
         $scope.Clientes = $rootScope.Clientes;         
         $scope.Municipios = $rootScope.Municipios;
         $scope.Barrios = $rootScope.Barrios;
         $scope.TipoClientes = $rootScope.TipoClientes;   
         
         $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });
-        $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: "-1"  });
+        $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1  });
         $scope.TipoClientes.push({ id_Tipo: -1, nombre: '[Seleccione]', descripcion: null })
 
         if ($scope.Municipios.length > 0) {
-            $scope.Municipios = $filter('orderBy')($scope.Municipios, 'id_Municipio', false);
+            $scope.Municipios = $filter('orderBy')($scope.Municipios, 'id_Municipio', true);
         }
 
 
-        if ($scope.Barrios.length > 0) {            
+        if ($scope.Barrios.length > 0) { 
             $scope.Barrios = $filter('orderBy')($scope.Barrios, 'id_Barrio', true);
-        }       
+        }
+
+        debugger;
 
         // Objecto Cliente
         $scope.Cliente =
@@ -179,8 +185,7 @@
 
         $('#txtInvoiceNumber').focus();
 
-        function GuardarCliente() {
-            debugger;
+        function GuardarCliente() {            
             SPAService._registrarActualizarCliente(JSON.stringify($scope.ObjetoCliente))
                 .then(
                     function (result) {
@@ -203,7 +208,8 @@
             SPAService._consultarClientes($scope.IdEmpresa)
                 .then(
                     function (result) {
-                        if (result.data !== undefined && result.data !== null) {                            
+                        if (result.data !== undefined && result.data !== null) {
+                            debugger;
                             $scope.Clientes = [];
                             $scope.Clientes = result.data;
                             localStorageService.remove("clientes");
@@ -246,7 +252,7 @@
 
         $scope.updateSelectBarrios = function (municipio) {
             debugger;
-            $scope.barrios_filter = $filter('filter')($scope.Barrios, { id_Municipio: municipio });
+            $scope.Barrios = $filter('filter')($scope.Barrios, { id_Municipio: municipio});
         }  
 
         // Eventos
