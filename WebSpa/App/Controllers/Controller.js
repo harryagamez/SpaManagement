@@ -124,6 +124,7 @@
         $scope.Municipios = [];        
         $scope.Barrios = [];
         $scope.EstadoClientes = [];
+        
         $scope.TipoClientes = [];
         $scope.IsLoading = false;
         $scope.ProcessQueu = [];
@@ -141,7 +142,8 @@
         $scope.TipoClientes = $rootScope.TipoClientes;       
 
         $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });
-        $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]'});
+        $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]' });
+        $scope.TipoClientes.push({ id_Tipo: -1, nombre: '[Seleccione]', descripcion: null })
 
         // Objecto Cliente
         $scope.Cliente =
@@ -150,7 +152,7 @@
             Nombres: '', Apellidos: '',
             Telefono_Fijo: '', Telefono_Movil: '',
             Mail: '', Direccion: '',
-            id_Municipio: -1, id_Barrio: -1,
+            Id_Municipio: -1, Id_Barrio: -1,
             Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
             Id_Tipo: -1,
             Estado: -1,
@@ -217,7 +219,7 @@
                 Nombres: '', Apellidos: '',
                 Telefono_Fijo: '', Telefono_Movil: '',
                 Mail: '', Direccion: '',
-                id_Municipio: -1, id_Barrio: -1,
+                Id_Municipio: -1, Id_Barrio: -1,
                 Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
                 Id_Tipo: -1,
                 Estado: -1,
@@ -291,8 +293,8 @@
                 headerName: "Barrio", field: 'barrio', width: 170, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Registro", field: 'fecha_Registro', width: 130, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: function (params) {
-                    return moment(params.value).format('DD/MM/YYYY');
+                headerName: "Registro", field: 'fecha_Registro', width: 130, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
+                    return data.value ? (new Date(data.value)).toLocaleDateString() : '';
                 },                
             }
         ];

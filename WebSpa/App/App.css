@@ -295,3 +295,7 @@ input:-webkit-autofill:active {
 .ADMdtpInput input {
     font-family: var(--main-font) !important;
 }
+
+.warning {
+    border: 1px solid red;
+}
