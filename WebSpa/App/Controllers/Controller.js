@@ -131,8 +131,9 @@
         // Enviar - Traer Datos
         $scope.EstadoClientes.push({ Id: -1, Descripcion: '[Seleccione]' });
         $scope.EstadoClientes.push({ Id: 1, Descripcion: 'ACTIVO' });
-        $scope.EstadoClientes.push({ Id: 2, Descripcion: 'INACTIVO' });        
-        
+        $scope.EstadoClientes.push({ Id: 2, Descripcion: 'INACTIVO' });  
+
+                
         debugger;
         $scope.Clientes = $rootScope.Clientes;         
         $scope.Municipios = $rootScope.Municipios;
