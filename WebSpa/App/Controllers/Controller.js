@@ -120,8 +120,8 @@
 
         // Variables
         $scope.Clientes = [];
-        $scope.ObjetoCliente = [];
-        $scope.Municipios = [];
+        $scope.ObjetoCliente = [];        
+        $scope.Municipios = [];        
         $scope.Barrios = [];
         $scope.EstadoClientes = [];
         $scope.TipoClientes = [];
@@ -131,12 +131,16 @@
         // Enviar - Traer Datos
         $scope.EstadoClientes.push({ Id: -1, Descripcion: '[Seleccione]' });
         $scope.EstadoClientes.push({ Id: 1, Descripcion: 'ACTIVO' });
-        $scope.EstadoClientes.push({ Id: 2, Descripcion: 'INACTIVO' });
-
-        $scope.Clientes = $rootScope.Clientes;
+        $scope.EstadoClientes.push({ Id: 2, Descripcion: 'INACTIVO' });        
+        
+        debugger;
+        $scope.Clientes = $rootScope.Clientes;         
         $scope.Municipios = $rootScope.Municipios;
         $scope.Barrios = $rootScope.Barrios;
-        $scope.TipoClientes = $rootScope.TipoClientes;
+        $scope.TipoClientes = $rootScope.TipoClientes;       
+
+        $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });
+        $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]'});
 
         // Objecto Cliente
         $scope.Cliente =
@@ -145,9 +149,9 @@
             Nombres: '', Apellidos: '',
             Telefono_Fijo: '', Telefono_Movil: '',
             Mail: '', Direccion: '',
-            Id_Barrio: $scope.Barrios[68].id_Barrio,
+            id_Municipio: -1, id_Barrio: -1,
             Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
-            Id_Tipo: $scope.TipoClientes[0].id_Tipo,
+            Id_Tipo: -1,
             Estado: -1,
             Id_Empresa: $scope.IdEmpresa,
             Id_Usuario_Creacion: $scope.IdUsuario
@@ -198,7 +202,7 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                 })
 
-        }
+        }        
 
         function Inicializacion() {
             document.getElementById("divGridClientes").style.height = (window.innerHeight - 260) + "px"
@@ -212,15 +216,19 @@
                 Nombres: '', Apellidos: '',
                 Telefono_Fijo: '', Telefono_Movil: '',
                 Mail: '', Direccion: '',
-                Id_Barrio: $scope.Barrios[68].id_Barrio,
+                id_Municipio: -1, id_Barrio: -1,
                 Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
-                Id_Tipo: $scope.TipoClientes[0].id_Tipo,
+                Id_Tipo: -1,
                 Estado: -1,
                 Id_Empresa: $scope.IdEmpresa,
                 Id_Usuario_Creacion: $scope.IdUsuario
-            }  
+            }           
 
         }
+
+        $scope.updateSelectBarrios = function (municipio) {
+            $scope.barrios_filter = $filter('filter')($scope.Barrios, { id_Municipio: municipio});
+        }  
 
         // Eventos
         $("body").tooltip({

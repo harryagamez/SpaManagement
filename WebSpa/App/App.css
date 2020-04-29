@@ -259,6 +259,10 @@ aside .toggle-btn span {
     font-size:13px;
 }
 
+#frmClientes .container-fluid .material-icons {
+    font-size:16px;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
