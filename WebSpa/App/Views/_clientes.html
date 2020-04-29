@@ -32,102 +32,134 @@
 
             <div id="divDatos" class="row mb-2 mt-3">
 
-                <div class="col-sm">
+                <div class="col-sm-3">
 
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label wf-label" for="companyCode">
-                            Cédula Cliente:
+                            Cédula:
                         </label>
                         <div class="col-sm-8">
-                            <input id="txtInvoiceNumber" numbers-only ng-model="Cliente.Cedula" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Buscar ..." value="">
+                            <input id="txtInvoiceNumber" numbers-only ng-model="Cliente.Cedula" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Buscar ..." value="" tabindex=1>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label wf-label">
-                            Fecha Nacimiento:
+                            F. Nacimiento:
                         </label>
                         <div class="col-sm-8">
-                            <adm-dtp ng-change="ValidarFechaNacimiento()" ng-model="Cliente.Fecha_Nacimiento" options='{dtpType:"date", autoClose:true, freezeInput:true, format: "MM/DD/YYYY"}'></adm-dtp>
+                            <adm-dtp ng-change="ValidarFechaNacimiento()" ng-model="Cliente.Fecha_Nacimiento" options='{dtpType:"date", autoClose:true, freezeInput:true, format: "MM/DD/YYYY"}' tabindex=5></adm-dtp>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label wf-label">
-                            Teléfono Fijo:
+                            Tel. Fijo:
                         </label>
                         <div class="col-sm-8">
                             <div class="form-group" style="margin-bottom: 0;">
-                                <input numbers-only ng-model="Cliente.Telefono_Fijo" data-ng-keypress="SearchByEnter($event)" type="text" class="form-control input-sm" placeholder="Teléfono Fijo" value="">
+                                <input numbers-only ng-model="Cliente.Telefono_Fijo" data-ng-keypress="SearchByEnter($event)" type="text" class="form-control input-sm" placeholder="Teléfono Fijo" value="" tabindex=9>
                             </div>
                         </div>
                     </div>
 
                 </div>
 
-                <div class="col-sm">
+                <div class="col-sm-3">
 
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label wf-label" for="dateType">
+                        <label class="col-sm-4 col-form-label wf-label" for="dateType">
                             Nombre(s):
                         </label>
                         <div class="col-sm-8">
-                            <input ng-model="Cliente.Nombres" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Buscar ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            <input ng-model="Cliente.Nombres" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Buscar ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label wf-label" for="txtSearchText">
+                        <label class="col-sm-4 col-form-label wf-label" for="txtSearchText">
                             E-Mail:
                         </label>
                         <div class="col-sm-8">
-                            <input ng-model="Cliente.Mail" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Buscar ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            <input ng-model="Cliente.Mail" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Buscar ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=6>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label wf-label" for="txtSearchText">
+                        <label class="col-sm-4 col-form-label wf-label" for="txtSearchText">
                             Celular:
                         </label>
                         <div class="col-sm-8">
-                            <input numbers-only ng-model="Cliente.Telefono_Movil" data-ng-keypress="SearchByEnter($event)" type="text" class="form-control input-sm" placeholder="Teléfono Movil" value="">
+                            <input numbers-only ng-model="Cliente.Telefono_Movil" data-ng-keypress="SearchByEnter($event)" type="text" class="form-control input-sm" placeholder="Teléfono Movil" value="" tabindex=10>
                         </div>
                     </div>
 
                 </div>
 
-                <div class="col-sm">
+                <div class="col-sm-3">
 
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label wf-label" for="dateType">
+                        <label class="col-sm-4 col-form-label wf-label" for="dateType">
                             Apellido(s):
                         </label>
                         <div class="col-sm-8">
-                            <input ng-model="Cliente.Apellidos" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Buscar ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            <input ng-model="Cliente.Apellidos" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Buscar ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=3>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label wf-label" for="dateType">
+                        <label class="col-sm-4 col-form-label wf-label" for="dateType">
                             Dirección:
                         </label>
                         <div class="col-sm-8">
-                            <input ng-model="Cliente.Direccion" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Buscar ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            <input ng-model="Cliente.Direccion" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Buscar ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=7>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label wf-label" for="dateType">
+                        <label class="col-sm-4 col-form-label wf-label" for="dateType">
                             Estado:
                         </label>
                         <div class="col-sm-8">
-                            <select ng-options="item.Id as item.Descripcion for item in EstadoClientes" class="form-control form-control-sm" ng-model="Cliente.Estado">
+                            <select ng-options="item.Id as item.Descripcion for item in EstadoClientes" class="form-control form-control-sm" ng-model="Cliente.Estado" tabindex=11>
                             </select>
                         </div>
                     </div>
 
                 </div>
 
+                <div class="col-sm-3">
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label wf-label" for="dateType">
+                            Municipio:
+                        </label>
+                        <div class="col-sm-8">
+                            <select ng-options="item.Id as item.Descripcion for item in EstadoClientes" class="form-control form-control-sm" ng-model="Cliente.Estado" tabindex=4>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label wf-label" for="dateType">
+                            Barrio:
+                        </label>
+                        <div class="col-sm-8">
+                            <select ng-options="item.Id as item.Descripcion for item in EstadoClientes" class="form-control form-control-sm" ng-model="Cliente.Estado" tabindex=8>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label wf-label" for="dateType">
+                            Tipo Cliente:
+                        </label>                       
+                            <div class="col-sm-8">
+                                <select ng-options="item.Id as item.Descripcion for item in EstadoClientes" class="form-control form-control-sm" ng-model="Cliente.Estado" tabindex=12>
+                                </select>
+                            </div>                        
+                    </div>
+                </div>
             </div>
 
             <div class="row mb-1">

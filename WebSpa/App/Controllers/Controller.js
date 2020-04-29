@@ -141,17 +141,17 @@
         // Objecto Cliente
         $scope.Cliente =
         {
-            Id_Cliente: 6, Cedula: '37930050',
-            Nombres: 'Camila', Apellidos: 'Yepes',
-            Telefono_Fijo: '4678902', Telefono_Movil: '3224567812',
-            Mail: 'camila78@gmail.com', Direccion: 'Calle 47D # 72-36',
+            Id_Cliente: -1, Cedula: '',
+            Nombres: '', Apellidos: '',
+            Telefono_Fijo: '', Telefono_Movil: '',
+            Mail: '', Direccion: '',
             Id_Barrio: $scope.Barrios[68].id_Barrio,
             Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
             Id_Tipo: $scope.TipoClientes[0].id_Tipo,
             Estado: -1,
             Id_Empresa: $scope.IdEmpresa,
             Id_Usuario_Creacion: $scope.IdUsuario
-        }
+        }  
 
         $scope.ObjetoCliente.push($scope.Cliente);
 
@@ -160,21 +160,21 @@
         $scope.ConsultarClientes = ConsultarClientes;
         $scope.Inicializacion = Inicializacion;
 
-        function GuardarCliente() {
-
+        function GuardarCliente() { 
             SPAService._registrarActualizarCliente(JSON.stringify($scope.ObjetoCliente))
                 .then(
                     function (result) {
                         if (result.data === true) {
                             toastr.success('Cliente registrado y/o actualizado correctamente', '', $scope.toastrOptions);
                             $scope.ConsultarClientes();
+                            $scope.LimpiarObjeto();
+
                         }
                     }, function (err) {
                         toastr.remove();
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
-
         }
 
         function ConsultarClientes() {
@@ -196,12 +196,30 @@
                         toastr.remove();
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
-                    })
+                })
+
         }
 
         function Inicializacion() {
             document.getElementById("divGridClientes").style.height = (window.innerHeight - 260) + "px"
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
+        }
+
+        $scope.LimpiarObjeto = function () {
+            $scope.Cliente =
+            {
+                Id_Cliente: -1, Cedula: '',
+                Nombres: '', Apellidos: '',
+                Telefono_Fijo: '', Telefono_Movil: '',
+                Mail: '', Direccion: '',
+                Id_Barrio: $scope.Barrios[68].id_Barrio,
+                Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
+                Id_Tipo: $scope.TipoClientes[0].id_Tipo,
+                Estado: -1,
+                Id_Empresa: $scope.IdEmpresa,
+                Id_Usuario_Creacion: $scope.IdUsuario
+            }  
+
         }
 
         // Eventos

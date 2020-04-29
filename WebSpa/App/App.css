@@ -3,7 +3,7 @@
     --light-text: #FFFFFF;
     --light-background: #f0f4f5;
     --primary-color: #132644;
-    --accent-color: #ff7c0f;
+    --accent-color: #4CAF50;
     --light-primary-color: #003d78;
     --main-font: Open Sans, sans-serif;
 }
@@ -80,28 +80,28 @@ table, input, select {
 
 /* Font Size */
 .control-label, .col-form-label {
-    font-size: 13px !important;
+    font-size: 12px !important;
     font-weight: bold;
 }
 
 table, input, select, .form-control {
-    font-size: 15px !important;
+    font-size: 14px;
 }
 
 .btn-primary, .btn-primary:hover {
-    background: var(--light-primary-color) !important;
-    border-color: var(--light-primary-color);
-    font-family: var(--main-font);    
+    background: var(--accent-color) !important;
+    border-color: #388E3C !important;
+    font-family: var(--main-font);
 }
 
 .btn-primary:active {
-    background: var(--primary-color) !important;
-    color: var(--light-text) !important;
+    background: #388E3C !important;
+    color: var(--light-text);
     transform: translateY(2px);
 }
 
 .btn-primary, .btn-secondary {
-    font-size: 15px !important;
+    font-size: 14px !important;
 }
 
 .form-control {
@@ -113,10 +113,8 @@ table, input, select, .form-control {
 aside {
     position: fixed;
     width: 200px;
-    height: 100%;
-    /*background: var(--primary-color);*/
-    background: linear-gradient(rgba(19, 38, 68, 0.90), rgba(19, 38, 68, 0.90)), url('../Images/img_spa.jpg');    
-    /*left: -200px;*/
+    height: 100%;   
+    background: linear-gradient(rgba(19, 38, 68, 0.90), rgba(19, 38, 68, 0.90)), url('../Images/img_spa.jpg');
     transition: all 500ms linear;
     top: 0;
     height: 100%;
@@ -131,16 +129,14 @@ aside a {
 
 aside ul li {
     color: rgba(230,230,230,0.9);
-    list-style: none;
-    /*padding:15px 10px;*/
+    list-style: none;    
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     background-size: 200% 100%;
     background-image: linear-gradient(to left, white 50%, transparent 50%);
     transition: background-position 0.3s;
 }
 
-aside ul li:hover {
-    /*background: white !important;*/
+aside ul li:hover {    
     transition: all 0.3s ease-in-out;
     color: var(--dark-text);
     font-weight: 600;
@@ -176,30 +172,29 @@ aside .toggle-btn span {
 /*Form Input Fixes*/
 
 .form-control {
-    font-family:var(--main-font);
-    outline: 0;
-    border-radius: 0;    
+    font-family:var(--main-font);        
 }
 
 .form-control:focus {
     transition: all 0.3s ease-in-out;
-    outline: 0;
-    box-shadow: none !important;    
+    outline: 0;        
 }
 
 .form-control-login {
     margin-left: -20px;
+    border-radius:0;
     padding-left: 25px !important;
     border-width: 0 0 2px;    
 }
 
 .form-control-login:focus {
-    transition: all 0.3s ease-in-out;   
+    transition: all 0.3s ease-in-out;
     border-color: var(--light-primary-color);
+    box-shadow: none !important;
 }
 
 .tooltip .tooltip-inner {
-    background-color: var(--accent-color) !important;
+    background-color: #749eba !important;   
     color: var(--dark-text) !important;
     font-family: Open Sans !important;
     font-size: 12px !important;
@@ -258,6 +253,10 @@ aside .toggle-btn span {
     box-shadow: 0 0 6px #999;
     padding: 15px;    
     height: auto;
+}
+
+#frmClientes .container-fluid * {
+    font-size:13px;
 }
 
 input:-webkit-autofill,
