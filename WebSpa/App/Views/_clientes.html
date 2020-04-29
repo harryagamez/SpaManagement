@@ -16,7 +16,7 @@
 
             <div id="divButtons" class="row mt-2">
                 <div class="col-12">
-                    <button ng-disabled="Cliente.Nombres == '' || Cliente.Apellidos == '' || Cliente.Cedula == '' || Cliente.Telefono_Movil == '' || !Cliente.Mail" type="button" id="btnGuardar" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Search" data-ng-click="GuardarCliente()">
+                    <button ng-disabled="Cliente.Nombres == '' || Cliente.Apellidos == '' || Cliente.Cedula == '' || Cliente.Telefono_Movil == '' || !Cliente.Mail || EstadoSeleccionado = '[Seleccionado]'" type="button" id="btnGuardar" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Search" data-ng-click="GuardarCliente()">
                         <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                     </button>
 
@@ -39,7 +39,7 @@
                             Cédula:
                         </label>
                         <div class="col-sm-7">
-                            <input  ng-model="Cliente.Cedula" id="txtInvoiceNumber" numbers-only maxlength="15" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Digite su cédula..." value="" tabindex=1 required>
+                            <input  ng-model="Cliente.Cedula" id="txtInvoiceNumber" numbers-only maxlength="15" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Digite su cédula..." value="" tabindex=1>
                         </div>
                     </div>
 
@@ -72,7 +72,7 @@
                             Nombre(s):
                         </label>
                         <div class="col-sm-7">
-                            <input ng-model="Cliente.Nombres" maxlength="60" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Digite su nombre ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2 required>
+                            <input ng-model="Cliente.Nombres" maxlength="60" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Digite su nombre ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
                         </div>
                     </div>
 
@@ -81,7 +81,7 @@
                             E-Mail:
                         </label>
                         <div class="col-sm-7">
-                            <input ng-model="Cliente.Mail" validate-email maxlength="60" data-ng-keypress="SearchByInvoiceNumber($event)" type="email" class="form-control input-sm" placeholder="Digite su e-mail ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=6 required>
+                            <input ng-model="Cliente.Mail" validate-email maxlength="60" data-ng-keypress="SearchByInvoiceNumber($event)" type="email" class="form-control input-sm" placeholder="Digite su e-mail ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=6>
                         </div>
                     </div>
 
@@ -90,7 +90,7 @@
                             Celular:
                         </label>
                         <div class="col-sm-7">
-                            <input ng-model="Cliente.Telefono_Movil" numbers-only  maxlength="12" data-ng-keypress="SearchByEnter($event)" type="text" class="form-control input-sm" placeholder="Digite su celular ..." value="" tabindex=10 required>
+                            <input ng-model="Cliente.Telefono_Movil" numbers-only  maxlength="12" data-ng-keypress="SearchByEnter($event)" type="text" class="form-control input-sm" placeholder="Digite su celular ..." value="" tabindex=10>
                         </div>
                     </div>
 
@@ -103,7 +103,7 @@
                             Apellido(s):
                         </label>
                         <div class="col-sm-7">
-                            <input ng-model="Cliente.Apellidos" maxlength="60" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Digite su apellido ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=3 required>
+                            <input ng-model="Cliente.Apellidos" maxlength="60" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Digite su apellido ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=3>
                         </div>
                     </div>
 
@@ -121,7 +121,7 @@
                             Estado:
                         </label>
                         <div class="col-sm-7">
-                            <select ng-model="Cliente.Estado" ng-options="item.Id as item.Descripcion for item in EstadoClientes" class="form-control form-control-sm"  tabindex=11>
+                            <select ng-model="EstadoSeleccionado" ng-options="item.Descripcion as item.Descripcion for item in EstadoClientes" class="form-control form-control-sm"  tabindex=11>
                             </select>
                         </div>
                     </div>

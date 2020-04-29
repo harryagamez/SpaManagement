@@ -124,18 +124,19 @@
         $scope.Municipios = [];        
         $scope.Barrios = [];
         $scope.EstadoClientes = [];
-        
+
+        $scope.EstadoSeleccionado = '[Seleccione]';
+
         $scope.TipoClientes = [];
         $scope.IsLoading = false;
         $scope.ProcessQueu = [];
 
         // Enviar - Traer Datos
-        $scope.EstadoClientes.push({ Id: -1, Descripcion: '[Seleccione]' });
-        $scope.EstadoClientes.push({ Id: 1, Descripcion: 'ACTIVO' });
-        $scope.EstadoClientes.push({ Id: 2, Descripcion: 'INACTIVO' });  
+        $scope.EstadoClientes.push({ Id: '[Seleccione]', Descripcion: '[Seleccione]' });
+        $scope.EstadoClientes.push({ Id: 'ACTIVO', Descripcion: 'ACTIVO' });
+        $scope.EstadoClientes.push({ Id: 'INACTIVO', Descripcion: 'INACTIVO' });  
 
                 
-        debugger;
         $scope.Clientes = $rootScope.Clientes;         
         $scope.Municipios = $rootScope.Municipios;
         $scope.Barrios = $rootScope.Barrios;
@@ -155,7 +156,7 @@
             Id_Municipio: -1, Id_Barrio: -1,
             Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
             Id_Tipo: -1,
-            Estado: -1,
+            Estado: $scope.EstadoSeleccionado,
             Id_Empresa: $scope.IdEmpresa,
             Id_Usuario_Creacion: $scope.IdUsuario
         }  
@@ -167,6 +168,8 @@
         $scope.ConsultarClientes = ConsultarClientes;
         $scope.Inicializacion = Inicializacion;
 
+        $('#txtInvoiceNumber').focus();
+
         function GuardarCliente() { 
             SPAService._registrarActualizarCliente(JSON.stringify($scope.ObjetoCliente))
                 .then(
@@ -175,6 +178,7 @@
                             toastr.success('Cliente registrado y/o actualizado correctamente', '', $scope.toastrOptions);
                             $scope.ConsultarClientes();
                             $scope.LimpiarObjeto();
+                            $('#txtInvoiceNumber').focus();
 
                         }
                     }, function (err) {
@@ -190,6 +194,7 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
+                            debugger;
                             $scope.Clientes = [];
                             $scope.Clientes = result.data;
                             localStorageService.remove("clientes");
@@ -225,7 +230,8 @@
                 Estado: -1,
                 Id_Empresa: $scope.IdEmpresa,
                 Id_Usuario_Creacion: $scope.IdUsuario
-            }           
+            }
+            $('#txtInvoiceNumber').focus();
 
         }
 
