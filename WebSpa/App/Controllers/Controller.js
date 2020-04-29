@@ -170,7 +170,8 @@
 
         $('#txtInvoiceNumber').focus();
 
-        function GuardarCliente() { 
+        function GuardarCliente() {
+            debugger;
             SPAService._registrarActualizarCliente(JSON.stringify($scope.ObjetoCliente))
                 .then(
                     function (result) {
@@ -227,7 +228,7 @@
                 Id_Municipio: -1, Id_Barrio: -1,
                 Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
                 Id_Tipo: -1,
-                Estado: -1,
+                Estado: $scope.EstadoSeleccionado,
                 Id_Empresa: $scope.IdEmpresa,
                 Id_Usuario_Creacion: $scope.IdUsuario
             }
