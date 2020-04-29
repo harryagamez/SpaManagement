@@ -16,7 +16,7 @@
 
             <div id="divButtons" class="row mt-2">
                 <div class="col-12">
-                    <button ng-disabled="Cliente.Nombres == '' || Cliente.Apellidos == '' || Cliente.Cedula == '' || Cliente.Telefono_Movil == '' || !Cliente.Mail || EstadoSeleccionado == '[Seleccione]'" type="button" id="btnGuardar" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Search" data-ng-click="GuardarCliente()">
+                    <button ng-disabled="Cliente.Nombres == '' || Cliente.Apellidos == '' || Cliente.Cedula == '' || Cliente.Telefono_Movil == '' || !Cliente.Mail || Cliente.Estado == '[Seleccione]'" type="button" id="btnGuardar" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Search" data-ng-click="GuardarCliente()">
                         <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                     </button>
 
@@ -121,7 +121,7 @@
                             Estado:
                         </label>
                         <div class="col-sm-7">
-                            <select ng-model="EstadoSeleccionado" ng-options="item.Descripcion as item.Descripcion for item in EstadoClientes" class="form-control form-control-sm"  tabindex=11>
+                            <select ng-model="Cliente.Estado" ng-options="item.Descripcion as item.Descripcion for item in EstadoClientes" class="form-control form-control-sm"  tabindex=11>
                             </select>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
                             Municipio:
                         </label>
                         <div class="col-sm-7">                            
-                            <select ng-model="Cliente.Id_Municipio" ng-options="municipio.id_Municipio as municipio.nombre for municipio in Municipios | orderBy:'id_Municipio'" ng-change="updateSelectBarrios(Cliente.Id_Municipio)" class="form-control form-control-sm"  tabindex=4>
+                            <select ng-model="MunicipioSeleccionado" ng-options="municipio.id_Municipio as municipio.nombre for municipio in Municipios" ng-change="updateSelectBarrios(MunicipioSeleccionado)" class="form-control form-control-sm"  tabindex=4>
                             </select>
                         </div>
                     </div>
@@ -145,7 +145,8 @@
                             Barrio:
                         </label>
                         <div class="col-sm-7">
-                            <select   ng-model="Cliente.Id_Barrio" ng-disabled="Cliente.Id_Municipio==-1" ng-options="barrio.id_Barrio as barrio.nombre for barrio in barrios_filter | orderBy:'id_Barrio'" class="form-control form-control-sm"  tabindex = 8>                                
+                            <select   ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" ng-options="barrio.id_Barrio as barrio.nombre for barrio in Barrios" class="form-control form-control-sm"  tabindex = 8>                                
+ 
                             </select>
                         </div>
                     </div>

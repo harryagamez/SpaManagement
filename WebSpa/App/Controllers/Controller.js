@@ -124,8 +124,10 @@
         $scope.Municipios = [];        
         $scope.Barrios = [];
         $scope.EstadoClientes = [];
+        $scope.MunicipioSeleccionado = "-1";
+        $scope.BarrioSeleccionado = "-1";
 
-        $scope.EstadoSeleccionado = '[Seleccione]';
+        //$scope.EstadoSeleccionado = '[Seleccione]';
 
         $scope.TipoClientes = [];
         $scope.IsLoading = false;
@@ -136,15 +138,29 @@
         $scope.EstadoClientes.push({ Id: 'ACTIVO', Descripcion: 'ACTIVO' });
         $scope.EstadoClientes.push({ Id: 'INACTIVO', Descripcion: 'INACTIVO' });  
 
-                
+
+
+        debugger;
         $scope.Clientes = $rootScope.Clientes;         
         $scope.Municipios = $rootScope.Municipios;
         $scope.Barrios = $rootScope.Barrios;
-        $scope.TipoClientes = $rootScope.TipoClientes;       
-
-        $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });
-        $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]' });
+        $scope.TipoClientes = $rootScope.TipoClientes;   
+        
+        $scope.Municipios.push({ id_Municipio: "-1", nombre: '[Seleccione]' });
+        $scope.Barrios.push({ id_Barrio: "-1", nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1  });
         $scope.TipoClientes.push({ id_Tipo: -1, nombre: '[Seleccione]', descripcion: null })
+
+        if ($scope.Municipios.length > 0) {
+
+            $scope.Municipios = $filter('orderBy')($scope.Municipios, 'id_Municipio', true);
+        }
+
+
+        if ($scope.Barrios.length > 0) { 
+            $scope.Barrios = $filter('orderBy')($scope.Barrios, 'id_Barrio', true);
+        }
+
+        debugger;
 
         // Objecto Cliente
         $scope.Cliente =
@@ -156,7 +172,7 @@
             Id_Municipio: -1, Id_Barrio: -1,
             Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
             Id_Tipo: -1,
-            Estado: $scope.EstadoSeleccionado,
+            Estado: '[Seleccione]',
             Id_Empresa: $scope.IdEmpresa,
             Id_Usuario_Creacion: $scope.IdUsuario
         }  
@@ -170,8 +186,7 @@
 
         $('#txtInvoiceNumber').focus();
 
-        function GuardarCliente() {
-            debugger;
+        function GuardarCliente() {            
             SPAService._registrarActualizarCliente(JSON.stringify($scope.ObjetoCliente))
                 .then(
                     function (result) {
@@ -228,7 +243,7 @@
                 Id_Municipio: -1, Id_Barrio: -1,
                 Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
                 Id_Tipo: -1,
-                Estado: $scope.EstadoSeleccionado,
+                Estado: '[Seleccione]',
                 Id_Empresa: $scope.IdEmpresa,
                 Id_Usuario_Creacion: $scope.IdUsuario
             }
@@ -237,7 +252,8 @@
         }
 
         $scope.updateSelectBarrios = function (municipio) {
-            $scope.barrios_filter = $filter('filter')($scope.Barrios, { id_Municipio: municipio});
+            debugger;
+            $scope.Barrios = $filter('filter')($scope.Barrios, { id_Municipio: municipio});
         }  
 
         // Eventos
