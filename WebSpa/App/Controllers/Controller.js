@@ -124,8 +124,8 @@
         $scope.Municipios = [];        
         $scope.Barrios = [];
         $scope.EstadoClientes = [];
-        $scope.MunicipioSeleccionado = "-1";
-        $scope.BarrioSeleccionado = "-1";
+        $scope.MunicipioSeleccionado = -1;
+        $scope.BarrioSeleccionado = -1;
 
         //$scope.EstadoSeleccionado = '[Seleccione]';
 
@@ -146,12 +146,11 @@
         $scope.Barrios = $rootScope.Barrios;
         $scope.TipoClientes = $rootScope.TipoClientes;   
         
-        $scope.Municipios.push({ id_Municipio: "-1", nombre: '[Seleccione]' });
-        $scope.Barrios.push({ id_Barrio: "-1", nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1  });
+        $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });
+        $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1  });
         $scope.TipoClientes.push({ id_Tipo: -1, nombre: '[Seleccione]', descripcion: null })
 
         if ($scope.Municipios.length > 0) {
-
             $scope.Municipios = $filter('orderBy')($scope.Municipios, 'id_Municipio', true);
         }
 
