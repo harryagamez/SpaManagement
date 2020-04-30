@@ -49,6 +49,11 @@
                 templateUrl: 'Views/_clientes.html',
                 controller: "ClientesController"
             })
+            .state('home.servicios', {
+                url: '/servicios',
+                templateUrl: 'Views/_servicios.html',
+                controller: 'ServiciosController'
+            })
 
         $mdDateLocaleProvider.formatDate = function (date) {
 

@@ -14,9 +14,11 @@ namespace AzureFunction.SpaApplicationPools.Functions
 {
     public static class SincronizarBarrios
     {
-        private static string _connectionString;
-        private static string _endPoint;
-        private static string _api;
+        public static string _connectionString;
+        public static string _endPointMed;
+        public static string _apiMed;
+        public static string _endPointEnv;
+        public static string _apiEnv;
 
         public static ISpaService SpaService { get; set; }
 
@@ -25,21 +27,39 @@ namespace AzureFunction.SpaApplicationPools.Functions
         {
             try
             {
-                _endPoint = Environment.GetEnvironmentVariable("ENDPOINT");
-                _api = Environment.GetEnvironmentVariable("API");
-                _connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
 
+                _endPointMed = Environment.GetEnvironmentVariable("ENDPOINT_MED");
+                _apiMed = Environment.GetEnvironmentVariable("API_MED");
+
+                _endPointEnv = Environment.GetEnvironmentVariable("ENDPOINT_ENV");
+                _apiEnv = Environment.GetEnvironmentVariable("API_ENV");
+
+                _connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
                 SpaService = new SpaService(_connectionString);
 
+                SincronizarBarriosMedellin(_endPointMed, _apiMed, "MEDELLÍN");
+                SincronizarBarriosEnvigado(_endPointEnv, _apiEnv, "ENVIGADO");
+
+            }
+            catch (Exception ex)
+            {
+                log.LogError(ex.Message);
+            }
+        }
+
+        public static void SincronizarBarriosMedellin(string endpoint, string api, string municipio)
+        {
+            try
+            {
                 using HttpClient _client = new HttpClient
                 {
-                    BaseAddress = new Uri(_endPoint)
+                    BaseAddress = new Uri(endpoint)
                 };
 
                 _client.DefaultRequestHeaders.Accept.Clear();
                 _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage _response = _client.GetAsync(_api)
+                HttpResponseMessage _response = _client.GetAsync(api)
                     .GetAwaiter()
                     .GetResult();
 
@@ -65,7 +85,7 @@ namespace AzureFunction.SpaApplicationPools.Functions
                         }).ToList();
 
                     if (_properties.Any())
-                        SpaService.SincronizarBarrios(_properties);
+                        SpaService.SincronizarBarrios(_properties, municipio);
                 }
                 else
                 {
@@ -73,9 +93,58 @@ namespace AzureFunction.SpaApplicationPools.Functions
                     Console.WriteLine(_error.Message);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                log.LogError(ex.Message);
+                throw;
+            }
+        }
+
+        public static void SincronizarBarriosEnvigado(string endpoint, string api, string municipio)
+        {
+            try
+            {
+                using HttpClient _client = new HttpClient
+                {
+                    BaseAddress = new Uri(endpoint)
+                };
+
+                _client.DefaultRequestHeaders.Accept.Clear();
+                _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage _response = _client.GetAsync(api)
+                    .GetAwaiter()
+                    .GetResult();
+
+                if (_response.IsSuccessStatusCode)
+                {
+                    JArray _json = _response.Content.ReadAsAsync<JArray>()
+                        .GetAwaiter()
+                        .GetResult();
+
+                    List<Properties> _properties = _json
+                        .Select(p => new Properties
+                        {
+                            ObjectId = Convert.ToString(p["objectid"]),
+                            Codigo = Convert.ToString(p["barrio"]),
+                            Nombre = Convert.ToString(p["nombarrio"]),
+                            Subtipo_BarrioVereda = 1,
+                            ShapeArea = Convert.ToDecimal(p["shape_leng"]),
+                            ShapeLen = Convert.ToDecimal(p["shape_area"])
+
+                        }).ToList();
+
+                    if (_properties.Any())
+                        SpaService.SincronizarBarrios(_properties, municipio);
+                }
+                else
+                {
+                    dynamic _error = JsonConvert.DeserializeObject<dynamic>(_response.Content.ReadAsStringAsync().Result);
+                    Console.WriteLine(_error.Message);
+                }
+            }
+            catch
+            {
+                throw;
             }
         }
     }

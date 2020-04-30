@@ -6,10 +6,12 @@
         .controller("LoginController", LoginController)
         .controller("HomeController", HomeController)
         .controller("ClientesController", ClientesController)
+        .controller("ServiciosController", ServiciosController)
 
     LoginController.$inject = ['$scope', '$state', '$location', '$mdDialog', '$rootScope', '$timeout', 'AuthService'];
     HomeController.$inject = ['$scope', '$rootScope', '$element', '$location', 'localStorageService', 'AuthService'];
     ClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+    ServiciosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
     function LoginController($scope, $state, $location, $mdDialog, $rootScope, $timeout, authService) {
 
@@ -89,7 +91,9 @@
 
     function HomeController($scope, $rootScope, $element, $location, localStorageService, authService) {
 
-        $scope.Logout = Logout;
+        $scope.Logout = function () {
+            authService.logOut();
+        }
 
         $scope.$on('successfull.menuload', function () {
             if ($scope.Menu.length == 0)
@@ -103,15 +107,6 @@
         $scope.$on("$destroy", function () {
             $scope.Menu = [];
         });
-
-        $scope.toggleSidebar = function () {
-            document.getElementById("sidebar").classList.toggle('active');
-        }
-
-        function Logout() {
-            authService.logOut();
-        }
-
     }
 
     function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
@@ -354,12 +349,6 @@
 
         }
 
-        // Eventos
-        $("body").tooltip({
-            selector: '[data-toggle="tooltip"]',
-            trigger: 'hover'
-        });
-
         $scope.BeginProcess = function (processName) {
             $scope.ProcessQueu.push(processName);
             $scope.IsLoading = true;
@@ -491,8 +480,8 @@
                     return data.value ? (new Date(data.value)).toLocaleDateString() : '';
                 },
             }
-        ];
 
+        ];
 
         $scope.ClientesGridOptions = {
             defaultColDef: {
@@ -521,6 +510,53 @@
         $scope.Inicializacion();
 
     }
+
+    function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+
+        // Variables
+        $scope.TipoServicios = [];
+        $scope.TipoServicioSeleccionado = -1;
+
+        // Inicialización
+        $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.IdUsuario = parseInt($rootScope.userData.userId);
+
+        // Invocaciones API
+        $scope.ConsultarTipoServicios = function () {
+
+            SPAService._consultarTipoServicios()
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+
+                            $scope.TipoServicios = [];
+                            $scope.TipoServicios = result.data;
+                            $scope.TipoServicios.push({ id_tiposervicio: -1, nombre: '[Seleccione]', descripcion: '', fecha_Registro: null, fecha_Modificacion: null });
+
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+
+        }
+
+        // Invocación Funciones
+        $scope.ConsultarTipoServicios();
+
+
+    }
+
+    angular.element(document).ready(function () {
+
+        // Eventos
+        $("body").tooltip({
+            selector: '[data-toggle="tooltip"]',
+            trigger: 'hover'
+        });
+
+    })
 
 })();
 
