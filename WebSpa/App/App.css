@@ -17,13 +17,32 @@ Positions, Display, Top, Bottom, left, rights ################*/
     padding: 0;
 }
 
-#header, #section {
+#section {
     padding-left: 200px;
 }
 
 #header {
     height: 50px;
+    margin-bottom:10px;
+    z-index: 10;
 }
+
+    #header .site-title {
+        float: left;
+        width: 300px;
+        margin: 5px 0 0 220px;
+    }
+
+    #header .site-widgets {
+        float: right;
+        width: auto;
+        margin: 14px 20px 0 0;
+    }
+
+        #header .site-widgets ul li {
+            display: inline;
+            padding: 0 10px 0 10px;
+        }
 
 .bg {
     width: 100%;
@@ -50,34 +69,32 @@ Positions, Display, Top, Bottom, left, rights ################*/
     left: 0;
     right: 0;
     margin: 0 15px 15px 15px;
-    z-index: 9;
+    z-index: 8;
 }
 
 .form-control {
     height: 40px !important;
 }
 
-aside {
+#sidebar {
     position: fixed;
-    width: 200px;
+    width: 200px; 
     height: 100%;
-    top: 0;
-    height: 100%;
-    padding-top: 40px;
-    z-index: 999;
+    padding-top: 15px;
+    z-index: 9;
 }
 
-    aside ul li:hover {
+    #sidebar ul li:hover {
         margin-left: 25px;
     }
 
-    aside .toggle-btn {
+    #sidebar .toggle-btn {
         position: absolute;
         left: 230px;
         top: 20px;
     }
 
-        aside .toggle-btn span {
+        #sidebar .toggle-btn span {
             display: block;
             width: 30px;
             height: 5px;
@@ -118,8 +135,9 @@ aside {
 }
 
 #frmClientes .container-fluid {
-    padding: 15px;
+    padding: 13px;
     height: auto;
+    margin-top: 3px;
 }
 
 
@@ -127,8 +145,7 @@ aside {
 
 * {
     font-family: var(--main-font);
-    font-style: normal;
-    font-weight: 400;
+    font-style: normal;    
 }
 
 body,
@@ -153,7 +170,11 @@ select,
 
 #header h1 {
     font-weight: 800;
-    font-size: 16px;
+    font-size: 26px;
+}
+
+#header .site-widgets ul li {
+    font-weight:600 !important;
 }
 
 .control-label,
@@ -162,17 +183,17 @@ select,
     font-weight: bold;
 }
 
-aside a {
+#sidebar a {
     color: var(--light-text) !important;
     font-weight: 500;
 }
 
-aside ul li {
+#sidebar ul li {
     color: rgba(230,230,230,0.9);
 }
 
-    aside ul li:hover,
-    aside ul li:hover a {
+    #sidebar ul li:hover,
+    #sidebar ul li:hover a {
         color: var(--dark-text) !important;
         font-weight: 600;
     }
@@ -211,6 +232,11 @@ body {
     background: white !important;
 }
 
+#header {
+    background: white !important;
+    border-bottom: 1px solid #eee;
+}
+
 .bg {
     background-color: var(--light-background) !important;
     background-size: 100%;
@@ -237,22 +263,24 @@ body {
         background: #388E3C !important;
     }
 
-aside {
-    background: linear-gradient(rgba(19, 38, 68, 0.90), rgba(19, 38, 68, 0.90)), url('../Images/img_spa.jpg');
+#sidebar {
+    /*background: linear-gradient(rgba(19, 38, 68, 0.90), rgba(19, 38, 68, 0.90)), url('../Images/img_spa.jpg');*/
+    background: rgba(19, 38, 68, 0.90);
+    border-radius: 0 10px;
 }
 
-    aside ul li {
+    #sidebar ul li {
         border-bottom: 1px solid rgba(0, 0, 0, 0.12);
         background-size: 200% 100%;
         background-image: linear-gradient(to left, white 50%, transparent 50%);
     }
 
-        aside ul li:hover {
+        #sidebar ul li:hover {
             border-radius: 10px 0 0 10px;
             background-position: 100% 0;
         }
 
-    aside .toggle-btn span {
+    #sidebar .toggle-btn span {
         background: #151719;
     }
 
@@ -286,7 +314,7 @@ aside {
 
 /*################ Element Tweaks ################*/
 
-aside ul li {
+#sidebar ul li {
     list-style: none;
 }
 
@@ -294,8 +322,16 @@ aside ul li {
     text-align: center !important;
 }
 
+#header .site-widgets ul li {
+    list-style: none;
+}
+
 
 /*################ Filters, Shadows, Transitions ################*/
+
+#header {
+    box-shadow: rgb(19, 19, 19) 0px 0px 7px
+}
 
 .background-image {
     filter: blur(5px) grayscale(100%);
@@ -309,11 +345,11 @@ aside ul li {
     transform: translateY(2px);
 }
 
-aside {
+#sidebar {
     transition: all 500ms linear;
 }
 
-    aside ul li {
+    #sidebar ul li {
         transition: background-position 0.3s;
     }
 
@@ -346,9 +382,9 @@ aside {
     opacity: 1;
 }
 
-#frmClientes .container-fluid {
+/*#frmClientes .container-fluid {
     box-shadow: 0 0 6px #999;
-}
+}*/
 
 
 /*################ Fixes ################*/

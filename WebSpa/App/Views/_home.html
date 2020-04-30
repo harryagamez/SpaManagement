@@ -1,9 +1,28 @@
-﻿<div class="background-image"></div>
+﻿<header id="header">
+    <div class="site-title">
+        <span><i class="material-icons" style="transform: scaleX(-1); color: var(--accent-color); font-size:40px; display:inline-block; margin-top: -15px;">spa</i></span>
+        <a ui-sref="home" title="Inicio"><h1 style="display:inline-block; margin-top:5px;">SPA MANAGEMENT</h1></a>
+    </div>
+    <div class="site-widgets">
+        <ul>
+            <li><span>Nombre de la Empresa</span></li>
+            <!--<li><span style="font-weight:600;" date-now="MM/dd/yyyy"></span></li>-->
+            <li><span><i class="material-icons" style="transform: scaleX(-1); color: var(--accent-color); padding-left: 5px; font-size:24px;">face</i>Empleado</span></li>
+            <li><a href="" ng-click="Logout()"><i class="material-icons" style="transform: scaleX(-1); color: red; padding-left: 5px; font-size:24px;">exit_to_app</i>Cerrar sesión</a></li>
+        </ul>
+    </div>
+</header>
+<aside id="sidebar">
+    <ul>
+        <!--<li class="li-padding"><a ui-sref="home" title="Inicio"><img src="../../Images/home.png" style="max-width:28px; margin-right:15px; vertical-align:middle;">Inicio</a></li>-->
+        <li class="li-padding" ng-repeat="item in Menu">
+            <a ui-sref="{{item.ruta_Acceso}}"><img ng-src="data:image/png;base64,{{item.logo_Base64}}" style="max-width:28px; margin-right:15px; vertical-align:middle;">{{item.descripcion}}</a>
+        </li>
+        <!--<li class="li-padding" ng-click="Logout()"><a><img src="../../Images/logout.png" style="max-width:28px; margin-right:15px; vertical-align:middle;">Cerrar sesión</a></li>-->
+    </ul>
+</aside>
+<div class="background-image"></div>
 <div class="wrapper">
-    <header id="header">
-        <p style="color: #151719; text-align: center; font-size: 24px;">{{userData.userId}}</p>
-    </header>
-
     <section id="section">
         <ui-view>
             <div>
@@ -12,12 +31,3 @@
         </ui-view>
     </section>
 </div>
-<aside id="sidebar">
-    <ul>
-        <li class="li-padding"><a ui-sref="home" title="Inicio"><img src="../../Images/home.png" style="max-width:28px; margin-right:15px; vertical-align:middle;">Inicio</a></li>
-        <li class="li-padding" ng-repeat="item in Menu">
-            <a ui-sref="{{item.ruta_Acceso}}"><img ng-src="data:image/png;base64,{{item.logo_Base64}}" style="max-width:28px; margin-right:15px; vertical-align:middle;">{{item.descripcion}}</a>
-        </li>
-        <li class="li-padding" ng-click="Logout()"><a><img src="../../Images/logout.png" style="max-width:28px; margin-right:15px; vertical-align:middle;">Cerrar sesión</a></li>
-    </ul>
-</aside>   
