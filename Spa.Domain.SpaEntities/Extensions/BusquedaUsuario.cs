@@ -2,9 +2,6 @@
 {
     public class BusquedaUsuario
     {
-        public string Usuario { get; set; }
-        public string Password { get; set; }
-        public bool ValidarIntegracion { get; set; }
-        public string CodigoIntegracion { get; set; }
+        public string Nombre_Empresa { get; set; }
     }
 }

@@ -52,6 +52,7 @@ namespace WebApiSpa.Providers
                     { "UserId", usuario.Id_Usuario.ToString() },
                     { "IntegrationCode", string.IsNullOrEmpty(usuario.Codigo_Integracion) ? "undefined" : usuario.Codigo_Integracion },
                     { "CompanyId", usuario.Id_Empresa.ToString() },
+                    { "CompanyName", usuario.Nombre_Empresa.Trim() },
                     { "Role", usuario.Perfil }
                 });
 
