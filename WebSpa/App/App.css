@@ -40,17 +40,17 @@ Positions, Display, Top, Bottom, left, rights ################*/
     position: fixed;
     left: 0;
     right: 0;
-    z-index: 1;
     display: block;
     height: 100%;
+    z-index: 1;
 }
 
 .wrapper {
     position: fixed;
     left: 0;
     right: 0;
-    z-index: 9;
     margin: 0 15px 15px 15px;
+    z-index: 9;
 }
 
 .form-control {
@@ -63,8 +63,8 @@ aside {
     height: 100%;
     top: 0;
     height: 100%;
-    z-index: 999;
     padding-top: 40px;
+    z-index: 999;
 }
 
     aside ul li:hover {
