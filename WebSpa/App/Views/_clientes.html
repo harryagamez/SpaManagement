@@ -27,23 +27,20 @@
                         </button>
                         <div class="dropdown-menu">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item btn-informe">                                    
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="check1">
-                                        <label class="custom-control-label" for="check1" style="padding-top:2px;">Listado de clientes</label>
-                                    </div>
+                                <li class="list-group-item btn-informe">  
+                                    <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1">
+                                            Listado de clientes
+                                    </md-checkbox>    
                                 </li>
-                                <li class="list-group-item btn-informe">                                    
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="check3">
-                                        <label class="custom-control-label" for="check3" style="padding-top:2px;">Servicios facturados detallado</label>
-                                    </div>
+                                <li class="list-group-item btn-informe">
+                                    <md-checkbox ng-model="data.cb2" aria-label="Checkbox 2">
+                                            Servicios facturados detallado
+                                    </md-checkbox>           
                                 </li>
-                                <li class="list-group-item btn-informe">                                    
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="check4">
-                                        <label class="custom-control-label" for="check4" style="padding-top:2px;">Servicios factura general</label>
-                                    </div>
+                                <li class="list-group-item btn-informe"> 
+                                    <md-checkbox ng-model="data.cb3" aria-label="Checkbox 3">
+                                            Servicios factura general
+                                    </md-checkbox> 
                                 </li>
                             </ul>
                         </div>
