@@ -203,7 +203,7 @@ select,
 }
 
 .tooltip .tooltip-inner {
-    color: var(--dark-text) !important;
+    color: var(--light-text) !important;
     font-family: Open Sans !important;
     font-size: 12px !important;
 }
