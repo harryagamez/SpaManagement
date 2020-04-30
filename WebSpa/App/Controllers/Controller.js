@@ -212,8 +212,7 @@
 
         }
 
-        $scope.ConsultarCliente = function (e, cedula_cliente) {
-
+        $scope.ConsultarCliente = function (e, cedula_cliente) {            
             $scope.Accion = '';
 
             $scope.Cliente.Id_Cliente = -1;
@@ -500,7 +499,16 @@
             fullWidthCellRenderer: true,
             animateRows: true,
             suppressRowClickSelection: true,
-            rowSelection: 'multiple'
+            rowSelection: 'multiple',
+            onRowClicked: onRowSelected
+        }
+
+        function onRowSelected(event) {                        
+            var cedulaFila = event.node.data.cedula;
+            document.getElementById("txtCedula").value = cedulaFila;
+            debugger;
+            $scope.ConsultarCliente(event, cedulaFila);
+
         }
 
         // Invocación Funciones
