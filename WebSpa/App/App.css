@@ -404,3 +404,27 @@ input:-webkit-autofill:active {
         background-size: 300%;
     }
 }
+
+/*################ Containers ################*/
+
+#frmServicios .container-fluid {
+    padding: 15px;
+    height: auto;
+}
+
+    #frmServicios .container-fluid * {
+        font-size: 13px;
+    }
+
+    #frmServicios .container-fluid .material-icons {
+        font-size: 16px;
+    }
+
+#frmServicios .container-fluid {
+    background-color: white !important;
+    border-radius: 10px;
+}
+
+#frmServicios .container-fluid {
+    box-shadow: 0 0 6px #999;
+}
