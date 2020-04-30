@@ -508,10 +508,8 @@
 
         function onRowSelected(event) {                        
             var cedulaFila = event.node.data.cedula;
-            document.getElementById("txtCedula").value = cedulaFila;
-            debugger;
+            document.getElementById("txtCedula").value = cedulaFila;            
             $scope.ConsultarCliente(event, cedulaFila);
-
         }
 
         // Invocación Funciones
