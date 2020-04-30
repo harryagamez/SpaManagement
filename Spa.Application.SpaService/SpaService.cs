@@ -50,11 +50,11 @@ namespace Spa.Application.SpaService
             }
         }
 
-        public bool RegistrarActualizarCliente(List<Cliente> cliente)
+        public bool RegistrarActualizarCliente(List<Cliente> _Cliente)
         {
             try
             {
-                return _spaRepository.RegistrarActualizarCliente(cliente);
+                return _spaRepository.RegistrarActualizarCliente(_Cliente);
             }
             catch
             {
@@ -90,11 +90,11 @@ namespace Spa.Application.SpaService
             }
         }
 
-        public bool SincronizarBarrios(List<Properties> _Properties)
+        public bool SincronizarBarrios(List<Properties> _Properties, string _Municipio)
         {
             try
             {
-                bool _result = _spaRepository.SincronizarBarrios(_Properties);
+                bool _result = _spaRepository.SincronizarBarrios(_Properties, _Municipio);
 
                 return _result;
             }
@@ -158,6 +158,20 @@ namespace Spa.Application.SpaService
                 Cliente _cliente = _spaRepository.ConsultarCliente(Cedula, IdEmpresa);
 
                 return _cliente;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<TipoServicio> ConsultarTipoServicios()
+        {
+            try
+            {
+                List<TipoServicio> _tipoServicios = _spaRepository.ConsultarTipoServicios();
+
+                return _tipoServicios;
             }
             catch
             {

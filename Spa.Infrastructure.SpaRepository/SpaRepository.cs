@@ -50,7 +50,7 @@ namespace Spa.Infrastructure.SpaRepository
                             _adapter.Fill(_datatable);
                             _usuario = _datatable.DataTableToList<Usuario>().FirstOrDefault();
                         }
-                        catch (Exception)
+                        catch
                         {
                             throw;
                         }
@@ -59,7 +59,7 @@ namespace Spa.Infrastructure.SpaRepository
 
                 return _usuario;
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -88,7 +88,7 @@ namespace Spa.Infrastructure.SpaRepository
                         {
                             _command.ExecuteNonQuery();
                         }
-                        catch (Exception)
+                        catch
                         {
                             throw;
                         }
@@ -97,13 +97,13 @@ namespace Spa.Infrastructure.SpaRepository
 
                 return true;
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
         }
 
-        public bool RegistrarActualizarCliente(List<Cliente> cliente)
+        public bool RegistrarActualizarCliente(List<Cliente> _Cliente)
         {
             try
             {
@@ -118,13 +118,13 @@ namespace Spa.Infrastructure.SpaRepository
                     {
                         _command.CommandType = CommandType.StoredProcedure;
                         _command.CommandText = "RegistrarActualizarCliente";
-                        _command.Parameters.AddWithValue("@JsonCliente", JsonConvert.SerializeObject(cliente));
+                        _command.Parameters.AddWithValue("@JsonCliente", JsonConvert.SerializeObject(_Cliente));
 
                         try
                         {
                             _command.ExecuteNonQuery();
                         }
-                        catch (Exception)
+                        catch
                         {
                             throw;
                         }
@@ -142,7 +142,7 @@ namespace Spa.Infrastructure.SpaRepository
 
                 return true;
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -175,7 +175,7 @@ namespace Spa.Infrastructure.SpaRepository
                             _adapter.Fill(_datatable);
                             _listMenu = _datatable.DataTableToList<Menu>();
                         }
-                        catch (Exception)
+                        catch
                         {
                             throw;
                         }
@@ -184,7 +184,7 @@ namespace Spa.Infrastructure.SpaRepository
 
                 return _listMenu;
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -217,7 +217,7 @@ namespace Spa.Infrastructure.SpaRepository
                             _adapter.Fill(_datatable);
                             _clientes = _datatable.DataTableToList<Cliente>();
                         }
-                        catch (Exception)
+                        catch
                         {
                             throw;
                         }
@@ -226,13 +226,13 @@ namespace Spa.Infrastructure.SpaRepository
 
                 return _clientes;
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
         }
 
-        public bool SincronizarBarrios(List<Properties> _Properties)
+        public bool SincronizarBarrios(List<Properties> _Properties, string _Municipio)
         {
             try
             {
@@ -248,12 +248,13 @@ namespace Spa.Infrastructure.SpaRepository
                         _command.CommandType = CommandType.StoredProcedure;
                         _command.CommandText = "SincronizarBarrios";
                         _command.Parameters.AddWithValue("@Json", JsonConvert.SerializeObject(_Properties));
+                        _command.Parameters.AddWithValue("@Municipio", _Municipio);
 
                         try
                         {
                             _command.ExecuteNonQuery();
                         }
-                        catch (Exception)
+                        catch
                         {
                             throw;
                         }
@@ -262,7 +263,7 @@ namespace Spa.Infrastructure.SpaRepository
 
                 return true;
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -299,7 +300,7 @@ namespace Spa.Infrastructure.SpaRepository
                             _adapter.Fill(_datatable);
                             _listMunicipios = _datatable.DataTableToList<Municipio>();
                         }
-                        catch (Exception)
+                        catch
                         {
                             throw;
                         }
@@ -308,7 +309,7 @@ namespace Spa.Infrastructure.SpaRepository
 
                 return _listMunicipios;
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -341,7 +342,7 @@ namespace Spa.Infrastructure.SpaRepository
                             _adapter.Fill(_datatable);
                             _listBarrios = _datatable.DataTableToList<Barrio>();
                         }
-                        catch (Exception)
+                        catch
                         {
                             throw;
                         }
@@ -350,7 +351,7 @@ namespace Spa.Infrastructure.SpaRepository
 
                 return _listBarrios;
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -382,7 +383,7 @@ namespace Spa.Infrastructure.SpaRepository
                             _adapter.Fill(_datatable);
                             _listTipoClientes = _datatable.DataTableToList<TipoCliente>();
                         }
-                        catch (Exception)
+                        catch
                         {
                             throw;
                         }
@@ -391,7 +392,7 @@ namespace Spa.Infrastructure.SpaRepository
 
                 return _listTipoClientes;
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -425,7 +426,7 @@ namespace Spa.Infrastructure.SpaRepository
                             _adapter.Fill(_datatable);
                             _cliente = _datatable.DataTableToList<Cliente>().FirstOrDefault();
                         }
-                        catch (Exception)
+                        catch
                         {
                             throw;
                         }
@@ -434,7 +435,48 @@ namespace Spa.Infrastructure.SpaRepository
 
                 return _cliente;
             }
-            catch (Exception)
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<TipoServicio> ConsultarTipoServicios()
+        {
+            DataTable _datatable = new DataTable();
+            List<TipoServicio> _list_tipo_Servicios = new List<TipoServicio>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarTipoServicios";
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _list_tipo_Servicios = _datatable.DataTableToList<TipoServicio>();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _list_tipo_Servicios;
+            }
+            catch
             {
                 throw;
             }

@@ -7,13 +7,14 @@ namespace Spa.Application.SpaService
     public interface ISpaService
     {
         Usuario ValidarUsuario(string Nombre, string Password, bool ValidarIntegracion, string CodigoIntegracion);
-        bool RegistrarActualizarCliente(List<Cliente> cliente);
+        bool RegistrarActualizarCliente(List<Cliente> _Cliente);
         List<Menu> ConsultarMenu(int IdUsuario);
         List<Cliente> ConsultarClientes(string IdEmpresa);
-        bool SincronizarBarrios(List<Properties> _Properties);
+        bool SincronizarBarrios(List<Properties> _Properties, string _Municipio);
         List<Municipio> ConsultarMunicipios();
         List<Barrio> ConsultarBarrios(int IdMunicipio);
         List<TipoCliente> ConsultarTipoClientes();
         Cliente ConsultarCliente(string Cedula, string IdEmpresa);
+        List<TipoServicio> ConsultarTipoServicios();
     }
 }

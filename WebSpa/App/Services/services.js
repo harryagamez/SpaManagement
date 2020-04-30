@@ -166,6 +166,10 @@
                 if (masterDataBarrios)
                     $rootScope.Barrios = masterDataBarrios.barrios;
 
+                var masterdataTipoServicio = localStorageService.get('masterdataTipoServicio');
+                if (masterdataTipoServicio)
+                    $rootScope.TipoServicios = masterdataTipoServicio.tipoServicios;
+
             }
             else {
                 _logOut();
@@ -193,7 +197,6 @@
 
         }
 
-
         authServiceFactory.login = _login;
         authServiceFactory.logOut = _logOut;
         authServiceFactory.fillAuthData = _fillAuthData;
@@ -213,7 +216,8 @@
             _consultarBarrios: ConsultarBarrios,
             _consultarMunicipios: ConsultarMunicipios,
             _consultarTipoClientes: ConsultarTipoClientes,
-            _consultarCliente: ConsultarCliente
+            _consultarCliente: ConsultarCliente,
+            _consultarTipoServicios: ConsultarTipoServicios
 
         }
 
@@ -295,6 +299,22 @@
                     localStorageService.set('masterdataTipoClientes',
                         {
                             tipoClientes: data
+                        });
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarTipoServicios() {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarTipoServicios',
+                function (data) {
+                    localStorageService.set('masterdataTipoServicio',
+                        {
+                            tipoServicios: data
                         });
                     deferred.resolve(data);
                 },

@@ -102,6 +102,7 @@
     <Content Include="App\Views\_home.html" />
     <Content Include="App\Views\_inventory.html" />
     <Content Include="App\Views\_products.html" />
+    <Content Include="App\Views\_servicios.html" />
     <Content Include="App\Views\_settings.html" />
     <Content Include="App\Views\_shrink.html" />
     <Content Include="Images\home.png" />
