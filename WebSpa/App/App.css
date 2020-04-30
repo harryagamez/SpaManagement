@@ -8,203 +8,333 @@
     --main-font: Open Sans, sans-serif;
 }
 
+
+/*################ Margins, Paddings, Heights, Widths, 
+Positions, Display, Top, Bottom, left, rights ################*/
+
 * {
-    font-family: var(--main-font);
-    font-style:normal;
-    font-weight:400;
     margin: 0;
-    padding: 0;    
-}
-
-body {    
-    background: white !important;
-    font-size: 14px !important;
-}
-
-a {
-    color: var(--primary-color) !important;
-}
-
-a:link {
-    text-decoration: none;
-}
-
-a:hover {
-    color: var(--light-primary-color) !important;
-    text-decoration: none;
+    padding: 0;
 }
 
 #header, #section {
-    padding-left:200px;
+    padding-left: 200px;
 }
 
 #header {
-    height:50px;
-}
-
-#header h1 {
-    font-weight:800;
-    font-size:16px;
-}
-
-.material-icons {
-    font-family: 'Material Icons';
+    height: 50px;
 }
 
 .bg {
-    /*background: url('../Images/img_spa.jpg') no-repeat;*/
-    background-color: var(--light-background) !important;    
     width: 100%;
     height: 100vh;
-    background-size: 100%;  
-}
-
-table, input, select {
-    font-family: var(--main-font);
 }
 
 .form-container {
     position: absolute;
-    background: white;
     top: 15vh;
     padding: 30px 30px 0 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 6px #999;
 }
 
-@media only screen and (max-width: 678px) {
-    .bg{
-        background-size: 300%;
-    }
+.background-image {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: block;
+    height: 100%;
 }
 
-/* Font Size */
-.control-label, .col-form-label {
-    font-size: 12px !important;
-    font-weight: bold;
-}
-
-table, input, select, .form-control {
-    font-size: 14px;
-}
-
-.btn-primary, .btn-primary:hover {
-    background: var(--accent-color) !important;
-    border-color: #388E3C !important;
-    font-family: var(--main-font);
-}
-
-.btn-primary:active {
-    background: #388E3C !important;
-    color: var(--light-text);
-    transform: translateY(2px);
-}
-
-.btn-primary, .btn-secondary {
-    font-size: 14px !important;
+.wrapper {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 9;
+    margin: 0 15px 15px 15px;
 }
 
 .form-control {
     height: 40px !important;
 }
 
-/*Sidebar*/
-
 aside {
     position: fixed;
     width: 200px;
-    height: 100%;   
-    background: linear-gradient(rgba(19, 38, 68, 0.90), rgba(19, 38, 68, 0.90)), url('../Images/img_spa.jpg');
-    transition: all 500ms linear;
+    height: 100%;
     top: 0;
     height: 100%;
     z-index: 999;
     padding-top: 40px;
 }
 
-aside a {
-    color:var(--light-text) !important;
-    font-weight:500;
-}
+    aside ul li:hover {
+        margin-left: 25px;
+    }
 
-aside ul li {
-    color: rgba(230,230,230,0.9);
-    list-style: none;    
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    background-size: 200% 100%;
-    background-image: linear-gradient(to left, white 50%, transparent 50%);
-    transition: background-position 0.3s;
-}
+    aside .toggle-btn {
+        position: absolute;
+        left: 230px;
+        top: 20px;
+    }
 
-aside ul li:hover {    
-    transition: all 0.3s ease-in-out;
-    color: var(--dark-text);
-    font-weight: 600;
-    margin-left: 25px;    
-    border-radius: 10px 0 0 10px;
-    background-position: 100% 0;
-    box-shadow: -7px 0 5px rgba(0,0,0,0.87);
-}
-
-aside ul li:hover a {
-    color: inherit !important;
-    font-weight:inherit;
-}
-
-aside .toggle-btn {
-    position:absolute;
-    left:230px;
-    top:20px;
-}
-
-aside .toggle-btn span {
-    display:block;
-    width:30px;
-    height:5px;
-    background:#151719;
-    margin:3px 0;
-}
+        aside .toggle-btn span {
+            display: block;
+            width: 30px;
+            height: 5px;
+            margin: 3px 0;
+        }
 
 .li-padding {
     padding: 7px 12px 7px 20px;
 }
 
-/*Form Input Fixes*/
+.form-control-login {
+    margin-left: -20px;
+    border-radius: 0;
+    padding-left: 25px !important;
+    border-width: 0 0 2px;
+}
+
+.tooltip .tooltip-inner {
+    z-index: 9999;
+}
+
+.tooltip-inner {
+    max-width: 500px;
+}
+
+.login-icons {
+    transform: scaleX(-1);
+    padding-top: 5px;
+}
+
+.login-header {
+    margin: -30px -30px 0 -30px;
+    height: 130px;
+}
+
+.ag-theme-fresh .ag-header-select-all span {
+    margin-left: 12px;
+}
+
+#frmClientes .container-fluid {
+    padding: 15px;
+    height: auto;
+}
+
+
+/*################ Font Styles ################*/
+
+* {
+    font-family: var(--main-font);
+    font-style: normal;
+    font-weight: 400;
+}
+
+body,
+table,
+input,
+select,
+.form-control,
+.btn-primary,
+.btn-primary:hover,
+.btn-secondary {
+    font-size: 14px !important;
+    font-family: var(--main-font) !important;
+}
+
+    .btn-primary:active {
+        color: var(--light-text);
+    }
+
+.material-icons {
+    font-family: 'Material Icons';
+}
+
+#header h1 {
+    font-weight: 800;
+    font-size: 16px;
+}
+
+.control-label,
+.col-form-label {
+    font-size: 12px !important;
+    font-weight: bold;
+}
+
+aside a {
+    color: var(--light-text) !important;
+    font-weight: 500;
+}
+
+aside ul li {
+    color: rgba(230,230,230,0.9);
+}
+
+    aside ul li:hover,
+    aside ul li:hover a {
+        color: var(--dark-text) !important;
+        font-weight: 600;
+    }
 
 .form-control {
-    font-family:var(--main-font);        
+    font-family: var(--main-font);
 }
+
+.tooltip .tooltip-inner {
+    color: var(--dark-text) !important;
+    font-family: Open Sans !important;
+    font-size: 12px !important;
+}
+
+.login-icons,
+.login-footer {
+    color: darkgray;
+}
+
+#frmClientes .container-fluid * {
+    font-size: 13px;
+}
+
+#frmClientes .container-fluid .material-icons {
+    font-size: 16px;
+}
+
+.ADMdtpInput input {
+    font-family: var(--main-font) !important;
+}
+
+
+/*################ Backgrounds and borders ################*/
+
+body {
+    background: white !important;
+}
+
+.bg {
+    background-color: var(--light-background) !important;
+    background-size: 100%;
+}
+
+.form-container {
+    background: white;
+    border-radius: 10px;
+}
+
+.background-image {
+    background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('../Images/img_spa.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.btn-primary, .btn-primary:hover {
+    background: var(--accent-color) !important;
+    border-color: #388E3C !important;
+}
+
+    .btn-primary:active {
+        background: #388E3C !important;
+    }
+
+aside {
+    background: linear-gradient(rgba(19, 38, 68, 0.90), rgba(19, 38, 68, 0.90)), url('../Images/img_spa.jpg');
+}
+
+    aside ul li {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        background-size: 200% 100%;
+        background-image: linear-gradient(to left, white 50%, transparent 50%);
+    }
+
+        aside ul li:hover {
+            border-radius: 10px 0 0 10px;
+            background-position: 100% 0;
+        }
+
+    aside .toggle-btn span {
+        background: #151719;
+    }
+
+.form-control-login:focus {
+    border-color: var(--light-primary-color);
+}
+
+.tooltip .tooltip-inner {
+    background-color: #749eba !important;
+}
+
+.login-header {
+    border-radius: 10px 10px 0 0;
+    background: url('../../Images/login-header.jpg');
+    background-size: cover;
+}
+
+.md-primary.md-checked .md-icon {
+    background-color: #3A6EA5 !important;
+}
+
+#frmClientes .container-fluid {
+    background-color: white !important;
+    border-radius: 10px;
+}
+
+.warning {
+    border: 1px solid red;
+}
+
+
+/*################ Element Tweaks ################*/
+
+aside ul li {
+    list-style: none;
+}
+
+.login-footer {
+    text-align: center !important;
+}
+
+
+/*################ Filters, Shadows, Transitions ################*/
+
+.background-image {
+    filter: blur(5px) grayscale(100%);
+}
+
+.form-container {
+    box-shadow: 0 0 6px #999;
+}
+
+.btn-primary:active {
+    transform: translateY(2px);
+}
+
+aside {
+    transition: all 500ms linear;
+}
+
+    aside ul li {
+        transition: background-position 0.3s;
+    }
+
+        aside ul li:hover {
+            transition: all 0.3s ease-in-out;
+            box-shadow: -7px 0 5px rgba(0,0,0,0.87);
+        }
 
 .form-control:focus {
     transition: all 0.3s ease-in-out;
-    outline: 0;        
-}
-
-.form-control-login {
-    margin-left: -20px;
-    border-radius:0;
-    padding-left: 25px !important;
-    border-width: 0 0 2px;    
+    outline: 0;
 }
 
 .form-control-login:focus {
     transition: all 0.3s ease-in-out;
-    border-color: var(--light-primary-color);
     box-shadow: none !important;
 }
 
 .tooltip .tooltip-inner {
-    background-color: #749eba !important;   
-    color: var(--dark-text) !important;
-    font-family: Open Sans !important;
-    font-size: 12px !important;
     opacity: 1.0;
     filter: alpha(opacity=100);
-    z-index: 9999;
-}
-
-.tooltip-inner {    
-    max-width: 500px;
 }
 
 .tooltip.in {
@@ -216,52 +346,12 @@ aside .toggle-btn span {
     opacity: 1;
 }
 
-.login-icons {
-    transform: scaleX(-1);
-    padding-top: 5px;
-    color: darkgray;
-}
-
-.login-header {
-    margin: -30px -30px 0 -30px;
-    height: 130px;
-    border-radius: 10px 10px 0 0;
-    background: url('../../Images/login-header.jpg');
-    background-size: cover;
-}
-
-.login-footer {
-   color:grey;
-   text-align:center !important;
-}
-
-.md-primary.md-checked .md-icon {
-    background-color: #3A6EA5 !important;
-}
-
-/*AG-GRID*/
-
-.ag-theme-fresh .ag-header-select-all span {
-    margin-left:12px;
-}
-
-/*Container Fluid Ag Grid*/
-
 #frmClientes .container-fluid {
-    background-color: white !important;
-    border-radius: 10px;
     box-shadow: 0 0 6px #999;
-    padding: 15px;    
-    height: auto;
 }
 
-#frmClientes .container-fluid * {
-    font-size:13px;
-}
 
-#frmClientes .container-fluid .material-icons {
-    font-size:16px;
-}
+/*################ Fixes ################*/
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -270,32 +360,11 @@ input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
-.background-image {
-    background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('../Images/img_spa.jpg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: fixed;
-    left: 0;
-    right: 0;
-    z-index: 1;
-    display: block;
-    height: 100%;    
-    filter: blur(5px) grayscale(100%);        
-}
 
-.wrapper {
-    position: fixed;
-    left: 0;
-    right: 0;
-    z-index: 9;
-    margin:0 15px 15px 15px;
-}
+/*################ @Media Responsive ################*/
 
-.ADMdtpInput input {
-    font-family: var(--main-font) !important;
-}
-
-.warning {
-    border: 1px solid red;
+@media only screen and (max-width: 678px) {
+    .bg {
+        background-size: 300%;
+    }
 }
