@@ -269,7 +269,8 @@
                                 toastr.error(err.data, '', $scope.toastrOptions);
                         })
 
-                $('#txtCedula').focus();
+                $('#txtNombre').focus();
+                $scope.cedulaReadOnly = true;
 
             }
 
@@ -447,6 +448,7 @@
             $scope.TipoClienteSeleccionado = -1;
 
             $('#txtCedula').focus();
+            $scope.cedulaReadOnly = false;
 
         }
 
@@ -509,8 +511,8 @@
         function onRowSelected(event) {                        
             var cedulaFila = event.node.data.cedula;
             document.getElementById("txtCedula").value = cedulaFila;            
-            $scope.ConsultarCliente(event, cedulaFila);
-        }
+            $scope.ConsultarCliente(event, cedulaFila);            
+        }        
 
         // Invocación Funciones
         $scope.ConsultarClientes();

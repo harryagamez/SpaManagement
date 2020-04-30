@@ -33,7 +33,7 @@
                             Cédula:
                         </label>
                         <div class="col-sm-7">
-                            <input  ng-model="Cliente.Cedula" id="txtCedula" numbers-only maxlength="15" data-ng-enter="ConsultarCliente($event, Cliente.Cedula)" type="text" class="form-control input-sm" placeholder="Digite su cédula..." value="" tabindex=1>
+                            <input  ng-model="Cliente.Cedula" ng-readonly="cedulaReadOnly" id="txtCedula" numbers-only maxlength="15" data-ng-enter="ConsultarCliente($event, Cliente.Cedula)" type="text" class="form-control input-sm" placeholder="Digite su cédula..." value="" tabindex=1>
                         </div>
                     </div>
 
@@ -66,7 +66,7 @@
                             Nombre(s):
                         </label>
                         <div class="col-sm-7">
-                            <input ng-model="Cliente.Nombres" maxlength="60" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Digite su nombre ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
+                            <input ng-model="Cliente.Nombres" maxlength="60" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Digite su nombre ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtNombre" tabindex=2>
                         </div>
                     </div>
 
