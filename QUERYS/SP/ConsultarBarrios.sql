@@ -1,9 +1,9 @@
-ALTER PROCEDURE ConsultarBarrios
+ALTER PROCEDURE ConsultarBarrios(@IdMunicipio INT)
 AS
 
 BEGIN
 	
-	SELECT * FROM BARRIOS
+	SELECT * FROM BARRIOS WHERE ID_MUNICIPIO = @IdMunicipio
 
 END
 

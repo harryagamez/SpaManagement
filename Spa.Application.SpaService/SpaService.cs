@@ -123,11 +123,11 @@ namespace Spa.Application.SpaService
             }
         }
 
-        public List<Barrio> ConsultarBarrios()
+        public List<Barrio> ConsultarBarrios(int IdMunicipio)
         {
             try
             {
-                List<Barrio> _barrios = _spaRepository.ConsultarBarrios();
+                List<Barrio> _barrios = _spaRepository.ConsultarBarrios(IdMunicipio);
 
                 return _barrios;
             }
@@ -144,6 +144,20 @@ namespace Spa.Application.SpaService
                 List<TipoCliente> _tipoClientes = _spaRepository.ConsultarTipoClientes();
 
                 return _tipoClientes;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public Cliente ConsultarCliente(string Cedula, string IdEmpresa)
+        {
+            try
+            {
+                Cliente _cliente = _spaRepository.ConsultarCliente(Cedula, IdEmpresa);
+
+                return _cliente;
             }
             catch
             {

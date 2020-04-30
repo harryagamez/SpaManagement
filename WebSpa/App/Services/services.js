@@ -9,7 +9,7 @@
     serviceRest.$inject = ['$http', '$q', '$rootScope'];
     AuthtenticantionIntecerptorService.$inject = ['$q', '$location', 'localStorageService', '$stateParams'];
     AuthService.$inject = ['$http', '$q', '$rootScope', '$state', 'localStorageService', '$timeout', '$filter', 'serviceRest'];
-    SPAService.$inject = ['$http', '$rootScope', '$q', 'serviceRest'];
+    SPAService.$inject = ['$http', '$rootScope', '$q', 'serviceRest', 'localStorageService'];
 
     function AuthtenticantionIntecerptorService($q, $location, localStorageService, $stateParams) {
 
@@ -100,10 +100,6 @@
                     _authentication.userName = userName;
                     _authentication.userPassword = password;
                     _consultarMenu($rootScope.userData.userId);
-                    _consultarTipoClientes();
-                    _consultarClientes();
-                    _consultarMunicipios();
-                    _consultarBarrios();
 
                     deferred.resolve(response);
                 },
@@ -118,7 +114,7 @@
         };
 
         var _logOut = function () {
-           
+
             localStorageService.remove('authorizationData');
             localStorageService.remove('masterdataMenu');
             localStorageService.remove('masterDataTipoClientes');
@@ -141,7 +137,7 @@
         };
 
         var _fillAuthData = function () {
-      
+
             var authData = localStorageService.get('authorizationData');
             if (authData) {
                 _authentication.isAuth = true;
@@ -197,95 +193,28 @@
 
         }
 
-        var _consultarTipoClientes = function () {
-
-            $http({
-                headers: { 'Content-Type': 'application/json' },
-                method: 'GET',
-                url: $rootScope.config.data.API_URL + 'SPA/ConsultarTipoClientes'
-            }).then(function (result) {
-                localStorageService.set('tipo_clientes', result.data);
-                $rootScope.TipoClientes = result.data;
-                localStorageService.set('masterdataTipoClientes',
-                    {
-                        tipoClientes: result.data
-                    });
-            })
-
-        }
-
-        var _consultarClientes = function () {
-
-            var authorizationData = localStorageService.get('authorizationData');
-
-            $http({
-                headers: { 'Content-Type': 'application/json' },
-                method: 'GET',
-                url: $rootScope.config.data.API_URL + 'SPA/ConsultarClientes?IdEmpresa=' + authorizationData.companyId
-            }).then(function (result) {
-                localStorageService.set('clientes', result.data);
-                $rootScope.Clientes = result.data;
-                localStorageService.set('masterdataClientes',
-                    {
-                        clientes: result.data
-                    });
-            })
-
-        }
-
-        var _consultarMunicipios = function () {
-
-            $http({
-                headers: { 'Content-Type': 'application/json' },
-                method: 'GET',
-                url: $rootScope.config.data.API_URL + 'SPA/ConsultarMunicipios'
-            }).then(function (result) {
-                localStorageService.set('municipios', result.data);
-                $rootScope.Municipios = result.data;
-                localStorageService.set('masterdataMunicipios',
-                    {
-                        municipios: result.data
-                    });
-            })
-
-        }
-
-        var _consultarBarrios = function () {
-
-            $http({
-                headers: { 'Content-Type': 'application/json' },
-                method: 'GET',
-                url: $rootScope.config.data.API_URL + 'SPA/ConsultarBarrios'
-            }).then(function (result) {
-                localStorageService.set('barrios', result.data);
-                $rootScope.Barrios = result.data;
-                localStorageService.set('masterdataBarrios',
-                    {
-                        barrios: result.data
-                    });
-            })
-
-        }
 
         authServiceFactory.login = _login;
         authServiceFactory.logOut = _logOut;
         authServiceFactory.fillAuthData = _fillAuthData;
         authServiceFactory.authentication = _authentication;
         authServiceFactory.consultarMenu = _consultarMenu
-        authServiceFactory.consultarClientes = _consultarClientes;
-        authServiceFactory.consultarMunicipios = _consultarMunicipios;
-        authServiceFactory.consultarBarrios = _consultarBarrios;
-        authServiceFactory.consultarTipoClientes = _consultarTipoClientes
 
         return authServiceFactory;
 
     }
 
-    function SPAService($http, $rootScope, $q, serviceRest) {
+    function SPAService($http, $rootScope, $q, serviceRest, localStorageService) {
 
         return {
+
             _registrarActualizarCliente: RegistrarActualizarCliente,
-            _consultarClientes: ConsultarClientes
+            _consultarClientes: ConsultarClientes,
+            _consultarBarrios: ConsultarBarrios,
+            _consultarMunicipios: ConsultarMunicipios,
+            _consultarTipoClientes: ConsultarTipoClientes,
+            _consultarCliente: ConsultarCliente
+
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -306,6 +235,67 @@
             var deferred = $q.defer();
             serviceRest.Get('SPA', 'ConsultarClientes?IdEmpresa=' + id_empresa,
                 function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarCliente(cedula_cliente, id_empresa) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarCliente?Cedula=' + cedula_cliente + '&IdEmpresa=' + id_empresa,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+
+        function ConsultarBarrios(id_municipio) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarBarrios?IdMunicipio=' + id_municipio,
+                function (data) {
+                    localStorageService.set('masterdataBarrios',
+                        {
+                            barrios: data
+                        });
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarMunicipios() {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarMunicipios',
+                function (data) {
+                    localStorageService.set('masterdataMunicipios',
+                        {
+                            municipios: data
+                        });
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarTipoClientes() {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarTipoClientes',
+                function (data) {
+                    localStorageService.set('masterdataTipoClientes',
+                        {
+                            tipoClientes: data
+                        });
                     deferred.resolve(data);
                 },
                 function (err) {

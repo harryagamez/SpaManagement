@@ -6,21 +6,15 @@
 </head>
 <body>
     <form id="frmClientes">
-        <div class="container-fluid">
-
-            <!--<div class="row mb-3">
-                <div class="col-md-12" data-role="pageHeader" btn-theme>
-                    <span style="vertical-align: middle;">Clientes</span>
-                </div>
-            </div>-->
+        <div class="container-fluid">           
 
             <div id="divButtons" class="row mt-2">
                 <div class="col-12">
-                    <button ng-disabled="Cliente.Nombres == '' || Cliente.Apellidos == '' || Cliente.Cedula == '' || Cliente.Telefono_Movil == '' || !Cliente.Mail || Cliente.Estado == '[Seleccione]'" type="button" id="btnGuardar" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Search" data-ng-click="GuardarCliente()">
+                    <button  type="button" id="btnGuardar" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Search" data-ng-click="GuardarCliente()">
                         <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                     </button>
 
-                    <button type="button" id="btnNuevo" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="New" data-ng-click="LimpiarObjeto()">
+                    <button type="button" id="btnNuevo" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="New" data-ng-click="LimpiarDatos()">
                         <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
                     </button>
 
@@ -39,7 +33,7 @@
                             Cédula:
                         </label>
                         <div class="col-sm-7">
-                            <input  ng-model="Cliente.Cedula" id="txtInvoiceNumber" numbers-only maxlength="15" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Digite su cédula..." value="" tabindex=1>
+                            <input  ng-model="Cliente.Cedula" id="txtCedula" numbers-only maxlength="15" data-ng-enter="ConsultarCliente($event, Cliente.Cedula)" type="text" class="form-control input-sm" placeholder="Digite su cédula..." value="" tabindex=1>
                         </div>
                     </div>
 
@@ -121,7 +115,9 @@
                             Estado:
                         </label>
                         <div class="col-sm-7">
-                            <select ng-model="Cliente.Estado" ng-options="item.Descripcion as item.Descripcion for item in EstadoClientes" class="form-control form-control-sm"  tabindex=11>
+                            <select ng-model="EstadoSeleccionado" class="form-control form-control-sm" tabindex=11>
+                                <option value="ACTIVO" selected>ACTIVO</option>
+                                <option value="INACTIVO">INACTIVO</option>
                             </select>
                         </div>
                     </div>
@@ -135,7 +131,7 @@
                             Municipio:
                         </label>
                         <div class="col-sm-7">                            
-                            <select ng-model="MunicipioSeleccionado" ng-options="municipio.id_Municipio as municipio.nombre for municipio in Municipios" ng-change="updateSelectBarrios(MunicipioSeleccionado)" class="form-control form-control-sm"  tabindex=4>
+                            <select ng-model="MunicipioSeleccionado" ng-options="municipio.id_Municipio as municipio.nombre for municipio in Municipios | orderBy:'nombre'" ng-change="FiltrarBarrios(MunicipioSeleccionado)" class="form-control form-control-sm"  tabindex=4>
                             </select>
                         </div>
                     </div>
@@ -145,7 +141,7 @@
                             Barrio:
                         </label>
                         <div class="col-sm-7">
-                            <select   ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" ng-options="barrio.id_Barrio as barrio.nombre for barrio in Barrios" class="form-control form-control-sm"  tabindex = 8>                                
+                            <select  ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" ng-options="barrio.id_Barrio as barrio.nombre for barrio in Barrios | orderBy:'nombre'" class="form-control form-control-sm"  tabindex = 8>                                
  
                             </select>
                         </div>
@@ -156,7 +152,7 @@
                             Tipo Cliente:
                         </label>                       
                             <div class="col-sm-7">
-                                <select ng-model="Cliente.Id_Tipo" ng-options="item.id_Tipo as item.nombre for item in TipoClientes | orderBy:'id_Tipo'" class="form-control form-control-sm" tabindex=12>
+                                <select ng-model="TipoClienteSeleccionado" ng-options="item.id_Tipo as item.nombre for item in TipoClientes | orderBy:'id_Tipo'" class="form-control form-control-sm" tabindex=12>
                                 </select>
                             </div>                        
                     </div>

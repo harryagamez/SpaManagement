@@ -314,7 +314,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Barrio> ConsultarBarrios()
+        public List<Barrio> ConsultarBarrios(int IdMunicipio)
         {
             DataTable _datatable = new DataTable();
             List<Barrio> _listBarrios = new List<Barrio>();
@@ -333,6 +333,7 @@ namespace Spa.Infrastructure.SpaRepository
                     {
                         _command.CommandType = CommandType.StoredProcedure;
                         _command.CommandText = "ConsultarBarrios";
+                        _command.Parameters.AddWithValue("@IdMunicipio", IdMunicipio);
                         _adapter.SelectCommand = _command;
 
                         try
@@ -389,6 +390,49 @@ namespace Spa.Infrastructure.SpaRepository
                 }
 
                 return _listTipoClientes;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public Cliente ConsultarCliente(string Cedula, string IdEmpresa)
+        {
+            DataTable _datatable = new DataTable();
+            Cliente _cliente = new Cliente();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarCliente";
+                        _command.Parameters.AddWithValue("@CedulaCliente", Cedula);
+                        _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _cliente = _datatable.DataTableToList<Cliente>().FirstOrDefault();
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _cliente;
             }
             catch (Exception)
             {

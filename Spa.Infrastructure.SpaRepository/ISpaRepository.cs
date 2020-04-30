@@ -13,7 +13,8 @@ namespace Spa.Infrastructure.SpaRepository
         List<Cliente> ConsultarClientes(string IdEmpresa);
         bool SincronizarBarrios(List<Properties> _Properties);
         List<Municipio> ConsultarMunicipios();
-        List<Barrio> ConsultarBarrios();
+        List<Barrio> ConsultarBarrios(int IdMunicipio);
         List<TipoCliente> ConsultarTipoClientes();
+        Cliente ConsultarCliente(string Cedula, string IdEmpresa);
     }
 }

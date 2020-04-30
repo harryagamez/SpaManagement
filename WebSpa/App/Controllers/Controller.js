@@ -21,6 +21,8 @@
         $scope.ProcessQueu = [];
         $scope.DatosUsuario = { Usuario: '', Clave: '', CodigoIntegracion: '' }
 
+        $('#txtUsuario').focus();
+
         $scope.$on('$viewContentLoaded', function () {
             $location.replace();
         });
@@ -114,87 +116,178 @@
 
     function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
 
-        // Inicializacion
-        $scope.IdEmpresa = $rootScope.Id_Empresa;
-        $scope.IdUsuario = parseInt($rootScope.userData.userId);
-
         // Variables
         $scope.Clientes = [];
-        $scope.ObjetoCliente = [];        
-        $scope.Municipios = [];        
+        $scope.ObjetoCliente = [];
+        $scope.Municipios = [];
         $scope.Barrios = [];
+        $scope.BarriosGlobales = [];
         $scope.EstadoClientes = [];
-        $scope.MunicipioSeleccionado = "-1";
-        $scope.BarrioSeleccionado = "-1";
-
-        //$scope.EstadoSeleccionado = '[Seleccione]';
-
         $scope.TipoClientes = [];
         $scope.IsLoading = false;
         $scope.ProcessQueu = [];
+        $scope.MunicipioSeleccionado = -1;
+        $scope.BarrioSeleccionado = -1;
+        $scope.TipoClienteSeleccionado = -1;
+        $scope.EstadoSeleccionado = 'ACTIVO';
+        $scope.Accion = '';
 
-        // Enviar - Traer Datos
-        $scope.EstadoClientes.push({ Id: '[Seleccione]', Descripcion: '[Seleccione]' });
-        $scope.EstadoClientes.push({ Id: 'ACTIVO', Descripcion: 'ACTIVO' });
-        $scope.EstadoClientes.push({ Id: 'INACTIVO', Descripcion: 'INACTIVO' });  
+        // Inicialización
+        $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.IdUsuario = parseInt($rootScope.userData.userId);
 
-
-
-        debugger;
-        $scope.Clientes = $rootScope.Clientes;         
-        $scope.Municipios = $rootScope.Municipios;
-        $scope.Barrios = $rootScope.Barrios;
-        $scope.TipoClientes = $rootScope.TipoClientes;   
-        
-        $scope.Municipios.push({ id_Municipio: "-1", nombre: '[Seleccione]' });
-        $scope.Barrios.push({ id_Barrio: "-1", nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1  });
-        $scope.TipoClientes.push({ id_Tipo: -1, nombre: '[Seleccione]', descripcion: null })
-
-        if ($scope.Municipios.length > 0) {
-
-            $scope.Municipios = $filter('orderBy')($scope.Municipios, 'id_Municipio', true);
-        }
-
-
-        if ($scope.Barrios.length > 0) { 
-            $scope.Barrios = $filter('orderBy')($scope.Barrios, 'id_Barrio', true);
-        }
-
-        debugger;
-
-        // Objecto Cliente
         $scope.Cliente =
         {
-            Id_Cliente: -1, Cedula: '',
-            Nombres: '', Apellidos: '',
-            Telefono_Fijo: '', Telefono_Movil: '',
+            Id_Cliente: -1,
+            Cedula: '',
+            Nombres: '',
+            Apellidos: '',
+            Telefono_Fijo: '',
+            Telefono_Movil: '',
             Mail: '', Direccion: '',
-            Id_Municipio: -1, Id_Barrio: -1,
+            Id_Municipio: -1,
+            Id_Barrio: -1,
             Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
             Id_Tipo: -1,
-            Estado: '[Seleccione]',
+            Estado: $scope.EstadoSeleccionado,
             Id_Empresa: $scope.IdEmpresa,
             Id_Usuario_Creacion: $scope.IdUsuario
-        }  
+        }
 
-        $scope.ObjetoCliente.push($scope.Cliente);
+        $scope.Inicializacion = function () {
+
+            document.getElementById("divGridClientes").style.height = (window.innerHeight - 260) + "px"
+            $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
+
+            $('#txtCedula').focus();
+
+        }
 
         // Invocaciones API
-        $scope.GuardarCliente = GuardarCliente;
-        $scope.ConsultarClientes = ConsultarClientes;
-        $scope.Inicializacion = Inicializacion;
+        $scope.GuardarCliente = function () {
 
-        $('#txtInvoiceNumber').focus();
+            if ($scope.ValidarDatos()) {
 
-        function GuardarCliente() {            
-            SPAService._registrarActualizarCliente(JSON.stringify($scope.ObjetoCliente))
+                $scope.ObjetoCliente.push($scope.Cliente);
+
+                SPAService._registrarActualizarCliente(JSON.stringify($scope.ObjetoCliente))
+                    .then(
+                        function (result) {
+                            if (result.data === true) {
+
+                                toastr.success('Cliente registrado y/o actualizado correctamente', '', $scope.toastrOptions);
+                                $scope.ConsultarClientes();
+                                $scope.LimpiarDatos();
+                                $('#txtInvoiceNumber').focus();
+
+                            }
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        })
+            }
+
+
+        }
+
+        $scope.ConsultarClientes = function () {
+
+            SPAService._consultarClientes($scope.IdEmpresa)
                 .then(
                     function (result) {
-                        if (result.data === true) {
-                            toastr.success('Cliente registrado y/o actualizado correctamente', '', $scope.toastrOptions);
-                            $scope.ConsultarClientes();
-                            $scope.LimpiarObjeto();
-                            $('#txtInvoiceNumber').focus();
+                        if (result.data !== undefined && result.data !== null) {
+
+                            $scope.Clientes = [];
+                            $scope.Clientes = result.data;
+                            $scope.ClientesGridOptions.api.setRowData($scope.Clientes);
+
+                            $timeout(function () {
+                                $scope.ClientesGridOptions.api.sizeColumnsToFit();
+                            }, 300);
+
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+
+            $('#txtCedula').focus();
+
+        }
+
+        $scope.ConsultarCliente = function (e, cedula_cliente) {
+
+            $scope.Accion = '';
+
+            $scope.Cliente.Id_Cliente = -1;
+            $scope.Cliente.Nombres = '';
+            $scope.Cliente.Apellidos = '';
+            $scope.Cliente.Telefono_Fijo = '';
+            $scope.Cliente.Telefono_Movil = '';
+            $scope.Cliente.Mail = '';
+            $scope.Cliente.Direccion = '';
+            $scope.Cliente.Id_Barrio = -1;
+            $scope.Cliente.Id_Municipio = -1;
+            $scope.Cliente.Fecha_Nacimiento = $filter('date')(new Date(), 'MM-dd-yyyy');
+            $scope.Cliente.Id_Tipo = -1;
+            $scope.Cliente.Estado = $scope.EstadoSeleccionado;
+
+            if (cedula_cliente !== null && cedula_cliente !== '') {
+
+                SPAService._consultarCliente(cedula_cliente, $scope.IdEmpresa)
+                    .then(
+                        function (result) {
+
+                            if (result.data !== undefined && result.data !== null) {
+
+                                $scope.Accion = 'BUSQUEDA_CLIENTE';
+
+                                $scope.Cliente.Id_Cliente = result.data.id_Cliente;
+                                $scope.Cliente.Cedula = result.data.cedula;
+                                $scope.Cliente.Nombres = result.data.nombres;
+                                $scope.Cliente.Apellidos = result.data.apellidos;
+
+                                $scope.Cliente.Telefono_Fijo = result.data.telefono_Fijo;
+                                $scope.Cliente.Telefono_Movil = result.data.telefono_Movil;
+                                $scope.Cliente.Mail = result.data.mail;
+                                $scope.Cliente.Direccion = result.data.direccion;
+                                $scope.Cliente.Id_Barrio = result.data.id_Barrio;
+                                $scope.Cliente.Id_Municipio = result.data.id_Municipio;
+                                $scope.Cliente.Fecha_Nacimiento = $filter('date')(new Date(result.data.fecha_Nacimiento), 'MM/dd/yyyy');
+                                $scope.Cliente.Id_Tipo = result.data.id_Tipo;
+                                $scope.TipoClienteSeleccionado = result.data.id_Tipo;
+                                $scope.Cliente.Estado = result.data.estado;
+
+                                $scope.MunicipioSeleccionado = $scope.Cliente.Id_Municipio;
+
+                                $scope.ConsultarBarrios($scope.MunicipioSeleccionado);
+
+                            }
+
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        })
+
+                $('#txtCedula').focus();
+
+            }
+
+        }
+
+        $scope.ConsultarTipoClientes = function () {
+
+            SPAService._consultarTipoClientes()
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+
+                            $scope.TipoClientes = [];
+                            $scope.TipoClientes = result.data;
+                            $scope.TipoClientes.push({ id_Tipo: -1, nombre: '[Seleccione]', descripcion: "" })
 
                         }
                     }, function (err) {
@@ -204,57 +297,62 @@
                     })
         }
 
-        function ConsultarClientes() {
+        $scope.ConsultarBarrios = function (id_Municipio) {
 
-            SPAService._consultarClientes($scope.IdEmpresa)
+            SPAService._consultarBarrios(id_Municipio)
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
-                            debugger;
-                            $scope.Clientes = [];
-                            $scope.Clientes = result.data;
-                            localStorageService.remove("clientes");
-                            $scope.ClientesGridOptions.api.setRowData($scope.Clientes);
 
-                            $timeout(function () {
-                                $scope.ClientesGridOptions.api.sizeColumnsToFit();
-                            }, 300);
+                            $scope.Barrios = [];
+                            $scope.BarrioSeleccionado = -1
+
+                            $scope.Barrios = result.data;
+                            if ($scope.Barrios.length > 0) {
+
+                                $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1 });
+
+                            } else
+                                $scope.MunicipioSeleccionado = -1;
+
+                            if ($scope.Accion === 'BUSQUEDA_CLIENTE')
+                                $scope.BarrioSeleccionado = $scope.Cliente.Id_Barrio;
+
                         }
                     }, function (err) {
                         toastr.remove();
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
-                })
-
-        }        
-
-        function Inicializacion() {
-            document.getElementById("divGridClientes").style.height = (window.innerHeight - 260) + "px"
-            $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
-        }
-
-        $scope.LimpiarObjeto = function () {
-            $scope.Cliente =
-            {
-                Id_Cliente: -1, Cedula: '',
-                Nombres: '', Apellidos: '',
-                Telefono_Fijo: '', Telefono_Movil: '',
-                Mail: '', Direccion: '',
-                Id_Municipio: -1, Id_Barrio: -1,
-                Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
-                Id_Tipo: -1,
-                Estado: '[Seleccione]',
-                Id_Empresa: $scope.IdEmpresa,
-                Id_Usuario_Creacion: $scope.IdUsuario
-            }
-            $('#txtInvoiceNumber').focus();
+                    })
 
         }
 
-        $scope.updateSelectBarrios = function (municipio) {
-            debugger;
-            $scope.Barrios = $filter('filter')($scope.Barrios, { id_Municipio: municipio});
-        }  
+        $scope.ConsultarMunicipios = function () {
+
+            SPAService._consultarMunicipios()
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+
+                            $scope.Municipios = [];
+                            $scope.Municipios = result.data;
+                            $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });
+
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+
+        }
+
+        // Filtros
+        $scope.FiltrarBarrios = function (id_Municipio) {
+
+            $scope.ConsultarBarrios(id_Municipio);
+
+        }
 
         // Eventos
         $("body").tooltip({
@@ -288,6 +386,74 @@
             }, 300);
         }
 
+        // Validaciones
+        $scope.ValidarDatos = function () {
+
+            $scope.Cliente.Id_Barrio = $scope.BarrioSeleccionado
+            $scope.Cliente.Id_Tipo = $scope.TipoClienteSeleccionado;
+
+            if ($scope.Cliente.Nombres === '') {
+                toastr.info('Nombre del cliente es requerido', '', $scope.toastrOptions);
+                return false;
+            }
+
+            if ($scope.Cliente.Apellidos === '') {
+                toastr.info('Apellido del cliente es requerido', '', $scope.toastrOptions);
+                return false;
+            }
+
+            if ($scope.Cliente.Telefono_Movil === '') {
+                toastr.info('Celular del cliente es requerido', '', $scope.toastrOptions);
+                return false;
+            }
+
+            if ($scope.Cliente.Mail === '') {
+                toastr.info('Correo electrónico del clientes es requerido', '', $scope.toastrOptions);
+                return false;
+            }
+
+            if ($scope.Cliente.Id_Tipo === -1) {
+                toastr.info('Tipo de cliente es requerido', '', $scope.toastrOptions);
+                return false;
+            }
+
+            if ($scope.Cliente.Id_Barrio === -1) {
+                toastr.info('Debe seleccionar un barrio', '', $scope.toastrOptions);
+                return false;
+            }
+
+            return true;
+        }
+
+        // Limpiar Datos
+        $scope.LimpiarDatos = function () {
+
+            $scope.Cliente =
+            {
+                Id_Cliente: -1,
+                Cedula: '',
+                Nombres: '',
+                Apellidos: '',
+                Telefono_Fijo: '',
+                Telefono_Movil: '',
+                Mail: '', Direccion: '',
+                Id_Municipio: -1,
+                Id_Barrio: -1,
+                Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
+                Id_Tipo: -1,
+                Estado: $scope.EstadoSeleccionado,
+                Id_Empresa: $scope.IdEmpresa,
+                Id_Usuario_Creacion: $scope.IdUsuario
+            }
+
+            $scope.MunicipioSeleccionado = -1;
+            $scope.BarrioSeleccionado = -1;
+            $scope.TipoClienteSeleccionado = -1;
+
+            $('#txtCedula').focus();
+
+        }
+
         // Agr-grid Options
         $scope.ClientesGridOptionsColumns = [
 
@@ -298,7 +464,7 @@
                 headerName: "Cédula", field: 'cedula', width: 130, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
             },
             {
-                headerName: "Nombres(s)", field: 'nombres', width: 130, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Nombres(s)", field: 'nombres', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
                 headerName: "Apellido(s)", field: 'apellidos', width: 130, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -316,9 +482,9 @@
                 headerName: "Barrio", field: 'barrio', width: 170, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Registro", field: 'fecha_Registro', width: 130, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
+                headerName: "Registro", field: 'fecha_Registro', width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
                     return data.value ? (new Date(data.value)).toLocaleDateString() : '';
-                },                
+                },
             }
         ];
 
@@ -343,8 +509,12 @@
             rowSelection: 'multiple'
         }
 
+        // Invocación Funciones
         $scope.ConsultarClientes();
+        $scope.ConsultarMunicipios();
+        $scope.ConsultarTipoClientes();
         $scope.Inicializacion();
+
     }
 
 })();

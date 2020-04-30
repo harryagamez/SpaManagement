@@ -58,6 +58,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/SPA/ConsultarCliente")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarCliente(string Cedula, string IdEmpresa)
+        {
+            try
+            {
+                Cliente _cliente = _spaService.ConsultarCliente(Cedula, IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _cliente);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando el cliente: " + ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("api/SPA/RegistrarActualizarCliente")]
         [HttpCache(DefaultExpirySeconds = 2)]
@@ -112,11 +129,11 @@ namespace WebApiSpa.Controllers
         [HttpGet]
         [Route("api/SPA/ConsultarBarrios")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult ConsultarBarrios()
+        public IHttpActionResult ConsultarBarrios(int IdMunicipio)
         {
             try
             {
-                List<Barrio> _listBarrios = _spaService.ConsultarBarrios();
+                List<Barrio> _listBarrios = _spaService.ConsultarBarrios(IdMunicipio);
 
                 return Content(HttpStatusCode.OK, _listBarrios);
             }

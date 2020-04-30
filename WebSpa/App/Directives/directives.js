@@ -5,12 +5,13 @@
         .directive('limitTo', limitTo)
         .directive('numbersOnly', numbersOnly)
         .directive('renderOptionDatePicker', renderOptionDatePicker)
+        .directive('ngEnter', ngEnter)
         .directive('validateEmail', function () {
-            var EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
+            var email_regexp = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
             return {
                 link: function (scope, elm) {
                     elm.on("keyup", function () {
-                        var isMatchRegex = EMAIL_REGEXP.test(elm.val());
+                        var isMatchRegex = email_regexp.test(elm.val());
                         if (isMatchRegex && elm.hasClass('warning') || elm.val() == '') {
                             elm.removeClass('warning');
                         } else if (isMatchRegex == false && !elm.hasClass('warning')) {
@@ -141,6 +142,20 @@
             },
             template: '<input  data-icon="calendar" data-ng-maxlength="pickerParamts.elemMaxLength" data-ng-model="renderNgModelPicker" type="text" class="form-control" data-ng-class="pickerParamts.elemClass" data-ui-date="pickerParamts.dateOptions" data-ng-required="true" />',
 
+        };
+    }
+
+    function ngEnter() {
+        return function (scope, element, attrs) {
+            element.bind("keydown keypress", function (event) {
+                if (event.which === 13) {
+                    scope.$apply(function () {
+                        scope.$eval(attrs.ngEnter, { 'event': event });
+                    });
+
+                    event.preventDefault();
+                }
+            });
         };
     }
 
