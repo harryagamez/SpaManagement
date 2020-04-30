@@ -95,6 +95,8 @@
             authService.logOut();
         }
 
+        $scope.UsuarioSistema = $rootScope.userData.userName;
+
         $scope.$on('successfull.menuload', function () {
             if ($scope.Menu.length == 0)
                 $scope.Menu = $rootScope.Menu;
