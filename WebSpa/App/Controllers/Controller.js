@@ -392,6 +392,11 @@
             $scope.Cliente.Id_Barrio = $scope.BarrioSeleccionado
             $scope.Cliente.Id_Tipo = $scope.TipoClienteSeleccionado;
 
+            if ($scope.Cliente.Cedula === '') {
+                toastr.info('Identificación del cliente es requerida', '', $scope.toastrOptions);
+                return false;
+            }
+
             if ($scope.Cliente.Nombres === '') {
                 toastr.info('Nombre del cliente es requerido', '', $scope.toastrOptions);
                 return false;
