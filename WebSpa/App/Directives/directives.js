@@ -6,6 +6,7 @@
         .directive('numbersOnly', numbersOnly)
         .directive('renderOptionDatePicker', renderOptionDatePicker)
         .directive('ngEnter', ngEnter)
+        .directive('tooltip', tooltip)
         .directive('validateEmail', function () {
             var email_regexp = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
             return {
@@ -163,6 +164,17 @@
                     event.preventDefault();
                 }
             });
+        };
+    }
+
+    function tooltip() {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attributes) {
+                element.bind('mouseleave', function () {
+                    $('body>.tooltip').remove();
+                });
+            }
         };
     }
 

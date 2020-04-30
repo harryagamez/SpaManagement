@@ -89,12 +89,14 @@
                             userId: response.data.UserId,
                             userRole: response.data.Role,
                             integrationCode: response.data.IntegrationCode,
-                            companyId: response.data.CompanyId
+                            companyId: response.data.CompanyId,
+                            companyName: response.data.CompanyName
                         });
-
-                    $rootScope.userData = { userName: response.data.UserName, userId: response.data.UserId, userRole: response.data.Role }
+               
+                    $rootScope.userData = { userName: response.data.UserName, userId: response.data.UserId, userRole: response.data.Role, companyName: response.data.CompanyName }
 
                     $rootScope.Id_Empresa = response.data.CompanyId;
+                    $rootScope.Nombre_Empresa = response.data.CompanyName;
 
                     _authentication.isAuth = true;
                     _authentication.userName = userName;
@@ -121,6 +123,7 @@
             localStorageService.remove('masterdataClientes');
             localStorageService.remove('masterdataMunicipios');
             localStorageService.remove('masterdataBarrios');
+            localStorageService.remove('masterdataTipoServicio');
             $rootScope.Menu = [];
             $rootScope.TipoClientes = [];
             $rootScope.Clientes = [];
@@ -145,6 +148,7 @@
 
                 $rootScope.userData = { userName: authData.userName, userId: authData.userId }
                 $rootScope.Id_Empresa = authData.companyId;
+                $rootScope.Nombre_Empresa = authData.companyName;
 
                 var masterDataMenu = localStorageService.get('masterdataMenu');
                 if (masterDataMenu)

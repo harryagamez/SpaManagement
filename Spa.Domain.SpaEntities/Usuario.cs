@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Spa.Domain.SpaEntities.Extensions;
+using System;
 
 namespace Spa.Domain.SpaEntities
 {
-    public class Usuario
+    public class Usuario : BusquedaUsuario
     {
         public int Id_Usuario { get; set; }
         public string Nombre { get; set; }
