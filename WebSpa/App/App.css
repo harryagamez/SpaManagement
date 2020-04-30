@@ -327,8 +327,9 @@ body {
 }
 
 .btn-informe {
-    padding: 10px 15px 10px 15px !important;
+    padding: 5px 15px 5px 15px !important;
     min-width: 250px !important;
+    border: none;
 }
 
 /*################ Filters, Shadows, Transitions ################*/
