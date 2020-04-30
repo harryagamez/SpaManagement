@@ -326,6 +326,10 @@ body {
     list-style: none;
 }
 
+.btn-informe {
+    padding: 10px 15px 10px 15px !important;
+    min-width: 250px !important;
+}
 
 /*################ Filters, Shadows, Transitions ################*/
 

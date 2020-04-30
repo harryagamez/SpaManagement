@@ -512,7 +512,13 @@
             var cedulaFila = event.node.data.cedula;
             document.getElementById("txtCedula").value = cedulaFila;            
             $scope.ConsultarCliente(event, cedulaFila);            
-        }        
+        }
+
+        // Boton con Dropdown menu no se cierre on click
+        $('body').on("click", ".dropdown-menu", function (e) {
+            $(this).parent().is(".show") && e.stopPropagation();
+        });
+
 
         // Invocación Funciones
         $scope.ConsultarClientes();

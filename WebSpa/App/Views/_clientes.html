@@ -6,21 +6,51 @@
 </head>
 <body>
     <form id="frmClientes">
-        <div class="container-fluid">           
+        <div class="container-fluid">          
 
             <div id="divButtons" class="row mt-2">
                 <div class="col-12">
-                    <button  type="button" id="btnGuardar" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarCliente()">
+                    <button type="button" id="btnGuardar" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarCliente()">
                         <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                     </button>
 
                     <button type="button" id="btnNuevo" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
                         <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                    </button>
-
-                    <button type="button" id="btnDocumentos" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Informes">
-                        <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Informes
-                    </button>
+                    </button>                   
+                    
+                    <div class="btn-group">
+                        <button type="button" id="btnDocumentos" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Informes">
+                            <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Informes
+                        </button>
+                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item btn-informe">
+                                    <!-- Default checked -->
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="check1">
+                                        <label class="custom-control-label" for="check1">Listado de clientes</label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item btn-informe">
+                                    <!-- Default checked -->
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="check3">
+                                        <label class="custom-control-label" for="check3">Servicios facturados detallado</label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item btn-informe">
+                                    <!-- Default checked -->
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="check4">
+                                        <label class="custom-control-label" for="check4">Servicios factura general</label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
 
