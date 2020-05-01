@@ -151,6 +151,7 @@
 
             if ($scope.ValidarDatos()) {
 
+                $scope.ObjetoCliente = [];
                 $scope.ObjetoCliente.push($scope.Cliente);
 
                 SPAService._registrarActualizarCliente(JSON.stringify($scope.ObjetoCliente))
@@ -200,8 +201,8 @@
 
         }
 
-        $scope.ConsultarCliente = function (e, cedula_cliente) {   
-            
+        $scope.ConsultarCliente = function (e, cedula_cliente) {
+
             $scope.Accion = '';
 
             $scope.Cliente.Id_Cliente = -1;
@@ -428,6 +429,7 @@
             $scope.DetalladoServicios = false;
             $scope.GeneralServicios = false;
             $scope.Accion = '';
+            $scope.ObjetoCliente = [];
 
             $('#txtCedula').focus();
             $scope.CedulaReadOnly = false;
@@ -490,10 +492,10 @@
             onRowClicked: onRowSelected
         }
 
-        function onRowSelected(event) {                        
+        function onRowSelected(event) {
             var cedulaFila = event.node.data.cedula;
             $('#txtCedula').val(cedulaFila);
-            $scope.ConsultarCliente(event, cedulaFila);            
+            $scope.ConsultarCliente(event, cedulaFila);
         }
 
         // Invocación Funciones
