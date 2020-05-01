@@ -180,8 +180,7 @@
             SPAService._consultarClientes($scope.IdEmpresa)
                 .then(
                     function (result) {
-                        if (result.data !== undefined && result.data !== null) {
-
+                        if (result.data !== undefined && result.data !== null) {                            
                             $scope.Clientes = [];
                             $scope.Clientes = result.data;
                             $scope.ClientesGridOptions.api.setRowData($scope.Clientes);
@@ -246,7 +245,7 @@
 
                                 $scope.MunicipioSeleccionado = $scope.Cliente.Id_Municipio;
 
-                                $scope.ConsultarBarrios($scope.MunicipioSeleccionado);
+                                $scope.ConsultarBarrios($scope.MunicipioSeleccionado);                               
 
                             }
 
@@ -282,8 +281,7 @@
                     })
         }
 
-        $scope.ConsultarBarrios = function (id_Municipio) {
-
+        $scope.ConsultarBarrios = function (id_Municipio) {            
             SPAService._consultarBarrios(id_Municipio)
                 .then(
                     function (result) {
@@ -489,13 +487,38 @@
             animateRows: true,
             suppressRowClickSelection: true,
             rowSelection: 'multiple',
-            onRowClicked: onRowSelected
+            onRowClicked: OnRowClicked
         }
 
-        function onRowSelected(event) {
-            var cedulaFila = event.node.data.cedula;
-            $('#txtCedula').val(cedulaFila);
-            $scope.ConsultarCliente(event, cedulaFila);
+        function OnRowClicked (event) {
+            if (event.node.data !== undefined && event.node.data !== null) {
+
+                $scope.Accion = 'BUSQUEDA_CLIENTE';
+                $scope.Cliente.Id_Cliente = event.node.data.id_Cliente;
+                $scope.Cliente.Cedula = event.node.data.cedula;
+                $scope.Cliente.Nombres = event.node.data.nombres;
+                $scope.Cliente.Apellidos = event.node.data.apellidos;
+
+                $scope.Cliente.Telefono_Fijo = event.node.data.telefono_Fijo;
+                $scope.Cliente.Telefono_Movil = event.node.data.telefono_Movil;
+                $scope.Cliente.Mail = event.node.data.mail;
+                $scope.Cliente.Direccion = event.node.data.direccion;
+                $scope.Cliente.Id_Municipio = event.node.data.id_Municipio;
+                $scope.Cliente.Id_Barrio = event.node.data.id_Barrio;                
+                $scope.Cliente.Fecha_Nacimiento = $filter('date')(new Date(event.node.data.fecha_Nacimiento), 'MM/dd/yyyy');
+                $scope.Cliente.Id_Tipo = event.node.data.id_Tipo;
+                $scope.TipoClienteSeleccionado = event.node.data.id_Tipo;
+                $scope.Cliente.Estado = event.node.data.estado;
+
+                $scope.MunicipioSeleccionado = $scope.Cliente.Id_Municipio;
+                $scope.BarrioSeleccionado = $scope.Cliente.Id_Barrio;
+                
+                $scope.ConsultarBarrios($scope.MunicipioSeleccionado);                 
+
+                $scope.CedulaReadOnly = true;
+                $('#txtNombre').focus();                
+            }
+                  
         }
 
         // Invocación Funciones
