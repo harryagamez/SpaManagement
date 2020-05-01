@@ -19,8 +19,6 @@
         $scope.ValidarDatos = ValidarDatos;
         $scope.Login = Login;
         $scope.ValidarIntegracion = false;
-        $scope.IsLoading = false;
-        $scope.ProcessQueu = [];
         $scope.DatosUsuario = { Usuario: '', Clave: '', CodigoIntegracion: '' }
 
         $('#txtUsuario').focus();
@@ -70,23 +68,6 @@
 
         }
 
-        $scope.BeginProcess = function (processName) {
-            $scope.ProcessQueu.push(processName);
-            $scope.IsLoading = true;
-        };
-
-        $scope.EndProcess = function (processName) {
-            for (var i = 0; i < $scope.ProcessQueu.length; i++) {
-                if ($scope.ProcessQueu[i] === processName) {
-                    $scope.ProcessQueu.splice(i, 1);
-                }
-            }
-
-            if ($scope.ProcessQueu.length === 0) {
-                $scope.IsLoading = false;
-            }
-        };
-
     }
 
     function HomeController($scope, $rootScope, $element, $location, localStorageService, authService) {
@@ -110,6 +91,7 @@
         $scope.$on("$destroy", function () {
             $scope.Menu = [];
         });
+
     }
 
     function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
@@ -129,6 +111,9 @@
         $scope.TipoClienteSeleccionado = -1;
         $scope.EstadoSeleccionado = 'ACTIVO';
         $scope.Accion = '';
+        $scope.ListadoClientes = false;
+        $scope.DetalladoServicios = false;
+        $scope.GeneralServicios = false;
 
         // Inicialización
         $scope.IdEmpresa = $rootScope.Id_Empresa;
@@ -215,7 +200,8 @@
 
         }
 
-        $scope.ConsultarCliente = function (e, cedula_cliente) {            
+        $scope.ConsultarCliente = function (e, cedula_cliente) {   
+            
             $scope.Accion = '';
 
             $scope.Cliente.Id_Cliente = -1;
@@ -270,7 +256,7 @@
                         })
 
                 $('#txtNombre').focus();
-                $scope.cedulaReadOnly = true;
+                $scope.CedulaReadOnly = true;
 
             }
 
@@ -352,34 +338,20 @@
 
         }
 
-        $scope.BeginProcess = function (processName) {
-            $scope.ProcessQueu.push(processName);
-            $scope.IsLoading = true;
-        };
-
-        $scope.EndProcess = function (processName) {
-            for (var i = 0; i < $scope.ProcessQueu.length; i++) {
-                if ($scope.ProcessQueu[i] === processName) {
-                    $scope.ProcessQueu.splice(i, 1);
-                }
-            }
-
-            if ($scope.ProcessQueu.length === 0) {
-                $scope.IsLoading = false;
-            }
-
-        };
-
         window.onresize = function () {
+
             document.getElementById("divGridClientes").style.height = (window.innerHeight - 260) + "px"
 
             $timeout(function () {
                 $scope.ClientesGridOptions.api.sizeColumnsToFit();
             }, 300);
+
         }
 
         // Validaciones
         $scope.ValidarDatos = function () {
+
+            let maiL_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
 
             $scope.Cliente.Id_Barrio = $scope.BarrioSeleccionado
             $scope.Cliente.Id_Tipo = $scope.TipoClienteSeleccionado;
@@ -406,6 +378,11 @@
 
             if ($scope.Cliente.Mail === '') {
                 toastr.info('Correo electrónico del clientes es requerido', '', $scope.toastrOptions);
+                return false;
+            }
+
+            if (!maiL_expression.test($scope.Cliente.Mail)) {
+                toastr.info('La dirección de correo electrónico no es válida.', '', $scope.toastrOptions);
                 return false;
             }
 
@@ -447,8 +424,13 @@
             $scope.BarrioSeleccionado = -1;
             $scope.TipoClienteSeleccionado = -1;
 
+            $scope.ListadoClientes = false;
+            $scope.DetalladoServicios = false;
+            $scope.GeneralServicios = false;
+            $scope.Accion = '';
+
             $('#txtCedula').focus();
-            $scope.cedulaReadOnly = false;
+            $scope.CedulaReadOnly = false;
 
         }
 
@@ -510,15 +492,9 @@
 
         function onRowSelected(event) {                        
             var cedulaFila = event.node.data.cedula;
-            document.getElementById("txtCedula").value = cedulaFila;            
+            $('#txtCedula').val(cedulaFila);
             $scope.ConsultarCliente(event, cedulaFila);            
         }
-
-        // Boton con Dropdown menu no se cierre on click
-        $('body').on("click", ".dropdown-menu", function (e) {
-            $(this).parent().is(".show") && e.stopPropagation();
-        });
-
 
         // Invocación Funciones
         $scope.ConsultarClientes();
@@ -562,7 +538,6 @@
         // Invocación Funciones
         $scope.ConsultarTipoServicios();
 
-
     }
 
     angular.element(document).ready(function () {
@@ -572,6 +547,11 @@
             selector: '[data-toggle="tooltip"]',
             trigger: 'hover'
         });
+
+        $('body').on("click", ".dropdown-menu", function (e) {
+            $(this).parent().is(".show") && e.stopPropagation();
+        });
+
 
     })
 

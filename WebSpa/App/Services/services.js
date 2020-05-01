@@ -55,8 +55,10 @@
             localStorageService.remove('masterdataClientes');
             localStorageService.remove('masterdataMunicipios');
             localStorageService.remove('masterdataBarrios');
+            localStorageService.remove('masterdataTipoServicio');
 
             $rootScope.Id_Empresa = '';
+            $rootScope.Nombre_Empresa = '';
 
             var deferred = $q.defer();
 
@@ -92,7 +94,7 @@
                             companyId: response.data.CompanyId,
                             companyName: response.data.CompanyName
                         });
-               
+
                     $rootScope.userData = { userName: response.data.UserName, userId: response.data.UserId, userRole: response.data.Role, companyName: response.data.CompanyName }
 
                     $rootScope.Id_Empresa = response.data.CompanyId;

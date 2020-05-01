@@ -12,7 +12,7 @@
                     <form class="form-container" style="min-width:320px;">
                         <div class="form-group row login-header">
                             <h2 class="text-center" style="width:100%; color: var(--light-text); font-weight:600; padding-top: 50px;">SPA<br />MANAGEMENT</h2>
-                        </div>                        
+                        </div>
                         <div class="form-group row">
                             <label class="col-form-label" for="txtUsuario">Usuario</label>
                             <div style="display:flex; width:100%;">
@@ -32,7 +32,7 @@
                             <div style="display:flex; width:100%" ;>
                                 <i class="material-icons login-icons md-24">Warning</i>
                                 <input id="ctlIntegration" type="text" ng-model="DatosUsuario.CodigoIntegracion" class="form-control form-control-md" placeholder="Código validación">
-                            </div>                            
+                            </div>
                         </div>
                         <div class="form-group row" style="margin-top: 30px;">
                             <button type="button" class="btn btn-primary btn-md btn-block" style="margin-right: 0px !important; height: 40px !important; box-shadow: 1px 1px 15px rgba(0,0,0,0.1);" ng-click="Login()">Ingresar</button>
@@ -43,10 +43,7 @@
                     </form>
                 </section>
             </section>
-            <div id="BackGround" ng-if="IsLoading" class="background" style="width: 100%; height: 100%; top: 0; left: 0; position: fixed; display: block; opacity: 0.7; background-color: #fff; z-index: 9999; text-align: center; display: block">
-                <div class="loader"></div>
-            </div>
         </section>
-    </div>    
+    </div>
 </body>
 </html>

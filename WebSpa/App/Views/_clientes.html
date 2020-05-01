@@ -6,9 +6,10 @@
 </head>
 <body>
     <form id="frmClientes">
-        <div class="container-fluid">          
+        <div class="container-fluid">
 
             <div id="divButtons" class="row mt-2">
+
                 <div class="col-12">
                     <button type="button" id="btnGuardar" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarCliente()">
                         <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
@@ -16,48 +17,48 @@
 
                     <button type="button" id="btnNuevo" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
                         <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                    </button>                   
-                    
+                    </button>
+
                     <div class="btn-group" style="height:33px !important;">
                         <button type="button" id="btnDocumentos" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Informes">
                             <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Informes
                         </button>
-                        <button type="button" class="btn btn-primary dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                            
-                            <i class="material-icons" style="transform: scaleX(-1); margin-top: -7px;">settings</i> 
+                        <button type="button" class="btn btn-primary dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons" style="transform: scaleX(-1); margin-top: -7px;">settings</i>
                         </button>
                         <div class="dropdown-menu">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item btn-informe">  
-                                    <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1">
-                                            Listado de clientes
-                                    </md-checkbox>    
+                                <li class="list-group-item btn-informe">
+                                    <md-checkbox ng-model="ListadoClientes" aria-label="Checkbox 1">
+                                        Listado de clientes
+                                    </md-checkbox>
                                 </li>
                                 <li class="list-group-item btn-informe">
-                                    <md-checkbox ng-model="data.cb2" aria-label="Checkbox 2">
-                                            Servicios facturados detallado
-                                    </md-checkbox>           
+                                    <md-checkbox ng-model="DetalladoServicios" aria-label="Checkbox 2">
+                                        Detallado servicios facturados
+                                    </md-checkbox>
                                 </li>
-                                <li class="list-group-item btn-informe"> 
-                                    <md-checkbox ng-model="data.cb3" aria-label="Checkbox 3">
-                                            Servicios factura general
-                                    </md-checkbox> 
+                                <li class="list-group-item btn-informe">
+                                    <md-checkbox ng-model="GeneralServicios" aria-label="Checkbox 3">
+                                        General servicios facturados
+                                    </md-checkbox>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <div id="divDatos" class="row mb-2 mt-3">
 
                 <div class="col-sm-3">
-
                     <div class="form-group row">
-                        <label class="col-sm-5 col-form-label wf-label" for="companyCode">
+                        <label class="col-sm-5 col-form-label wf-label">
                             Cédula:
                         </label>
                         <div class="col-sm-7">
-                            <input  ng-model="Cliente.Cedula" ng-readonly="cedulaReadOnly" id="txtCedula" numbers-only maxlength="15" data-ng-enter="ConsultarCliente($event, Cliente.Cedula)" type="text" class="form-control input-sm" placeholder="Digite su cédula..." value="" tabindex=1>
+                            <input ng-model="Cliente.Cedula" ng-readonly="CedulaReadOnly" id="txtCedula" numbers-only maxlength="15" data-ng-enter="ConsultarCliente($event, Cliente.Cedula)" type="text" class="form-control input-sm" placeholder="Digite su cédula..." value="" tabindex=1>
                         </div>
                     </div>
 
@@ -80,7 +81,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="col-sm-3">
@@ -90,7 +90,7 @@
                             Nombre(s):
                         </label>
                         <div class="col-sm-7">
-                            <input ng-model="Cliente.Nombres" maxlength="60" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Digite su nombre ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtNombre" tabindex=2>
+                            <input ng-model="Cliente.Nombres" maxlength="60" type="text" class="form-control input-sm" placeholder="Digite su nombre ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtNombre" tabindex=2>
                         </div>
                     </div>
 
@@ -99,16 +99,16 @@
                             E-Mail:
                         </label>
                         <div class="col-sm-7">
-                            <input ng-model="Cliente.Mail" validate-email maxlength="60" data-ng-keypress="SearchByInvoiceNumber($event)" type="email" class="form-control input-sm" placeholder="Digite su e-mail ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=6>
+                            <input ng-model="Cliente.Mail" maxlength="60" type="email" class="form-control input-sm" placeholder="Digite su e-mail ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=6>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-5 col-form-label wf-label" for="txtSearchText">
+                        <label class="col-sm-5 col-form-label wf-label">
                             Celular:
                         </label>
                         <div class="col-sm-7">
-                            <input ng-model="Cliente.Telefono_Movil" numbers-only  maxlength="12" data-ng-keypress="SearchByEnter($event)" type="text" class="form-control input-sm" placeholder="Digite su celular ..." value="" tabindex=10>
+                            <input ng-model="Cliente.Telefono_Movil" numbers-only maxlength="12" type="text" class="form-control input-sm" placeholder="Digite su celular ..." value="" tabindex=10>
                         </div>
                     </div>
 
@@ -117,11 +117,11 @@
                 <div class="col-sm-3">
 
                     <div class="form-group row">
-                        <label class="col-sm-5 col-form-label wf-label" for="dateType">
+                        <label class="col-sm-5 col-form-label wf-label">
                             Apellido(s):
                         </label>
                         <div class="col-sm-7">
-                            <input ng-model="Cliente.Apellidos" maxlength="60" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Digite su apellido ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=3>
+                            <input ng-model="Cliente.Apellidos" maxlength="60" type="text" class="form-control input-sm" placeholder="Digite su apellido ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=3>
                         </div>
                     </div>
 
@@ -130,12 +130,12 @@
                             Dirección:
                         </label>
                         <div class="col-sm-7">
-                            <input ng-model="Cliente.Direccion" maxlength="25" data-ng-keypress="SearchByInvoiceNumber($event)" type="text" class="form-control input-sm" placeholder="Digite su dirección ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=7>
+                            <input ng-model="Cliente.Direccion" maxlength="25" type="text" class="form-control input-sm" placeholder="Digite su dirección ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=7>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-5 col-form-label wf-label" for="dateType">
+                        <label class="col-sm-5 col-form-label wf-label">
                             Estado:
                         </label>
                         <div class="col-sm-7">
@@ -151,34 +151,33 @@
                 <div class="col-sm-3">
 
                     <div class="form-group row">
-                        <label class="col-sm-5 col-form-label wf-label" for="dateType">
+                        <label class="col-sm-5 col-form-label wf-label">
                             Municipio:
                         </label>
-                        <div class="col-sm-7">                            
-                            <select ng-model="MunicipioSeleccionado" ng-options="municipio.id_Municipio as municipio.nombre for municipio in Municipios | orderBy:'nombre'" ng-change="FiltrarBarrios(MunicipioSeleccionado)" class="form-control form-control-sm"  tabindex=4>
+                        <div class="col-sm-7">
+                            <select ng-model="MunicipioSeleccionado" ng-options="municipio.id_Municipio as municipio.nombre for municipio in Municipios | orderBy:'nombre'" ng-change="FiltrarBarrios(MunicipioSeleccionado)" class="form-control form-control-sm" tabindex=4>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-5 col-form-label wf-label" for="dateType">
+                        <label class="col-sm-5 col-form-label wf-label">
                             Barrio:
                         </label>
                         <div class="col-sm-7">
-                            <select  ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" ng-options="barrio.id_Barrio as barrio.nombre for barrio in Barrios | orderBy:'nombre'" class="form-control form-control-sm"  tabindex = 8>                                
- 
+                            <select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" ng-options="barrio.id_Barrio as barrio.nombre for barrio in Barrios | orderBy:'nombre'" class="form-control form-control-sm" tabindex=8>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-5 col-form-label wf-label" for="dateType">
+                        <label class="col-sm-5 col-form-label wf-label">
                             Tipo Cliente:
-                        </label>                       
-                            <div class="col-sm-7">
-                                <select ng-model="TipoClienteSeleccionado" ng-options="item.id_Tipo as item.nombre for item in TipoClientes | orderBy:'id_Tipo'" class="form-control form-control-sm" tabindex=12>
-                                </select>
-                            </div>                        
+                        </label>
+                        <div class="col-sm-7">
+                            <select ng-model="TipoClienteSeleccionado" ng-options="item.id_Tipo as item.nombre for item in TipoClientes | orderBy:'id_Tipo'" class="form-control form-control-sm" tabindex=12>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -189,10 +188,6 @@
                         <div id="divClientesGridOptions" data-ag-grid="ClientesGridOptions" class="ag-theme-fresh" style="height: 100%;"></div>
                     </div>
                 </div>
-            </div>
-
-            <div id="BackGround" ng-if="IsLoading" class="background" style="width: 100%; height: 100%; top: 0; left: 0; position: fixed; display: block; opacity: 0.7; background-color: #fff; z-index: 9999; text-align: center; display: block">
-                <div class="loader"></div>
             </div>
 
         </div>
