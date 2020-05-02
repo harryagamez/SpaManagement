@@ -72,9 +72,9 @@ Positions, Display, Top, Bottom, left, rights ################*/
     z-index: 8;
 }
 
-.form-control {
+/*.form-control {
     height: 40px !important;
-}
+}*/
 
 #sidebar {
     position: fixed;
@@ -106,10 +106,10 @@ Positions, Display, Top, Bottom, left, rights ################*/
 }
 
 .form-control-login {
-    margin-left: -20px;
+    /*margin-left: -20px;
     border-radius: 0;
     padding-left: 25px !important;
-    border-width: 0 0 2px;
+    border-width: 0 0 2px;*/
 }
 
 .tooltip .tooltip-inner {
@@ -121,8 +121,12 @@ Positions, Display, Top, Bottom, left, rights ################*/
 }
 
 .login-icons {
-    transform: scaleX(-1);
-    padding-top: 5px;
+    /*transform: scaleX(-1);    
+    color: darkgray;
+    top: 0;
+    position: absolute;
+    margin-left: -25px;
+    left:0;*/
 }
 
 .login-header {
@@ -254,13 +258,17 @@ body {
     background-size: cover;
 }
 
-.btn-primary, .btn-primary:hover {
+.btn-primary {
     background: var(--accent-color) !important;
-    border-color: #388E3C !important;
+    color: var(--light-text);
 }
 
+    .btn-primary:hover {
+        background: #56c15a !important;
+    }
+
     .btn-primary:active {
-        background: #388E3C !important;
+        background: #239c28 !important;
     }
 
 #sidebar {
@@ -335,6 +343,11 @@ md-checkbox.md-default-theme.md-checked .md-icon {
     min-width: 250px !important;
     border: none;
 }
+
+label {
+    margin:0;
+}
+
 
 
 /*################ Filters, Shadows, Transitions ################*/

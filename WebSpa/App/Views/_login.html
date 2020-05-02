@@ -13,29 +13,29 @@
                         <div class="form-group row login-header">
                             <h2 class="text-center" style="width:100%; color: var(--light-text); font-weight:600; padding-top: 50px;">SPA<br />MANAGEMENT</h2>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-form-label" for="txtUsuario">Usuario</label>
-                            <div style="display:flex; width:100%;">
-                                <i class="material-icons login-icons md-24">person</i>
-                                <input id="txtUsuario" type="text" ng-model="DatosUsuario.Usuario" class="form-control form-control-md form-control-login" id="txtUsuario" aria-describedby="emailHelp" placeholder="Nombre de usuario">
-                            </div>
+                        <div class="form-group row" layout-gt-sm="row">
+                            <!--<label class="col-form-label" for="txtUsuario">Usuario</label>-->
+                            <md-input-container style="width:100%; display:flex;">
+                                <md-icon class="material-icons login-icons md-24">person</md-icon>
+                                <input id="txtUsuario" type="text" ng-model="DatosUsuario.Usuario" class="form-control form-control-md form-control-login" placeholder="Nombre de usuario">                                
+                            </md-input-container>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-form-label" for="txtContraseña">Contraseña</label>
-                            <div style="display:flex; width:100%;">
-                                <i class="material-icons login-icons md-24">lock</i>
+                        <div class="form-group row" layout-gt-sm="row">
+                            <!--<label class="col-form-label" for="txtContraseña">Contraseña</label>-->
+                            <md-input-container style="display:flex; width:100%;">
+                                <md-icon class="material-icons login-icons md-24">lock</md-icon>
                                 <input type="password" ng-model="DatosUsuario.Clave" class="form-control form-control-md form-control-login" id="txtContraseña" placeholder="Contraseña">
-                            </div>
+                            </md-input-container>
                         </div>
                         <div class="form-group row" data-ng-show="validarIntegracion">
-                            <label class="col-form-label" for="txtCodIntegracion">Código validación</label>
-                            <div style="display:flex; width:100%" ;>
-                                <i class="material-icons login-icons md-24">Warning</i>
+                            <!--<label class="col-form-label" for="txtCodIntegracion">Código validación</label>-->
+                            <md-input-container style="display:flex; width:100%" ;>
+                                <md-icon class="material-icons login-icons md-24">Warning</md-icon>
                                 <input id="ctlIntegration" type="text" ng-model="DatosUsuario.CodigoIntegracion" class="form-control form-control-md" placeholder="Código validación">
-                            </div>
+                            </md-input-container>
                         </div>
-                        <div class="form-group row" style="margin-top: 30px;">
-                            <button type="button" class="btn btn-primary btn-md btn-block" style="margin-right: 0px !important; height: 40px !important; box-shadow: 1px 1px 15px rgba(0,0,0,0.1);" ng-click="Login()">Ingresar</button>
+                        <div class="form-group row">
+                            <md-button class="btn btn-primary btn-md btn-block" ng-click="Login()">Ingresar</md-button>
                         </div>
                         <div class="form-group row login-footer">
                             <p style="vertical-align:middle; width:100%;">¿Olvidaste tu contraseña?</p>

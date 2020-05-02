@@ -11,21 +11,21 @@
             <div id="divButtons" class="row mt-2">
 
                 <div class="col-12">
-                    <button type="button" id="btnGuardar" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarCliente()">
+                    <md-button type="button" id="btnGuardar" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarCliente()">
                         <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
-                    </button>
+                    </md-button>
 
-                    <button type="button" id="btnNuevo" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
+                    <md-button type="button" id="btnNuevo" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
                         <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                    </button>
+                    </md-button>
 
-                    <div class="btn-group" style="height:33px !important;">
-                        <button type="button" id="btnDocumentos" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Informes">
+                    <div class="btn-group">
+                        <md-button type="button" id="btnDocumentos" class="btn btn-sm btn-primary" style="margin-right:0;" data-toggle="tooltip" title="Informes">
                             <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Informes
-                        </button>
-                        <button type="button" class="btn btn-primary dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </md-button>
+                        <md-button type="button" class="btn btn-primary dropdown-toggle-split" style="min-width:0; border-radius: 0 4px 4px 0;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="material-icons" style="transform: scaleX(-1); margin-top: -7px;">settings</i>
-                        </button>
+                        </md-button>
                         <div class="dropdown-menu">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item btn-informe">
@@ -139,10 +139,10 @@
                             Estado:
                         </label>
                         <div class="col-sm-7">
-                            <select ng-model="EstadoSeleccionado" class="form-control form-control-sm" tabindex=11>
-                                <option value="ACTIVO" selected>ACTIVO</option>
-                                <option value="INACTIVO">INACTIVO</option>
-                            </select>
+                            <md-select ng-model="EstadoSeleccionado" class="form-control form-control-sm" tabindex=11>
+                                <md-option value="ACTIVO" selected>ACTIVO</md-option>
+                                <md-option value="INACTIVO">INACTIVO</md-option>
+                            </md-select>
                         </div>
                     </div>
 
@@ -155,8 +155,11 @@
                             Municipio:
                         </label>
                         <div class="col-sm-7">
-                            <select ng-model="MunicipioSeleccionado" ng-options="municipio.id_Municipio as municipio.nombre for municipio in Municipios | orderBy:'nombre'" ng-change="FiltrarBarrios(MunicipioSeleccionado)" class="form-control form-control-sm" tabindex=4>
+                            <select ng-model="MunicipioSeleccionado" ng-options="municipio.id_Municipio as municipio.nombre for municipio in Municipios | orderBy:'nombre'" ng-change="FiltrarBarrios(MunicipioSeleccionado)" class="form-control form-control-sm" style="display:none; width:auto;" tabindex=4>
                             </select>
+                            <md-select ng-model="MunicipioSeleccionado" ng-change="FiltrarBarrios(MunicipioSeleccionado)" class="input-sm form-control" style="display:flex;" tabindex=4>
+                                <md-option ng-bind="municipio.nombre" ng-value="municipio.id_Municipio" ng-repeat="municipio in Municipios track by municipio.id_Municipio"></md-option>
+                            </md-select>                            
                         </div>
                     </div>
 
@@ -165,8 +168,11 @@
                             Barrio:
                         </label>
                         <div class="col-sm-7">
-                            <select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" ng-options="barrio.id_Barrio as barrio.nombre for barrio in Barrios | orderBy:'nombre'" class="form-control form-control-sm" tabindex=8>
+                            <select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" ng-options="barrio.id_Barrio as barrio.nombre for barrio in Barrios | orderBy:'nombre'" class="form-control form-control-sm" style="display:none; width:auto;" tabindex=8>
                             </select>
+                            <md-select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" class="input-sm form-control" style="display:flex;" tabindex=8>
+                                <md-option ng-bind="barrio.nombre" ng-value="barrio.id_Barrio" ng-repeat="barrio in Barrios track by barrio.id_Barrio"></md-option>
+                            </md-select>
                         </div>
                     </div>
 
@@ -175,8 +181,11 @@
                             Tipo Cliente:
                         </label>
                         <div class="col-sm-7">
-                            <select ng-model="TipoClienteSeleccionado" ng-options="item.id_Tipo as item.nombre for item in TipoClientes | orderBy:'id_Tipo'" class="form-control form-control-sm" tabindex=12>
+                            <select ng-model="TipoClienteSeleccionado" ng-options="item.id_Tipo as item.nombre for item in TipoClientes | orderBy:'id_Tipo'" class="form-control form-control-sm" style="display:none; width:auto;" tabindex=12>
                             </select>
+                            <md-select ng-model="TipoClienteSeleccionado" class="input-sm form-control" style="display:flex;" tabindex=12>
+                                <md-option ng-bind="item.nombre" ng-value="item.id_Tipo" ng-repeat="item in TipoClientes track by item.id_Tipo"></md-option>
+                            </md-select>
                         </div>
                     </div>
                 </div>
