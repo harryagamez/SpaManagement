@@ -128,11 +128,6 @@
     <Content Include="Scripts\AngularSpinner\angular-spinner.min.js" />
     <Content Include="Scripts\AngularSpinner\spin.js" />
     <Content Include="Scripts\AngularSpinner\spin.min.js" />
-    <Content Include="Scripts\AngularToaster\angular-animate.min.js" />
-    <Content Include="Scripts\AngularToaster\angular-toaster.min.css" />
-    <Content Include="Scripts\AngularToaster\angular-toaster.min.js" />
-    <Content Include="Scripts\AngularUI\angular-material_1.1.4.css" />
-    <Content Include="Scripts\AngularUI\angular-material_1.1.4.js" />
     <Content Include="Scripts\Angular\angular-animate.js" />
     <Content Include="Scripts\Angular\angular-aria.min.js" />
     <Content Include="Scripts\Angular\angular-local-storage.min.js" />
@@ -142,11 +137,6 @@
     <Content Include="Scripts\Angular\angular-ui-router.min.js" />
     <Content Include="Scripts\Angular\angular.min.js" />
     <Content Include="Scripts\Angular\ui-bootstrap.min.js" />
-    <Content Include="Scripts\Angular_1.6.0_rc2\angular-animate.min.js" />
-    <Content Include="Scripts\Angular_1.6.0_rc2\angular-aria.min.js" />
-    <Content Include="Scripts\Angular_1.6.0_rc2\angular-route.min.js" />
-    <Content Include="Scripts\Angular_1.6.0_rc2\angular-sanitize.min.js" />
-    <Content Include="Scripts\Angular_1.6.0_rc2\angular.min.js" />
     <Content Include="Scripts\Bootstrap\v4.0.0\bootstrap-reboot.min.css" />
     <Content Include="Scripts\Bootstrap\v4.0.0\bootstrap.min.css" />
     <Content Include="Scripts\Bootstrap\v4.0.0\bootstrap.min.js" />
