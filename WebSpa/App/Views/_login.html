@@ -13,6 +13,7 @@
                         <div class="form-group row login-header">
                             <h2 class="text-center" style="width:100%; color: var(--light-text); font-weight:600; padding-top: 50px;">SPA<br />MANAGEMENT</h2>
                         </div>
+
                         <div class="form-group row" layout-gt-sm="row">
                             <!--<label class="col-form-label" for="txtUsuario">Usuario</label>-->
                             <md-input-container style="width:100%; display:flex;">
@@ -20,6 +21,7 @@
                                 <input id="txtUsuario" type="text" ng-model="DatosUsuario.Usuario" class="form-control form-control-md form-control-login" placeholder="Nombre de usuario">                                
                             </md-input-container>
                         </div>
+
                         <div class="form-group row" layout-gt-sm="row">
                             <!--<label class="col-form-label" for="txtContraseña">Contraseña</label>-->
                             <md-input-container style="display:flex; width:100%;">
@@ -27,6 +29,7 @@
                                 <input type="password" ng-model="DatosUsuario.Clave" class="form-control form-control-md form-control-login" id="txtContraseña" placeholder="Contraseña">
                             </md-input-container>
                         </div>
+
                         <div class="form-group row" data-ng-show="validarIntegracion">
                             <!--<label class="col-form-label" for="txtCodIntegracion">Código validación</label>-->
                             <md-input-container style="display:flex; width:100%" ;>
@@ -34,12 +37,15 @@
                                 <input id="ctlIntegration" type="text" ng-model="DatosUsuario.CodigoIntegracion" class="form-control form-control-md" placeholder="Código validación">
                             </md-input-container>
                         </div>
+
                         <div class="form-group row">
                             <md-button class="btn btn-primary btn-md btn-block" ng-click="Login()">Ingresar</md-button>
                         </div>
+
                         <div class="form-group row login-footer">
                             <p style="vertical-align:middle; width:100%;">¿Olvidaste tu contraseña?</p>
                         </div>
+
                     </form>
                 </section>
             </section>
