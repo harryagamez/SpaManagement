@@ -138,10 +138,11 @@ Positions, Display, Top, Bottom, left, rights ################*/
     margin-left: 12px;
 }
 
-#frmClientes .container-fluid {
+#frmClientes {
     padding: 13px;
     height: auto;
     margin-top: 3px;
+    min-width:100%
 }
 
 
@@ -217,11 +218,11 @@ select,
     color: darkgray;
 }
 
-#frmClientes .container-fluid * {
+#frmClientes {
     font-size: 13px;
 }
 
-#frmClientes .container-fluid .material-icons {
+#frmClientes .material-icons {
     font-size: 16px;
 }
 
@@ -310,7 +311,7 @@ body {
     background-color: #3A6EA5 !important;
 }
 
-#frmClientes .container-fluid {
+#frmClientes {
     background-color: white !important;
     border-radius: 10px;
 }
@@ -346,6 +347,11 @@ md-checkbox.md-default-theme.md-checked .md-icon {
 
 label {
     margin: 2px 0 2px 0;
+}
+
+.label-form-clientes {
+    min-width: 80px;
+    margin-right: 40px;
 }
 
 
@@ -421,10 +427,10 @@ input:-webkit-autofill:active {
 
 /*################ @Media Responsive ################*/
 
-@media only screen and (max-width: 678px) {
+@media only screen and (max-width: 700px) {
     .bg {
         background-size: 300%;
-    }
+    }   
 }
 
 /*################ Containers ################*/
