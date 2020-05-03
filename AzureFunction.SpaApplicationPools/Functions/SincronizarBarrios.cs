@@ -17,8 +17,9 @@ namespace AzureFunction.SpaApplicationPools.Functions
         public static string _connectionString;
         public static string _endPointMed;
         public static string _apiMed;
-        public static string _endPointEnv;
+        public static string _endPoint;
         public static string _apiEnv;
+        public static string _apiIta;
 
         public static ISpaService SpaService { get; set; }
 
@@ -31,14 +32,16 @@ namespace AzureFunction.SpaApplicationPools.Functions
                 _endPointMed = Environment.GetEnvironmentVariable("ENDPOINT_MED");
                 _apiMed = Environment.GetEnvironmentVariable("API_MED");
 
-                _endPointEnv = Environment.GetEnvironmentVariable("ENDPOINT_ENV");
+                _endPoint = Environment.GetEnvironmentVariable("ENDPOINT");
                 _apiEnv = Environment.GetEnvironmentVariable("API_ENV");
+                _apiIta = Environment.GetEnvironmentVariable("API_ITA");
 
                 _connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
                 SpaService = new SpaService(_connectionString);
 
                 SincronizarBarriosMedellin(_endPointMed, _apiMed, "MEDELLÍN");
-                SincronizarBarriosEnvigado(_endPointEnv, _apiEnv, "ENVIGADO");
+                SincronizarBarriosEnvigado(_endPoint, _apiEnv, "ENVIGADO");
+                SincronizarBarriosItagui(_endPoint, _apiIta, "ITAGUI");
 
             }
             catch (Exception ex)
@@ -132,6 +135,53 @@ namespace AzureFunction.SpaApplicationPools.Functions
                             ShapeLen = Convert.ToDecimal(p["shape_area"])
 
                         }).ToList();
+
+                    if (_properties.Any())
+                        SpaService.SincronizarBarrios(_properties, municipio);
+                }
+                else
+                {
+                    dynamic _error = JsonConvert.DeserializeObject<dynamic>(_response.Content.ReadAsStringAsync().Result);
+                    Console.WriteLine(_error.Message);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public static void SincronizarBarriosItagui(string endpoint, string api, string municipio)
+        {
+            try
+            {
+                using HttpClient _client = new HttpClient
+                {
+                    BaseAddress = new Uri(endpoint)
+                };
+
+                _client.DefaultRequestHeaders.Accept.Clear();
+                _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage _response = _client.GetAsync(api)
+                    .GetAwaiter()
+                    .GetResult();
+
+                if (_response.IsSuccessStatusCode)
+                {
+                    JArray _json = _response.Content.ReadAsAsync<JArray>()
+                        .GetAwaiter()
+                        .GetResult();
+
+                    List<Properties> _properties = _json
+                     .Select(p => new Properties
+                     {
+                         ObjectId = Convert.ToString(p["pk_barrio"]),
+                         Codigo = Convert.ToString(p["barrio"]),
+                         Nombre = Convert.ToString(p["nom_barrio"]),
+                         Subtipo_BarrioVereda = 1
+
+                     }).ToList();
 
                     if (_properties.Any())
                         SpaService.SincronizarBarrios(_properties, municipio);
