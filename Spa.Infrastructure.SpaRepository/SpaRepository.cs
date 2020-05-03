@@ -7,6 +7,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Spa.InfraCommon.SpaCommon.Models;
+using System.Transactions;
 
 namespace Spa.Infrastructure.SpaRepository
 {
@@ -475,6 +476,49 @@ namespace Spa.Infrastructure.SpaRepository
                 }
 
                 return _list_tipo_Servicios;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<Servicio> ConsultarServicios(string IdEmpresa)
+        {
+
+            DataTable _datatable = new DataTable();
+            List<Servicio> _servicios= new List<Servicio>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarServicios";
+                        _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _servicios = _datatable.DataTableToList<Servicio>();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _servicios;
             }
             catch
             {

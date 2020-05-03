@@ -178,5 +178,19 @@ namespace Spa.Application.SpaService
                 throw;
             }
         }
+
+        public List<Servicio> ConsultarServicios(string IdEmpresa)
+        {
+            try
+            {
+                List<Servicio> _servicios = _spaRepository.ConsultarServicios(IdEmpresa);
+
+                return _servicios;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

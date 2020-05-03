@@ -176,5 +176,22 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error consultando los tipos de servicio: " + ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarServicios")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarServicios(string IdEmpresa)
+        {
+            try
+            {
+                List<Servicio> _servicios = _spaService.ConsultarServicios(IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _servicios);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los servicios: " + ex.Message);
+            }
+        }
     }
 }

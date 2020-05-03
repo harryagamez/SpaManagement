@@ -16,5 +16,6 @@ namespace Spa.Application.SpaService
         List<TipoCliente> ConsultarTipoClientes();
         Cliente ConsultarCliente(string Cedula, string IdEmpresa);
         List<TipoServicio> ConsultarTipoServicios();
+        List<Servicio> ConsultarServicios(string IdEmpresa);
     }
 }

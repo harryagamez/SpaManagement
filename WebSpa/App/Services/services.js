@@ -223,7 +223,8 @@
             _consultarMunicipios: ConsultarMunicipios,
             _consultarTipoClientes: ConsultarTipoClientes,
             _consultarCliente: ConsultarCliente,
-            _consultarTipoServicios: ConsultarTipoServicios
+            _consultarTipoServicios: ConsultarTipoServicios,
+            _consultarServicios: ConsultarServicios
 
         }
 
@@ -323,6 +324,20 @@
                             tipoServicios: data
                         });
                     deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+
+        function ConsultarServicios(id_empresa) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarServicios?IdEmpresa=' + id_empresa,
+                function (data) {
+                    deferred.resolve(data);
+
                 },
                 function (err) {
                     deferred.reject(err);

@@ -151,6 +151,13 @@ Positions, Display, Top, Bottom, left, rights ################*/
     min-width:100%
 }
 
+#frmServicios {
+    padding: 13px;
+    height: auto;
+    margin-top: 3px;
+    min-width: 100%
+}
+
 .btn-login {
     min-width: 100%;
 }
@@ -233,6 +240,14 @@ select,
 }
 
 #frmClientes .material-icons {
+    font-size: 16px;
+}
+
+#frmServicios {
+    font-size: 13px;
+}
+
+#frmServicios .material-icons {
     font-size: 16px;
 }
 
@@ -338,6 +353,11 @@ body {
 }
 
 #frmClientes {
+    background-color: white !important;
+    border-radius: 10px;
+}
+
+#frmServicios {
     background-color: white !important;
     border-radius: 10px;
 }
@@ -460,7 +480,7 @@ input:-webkit-autofill:active {
 
 /*################ Containers ################*/
 
-#frmServicios .container-fluid {
+/*#frmServicios .container-fluid {
     padding: 15px;
     height: auto;
 }
@@ -480,7 +500,7 @@ input:-webkit-autofill:active {
 
 #frmServicios .container-fluid {
     box-shadow: 0 0 6px #999;
-}
+}*/
 
 .dropdown-menu{
     font-size:13px !important;

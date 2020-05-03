@@ -271,7 +271,7 @@
                             $scope.TipoClientes = [];
                             $scope.TipoClientes = result.data;
                             $scope.TipoClientes.push({ id_Tipo: -1, nombre: '[Seleccione]', descripcion: "" })
-                            $scope.TipoClientes = $filter('orderBy')($scope.TipoClientes, 'nombre',false);
+                            $scope.TipoClientes = $filter('orderBy')($scope.TipoClientes, 'nombre', false);
 
                         }
                     }, function (err) {
@@ -287,7 +287,7 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
-                           
+
                             $scope.Barrios = [];
                             $scope.BarrioSeleccionado = -1
 
@@ -559,9 +559,19 @@
 
         // Variables
         $scope.TipoServicios = [];
+        $scope.Servicios = [];
         $scope.TipoServicioSeleccionado = -1;
+        $scope.AccionServicio = 'Registrar Servicio';
 
         // Inicialización
+        $scope.Inicializacion = function () {
+
+            $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
+
+            $('#txtNombreServicio').focus();
+
+        }
+
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
 
@@ -586,8 +596,125 @@
 
         }
 
+        $scope.ConsultarServicios = function () {
+
+            SPAService._consultarServicios($scope.IdEmpresa)
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+                            debugger;
+                            $scope.Servicios = [];
+                            $scope.Servicios = result.data;
+                            $scope.ServiciosGridOptions.api.setRowData($scope.Servicios);
+
+                            $timeout(function () {
+                                $scope.ServiciosGridOptions.api.sizeColumnsToFit();
+                            }, 300);
+
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+        }
+
+        // Agr-grid Options
+        $scope.ServiciosGridOptionsColumns = [
+
+            {
+                headerName: "", field: "Checked", suppressFilter: true, width: 25, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
+            },
+            {
+                headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+                cellRenderer: function () {
+                    return "<i data-ng-click='ConsultarServicio(data.id_Servicio)' data-toggle='tooltip' title='Editar servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>create</i>";
+                }
+            },
+            {
+                headerName: "Nombre", field: 'nombre', width: 170, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Descripcion", field: 'descripcion', width: 150, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function (params) {
+                    return "<span  data-toggle='tooltip' title='{{data.descripcion}}'>{{data.descripcion}}</span>"
+                },
+            },
+            {
+                headerName: "Tiempo", field: 'tiempo', width: 70, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Costo", field: 'valor', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+            },
+            {
+                headerName: "Tipo", field: 'nombre_Tipo_Servicio', width: 90, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Estado", field: 'estado', width: 80, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
+            },
+
+        ];
+
+        $scope.ServiciosGridOptions = {
+            defaultColDef: {
+                resizable: true
+            },
+            columnDefs: $scope.ServiciosGridOptionsColumns,
+            rowData: [],
+            enableSorting: true,
+            enableFilter: true,
+            enableColResize: true,
+            angularCompileRows: true,
+            onGridReady: function (params) {
+                $timeout(function () {
+                }, 400)
+            },
+            fullWidthCellRenderer: true,
+            animateRows: true,
+            suppressRowClickSelection: true,
+            rowSelection: 'multiple'
+        }
+
+        // Formatos
+        function currencyFormatter(params) {
+            var valueGrid = params.value;
+            return $filter('currency')(valueGrid, '$', 0);
+        }
+
+        // Eventos
+        window.onresize = function () {
+
+            $timeout(function () {
+                $scope.ServiciosGridOptions.api.sizeColumnsToFit();
+            }, 300);
+
+        }
+
+        $scope.Cancelar = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.ModalNuevoServicio = function () {
+
+            $scope.AccionServicio = 'Registrar Servicio';
+
+            $mdDialog.show({
+                contentElement: '#dlgNuevoServicio',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true
+            })
+                .then(function () {
+
+                }, function () {
+
+                });
+
+        }
+
         // Invocación Funciones
         $scope.ConsultarTipoServicios();
+        $scope.ConsultarServicios();
+        $scope.Inicializacion();
 
     }
 
