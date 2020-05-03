@@ -224,7 +224,7 @@
                         function (result) {
 
                             if (result.data !== undefined && result.data !== null) {
-
+                               
                                 $scope.Accion = 'BUSQUEDA_CLIENTE';
 
                                 $scope.Cliente.Id_Cliente = result.data.id_Cliente;
@@ -281,7 +281,8 @@
                     })
         }
 
-        $scope.ConsultarBarrios = function (id_Municipio) {            
+        $scope.ConsultarBarrios = function (id_Municipio) {  
+            
             SPAService._consultarBarrios(id_Municipio)
                 .then(
                     function (result) {
@@ -490,7 +491,8 @@
             onRowClicked: OnRowClicked
         }
 
-        function OnRowClicked (event) {
+        function OnRowClicked(event) {
+
             if (event.node.data !== undefined && event.node.data !== null) {
 
                 $scope.Accion = 'BUSQUEDA_CLIENTE';

@@ -6,7 +6,8 @@
     "DB_CONNECTION": "Data Source=DESKTOP-VND45SN\\DEVELOPMENTSQL;database=DBSPA;uid=sa;pwd=123456GS2020;",
     "ENDPOINT_MED": "https://opendata.arcgis.com/",
     "API_MED": "datasets/c844f0fd764f41b2a808d8747457de8a_4.geojson",
-    "ENDPOINT_ENV": "https://www.datos.gov.co/resource/",
-    "API_ENV": "vn5h-c7ad.json"
+    "ENDPOINT": "https://www.datos.gov.co/resource/",
+    "API_ENV": "vn5h-c7ad.json",
+    "API_ITA": "aimy-q265.json"
   }
 }
