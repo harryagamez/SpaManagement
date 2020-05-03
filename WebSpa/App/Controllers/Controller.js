@@ -505,7 +505,7 @@
                 $scope.Cliente.Direccion = event.node.data.direccion;
                 $scope.Cliente.Id_Municipio = event.node.data.id_Municipio;
                 $scope.Cliente.Id_Barrio = event.node.data.id_Barrio;                
-                $scope.Cliente.Fecha_Nacimiento = $filter('date')(event.node.data.fecha_Nacimiento), 'MM/dd/yyyy');
+                $scope.Cliente.Fecha_Nacimiento = $filter('date')(new Date(event.node.data.fecha_Nacimiento), 'MM/dd/yyyy');
                 $scope.Cliente.Id_Tipo = event.node.data.id_Tipo;
                 $scope.TipoClienteSeleccionado = event.node.data.id_Tipo;
                 $scope.Cliente.Estado = event.node.data.estado;
