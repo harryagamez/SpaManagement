@@ -8,15 +8,15 @@
     <div layout="row" layout-wrap="" style="height: calc(100vh - 70px); overflow:auto;">
         <form id="frmClientes" style="">
             <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">                
-                <md-button type="button" id="btnGuardar" class="btn-clientes groupX left" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarCliente()">
+                <md-button type="button" id="btnGuardar" class="btn-clientes groupX left" style="margin-left: 0px;" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarCliente()">
                     <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                 </md-button>
 
-                <md-button type="button" id="btnNuevo" class="btn-clientes groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
+                <md-button type="button" id="btnNuevo" class="btn-clientes groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
                     <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
                 </md-button>
 
-                <md-button type="button" id="btnDocumentos" class="btn-clientes groupX middle" style="margin-right:0;" data-toggle="tooltip" title="Informes">
+                <md-button type="button" id="btnInformes" class="btn-clientes groupX middle" style="margin-right:0;" data-toggle="tooltip" title="Informes">
                     <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Informes
                 </md-button>
                 <md-button type="button" class="btn-clientes dropdown-toggle-split groupX right" style="min-width:0; margin-left:-1px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -73,7 +73,7 @@
                             Apellido(s):
                         </label>
                         <md-input-container>
-                            <input ng-model="Cliente.Apellidos" maxlength="60" type="text" class="" placeholder="Digite su apellido ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=3>
+                            <input ng-model="Cliente.Apellidos" maxlength="60" type="text" class="" placeholder="Digite su apellido ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtApellido" tabindex=3>
                         </md-input-container>
                     </md-content>
                 </div>
@@ -84,7 +84,7 @@
                             E-Mail:
                         </label>
                         <md-input-container>
-                            <input ng-model="Cliente.Mail" maxlength="60" type="email" class="" placeholder="Digite su e-mail ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=4>
+                            <input ng-model="Cliente.Mail" maxlength="60" type="email" class="" placeholder="Digite su e-mail ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtMail" tabindex=4>
                         </md-input-container>
                     </md-content>
                 </div>
@@ -99,7 +99,7 @@
                             Dirección:
                         </label>
                         <md-input-container>
-                            <input ng-model="Cliente.Direccion" maxlength="25" type="text" class="" placeholder="Digite su dirección ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=5>
+                            <input ng-model="Cliente.Direccion" maxlength="25" type="text" class="" placeholder="Digite su dirección ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtDireccion" tabindex=5>
                         </md-input-container>
                     </md-content>
                 </div>
@@ -110,7 +110,7 @@
                             Tel. Fijo:
                         </label>
                         <md-input-container style="">
-                            <input ng-model="Cliente.Telefono_Fijo" numbers-only maxlength="10" data-ng-keypress="SearchByEnter($event)" type="text" class="" placeholder="Digite su teléfono fijo ..." value="" tabindex=6>
+                            <input ng-model="Cliente.Telefono_Fijo" numbers-only maxlength="10" type="text" class="" placeholder="Digite su teléfono fijo ..." value="" id="txtTelefono" tabindex=6>
                         </md-input-container>
                     </md-content>
                 </div>
@@ -121,7 +121,7 @@
                             Celular:
                         </label>
                         <md-input-container style="">
-                            <input ng-model="Cliente.Telefono_Movil" numbers-only maxlength="12" type="text" class="" placeholder="Digite su celular ..." value="" tabindex=7>
+                            <input ng-model="Cliente.Telefono_Movil" numbers-only maxlength="12" type="text" class="" placeholder="Digite su celular ..." value="" id="txtMovil" tabindex=7>
                         </md-input-container>
                     </md-content>
                 </div>
@@ -131,7 +131,7 @@
                         <label class="label-form-clientes" style="">
                             Fecha N.:
                         </label>
-                        <adm-dtp ng-model="Cliente.Fecha_Nacimiento" ng-change="ValidarFechaNacimiento()" options='{dtpType:"date", autoClose:true, freezeInput:true, format: "MM/DD/YYYY"}' style="margin:20px 0; display:inline-flex; max-width: 170px !important;" tabindex=8></adm-dtp>
+                        <adm-dtp ng-model="Cliente.Fecha_Nacimiento" ng-change="ValidarFechaNacimiento()" options='{dtpType:"date", autoClose:true, freezeInput:true, format: "MM/DD/YYYY"}' style="margin:20px 0; display:inline-flex; max-width: 170px !important;" id="dpFechaNacimiento" tabindex=8></adm-dtp>
                     </md-content>
                 </div>
 
@@ -146,7 +146,7 @@
                         </label>
                         <select ng-model="MunicipioSeleccionado" ng-options="municipio.id_Municipio as municipio.nombre for municipio in Municipios | orderBy:'nombre'" ng-change="FiltrarBarrios(MunicipioSeleccionado)" class="" style="display:none; width:auto;" tabindex=9>
                         </select>
-                        <md-select ng-model="MunicipioSeleccionado" ng-change="FiltrarBarrios(MunicipioSeleccionado)" class="" style="display:inline-flex; min-width: 170px !important; margin:20px 0;" tabindex=9>
+                        <md-select ng-model="MunicipioSeleccionado" ng-change="FiltrarBarrios(MunicipioSeleccionado)" class="" style="display:inline-flex; min-width: 170px !important; margin:20px 0;" id="slMunicipio" tabindex=9>
                             <md-option ng-bind="municipio.nombre" ng-value="municipio.id_Municipio" ng-repeat="municipio in Municipios track by municipio.id_Municipio"></md-option>
                         </md-select>
                     </md-content>
@@ -159,7 +159,7 @@
                         </label>
                         <select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" ng-options="barrio.id_Barrio as barrio.nombre for barrio in Barrios | orderBy:'nombre'" class="" style="display:none; width:auto;" tabindex=10>
                         </select>
-                        <md-select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" class="" style="display:inline-flex; min-width: 170px !important; margin:20px 0;" tabindex=10>
+                        <md-select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" class="" style="display:inline-flex; min-width: 170px !important; margin:20px 0;" id="slBarrio" tabindex=10>
                             <md-option ng-bind="barrio.nombre" ng-value="barrio.id_Barrio" ng-repeat="barrio in Barrios track by barrio.id_Barrio"></md-option>
                         </md-select>
                     </md-content>
@@ -168,11 +168,11 @@
                 <div flex="">
                     <md-content>
                         <label class="label-form-clientes" style="">
-                            Tipo Cliente:
+                            Tipo Cli.:
                         </label>
-                        <select ng-model="TipoClienteSeleccionado" ng-options="item.id_Tipo as item.nombre for item in TipoClientes | orderBy:'id_Tipo'" class="" style="display:none; width:auto; " tabindex=11>
+                        <select ng-model="TipoClienteSeleccionado" ng-options="item.id_Tipo as item.nombre for item in TipoClientes | orderBy:'nombre'" class="" style="display:none; width:auto; " tabindex=11>
                         </select>
-                        <md-select ng-model="TipoClienteSeleccionado" class="" style="display:inline-flex; min-width: 170px !important; margin:20px 0;" tabindex=11>
+                        <md-select ng-model="TipoClienteSeleccionado" class="" style="display:inline-flex; min-width: 170px !important; margin:20px 0;" id="slTipoCliente" tabindex=11>
                             <md-option ng-bind="item.nombre" ng-value="item.id_Tipo" ng-repeat="item in TipoClientes track by item.id_Tipo"></md-option>
                         </md-select>
                     </md-content>
@@ -183,7 +183,7 @@
                         <label class="label-form-clientes" style="">
                             Estado:
                         </label>
-                        <md-select ng-model="EstadoSeleccionado" class="" style="display:inline-flex; min-width: 170px !important; margin:20px 0;" tabindex=12>
+                        <md-select ng-model="EstadoSeleccionado" class="" style="display:inline-flex; min-width: 170px !important; margin:20px 0;" id="slEstado" tabindex=12>
                             <md-option value="ACTIVO" selected>ACTIVO</md-option>
                             <md-option value="INACTIVO">INACTIVO</md-option>
                         </md-select>
