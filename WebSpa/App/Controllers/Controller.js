@@ -139,7 +139,7 @@
 
         $scope.Inicializacion = function () {
 
-            document.getElementById("divGridClientes").style.height = (window.innerHeight - 260) + "px"
+            //document.getElementById("divGridClientes").style.height = (window.innerHeight - 560) + "px"
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
 
             $('#txtCedula').focus();
@@ -339,7 +339,7 @@
 
         window.onresize = function () {
 
-            document.getElementById("divGridClientes").style.height = (window.innerHeight - 260) + "px"
+            //document.getElementById("divGridClientes").style.height = (window.innerHeight - 260) + "px"
 
             $timeout(function () {
                 $scope.ClientesGridOptions.api.sizeColumnsToFit();
