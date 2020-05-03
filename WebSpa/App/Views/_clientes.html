@@ -7,43 +7,41 @@
 <body>
     <div layout="row" layout-wrap="" style="height: calc(100vh - 70px); overflow:auto;">
         <form id="frmClientes" style="">
-            <div id="divButtons" layout="row" layout-wrap="" style="margin-bottom: 5px;">
-                <div class="btn-group">
-                    <md-button type="button" id="btnGuardar" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarCliente()">
-                        <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
-                    </md-button>
+            <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">                
+                <md-button type="button" id="btnGuardar" class="btn-clientes groupX left" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarCliente()">
+                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                </md-button>
 
-                    <md-button type="button" id="btnNuevo" class="btn btn-sm btn-primary mr-2" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
-                        <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                    </md-button>
+                <md-button type="button" id="btnNuevo" class="btn-clientes groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
+                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                </md-button>
 
-                    <md-button type="button" id="btnDocumentos" class="btn btn-sm btn-primary" style="margin-right:0;" data-toggle="tooltip" title="Informes">
-                        <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Informes
-                    </md-button>
-                    <md-button type="button" class="btn btn-primary dropdown-toggle-split" style="min-width:0; border-radius: 0 4px 4px 0;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="material-icons" style="transform: scaleX(-1); margin-top: -7px;">settings</i>
-                    </md-button>
-                    <div class="dropdown-menu">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item btn-informe">
-                                <md-checkbox ng-model="ListadoClientes" aria-label="Checkbox 1">
-                                    Listado de clientes
-                                </md-checkbox>
-                            </li>
-                            <li class="list-group-item btn-informe">
-                                <md-checkbox ng-model="DetalladoServicios" aria-label="Checkbox 2">
-                                    Detallado servicios facturados
-                                </md-checkbox>
-                            </li>
-                            <li class="list-group-item btn-informe">
-                                <md-checkbox ng-model="GeneralServicios" aria-label="Checkbox 3">
-                                    General servicios facturados
-                                </md-checkbox>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+                <md-button type="button" id="btnDocumentos" class="btn-clientes groupX middle" style="margin-right:0;" data-toggle="tooltip" title="Informes">
+                    <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Informes
+                </md-button>
+                <md-button type="button" class="btn-clientes dropdown-toggle-split groupX right" style="min-width:0; margin-left:-1px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="material-icons" style="transform: scaleX(-1); margin-top: -0px;">settings</i>
+                </md-button>
+                <div class="dropdown-menu">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item btn-informe">
+                            <md-checkbox ng-model="ListadoClientes" aria-label="Checkbox 1">
+                                Listado de clientes
+                            </md-checkbox>
+                        </li>
+                        <li class="list-group-item btn-informe">
+                            <md-checkbox ng-model="DetalladoServicios" aria-label="Checkbox 2">
+                                Detallado servicios facturados
+                            </md-checkbox>
+                        </li>
+                        <li class="list-group-item btn-informe">
+                            <md-checkbox ng-model="GeneralServicios" aria-label="Checkbox 3">
+                                General servicios facturados
+                            </md-checkbox>
+                        </li>
+                    </ul>
+                </div>                
+            </section>
 
             <div layout="row" layout-sm="column" style="margin: 0 0 -35px 0">
 

@@ -50,9 +50,10 @@ Positions, Display, Top, Bottom, left, rights ################*/
 }
 
 .form-container {
-    position: absolute;
+    position: relative;
     top: 15vh;
     padding: 30px 30px 0 30px;
+    margin: 30px 30px 0 30px;
 }
 
 .background-image {
@@ -134,6 +135,11 @@ Positions, Display, Top, Bottom, left, rights ################*/
     height: 130px;
 }
 
+.login-footer {
+    padding: 10px;
+    margin:10px;
+}
+
 .ag-theme-fresh .ag-header-select-all span {
     margin-left: 12px;
 }
@@ -145,12 +151,15 @@ Positions, Display, Top, Bottom, left, rights ################*/
     min-width:100%
 }
 
+.btn-login {
+    min-width: 100%;
+}
+
 
 /*################ Font Styles ################*/
-
 * {
     font-family: var(--main-font);
-    font-style: normal;    
+    font-style: normal;
 }
 
 body,
@@ -158,14 +167,15 @@ table,
 input,
 select,
 .form-control,
-.btn-primary,
-.btn-primary:hover,
-.btn-secondary {
+.btn-clientes,
+.btn-clientes:hover,
+.btn-login,
+.btn-login:hover{
     font-size: 14px !important;
     font-family: var(--main-font) !important;
 }
 
-    .btn-primary:active {
+    .btn-clientes:active {
         color: var(--light-text);
     }
 
@@ -230,6 +240,10 @@ select,
     font-family: var(--main-font) !important;
 }
 
+.btn-login, .btn-clientes {
+    text-transform:none;
+}
+
 
 /*################ Backgrounds and borders ################*/
 
@@ -259,16 +273,29 @@ body {
     background-size: cover;
 }
 
-.btn-primary {
+.btn-login {
     background: var(--accent-color) !important;
     color: var(--light-text);
 }
 
-    .btn-primary:hover {
+    .btn-login:hover {
+        background: #56c15a !important;
+    }
+    .btn-login:active {
+        background: #239c28 !important;
+    }
+
+
+.btn-clientes {
+    background: var(--accent-color) !important;
+    color: var(--light-text);
+}
+
+    .btn-clientes:hover {
         background: #56c15a !important;
     }
 
-    .btn-primary:active {
+    .btn-clientes:active {
         background: #239c28 !important;
     }
 
@@ -369,7 +396,7 @@ label {
     box-shadow: 0 0 6px #999;
 }
 
-.btn-primary:active {
+.btn-clientes:active {
     transform: translateY(2px);
 }
 
