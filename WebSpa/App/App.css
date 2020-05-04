@@ -151,8 +151,12 @@ Positions, Display, Top, Bottom, left, rights ################*/
     min-width:100%
 }
 
+    #frmClientes .layout-row {
+        margin-bottom:-10px;
+    }
+
     #frmClientes md-input-container {
-        margin:15px 0 0 0;
+        margin: 15px 0 0 0;
     }
 
 #frmServicios {
