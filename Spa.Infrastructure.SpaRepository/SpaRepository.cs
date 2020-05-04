@@ -7,7 +7,6 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Spa.InfraCommon.SpaCommon.Models;
-using System.Transactions;
 
 namespace Spa.Infrastructure.SpaRepository
 {
