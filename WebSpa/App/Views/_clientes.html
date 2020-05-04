@@ -43,7 +43,7 @@
                 </div>                
             </section>
 
-            <div layout="row" layout-sm="column" style="margin: 0 0 -35px 0">
+            <div layout="row" layout-sm="column" style="">
 
                 <div flex="">
                     <md-content>
@@ -91,7 +91,7 @@
 
             </div>
 
-            <div layout="row" layout-sm="column" style="margin: -35px 0">
+            <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);">
 
                 <div flex="">
                     <md-content>
@@ -127,17 +127,17 @@
                 </div>
 
                 <div flex="">
-                    <md-content style="padding-bottom: 10px;">
-                        <label class="label-form-clientes" style="">
+                    <md-content style="">
+                        <label class="label-form-clientes" style="display:inline-flex;">
                             Fecha N.:
                         </label>
-                        <adm-dtp ng-model="Cliente.Fecha_Nacimiento" ng-change="ValidarFechaNacimiento()" options='{dtpType:"date", autoClose:true, freezeInput:true, format: "MM/DD/YYYY"}' style="margin:20px 0; display:inline-flex; max-width: 170px !important;" id="dpFechaNacimiento" tabindex=8></adm-dtp>
+                        <adm-dtp ng-model="Cliente.Fecha_Nacimiento" ng-change="ValidarFechaNacimiento()" options='{dtpType:"date", autoClose:true, freezeInput:true, format: "MM/DD/YYYY"}' style="margin: 15px 0 0 0; display:inline-flex; max-width: 170px !important;" id="dpFechaNacimiento" tabindex=8></adm-dtp>
                     </md-content>
                 </div>
 
             </div>
 
-            <div layout="row" layout-sm="column" style="margin: -35px 0">
+            <div layout="row" layout-sm="column" style="">
 
                 <div flex="">
                     <md-content>
@@ -192,7 +192,7 @@
 
             </div>
             
-            <div id="divGridClientes" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 340px); margin-top:40px; overflow-y:auto;">
+            <div id="divGridClientes" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 340px); overflow-y:auto;">
                 <div id="divClientesGridOptions" data-ag-grid="ClientesGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
             </div>
         </form>

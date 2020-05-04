@@ -22,20 +22,20 @@ Positions, Display, Top, Bottom, left, rights ################*/
 }
 
 #header {
+    min-width:820px;
     height: 50px;
     margin-bottom:10px;
     z-index: 10;
 }
 
 #header .site-title {
-    float: left;
-    width: 300px;
-    margin: 5px 0 0 220px;
+    float: left;    
+    margin: 5px 0 0 20px;
 }
 
 #header .site-widgets {
     float: right;
-    width: auto;
+    
     margin: 14px 20px 0 0;
 }
 
@@ -70,7 +70,7 @@ Positions, Display, Top, Bottom, left, rights ################*/
     left: 0;
     right: 0;
     margin: 0 15px 15px 15px;
-    z-index: 8;
+    z-index: 8;    
 }
 
 /*.form-control {
@@ -151,6 +151,10 @@ Positions, Display, Top, Bottom, left, rights ################*/
     min-width:100%
 }
 
+    #frmClientes md-input-container {
+        margin:15px 0 0 0;
+    }
+
 #frmServicios {
     padding: 13px;
     height: auto;
@@ -160,6 +164,7 @@ Positions, Display, Top, Bottom, left, rights ################*/
 
 .btn-login {
     min-width: 100%;
+    margin:0;
 }
 
 
