@@ -181,7 +181,7 @@
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
                             $scope.Clientes = [];
-                            $scope.Clientes = result.data;
+                            $scope.Clientes = result.data;                            
                             $scope.ClientesGridOptions.api.setRowData($scope.Clientes);
 
                             $timeout(function () {
@@ -530,7 +530,7 @@
                 $scope.Cliente.Mail = event.node.data.mail;
                 $scope.Cliente.Direccion = event.node.data.direccion;
                 $scope.Cliente.Id_Municipio = event.node.data.id_Municipio;
-                $scope.Cliente.Id_Barrio = event.node.data.id_Barrio;
+                $scope.Cliente.Id_Barrio = event.node.data.id_Barrio;                
                 $scope.Cliente.Fecha_Nacimiento = $filter('date')(new Date(event.node.data.fecha_Nacimiento), 'MM/dd/yyyy');
                 $scope.Cliente.Id_Tipo = event.node.data.id_Tipo;
                 $scope.TipoClienteSeleccionado = event.node.data.id_Tipo;
@@ -678,7 +678,7 @@
         function currencyFormatter(params) {
             var valueGrid = params.value;
             return $filter('currency')(valueGrid, '$', 0);
-        }
+        }        
 
         // Eventos
         window.onresize = function () {
@@ -729,8 +729,7 @@
         $('body').on("click", ".dropdown-menu", function (e) {
             $(this).parent().is(".show") && e.stopPropagation();
         });
-
-
+       
     })
 
 })();
