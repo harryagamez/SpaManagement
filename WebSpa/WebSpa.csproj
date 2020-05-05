@@ -133,6 +133,8 @@
     <Content Include="Scripts\Angular\angular-local-storage.min.js" />
     <Content Include="Scripts\Angular\angular-material.min.css" />
     <Content Include="Scripts\Angular\angular-material.min.js" />
+    <Content Include="Scripts\Angular\Angular-Materialv1.1.22\angular-material.min.css" />
+    <Content Include="Scripts\Angular\Angular-Materialv1.1.22\angular-material.min.js" />
     <Content Include="Scripts\Angular\angular-route.min.js" />
     <Content Include="Scripts\Angular\angular-ui-router.min.js" />
     <Content Include="Scripts\Angular\angular.min.js" />
@@ -145,13 +147,17 @@
     <Content Include="Scripts\Bootstrap_DateTime-Picker\v.4.17.47\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\ExportTools\v0.3\alasql.min.js" />
     <Content Include="Scripts\JQueryUI\jquery-ui1.11.4.min.js" />
+    <Content Include="Scripts\JQueryUI\v1.12.1\jquery-ui.min.js" />
     <Content Include="Scripts\JQuery\jquery-1.11.3.js" />
+    <Content Include="Scripts\JQuery\v3.5.0\jquery.js" />
     <Content Include="Scripts\Linq\linq3.js" />
     <Content Include="Scripts\Moment\Moment-Locales_2.20.0.js" />
     <Content Include="Scripts\SweetAlert\sweet-alert.css" />
     <Content Include="Scripts\SweetAlert\sweet-alert.min.js" />
     <Content Include="Scripts\Toaster\toastr.js" />
     <Content Include="Scripts\Toaster\toastr.min.css" />
+    <Content Include="Scripts\Toaster\v2.1.4\toastr.min.css" />
+    <Content Include="Scripts\Toaster\v2.1.4\toastr.min.js" />
     <Content Include="Scripts\Xlsx\xlsx.core.min.js" />
     <Content Include="Styles\Fonts\Glyphicons\glyphicons-codes.css" />
     <Content Include="Styles\Fonts\Glyphicons\glyphicons-halflings-regular.svg" />
