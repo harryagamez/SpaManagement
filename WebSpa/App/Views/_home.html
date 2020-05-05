@@ -18,8 +18,8 @@
     </div> 
 </header>
 <aside id="sidebar">
-    <ul auto-active>
-        <li class="li-padding" ng-repeat="item in Menu">
+    <ul>
+        <li class="li-padding" ng-repeat="item in Menu" ui-sref-active="active">
             <a ui-sref="{{item.ruta_Acceso}}"><img ng-src="data:image/png;base64,{{item.logo_Base64}}" style="max-width:28px; margin-right:15px; vertical-align:middle;">{{item.descripcion}}</a>
         </li>
     </ul>
