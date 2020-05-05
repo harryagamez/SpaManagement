@@ -89,6 +89,10 @@ Positions, Display, Top, Bottom, left, rights ################*/
     margin-left: 25px;
 }
 
+.active {
+    margin-left: 25px;
+}
+
 #sidebar .toggle-btn {
     position: absolute;
     left: 230px;
@@ -225,9 +229,10 @@ select,
 
 #sidebar ul li:hover,
 #sidebar ul li:hover a {
-    color: var(--dark-text) !important;
+    color: var(--light-text) !important;
     font-weight: 600;
 }
+
 
 .form-control {
     font-family: var(--main-font);
@@ -328,13 +333,18 @@ body {
     border-radius: 0 10px;
 }
 
-#sidebar ul li {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    background-size: 200% 100%;
-    background-image: linear-gradient(to left, white 50%, transparent 50%);
-}
+    #sidebar ul li {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+        background-size: 200% 100%;
+        background-image: linear-gradient(to left, #212121 50%, transparent 50%);
+    }
 
 #sidebar ul li:hover {
+    border-radius: 10px 0 0 10px;
+    background-position: 100% 0;
+}
+
+.active {
     border-radius: 10px 0 0 10px;
     background-position: 100% 0;
 }
@@ -436,6 +446,11 @@ label {
 }
 
 aside ul li:hover {
+    transition: all 0.3s ease-in-out;
+    box-shadow: -7px 0 5px rgba(0,0,0,0.87);
+}
+
+.active {
     transition: all 0.3s ease-in-out;
     box-shadow: -7px 0 5px rgba(0,0,0,0.87);
 }
