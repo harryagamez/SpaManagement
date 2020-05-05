@@ -602,7 +602,7 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
-                            debugger;
+                          
                             $scope.Servicios = [];
                             $scope.Servicios = result.data;
                             $scope.ServiciosGridOptions.api.setRowData($scope.Servicios);
