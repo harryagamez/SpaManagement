@@ -656,7 +656,7 @@
 
         $scope.ServiciosGridOptions = {
             defaultColDef: {
-                resizable: true
+                resizable: true                
             },
             columnDefs: $scope.ServiciosGridOptionsColumns,
             rowData: [],
@@ -672,6 +672,11 @@
             animateRows: true,
             suppressRowClickSelection: true,
             rowSelection: 'multiple'
+        }
+        
+
+        $scope.onFilterTextBoxChanged = function() {            
+            $scope.ServiciosGridOptions.api.setQuickFilter(document.getElementById('txtNombreServicio').value);
         }
 
         // Formatos
