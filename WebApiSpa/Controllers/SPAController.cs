@@ -195,7 +195,7 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpPost]
-        [Route("api/SPA/RegistrarActualizarCliente")]
+        [Route("api/SPA/GuardarServicio")]
         [HttpCache(DefaultExpirySeconds = 2)]
         public IHttpActionResult GuardarServicio(List<Servicio> servicio)
         {

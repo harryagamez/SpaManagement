@@ -225,5 +225,6 @@
     <Build Include="dbo\Stored Procedures\ConsultarCliente.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarTipoServicios.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarServicios.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarServicio.sql" />
   </ItemGroup>
 </Project>

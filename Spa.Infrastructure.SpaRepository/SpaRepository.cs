@@ -540,7 +540,7 @@ namespace Spa.Infrastructure.SpaRepository
                     {
                         _command.CommandType = CommandType.StoredProcedure;
                         _command.CommandText = "GuardarServicio";
-                        _command.Parameters.AddWithValue("@JsonCliente", JsonConvert.SerializeObject(_Servicio));
+                        _command.Parameters.AddWithValue("@JsonServicio", JsonConvert.SerializeObject(_Servicio));
 
                         try
                         {

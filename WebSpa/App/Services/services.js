@@ -224,7 +224,8 @@
             _consultarTipoClientes: ConsultarTipoClientes,
             _consultarCliente: ConsultarCliente,
             _consultarTipoServicios: ConsultarTipoServicios,
-            _consultarServicios: ConsultarServicios
+            _consultarServicios: ConsultarServicios,
+            _guardarServicio : GuardarServicio
 
         }
 
@@ -342,6 +343,20 @@
                 function (err) {
                     deferred.reject(err);
                 });
+            return deferred.promise;
+        }
+
+        function GuardarServicio(servicio) {
+            var deferred = $q.defer();
+
+            serviceRest.Post('SPA', 'GuardarServicio', servicio,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
             return deferred.promise;
         }
 
