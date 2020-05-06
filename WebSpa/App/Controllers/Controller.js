@@ -157,7 +157,6 @@
                     .then(
                         function (result) {
                             if (result.data === true) {
-
                                 toastr.success('Cliente registrado y/o actualizado correctamente', '', $scope.toastrOptions);
                                 $scope.ConsultarClientes();
                                 $scope.LimpiarDatos();
@@ -586,8 +585,8 @@
             Id_Usuario: $scope.IdUsuario,
             Id_TipoServicio: -1,
             Nombre: '',            
-            Tiempo: 0,
-            Valor: 0
+            Tiempo: '',
+            Valor: ''
         }
 
         // Invocaciones API
@@ -605,9 +604,7 @@
 
                                 toastr.success('Cliente registrado y/o actualizado correctamente', '', $scope.toastrOptions);
                                 $scope.ConsultarClientes();
-                                $scope.LimpiarDatos();
-                                $('#txtInvoiceNumber').focus();
-
+                                $scope.LimpiarDatos(); 
                             }
                         }, function (err) {
                             toastr.remove();
@@ -628,9 +625,9 @@
                         if (result.data !== undefined && result.data !== null) {
 
                             $scope.TipoServicios = [];
-                            $scope.TipoServicios = result.data;
-                            $scope.TipoServicios.push({ id_tiposervicio: -1, nombre: '[Seleccione]', descripcion: '', fecha_Registro: null, fecha_Modificacion: null });
-
+                            $scope.TipoServicios = result.data;                             
+                            $scope.TipoServicios.push({ id_TipoServicio: -1, nombre: '[Seleccione]', descripcion: '', fecha_Registro: null, fecha_Modificacion: null });
+                            $scope.TipoServicios = $filter('orderBy')($scope.TipoServicios, 'nombre', false);
                         }
                     }, function (err) {
                         toastr.remove();

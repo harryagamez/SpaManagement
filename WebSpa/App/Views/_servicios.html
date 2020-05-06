@@ -114,10 +114,10 @@
                                         </label>
                                         <select ng-model="TipoServicioSeleccionado" ng-options="item.id_tiposervicio as item.nombre for item in TipoServicios | orderBy:'nombre'" style="display:none; width:auto;" tabindex=4>
                                         </select>
-                                        <md-select ng-model="TipoServicioSeleccionado" style="min-width:200px; display:inline-flex;" id="slTipoServicio" tabindex=4>
-                                            <md-option ng-bind="item.nombre" ng-value="item.id_tiposervicio" ng-repeat="item in TipoServicios track by item.id_tiposervicio"></md-option>
-                                        </md-select>
-                                    </md-input-container>                                    
+                                        <md-select ng-model="TipoServicioSeleccionado" style="min-width:200px;" tabindex=4>
+                                            <md-option ng-bind="item.nombre" ng-value="item.id_TipoServicio" ng-repeat="item in TipoServicios track by item.id_TipoServicio"></md-option>
+                                        </md-select>                                        
+                                    </md-input-container>                              
                                 </div>
                             </div>
                             <div layout="row" layout-sm="column" layout-align="center center">
