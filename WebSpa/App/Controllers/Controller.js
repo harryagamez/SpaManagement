@@ -582,18 +582,19 @@
             Descripcion: '',
             Estado: $scope.EstadoSeleccionado,
             Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
-            Id_Empresa: $scope.IdEmpresa,
-            Id_Usuario: $scope.IdUsuario,
+            Id_Empresa: $scope.IdEmpresa,            
             Id_TipoServicio: -1,
-            Nombre: '',            
-            Tiempo: '',
+            Id_Servicio: -1,
+            Nombre: '',
+            Nombre_Tipo_Servicio: '',
+            Tiempo: '',            
             Valor: ''
         }
 
         // Invocaciones API
         $scope.GuardarServicio = function () {
 
-            if ($scope.ValidarDatosServicios()) {
+            if ($scope.ValidarDatos()) {
 
                 $scope.ObjetoServicio = [];
                 $scope.ObjetoServicio.push($scope.Servicio);
@@ -659,8 +660,8 @@
                     })
         }
 
-        // Validaciones
-        $scope.ValidarDatosServicios = function () {            
+        // Validaciones Servicios
+        $scope.ValidarDatos = function () {            
 
             $scope.Servicio.Id_TipoServicio = $scope.TipoServicioSeleccionado;            
 
@@ -696,6 +697,27 @@
             
             return true;
         }
+
+        //Limpiar Datos
+
+        $scope.LimpiarDatos = function () {
+            $scope.EstadoSeleccionado = 'ACTIVO';
+            $scope.Servicio =
+            {
+                Descripcion: '',
+                Estado: $scope.EstadoSeleccionado,
+                Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
+                Id_Empresa: $scope.IdEmpresa,
+                Id_TipoServicio: -1,
+                Id_Servicio: -1,
+                Nombre: '',
+                Nombre_Tipo_Servicio: '',
+                Tiempo: '',
+                Valor: ''
+            }
+            $scope.TipoServicioSeleccionado = -1;
+        }
+
 
 
         // Agr-grid Options

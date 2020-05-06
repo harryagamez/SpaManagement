@@ -18,6 +18,7 @@
                 <md-button type="button" id="btnInformes" class="btn-clientes groupX middle" style="margin-right:0;" data-toggle="tooltip" title="Informes">
                     <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Informes
                 </md-button>
+
                 <md-button type="button" class="btn-clientes dropdown-toggle-split groupX right" style="min-width:0; margin-left:-1px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="material-icons" style="transform: scaleX(-1); margin-top: -0px;">settings</i>
                 </md-button>
@@ -83,7 +84,7 @@
                                             Nombre Servicio:
                                         </label>
                                         <input ng-model="Servicio.Nombre" id="txtNombreServicio" type="text" style="" maxlength="30" class="" placeholder="Digite el nombre del servicio ..." value="" tabindex=1>
-                                    </md-input-container>                                    
+                                    </md-input-container>
                                 </div>
                             </div>
                             <div layout="row" layout-align="">
@@ -94,7 +95,7 @@
                                         </label>
                                         <textarea ng-model="Servicio.Descripcion" id="txtDescripcionServicio" type="text" placeholder="Digite la descripción del servicio ..." md-maxlength="300" rows="2" tabindex=2></textarea>
                                     </md-input-container>
-                                    
+
                                 </div>
                             </div>
 
@@ -104,9 +105,9 @@
                                         <label class="label-form-servicios" style="">
                                             Tiempo Servicio(MIN):
                                         </label>
-                                        <input ng-model="Servicio.Tiempo"  id="txtTiempoServicio" numbers-only type="text" style="" class="" placeholder="Digite el tiempo del servicio en minutos ..." value="" tabindex=3>
+                                        <input ng-model="Servicio.Tiempo" id="txtTiempoServicio" numbers-only type="text" style="" class="" placeholder="Digite el tiempo del servicio en minutos ..." value="" tabindex=3>
                                     </md-input-container>
-                                    
+
                                 </div>
                                 <div flex="">
                                     <md-input-container>
@@ -117,8 +118,8 @@
                                         </select>
                                         <md-select ng-model="TipoServicioSeleccionado" style="min-width:200px;" id="slTipoServicio" tabindex=4>
                                             <md-option ng-bind="item.nombre" ng-value="item.id_TipoServicio" ng-repeat="item in TipoServicios track by item.id_TipoServicio"></md-option>
-                                        </md-select>                                        
-                                    </md-input-container>                              
+                                        </md-select>
+                                    </md-input-container>
                                 </div>
                             </div>
 
@@ -130,7 +131,7 @@
                                         </label>
                                         <input ng-model="Servicio.Valor" id="txtValorServicio" numbers-only type="text" style="" class="" placeholder="Digite el valor del servicio ..." value="" tabindex=5>
                                     </md-input-container>
-                                    
+
                                 </div>
                                 <div flex="">
                                     <md-input-container>
@@ -141,12 +142,16 @@
                                             <md-option value="ACTIVO" selected>ACTIVO</md-option>
                                             <md-option value="INACTIVO">INACTIVO</md-option>
                                         </md-select>
-                                    </md-input-container>                                    
+                                    </md-input-container>
                                 </div>
                             </div>
 
-                            <md-button type="button" id="btnGuardar" class="btn-clientes groupX left" style="margin-left: 0px;" data-toggle="tooltip"  title="Guardar" ng-click="GuardarServicio()" tabindex=7>
+                            <md-button type="button" id="btnGuardar" class="btn-clientes groupX left" style="margin-left: 0px;" data-toggle="tooltip" title="Guardar" ng-click="GuardarServicio()" tabindex=7>
                                 <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                            </md-button>
+
+                            <md-button type="button" id="btnNuevoModal" class="btn-clientes groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
+                                <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Limpiar
                             </md-button>
 
                         </md-dialog-content>
