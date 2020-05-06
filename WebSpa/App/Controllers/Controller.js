@@ -288,8 +288,7 @@
                         if (result.data !== undefined && result.data !== null) {
 
                             $scope.Barrios = [];
-                            $scope.BarrioSeleccionado = -1
-
+                            $scope.BarrioSeleccionado = -1                            
                             $scope.Barrios = result.data;
                             if ($scope.Barrios.length > 0) {
 
@@ -742,7 +741,7 @@
                 headerName: "Tiempo", field: 'tiempo', width: 70, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
             },
             {
-                headerName: "Costo", field: 'valor', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': 'white', 'background-color': 'RGBA(116,158,186,0.7)', 'font-weight':'600' }, valueFormatter: currencyFormatter
+                headerName: "Costo", field: 'valor', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': 'white', 'background-color': 'RGBA(19,38,68,0.7)', 'font-weight':'600' }, valueFormatter: currencyFormatter
             },
             {
                 headerName: "Tipo", field: 'nombre_Tipo_Servicio', width: 90, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -807,11 +806,10 @@
                 clickOutsideToClose: true
             })
                 .then(function () {
-
+                   
                 }, function () {
 
-                });
-
+                });            
         }
 
         // Invocación Funciones
