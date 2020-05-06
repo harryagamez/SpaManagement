@@ -524,5 +524,50 @@ namespace Spa.Infrastructure.SpaRepository
                 throw;
             }
         }
+
+        public bool GuardarServicio(List<Servicio> _Servicio)
+        {
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "GuardarServicio";
+                        _command.Parameters.AddWithValue("@JsonCliente", JsonConvert.SerializeObject(_Servicio));
+
+                        try
+                        {
+                            _command.ExecuteNonQuery();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                        finally
+                        {
+                            if (_command.Connection.State == ConnectionState.Open)
+                            {
+                                _command.Connection.Close();
+                            }
+
+                            _command.Dispose();
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

@@ -192,5 +192,17 @@ namespace Spa.Application.SpaService
                 throw;
             }
         }
+
+        public bool GuardarServicio(List<Servicio> _Servicio)
+        {
+            try
+            {
+                return _spaRepository.GuardarServicio(_Servicio);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

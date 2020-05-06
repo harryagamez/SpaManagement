@@ -193,5 +193,22 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error consultando los servicios: " + ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("api/SPA/RegistrarActualizarCliente")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarServicio(List<Servicio> servicio)
+        {
+            try
+            {
+                bool result = _spaService.GuardarServicio(servicio);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando el servicio: " + ex.Message);
+            }
+        }
     }
 }
