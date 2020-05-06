@@ -595,26 +595,22 @@
         $scope.GuardarServicio = function () {
 
             if ($scope.ValidarDatos()) {
-                if ($scope.ServiciosGridOptions.api.setQuickFilter(document.getElementById('txtNombreServicio').value)!=='') {
-                    $scope.ObjetoServicio = [];
-                    $scope.ObjetoServicio.push($scope.Servicio);
-                    SPAService._guardarServicio(JSON.stringify($scope.ObjetoServicio))
-                        .then(
-                            function (result) {
-                                if (result.data === true) {
+                $scope.ObjetoServicio = [];
+                $scope.ObjetoServicio.push($scope.Servicio);
+                SPAService._guardarServicio(JSON.stringify($scope.ObjetoServicio))
+                    .then(
+                        function (result) {
+                            if (result.data === true) {
 
-                                    toastr.success('Servicio registrado correctamente', '', $scope.toastrOptions);
-                                    $scope.ConsultarServicios();
-                                    $scope.LimpiarDatos();
-                                }
-                            }, function (err) {
-                                toastr.remove();
-                                if (err.data !== null && err.status === 500)
-                                    toastr.error(err.data, '', $scope.toastrOptions);
-                            })
-                }
-                else
-                    toastr.error('Ya existe un servicio con ese nombre', $scope.toastrOptions);
+                                toastr.success('Servicio registrado correctamente', '', $scope.toastrOptions);
+                                $scope.ConsultarServicios();
+                                $scope.LimpiarDatos();
+                            }
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        })
             }
         }
 
