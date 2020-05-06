@@ -677,7 +677,7 @@
             },
             {
                 headerName: "Descripcion", field: 'descripcion', width: 150, cellStyle: { 'text-align': 'left', 'cursor': 'pointer'}, cellRenderer: function (params) {
-                    return "<span  data-toggle='tooltip' title='{{data.descripcion}}'>{{data.descripcion}}</span>"
+                    return "<span  data-toggle='tooltip' data-placement='left' title='{{data.descripcion}}'>{{data.descripcion}}</span>"
                 },
             },
             {
@@ -778,4 +778,3 @@
     })
 
 })();
-

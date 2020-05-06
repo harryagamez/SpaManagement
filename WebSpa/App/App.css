@@ -182,6 +182,10 @@ li.active {
     margin: 0;
 }
 
+.tooltip .tooltip-inner {
+    max-width:140px;
+}
+
 
 /*################ Font Styles ################*/
 * {
