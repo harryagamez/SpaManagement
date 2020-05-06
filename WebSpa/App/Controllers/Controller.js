@@ -558,6 +558,7 @@
 
         // Variables
         $scope.TipoServicios = [];
+        $scope.ObjetoServicio = [];
         $scope.Servicios = [];
         $scope.TipoServicioSeleccionado = -1;
         $scope.EstadoSeleccionado = 'ACTIVO';
@@ -596,14 +597,14 @@
 
                 $scope.ObjetoServicio = [];
                 $scope.ObjetoServicio.push($scope.Servicio);
-
-                SPAService._registrarActualizarCliente(JSON.stringify($scope.ObjetoCliente))
+                debugger;
+                SPAService._guardarServicio(JSON.stringify($scope.ObjetoServicio))
                     .then(
                         function (result) {
                             if (result.data === true) {
 
-                                toastr.success('Cliente registrado y/o actualizado correctamente', '', $scope.toastrOptions);
-                                $scope.ConsultarClientes();
+                                toastr.success('Servicio registrado correctamente', '', $scope.toastrOptions);
+                                $scope.ConsultarServicios();
                                 $scope.LimpiarDatos(); 
                             }
                         }, function (err) {
@@ -612,8 +613,6 @@
                                 toastr.error(err.data, '', $scope.toastrOptions);
                         })
             }
-
-
         }
 
 
@@ -659,6 +658,45 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         }
+
+        // Validaciones
+        $scope.ValidarDatosServicios = function () {            
+
+            $scope.Servicio.Id_TipoServicio = $scope.TipoServicioSeleccionado;            
+
+            if ($scope.Servicio.Nombre === '') {
+                toastr.info('Nombre del servicio es requerido', '', $scope.toastrOptions);
+                $('#txtNombreServicio').focus();
+                return false;
+            }
+
+            if ($scope.Servicio.Descripcion === '') {
+                toastr.info('Descripción del servicio es requerida', '', $scope.toastrOptions);
+                $('#txtDescripcionServicio').focus();
+                return false;
+            }
+
+            if ($scope.Servicio.Tiempo === '') {
+                toastr.info('Tiempo del servicio es requerido', '', $scope.toastrOptions);
+                $('#txtTiempoServicio').focus();
+                return false;
+            }
+
+            if ($scope.Servicio.Id_TipoServicio === -1) {
+                toastr.info('Tipo de servicio es requerido', '', $scope.toastrOptions);
+                $('#slTipoServicio').focus();
+                return false;
+            }
+
+            if ($scope.Servicio.Valor === '') {
+                toastr.info('Valor del servicio es requerido', '', $scope.toastrOptions);
+                $('#txtValorServicio').focus();
+                return false;
+            } 
+            
+            return true;
+        }
+
 
         // Agr-grid Options
         $scope.ServiciosGridOptionsColumns = [
@@ -716,7 +754,7 @@
         } 
 
         $scope.onFilterTextBoxChanged = function() {            
-            $scope.ServiciosGridOptions.api.setQuickFilter(document.getElementById('txtNombreServicio').value);
+            $scope.ServiciosGridOptions.api.setQuickFilter(document.getElementById('txtBuscarServicio').value);
         }
 
         // Formatos
