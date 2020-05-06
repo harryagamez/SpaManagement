@@ -46,47 +46,39 @@
             <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-between center">
 
                 <div flex="">
-                    <md-content>
+                    <md-input-container>
                         <label class="label-form-clientes" style="">
                             Cédula:
-                        </label>
-                        <md-input-container>
-                            <input ng-model="Cliente.Cedula" ng-readonly="CedulaReadOnly" id="txtCedula" numbers-only maxlength="15" data-ng-enter="ConsultarCliente($event, Cliente.Cedula)" type="text" class="" placeholder="Digite su cédula..." value="" tabindex=1>
-                        </md-input-container>
-                    </md-content>
+                        </label>                        
+                            <input ng-model="Cliente.Cedula" ng-readonly="CedulaReadOnly" id="txtCedula" numbers-only maxlength="15" data-ng-enter="ConsultarCliente($event, Cliente.Cedula)" type="text" class="" placeholder="Digite su cédula..." value="" tabindex=1>                        
+                    </md-input-container>
                 </div>
 
                 <div flex="">
-                    <md-content>
+                    <md-input-container>
                         <label for="dateType" class="label-form-clientes" style="">
                             Nombre(s):
-                        </label>
-                        <md-input-container>
-                            <input ng-model="Cliente.Nombres" maxlength="60" type="text" class="" placeholder="Digite su nombre ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtNombre" tabindex=2>
-                        </md-input-container>
-                    </md-content>
+                        </label>                     
+                            <input ng-model="Cliente.Nombres" maxlength="60" type="text" class="" placeholder="Digite su nombre ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtNombre" tabindex=2>                        
+                    </md-input-container>
                 </div>
 
                 <div flex="">
-                    <md-content>
+                    <md-input-container>
                         <label class="label-form-clientes" style="">
                             Apellido(s):
-                        </label>
-                        <md-input-container>
-                            <input ng-model="Cliente.Apellidos" maxlength="60" type="text" class="" placeholder="Digite su apellido ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtApellido" tabindex=3>
-                        </md-input-container>
-                    </md-content>
+                        </label>                        
+                            <input ng-model="Cliente.Apellidos" maxlength="60" type="text" class="" placeholder="Digite su apellido ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtApellido" tabindex=3>                        
+                    </md-input-container>
                 </div>
 
                 <div flex="">
-                    <md-content>
+                    <md-input-container>
                         <label class="label-form-clientes" for="txtSearchText" style="">
                             E-Mail:
-                        </label>
-                        <md-input-container>
-                            <input ng-model="Cliente.Mail" maxlength="60" type="email" class="" placeholder="Digite su e-mail ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtMail" tabindex=4>
-                        </md-input-container>
-                    </md-content>
+                        </label>                        
+                            <input ng-model="Cliente.Mail" maxlength="60" type="email" class="" placeholder="Digite su e-mail ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtMail" tabindex=4>                        
+                    </md-input-container>
                 </div>
 
             </div>
@@ -94,46 +86,40 @@
             <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-between center">
 
                 <div flex="">
-                    <md-content>
+                    <md-input-container>
                         <label class="label-form-clientes" for="dateType" style="">
                             Dirección:
-                        </label>
-                        <md-input-container>
-                            <input ng-model="Cliente.Direccion" maxlength="25" type="text" class="" placeholder="Digite su dirección ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtDireccion" tabindex=5>
-                        </md-input-container>
-                    </md-content>
+                        </label>                        
+                            <input ng-model="Cliente.Direccion" maxlength="25" type="text" class="" placeholder="Digite su dirección ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtDireccion" tabindex=5>                        
+                    </md-input-container>
                 </div>
 
                 <div flex="">
-                    <md-content>
+                    <md-input-container>
                         <label class="label-form-clientes" style="">
                             Tel. Fijo:
-                        </label>
-                        <md-input-container style="">
-                            <input ng-model="Cliente.Telefono_Fijo" numbers-only maxlength="10" type="text" class="" placeholder="Digite su teléfono fijo ..." value="" id="txtTelefono" tabindex=6>
-                        </md-input-container>
-                    </md-content>
+                        </label>                        
+                            <input ng-model="Cliente.Telefono_Fijo" numbers-only maxlength="10" type="text" class="" placeholder="Digite su teléfono fijo ..." value="" id="txtTelefono" tabindex=6>                        
+                    </md-input-container>
                 </div>
 
                 <div flex="">
-                    <md-content style="">
+                    <md-input-container>
                         <label class="label-form-clientes" style="">
                             Celular:
-                        </label>
-                        <md-input-container style="">
-                            <input ng-model="Cliente.Telefono_Movil" numbers-only maxlength="12" type="text" class="" placeholder="Digite su celular ..." value="" id="txtMovil" tabindex=7>
-                        </md-input-container>
-                    </md-content>
+                        </label>                      
+                            <input ng-model="Cliente.Telefono_Movil" numbers-only maxlength="12" type="text" class="" placeholder="Digite su celular ..." value="" id="txtMovil" tabindex=7>                        
+                    </md-input-container>
                 </div>
 
                 <div flex="">
-                    <md-content style="" >
+                    <md-input-container style="margin-left: -40px; min-width: 210px;">
                         <label class="label-form-clientes" style="">
-                            Fecha N.:
+                            Fecha Nacimiento:
                         </label>
                         <!--<adm-dtp ng-model="Cliente.Fecha_Nacimiento" ng-change="ValidarFechaNacimiento()" options='{dtpType:"date", autoClose:true, freezeInput:true, format: "MM/DD/YYYY"}' style="margin: 15px 0 0 0; display:inline-flex; max-width: 170px !important;" id="dpFechaNacimiento" tabindex=8></adm-dtp>-->
                         <md-datepicker ng-model="Cliente.Fecha_Nacimiento" ng-change="ValidarFechaNacimiento()" md-placeholder="Enter date" style="margin-left:-15px; margin-top: 25px; max-width: 200px !important; overflow:hidden;" id="dpFechaNacimiento" tabindex=8></md-datepicker>
-                    </md-content>
+                    </md-input-container>
                 </div>
 
             </div>
@@ -141,7 +127,7 @@
             <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-between center">
 
                 <div flex="">
-                    <md-content>
+                    <md-input-container>
                         <label class="label-form-clientes" style="">
                             Municipio:
                         </label>
@@ -150,11 +136,11 @@
                         <md-select ng-model="MunicipioSeleccionado" ng-change="FiltrarBarrios(MunicipioSeleccionado)" class="" style="display:inline-flex; min-width: 170px !important; margin:20px 0;" id="slMunicipio" tabindex=9>
                             <md-option ng-bind="municipio.nombre" ng-value="municipio.id_Municipio" ng-repeat="municipio in Municipios track by municipio.id_Municipio"></md-option>
                         </md-select>
-                    </md-content>
+                    </md-input-container>
                 </div>
 
                 <div flex="">
-                    <md-content>
+                    <md-input-container>
                         <label class="label-form-clientes" style="">
                             Barrio:
                         </label>
@@ -163,24 +149,24 @@
                         <md-select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" class="" style="display:inline-flex; min-width: 170px !important; max-width: 170px; margin:20px 0;" id="slBarrio" tabindex=10>
                             <md-option ng-bind="barrio.nombre" ng-value="barrio.id_Barrio" ng-repeat="barrio in Barrios track by barrio.id_Barrio"></md-option>
                         </md-select>
-                    </md-content>
+                    </md-input-container>
                 </div>
 
                 <div flex="">
-                    <md-content>
+                    <md-input-container>
                         <label class="label-form-clientes" style="">
-                            Tipo Cli.:
+                            Tipo Cliente:
                         </label>
                         <select ng-model="TipoClienteSeleccionado" ng-options="item.id_Tipo as item.nombre for item in TipoClientes | orderBy:'nombre'" class="" style="display:none; width:auto; " tabindex=11>
                         </select>
                         <md-select ng-model="TipoClienteSeleccionado" class="" style="display:inline-flex; min-width: 170px !important; margin:20px 0;" id="slTipoCliente" tabindex=11>
                             <md-option ng-bind="item.nombre" ng-value="item.id_Tipo" ng-repeat="item in TipoClientes track by item.id_Tipo"></md-option>
                         </md-select>
-                    </md-content>
+                    </md-input-container>
                 </div>
 
                 <div flex="">
-                    <md-content>
+                    <md-input-container>
                         <label class="label-form-clientes" style="">
                             Estado:
                         </label>
@@ -188,7 +174,7 @@
                             <md-option value="ACTIVO" selected>ACTIVO</md-option>
                             <md-option value="INACTIVO">INACTIVO</md-option>
                         </md-select>
-                    </md-content>
+                    </md-input-container>
                 </div>
 
             </div>

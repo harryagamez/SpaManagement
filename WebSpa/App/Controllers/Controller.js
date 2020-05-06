@@ -181,8 +181,7 @@
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
                             $scope.Clientes = [];
-                            $scope.Clientes = result.data;
-                            debugger;
+                            $scope.Clientes = result.data;                            
                             $scope.ClientesGridOptions.api.setRowData($scope.Clientes);
 
                             $timeout(function () {
@@ -586,8 +585,7 @@
             Id_Empresa: $scope.IdEmpresa,
             Id_Usuario: $scope.IdUsuario,
             Id_TipoServicio: -1,
-            Nombre: '',
-            Nombre_Tipo_Servicio: -1,
+            Nombre: '',            
             Tiempo: 0,
             Valor: 0
         }
