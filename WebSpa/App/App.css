@@ -170,9 +170,16 @@ li.active {
     min-width: 100%
 }
 
+#frmClientesModal {
+    padding: 15px;    
+    height: auto;
+    margin-top: 3px;
+    min-width: 100%
+}
+
 .btn-login {
     min-width: 100%;
-    margin:0;
+    margin: 0;
 }
 
 
@@ -334,7 +341,7 @@ body {
 }
 
     #sidebar ul li {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+        border-bottom: 1px solid rgba(40, 40, 40, 0.87);
         background-size: 200% 100%;
         background-image: linear-gradient(to left, #212121 50%, transparent 50%);
     }
@@ -418,6 +425,12 @@ label {
     min-width: 75px;
     margin-right: 25px;
     font-weight: bold;
+}
+
+.label-form-servicios {
+    min-width: 130px;
+    margin-right:25px;
+    font-weight:bold;
 }
 
 /*################ Filters, Shadows, Transitions ################*/

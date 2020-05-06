@@ -635,7 +635,7 @@
                 headerName: "Nombre", field: 'nombre', width: 170, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Descripcion", field: 'descripcion', width: 150, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function (params) {
+                headerName: "Descripcion", field: 'descripcion', width: 150, cellStyle: { 'text-align': 'left', 'cursor': 'pointer'}, cellRenderer: function (params) {
                     return "<span  data-toggle='tooltip' title='{{data.descripcion}}'>{{data.descripcion}}</span>"
                 },
             },
@@ -643,7 +643,7 @@
                 headerName: "Tiempo", field: 'tiempo', width: 70, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
             },
             {
-                headerName: "Costo", field: 'valor', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+                headerName: "Costo", field: 'valor', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': 'white', 'background-color': 'RGBA(116,158,186,0.7)', 'font-weight':'600' }, valueFormatter: currencyFormatter
             },
             {
                 headerName: "Tipo", field: 'nombre_Tipo_Servicio', width: 90, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -672,8 +672,7 @@
             animateRows: true,
             suppressRowClickSelection: true,
             rowSelection: 'multiple'
-        }
-        
+        } 
 
         $scope.onFilterTextBoxChanged = function() {            
             $scope.ServiciosGridOptions.api.setQuickFilter(document.getElementById('txtNombreServicio').value);
