@@ -181,7 +181,8 @@
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
                             $scope.Clientes = [];
-                            $scope.Clientes = result.data;                            
+                            $scope.Clientes = result.data;
+                            debugger;
                             $scope.ClientesGridOptions.api.setRowData($scope.Clientes);
 
                             $timeout(function () {
@@ -561,7 +562,9 @@
         $scope.TipoServicios = [];
         $scope.Servicios = [];
         $scope.TipoServicioSeleccionado = -1;
+        $scope.EstadoSeleccionado = 'ACTIVO';
         $scope.AccionServicio = 'Registrar Servicio';
+        
 
         // Inicialización
         $scope.Inicializacion = function () {
@@ -573,9 +576,52 @@
         }
 
         $scope.IdEmpresa = $rootScope.Id_Empresa;
-        $scope.IdUsuario = parseInt($rootScope.userData.userId);
+        $scope.IdUsuario = parseInt($rootScope.userData.userId);  
+
+        $scope.Servicio =
+        {
+            Descripcion: '',
+            Estado: $scope.EstadoSeleccionado,
+            Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
+            Id_Empresa: $scope.IdEmpresa,
+            Id_Usuario: $scope.IdUsuario,
+            Id_TipoServicio: -1,
+            Nombre: '',
+            Nombre_Tipo_Servicio: -1,
+            Tiempo: 0,
+            Valor: 0
+        }
 
         // Invocaciones API
+        $scope.GuardarServicio = function () {
+
+            if ($scope.ValidarDatosServicios()) {
+
+                $scope.ObjetoServicio = [];
+                $scope.ObjetoServicio.push($scope.Servicio);
+
+                SPAService._registrarActualizarCliente(JSON.stringify($scope.ObjetoCliente))
+                    .then(
+                        function (result) {
+                            if (result.data === true) {
+
+                                toastr.success('Cliente registrado y/o actualizado correctamente', '', $scope.toastrOptions);
+                                $scope.ConsultarClientes();
+                                $scope.LimpiarDatos();
+                                $('#txtInvoiceNumber').focus();
+
+                            }
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        })
+            }
+
+
+        }
+
+
         $scope.ConsultarTipoServicios = function () {
 
             SPAService._consultarTipoServicios()
@@ -604,7 +650,7 @@
                         if (result.data !== undefined && result.data !== null) {
                           
                             $scope.Servicios = [];
-                            $scope.Servicios = result.data;
+                            $scope.Servicios = result.data;                            
                             $scope.ServiciosGridOptions.api.setRowData($scope.Servicios);
 
                             $timeout(function () {

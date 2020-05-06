@@ -74,7 +74,7 @@
                             </md-button>
                         </div>
                     </md-toolbar>
-                    <form id="frmClientesModal" style="">
+                    <form id="frmServiciosModal" style="">
                         <md-dialog-content>
                             <div layout="row" layout-align="">
                                 <div flex="100">
@@ -82,7 +82,7 @@
                                         <label class="label-form-servicios" style="">
                                             Nombre Servicio:
                                         </label>
-                                        <input type="text" style="" class="" placeholder="Digite el nombre del servicio ..." value="" tabindex=1>
+                                        <input ng-model="Servicio.Nombre" type="text" style="" maxlength="30" class="" placeholder="Digite el nombre del servicio ..." value="" tabindex=1>
                                     </md-input-container>                                    
                                 </div>
                             </div>
@@ -92,29 +92,30 @@
                                         <label class="label-form-servicios" style="">
                                             Descripción Servicio:
                                         </label>
-                                        <textarea ng-model="" placeholder="Digite la descripción del servicio ..." md-maxlength="150" rows="2" tabindex=2></textarea>
+                                        <textarea ng-model="Servicio.Descripcion" type="text" placeholder="Digite la descripción del servicio ..." md-maxlength="300" rows="2" tabindex=2></textarea>
                                     </md-input-container>
                                     
                                 </div>
                             </div>
                             <div layout="row" layout-sm="column" layout-align="center center">
-                                <div flex="50">
+                                <div flex="">
                                     <md-input-container>
                                         <label class="label-form-servicios" style="">
                                             Tiempo Servicio(MIN):
                                         </label>
-                                        <input type="text" style="" class="" placeholder="Digite el tiempo del servicio en minutos ..." value="" tabindex=3>
+                                        <input ng-model="Servicio.Tiempo"  numbers-only type="text" style="" class="" placeholder="Digite el tiempo del servicio en minutos ..." value="" tabindex=3>
                                     </md-input-container>
                                     
                                 </div>
-                                <div flex="50">
+                                <div flex="">
                                     <md-input-container>
                                         <label class="label-form-servicios" style="">
                                             Tipo Servicio
                                         </label>
-                                        <md-select ng-model="" style="min-width:200px;">
-                                            <md-option ng-repeat="" value="">                                                
-                                            </md-option>
+                                        <select ng-model="TipoServicioSeleccionado" ng-options="item.id_tiposervicio as item.nombre for item in TipoServicios | orderBy:'nombre'" style="display:none; width:auto;" tabindex=4>
+                                        </select>
+                                        <md-select ng-model="TipoServicioSeleccionado" style="min-width:200px; display:inline-flex;" id="slTipoServicio" tabindex=4>
+                                            <md-option ng-bind="item.nombre" ng-value="item.id_tiposervicio" ng-repeat="item in TipoServicios track by item.id_tiposervicio"></md-option>
                                         </md-select>
                                     </md-input-container>                                    
                                 </div>
@@ -125,7 +126,7 @@
                                         <label class="label-form-servicios" style="">
                                             Valor Servicio
                                         </label>
-                                        <input type="text" style="" class="" placeholder="Digite el valor del servicio ..." value="" tabindex=5>
+                                        <input ng-model="Servicio.Valor" numbers-only type="text" style="" class="" placeholder="Digite el valor del servicio ..." value="" tabindex=5>
                                     </md-input-container>
                                     
                                 </div>
@@ -134,15 +135,15 @@
                                         <label class="label-form-servicios" style="">
                                             Estado
                                         </label>
-                                        <md-select ng-model="" style="min-width:200px;">
-                                            <md-option ng-repeat="" value="">
-                                            </md-option>
+                                        <md-select ng-model="EstadoSeleccionado" class="" style="display:inline-flex; min-width: 200px;" id="slEstado" tabindex=6>
+                                            <md-option value="ACTIVO" selected>ACTIVO</md-option>
+                                            <md-option value="INACTIVO">INACTIVO</md-option>
                                         </md-select>
                                     </md-input-container>                                    
                                 </div>
                             </div>
 
-                            <md-button type="button" id="btnGuardar" class="btn-clientes groupX left" style="margin-left: 0px;" data-toggle="tooltip" title="Guardar" ng-click="GuardarServicio()">
+                            <md-button type="button" id="btnGuardar" class="btn-clientes groupX left" style="margin-left: 0px;" data-toggle="tooltip" title="Guardar" ng-click="GuardarServicio()" tabindex=7>
                                 <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                             </md-button>
 
