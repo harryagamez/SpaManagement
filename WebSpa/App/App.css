@@ -8,7 +8,6 @@
     --main-font: Open Sans, sans-serif;
 }
 
-
 /*################ Margins, Paddings, Heights, Widths, 
 Positions, Display, Top, Bottom, left, rights ################*/
 
@@ -73,10 +72,6 @@ Positions, Display, Top, Bottom, left, rights ################*/
     z-index: 8;    
 }
 
-/*.form-control {
-    height: 40px !important;
-}*/
-
 #sidebar {
     position: fixed;
     width: 200px; 
@@ -111,10 +106,6 @@ li.active {
 }
 
 .form-control-login {
-    /*margin-left: -20px;
-    border-radius: 0;
-    padding-left: 25px !important;
-    border-width: 0 0 2px;*/
 }
 
 .tooltip .tooltip-inner {
@@ -126,12 +117,6 @@ li.active {
 }
 
 .login-icons {
-    /*transform: scaleX(-1);    
-    color: darkgray;
-    top: 0;
-    position: absolute;
-    margin-left: -25px;
-    left:0;*/
 }
 
 .login-header {
@@ -155,13 +140,13 @@ li.active {
     min-width:100%
 }
 
-    #frmClientes .layout-row {
-        margin-bottom:-10px;
-    }
+#frmClientes .layout-row {
+    margin-bottom:-10px;
+}
 
-    #frmClientes md-input-container {
-        margin: 15px 0 0 0;
-    }
+#frmClientes md-input-container {
+    margin: 15px 0 0 0;
+}
 
 #frmServicios {
     padding: 13px;
@@ -185,7 +170,6 @@ li.active {
 .tooltip .tooltip-inner {
     max-width:140px;
 }
-
 
 /*################ Font Styles ################*/
 * {
@@ -286,7 +270,6 @@ select,
 
 
 /*################ Backgrounds and borders ################*/
-
 body {
     background: white !important;
 }
@@ -339,16 +322,15 @@ body {
 }
 
 #sidebar {
-    /*background: linear-gradient(rgba(19, 38, 68, 0.90), rgba(19, 38, 68, 0.90)), url('../Images/img_spa.jpg');*/
     background: rgba(19, 38, 68, 0.90);
     border-radius: 0 10px;
 }
 
-    #sidebar ul li {
-        border-bottom: 1px solid rgba(40, 40, 40, 0.87);
-        background-size: 200% 100%;
-        background-image: linear-gradient(to left, #212121 50%, transparent 50%);
-    }
+#sidebar ul li {
+    border-bottom: 1px solid rgba(40, 40, 40, 0.87);
+    background-size: 200% 100%;
+    background-image: linear-gradient(to left, #212121 50%, transparent 50%);
+}
 
 #sidebar ul li:hover {
     border-radius: 10px 0 0 10px;
@@ -401,9 +383,9 @@ md-checkbox.md-default-theme.md-checked .md-icon {
 }
 
 .md-toolbar-tools {
-    background:rgba(19,38,68,0.90);
+    background: rgba(19,38,68,0.5);
+    height: 35px!important;
 }
-
 
 /*################ Element Tweaks ################*/
 #sidebar ul li {
@@ -499,13 +481,7 @@ li.active {
     opacity: 1;
 }
 
-/*#frmClientes .container-fluid {
-    box-shadow: 0 0 6px #999;
-}*/
-
-
 /*################ Fixes ################*/
-
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -514,13 +490,7 @@ input:-webkit-autofill:active {
 
 }
 
-._md-datepicker-floating-label .md-input {
-    width: 125%;
-}
-
-
 /*################ @Media Responsive ################*/
-
 @media only screen and (max-width: 700px) {
     .bg {
         background-size: 300%;
@@ -528,29 +498,10 @@ input:-webkit-autofill:active {
 }
 
 /*################ Containers ################*/
-
-/*#frmServicios .container-fluid {
-    padding: 15px;
-    height: auto;
-}
-
-#frmServicios .container-fluid * {
-    font-size: 13px;
-}
-
-#frmServicios .container-fluid .material-icons {
-    font-size: 16px;
-}
-
-#frmServicios .container-fluid {
-    background-color: white !important;
-    border-radius: 10px;
-}
-
-#frmServicios .container-fluid {
-    box-shadow: 0 0 6px #999;
-}*/
-
 .dropdown-menu{
     font-size:13px !important;
+}
+
+._md-datepicker-floating-label > md-datepicker .md-datepicker-button {
+    margin-left: 28px !important;
 }

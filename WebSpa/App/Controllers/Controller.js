@@ -170,7 +170,6 @@
                         })
             }
 
-
         }
 
         $scope.ConsultarClientes = function () {
@@ -179,13 +178,14 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
+
                             $scope.Clientes = [];
-                            $scope.Clientes = result.data;                            
+                            $scope.Clientes = result.data;
                             $scope.ClientesGridOptions.api.setRowData($scope.Clientes);
 
                             $timeout(function () {
                                 $scope.ClientesGridOptions.api.sizeColumnsToFit();
-                            }, 300);
+                            }, 200);
 
                         }
                     }, function (err) {
@@ -288,7 +288,7 @@
                         if (result.data !== undefined && result.data !== null) {
 
                             $scope.Barrios = [];
-                            $scope.BarrioSeleccionado = -1                            
+                            $scope.BarrioSeleccionado = -1
                             $scope.Barrios = result.data;
                             if ($scope.Barrios.length > 0) {
 
@@ -352,7 +352,7 @@
 
             $timeout(function () {
                 $scope.ClientesGridOptions.api.sizeColumnsToFit();
-            }, 300);
+            }, 200);
 
         }
 
@@ -470,10 +470,10 @@
                 headerName: "Nombres(s)", field: 'nombres', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Apellido(s)", field: 'apellidos', width: 150, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Apellido(s)", field: 'apellidos', width: 155, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Celular", field: 'telefono_Movil', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
+                headerName: "Celular", field: 'telefono_Movil', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': 'orange', 'background-color': 'rgba(19, 38, 68, 0.85)', 'font-weight': '600' },
             },
             {
                 headerName: "Mail", field: 'mail', width: 250, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -482,10 +482,10 @@
                 headerName: "Dirección", field: 'direccion', width: 240, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Barrio", field: 'barrio', width: 170, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Barrio", field: 'barrio', width: 175, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Registro", field: 'fecha_Registro', width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
+                headerName: "Registro", field: 'fecha_Registro', hide: true, width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
                     return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy') : '';
                 },
             }
@@ -503,8 +503,6 @@
             enableColResize: true,
             angularCompileRows: true,
             onGridReady: function (params) {
-                $timeout(function () {
-                }, 400)
             },
             fullWidthCellRenderer: true,
             animateRows: true,
@@ -528,7 +526,7 @@
                 $scope.Cliente.Mail = event.node.data.mail;
                 $scope.Cliente.Direccion = event.node.data.direccion;
                 $scope.Cliente.Id_Municipio = event.node.data.id_Municipio;
-                $scope.Cliente.Id_Barrio = event.node.data.id_Barrio;                
+                $scope.Cliente.Id_Barrio = event.node.data.id_Barrio;
                 $scope.Cliente.Fecha_Nacimiento = $filter('date')(new Date(event.node.data.fecha_Nacimiento), 'MM/dd/yyyy');
                 $scope.Cliente.Id_Tipo = event.node.data.id_Tipo;
                 $scope.TipoClienteSeleccionado = event.node.data.id_Tipo;
@@ -562,31 +560,31 @@
         $scope.TipoServicioSeleccionado = -1;
         $scope.EstadoSeleccionado = 'ACTIVO';
         $scope.AccionServicio = 'Registrar Servicio';
-        
+
 
         // Inicialización
         $scope.Inicializacion = function () {
 
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
 
-            $('#txtNombreServicio').focus();
+            $('#txtBuscarServicio').focus();
 
         }
 
         $scope.IdEmpresa = $rootScope.Id_Empresa;
-        $scope.IdUsuario = parseInt($rootScope.userData.userId);  
+        $scope.IdUsuario = parseInt($rootScope.userData.userId);
 
         $scope.Servicio =
         {
             Descripcion: '',
             Estado: $scope.EstadoSeleccionado,
             Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
-            Id_Empresa: $scope.IdEmpresa,            
+            Id_Empresa: $scope.IdEmpresa,
             Id_TipoServicio: -1,
             Id_Servicio: -1,
             Nombre: '',
             Nombre_Tipo_Servicio: '',
-            Tiempo: '',            
+            Tiempo: '',
             Valor: ''
         }
 
@@ -622,7 +620,7 @@
                         if (result.data !== undefined && result.data !== null) {
 
                             $scope.TipoServicios = [];
-                            $scope.TipoServicios = result.data;                             
+                            $scope.TipoServicios = result.data;
                             $scope.TipoServicios.push({ id_TipoServicio: -1, nombre: '[Seleccione]', descripcion: '', fecha_Registro: null, fecha_Modificacion: null });
                             $scope.TipoServicios = $filter('orderBy')($scope.TipoServicios, 'nombre', false);
                         }
@@ -640,9 +638,9 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
-                          
+
                             $scope.Servicios = [];
-                            $scope.Servicios = result.data;                            
+                            $scope.Servicios = result.data;
                             $scope.ServiciosGridOptions.api.setRowData($scope.Servicios);
 
                             $timeout(function () {
@@ -658,9 +656,9 @@
         }
 
         // Validaciones Servicios
-        $scope.ValidarDatos = function () {            
+        $scope.ValidarDatos = function () {
 
-            $scope.Servicio.Id_TipoServicio = $scope.TipoServicioSeleccionado;            
+            $scope.Servicio.Id_TipoServicio = $scope.TipoServicioSeleccionado;
 
             if ($scope.Servicio.Nombre === '') {
                 toastr.info('Nombre del servicio es requerido', '', $scope.toastrOptions);
@@ -690,15 +688,16 @@
                 toastr.info('Valor del servicio es requerido', '', $scope.toastrOptions);
                 $('#txtValorServicio').focus();
                 return false;
-            } 
-            
+            }
+
             return true;
         }
 
         //Limpiar Datos
-
         $scope.LimpiarDatos = function () {
+
             $scope.EstadoSeleccionado = 'ACTIVO';
+
             $scope.Servicio =
             {
                 Nombre: '',
@@ -707,15 +706,17 @@
                 Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
                 Id_Empresa: $scope.IdEmpresa,
                 Id_TipoServicio: -1,
-                Id_Servicio: -1,                
+                Id_Servicio: -1,
                 Nombre_Tipo_Servicio: '',
                 Tiempo: '',
                 Valor: ''
             }
+
             $scope.TipoServicioSeleccionado = -1;
+
+            $('#txtNombreServicio').focus();
+
         }
-
-
 
         // Agr-grid Options
         $scope.ServiciosGridOptionsColumns = [
@@ -730,10 +731,10 @@
                 }
             },
             {
-                headerName: "Nombre", field: 'nombre', width: 170, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Nombre", field: 'nombre', width: 130, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Descripcion", field: 'descripcion', width: 150, cellStyle: { 'text-align': 'left', 'cursor': 'pointer'}, cellRenderer: function (params) {
+                headerName: "Descripcion", field: 'descripcion', width: 170, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function (params) {
                     return "<span  data-toggle='tooltip' data-placement='left' title='{{data.descripcion}}'>{{data.descripcion}}</span>"
                 },
             },
@@ -741,20 +742,20 @@
                 headerName: "Tiempo", field: 'tiempo', width: 70, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
             },
             {
-                headerName: "Costo", field: 'valor', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': 'white', 'background-color': 'RGBA(19,38,68,0.7)', 'font-weight':'600' }, valueFormatter: currencyFormatter
+                headerName: "Costo", field: 'valor', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': 'orange', 'background-color': 'rgba(19, 38, 68, 0.85)', 'font-weight': '600' }, valueFormatter: currencyFormatter
             },
             {
-                headerName: "Tipo", field: 'nombre_Tipo_Servicio', width: 90, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Tipo", field: 'nombre_Tipo_Servicio', width: 100, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Estado", field: 'estado', width: 80, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
-            },
+                headerName: "Estado", field: 'estado', width: 70, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
+            }
 
         ];
 
         $scope.ServiciosGridOptions = {
             defaultColDef: {
-                resizable: true                
+                resizable: true
             },
             columnDefs: $scope.ServiciosGridOptionsColumns,
             rowData: [],
@@ -764,15 +765,15 @@
             angularCompileRows: true,
             onGridReady: function (params) {
                 $timeout(function () {
-                }, 400)
+                }, 200)
             },
             fullWidthCellRenderer: true,
             animateRows: true,
             suppressRowClickSelection: true,
             rowSelection: 'multiple'
-        } 
+        }
 
-        $scope.onFilterTextBoxChanged = function() {            
+        $scope.onFilterTextBoxChanged = function () {
             $scope.ServiciosGridOptions.api.setQuickFilter(document.getElementById('txtBuscarServicio').value);
         }
 
@@ -780,19 +781,20 @@
         function currencyFormatter(params) {
             var valueGrid = params.value;
             return $filter('currency')(valueGrid, '$', 0);
-        }        
+        }
 
         // Eventos
         window.onresize = function () {
 
             $timeout(function () {
                 $scope.ServiciosGridOptions.api.sizeColumnsToFit();
-            }, 300);
+            }, 200);
 
         }
 
         $scope.Cancelar = function () {
             $mdDialog.cancel();
+            $('#txtBuscarServicio').focus();
         };
 
         $scope.ModalNuevoServicio = function () {
@@ -806,10 +808,10 @@
                 clickOutsideToClose: true
             })
                 .then(function () {
-                   
                 }, function () {
+                    $('#txtBuscarServicio').focus();
+                });
 
-                });            
         }
 
         // Invocación Funciones
@@ -830,7 +832,7 @@
         $('body').on("click", ".dropdown-menu", function (e) {
             $(this).parent().is(".show") && e.stopPropagation();
         });
-       
+
     })
 
 })();
