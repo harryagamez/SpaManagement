@@ -140,12 +140,12 @@
 
                 <div flex="">
                     <md-input-container>                        
-                        <label class="label-form-clientes" style="transform:none;">
+                        <!--<select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" ng-options="barrio.id_Barrio as barrio.nombre for barrio in Barrios | orderBy:'nombre'" class="" style="display:none; width:auto;" tabindex=10>
+                        </select>-->
+                        <label class="label-form-clientes" style="">
                             Barrio:
                         </label>
-                        <select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" ng-options="barrio.id_Barrio as barrio.nombre for barrio in Barrios | orderBy:'nombre'" class="" style="display:none; width:auto;" tabindex=10>
-                        </select>
-                        <md-select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" class="" style="display:inline-flex; min-width: 170px !important; max-width: 170px; margin:20px 0;" id="slBarrio" tabindex=10>
+                        <md-select ng-model="BarrioSeleccionado" class="" style="display:inline-flex; min-width: 170px !important; max-width: 170px; margin:20px 0;" id="slBarrio" tabindex=10>
                             <md-option ng-bind="barrio.nombre" ng-value="barrio.id_Barrio" ng-repeat="barrio in Barrios track by barrio.id_Barrio"></md-option>
                         </md-select>
                     </md-input-container>

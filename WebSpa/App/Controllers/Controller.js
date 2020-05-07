@@ -136,6 +136,7 @@
             Id_Empresa: $scope.IdEmpresa,
             Id_Usuario_Creacion: $scope.IdUsuario
         }
+        $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1 });
 
         $scope.Inicializacion = function () {
 
@@ -473,7 +474,7 @@
                 headerName: "Apellido(s)", field: 'apellidos', width: 155, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Celular", field: 'telefono_Movil', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': 'orange', 'background-color': 'rgba(19, 38, 68, 0.85)', 'font-weight': '600' },
+                headerName: "Celular", field: 'telefono_Movil', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(243,255,227,0.85)', 'font-weight': '600' },
             },
             {
                 headerName: "Mail", field: 'mail', width: 250, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -520,7 +521,6 @@
                 $scope.Cliente.Cedula = event.node.data.cedula;
                 $scope.Cliente.Nombres = event.node.data.nombres;
                 $scope.Cliente.Apellidos = event.node.data.apellidos;
-
                 $scope.Cliente.Telefono_Fijo = event.node.data.telefono_Fijo;
                 $scope.Cliente.Telefono_Movil = event.node.data.telefono_Movil;
                 $scope.Cliente.Mail = event.node.data.mail;
@@ -553,7 +553,7 @@
 
     function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
 
-        // Variables
+        // VARIABLES
         $scope.TipoServicios = [];
         $scope.ObjetoServicio = [];
         $scope.Servicios = [];
@@ -562,7 +562,7 @@
         $scope.AccionServicio = 'Registrar Servicio';
 
 
-        // Inicialización
+        // INICIALIZACIÓN
         $scope.Inicializacion = function () {
 
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
@@ -588,7 +588,7 @@
             Valor: ''
         }
 
-        // Invocaciones API
+        // INVOCACIONES API
         $scope.GuardarServicio = function () {
 
             if ($scope.ValidarDatos()) {
@@ -656,7 +656,77 @@
                     })
         }
 
-        // Validaciones Servicios
+
+        // FUNCIONES
+
+        // -- Consultar Servicio
+        $scope.ConsultarServicio = function (data) {
+            $scope.TipoServicioSeleccionado = -1;
+            if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
+                $scope.Servicio.Nombre = data.nombre;
+                $scope.Servicio.Descripcion = data.descripcion;
+                $scope.Servicio.Estado = data.estado;
+                $scope.ServicioFecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
+                $scope.Servicio.Id_Empresa = $scope.IdEmpresa;
+                $scope.Servicio.Id_TipoServicio = data.id_TipoServicio;
+                $scope.Servicio.Id_Servicio = data.id_Servicio;
+                $scope.Servicio.Tiempo = data.tiempo;
+                $scope.Servicio.Valor = data.valor;
+                $scope.Servicio.Id_Servicio = data.id_Servicio;
+                $scope.TipoServicioSeleccionado = data.id_TipoServicio;
+                $scope.ModalEditarServicio();
+                $scope.NombreServicioReadOnly = true;
+            }
+        }
+
+        // -- Consultar Servicio Por Nombre
+        $scope.ConsultarServicioNombre = function (e, nombre) {
+            var row = $scope.ServiciosGridOptions.api.getRowNode(nombre);
+            if (row.data.nombre !== undefined && row.data.nombre !== null) {
+                $scope.AccionServicio = 'Modificar Servicio';
+                $scope.Servicio.Nombre = row.data.nombre;
+                $scope.Servicio.Descripcion = row.data.descripcion;
+                $scope.Servicio.Estado = row.data.estado;
+                $scope.ServicioFecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
+                $scope.Servicio.Id_Empresa = $scope.IdEmpresa;
+                $scope.Servicio.Id_TipoServicio = row.data.id_TipoServicio;
+                $scope.Servicio.Id_Servicio = row.data.id_Servicio;
+                $scope.Servicio.Tiempo = row.data.tiempo;
+                $scope.Servicio.Valor = row.data.valor;
+                $scope.Servicio.Id_Servicio = row.data.id_Servicio;
+                $scope.TipoServicioSeleccionado = row.data.id_TipoServicio;
+
+                $scope.NombreServicioReadOnly = true;
+                $scope.OcultarbtnNuevo = true;
+            }
+        }
+
+        // -- Limpiar Datos
+        $scope.LimpiarDatos = function () {
+
+            $scope.EstadoSeleccionado = 'ACTIVO';
+
+            $scope.Servicio =
+            {
+                Nombre: '',
+                Descripcion: '',
+                Estado: $scope.EstadoSeleccionado,
+                Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
+                Id_Empresa: $scope.IdEmpresa,
+                Id_TipoServicio: -1,
+                Id_Servicio: -1,
+                Nombre_Tipo_Servicio: '',
+                Tiempo: '',
+                Valor: ''
+            }
+
+            $scope.TipoServicioSeleccionado = -1;
+
+            $('#txtNombreServicio').focus();
+
+        }
+
+        // -- Validaciones Servicios
         $scope.ValidarDatos = function () {
 
             $scope.Servicio.Id_TipoServicio = $scope.TipoServicioSeleccionado;
@@ -695,30 +765,44 @@
             return true;
         }
 
-        //Limpiar Datos
-        $scope.LimpiarDatos = function () {
+        // -- Modal Nuevo Servicio
+        $scope.ModalNuevoServicio = function () {
 
-            $scope.EstadoSeleccionado = 'ACTIVO';
+            $scope.AccionServicio = 'Registrar Servicio';
 
-            $scope.Servicio =
-            {
-                Nombre: '',
-                Descripcion: '',
-                Estado: $scope.EstadoSeleccionado,
-                Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
-                Id_Empresa: $scope.IdEmpresa,
-                Id_TipoServicio: -1,
-                Id_Servicio: -1,
-                Nombre_Tipo_Servicio: '',
-                Tiempo: '',
-                Valor: ''
-            }
-
-            $scope.TipoServicioSeleccionado = -1;
-
-            $('#txtNombreServicio').focus();
-
+            $mdDialog.show({
+                contentElement: '#dlgNuevoServicio',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true
+            })
+                .then(function () {
+                }, function () {
+                    $('#txtBuscarServicio').focus();
+                });
+            $scope.LimpiarDatos();
+            $scope.NombreServicioReadOnly = false;
+            $scope.OcultarbtnNuevo = false;
         }
+
+        // -- Modal Editar Servicio
+        $scope.ModalEditarServicio = function () {
+            $scope.AccionServicio = 'Modificar Servicio';
+
+            $mdDialog.show({
+                contentElement: '#dlgNuevoServicio',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true
+            })
+                .then(function () {
+                }, function () {
+                    $('#txtBuscarServicio').focus();
+                });
+            $scope.NombreServicioReadOnly = true
+        }
+        
+
 
         // Agr-grid Options
         $scope.ServiciosGridOptionsColumns = [
@@ -744,7 +828,7 @@
                 headerName: "Tiempo", field: 'tiempo', width: 70, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
             },
             {
-                headerName: "Costo", field: 'valor', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': 'orange', 'background-color': 'rgba(19, 38, 68, 0.85)', 'font-weight': '600' }, valueFormatter: currencyFormatter
+                headerName: "Costo", field: 'valor', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(243,255,227,0.85)', 'font-weight': '600' }, valueFormatter: currencyFormatter
             },
             {
                 headerName: "Tipo", field: 'nombre_Tipo_Servicio', width: 100, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -803,80 +887,9 @@
             $('#txtBuscarServicio').focus();
         };
 
-        $scope.ModalNuevoServicio = function () {
+        
 
-            $scope.AccionServicio = 'Registrar Servicio';
-
-            $mdDialog.show({
-                contentElement: '#dlgNuevoServicio',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true
-            })
-                .then(function () {
-                }, function () {
-                    $('#txtBuscarServicio').focus();
-                });
-            $scope.LimpiarDatos();
-            $scope.NombreServicioReadOnly = false;
-            $scope.OcultarbtnNuevo = false;
-        }
-
-        $scope.ModalEditarServicio = function () {
-            $scope.AccionServicio = 'Modificar Servicio';
-
-            $mdDialog.show({
-                contentElement: '#dlgNuevoServicio',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true
-            })
-                .then(function () {
-                }, function () {
-                    $('#txtBuscarServicio').focus();
-                });
-            $scope.NombreServicioReadOnly = true            
-        }
-
-        $scope.ConsultarServicio = function (data) {  
-            $scope.TipoServicioSeleccionado = -1;
-            if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
-                $scope.Servicio.Nombre = data.nombre;
-                $scope.Servicio.Descripcion = data.descripcion;
-                $scope.Servicio.Estado = data.estado;
-                $scope.ServicioFecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
-                $scope.Servicio.Id_Empresa = $scope.IdEmpresa;
-                $scope.Servicio.Id_TipoServicio = data.id_TipoServicio;
-                $scope.Servicio.Id_Servicio = data.id_Servicio;
-                $scope.Servicio.Tiempo = data.tiempo;
-                $scope.Servicio.Valor = data.valor;
-                $scope.Servicio.Id_Servicio = data.id_Servicio;
-                $scope.TipoServicioSeleccionado = data.id_TipoServicio;
-                $scope.ModalEditarServicio();
-                $scope.NombreServicioReadOnly = true;                
-            }            
-        }
-
-        $scope.ConsultarServicioNombre = function (e, nombre) {
-            var row = $scope.ServiciosGridOptions.api.getRowNode(nombre);
-            if (row.data.nombre !== undefined && row.data.nombre !== null) {
-                $scope.AccionServicio = 'Modificar Servicio';
-                $scope.Servicio.Nombre = row.data.nombre;
-                $scope.Servicio.Descripcion = row.data.descripcion;
-                $scope.Servicio.Estado = row.data.estado;
-                $scope.ServicioFecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
-                $scope.Servicio.Id_Empresa = $scope.IdEmpresa;
-                $scope.Servicio.Id_TipoServicio = row.data.id_TipoServicio;
-                $scope.Servicio.Id_Servicio = row.data.id_Servicio;
-                $scope.Servicio.Tiempo = row.data.tiempo;
-                $scope.Servicio.Valor = row.data.valor;
-                $scope.Servicio.Id_Servicio = row.data.id_Servicio;
-                $scope.TipoServicioSeleccionado = row.data.id_TipoServicio;                
-
-                $scope.NombreServicioReadOnly = true;
-                $scope.OcultarbtnNuevo = true;          
-            }     
-        }
+        
 
         // Invocación Funciones
         $scope.ConsultarTipoServicios();
@@ -884,6 +897,7 @@
         $scope.Inicializacion();
 
     }
+
 
     angular.element(document).ready(function () {
 
