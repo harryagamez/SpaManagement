@@ -139,8 +139,8 @@
                 </div>
 
                 <div flex="">
-                    <md-input-container>
-                        <label class="label-form-clientes" style="">
+                    <md-input-container>                        
+                        <label class="label-form-clientes" style="transform:none;">
                             Barrio:
                         </label>
                         <select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" ng-options="barrio.id_Barrio as barrio.nombre for barrio in Barrios | orderBy:'nombre'" class="" style="display:none; width:auto;" tabindex=10>

@@ -660,6 +660,7 @@
         $scope.ValidarDatos = function () {
 
             $scope.Servicio.Id_TipoServicio = $scope.TipoServicioSeleccionado;
+            $scope.Servicio.Estado = $scope.EstadoSeleccionado;
 
             if ($scope.Servicio.Nombre === '') {
                 toastr.info('Nombre del servicio es requerido', '', $scope.toastrOptions);
@@ -817,7 +818,8 @@
                     $('#txtBuscarServicio').focus();
                 });
             $scope.LimpiarDatos();
-            $scope.NombreServicioReadOnly = false;           
+            $scope.NombreServicioReadOnly = false;
+            $scope.OcultarbtnNuevo = false;
         }
 
         $scope.ModalEditarServicio = function () {
@@ -836,8 +838,7 @@
             $scope.NombreServicioReadOnly = true            
         }
 
-        $scope.ConsultarServicio = function (data) {           
-
+        $scope.ConsultarServicio = function (data) {  
             $scope.TipoServicioSeleccionado = -1;
             if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
                 $scope.Servicio.Nombre = data.nombre;
@@ -852,15 +853,14 @@
                 $scope.Servicio.Id_Servicio = data.id_Servicio;
                 $scope.TipoServicioSeleccionado = data.id_TipoServicio;
                 $scope.ModalEditarServicio();
-                $scope.NombreServicioReadOnly = true;
-                $scope.OcultarbtnNuevo = true;
+                $scope.NombreServicioReadOnly = true;                
             }            
         }
 
         $scope.ConsultarServicioNombre = function (e, nombre) {
-
             var row = $scope.ServiciosGridOptions.api.getRowNode(nombre);
             if (row.data.nombre !== undefined && row.data.nombre !== null) {
+                $scope.AccionServicio = 'Modificar Servicio';
                 $scope.Servicio.Nombre = row.data.nombre;
                 $scope.Servicio.Descripcion = row.data.descripcion;
                 $scope.Servicio.Estado = row.data.estado;
@@ -871,8 +871,8 @@
                 $scope.Servicio.Tiempo = row.data.tiempo;
                 $scope.Servicio.Valor = row.data.valor;
                 $scope.Servicio.Id_Servicio = row.data.id_Servicio;
-                $scope.TipoServicioSeleccionado = row.data.id_TipoServicio;
-                $scope.ModalEditarServicio();
+                $scope.TipoServicioSeleccionado = row.data.id_TipoServicio;                
+
                 $scope.NombreServicioReadOnly = true;
                 $scope.OcultarbtnNuevo = true;          
             }     
