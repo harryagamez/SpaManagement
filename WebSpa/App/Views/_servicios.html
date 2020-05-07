@@ -81,7 +81,7 @@
                                         <label class="label-form-servicios" style="">
                                             Nombre Servicio:
                                         </label>
-                                        <input ng-model="Servicio.Nombre" id="txtNombreServicio" type="text" style="" maxlength="30" class="" placeholder="Digite el nombre del servicio ..." value="" md-autofocus tabindex=1>
+                                        <input ng-model="Servicio.Nombre" data-ng-enter="ConsultarServicioNombre($event, Servicio.Nombre)" ng-readonly="NombreServicioReadOnly" id="txtNombreServicio" type="text" style="" maxlength="30" class="" placeholder="Digite el nombre del servicio ..." value="" tabindex=1>
                                     </md-input-container>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                                         <label class="label-form-servicios" style="">
                                             Descripción Servicio:
                                         </label>
-                                        <textarea ng-model="Servicio.Descripcion" id="txtDescripcionServicio" type="text" placeholder="Digite la descripción del servicio ..." md-maxlength="300" rows="2" tabindex=2></textarea>
+                                        <textarea ng-model="Servicio.Descripcion" id="txtDescripcionServicio"  type="text" placeholder="Digite la descripción del servicio ..." md-maxlength="300" rows="2" tabindex=2></textarea>
                                     </md-input-container>
 
                                 </div>
@@ -103,7 +103,7 @@
                                         <label class="label-form-servicios" style="">
                                             Tiempo Servicio(MIN):
                                         </label>
-                                        <input ng-model="Servicio.Tiempo" id="txtTiempoServicio" numbers-only type="text" style="" class="" placeholder="Digite el tiempo del servicio en minutos ..." value="" tabindex=3>
+                                        <input ng-model="Servicio.Tiempo" id="txtTiempoServicio"  numbers-only type="text" style="" class="" placeholder="Digite el tiempo del servicio en minutos ..." value="" tabindex=3>
                                     </md-input-container>
 
                                 </div>
@@ -114,7 +114,7 @@
                                         </label>
                                         <select ng-model="TipoServicioSeleccionado" ng-options="item.id_tiposervicio as item.nombre for item in TipoServicios | orderBy:'nombre'" style="display:none; width:auto;" tabindex=4>
                                         </select>
-                                        <md-select ng-model="TipoServicioSeleccionado" style="min-width:200px;" id="slTipoServicio" tabindex=4>
+                                        <md-select ng-model="TipoServicioSeleccionado" ng-readonly="TipoServicioReadOnly" style="min-width:200px;" id="slTipoServicio" tabindex=4>
                                             <md-option ng-bind="item.nombre" ng-value="item.id_TipoServicio" ng-repeat="item in TipoServicios track by item.id_TipoServicio"></md-option>
                                         </md-select>
                                     </md-input-container>
@@ -148,7 +148,7 @@
                                 <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                             </md-button>
 
-                            <md-button type="button" id="btnNuevoModal" class="btn-clientes groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
+                            <md-button type="button" id="btnNuevoModal" ng-hide="OcultarbtnNuevo" class="btn-clientes groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
                                 <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
                             </md-button>
 

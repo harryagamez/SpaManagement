@@ -602,6 +602,7 @@
                                 toastr.success('Servicio registrado correctamente', '', $scope.toastrOptions);
                                 $scope.ConsultarServicios();
                                 $scope.LimpiarDatos();
+                                $mdDialog.hide();
                             }
                         }, function (err) {
                             toastr.remove();
@@ -727,8 +728,8 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='ConsultarServicio(data.id_Servicio)' data-toggle='tooltip' title='Editar servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>create</i>";
-                }
+                    return "<i data-ng-click='ConsultarServicio(data)' data-toggle='tooltip' title='Editar servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>create</i>";
+                },
             },
             {
                 headerName: "Nombre", field: 'nombre', width: 130, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -756,7 +757,7 @@
         $scope.ServiciosGridOptions = {
             defaultColDef: {
                 resizable: true
-            },
+            },            
             columnDefs: $scope.ServiciosGridOptionsColumns,
             rowData: [],
             enableSorting: true,
@@ -770,8 +771,12 @@
             fullWidthCellRenderer: true,
             animateRows: true,
             suppressRowClickSelection: true,
-            rowSelection: 'multiple'
+            rowSelection: 'multiple'            
         }
+
+        $scope.ServiciosGridOptions.getRowNodeId = function (data) {
+            return data.nombre;
+        };
 
         $scope.onFilterTextBoxChanged = function () {
             $scope.ServiciosGridOptions.api.setQuickFilter(document.getElementById('txtBuscarServicio').value);
@@ -811,7 +816,66 @@
                 }, function () {
                     $('#txtBuscarServicio').focus();
                 });
+            $scope.LimpiarDatos();
+            $scope.NombreServicioReadOnly = false;           
+        }
 
+        $scope.ModalEditarServicio = function () {
+            $scope.AccionServicio = 'Modificar Servicio';
+
+            $mdDialog.show({
+                contentElement: '#dlgNuevoServicio',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true
+            })
+                .then(function () {
+                }, function () {
+                    $('#txtBuscarServicio').focus();
+                });
+            $scope.NombreServicioReadOnly = true            
+        }
+
+        $scope.ConsultarServicio = function (data) {           
+
+            $scope.TipoServicioSeleccionado = -1;
+            if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
+                $scope.Servicio.Nombre = data.nombre;
+                $scope.Servicio.Descripcion = data.descripcion;
+                $scope.Servicio.Estado = data.estado;
+                $scope.ServicioFecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
+                $scope.Servicio.Id_Empresa = $scope.IdEmpresa;
+                $scope.Servicio.Id_TipoServicio = data.id_TipoServicio;
+                $scope.Servicio.Id_Servicio = data.id_Servicio;
+                $scope.Servicio.Tiempo = data.tiempo;
+                $scope.Servicio.Valor = data.valor;
+                $scope.Servicio.Id_Servicio = data.id_Servicio;
+                $scope.TipoServicioSeleccionado = data.id_TipoServicio;
+                $scope.ModalEditarServicio();
+                $scope.NombreServicioReadOnly = true;
+                $scope.OcultarbtnNuevo = true;
+            }            
+        }
+
+        $scope.ConsultarServicioNombre = function (e, nombre) {
+
+            var row = $scope.ServiciosGridOptions.api.getRowNode(nombre);
+            if (row.data.nombre !== undefined && row.data.nombre !== null) {
+                $scope.Servicio.Nombre = row.data.nombre;
+                $scope.Servicio.Descripcion = row.data.descripcion;
+                $scope.Servicio.Estado = row.data.estado;
+                $scope.ServicioFecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
+                $scope.Servicio.Id_Empresa = $scope.IdEmpresa;
+                $scope.Servicio.Id_TipoServicio = row.data.id_TipoServicio;
+                $scope.Servicio.Id_Servicio = row.data.id_Servicio;
+                $scope.Servicio.Tiempo = row.data.tiempo;
+                $scope.Servicio.Valor = row.data.valor;
+                $scope.Servicio.Id_Servicio = row.data.id_Servicio;
+                $scope.TipoServicioSeleccionado = row.data.id_TipoServicio;
+                $scope.ModalEditarServicio();
+                $scope.NombreServicioReadOnly = true;
+                $scope.OcultarbtnNuevo = true;          
+            }     
         }
 
         // Invocación Funciones
