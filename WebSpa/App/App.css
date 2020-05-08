@@ -422,6 +422,11 @@ label {
     font-weight:bold;
 }
 
+.ag-theme-fresh .ag-body{
+    background:transparent;
+}
+
+
 /*################ Filters, Shadows, Transitions ################*/
 #header {
     box-shadow: rgb(19, 19, 19) 0px 0px 7px
