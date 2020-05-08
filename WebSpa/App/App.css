@@ -356,7 +356,7 @@ li.active {
 
 .login-header {
     border-radius: 10px 10px 0 0;
-    background: url('../../Images/login-header.jpg');
+    /*background: url('../../Images/login-header.jpg');*/
     background-size: cover;
 }
 

@@ -10,22 +10,26 @@
             <div layout-sm="column">
                 <form class="form-container" style="min-width:320px; min-height: 365px;" autocomplete="new-password">
                     <div flex="" class="login-header">
-                        <h2 class="text-center" style="width:100%; color: var(--light-text); font-weight:600; padding-top: 50px;">SPA<br />MANAGEMENT</h2>
+                        <!--<h2 class="text-center" style="width:100%; color: var(--light-text); font-weight:600; padding-top: 50px;">SPA<br />MANAGEMENT</h2>-->
+                        <img src="../../Images/logo-login.png" style="margin-left:auto; margin-right:auto; padding-top:20px; display:block;" />
                     </div>
-                    <div flex="">
+                    <div flex="" style="padding-top:5px;">
                         <md-input-container style="width:100%; display:flex;">
+                            <label>Usuario:</label>
                             <md-icon class="material-icons login-icons">person</md-icon>
                             <input id="txtUsuario" type="text" ng-model="DatosUsuario.Usuario" class="form-control-login" placeholder="Nombre de usuario" autocomplete="new-password" >
                         </md-input-container>
                     </div>
-                    <div flex="">
+                    <div flex="" style="padding-top:5px;">
                         <md-input-container style="display:flex; width:100%;">
+                            <label>Contraseña:</label>
                             <md-icon class="material-icons login-icons">lock</md-icon>
                             <input type="password" ng-model="DatosUsuario.Clave" class="form-control-login" id="txtContraseña" placeholder="Contraseña" autocomplete="new-password">
                         </md-input-container>
                     </div>
-                    <div flex="">
+                    <div flex="" style="padding-top:5px;">
                         <md-input-container style="display:flex; width:100%" data-ng-show="validarIntegracion">
+                            <label>Código Validación:</label>
                             <md-icon class="material-icons login-icons">Warning</md-icon>
                             <input id="ctlIntegration" type="text" ng-model="DatosUsuario.CodigoIntegracion" class="form-control" placeholder="Código validación" autocomplete="new-password">
                         </md-input-container>

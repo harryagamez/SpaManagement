@@ -110,8 +110,10 @@
     <Content Include="Images\home.png" />
     <Content Include="Images\img_spa.jpg" />
     <Content Include="Images\login-header.jpg" />
+    <Content Include="Images\logo-login.png" />
+    <Content Include="Images\logo-spa.png" />
     <Content Include="Images\logout.png" />
-    <Content Include="Images\spa-logo.png" />
+    <Content Include="Images\spa_.png" />
     <Content Include="Images\usuario.png" />
     <Content Include="Scripts\Ag-Grid\v17.1.1\ag-grid.css" />
     <Content Include="Scripts\Ag-Grid\v17.1.1\ag-grid.min.js" />
