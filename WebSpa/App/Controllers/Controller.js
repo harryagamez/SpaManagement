@@ -328,10 +328,12 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
-
+                          
                             $scope.Municipios = [];
                             $scope.Municipios = result.data;
                             $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });
+                            $scope.Municipios = $filter('orderBy')($scope.Municipios, 'nombre', false);
+                            $scope.Municipios = $filter('orderBy')($scope.Municipios, 'id_Municipio', false);
 
                         }
                     }, function (err) {
@@ -474,7 +476,7 @@
                 headerName: "Apellido(s)", field: 'apellidos', width: 155, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Celular", field: 'telefono_Movil', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': '600', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' },
+                headerName: "Celular", field: 'telefono_Movil', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' },
             },
             {
                 headerName: "Mail", field: 'mail', width: 250, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -494,6 +496,7 @@
         ];
 
         $scope.ClientesGridOptions = {
+
             defaultColDef: {
                 resizable: true
             },
@@ -510,6 +513,7 @@
             suppressRowClickSelection: true,
             rowSelection: 'multiple',
             onRowClicked: OnRowClicked
+
         }
 
         function OnRowClicked(event) {
@@ -646,7 +650,7 @@
 
                             $timeout(function () {
                                 $scope.ServiciosGridOptions.api.sizeColumnsToFit();
-                            }, 300);
+                            }, 200);
 
                         }
                     }, function (err) {
@@ -661,7 +665,9 @@
 
         // -- Consultar Servicio
         $scope.ConsultarServicio = function (data) {
+
             $scope.TipoServicioSeleccionado = -1;
+
             if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
                 $scope.Servicio.Nombre = data.nombre;
                 $scope.Servicio.Descripcion = data.descripcion;
@@ -677,11 +683,15 @@
                 $scope.ModalEditarServicio();
                 $scope.NombreServicioReadOnly = true;
             }
+
         }
 
         // -- Consultar Servicio Por Nombre
         $scope.ConsultarServicioNombre = function (e, nombre) {
+
             var row = $scope.ServiciosGridOptions.api.getRowNode(nombre);
+            if (row === undefined) return;
+
             if (row.data.nombre !== undefined && row.data.nombre !== null) {
                 $scope.AccionServicio = 'Modificar Servicio';
                 $scope.Servicio.Nombre = row.data.nombre;
@@ -699,6 +709,7 @@
                 $scope.NombreServicioReadOnly = true;
                 $scope.OcultarbtnNuevo = true;
             }
+
         }
 
         // -- Limpiar Datos
@@ -780,14 +791,17 @@
                 }, function () {
                     $('#txtBuscarServicio').focus();
                 });
+
             $scope.LimpiarDatos();
             $scope.NombreServicioReadOnly = false;
             $scope.OcultarbtnNuevo = false;
+
         }
 
         // -- Modal Editar Servicio
         $scope.ModalEditarServicio = function () {
-            $scope.AccionServicio = 'Modificar Servicio';
+
+            $scope.AccionServicio = 'Editar Servicio';
 
             $mdDialog.show({
                 contentElement: '#dlgNuevoServicio',
@@ -799,9 +813,12 @@
                 }, function () {
                     $('#txtBuscarServicio').focus();
                 });
+
             $scope.NombreServicioReadOnly = true
+            $scope.OcultarbtnNuevo = true;
+
         }
-        
+
 
 
         // Agr-grid Options
@@ -828,7 +845,7 @@
                 headerName: "Tiempo", field: 'tiempo', width: 70, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
             },
             {
-                headerName: "Costo", field: 'valor', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': '600', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121'}, valueFormatter: currencyFormatter
+                headerName: "Costo", field: 'valor', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
             },
             {
                 headerName: "Tipo", field: 'nombre_Tipo_Servicio', width: 100, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -840,9 +857,10 @@
         ];
 
         $scope.ServiciosGridOptions = {
+
             defaultColDef: {
                 resizable: true
-            },            
+            },
             columnDefs: $scope.ServiciosGridOptionsColumns,
             rowData: [],
             enableSorting: true,
@@ -850,13 +868,12 @@
             enableColResize: true,
             angularCompileRows: true,
             onGridReady: function (params) {
-                $timeout(function () {
-                }, 200)
             },
             fullWidthCellRenderer: true,
             animateRows: true,
             suppressRowClickSelection: true,
-            rowSelection: 'multiple'            
+            rowSelection: 'multiple'
+
         }
 
         $scope.ServiciosGridOptions.getRowNodeId = function (data) {
@@ -886,10 +903,6 @@
             $mdDialog.cancel();
             $('#txtBuscarServicio').focus();
         };
-
-        
-
-        
 
         // Invocación Funciones
         $scope.ConsultarTipoServicios();
