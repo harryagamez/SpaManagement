@@ -99,6 +99,7 @@
     <Content Include="App\index.html" />
     <Content Include="App\Services\services.js" />
     <Content Include="App\Views\_clientes.html" />
+    <Content Include="App\Views\_empleados.html" />
     <Content Include="App\Views\_home.html" />
     <Content Include="App\Views\_inventory.html" />
     <Content Include="App\Views\_products.html" />

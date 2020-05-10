@@ -7,7 +7,7 @@
         .controller("HomeController", HomeController)
         .controller("ClientesController", ClientesController)
         .controller("ServiciosController", ServiciosController)
-
+        .controller("EmpleadosController", EmpleadosController)
     LoginController.$inject = ['$scope', '$state', '$location', '$mdDialog', '$rootScope', '$timeout', 'AuthService'];
     HomeController.$inject = ['$scope', '$rootScope', '$element', '$location', 'localStorageService', 'AuthService'];
     ClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
@@ -911,6 +911,7 @@
 
     }
 
+    function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {}
 
     angular.element(document).ready(function () {
 

@@ -54,6 +54,11 @@
                 templateUrl: 'Views/_servicios.html',
                 controller: 'ServiciosController'
             })
+            .state('home.empleados', {
+                url: '/empleados',
+                templateUrl: 'Views/_empleados.html',
+                controller: 'EmpleadosController'
+            })
 
         $mdDateLocaleProvider.formatDate = function (date) {
 

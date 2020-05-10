@@ -133,11 +133,11 @@ li.active {
     margin-left: 12px;
 }
 
-#frmClientes {
+#frmClientes, #frmServicios, #frmEmpleados {
     padding: 13px;
     height: auto;
     margin-top: 3px;
-    min-width:100%
+    min-width: 100%
 }
 
 #frmClientes .layout-row {
@@ -146,13 +146,6 @@ li.active {
 
 #frmClientes md-input-container {
     margin: 15px 0 0 0;
-}
-
-#frmServicios {
-    padding: 13px;
-    height: auto;
-    margin-top: 3px;
-    min-width: 100%
 }
 
 #frmServiciosModal {
@@ -244,21 +237,13 @@ select,
     color: darkgray;
 }
 
-#frmClientes {
+#frmClientes, #frmServicios, #frmEmpleados {
     font-size: 13px;
 }
 
-#frmClientes .material-icons {
-    font-size: 16px;
-}
-
-#frmServicios {
-    font-size: 13px;
-}
-
-#frmServicios .material-icons {
-    font-size: 16px;
-}
+    #frmClientes .material-icons, #frmServicios .material-icons, #frmEmpleados .material-icons {
+        font-size: 16px;
+    }
 
 .ADMdtpInput input {
     font-family: var(--main-font) !important;
