@@ -175,17 +175,17 @@ table,
 input,
 select,
 .form-control,
-.btn-clientes,
-.btn-clientes:hover,
+.btn-spa,
+.btn-spa:hover,
 .btn-login,
-.btn-login:hover{
+.btn-login:hover {
     font-size: 14px !important;
     font-family: var(--main-font) !important;
 }
 
-.btn-clientes:active {
-    color: var(--light-text);
-}
+    .btn-primary:active {
+        color: var(--light-text);
+    }
 
 .material-icons {
     font-family: 'Material Icons';
@@ -249,8 +249,8 @@ select,
     font-family: var(--main-font) !important;
 }
 
-.btn-login, .btn-clientes {
-    text-transform:none;
+.btn-login, .btn-spa {
+    text-transform: none;
 }
 
 
@@ -293,18 +293,18 @@ body {
     background: #239c28 !important;
 }
 
-.btn-clientes {
+.btn-spa {
     background: var(--accent-color) !important;
     color: var(--light-text);
 }
 
-.btn-clientes:hover {
-    background: #56c15a !important;
-}
+    .btn-spa:hover {
+        background: #56c15a !important;
+    }
 
-.btn-clientes:active {
-    background: #239c28 !important;
-}
+    .btn-spa:active {
+        background: #239c28 !important;
+    }
 
 #sidebar {
     background: rgba(19, 38, 68, 0.90);
@@ -348,15 +348,11 @@ li.active {
     background-color: #3A6EA5 !important;
 }
 
-#frmClientes {
+#frmClientes, #frmServicios, #frmEmpleados {
     background-color: white !important;
     border-radius: 10px;
 }
 
-#frmServicios {
-    background-color: white !important;
-    border-radius: 10px;
-}
 
 .warning {
     border: 1px solid red;
@@ -394,16 +390,10 @@ label {
     margin: 2px 0 2px 0;
 }
 
-.label-form-clientes {
+.label-form-clientes, .label-form-servicios, .label-form-empleados {
     min-width: 75px;
     margin-right: 25px;
     font-weight: bold;
-}
-
-.label-form-servicios {
-    min-width: 130px;
-    margin-right:25px;
-    font-weight:bold;
 }
 
 .ag-theme-fresh .ag-body{
@@ -424,7 +414,7 @@ label {
     box-shadow: 0 0 6px #999;
 }
 
-.btn-clientes:active {
+.btn-spa:active {
     transform: translateY(2px);
 }
 
