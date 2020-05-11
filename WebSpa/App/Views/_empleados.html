@@ -4,139 +4,147 @@
     <meta charset="utf-8" />
     <title>Empleados</title>
 </head>
-<body>
-    <div layout="row" layout-wrap="" style="height: calc(100vh - 70px); overflow:auto;">
+<body>    
+    <md-tabs class="md-dynamic-height">
+        <md-tab label="Información Empleados">
+            <div layout="row" layout-wrap="" style="height: calc(100vh - 120px); overflow:auto;">
 
-        <form id="frmEmpleados" style="">
+                <form id="frmEmpleados" style="">
 
-            <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
-                <md-button type="button" id="btnGuardar" class="btn-spa groupX left" style="margin-left: 0px;" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarEmpleado()">
-                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
-                </md-button>
+                    <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
+                        <md-button type="button" id="btnGuardar" class="btn-spa groupX left" style="margin-left: 0px;" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarEmpleado()">
+                            <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                        </md-button>
 
-                <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
-                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                </md-button>
-            </section>
+                        <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
+                            <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                        </md-button>
+                    </section>
 
-            <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-around center">
+                    <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-around center">
 
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Cédula:
-                        </label>
-                        <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=1>
-                    </md-input-container>
-                </div>
+                        <div flex="">
+                            <md-input-container style="width:90%">
+                                <label class="label-form-empleados" style="">
+                                    Cédula:
+                                </label>
+                                <input ng-model="" id="" numbers-only maxlength="15" type="text" class="" placeholder="Digite su cédula ..." value="" tabindex=1>
+                            </md-input-container>
+                        </div>
 
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Nombre(s):
-                        </label>
-                        <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=2>
-                    </md-input-container>
-                </div>
+                        <div flex="">
+                            <md-input-container style="width:90%">
+                                <label class="label-form-empleados" style="">
+                                    Nombre(s):
+                                </label>
+                                <input ng-model="" id="" maxlength="60" type="text" class="" placeholder="Digite su nombre ..." value="" tabindex=2>
+                            </md-input-container>
+                        </div>
 
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Apellido(s):
-                        </label>
-                        <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=3>
-                    </md-input-container>
-                </div>
+                        <div flex="">
+                            <md-input-container style="width:90%">
+                                <label class="label-form-empleados" style="">
+                                    Apellido(s):
+                                </label>
+                                <input ng-model="" id="" maxlength="60" type="text" class="" placeholder="Digite sus apellidos ..." value="" tabindex=3>
+                            </md-input-container>
+                        </div>
 
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Fecha Nacimiento:
-                        </label>
-                        <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=4>
-                    </md-input-container>
-                </div>
+                        <div flex="">
+                            <md-input-container style="width:90%">
+                                <label class="label-form-empleados" style="">
+                                    Fecha Nacimiento:
+                                </label>
+                                <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=4>
+                            </md-input-container>
+                        </div>
+                    </div>
+
+                    <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-around center">
+
+                        <div flex="">
+                            <md-input-container style="width:90%">
+                                <label class="label-form-empleados" style="">
+                                    Telefono Fijo:
+                                </label>
+                                <input ng-model="" maxlength="10" numbers-only id="" type="text" class="" placeholder="Digite su telefono fijo ..." value="" tabindex=5>
+                            </md-input-container>
+                        </div>
+
+                        <div flex="">
+                            <md-input-container style="width:90%">
+                                <label class="label-form-empleados" style="">
+                                    Celular:
+                                </label>
+                                <input ng-model="" id="" maxlength="12" numbers-only type="text" class="" placeholder="Digite su celular ..." value="" tabindex=6>
+                            </md-input-container>
+                        </div>
+
+                        <div flex="">
+                            <md-input-container style="width:90%">
+                                <label class="label-form-empleados" style="">
+                                    Estado Civil:
+                                </label>
+                                <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=7>
+                            </md-input-container>
+                        </div>
+
+                        <div flex="">
+                            <md-input-container style="width:90%">
+                                <label class="label-form-empleados" style="">
+                                    Número de Hijos:
+                                </label>
+                                <input ng-model="" id="" numbers-only type="text" class="" placeholder="Digite su número de hijos ..." value="" tabindex=8>
+                            </md-input-container>
+                        </div>
+                    </div>
+
+                    <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-around center">
+
+                        <div flex="">
+                            <md-input-container style="width:90%">
+                                <label class="label-form-empleados" style="">
+                                    Dirección:
+                                </label>
+                                <input ng-model="" id="" maxlength="25" type="text" class="" placeholder="Digite su dirección ..." value="" tabindex=9>
+                            </md-input-container>
+                        </div>
+
+                        <div flex="">
+                            <md-input-container style="width:90%">
+                                <label class="label-form-empleados" style="">
+                                    Estado:
+                                </label>
+                                <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=10>
+                            </md-input-container>
+                        </div>
+
+                        <div flex="">
+                            <md-input-container style="width:90%">
+                                <label class="label-form-empleados" style="">
+                                    Municipio
+                                </label>
+                                <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=11>
+                            </md-input-container>
+                        </div>
+
+                        <div flex="">
+                            <md-input-container style="width:90%">
+                                <label class="label-form-empleados" style="">
+                                    Barrio:
+                                </label>
+                                <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=12>
+                            </md-input-container>
+                        </div>
+
+                    </div>
+                </form>
             </div>
+        </md-tab>
+        <md-tab label="Control Insumos">
 
-            <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-around center">
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Tel. Fijo:
-                        </label>
-                        <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=5>
-                    </md-input-container>
-                </div>
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Celular:
-                        </label>
-                        <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=6>
-                    </md-input-container>
-                </div>
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Estado Civil:
-                        </label>
-                        <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=7>
-                    </md-input-container>
-                </div>
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            No. Hijos:
-                        </label>
-                        <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=8>
-                    </md-input-container>
-                </div>
-            </div>
-
-            <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-around center">
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Dirección:
-                        </label>
-                        <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=9>
-                    </md-input-container>
-                </div>
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Estado:
-                        </label>
-                        <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=10>
-                    </md-input-container>
-                </div>
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Municipio
-                        </label>
-                        <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=11>
-                    </md-input-container>
-                </div>
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Barrio:
-                        </label>
-                        <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=12>
-                    </md-input-container>
-                </div>
-
-            </div>
-        </form>
-    </div>
+        </md-tab>
+    </md-tabs>
+            
 </body>
 </html>
