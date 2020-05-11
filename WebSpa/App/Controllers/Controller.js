@@ -919,10 +919,42 @@
         $scope.BarriosGlobales = [];
         $scope.MunicipioSeleccionado = -1;
         $scope.BarrioSeleccionado = -1;
+
+
         //INICIALIZACIÓN
+        // Inicialización
+        $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.IdUsuario = parseInt($rootScope.userData.userId);
+
+        $scope.Empleado =
+        {
+            Id_Empleado: -1,
+            Cedula: '',
+            Nombres: '',
+            Apellidos: '',
+            Telefono_Fijo: '',
+            Telefono_Movil: '',
+            Estado_Civil: '', Direccion: '',
+            Id_Municipio: -1,
+            Id_Barrio: -1,
+            Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
+            Numero_Hijos: -1,
+            Estado: $scope.EstadoSeleccionado,
+            Id_Empresa: $scope.IdEmpresa,
+            Id_Usuario_Creacion: $scope.IdUsuario
+        }
+        $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1 });
+        $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });
+        $scope.Inicializacion = function () {
+
+            $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
+
+            $('#txtCedula').focus();
+
+        }
+
 
         //INVOCACIONES API
-
         $scope.ConsultarBarrios = function (id_Municipio) {
 
             SPAService._consultarBarrios(id_Municipio)

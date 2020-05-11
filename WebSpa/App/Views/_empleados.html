@@ -87,7 +87,13 @@
                                 <label class="label-form-empleados" style="">
                                     Estado Civil:
                                 </label>
-                                <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=7>
+                                <md-select ng-model="EstadoSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin:20px 0;" id="slEstado" tabindex=7>
+                                    <md-option value="SOLTERA" selected>SOLTERA(O)</md-option>
+                                    <md-option value="CASADA">CASADA(O)</md-option>
+                                    <md-option value="DIVORCIADA">DIVORCIADA(O)</md-option>
+                                    <md-option value="UNIONLIBRE">UNIÓN LIBRE</md-option>
+                                    <md-option value="VIUDA">VIUDA(O)</md-option>
+                                </md-select>
                             </md-input-container>
                         </div>
 
@@ -117,7 +123,10 @@
                                 <label class="label-form-empleados" style="">
                                     Estado:
                                 </label>
-                                <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=10>
+                                <md-select ng-model="EstadoSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin:20px 0;" id="slEstado" tabindex=10>
+                                    <md-option value="ACTIVO" selected>ACTIVO</md-option>
+                                    <md-option value="INACTIVO">INACTIVO</md-option>
+                                </md-select>
                             </md-input-container>
                         </div>
 
