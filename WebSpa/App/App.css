@@ -488,4 +488,13 @@ input:-webkit-autofill:active {
 
 ._md-datepicker-floating-label > md-datepicker .md-datepicker-button {
     margin-left: 28px !important;
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+}
+
+.md-datepicker-input-container {
+    min-width: 58%;
+    float: right;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
 }
