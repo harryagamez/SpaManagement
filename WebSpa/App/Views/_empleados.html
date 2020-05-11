@@ -28,7 +28,7 @@
                                 <label class="label-form-empleados" style="">
                                     Cédula:
                                 </label>
-                                <input ng-model="a" id="" numbers-only maxlength="15" type="text" class="" placeholder="Digite su cédula ..." value="" tabindex=1>
+                                <input ng-model="Empleado.Cedula" id="" numbers-only maxlength="15" type="text" class="" placeholder="Digite su cédula ..." value="" tabindex=1>
                             </md-input-container>
                         </div>
 
@@ -37,7 +37,7 @@
                                 <label class="label-form-empleados" style="">
                                     Nombre(s):
                                 </label>
-                                <input ng-model="" id="" maxlength="60" type="text" class="" placeholder="Digite su nombre ..." value="" tabindex=2>
+                                <input ng-model="Empleado.Nombres" id="" maxlength="60" type="text" class="" placeholder="Digite su nombre ..." value="" tabindex=2>
                             </md-input-container>
                         </div>
 
@@ -46,7 +46,7 @@
                                 <label class="label-form-empleados" style="">
                                     Apellido(s):
                                 </label>
-                                <input ng-model="" id="" maxlength="60" type="text" class="" placeholder="Digite sus apellidos ..." value="" tabindex=3>
+                                <input ng-model="Empleado.Apellidos" id="" maxlength="60" type="text" class="" placeholder="Digite sus apellidos ..." value="" tabindex=3>
                             </md-input-container>
                         </div>
 
@@ -56,7 +56,7 @@
                                     <label class="label-form-empleados" style="">
                                         Fecha Nacimiento:
                                     </label>
-                                    <md-datepicker ng-model="" ng-change="ValidarFechaNacimiento()" md-placeholder="Enter date" style="" class="" id="dpFechaNacimiento" tabindex=4></md-datepicker>
+                                    <md-datepicker ng-model="Empleado.Fecha_Nacimiento" ng-change="ValidarFechaNacimiento()" md-placeholder="Enter date" style="" class="" id="dpFechaNacimiento" tabindex=4></md-datepicker>
                                 </md-input-container>
                             </md-input-container>
                         </div>
@@ -69,7 +69,7 @@
                                 <label class="label-form-empleados" style="">
                                     Telefono Fijo:
                                 </label>
-                                <input ng-model="" maxlength="10" numbers-only id="" type="text" class="" placeholder="Digite su telefono fijo ..." value="" tabindex=5>
+                                <input ng-model="Empleado.Telefono_Fijo" maxlength="10" numbers-only id="" type="text" class="" placeholder="Digite su telefono fijo ..." value="" tabindex=5>
                             </md-input-container>
                         </div>
 
@@ -78,7 +78,7 @@
                                 <label class="label-form-empleados" style="">
                                     Celular:
                                 </label>
-                                <input ng-model="" id="" maxlength="12" numbers-only type="text" class="" placeholder="Digite su celular ..." value="" tabindex=6>
+                                <input ng-model="" id="Empleado.Telefono_Movil" maxlength="12" numbers-only type="text" class="" placeholder="Digite su celular ..." value="" tabindex=6>
                             </md-input-container>
                         </div>
 
@@ -87,7 +87,7 @@
                                 <label class="label-form-empleados" style="">
                                     Estado Civil:
                                 </label>
-                                <md-select ng-model="EstadoSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin:20px 0;" id="slEstado" tabindex=7>
+                                <md-select ng-model="EstadoCivilSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin:20px 0;" id="slEstadoCivil" tabindex=7>
                                     <md-option value="SOLTERA" selected>SOLTERA(O)</md-option>
                                     <md-option value="CASADA">CASADA(O)</md-option>
                                     <md-option value="DIVORCIADA">DIVORCIADA(O)</md-option>
@@ -102,7 +102,7 @@
                                 <label class="label-form-empleados" style="">
                                     Número de Hijos:
                                 </label>
-                                <input ng-model="" id="" numbers-only type="text" class="" placeholder="Digite su número de hijos ..." value="" tabindex=8>
+                                <input ng-model="Empleado.Numero_Hijos" id="" numbers-only type="text" class="" placeholder="Digite su número de hijos ..." value="" tabindex=8>
                             </md-input-container>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                                 <label class="label-form-empleados" style="">
                                     Dirección:
                                 </label>
-                                <input ng-model="" id="" maxlength="25" type="text" class="" placeholder="Digite su dirección ..." value="" tabindex=9>
+                                <input ng-model="Empleado.Direccion" id="" maxlength="25" type="text" class="" placeholder="Digite su dirección ..." value="" tabindex=9>
                             </md-input-container>
                         </div>
 
