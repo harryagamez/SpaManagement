@@ -28,7 +28,7 @@
                                 <label class="label-form-empleados" style="">
                                     Cédula:
                                 </label>
-                                <input ng-model="" id="" numbers-only maxlength="15" type="text" class="" placeholder="Digite su cédula ..." value="" tabindex=1>
+                                <input ng-model="a" id="" numbers-only maxlength="15" type="text" class="" placeholder="Digite su cédula ..." value="" tabindex=1>
                             </md-input-container>
                         </div>
 
@@ -51,11 +51,13 @@
                         </div>
 
                         <div flex="">
-                            <md-input-container style="width:90%">
-                                <label class="label-form-empleados" style="">
-                                    Fecha Nacimiento:
-                                </label>
-                                <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=4>
+                            <md-input-container style="width:90%">                                
+                                <md-input-container style="margin-left: -40px; min-width: 100%;">
+                                    <label class="label-form-empleados" style="">
+                                        Fecha Nacimiento:
+                                    </label>
+                                    <md-datepicker ng-model="" ng-change="ValidarFechaNacimiento()" md-placeholder="Enter date" style="" class="" id="dpFechaNacimiento" tabindex=4></md-datepicker>
+                                </md-input-container>
                             </md-input-container>
                         </div>
                     </div>
@@ -124,7 +126,9 @@
                                 <label class="label-form-empleados" style="">
                                     Municipio
                                 </label>
-                                <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=11>
+                                <md-select ng-model="MunicipioSeleccionado" ng-change="FiltrarBarrios(MunicipioSeleccionado)" class="" style="display:inline-flex; min-width: 100% !important; margin:20px 0;" id="slMunicipio" tabindex=11>
+                                    <md-option ng-bind="municipio.nombre" ng-value="municipio.id_Municipio" ng-repeat="municipio in Municipios track by municipio.id_Municipio"></md-option>
+                                </md-select>
                             </md-input-container>
                         </div>
 
@@ -133,7 +137,9 @@
                                 <label class="label-form-empleados" style="">
                                     Barrio:
                                 </label>
-                                <input ng-model="" id="" type="text" class="" placeholder="" value="" tabindex=12>
+                                <md-select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" class="" style="display:inline-flex; min-width: 100% !important; max-width: 170px; margin:20px 0;" id="slBarrio" tabindex=12>
+                                    <md-option ng-bind="barrio.nombre" ng-value="barrio.id_Barrio" ng-repeat="barrio in Barrios track by barrio.id_Barrio"></md-option>
+                                </md-select>
                             </md-input-container>
                         </div>
 

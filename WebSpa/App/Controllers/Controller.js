@@ -911,7 +911,91 @@
 
     }
 
-    function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {}
+    function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService)
+    {
+        // VARIABLES
+        $scope.Municipios = [];
+        $scope.Barrios = [];
+        $scope.BarriosGlobales = [];
+        $scope.MunicipioSeleccionado = -1;
+        $scope.BarrioSeleccionado = -1;
+        //INICIALIZACIÓN
+
+        //INVOCACIONES API
+
+        $scope.ConsultarBarrios = function (id_Municipio) {
+
+            SPAService._consultarBarrios(id_Municipio)
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+
+                            $scope.Barrios = [];
+                            $scope.BarrioSeleccionado = -1
+                            $scope.Barrios = result.data;
+                            if ($scope.Barrios.length > 0) {
+
+                                $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1 });
+                                $scope.Barrios = $filter('orderBy')($scope.Barrios, 'nombre', false);
+                                $scope.Barrios = $filter('orderBy')($scope.Barrios, 'id_Municipio', false);
+
+
+                            } else
+                                $scope.MunicipioSeleccionado = -1;
+
+                            if ($scope.Accion === 'BUSQUEDA_CLIENTE') {
+
+                                let filtrarBarrio = Enumerable.From($scope.Barrios)
+                                    .Where(function (x) { return x.id_Barrio === $scope.Cliente.Id_Barrio })
+                                    .ToArray();
+
+                                if (filtrarBarrio.length > 0)
+                                    $scope.BarrioSeleccionado = $scope.Cliente.Id_Barrio;
+                                else
+                                    $scope.BarrioSeleccionado = -1;
+
+                            }
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+
+        }
+
+        $scope.ConsultarMunicipios = function () {
+
+            SPAService._consultarMunicipios()
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+
+                            $scope.Municipios = [];
+                            $scope.Municipios = result.data;
+                            $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });
+                            $scope.Municipios = $filter('orderBy')($scope.Municipios, 'nombre', false);
+                            $scope.Municipios = $filter('orderBy')($scope.Municipios, 'id_Municipio', false);
+
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+
+        }
+
+        // Filtros
+        $scope.FiltrarBarrios = function (id_Municipio) {
+
+            $scope.ConsultarBarrios(id_Municipio);
+
+        }
+        //FUNCIONES
+
+        //API GRID OPTIONS
+    }
 
     angular.element(document).ready(function () {
 
