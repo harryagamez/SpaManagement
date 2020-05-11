@@ -921,8 +921,7 @@
         $scope.BarrioSeleccionado = -1;
 
 
-        //INICIALIZACIÓN
-        // Inicialización
+        //INICIALIZACIÓN        
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
 
@@ -1027,6 +1026,9 @@
         //FUNCIONES
 
         //API GRID OPTIONS
+
+        //INVOCACIÓN FUNCIONES
+        $scope.ConsultarMunicipios();
     }
 
     angular.element(document).ready(function () {
