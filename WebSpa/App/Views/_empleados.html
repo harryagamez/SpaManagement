@@ -53,7 +53,7 @@
                         <label class="label-form-empleados" style="">
                             Dirección:
                         </label>
-                        <input ng-model="Empleado.Direccion" id="" maxlength="25" type="text" class="" placeholder="Digite su dirección ..." value="" tabindex=9>
+                        <input ng-model="Empleado.Direccion" id="" maxlength="25" type="text" class="" placeholder="Digite su dirección ..." value="" tabindex=4>
                     </md-input-container>
                 </div>
 
@@ -82,9 +82,30 @@
                 <div flex="">
                     <md-input-container style="width:90%">
                         <label class="label-form-empleados" style="">
+                            Número de Hijos:
+                        </label>
+                        <input ng-model="Empleado.Numero_Hijos" id="" numbers-only type="text" class="" placeholder="Digite su número de hijos ..." value="" tabindex=7>
+                    </md-input-container>
+                </div>
+
+                <div flex="">                    
+                        <md-input-container style="margin-left: -40px; min-width: 100%;">
+                            <label class="label-form-empleados" style="">
+                                Fecha Nacimiento:
+                            </label>
+                            <md-datepicker ng-model="Empleado.Fecha_Nacimiento" ng-change="ValidarFechaNacimiento()" md-placeholder="Enter date" style="" class="" id="dpFechaNacimiento" tabindex=8></md-datepicker>
+                        </md-input-container>                    
+                </div>
+            </div>
+
+            <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-around center">                
+
+                <div flex="">
+                    <md-input-container style="width:90%">
+                        <label class="label-form-empleados" style="">
                             Estado Civil:
                         </label>
-                        <md-select ng-model="EstadoCivilSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin:20px 0;" id="slEstadoCivil" tabindex=7>
+                        <md-select ng-model="EstadoCivilSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slEstadoCivil" tabindex=9>
                             <md-option value="SOLTERA" selected>SOLTERA(O)</md-option>
                             <md-option value="CASADA">CASADA(O)</md-option>
                             <md-option value="DIVORCIADA">DIVORCIADA(O)</md-option>
@@ -97,32 +118,9 @@
                 <div flex="">
                     <md-input-container style="width:90%">
                         <label class="label-form-empleados" style="">
-                            Número de Hijos:
-                        </label>
-                        <input ng-model="Empleado.Numero_Hijos" id="" numbers-only type="text" class="" placeholder="Digite su número de hijos ..." value="" tabindex=8>
-                    </md-input-container>
-                </div>
-            </div>
-
-            <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-around center">
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <md-input-container style="margin-left: -40px; min-width: 100%;">
-                            <label class="label-form-empleados" style="">
-                                Fecha Nacimiento:
-                            </label>
-                            <md-datepicker ng-model="Empleado.Fecha_Nacimiento" ng-change="ValidarFechaNacimiento()" md-placeholder="Enter date" style="" class="" id="dpFechaNacimiento" tabindex=4></md-datepicker>
-                        </md-input-container>
-                    </md-input-container>
-                </div>
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
                             Estado:
                         </label>
-                        <md-select ng-model="EstadoSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin:20px 0;" id="slEstado" tabindex=10>
+                        <md-select ng-model="EstadoSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slEstado" tabindex=10>
                             <md-option value="ACTIVO" selected>ACTIVO</md-option>
                             <md-option value="INACTIVO">INACTIVO</md-option>
                         </md-select>
@@ -134,7 +132,7 @@
                         <label class="label-form-empleados" style="">
                             Municipio
                         </label>
-                        <md-select ng-model="MunicipioSeleccionado" ng-change="FiltrarBarrios(MunicipioSeleccionado)" class="" style="display:inline-flex; min-width: 100% !important; margin:20px 0;" id="slMunicipio" tabindex=11>
+                        <md-select ng-model="MunicipioSeleccionado" ng-change="FiltrarBarrios(MunicipioSeleccionado)" class="" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slMunicipio" tabindex=11>
                             <md-option ng-bind="municipio.nombre" ng-value="municipio.id_Municipio" ng-repeat="municipio in Municipios track by municipio.id_Municipio"></md-option>
                         </md-select>
                     </md-input-container>
@@ -145,12 +143,16 @@
                         <label class="label-form-empleados" style="">
                             Barrio:
                         </label>
-                        <md-select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" class="" style="display:inline-flex; min-width: 100% !important; max-width: 170px; margin:20px 0;" id="slBarrio" tabindex=12>
+                        <md-select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" class="" style="display:inline-flex; min-width: 100% !important; max-width: 170px; margin:15px 0;" id="slBarrio" tabindex=12>
                             <md-option ng-bind="barrio.nombre" ng-value="barrio.id_Barrio" ng-repeat="barrio in Barrios track by barrio.id_Barrio"></md-option>
                         </md-select>
                     </md-input-container>
                 </div>
 
+            </div>
+
+            <div id="divGridEmpleados" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 360px); margin-top:14px; overflow-y:auto;">
+                <div id="divEmpleadosGridOptions" data-ag-grid="EmpleadosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
             </div>
         </form>
     </div>
