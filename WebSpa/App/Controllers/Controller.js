@@ -366,6 +366,7 @@
 
             $scope.Cliente.Id_Barrio = $scope.BarrioSeleccionado
             $scope.Cliente.Id_Tipo = $scope.TipoClienteSeleccionado;
+            $scope.Cliente.Estado = $scope.EstadoSeleccionado;
 
             if ($scope.Cliente.Cedula === '') {
                 toastr.info('Identificación del cliente es requerida', '', $scope.toastrOptions);
@@ -409,7 +410,7 @@
                 return false;
             }
 
-            if ($scope.Cliente.Fecha_Nacimiento > $filter('date')(new Date(), 'MM/dd/yyyy')) {
+            if (new Date ($scope.Cliente.Fecha_Nacimiento) > $filter('date')(new Date(), 'MM/dd/yyyy')) {
                 toastr.info('La fecha de nacimiento, debe ser menor que la fecha actual', '', $scope.toastrOptions);
                 $('#dpFechaNacimiento').focus();
                 return false;
@@ -426,6 +427,8 @@
 
         // Limpiar Datos
         $scope.LimpiarDatos = function () {
+
+            $scope.EstadoSeleccionado = 'ACTIVO';
 
             $scope.Cliente =
             {
@@ -512,9 +515,16 @@
             animateRows: true,
             suppressRowClickSelection: true,
             rowSelection: 'multiple',
-            onRowClicked: OnRowClicked
-
+            onRowClicked: OnRowClicked,
+            getRowStyle: ChangeRowColor
         }
+
+        function ChangeRowColor(params) {
+            if (params.data.estado === 'INACTIVO') {
+                return { 'background-color': 'red' };
+            }
+        }
+        
 
         function OnRowClicked(event) {
 
@@ -538,7 +548,7 @@
 
                 $scope.MunicipioSeleccionado = $scope.Cliente.Id_Municipio;
                 $scope.BarrioSeleccionado = $scope.Cliente.Id_Barrio;
-
+                $scope.EstadoSeleccionado = $scope.Cliente.Estado;
                 $scope.ConsultarBarrios($scope.MunicipioSeleccionado);
 
                 $scope.CedulaReadOnly = true;
@@ -682,6 +692,8 @@
                 $scope.TipoServicioSeleccionado = data.id_TipoServicio;
                 $scope.ModalEditarServicio();
                 $scope.NombreServicioReadOnly = true;
+
+                $scope.EstadoSeleccionado = $scope.Servicio.Estado;              
             }
 
         }
@@ -872,8 +884,14 @@
             fullWidthCellRenderer: true,
             animateRows: true,
             suppressRowClickSelection: true,
-            rowSelection: 'multiple'
+            rowSelection: 'multiple',
+            getRowStyle: ChangeRowColor
+        }
 
+        function ChangeRowColor(params) {
+            if (params.data.estado === 'INACTIVO') {
+                return { 'background-color': 'red' };
+            }
         }
 
         $scope.ServiciosGridOptions.getRowNodeId = function (data) {
@@ -1072,7 +1090,7 @@
             animateRows: true,
             suppressRowClickSelection: true,
             rowSelection: 'multiple'
-        }
+        }        
 
 
         //INVOCACIÓN FUNCIONES
