@@ -179,8 +179,7 @@
             SPAService._consultarClientes($scope.IdEmpresa)
                 .then(
                     function (result) {
-                        if (result.data !== undefined && result.data !== null) {
-                            debugger;
+                        if (result.data !== undefined && result.data !== null) {                            
                             $scope.Clientes = [];
                             $scope.Clientes = result.data;
                             $scope.ClientesGridOptions.api.setRowData($scope.Clientes);
@@ -979,8 +978,7 @@
             SPAService._consultarEmpleados($scope.IdEmpresa)
                 .then(
                     function (result) {
-                        if (result.data !== undefined && result.data !== null) {
-                            debugger;
+                        if (result.data !== undefined && result.data !== null) {                            
                             $scope.Empleados = [];
                             $scope.Empleados = result.data;
                             $scope.EmpleadosGridOptions.api.setRowData($scope.Empleados);
@@ -1129,9 +1127,9 @@
 
 
         //INVOCACIÓN FUNCIONES
-        debugger;
-        $scope.ConsultarEmpleados();
-        $scope.ConsultarMunicipios(); 
+        
+        $scope.ConsultarMunicipios();
+        $scope.ConsultarEmpleados();         
         $scope.Inicializacion();
     }
 
