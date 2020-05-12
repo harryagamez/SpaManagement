@@ -88,17 +88,17 @@
                     </md-input-container>
                 </div>
 
-                <div flex="">                    
-                        <md-input-container style="margin-left: -40px; min-width: 100%;">
-                            <label class="label-form-empleados" style="">
-                                Fecha Nacimiento:
-                            </label>
-                            <md-datepicker ng-model="Empleado.Fecha_Nacimiento" ng-change="ValidarFechaNacimiento()" md-placeholder="Enter date" style="" class="" id="dpFechaNacimiento" tabindex=8></md-datepicker>
-                        </md-input-container>                    
+                <div flex="">
+                    <md-input-container style="margin-left: -40px; min-width: 100%;">
+                        <label class="label-form-empleados" style="">
+                            Fecha Nacimiento:
+                        </label>
+                        <md-datepicker ng-model="Empleado.Fecha_Nacimiento" ng-change="ValidarFechaNacimiento()" md-placeholder="Enter date" style="" class="" id="dpFechaNacimiento" tabindex=8></md-datepicker>
+                    </md-input-container>
                 </div>
             </div>
 
-            <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-around center">                
+            <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-around center">
 
                 <div flex="">
                     <md-input-container style="width:90%">
@@ -155,6 +155,47 @@
                 <div id="divEmpleadosGridOptions" data-ag-grid="EmpleadosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
             </div>
         </form>
+
+        <!-- Modales -->
+        <div style="visibility: hidden">
+
+            <div class="md-dialog-container" id="dlgNuevoServicio">
+                <md-dialog id="mdNuevoServicio" aria-label="" style="width: 40% !important; color: #666666 !important;">
+
+                    <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2 style="font-size:16px;">{{AccionEmpleado}}</h2>
+                            <span flex></span>
+                            <md-button class="md-icon-button" ng-click="Cancelar()">
+                                <i class="material-icons" style="transform: scaleX(-1)">close</i>
+                            </md-button>
+                        </div>
+                    </md-toolbar>
+
+                    <form id="frmEmpleadosModal" style="">
+
+                        <md-dialog-content style="background-color: rgb(250,250,250);">
+                            <div layout="row" layout-align="">
+                                <div flex="">
+                                    <md-input-container class="md-block" style="margin: 13px 0 0 0;">
+                                        <label class="" style="">                                            
+                                        </label>
+                                        <input>
+                                    </md-input-container>
+                                </div>
+                            </div>
+
+                            <md-button type="button" id="btnGuardar" class="btn-spa groupX left" style="margin-left: 0px;" data-toggle="tooltip" title="Guardar" ng-click="GuardarServicio()" tabindex=7>
+                                <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Botón
+                            </md-button>  
+
+                        </md-dialog-content>
+                    </form>
+
+                </md-dialog>
+            </div>
+
+        </div>
     </div>
             
 </body>

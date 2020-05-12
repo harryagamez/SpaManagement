@@ -228,6 +228,7 @@
     <Build Include="dbo\Stored Procedures\ConsultarServicios.sql" />
     <Build Include="dbo\Stored Procedures\GuardarServicio.sql" />
     <Build Include="dbo\Tables\TIPO_PAGO.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarEmpleados.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />
