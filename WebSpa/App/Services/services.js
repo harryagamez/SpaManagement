@@ -225,7 +225,8 @@
             _consultarCliente: ConsultarCliente,
             _consultarTipoServicios: ConsultarTipoServicios,
             _consultarServicios: ConsultarServicios,
-            _guardarServicio : GuardarServicio
+            _guardarServicio: GuardarServicio,
+            _consultarEmpleados: ConsultarEmpleados
 
         }
 
@@ -360,7 +361,20 @@
             return deferred.promise;
         }
 
+        function ConsultarEmpleados(id_empresa) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarEmpleados?IdEmpresa=' + id_empresa,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
     }
+    
 
     function serviceRest($http, $q, $rootScope) {
         return {

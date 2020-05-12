@@ -12,6 +12,7 @@
     HomeController.$inject = ['$scope', '$rootScope', '$element', '$location', 'localStorageService', 'AuthService'];
     ClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     ServiciosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+    EmpleadosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
     function LoginController($scope, $state, $location, $mdDialog, $rootScope, $timeout, authService) {
 
@@ -179,7 +180,7 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
-
+                            debugger;
                             $scope.Clientes = [];
                             $scope.Clientes = result.data;
                             $scope.ClientesGridOptions.api.setRowData($scope.Clientes);
@@ -521,7 +522,7 @@
 
         function ChangeRowColor(params) {
             if (params.data.estado === 'INACTIVO') {
-                return { 'background-color': 'red' };
+                return { 'background-color': '#7d7d7d', 'color':'white' };
             }
         }
         
@@ -885,14 +886,14 @@
             animateRows: true,
             suppressRowClickSelection: true,
             rowSelection: 'multiple',
-            getRowStyle: ChangeRowColor
+            getRowStyle: ChangeRowColor            
         }
 
         function ChangeRowColor(params) {
             if (params.data.estado === 'INACTIVO') {
-                return { 'background-color': 'red' };
+                return { 'background-color': '#7d7d7d', 'color': 'white' };
             }
-        }
+        }       
 
         $scope.ServiciosGridOptions.getRowNodeId = function (data) {
             return data.nombre;
@@ -932,6 +933,7 @@
     function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService)
     {
         // VARIABLES
+        $scope.Empleados = [];
         $scope.Municipios = [];
         $scope.Barrios = [];
         $scope.BarriosGlobales = [];
@@ -973,6 +975,31 @@
 
 
         //INVOCACIONES API
+        $scope.ConsultarEmpleados = function () {            
+            SPAService._consultarEmpleados($scope.IdEmpresa)
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+                            debugger;
+                            $scope.Empleados = [];
+                            $scope.Empleados = result.data;
+                            $scope.EmpleadosGridOptions.api.setRowData($scope.Empleados);
+
+                            $timeout(function () {
+                                $scope.EmpleadosGridOptions.api.sizeColumnsToFit();
+                            }, 200);
+
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+
+            $('#txtCedula').focus();
+
+        }
+
         $scope.ConsultarBarrios = function (id_Municipio) {
 
             SPAService._consultarBarrios(id_Municipio)
@@ -1073,7 +1100,7 @@
 
         ];
 
-        $scope.ClientesGridOptions = {
+        $scope.EmpleadosGridOptions = {
 
             defaultColDef: {
                 resizable: true
@@ -1090,11 +1117,22 @@
             animateRows: true,
             suppressRowClickSelection: true,
             rowSelection: 'multiple'
-        }        
+        }
+
+        window.onresize = function () {
+
+            $timeout(function () {
+                $scope.EmpleadosGridOptions.api.sizeColumnsToFit();
+            }, 200);
+
+        }
 
 
         //INVOCACIÓN FUNCIONES
-        $scope.ConsultarMunicipios();
+        debugger;
+        $scope.ConsultarEmpleados();
+        $scope.ConsultarMunicipios(); 
+        $scope.Inicializacion();
     }
 
     angular.element(document).ready(function () {

@@ -19,5 +19,6 @@ namespace Spa.Infrastructure.SpaRepository
         List<TipoServicio> ConsultarTipoServicios();
         List<Servicio> ConsultarServicios(string IdEmpresa);
         bool GuardarServicio(List<Servicio> _Servicio);
+        List<Empleado> ConsultarEmpleados(string IdEmpresa);
     }
 }

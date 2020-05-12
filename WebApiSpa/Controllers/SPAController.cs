@@ -210,5 +210,22 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error registrando el servicio: " + ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarEmpleados")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarEmpleados(string IdEmpresa)
+        {
+            try
+            {
+                List<Empleado> _empleados = _spaService.ConsultarEmpleados(IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _empleados);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando la lista de empleados: " + ex.Message);
+            }
+        }
     }
 }

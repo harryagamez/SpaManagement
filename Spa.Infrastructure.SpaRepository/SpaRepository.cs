@@ -569,5 +569,47 @@ namespace Spa.Infrastructure.SpaRepository
                 throw;
             }
         }
+
+        public List<Empleado> ConsultarEmpleados(string IdEmpresa)
+        {
+            DataTable _datatable = new DataTable();
+            List<Empleado> _empleados = new List<Empleado>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarEmpleados";
+                        _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _empleados = _datatable.DataTableToList<Empleado>();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _empleados;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

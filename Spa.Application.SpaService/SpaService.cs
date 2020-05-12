@@ -204,5 +204,19 @@ namespace Spa.Application.SpaService
                 throw;
             }
         }
+
+        public List<Empleado> ConsultarEmpleados(string IdEmpresa)
+        {
+            try
+            {
+                List<Empleado> _empleados = _spaRepository.ConsultarEmpleados(IdEmpresa);
+
+                return _empleados;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }
