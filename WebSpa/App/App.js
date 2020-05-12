@@ -70,9 +70,9 @@
                 day = (day <= 9) ? '0' + day : day;
                 monthIndex = (monthIndex <= 9) ? '0' + monthIndex : monthIndex;
 
-                //return year + '/' + monthIndex + '/' + day;
                 return day + '/' + monthIndex + '/' + year;
             }
+
         };
 
     }
