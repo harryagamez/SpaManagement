@@ -2,6 +2,7 @@
     [ID_EMPLEADO]        INT       IDENTITY (1, 1) NOT NULL,
     [CEDULA]             CHAR (15)        NOT NULL,
     [ID_TIPOPAGO]        UNIQUEIDENTIFIER NULL,
+    [MONTO]              REAL             NULL,
     [NOMBRES]            CHAR (60)        NULL,
     [APELLIDOS]          CHAR (60)        NULL,
     [TELEFONO_FIJO]      CHAR (10)        NULL,
