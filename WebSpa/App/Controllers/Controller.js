@@ -934,8 +934,7 @@
         // VARIABLES
         $scope.Empleados = [];
         $scope.Municipios = [];
-        $scope.Barrios = [];
-        $scope.BarriosGlobales = [];
+        $scope.Barrios = [];        
         $scope.MunicipioSeleccionado = -1;
         $scope.BarrioSeleccionado = -1;
         $scope.EstadoSeleccionado = 'ACTIVO';
@@ -1063,9 +1062,7 @@
 
         // Filtros
         $scope.FiltrarBarrios = function (id_Municipio) {
-
             $scope.ConsultarBarrios(id_Municipio);
-
         }
         //FUNCIONES
 
@@ -1127,9 +1124,8 @@
 
 
         //INVOCACIÓN FUNCIONES
-        
-        $scope.ConsultarMunicipios();
-        $scope.ConsultarEmpleados();         
+        $scope.ConsultarEmpleados();
+        $scope.ConsultarMunicipios();                 
         $scope.Inicializacion();
     }
 
