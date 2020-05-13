@@ -961,6 +961,7 @@
             Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
             Numero_Hijos: '',
             Tipo_Pago: $scope.TipoPagoSeleccionado,
+            Monto: '',
             Estado: $scope.EstadoSeleccionado,
             Id_Empresa: $scope.IdEmpresa,
             Id_Usuario_Creacion: $scope.IdUsuario
