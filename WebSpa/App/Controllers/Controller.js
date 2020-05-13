@@ -940,7 +940,7 @@
         $scope.BarrioSeleccionado = -1;
         $scope.EstadoSeleccionado = 'ACTIVO';
         $scope.EstadoCivilSeleccionado = 'SOLTERA';
-        $scope.TipoPagoSeleccionado = '';
+        $scope.TipoPagoSeleccionado = '00000000-000-000-000000000000';
 
 
         //INICIALIZACIÓN        
@@ -967,7 +967,7 @@
         }
         $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1 });
         $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });        
-        $scope.TipoPagos.push({ id_TipoPago: -1, descripcion: '[Seleccione]' });
+        $scope.TipoPagos.push({ id_TipoPago: '00000000-000-000-000000000000', descripcion: '[Seleccione]', criterio: '' });
         $scope.Inicializacion = function () {
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
             $('#txtCedula').focus();
@@ -1071,7 +1071,7 @@
                         if (result.data !== undefined && result.data !== null) {                            
                             $scope.TipoPagos = [];
                             $scope.TipoPagos = result.data;
-                            $scope.TipoPagos.push({ id_TipoPago: -1, descripcion: '[Seleccione]' });
+                            $scope.TipoPagos.push({ id_TipoPago: '00000000-000-000-000000000000', descripcion: '[Seleccione]', criterio: '' });
                             $scope.TipoPagos = $filter('orderBy')($scope.TipoPagos, 'descripcion', false);  
                         }
                     }, function (err) {
