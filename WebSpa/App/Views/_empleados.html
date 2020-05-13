@@ -55,7 +55,7 @@
                         </label>
                         <input ng-model="Empleado.Direccion" id="" maxlength="25" type="text" class="" placeholder="Digite su dirección ..." value="" tabindex=4>
                     </md-input-container>
-                </div>
+                </div>                
 
             </div>
 
@@ -86,7 +86,7 @@
                         </label>
                         <input ng-model="Empleado.Numero_Hijos" id="" numbers-only type="text" class="" placeholder="Digite su número de hijos ..." value="" tabindex=7>
                     </md-input-container>
-                </div>
+                </div>                
 
                 <div flex="">
                     <md-input-container style="margin-left: -40px; min-width: 100%;">
@@ -147,7 +147,31 @@
                             <md-option ng-bind="barrio.nombre" ng-value="barrio.id_Barrio" ng-repeat="barrio in Barrios track by barrio.id_Barrio"></md-option>
                         </md-select>
                     </md-input-container>
+                </div>                
+
+            </div>
+
+            <div layout="row" layout-xs="column" style="background-color:rgb(250,250,250);" layout-align="start center">
+                <div flex="25">
+                    <md-input-container style="width:90%">
+                        <label class="label-form-empleados" style="">
+                            Tipo Pago:
+                        </label>
+                        <md-select ng-model="TipoPagoSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slTipoPago" tabindex=13>
+                            <md-option ng-bind="tipopago.descripcion" ng-value="tipopago.id_TipoPago" ng-repeat="tipopago in TipoPagos track by $index"></md-option>
+                        </md-select>
+                    </md-input-container>
                 </div>
+
+                <div flex="25">
+                    <md-input-container style="width:90%">
+                        <label class="label-form-empleados" style="">
+                            Monto:
+                        </label>
+                        <input ng-model="Empleado.Monto" id="" type="number" step="0.01" class="" style="position:relative; margin-top:10px;" placeholder="Digite el monto a pagar ..." value="" tabindex=14>
+                    </md-input-container>
+                </div>
+
 
             </div>
 
