@@ -218,5 +218,19 @@ namespace Spa.Application.SpaService
                 throw;
             }
         }
+
+        public List<TipoPago> ConsultarTipoPagos()
+        {
+            try
+            {
+                List<TipoPago> _tipopagos = _spaRepository.ConsultarTipoPagos();
+
+                return _tipopagos;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

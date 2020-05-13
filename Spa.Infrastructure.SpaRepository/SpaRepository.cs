@@ -611,5 +611,46 @@ namespace Spa.Infrastructure.SpaRepository
                 throw;
             }
         }
+
+        public List<TipoPago> ConsultarTipoPagos()
+        {
+            DataTable _datatable = new DataTable();
+            List<TipoPago> _listTipoPagos = new List<TipoPago>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarTipoPagos";
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _listTipoPagos = _datatable.DataTableToList<TipoPago>();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _listTipoPagos;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

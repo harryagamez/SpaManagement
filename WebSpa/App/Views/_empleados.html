@@ -55,7 +55,7 @@
                         </label>
                         <input ng-model="Empleado.Direccion" id="" maxlength="25" type="text" class="" placeholder="Digite su dirección ..." value="" tabindex=4>
                     </md-input-container>
-                </div>
+                </div>                
 
             </div>
 
@@ -145,6 +145,17 @@
                         </label>
                         <md-select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" class="" style="display:inline-flex; min-width: 100% !important; max-width: 170px; margin:15px 0;" id="slBarrio" tabindex=12>
                             <md-option ng-bind="barrio.nombre" ng-value="barrio.id_Barrio" ng-repeat="barrio in Barrios track by barrio.id_Barrio"></md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+
+                <div flex="">
+                    <md-input-container style="width:90%">
+                        <label class="label-form-empleados" style="">
+                            Tipo Pago:
+                        </label>
+                        <md-select ng-model="TipoPagoSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slTipoPago" tabindex=11>
+                            <md-option ng-bind="tipopago.descripcion" ng-value="tipopago.id_TipoPago" ng-repeat="tipopago in TipoPagos track by $index"></md-option>
                         </md-select>
                     </md-input-container>
                 </div>

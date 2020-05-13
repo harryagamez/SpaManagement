@@ -176,6 +176,10 @@
                 if (masterdataTipoServicio)
                     $rootScope.TipoServicios = masterdataTipoServicio.tipoServicios;
 
+                var masterDataTipoPagos = localStorageService.get('masterdataTipoPagos');
+                if (masterDataTipoPagos)
+                    $rootScope.TipoPagos = masterDataTipoPagos.tipopagos;
+
             }
             else {
                 _logOut();
@@ -226,7 +230,8 @@
             _consultarTipoServicios: ConsultarTipoServicios,
             _consultarServicios: ConsultarServicios,
             _guardarServicio: GuardarServicio,
-            _consultarEmpleados: ConsultarEmpleados
+            _consultarEmpleados: ConsultarEmpleados,
+            _consultarTipoPagos: ConsultarTipoPagos
 
         }
 
@@ -365,6 +370,22 @@
             var deferred = $q.defer();
             serviceRest.Get('SPA', 'ConsultarEmpleados?IdEmpresa=' + id_empresa,
                 function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarTipoPagos() {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarTipoPagos',
+                function (data) {
+                    localStorageService.set('masterdataTipopagos',
+                        {
+                            tipopagos: data
+                        });
                     deferred.resolve(data);
                 },
                 function (err) {

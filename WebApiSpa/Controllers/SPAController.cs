@@ -227,5 +227,22 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error consultando la lista de empleados: " + ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarTipoPagos")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarTipoPagos()
+        {
+            try
+            {
+                List<TipoPago> _listTipoPagos = _spaService.ConsultarTipoPagos();
+
+                return Content(HttpStatusCode.OK, _listTipoPagos);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los tipos de pago: " + ex.Message);
+            }
+        }
     }
 }
