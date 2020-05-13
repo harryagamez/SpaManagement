@@ -84,7 +84,7 @@
                         <label class="label-form-empleados" style="">
                             Número de Hijos:
                         </label>
-                        <input ng-model="Empleado.Numero_Hijos" id="" numbers-only type="text" class="" placeholder="Digite su número de hijos ..." value="" tabindex=7>
+                        <input ng-model="Empleado.Numero_Hijos" id="" numbers-only type="number" step="1" min="0" class="" placeholder="Digite su número de hijos ..." value="" tabindex=7>
                     </md-input-container>
                 </div>
 
@@ -168,7 +168,7 @@
                         <label class="label-form-empleados" style="">
                             Monto:
                         </label>
-                        <input ng-model="Empleado.Monto" id="" type="number" step="0.01" class="" style="position:relative; margin-top:10px;" placeholder="Digite el monto a pagar ..." value="" tabindex=14>
+                        <input ng-model="Empleado.Monto" id="" type="number" step="0.01" min="0" class="" style="position:relative; margin-top:10px;" placeholder="Digite el monto a pagar ..." value="" tabindex=14>
                     </md-input-container>
                 </div>
 
@@ -209,9 +209,14 @@
                             </div>
                         </div>
 
-                        <md-button type="button" id="btnGuardar" class="btn-spa groupX left" style="margin-left: 0px;" data-toggle="tooltip" title="Guardar" ng-click="GuardarServicio()" tabindex=7>
-                            <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Botón
-                        </md-button>
+                        <div layout="row" layout-align="end center">
+                            <md-button type="button" id="btnGuardar" class="btn-spa groupX left" data-toggle="tooltip" title="Guardar" ng-click="GuardarServicio()" tabindex=7>
+                                <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                            </md-button>
+                            <md-button type="button" id="btnNuevoModal" ng-hide="OcultarbtnNuevo" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
+                                <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                            </md-button>
+                        </div>
 
                     </md-dialog-content>
                 </form>
@@ -248,9 +253,14 @@
                             </div>
                         </div>
 
-                        <md-button type="button" id="btnGuardar" class="btn-spa groupX left" style="margin-left: 0px;" data-toggle="tooltip" title="Guardar" ng-click="GuardarServicio()" tabindex=7>
-                            <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Botón
-                        </md-button>
+                        <div layout="row" layout-align="end center">
+                            <md-button type="button" id="btnGuardar" class="btn-spa groupX left" data-toggle="tooltip" title="Guardar" ng-click="GuardarServicio()" tabindex=7>
+                                <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                            </md-button>
+                            <md-button type="button" id="btnNuevoModal" ng-hide="OcultarbtnNuevo" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
+                                <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                            </md-button>
+                        </div>
 
                     </md-dialog-content>
                 </form>
