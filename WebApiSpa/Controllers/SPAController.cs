@@ -262,8 +262,6 @@ namespace WebApiSpa.Controllers
             }
         }
 
-
-
         [HttpGet]
         [Route("api/SPA/ConsultarTipoPagos")]
         [HttpCache(DefaultExpirySeconds = 2)]
