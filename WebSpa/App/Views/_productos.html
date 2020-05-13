@@ -2,16 +2,16 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Servicios</title>
+    <title>Productos</title>
 </head>
 <body>
 
     <div layout="row" layout-wrap="" style="height: calc(100vh - 70px); overflow:auto;">
 
-        <form id="frmServicios">
+        <form id="frmProductos">
 
             <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
-                <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevoServicio()">
+                <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevoProducto()">
                     <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
                 </md-button>
 
@@ -25,18 +25,23 @@
                 <div class="dropdown-menu">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="ListadoServicios" aria-label="Checkbox 1">
-                                Listado de servicios
+                            <md-checkbox ng-model="ListadoProductos" aria-label="Checkbox 1">
+                                Listado de productos
                             </md-checkbox>
                         </li>
                         <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="DetalladoServicios" aria-label="Checkbox 2">
-                                Detallado servicios facturados
+                            <md-checkbox ng-model="DetalladoProductos" aria-label="Checkbox 2">
+                                Detallado productos facturados
                             </md-checkbox>
                         </li>
                         <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="GeneralServicios" aria-label="Checkbox 3">
-                                General servicios facturados
+                            <md-checkbox ng-model="GeneralProductos" aria-label="Checkbox 3">
+                                General productos facturados
+                            </md-checkbox>
+                        </li>
+                        <li class="list-group-item btn-informe">
+                            <md-checkbox ng-model="DetalladoInsumosEmpleados" aria-label="Checkbox 3">
+                                Detallado insumos empleados
                             </md-checkbox>
                         </li>
                     </ul>
@@ -47,26 +52,26 @@
                 <div flex="">
                     <md-input-container>
                         <label class="label-form-clientes" style="">
-                            Nombre Servicio:
-                        </label>                        
-                            <input ng-keyup="onFilterTextBoxChanged()" id="txtBuscarServicio" maxlength="25" data-ng-enter="ConsultarServicio($event, Servicio.Nombre)" type="text" style="min-width: 200px;" placeholder="Digite el nombre del servicio..." tabindex=1>                        
+                            Nombre Producto:
+                        </label>
+                        <input ng-keyup="onFilterTextBoxChanged()" id="txtBuscarProducto" maxlength="25" data-ng-enter="ConsultarProducto($event, Producto.Nombre)" type="text" style="min-width: 200px;" placeholder="Digite el nombre del producto..." tabindex=1>
                     </md-input-container>
                 </div>
             </div>
 
-            <div id="divGridServicios" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 222px); margin-top:11px; overflow-y:auto;">
-                <div id="divServiciosGridOptions" data-ag-grid="ServiciosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+            <div id="divGridProductos" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 222px); margin-top:11px; overflow-y:auto;">
+                <div id="divProductosGridOptions" data-ag-grid="ProductosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
             </div>
         </form>
 
         <!-- Modales -->
         <div style="visibility: hidden">
 
-            <div class="md-dialog-container" id="dlgNuevoServicio">
-                <md-dialog id="mdNuevoServicio" aria-label="Nuevo Servicio" style="width: 40% !important; color: #666666 !important;">
+            <div class="md-dialog-container" id="dlgNuevoProducto">
+                <md-dialog id="mdNuevoProducto" aria-label="Nuevo Producto" style="width: 40% !important; color: #666666 !important;">
                     <md-toolbar>
                         <div class="md-toolbar-tools">
-                            <h2 style="font-size:16px;">{{ AccionServicio }}</h2>
+                            <h2 style="font-size:16px;">{{ AccionProducto}}</h2>
                             <span flex></span>
                             <md-button class="md-icon-button" ng-click="Cancelar()">
                                 <i class="material-icons" style="transform: scaleX(-1)">close</i>
@@ -79,9 +84,9 @@
                                 <div flex="">
                                     <md-input-container class="md-block" style="margin: 13px 0 0 0;">
                                         <label class="label-form-servicios" style="">
-                                            Nombre Servicio:
+                                            Nombre Producto:
                                         </label>
-                                        <input ng-model="Servicio.Nombre" ng-blur="ConsultarServicioNombre($event, Servicio.Nombre)" data-ng-enter="ConsultarServicioNombre($event, Servicio.Nombre)" ng-readonly="NombreServicioReadOnly" id="txtNombreServicio" type="text" style="" maxlength="30" class="" placeholder="Digite el nombre del servicio ..." value="" tabindex=1 md-autofocus>
+                                        <input ng-model="Producto.Nombre" ng-blur="ConsultarProductoNombre($event, Producto.Nombre)" data-ng-enter="ConsultarProductoNombre($event, Producto.Nombre)" ng-readonly="NombreProductoReadOnly" id="txtNombreProducto" type="text" style="" maxlength="30" class="" placeholder="Digite el nombre del producto ..." value="" tabindex=1 md-autofocus>
                                     </md-input-container>
                                 </div>
                             </div>
@@ -89,9 +94,9 @@
                                 <div flex="">
                                     <md-input-container class="md-block" style="margin: 5px 0;">
                                         <label class="label-form-servicios" style="">
-                                            Descripción Servicio:
+                                            Descripción Producto:
                                         </label>
-                                        <textarea ng-model="Servicio.Descripcion" id="txtDescripcionServicio"  type="text" placeholder="Digite la descripción del servicio ..." md-maxlength="300" rows="2" tabindex=2 md-autofocus="AccionServicio == 'Editar Servicio'"></textarea>
+                                        <textarea ng-model="Producto.Descripcion" id="txtDescripcionProducto" type="text" placeholder="Digite la descripción del producto ..." md-maxlength="300" rows="2" tabindex=2 md-autofocus="AccionProducto == 'Editar Producto'"></textarea>
                                     </md-input-container>
 
                                 </div>
@@ -101,50 +106,38 @@
                                 <div flex="">
                                     <md-input-container style="margin: 5px 0;">
                                         <label class="label-form-servicios" style="">
-                                            Tiempo Servicio(MIN):
+                                            Cantidad:
                                         </label>
-                                        <input ng-model="Servicio.Tiempo" id="txtTiempoServicio"  numbers-only type="text" style="" class="" placeholder="Digite el tiempo del servicio en minutos ..." value="" tabindex=3>
+                                        <input ng-model="Producto.Inventario" id="txtInventarioProducto" numbers-only type="text" style="" class="" placeholder="Digite la cantidad de inventario ..." value="" tabindex=3>
                                     </md-input-container>
 
                                 </div>
                                 <div flex="">
                                     <md-input-container style="margin: 5px 0;">
                                         <label class="label-form-servicios" style="">
-                                            Tipo Servicio
+                                            Precio Venta:
                                         </label>
-                                        <select ng-model="TipoServicioSeleccionado" ng-options="item.id_tiposervicio as item.nombre for item in TipoServicios | orderBy:'nombre'" style="display:none; width:auto;" tabindex=4>
+                                        <input ng-model="Producto.Precio" id="txtValorProducto" numbers-only type="text" style="" class="" placeholder="Digite el valor del producto ..." value="" tabindex=4>
+                                    </md-input-container>
+                                </div>
+                            </div>
+
+                            <div layout="row" layout-sm="column" layout-align="center start">
+                                <div flex="">
+                                    <md-input-container style="margin: 5px 0;">
+                                        <label class="label-form-servicios" style="">
+                                            Tipo Transaccion:
+                                        </label>
+                                        <select ng-model="TipoTransaccionSeleccionada" ng-disabled="true" ng-options="item.id_TipoTransaccion as item.nombre for item in TipoTransacciones | orderBy:'nombre'" style="display:none; width:auto;" tabindex=5>
                                         </select>
-                                        <md-select ng-model="TipoServicioSeleccionado" ng-readonly="TipoServicioReadOnly" style="min-width:200px;" id="slTipoServicio" tabindex=4>
-                                            <md-option ng-bind="item.nombre" ng-value="item.id_TipoServicio" ng-repeat="item in TipoServicios track by item.id_TipoServicio"></md-option>
+                                        <md-select ng-model="TipoTransaccionSeleccionada" ng-disabled="true" style="min-width:200px;" id="slTipoTransaccion" tabindex=4>
+                                            <md-option ng-bind="item.nombre" ng-value="item.id_TipoTransaccion" ng-repeat="item in TipoTransacciones track by item.id_TipoTransaccion"></md-option>
                                         </md-select>
                                     </md-input-container>
                                 </div>
                             </div>
 
-                            <div layout="row" layout-sm="column" layout-align="center start">
-                                <div flex="">
-                                    <md-input-container style="margin: 5px 0;">
-                                        <label class="label-form-servicios" style="">
-                                            Valor Servicio
-                                        </label>
-                                        <input ng-model="Servicio.Valor" id="txtValorServicio" numbers-only type="text" style="" class="" placeholder="Digite el valor del servicio ..." value="" tabindex=5>
-                                    </md-input-container>
-
-                                </div>
-                                <div flex="">
-                                    <md-input-container style="margin: 5px 0;">
-                                        <label class="label-form-servicios" style="">
-                                            Estado
-                                        </label>
-                                        <md-select ng-model="EstadoSeleccionado" class="" style="display:inline-flex; min-width: 200px;" id="slEstado" tabindex=6>
-                                            <md-option value="ACTIVO" selected>ACTIVO</md-option>
-                                            <md-option value="INACTIVO">INACTIVO</md-option>
-                                        </md-select>
-                                    </md-input-container>
-                                </div>
-                            </div>
-
-                            <md-button type="button" id="btnGuardar" class="btn-spa groupX left" style="margin-left: 0px;" data-toggle="tooltip" title="Guardar" ng-click="GuardarServicio()" tabindex=7>
+                            <md-button type="button" id="btnGuardar" class="btn-spa groupX left" style="margin-left: 0px;" data-toggle="tooltip" title="Guardar" ng-click="GuardarProducto()" tabindex=7>
                                 <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                             </md-button>
 
@@ -154,7 +147,7 @@
 
                         </md-dialog-content>
                     </form>
-                    
+
                 </md-dialog>
             </div>
 

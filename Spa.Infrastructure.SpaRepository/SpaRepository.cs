@@ -611,5 +611,88 @@ namespace Spa.Infrastructure.SpaRepository
                 throw;
             }
         }
+
+        public List<TipoTransaccion> ConsultarTipoTransacciones()
+        {
+            DataTable _datatable = new DataTable();
+            List<TipoTransaccion> _tipoTransacciones = new List<TipoTransaccion>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarTipoTransacciones";
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _tipoTransacciones = _datatable.DataTableToList<TipoTransaccion>();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _tipoTransacciones;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<Producto> ConsultarProductos(string IdEmpresa)
+        {
+            DataTable _datatable = new DataTable();
+            List<Producto> _productos = new List<Producto>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarProductos";
+                        _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _productos = _datatable.DataTableToList<Producto>();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _productos;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

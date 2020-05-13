@@ -56,6 +56,13 @@
             localStorageService.remove('masterdataMunicipios');
             localStorageService.remove('masterdataBarrios');
             localStorageService.remove('masterdataTipoServicio');
+            localStorageService.remove('masterdataTipoTransacciones');
+
+            $rootScope.Menu = [];
+            $rootScope.TipoClientes = [];
+            $rootScope.Clientes = [];
+            $rootScope.Municipios = [];
+            $rootScope.Barrios = [];
 
             $rootScope.Id_Empresa = '';
             $rootScope.Nombre_Empresa = '';
@@ -126,6 +133,8 @@
             localStorageService.remove('masterdataMunicipios');
             localStorageService.remove('masterdataBarrios');
             localStorageService.remove('masterdataTipoServicio');
+            localStorageService.remove('masterdataTipoTransacciones');
+
             $rootScope.Menu = [];
             $rootScope.TipoClientes = [];
             $rootScope.Clientes = [];
@@ -175,6 +184,10 @@
                 var masterdataTipoServicio = localStorageService.get('masterdataTipoServicio');
                 if (masterdataTipoServicio)
                     $rootScope.TipoServicios = masterdataTipoServicio.tipoServicios;
+
+                var masterdataTipoTransaccion = localStorageService.get('masterdataTipoTransacciones');
+                if (masterdataTipoTransaccion)
+                    $rootScope.TipoTransacciones = masterdataTipoTransaccion.tipoTransacciones;
 
             }
             else {
@@ -226,7 +239,9 @@
             _consultarTipoServicios: ConsultarTipoServicios,
             _consultarServicios: ConsultarServicios,
             _guardarServicio: GuardarServicio,
-            _consultarEmpleados: ConsultarEmpleados
+            _consultarEmpleados: ConsultarEmpleados,
+            _consultarTipoTransacciones: ConsultarTipoTransacciones,
+            _consultarProductos: ConsultarProductos
 
         }
 
@@ -366,6 +381,35 @@
             serviceRest.Get('SPA', 'ConsultarEmpleados?IdEmpresa=' + id_empresa,
                 function (data) {
                     deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarTipoTransacciones() {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarTipoTransacciones',
+                function (data) {
+                    localStorageService.set('masterdataTipoTransacciones',
+                        {
+                            tipoTransacciones: data
+                        });
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarProductos(id_empresa) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarProductos?IdEmpresa=' + id_empresa,
+                function (data) {
+                    deferred.resolve(data);
+
                 },
                 function (err) {
                     deferred.reject(err);

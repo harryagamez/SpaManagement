@@ -227,5 +227,41 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error consultando la lista de empleados: " + ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarTipoTransacciones")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarTipoTransacciones()
+        {
+            try
+            {
+                List<TipoTransaccion> _tipoTransacciones = _spaService.ConsultarTipoTransacciones();
+
+                return Content(HttpStatusCode.OK, _tipoTransacciones);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los tipos de transacciones: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarProductos")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarProductos(string IdEmpresa)
+        {
+            try
+            {
+                List<Producto> _productos = _spaService.ConsultarProductos(IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _productos);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los productos: " + ex.Message);
+            }
+        }
+
+
     }
 }

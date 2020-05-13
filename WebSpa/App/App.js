@@ -59,6 +59,11 @@
                 templateUrl: 'Views/_empleados.html',
                 controller: 'EmpleadosController'
             })
+            .state('home.productos', {
+                url: '/productos',
+                templateUrl: 'Views/_productos.html',
+                controller: 'ProductosController'
+            })
 
         $mdDateLocaleProvider.formatDate = function (date) {
 
@@ -78,6 +83,7 @@
     }
 
     function Initialize($rootScope, $http, $window, localStorageService, authService) {
+
         $http.get('app-config-dev.json').then(function (data, status, headers, config) {
             $rootScope.config = data;
         },
@@ -86,6 +92,7 @@
             });
 
         authService.fillAuthData();
+
     }
 
     function sumInventory() {
@@ -133,6 +140,7 @@
             return sum;
 
         };
+
     }
 
 })();

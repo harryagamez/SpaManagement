@@ -20,5 +20,7 @@ namespace Spa.Infrastructure.SpaRepository
         List<Servicio> ConsultarServicios(string IdEmpresa);
         bool GuardarServicio(List<Servicio> _Servicio);
         List<Empleado> ConsultarEmpleados(string IdEmpresa);
+        List<TipoTransaccion> ConsultarTipoTransacciones();
+        List<Producto> ConsultarProductos(string IdEmpresa);
     }
 }

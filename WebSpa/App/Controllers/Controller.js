@@ -8,11 +8,14 @@
         .controller("ClientesController", ClientesController)
         .controller("ServiciosController", ServiciosController)
         .controller("EmpleadosController", EmpleadosController)
+        .controller("ProductosController", ProductosController)
+
     LoginController.$inject = ['$scope', '$state', '$location', '$mdDialog', '$rootScope', '$timeout', 'AuthService'];
     HomeController.$inject = ['$scope', '$rootScope', '$element', '$location', 'localStorageService', 'AuthService'];
     ClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     ServiciosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     EmpleadosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+    ProductosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
     function LoginController($scope, $state, $location, $mdDialog, $rootScope, $timeout, authService) {
 
@@ -179,7 +182,7 @@
             SPAService._consultarClientes($scope.IdEmpresa)
                 .then(
                     function (result) {
-                        if (result.data !== undefined && result.data !== null) {                            
+                        if (result.data !== undefined && result.data !== null) {
                             $scope.Clientes = [];
                             $scope.Clientes = result.data;
                             $scope.ClientesGridOptions.api.setRowData($scope.Clientes);
@@ -328,7 +331,7 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
-                          
+
                             $scope.Municipios = [];
                             $scope.Municipios = result.data;
                             $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });
@@ -410,7 +413,7 @@
                 return false;
             }
 
-            if (new Date ($scope.Cliente.Fecha_Nacimiento) > $filter('date')(new Date(), 'MM/dd/yyyy')) {
+            if (new Date($scope.Cliente.Fecha_Nacimiento) > $filter('date')(new Date(), 'MM/dd/yyyy')) {
                 toastr.info('La fecha de nacimiento, debe ser menor que la fecha actual', '', $scope.toastrOptions);
                 $('#dpFechaNacimiento').focus();
                 return false;
@@ -521,10 +524,10 @@
 
         function ChangeRowColor(params) {
             if (params.data.estado === 'INACTIVO') {
-                return { 'background-color': '#7d7d7d', 'color':'white' };
+                return { 'background-color': '#7d7d7d', 'color': 'white' };
             }
         }
-        
+
 
         function OnRowClicked(event) {
 
@@ -626,7 +629,6 @@
             }
         }
 
-
         $scope.ConsultarTipoServicios = function () {
 
             SPAService._consultarTipoServicios()
@@ -670,7 +672,6 @@
                     })
         }
 
-
         // FUNCIONES
 
         // -- Consultar Servicio
@@ -682,7 +683,7 @@
                 $scope.Servicio.Nombre = data.nombre;
                 $scope.Servicio.Descripcion = data.descripcion;
                 $scope.Servicio.Estado = data.estado;
-                $scope.ServicioFecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
+                $scope.Servicio.Fecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
                 $scope.Servicio.Id_Empresa = $scope.IdEmpresa;
                 $scope.Servicio.Id_TipoServicio = data.id_TipoServicio;
                 $scope.Servicio.Id_Servicio = data.id_Servicio;
@@ -693,7 +694,7 @@
                 $scope.ModalEditarServicio();
                 $scope.NombreServicioReadOnly = true;
 
-                $scope.EstadoSeleccionado = $scope.Servicio.Estado;              
+                $scope.EstadoSeleccionado = $scope.Servicio.Estado;
             }
 
         }
@@ -705,11 +706,11 @@
             if (row === undefined) return;
 
             if (row.data.nombre !== undefined && row.data.nombre !== null) {
-                $scope.AccionServicio = 'Modificar Servicio';
+                $scope.AccionServicio = 'Editar Servicio';
                 $scope.Servicio.Nombre = row.data.nombre;
                 $scope.Servicio.Descripcion = row.data.descripcion;
                 $scope.Servicio.Estado = row.data.estado;
-                $scope.ServicioFecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
+                $scope.Servicio.Fecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
                 $scope.Servicio.Id_Empresa = $scope.IdEmpresa;
                 $scope.Servicio.Id_TipoServicio = row.data.id_TipoServicio;
                 $scope.Servicio.Id_Servicio = row.data.id_Servicio;
@@ -831,8 +832,6 @@
 
         }
 
-
-
         // Agr-grid Options
         $scope.ServiciosGridOptionsColumns = [
 
@@ -885,14 +884,15 @@
             animateRows: true,
             suppressRowClickSelection: true,
             rowSelection: 'multiple',
-            getRowStyle: ChangeRowColor            
+            getRowStyle: ChangeRowColor
+
         }
 
         function ChangeRowColor(params) {
             if (params.data.estado === 'INACTIVO') {
                 return { 'background-color': '#7d7d7d', 'color': 'white' };
             }
-        }       
+        }
 
         $scope.ServiciosGridOptions.getRowNodeId = function (data) {
             return data.nombre;
@@ -929,12 +929,11 @@
 
     }
 
-    function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService)
-    {
+    function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
         // VARIABLES
         $scope.Empleados = [];
         $scope.Municipios = [];
-        $scope.Barrios = [];        
+        $scope.Barrios = [];
         $scope.MunicipioSeleccionado = -1;
         $scope.BarrioSeleccionado = -1;
         $scope.EstadoSeleccionado = 'ACTIVO';
@@ -973,11 +972,11 @@
 
 
         //INVOCACIONES API
-        $scope.ConsultarEmpleados = function () {            
+        $scope.ConsultarEmpleados = function () {
             SPAService._consultarEmpleados($scope.IdEmpresa)
                 .then(
                     function (result) {
-                        if (result.data !== undefined && result.data !== null) {                            
+                        if (result.data !== undefined && result.data !== null) {
                             $scope.Empleados = [];
                             $scope.Empleados = result.data;
                             $scope.EmpleadosGridOptions.api.setRowData($scope.Empleados);
@@ -1067,8 +1066,7 @@
 
 
         //FUNCIONES
-        $scope.AsignarServicios = function(data)
-        {
+        $scope.AsignarServicios = function (data) {
             $scope.ModalAsignarServicios();
         }
 
@@ -1091,7 +1089,7 @@
                 .then(function () {
                 }, function () {
                     //$('#txtBuscarServicio').focus();
-                }); 
+                });
         }
 
         // -- Modal Asignar Insumos
@@ -1108,7 +1106,7 @@
                 .then(function () {
                 }, function () {
                     //$('#txtBuscarServicio').focus();
-                }); 
+                });
         }
 
         //API GRID OPTIONS
@@ -1128,7 +1126,7 @@
                 cellRenderer: function () {
                     return "<i data-ng-click='AsignarInsumos(data)' data-toggle='tooltip' title='Asignar Insumos' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>add_to_photos</i>";
                 },
-            },  
+            },
             {
                 headerName: "Cédula", field: 'cedula', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
             },
@@ -1143,7 +1141,7 @@
             },
             {
                 headerName: "Celular", field: 'telefono_Movil', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' },
-            },            
+            },
             {
                 headerName: "Registro", field: 'fecha_Registro', hide: true, width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
                     return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy') : '';
@@ -1182,8 +1180,291 @@
 
         //INVOCACIÓN FUNCIONES
         $scope.ConsultarEmpleados();
-        $scope.ConsultarMunicipios();                 
+        $scope.ConsultarMunicipios();
         $scope.Inicializacion();
+    }
+
+    function ProductosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+
+        // VARIABLES
+        $scope.TipoTransacciones = [];
+        $scope.ObjetoProducto = [];
+        $scope.Productos = [];
+        $scope.AccionProducto = 'Registrar Producto';
+        $scope.TipoTransaccionSeleccionada = -1;
+        $scope.TipoTransaccionReadOnly = true;
+
+        // INICIALIZACIÓN
+        $scope.Inicializacion = function () {
+
+            $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
+
+            $('#txtBuscarProducto').focus();
+
+        }
+
+        $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.IdUsuario = parseInt($rootScope.userData.userId);
+
+        $scope.Producto =
+        {
+            Id_Producto: -1,
+            Nombre: '',
+            Descripcion: '',
+            Precio: 0.00,
+            Inventario: 0,
+            Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
+            Fecha_Modificacion: $filter('date')(new Date(), 'MM-dd-yyyy'),
+            Id_Empresa: $scope.IdEmpresa,
+            Id_Tipo_Transaccion: $scope.TipoTransaccionSeleccionada
+        }
+
+        // INVOCACIONES API
+        $scope.ConsultarTipoTransacciones = function () {
+
+            SPAService._consultarTipoTransacciones()
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+
+                            $scope.TipoTransacciones = [];
+                            $scope.TipoTransacciones = result.data;
+                            $scope.TipoTransacciones.push({ id_TipoTransaccion: -1, nombre: '[Seleccione]', descripcion: '' });
+                            $scope.TipoTransacciones = $filter('orderBy')($scope.TipoTransacciones, 'nombre', false);
+
+                            let filtrarEntrada = Enumerable.From($scope.TipoTransacciones)
+                                .Where(function (x) { return x.nombre === "ENTRADA" })
+                                .ToArray();
+
+                            if (filtrarEntrada.length > 0)
+                                $scope.TipoTransaccionSeleccionada = filtrarEntrada[0].id_TipoTransaccion;
+
+
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+
+        }
+
+        $scope.ConsultarProductos = function () {
+
+            SPAService._consultarProductos($scope.IdEmpresa)
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+
+                            $scope.Productos = [];
+                            $scope.Productos = result.data;
+                            $scope.ProductosGridOptions.api.setRowData($scope.Productos);
+
+                            $timeout(function () {
+                                $scope.ProductosGridOptions.api.sizeColumnsToFit();
+                            }, 200);
+
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+
+        }
+
+        // Consultar Producto
+        $scope.ConsultarProducto = function (data) {
+
+            if (data.id_Producto !== undefined && data.id_Producto !== null) {
+
+                $scope.Producto.Id_Producto = data.id_Producto;
+                $scope.Producto.Nombre = data.nombre;
+                $scope.Producto.Descripcion = data.descripcion;
+                $scope.Producto.Precio = data.precio;
+                $scope.Producto.Inventario = data.inventario;
+                $scope.Producto.Id_Tipo_Transaccion = $scope.TipoTransaccionSeleccionada;
+
+                $scope.ModalEditarProducto();
+                $scope.NombreProductoReadOnly = true;
+
+            }
+
+        }
+
+        $scope.ConsultarProductoNombre = function (e, nombre) {
+
+            var row = $scope.ProductosGridOptions.api.getRowNode(nombre);
+            if (row === undefined) return;
+
+            if (row.data.nombre !== undefined && row.data.nombre !== null) {
+
+                $scope.AccionProducto = 'Editar Producto';
+                $scope.Producto.Id_Producto = row.data.id_Producto;
+                $scope.Producto.Nombre = row.data.nombre;
+                $scope.Producto.Descripcion = row.data.descripcion;
+                $scope.Producto.Precio = row.data.precio;
+                $scope.Producto.Inventario = row.data.inventario;
+                $scope.Producto.Id_Tipo_Transaccion = $scope.TipoTransaccionSeleccionada;
+
+                $scope.NombreProductoReadOnly = true;
+                $scope.OcultarbtnNuevo = true;
+            }
+
+        }
+
+        $scope.LimpiarDatos = function () {
+
+            $scope.Producto =
+            {
+                Id_Producto: -1,
+                Nombre: '',
+                Descripcion: '',
+                Precio: 0.00,
+                Inventario: 0,
+                Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
+                Fecha_Modificacion: $filter('date')(new Date(), 'MM-dd-yyyy'),
+                Id_Empresa: $scope.IdEmpresa,
+                Id_Tipo_Transaccion: $scope.TipoTransaccionSeleccionada
+
+            }
+
+            $scope.NombreProductoReadOnly = false;
+            $('#txtNombreProducto').focus();
+
+        }
+
+        $scope.ModalNuevoProducto = function () {
+
+            $scope.AccionProducto = 'Registrar Producto';
+
+            $mdDialog.show({
+                contentElement: '#dlgNuevoProducto',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true
+            })
+                .then(function () {
+                }, function () {
+                    $('#txtBuscarProducto').focus();
+                });
+
+            $scope.LimpiarDatos();
+            $scope.OcultarbtnNuevo = false;
+
+        }
+
+        $scope.ModalEditarProducto = function () {
+
+            $scope.AccionProducto = 'Editar Producto';
+
+            $mdDialog.show({
+                contentElement: '#dlgNuevoProducto',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true
+            })
+                .then(function () {
+                }, function () {
+                    $('#txtBuscarProducto').focus();
+                });
+
+            $scope.NombreProductoReadOnly = true
+            $scope.OcultarbtnNuevo = true;
+
+        }
+
+        // Agr-grid Options
+        $scope.ProductosGridOptionsColumns = [
+
+            {
+                headerName: "", field: "Checked", suppressFilter: true, width: 25, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
+            },
+            {
+                headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+                cellRenderer: function () {
+                    return "<i data-ng-click='ConsultarProducto(data)' data-toggle='tooltip' title='Editar producto' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>create</i>";
+                },
+            },
+            {
+                headerName: "Nombre", field: 'nombre', width: 130, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Descripcion", field: 'descripcion', width: 170, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function (params) {
+                    return "<span  data-toggle='tooltip' data-placement='left' title='{{data.descripcion}}'>{{data.descripcion}}</span>"
+                },
+            },
+            {
+                headerName: "Precio", field: 'precio', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
+            },
+            {
+                headerName: "Inventario", field: 'inventario', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
+            }
+
+        ];
+
+        $scope.ProductosGridOptions = {
+
+            defaultColDef: {
+                resizable: true
+            },
+            columnDefs: $scope.ProductosGridOptionsColumns,
+            rowData: [],
+            enableSorting: true,
+            enableFilter: true,
+            enableColResize: true,
+            angularCompileRows: true,
+            onGridReady: function (params) {
+            },
+            fullWidthCellRenderer: true,
+            animateRows: true,
+            suppressRowClickSelection: true,
+            rowSelection: 'multiple',
+            getRowStyle: ChangeRowColor
+
+        }
+
+        function ChangeRowColor(params) {
+            if (params.data.inventario === 0) {
+                return { 'background-color': '#7d7d7d', 'color': 'white' };
+            }
+        }
+
+        $scope.ProductosGridOptions.getRowNodeId = function (data) {
+            return data.nombre;
+        };
+
+        $scope.onFilterTextBoxChanged = function () {
+            $scope.ProductosGridOptions.api.setQuickFilter(document.getElementById('txtBuscarProducto').value);
+        }
+
+        // Formatos
+        function currencyFormatter(params) {
+            var valueGrid = params.value;
+            return $filter('currency')(valueGrid, '$', 0);
+        }
+
+        // Eventos
+        window.onresize = function () {
+
+            $timeout(function () {
+                $scope.ProductosGridOptions.api.sizeColumnsToFit();
+            }, 200);
+
+        }
+
+        $scope.Cancelar = function () {
+            $mdDialog.cancel();
+            $('#txtBuscarProducto').focus();
+        };
+
+
+        // Invocación Funciones
+        $scope.ConsultarTipoTransacciones();
+        $scope.ConsultarProductos();
+        $scope.Inicializacion();
+
+
     }
 
     angular.element(document).ready(function () {

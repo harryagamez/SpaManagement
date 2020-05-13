@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Spa.Domain.SpaEntities.Extensions;
+using System;
 
 namespace Spa.Domain.SpaEntities
 {
-    public class Producto
+    public class Producto : BusquedaProducto
     {
         public int Id_Producto { get; set; }
         public string Nombre { get; set; }

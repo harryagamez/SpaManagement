@@ -218,5 +218,33 @@ namespace Spa.Application.SpaService
                 throw;
             }
         }
+
+        public List<TipoTransaccion> ConsultarTipoTransacciones()
+        {
+            try
+            {
+                List<TipoTransaccion> _tipoTransacciones = _spaRepository.ConsultarTipoTransacciones();
+
+                return _tipoTransacciones;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<Producto> ConsultarProductos(string IdEmpresa)
+        {
+            try
+            {
+                List<Producto> _productos = _spaRepository.ConsultarProductos(IdEmpresa);
+
+                return _productos;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

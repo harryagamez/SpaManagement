@@ -133,7 +133,7 @@ li.active {
     margin-left: 12px;
 }
 
-#frmClientes, #frmServicios, #frmEmpleados {
+#frmClientes, #frmServicios, #frmEmpleados, #frmProductos {
     padding: 13px;
     height: auto;
     margin-top: 3px;
@@ -150,6 +150,13 @@ li.active {
 
 #frmServiciosModal {
     padding: 15px;    
+    height: auto;
+    margin-top: 3px;
+    min-width: 100%
+}
+
+#frmProductosModal {
+    padding: 15px;
     height: auto;
     margin-top: 3px;
     min-width: 100%
@@ -237,11 +244,11 @@ select,
     color: darkgray;
 }
 
-#frmClientes, #frmServicios, #frmEmpleados {
+#frmClientes, #frmServicios, #frmEmpleados, #frmProductos {
     font-size: 13px;
 }
 
-    #frmClientes .material-icons, #frmServicios .material-icons, #frmEmpleados .material-icons {
+    #frmClientes .material-icons, #frmServicios .material-icons, #frmEmpleados .material-icons, #frmProductos .material-icons {
         font-size: 16px;
     }
 
@@ -348,7 +355,7 @@ li.active {
     background-color: #3A6EA5 !important;
 }
 
-#frmClientes, #frmServicios, #frmEmpleados {
+#frmClientes, #frmServicios, #frmEmpleados, #frmProductos {
     background-color: white !important;
     border-radius: 10px;
 }
