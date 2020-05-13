@@ -1064,7 +1064,52 @@
         $scope.FiltrarBarrios = function (id_Municipio) {
             $scope.ConsultarBarrios(id_Municipio);
         }
+
+
         //FUNCIONES
+        $scope.AsignarServicios = function(data)
+        {
+            $scope.ModalAsignarServicios();
+        }
+
+        $scope.AsignarInsumos = function (data) {
+            $scope.ModalAsignarInsumos();
+        }
+
+
+        // -- Modal Asignar Servicio
+        $scope.ModalAsignarServicios = function () {
+
+            $scope.AccionEmpleado = 'Asignar Servicios';
+
+            $mdDialog.show({
+                contentElement: '#dlgAsignarServicios',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true
+            })
+                .then(function () {
+                }, function () {
+                    //$('#txtBuscarServicio').focus();
+                }); 
+        }
+
+        // -- Modal Asignar Insumos
+        $scope.ModalAsignarInsumos = function () {
+
+            $scope.AccionEmpleado = 'Asignar Insumos';
+
+            $mdDialog.show({
+                contentElement: '#dlgAsignarInsumos',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true
+            })
+                .then(function () {
+                }, function () {
+                    //$('#txtBuscarServicio').focus();
+                }); 
+        }
 
         //API GRID OPTIONS
         $scope.EmpleadosGridOptionsColumns = [
