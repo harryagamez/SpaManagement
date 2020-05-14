@@ -1000,7 +1000,7 @@
                                 toastr.success('Empleado registrado y/o actualizado correctamente', '', $scope.toastrOptions);
                                 $scope.ConsultarEmpleados();
                                 $scope.LimpiarDatos();
-                                $('#txtInvoiceNumber').focus();
+                                $('#txtCedula').focus();
 
                             }
                         }, function (err) {
@@ -1160,7 +1160,7 @@
             $scope.Empleado.Id_Barrio = $scope.BarrioSeleccionado
             $scope.Empleado.Id_TipoPago = $scope.TipoPagoSeleccionado;
             $scope.Empleado.Estado = $scope.EstadoSeleccionado;
-            $scope.Empleado.EstadoCivil = $scope.EstadoCivilSeleccionado;
+            $scope.Empleado.Estado_Civil = $scope.EstadoCivilSeleccionado;
 
             if ($scope.Empleado.Cedula === '') {
                 toastr.info('Identificación del empleado es requerida', '', $scope.toastrOptions);
@@ -1299,7 +1299,7 @@
 
         //SelectedRow
         function OnRowClicked(event) {
-            debugger;
+            $scope.LimpiarDatos();
             $scope.Accion = 'BUSQUEDA_EMPLEADO';
             if (event.node.data !== undefined && event.node.data !== null) {
                 $scope.Empleado.Id_Empleado = event.node.data.id_Empleado;
