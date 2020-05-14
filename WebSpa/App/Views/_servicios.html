@@ -81,7 +81,7 @@
                                         <label class="label-form-servicios" style="">
                                             Nombre Servicio:
                                         </label>
-                                        <input ng-model="Servicio.Nombre" ng-blur="ConsultarServicioNombre($event, Servicio.Nombre)" data-ng-enter="ConsultarServicioNombre($event, Servicio.Nombre)" ng-readonly="NombreServicioReadOnly" id="txtNombreServicio" type="text" style="" maxlength="30" class="" placeholder="Digite el nombre del servicio ..." value="" tabindex=1 md-autofocus>
+                                        <input ng-model="Servicio.Nombre" ng-blur="ConsultarServicioNombre($event, Servicio.Nombre)" data-ng-enter="ConsultarServicioNombre($event, Servicio.Nombre)" ng-readonly="NombreServicioReadOnly" id="txtNombreServicio" type="text" maxlength="30" placeholder="Digite el nombre del servicio ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=1 md-autofocus>
                                     </md-input-container>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                                         <label class="label-form-servicios" style="">
                                             Descripción Servicio:
                                         </label>
-                                        <textarea ng-model="Servicio.Descripcion" id="txtDescripcionServicio"  type="text" placeholder="Digite la descripción del servicio ..." md-maxlength="300" rows="2" tabindex=2 md-autofocus="AccionServicio == 'Editar Servicio'"></textarea>
+                                        <textarea ng-model="Servicio.Descripcion" id="txtDescripcionServicio"  type="text" placeholder="Digite la descripción del servicio ..." md-maxlength="300" rows="2" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2 md-autofocus="AccionServicio == 'Editar Servicio'"></textarea>
                                     </md-input-container>
 
                                 </div>
@@ -144,10 +144,10 @@
                                 </div>
                             </div>
                             <div layout="row" layout-align="end center">                                
-                                    <md-button type="button" id="btnGuardar" class="btn-spa groupX left" data-toggle="tooltip" title="Guardar" ng-click="GuardarServicio()" tabindex=7>
+                                    <md-button type="button" id="btnGuardar" style="margin: 6px 3px !important;" class="btn-spa groupX left" data-toggle="tooltip" title="Guardar" ng-click="GuardarServicio()" tabindex=7>
                                         <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                                     </md-button> 
-                                    <md-button type="button" id="btnNuevoModal" ng-hide="OcultarbtnNuevo" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
+                                    <md-button type="button" id="btnNuevoModal" ng-hide="OcultarbtnNuevo" style="margin: 6px 3px !important;" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
                                         <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
                                     </md-button>                                     
                             </div>

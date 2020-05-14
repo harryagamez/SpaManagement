@@ -86,7 +86,7 @@
                                         <label class="label-form-servicios" style="">
                                             Nombre Producto:
                                         </label>
-                                        <input ng-model="Producto.Nombre" ng-blur="ConsultarProductoNombre($event, Producto.Nombre)" data-ng-enter="ConsultarProductoNombre($event, Producto.Nombre)" ng-readonly="NombreProductoReadOnly" id="txtNombreProducto" type="text" style="" maxlength="30" class="" placeholder="Digite el nombre del producto ..." value="" tabindex=1 md-autofocus>
+                                        <input ng-model="Producto.Nombre" ng-blur="ConsultarProductoNombre($event, Producto.Nombre)" data-ng-enter="ConsultarProductoNombre($event, Producto.Nombre)" ng-readonly="NombreProductoReadOnly" id="txtNombreProducto" type="text" style="" maxlength="30" class="" placeholder="Digite el nombre del producto ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=1 md-autofocus>
                                     </md-input-container>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                                         <label class="label-form-servicios" style="">
                                             Descripción Producto:
                                         </label>
-                                        <textarea ng-model="Producto.Descripcion" id="txtDescripcionProducto" type="text" placeholder="Digite la descripción del producto ..." md-maxlength="300" rows="2" tabindex=2 md-autofocus="AccionProducto == 'Editar Producto'"></textarea>
+                                        <textarea ng-model="Producto.Descripcion" id="txtDescripcionProducto" type="text" placeholder="Digite la descripción del producto ..." md-maxlength="300" rows="2" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2 md-autofocus="AccionProducto == 'Editar Producto'"></textarea>
                                     </md-input-container>
 
                                 </div>
@@ -108,7 +108,16 @@
                                         <label class="label-form-servicios" style="">
                                             Cantidad:
                                         </label>
-                                        <input ng-model="Producto.Inventario" id="txtInventarioProducto" numbers-only type="text" style="" class="" placeholder="Digite la cantidad de inventario ..." value="" tabindex=3>
+                                        <input ng-model="Producto.Cantidad_Transaccion" id="txtCantidadProducto" numbers-only type="text" placeholder="Digite la cantidad ..." value="" tabindex=3>
+                                    </md-input-container>
+
+                                </div>
+                                <div flex="">
+                                    <md-input-container style="margin: 5px 0;">
+                                        <label class="label-form-servicios" style="">
+                                            Inventario:
+                                        </label>
+                                        <input ng-model="Producto.Inventario" id="txtInventarioProducto" numbers-only type="text" ng-readonly="true" placeholder="Inventario producto..." value="" tabindex=3>
                                     </md-input-container>
 
                                 </div>
@@ -117,7 +126,7 @@
                                         <label class="label-form-servicios" style="">
                                             Precio Venta:
                                         </label>
-                                        <input ng-model="Producto.Precio" id="txtValorProducto" numbers-only type="text" style="" class="" placeholder="Digite el valor del producto ..." value="" tabindex=4>
+                                        <input ng-model="Producto.Precio" id="txtValorProducto" numbers-only type="text" placeholder="Digite el valor del producto ..." value="" tabindex=4>
                                     </md-input-container>
                                 </div>
                             </div>
@@ -126,7 +135,7 @@
                                 <div flex="">
                                     <md-input-container style="margin: 5px 0;">
                                         <label class="label-form-servicios" style="">
-                                            Tipo Transaccion:
+                                            Tipo Transacción:
                                         </label>
                                         <select ng-model="TipoTransaccionSeleccionada" ng-disabled="true" ng-options="item.id_TipoTransaccion as item.nombre for item in TipoTransacciones | orderBy:'nombre'" style="display:none; width:auto;" tabindex=5>
                                         </select>
@@ -138,14 +147,14 @@
                             </div>
 
                             <div layout="row" layout-align="end center">
-                                <md-button type="button" id="btnGuardar" class="btn-spa groupX left" style="margin-left: -10px;" data-toggle="tooltip" title="Guardar" ng-click="GuardarProducto()" tabindex=7>
+                                <md-button type="button" id="btnGuardar" class="btn-spa groupX left" style="margin-left: -10px;margin: 6px 4px !important;" data-toggle="tooltip" title="Guardar" ng-click="GuardarProducto()" tabindex=7>
                                     <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                                 </md-button>
 
-                                <md-button type="button" id="btnNuevoModal" ng-hide="OcultarbtnNuevo" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
+                                <md-button type="button" id="btnNuevoModal" ng-hide="OcultarbtnNuevo" style="margin: 6px 4px !important;" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
                                     <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
                                 </md-button>
-                            </div>                           
+                            </div>
 
                         </md-dialog-content>
                     </form>

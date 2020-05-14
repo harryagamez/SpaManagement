@@ -207,7 +207,7 @@ namespace WebApiSpa.Controllers
             }
             catch (Exception ex)
             {
-                return Content(HttpStatusCode.InternalServerError, "Error registrando el servicio: " + ex.Message);
+                return Content(HttpStatusCode.InternalServerError, "Error registrando/actualizando el servicio: " + ex.Message);
             }
         }
 
@@ -293,6 +293,23 @@ namespace WebApiSpa.Controllers
             catch (Exception ex)
             {
                 return Content(HttpStatusCode.InternalServerError, "Error actualizando el empleado: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/GuardarProducto")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarProducto(List<Producto> producto)
+        {
+            try
+            {
+                bool result = _spaService.GuardarProducto(producto);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando/actualizando el producto: " + ex.Message);
             }
         }
     }
