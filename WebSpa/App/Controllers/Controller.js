@@ -1248,15 +1248,14 @@
                 return false;
             }
             return true;
-        }
-        // --Filtros Barrios
+        }        
 
         // Filtros Barrios
         $scope.FiltrarBarrios = function (id_Municipio) {
             $scope.ConsultarBarrios(id_Municipio);
         }
 
-        // Modal Asignar Servicio
+        //Modal Asignar Servicio
         $scope.ModalAsignarServicios = function () {
 
             $scope.AccionEmpleado = 'Asignar Servicios';
@@ -1297,7 +1296,8 @@
         $scope.AsignarInsumos = function (data) {
             $scope.ModalAsignarInsumos();
         }
-        // --SelectedRow
+
+        //SelectedRow
         function OnRowClicked(event) {
             debugger;
             if (event.node.data !== undefined && event.node.data !== null) {
@@ -1317,6 +1317,7 @@
                 $scope.TipoPagoSeleccionado = event.node.data.id_TipoPago;
                 $scope.Empleado.Estado = event.node.data.estado;
 
+                $scope.EstadoCivilSeleccionado = event.node.data.estado_Civil;
                 $scope.MunicipioSeleccionado = $scope.Empleado.Id_Municipio;
                 $scope.BarrioSeleccionado = $scope.Empleado.Id_Barrio;
                 $scope.EstadoSeleccionado = $scope.Empleado.Estado;
@@ -1326,7 +1327,8 @@
                 $('#txtNombre').focus();
             }
         }
-        // --Change Row Color
+
+        //Change Row Color
         function ChangeRowColor(params) {
             if (params.data.estado === 'INACTIVO') {
                 return { 'background-color': '#7d7d7d', 'color': 'white' };
