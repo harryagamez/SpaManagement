@@ -1235,8 +1235,6 @@
             }
             return true;
         }
-
-
         // --Filtros Barrios
         $scope.FiltrarBarrios = function (id_Municipio) {
             $scope.ConsultarBarrios(id_Municipio);
@@ -1279,7 +1277,41 @@
         $scope.AsignarInsumos = function (data) {
             $scope.ModalAsignarInsumos();
         }
+        // --SelectedRow
+        function OnRowClicked(event) {
+            debugger;
+            if (event.node.data !== undefined && event.node.data !== null) {
+                $scope.Empleado.Id_Empleado = event.node.data.id_Empleado;
+                $scope.Empleado.Cedula = event.node.data.cedula;
+                $scope.Empleado.Nombres = event.node.data.nombres;
+                $scope.Empleado.Apellidos = event.node.data.apellidos;
+                $scope.Empleado.Telefono_Fijo = event.node.data.telefono_Fijo;
+                $scope.Empleado.Telefono_Movil = event.node.data.telefono_Movil;
+                $scope.Empleado.Monto = event.node.data.monto;
+                $scope.Empleado.Numero_Hijos = event.node.data.numero_Hijos;
+                $scope.Empleado.Direccion = event.node.data.direccion;
+                $scope.Empleado.Id_Municipio = event.node.data.id_Municipio;
+                $scope.Empleado.Id_Barrio = event.node.data.id_Barrio;
+                $scope.Empleado.Fecha_Nacimiento = $filter('date')(new Date(event.node.data.fecha_Nacimiento), 'MM/dd/yyyy');
+                $scope.Empleado.Id_TipoPago = event.node.data.id_TipoPago;
+                $scope.TipoPagoSeleccionado = event.node.data.id_TipoPago;
+                $scope.Empleado.Estado = event.node.data.estado;
 
+                $scope.MunicipioSeleccionado = $scope.Empleado.Id_Municipio;
+                $scope.BarrioSeleccionado = $scope.Empleado.Id_Barrio;
+                $scope.EstadoSeleccionado = $scope.Empleado.Estado;
+                $scope.ConsultarBarrios($scope.MunicipioSeleccionado);
+
+                $scope.CedulaReadOnly = true;
+                $('#txtNombre').focus();
+            }
+        }
+        // --Change Row Color
+        function ChangeRowColor(params) {
+            if (params.data.estado === 'INACTIVO') {
+                return { 'background-color': '#7d7d7d', 'color': 'white' };
+            }
+        }
 
         //API GRID OPTIONS
         $scope.EmpleadosGridOptionsColumns = [
@@ -1341,7 +1373,9 @@
             fullWidthCellRenderer: true,
             animateRows: true,
             suppressRowClickSelection: true,
-            rowSelection: 'multiple'
+            rowSelection: 'multiple',
+            onRowClicked: OnRowClicked,
+            getRowStyle: ChangeRowColor
         }
 
         window.onresize = function () {
