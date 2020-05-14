@@ -24,5 +24,6 @@ namespace Spa.Infrastructure.SpaRepository
         List<TipoTransaccion> ConsultarTipoTransacciones();
         List<Producto> ConsultarProductos(string IdEmpresa);
         bool RegistrarActualizarEmpleado(List<Empleado> _Empleado);
+        bool GuardarProducto(List<Producto> _Producto);
     }
 }

@@ -23,5 +23,6 @@ namespace Spa.Application.SpaService
         bool RegistrarActualizarEmpleado(List<Empleado> _Empleado);
         List<TipoTransaccion> ConsultarTipoTransacciones();
         List<Producto> ConsultarProductos(string IdEmpresa);
+        bool GuardarProducto(List<Producto> _Producto);
     }
 }

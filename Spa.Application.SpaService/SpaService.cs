@@ -272,5 +272,17 @@ namespace Spa.Application.SpaService
                 throw;
             }
         }
+
+        public bool GuardarProducto(List<Producto> _Producto)
+        {
+            try
+            {
+                return _spaRepository.GuardarProducto(_Producto);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

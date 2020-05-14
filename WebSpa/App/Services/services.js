@@ -247,7 +247,8 @@
             _consultarTipoPagos: ConsultarTipoPagos,
             _consultarTipoTransacciones: ConsultarTipoTransacciones,
             _consultarProductos: ConsultarProductos,
-            _registrarActualizarEmpleado: RegistrarActualizarEmpleado
+            _registrarActualizarEmpleado: RegistrarActualizarEmpleado,
+            _guardarProducto: GuardarProducto
 
         }
 
@@ -450,6 +451,20 @@
                 function (err) {
                     deferred.reject(err);
                 });
+            return deferred.promise;
+        }
+
+        function GuardarProducto(producto) {
+            var deferred = $q.defer();
+
+            serviceRest.Post('SPA', 'GuardarProducto', producto,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
             return deferred.promise;
         }
 
