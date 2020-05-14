@@ -1057,14 +1057,14 @@
                             } else
                                 $scope.MunicipioSeleccionado = -1;
 
-                            if ($scope.Accion === 'BUSQUEDA_CLIENTE') {
+                            if ($scope.Accion === 'BUSQUEDA_EMPLEADO') {
 
                                 let filtrarBarrio = Enumerable.From($scope.Barrios)
-                                    .Where(function (x) { return x.id_Barrio === $scope.Cliente.Id_Barrio })
+                                    .Where(function (x) { return x.id_Barrio === $scope.Empleado.Id_Barrio })
                                     .ToArray();
 
                                 if (filtrarBarrio.length > 0)
-                                    $scope.BarrioSeleccionado = $scope.Cliente.Id_Barrio;
+                                    $scope.BarrioSeleccionado = $scope.Empleado.Id_Barrio;
                                 else
                                     $scope.BarrioSeleccionado = -1;
 
@@ -1300,6 +1300,7 @@
         //SelectedRow
         function OnRowClicked(event) {
             debugger;
+            $scope.Accion = 'BUSQUEDA_EMPLEADO';
             if (event.node.data !== undefined && event.node.data !== null) {
                 $scope.Empleado.Id_Empleado = event.node.data.id_Empleado;
                 $scope.Empleado.Cedula = event.node.data.cedula;
