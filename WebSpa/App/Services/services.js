@@ -246,7 +246,8 @@
             _consultarEmpleados: ConsultarEmpleados,
             _consultarTipoPagos: ConsultarTipoPagos,
             _consultarTipoTransacciones: ConsultarTipoTransacciones,
-            _consultarProductos: ConsultarProductos
+            _consultarProductos: ConsultarProductos,
+            _registrarActualizarEmpleado: RegistrarActualizarEmpleado
 
         }
 
@@ -422,6 +423,20 @@
                 function (err) {
                     deferred.reject(err);
                 });
+            return deferred.promise;
+        }
+
+        function RegistrarActualizarEmpleado(empleado) {
+            var deferred = $q.defer();
+
+            serviceRest.Post('SPA', 'RegistrarActualizarEmpleado', empleado,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
             return deferred.promise;
         }
 

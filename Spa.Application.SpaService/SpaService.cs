@@ -260,5 +260,17 @@ namespace Spa.Application.SpaService
                 throw;
             }
         }
+
+        public bool RegistrarActualizarEmpleado(List<Empleado> _Empleado)
+        {
+            try
+            {
+                return _spaRepository.RegistrarActualizarEmpleado(_Empleado);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

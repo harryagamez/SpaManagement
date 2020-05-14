@@ -23,5 +23,6 @@ namespace Spa.Infrastructure.SpaRepository
         List<TipoPago> ConsultarTipoPagos();
         List<TipoTransaccion> ConsultarTipoTransacciones();
         List<Producto> ConsultarProductos(string IdEmpresa);
+        bool RegistrarActualizarEmpleado(List<Empleado> _Empleado);
     }
 }

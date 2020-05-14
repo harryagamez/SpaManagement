@@ -959,11 +959,10 @@
             Id_Barrio: -1,
             Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
             Numero_Hijos: '',
-            Tipo_Pago: $scope.TipoPagoSeleccionado,
+            Id_TipoPago: $scope.TipoPagoSeleccionado,
             Monto: '',
             Estado: $scope.EstadoSeleccionado,
-            Id_Empresa: $scope.IdEmpresa,
-            Id_Usuario_Creacion: $scope.IdUsuario
+            Id_Empresa: $scope.IdEmpresa            
         }
         $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1 });
         $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });        
@@ -976,6 +975,32 @@
 
 
         //INVOCACIONES API
+        // --Guardar Empleado
+        $scope.GuardarEmpleado = function () {
+
+            if ($scope.ValidarDatos()) {
+
+                $scope.ObjetoEmpleado = [];
+                $scope.ObjetoEmpleado.push($scope.Empleado);
+
+                SPAService._registrarActualizarEmpleado(JSON.stringify($scope.ObjetoEmpleado))
+                    .then(
+                        function (result) {
+                            if (result.data === true) {
+                                toastr.success('Empleado registrado y/o actualizado correctamente', '', $scope.toastrOptions);
+                                $scope.ConsultarEmpleados();
+                                $scope.LimpiarDatos();
+                                $('#txtInvoiceNumber').focus();
+
+                            }
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        })
+            }
+        }
+        // --Consultar Empleados
         $scope.ConsultarEmpleados = function () {
             SPAService._consultarEmpleados($scope.IdEmpresa)
                 .then(
@@ -999,7 +1024,7 @@
             $('#txtCedula').focus();
 
         }
-
+        // --Consultar Barrios
         $scope.ConsultarBarrios = function (id_Municipio) {
 
             SPAService._consultarBarrios(id_Municipio)
@@ -1040,7 +1065,7 @@
                     })
 
         }
-
+        // --Consultar Municipios
         $scope.ConsultarMunicipios = function () {
 
             SPAService._consultarMunicipios()
@@ -1062,7 +1087,7 @@
                     })
 
         }
-
+        // --Consultar Tipo Pagos
         $scope.ConsultarTipoPagos = function () {
 
             SPAService._consultarTipoPagos()
@@ -1080,23 +1105,142 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         }
+        // Limpiar Datos
+        $scope.LimpiarDatos = function () {
 
-        // Filtros
+            $scope.EstadoSeleccionado = 'ACTIVO';
+
+            $scope.Empleado =
+            {
+                Id_Empleado: -1,
+                Cedula: '',
+                Nombres: '',
+                Apellidos: '',
+                Telefono_Fijo: '',
+                Telefono_Movil: '',
+                Estado_Civil: $scope.EstadoCivilSeleccionado, Direccion: '',
+                Id_Municipio: -1,
+                Id_Barrio: -1,
+                Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
+                Numero_Hijos: '',
+                Id_TipoPago: $scope.TipoPagoSeleccionado,
+                Monto: '',
+                Estado: $scope.EstadoSeleccionado,
+                Id_Empresa: $scope.IdEmpresa
+            }
+
+            $scope.MunicipioSeleccionado = -1;
+            $scope.BarrioSeleccionado = -1;
+            $scope.TipoPagoSeleccionado = '00000000-000-000-000000000000';
+            $scope.EstadoCivilSeleccionado = 'SOLTERA'; 
+            $('#txtCedula').focus();
+            //$scope.CedulaReadOnly = false;
+
+        }
+
+
+        //FUNCIONES  
+        // --Validar Datos
+        $scope.ValidarDatos = function () {            
+
+            $scope.Empleado.Id_Barrio = $scope.BarrioSeleccionado
+            $scope.Empleado.Id_TipoPago = $scope.TipoPagoSeleccionado;
+            $scope.Empleado.Estado = $scope.EstadoSeleccionado;
+            $scope.Empleado.EstadoCivil = $scope.EstadoCivilSeleccionado;
+
+            if ($scope.Empleado.Cedula === '') {
+                toastr.info('Identificación del empleado es requerida', '', $scope.toastrOptions);
+                $('#txtCedula').focus();
+                return false;
+            }
+
+            if ($scope.Empleado.Nombres === '') {
+                toastr.info('Nombre del empleado es requerido', '', $scope.toastrOptions);
+                $('#txtNombre').focus();
+                return false;
+            }
+
+            if ($scope.Empleado.Apellidos === '') {
+                toastr.info('Apellido del empleado es requerido', '', $scope.toastrOptions);
+                $('#txtApellido').focus();
+                return false;
+            }
+
+            if ($scope.Empleado.Direccion === '') {
+                toastr.info('Dirreción del empleado es requerida', '', $scope.toastrOptions);
+                $('#txtDireccion').focus();
+                return false;
+            }            
+
+            if ($scope.Empleado.Telefono_Fijo === '') {
+                toastr.info('Número fijo del empleado es requerido', '', $scope.toastrOptions);
+                $('#txtFijo').focus();
+                return false;
+            }
+
+            if ($scope.Empleado.Telefono_Movil === '') {
+                toastr.info('Celular del empleado es requerido', '', $scope.toastrOptions);
+                $('#txtMovil').focus();
+                return false;
+            }
+
+            if ($scope.Empleado.Numero_Hijos === '') {
+                toastr.info('Número de hijos del empleado es requerido', '', $scope.toastrOptions);
+                $('#txtHijos').focus();
+                return false;
+            }
+
+            if ($scope.Empleado.Numero_Hijos < 0) {
+                toastr.info('Número de hijos no puede ser menor que cero', '', $scope.toastrOptions);
+                $('#txtHijos').focus();
+                return false;
+            }
+
+            if (new Date($scope.Empleado.Fecha_Nacimiento) > $filter('date')(new Date(), 'MM/dd/yyyy')) {
+                toastr.info('La fecha de nacimiento debe ser menor que la fecha actual', '', $scope.toastrOptions);
+                $('#dpFechaNacimiento').focus();
+                return false;
+            }
+
+            if ($scope.Empleado.Id_Barrio === -1) {
+                toastr.info('Debe seleccionar un barrio', '', $scope.toastrOptions);
+                $('#slBarrio').focus();
+                return false;
+            }
+
+            if ($scope.Empleado.Id_TipoPago === '00000000-000-000-000000000000') {
+                toastr.info('Debe seleccionar un tipo de pago', '', $scope.toastrOptions);
+                $('#slTipoPago').focus();
+                return false;
+            }
+
+            if ($scope.Empleado.Id_TipoPago === '1C7595F2-D808-4EF5-87BA-BB79D2CAA8B9') {
+                if ($scope.Empleado.Monto === '') {
+                    toastr.info('Monto del empleado es requerido', '', $scope.toastrOptions);
+                    $('#txtMonto').focus();
+                    return false;
+                }
+
+                if ($scope.Empleado.Monto > 1) {
+                    toastr.info('El monto no puede ser mayor a "1" si el tipo de pago es "POR SERVICIOS"', '', $scope.toastrOptions);
+                    $('#txtMonto').focus();
+                    return false;
+                }                
+            }
+
+            if ($scope.Empleado.Monto === '') {
+                toastr.info('Monto del empleado es requerido', '', $scope.toastrOptions);
+                $('#txtMonto').focus();
+                return false;
+            }
+            return true;
+        }
+
+
+        // --Filtros Barrios
         $scope.FiltrarBarrios = function (id_Municipio) {
             $scope.ConsultarBarrios(id_Municipio);
         }
-
-
-        //FUNCIONES
-        $scope.AsignarServicios = function (data) {
-            $scope.ModalAsignarServicios();
-        }
-
-        $scope.AsignarInsumos = function (data) {
-            $scope.ModalAsignarInsumos();
-        }
-
-
         // -- Modal Asignar Servicio
         $scope.ModalAsignarServicios = function () {
 
@@ -1113,7 +1257,9 @@
                     //$('#txtBuscarServicio').focus();
                 });
         }
-
+        $scope.AsignarServicios = function (data) {
+            $scope.ModalAsignarServicios();
+        }
         // -- Modal Asignar Insumos
         $scope.ModalAsignarInsumos = function () {
 
@@ -1130,6 +1276,10 @@
                     //$('#txtBuscarServicio').focus();
                 });
         }
+        $scope.AsignarInsumos = function (data) {
+            $scope.ModalAsignarInsumos();
+        }
+
 
         //API GRID OPTIONS
         $scope.EmpleadosGridOptionsColumns = [
@@ -1159,11 +1309,14 @@
                 headerName: "Apellido(s)", field: 'apellidos', width: 155, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Barrio", field: 'barrio', width: 175, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
-            },
-            {
                 headerName: "Celular", field: 'telefono_Movil', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' },
             },
+            {
+                headerName: "Dirección", field: 'direccion', width: 240, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Barrio", field: 'barrio', width: 175, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            },            
             {
                 headerName: "Registro", field: 'fecha_Registro', hide: true, width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
                     return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy') : '';

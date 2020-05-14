@@ -4,6 +4,7 @@
         .directive('cbutton', cbutton)
         .directive('limitTo', limitTo)
         .directive('numbersOnly', numbersOnly)
+        .directive('floatNumbersOnly', floatNumbersOnly)
         .directive('renderOptionDatePicker', renderOptionDatePicker)
         .directive('ngEnter', ngEnter)
         .directive('tooltip', tooltip)
@@ -134,6 +135,28 @@
                 function fromUser(text) {
                     if (text) {
                         var transformedInput = text.replace(/[^0-9]/g, '');
+
+                        if (transformedInput !== text) {
+                            ngModelCtrl.$setViewValue(transformedInput);
+                            ngModelCtrl.$render();
+                        }
+                        return transformedInput;
+                    }
+                    return 0;
+                }
+                ngModelCtrl.$parsers.push(fromUser);
+            }
+        };
+    }
+
+    function floatNumbersOnly() {
+        return {
+            require: 'ngModel',
+            link: function (scope, element, attr, ngModelCtrl) {
+                function fromUser(text) {
+                    if (text) {
+                        var floatNumber = /[^0-9.]/g;
+                        var transformedInput = text.replace(floatNumber, '');
 
                         if (transformedInput !== text) {
                             ngModelCtrl.$setViewValue(transformedInput);
