@@ -168,7 +168,7 @@
                         <label class="label-form-empleados" style="">
                             Monto:
                         </label>
-                        <input ng-model="Empleado.Monto" id="txtMonto" type="text" float-numbers-only class="" style="position:relative; margin-top:12px;" placeholder="Digite el monto a pagar ..." value="" tabindex=14>
+                        <input ng-model="Empleado.Monto" id="txtMonto" type="text" float-numbers-only ng-pattern="/(^[0-9]{1,9})+(\.[0-9]{1,4})?$/" class="" style="position:relative; margin-top:12px;" placeholder="Digite el monto a pagar ..." value="" tabindex=14>
                     </md-input-container>
                 </div>
 
