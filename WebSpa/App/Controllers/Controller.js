@@ -1112,6 +1112,7 @@
                             $scope.TipoPagos = result.data;
                             $scope.TipoPagos.push({ id_TipoPago: '00000000-000-000-000000000000', descripcion: '[Seleccione]', criterio: '' });
                             $scope.TipoPagos = $filter('orderBy')($scope.TipoPagos, 'descripcion', false);
+
                         }
                     }, function (err) {
                         toastr.remove();
@@ -1122,7 +1123,7 @@
 
         // Limpiar Datos
         $scope.LimpiarDatos = function () {
-
+            $scope.CedulaReadOnly = false;
             $scope.EstadoSeleccionado = 'ACTIVO';
 
             $scope.Empleado =
@@ -1149,11 +1150,16 @@
             $scope.TipoPagoSeleccionado = '00000000-000-000-000000000000';
             $scope.EstadoCivilSeleccionado = 'SOLTERA';
             $('#txtCedula').focus();
-            //$scope.CedulaReadOnly = false;
+            $scope.CedulaReadOnly = false;
 
         }
 
-        // FUNCIONES  
+        // FUNCIONES
+        //Foco Monto
+        $scope.FocoMonto = function() {                       
+            $scope.$broadcast('selectChanged');           
+        }
+
         // Validar Datos
         $scope.ValidarDatos = function () {
 
@@ -1227,8 +1233,12 @@
                 $('#slTipoPago').focus();
                 return false;
             }
+            
+            let filtrarDesc = Enumerable.From($scope.TipoPagos)
+                .Where(function (x) { return x.id_TipoPago === $scope.Empleado.Id_TipoPago })
+                .ToArray();                 
 
-            if ($scope.Empleado.Id_TipoPago === '1C7595F2-D808-4EF5-87BA-BB79D2CAA8B9') {
+            if (filtrarDesc[0].descripcion === 'POR SERVICIOS') {
                 if ($scope.Empleado.Monto === '') {
                     toastr.info('Monto del empleado es requerido', '', $scope.toastrOptions);
                     $('#txtMonto').focus();

@@ -52,7 +52,16 @@
                     scope.$on('$locationChangeSuccess', setActive);
                 }
             }
-        }]);
+        }])
+        .directive('focus', function ($timeout) {
+            return function (scope, elem, attr) {
+                scope.$on(attr.focus, function (e) {
+                    $timeout(function () {
+                        elem[0].focus();
+                    }, 500);
+                });
+            };
+        });
 
 
     function cbutton() {

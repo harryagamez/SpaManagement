@@ -183,7 +183,7 @@
                         <label class="label-form-empleados" style="">
                             Tipo Pago:
                         </label>
-                        <md-select ng-model="TipoPagoSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slTipoPago" tabindex=13>
+                        <md-select ng-model="TipoPagoSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slTipoPago" ng-change="FocoMonto()" tabindex=13>
                             <md-option ng-bind="tipopago.descripcion" ng-value="tipopago.id_TipoPago" ng-repeat="tipopago in TipoPagos track by $index"></md-option>
                         </md-select>
                     </md-input-container>
@@ -192,9 +192,9 @@
                 <div flex="25">
                     <md-input-container style="width:90%">
                         <label class="label-form-empleados" style="margin-bottom:-8px;">
-                            Monto:
+                            Monto / %:
                         </label>
-                        <input ng-model="Empleado.Monto" id="txtMonto" type="text" float-numbers-only ng-pattern="/(^[0-9]{1,9})+(\.[0-9]{1,4})?$/" class="" style="position:relative; margin-top:16px;" placeholder="Digite el monto a pagar ..." value="" tabindex=14>
+                        <input ng-model="Empleado.Monto" id="txtMonto" focus="selectChanged" type="text" float-numbers-only ng-pattern="/(^[0-9]{1,9})+(\.[0-9]{1,4})?$/" class="" style="position:relative; margin-top:16px;" placeholder="Digite el monto a pagar ..." value="" tabindex=14>
                     </md-input-container>
                 </div>
 
