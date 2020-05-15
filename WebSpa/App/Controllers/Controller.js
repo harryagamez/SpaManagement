@@ -1411,6 +1411,12 @@
             getRowStyle: ChangeRowColor
         }
 
+        //Eventos
+        $scope.Cancelar = function () {
+            $mdDialog.cancel();
+            $('#txtBuscarServicio').focus();
+        };
+
         window.onresize = function () {
 
             $timeout(function () {
