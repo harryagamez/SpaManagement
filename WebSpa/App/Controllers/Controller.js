@@ -525,7 +525,7 @@
 
         function ChangeRowColor(params) {
             if (params.data.estado === 'INACTIVO') {
-                return { 'background-color': '#7d7d7d', 'color': 'white' };
+                return { 'background-color': '#ecf0e0', 'color': '#999999', 'font-weight': '300' };
             }
         }
 
@@ -894,10 +894,10 @@
             getRowStyle: ChangeRowColor
 
         }
-
+        //Change Row Color Inactive Users
         function ChangeRowColor(params) {
             if (params.data.estado === 'INACTIVO') {
-                return { 'background-color': '#7d7d7d', 'color': 'white' };
+                return { 'background-color': '#ecf0e0', 'color': '#999999', 'font-weight': '300' };
             }
         }
 
@@ -1342,7 +1342,7 @@
         //Change Row Color
         function ChangeRowColor(params) {
             if (params.data.estado === 'INACTIVO') {
-                return { 'background-color': '#7d7d7d', 'color': 'white' };
+                return { 'background-color': '#ecf0e0', 'color': '#999999', 'font-weight': '300' };
             }
         }
 
@@ -1736,7 +1736,7 @@
 
         function ChangeRowColor(params) {
             if (params.data.inventario === 0) {
-                return { 'background-color': '#7d7d7d', 'color': 'white' };
+                return { 'background-color': '#ecf0e0', 'color': '#999999', 'font-weight': '300' };
             }
         }
 
