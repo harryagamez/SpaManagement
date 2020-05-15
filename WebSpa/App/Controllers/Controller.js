@@ -676,6 +676,7 @@
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
+
         }
 
         // FUNCIONES
@@ -949,7 +950,6 @@
         $scope.EstadoCivilSeleccionado = 'SOLTERA';
         $scope.TipoPagoSeleccionado = '00000000-000-000-000000000000';
 
-
         //INICIALIZACIÓN        
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
@@ -1009,14 +1009,17 @@
                                 toastr.error(err.data, '', $scope.toastrOptions);
                         })
             }
+
         }
 
         // Consultar Empleados
         $scope.ConsultarEmpleados = function () {
+
             SPAService._consultarEmpleados($scope.IdEmpresa)
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
+
                             $scope.Empleados = [];
                             $scope.Empleados = result.data;
                             $scope.EmpleadosGridOptions.api.setRowData($scope.Empleados);
@@ -1119,10 +1122,12 @@
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
+
         }
 
         // Limpiar Datos
         $scope.LimpiarDatos = function () {
+
             $scope.CedulaReadOnly = false;
             $scope.EstadoSeleccionado = 'ACTIVO';
 
@@ -1156,8 +1161,8 @@
 
         // FUNCIONES
         //Foco Monto
-        $scope.FocoMonto = function() {                       
-            $scope.$broadcast('selectChanged');           
+        $scope.FocoMonto = function () {
+            $scope.$broadcast('selectChanged');
         }
 
         // Validar Datos
@@ -1233,10 +1238,10 @@
                 $('#slTipoPago').focus();
                 return false;
             }
-            
+
             let filtrarDesc = Enumerable.From($scope.TipoPagos)
                 .Where(function (x) { return x.id_TipoPago === $scope.Empleado.Id_TipoPago })
-                .ToArray();                 
+                .ToArray();
 
             if (filtrarDesc[0].descripcion === 'POR SERVICIOS') {
                 if ($scope.Empleado.Monto === '') {
@@ -1257,8 +1262,10 @@
                 $('#txtMonto').focus();
                 return false;
             }
+
             return true;
-        }        
+
+        }
 
         // Filtros Barrios
         $scope.FiltrarBarrios = function (id_Municipio) {
@@ -1309,7 +1316,9 @@
 
         //SelectedRow
         function OnRowClicked(event) {
+
             $scope.LimpiarDatos();
+
             $scope.Accion = 'BUSQUEDA_EMPLEADO';
             if (event.node.data !== undefined && event.node.data !== null) {
                 $scope.Empleado.Id_Empleado = event.node.data.id_Empleado;
@@ -1337,6 +1346,7 @@
                 $scope.CedulaReadOnly = true;
                 $('#txtNombre').focus();
             }
+
         }
 
         //Change Row Color
@@ -1409,6 +1419,7 @@
             rowSelection: 'multiple',
             onRowClicked: OnRowClicked,
             getRowStyle: ChangeRowColor
+
         }
 
         //Eventos
@@ -1539,7 +1550,7 @@
                                 $scope.ConsultarProductos();
 
                                 if ($scope.AccionProducto === 'Editar Producto')
-                                    $mdDialog.hide();
+                                    $scope.Cancelar();
 
                                 $scope.LimpiarDatos();
 
