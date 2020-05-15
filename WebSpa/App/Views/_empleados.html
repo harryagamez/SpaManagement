@@ -210,39 +210,44 @@
     <!-- Modales Asignar Servicios-->
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgAsignarServicios">
-            <md-dialog id="mdAsignarServicios" aria-label="" style="width: 40% !important; color: #666666 !important;">
+            <md-dialog id="mdAsignarServicios" aria-label="" style="width: 35% !important; color: #666666 !important;">
 
                 <md-toolbar>
                     <div class="md-toolbar-tools">
                         <h2 style="font-size:16px;">{{AccionEmpleado}}</h2>
-                        <span flex></span>                        
-                    </div>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="Cancelar()">
+                            <i class="material-icons" style="transform: scaleX(-1)">close</i>
+                        </md-button>
+                    </div>                    
                 </md-toolbar>
 
-                <form id="frmAsignarServicios" style="">
+                <form id="frmServicios" style="">
 
                     <md-dialog-content style="background-color: rgb(250,250,250);">
                         <div layout="row" layout-sm="column" layout-align="center center">
-                            <div flex="">
-                                <md-input-container class="md-block" style="margin: 13px 0 0 0;">
-                                    <label class="" style="">
-                                        Servicios:
-                                    </label>
-                                    <md-select ng-model="" ng-change="" class="" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slServicios" tabindex=1>
-                                        <md-option ng-bind="servicio.nombre" ng-value="servicio.id_Servicio" ng-repeat="servicio in Servicios track by $index"></md-option>
+                            <div flex="15">                                
+                                    <label>Servicios:</label>                                
+                            </div>
+                            <div flex="60">                                
+                                <md-input-container class="md-block" style="margin:0; padding: 0;">
+                                    <md-select ng-model="ServiciosSeleccionados" multiple class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slServicios" tabindex=1>
+                                        <md-optgroup label="Servicios">
+                                            <md-option ng-value="servicio.nombre" ng-repeat="servicio in Servicios">{{servicio.nombre}}</md-option>
+                                        </md-optgroup>
                                     </md-select>
                                 </md-input-container>
                             </div>
-                            <div flex="">
+                            <div flex="25">
                                 <md-button type="button" id="btnNuevoModal" ng-hide="OcultarbtnNuevo" class="btn-spa groupX middle" data-toggle="tooltip" title="Asignar Servicio" data-ng-click="AsignarServicio()">
-                                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Agregar
+                                    Agregar<i class="material-icons md-18" style="transform: scaleX(-1)">add</i>
                                 </md-button>
                             </div>                            
                         </div>
 
                         <div layout="row" layout-align="center center">
-                            <div id="divGridServicios" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 222px); margin-top:11px; overflow-y:auto;">
-                                <div id="divServiciosGridOptions" data-ag-grid="ServiciosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+                            <div id="divGridAsignarServicios" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 500px); margin-top:11px; overflow-y:auto;">
+                                <div id="divAsignarServiciosGridOptions" data-ag-grid="AsignarServiciosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                             </div>
                         </div>
 
@@ -268,7 +273,7 @@
                     </div>
                 </md-toolbar>
 
-                <form id="frmEmpleadosModal" style="">
+                <form id="frmServicios" style="">
 
                     <md-dialog-content style="background-color: rgb(250,250,250);">
                         <div layout="row" layout-align="">

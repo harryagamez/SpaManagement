@@ -942,7 +942,7 @@
         $scope.Empleados = [];
         $scope.Municipios = [];
         $scope.TipoPagos = [];
-        $scope.Barrios = [];
+        $scope.Barrios = [];        
         $scope.MunicipioSeleccionado = -1;
         $scope.BarrioSeleccionado = -1;
         $scope.EstadoSeleccionado = 'ACTIVO';
@@ -971,7 +971,7 @@
             Monto: '',
             Estado: $scope.EstadoSeleccionado,
             Id_Empresa: $scope.IdEmpresa
-        }
+        }        
 
         $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1 });
         $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });
@@ -985,6 +985,11 @@
 
 
         // INVOCACIONES API
+        // Asignar Servicios Empleados
+        $scope.AsignarServicios = function () {
+
+        }
+
         // Guardar Empleado
         $scope.GuardarEmpleado = function () {
 
@@ -1113,6 +1118,25 @@
                             $scope.TipoPagos.push({ id_TipoPago: '00000000-000-000-000000000000', descripcion: '[Seleccione]', criterio: '' });
                             $scope.TipoPagos = $filter('orderBy')($scope.TipoPagos, 'descripcion', false);
 
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+        }
+
+        // Consultar Servicios
+        $scope.ConsultarServicios = function () {
+
+            SPAService._consultarServicios($scope.IdEmpresa)
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+                            debugger;
+                            $scope.Servicios = [];
+                            $scope.Servicios = result.data;                            
+                            $scope.Servicios = $filter('orderBy')($scope.Servicios, 'id_Servicio', false);
                         }
                     }, function (err) {
                         toastr.remove();
@@ -1346,7 +1370,7 @@
             }
         }
 
-        //API GRID OPTIONS
+        //API GRID EMPLEADOS OPTIONS
         $scope.EmpleadosGridOptionsColumns = [
 
             {
@@ -1411,11 +1435,48 @@
             getRowStyle: ChangeRowColor
         }
 
+
+        //API GRID ASIGNAR SERVICIOS OPTIONS
+        $scope.AsignarServiciosGridOptionsColumns = [
+            
+            {
+                headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+                cellRenderer: function () {
+                    return "<i data-ng-click='DesasignarServicio(data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>delete_sweep</i>";
+                },
+            },            
+            {
+                headerName: "Servicio", field: 'Servicio', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Tipo", field: 'tipo', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            }  
+        ];
+
+        $scope.AsignarServiciosGridOptions = {
+
+            defaultColDef: {
+                resizable: true
+            },
+            columnDefs: $scope.AsignarServiciosGridOptionsColumns,
+            rowData: [],
+            enableSorting: true,
+            enableFilter: true,
+            enableColResize: true,
+            angularCompileRows: true,
+            onGridReady: function (params) {
+            },
+            fullWidthCellRenderer: true,
+            animateRows: true,
+            suppressRowClickSelection: true,
+            rowSelection: 'multiple'            
+        }
+
         //Eventos
         $scope.Cancelar = function () {
             $mdDialog.cancel();
             $('#txtBuscarServicio').focus();
-        };
+        };       
 
         window.onresize = function () {
 
@@ -1426,6 +1487,7 @@
         }
 
         //INVOCACIÓN FUNCIONES
+        $scope.ConsultarServicios();
         $scope.ConsultarEmpleados();
         $scope.ConsultarMunicipios();
         $scope.ConsultarTipoPagos();
