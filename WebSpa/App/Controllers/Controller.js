@@ -987,31 +987,30 @@
 
         // INVOCACIONES API
         // Asignar Servicios Empleados
-        $scope.AsignarEmpleadoServicio = function () {            
-            $scope.ListaServiciosAsignados = [];
-            $scope.ListaServiciosAsignados = $scope.ServiciosAsignados.map(function (e) {
-                return { Id_Empleado_Servicio: -1, Id_Servicio: e, Id_Empleado: $scope.IdEmpleado }
-            });
+        $scope.AsignarEmpleadoServicio = function () {
+            if ($scope.ServiciosAsignados.length > 0) {
+                $scope.ListaServiciosAsignados = [];
+                $scope.ListaServiciosAsignados = $scope.ServiciosAsignados.map(function (e) {
+                    return { Id_Empleado_Servicio: -1, Id_Servicio: e, Id_Empleado: $scope.IdEmpleado }
+                });
+                SPAService._asignarEmpleadoServicio(JSON.stringify($scope.ListaServiciosAsignados))
+                    .then(
+                        function (result) {
+                            if (result.data === true) {
+                                toastr.success('Servicios asignados correctamente', '', $scope.toastrOptions);
+                                //$scope.ConsultarEmpleadosServicios();
+                                //$scope.LimpiarDatos();
+                                $('#txtCedula').focus();
 
-            SPAService._asignarEmpleadoServicio(JSON.stringify($scope.ListaServiciosAsignados))
-                .then(
-                    function (result) {
-                        if (result.data === true) {
-                            debugger;
-                            toastr.success('Servicios asignados correctamente', '', $scope.toastrOptions);
-                            //$scope.ConsultarEmpleadosServicios();
-                            //$scope.LimpiarDatos();
-                            $('#txtCedula').focus();
-
-                        }
-                    }, function (err) {
-                        toastr.remove();
-                        if (err.data !== null && err.status === 500)
-                            toastr.error(err.data, '', $scope.toastrOptions);
-                    })
-
-            
-
+                            }
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        }) 
+            }
+            else
+                toastr.error('Debe seleccionar al menos 1 servicio', '', $scope.toastrOptions);            
         }
 
         // Guardar Empleado
