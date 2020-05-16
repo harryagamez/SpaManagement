@@ -1067,6 +1067,33 @@
 
         }
 
+        // Consultar EmpleadoServicios
+        $scope.ConsultarEmpleadoServicio = function (id_Empleado) {
+            debugger;
+            SPAService._consultarEmpleadoServicio(id_Empleado)
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+
+                            $scope.EmpleadoServicio = [];
+                            $scope.EmpleadoServicio = result.data;
+                            $scope.EmpleadosGridOptions.api.setRowData($scope.Empleados);
+
+                            $timeout(function () {
+                                $scope.EmpleadoServicioGridOptions.api.sizeColumnsToFit();
+                            }, 200);
+
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+
+            $('#txtCedula').focus();
+
+        }
+
         // Consultar Barrios
         $scope.ConsultarBarrios = function (id_Municipio) {
 
@@ -1344,6 +1371,7 @@
 
         $scope.AsignarServicios = function (data) {            
             $scope.IdEmpleado = data.id_Empleado;
+            $scope.ConsultarEmpleadoServicio(data.id_Empleado);
             $scope.ModalAsignarServicios();
         }
 
@@ -1478,7 +1506,7 @@
 
 
         //API GRID ASIGNAR SERVICIOS OPTIONS
-        $scope.AsignarServiciosGridOptionsColumns = [
+        $scope.EmpleadoServicioGridOptionsColumns = [
             
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
@@ -1494,12 +1522,12 @@
             }  
         ];
 
-        $scope.AsignarServiciosGridOptions = {
+        $scope.EmpleadoServicioGridOptions = {
 
             defaultColDef: {
                 resizable: true
             },
-            columnDefs: $scope.AsignarServiciosGridOptionsColumns,
+            columnDefs: $scope.EmpleadoServicioGridOptionsColumns,
             rowData: [],
             enableSorting: true,
             enableFilter: true,
@@ -1523,7 +1551,7 @@
 
             $timeout(function () {
                 $scope.EmpleadosGridOptions.api.sizeColumnsToFit();
-            }, 200);
+            }, 200);           
 
         }
 

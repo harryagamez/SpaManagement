@@ -250,7 +250,7 @@
             _registrarActualizarEmpleado: RegistrarActualizarEmpleado,
             _guardarProducto: GuardarProducto,
             _asignarEmpleadoServicio: AsignarEmpleadoServicio,
-
+            _consultarEmpleadoServicio : ConsultarEmpleadoServicio
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -453,6 +453,22 @@
                     deferred.reject(err);
                 });
 
+            return deferred.promise;
+        }
+
+        function ConsultarEmpleadoServicio(id_empleado) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarEmpleadoServicio',
+                function (data) {
+                    localStorageService.set('masterdataEmpleadoservicio',
+                        {
+                            empleadoservicio: data
+                        });
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
             return deferred.promise;
         }
 

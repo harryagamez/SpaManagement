@@ -285,6 +285,20 @@ namespace Spa.Application.SpaService
             }
         }
 
+        public List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado)
+        {
+            try
+            {
+                List<EmpleadoServicio> _empleadoservicio = _spaRepository.ConsultarEmpleadoServicio(IdEmpleado);
+
+                return _empleadoservicio;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public bool GuardarProducto(List<Producto> _Producto)
         {
             try
