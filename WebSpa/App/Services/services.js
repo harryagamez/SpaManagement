@@ -248,7 +248,8 @@
             _consultarTipoTransacciones: ConsultarTipoTransacciones,
             _consultarProductos: ConsultarProductos,
             _registrarActualizarEmpleado: RegistrarActualizarEmpleado,
-            _guardarProducto: GuardarProducto
+            _guardarProducto: GuardarProducto,
+            _asignarEmpleadoServicio: AsignarEmpleadoServicio,
 
         }
 
@@ -431,6 +432,20 @@
             var deferred = $q.defer();
 
             serviceRest.Post('SPA', 'RegistrarActualizarEmpleado', empleado,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
+            return deferred.promise;
+        }
+
+        function AsignarEmpleadoServicio(empleadoservicio) {
+            var deferred = $q.defer();
+
+            serviceRest.Post('SPA', 'AsignarEmpleadoServicio', empleadoservicio,
                 function (data) {
                     deferred.resolve(data);
                 },

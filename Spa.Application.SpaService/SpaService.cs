@@ -273,6 +273,18 @@ namespace Spa.Application.SpaService
             }
         }
 
+        public bool AsignarEmpleadoServicio(List<EmpleadoServicio> _EmpleadoServicio)
+        {
+            try
+            {
+                return _spaRepository.AsignarEmpleadoServicio(_EmpleadoServicio);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public bool GuardarProducto(List<Producto> _Producto)
         {
             try

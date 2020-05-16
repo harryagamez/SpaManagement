@@ -943,7 +943,8 @@
         $scope.Empleados = [];
         $scope.Municipios = [];
         $scope.TipoPagos = [];
-        $scope.Barrios = [];        
+        $scope.Barrios = []; 
+        $scope.ServiciosAsignados = [];
         $scope.MunicipioSeleccionado = -1;
         $scope.BarrioSeleccionado = -1;
         $scope.EstadoSeleccionado = 'ACTIVO';
@@ -971,7 +972,7 @@
             Monto: '',
             Estado: $scope.EstadoSeleccionado,
             Id_Empresa: $scope.IdEmpresa
-        }        
+        }       
 
         $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1 });
         $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });
@@ -986,7 +987,30 @@
 
         // INVOCACIONES API
         // Asignar Servicios Empleados
-        $scope.AsignarServicios = function () {
+        $scope.AsignarEmpleadoServicio = function () {            
+            $scope.ListaServiciosAsignados = [];
+            $scope.ListaServiciosAsignados = $scope.ServiciosAsignados.map(function (e) {
+                return { Id_Empleado_Servicio: -1, Id_Servicio: e, Id_Empleado: $scope.IdEmpleado }
+            });
+
+            SPAService._asignarEmpleadoServicio(JSON.stringify($scope.ListaServiciosAsignados))
+                .then(
+                    function (result) {
+                        if (result.data === true) {
+                            debugger;
+                            toastr.success('Servicios asignados correctamente', '', $scope.toastrOptions);
+                            //$scope.ConsultarEmpleadosServicios();
+                            //$scope.LimpiarDatos();
+                            $('#txtCedula').focus();
+
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+
+            
 
         }
 
@@ -1136,8 +1160,7 @@
             SPAService._consultarServicios($scope.IdEmpresa)
                 .then(
                     function (result) {
-                        if (result.data !== undefined && result.data !== null) {
-                            debugger;
+                        if (result.data !== undefined && result.data !== null) {                            
                             $scope.Servicios = [];
                             $scope.Servicios = result.data;                            
                             $scope.Servicios = $filter('orderBy')($scope.Servicios, 'id_Servicio', false);
@@ -1187,6 +1210,14 @@
         //Foco Monto
         $scope.FocoMonto = function () {
             $scope.$broadcast('selectChanged');
+        }
+
+        //Asignar Remover Elementos Lista Servicios
+        $scope.AsignarRemover = function (ServiciosSeleccionados) {
+            if (ServiciosSeleccionados.length > 0)
+                $scope.ServiciosAsignados = ServiciosSeleccionados;
+            else
+                $scope.ServiciosAsignados.splice($scope.ServiciosAsignados.indexOf(ServiciosSeleccionados), 1);
         }
 
         // Validar Datos
@@ -1297,8 +1328,7 @@
         }
 
         //Modal Asignar Servicio
-        $scope.ModalAsignarServicios = function () {
-
+        $scope.ModalAsignarServicios = function () { 
             $scope.AccionEmpleado = 'Asignar Servicios';
 
             $mdDialog.show({
@@ -1313,7 +1343,8 @@
                 });
         }
 
-        $scope.AsignarServicios = function (data) {
+        $scope.AsignarServicios = function (data) {            
+            $scope.IdEmpleado = data.id_Empleado;
             $scope.ModalAsignarServicios();
         }
 

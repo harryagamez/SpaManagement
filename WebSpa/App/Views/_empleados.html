@@ -206,7 +206,6 @@
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgAsignarServicios">
             <md-dialog id="mdAsignarServicios" aria-label="" style="width: 35% !important; color: #666666 !important;">
-
                 <md-toolbar>
                     <div class="md-toolbar-tools">
                         <h2 style="font-size:16px;">{{AccionEmpleado}}</h2>
@@ -226,15 +225,15 @@
                             </div>
                             <div flex="60">                                
                                 <md-input-container class="md-block" style="margin:0; padding: 0;">
-                                    <md-select ng-model="ServiciosSeleccionados" multiple class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slServicios" tabindex=1>
+                                    <md-select ng-model="ServiciosSeleccionados" multiple ng-change="AsignarRemover(ServiciosSeleccionados)" aria-label="checks asignarservicio" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slServicios" tabindex=1>
                                         <md-optgroup label="Servicios">
-                                            <md-option ng-value="servicio.nombre" ng-repeat="servicio in Servicios">{{servicio.nombre}}</md-option>
+                                            <md-option ng-value="servicio.id_Servicio" ng-repeat="servicio in Servicios">{{servicio.nombre}}</md-option>
                                         </md-optgroup>
                                     </md-select>
                                 </md-input-container>
                             </div>
                             <div flex="25">
-                                <md-button type="button" id="btnNuevoModal" ng-hide="OcultarbtnNuevo" class="btn-spa groupX middle" data-toggle="tooltip" title="Asignar Servicio" data-ng-click="AsignarServicio()">
+                                <md-button type="button" id="btnNuevoModal" class="btn-spa groupX middle" data-toggle="tooltip" title="Asignar Servicio" data-ng-click="AsignarEmpleadoServicio()">
                                     Agregar<i class="material-icons md-18" style="transform: scaleX(-1)">add</i>
                                 </md-button>
                             </div>                            

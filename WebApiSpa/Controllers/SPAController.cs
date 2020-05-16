@@ -228,6 +228,40 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/SPA/RegistrarActualizarEmpleado")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult RegistrarActualizarEmpleado(List<Empleado> empleado)
+        {
+            try
+            {
+                bool result = _spaService.RegistrarActualizarEmpleado(empleado);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error actualizando el empleado: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/AsignarEmpleadoServicio")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult AsignarEmpleadoServicio(List<EmpleadoServicio> empleadoservicio)
+        {
+            try
+            {
+                bool result = _spaService.AsignarEmpleadoServicio(empleadoservicio);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error asignando servicio al empleado: " + ex.Message);
+            }
+        }
+
         [HttpGet]
         [Route("api/SPA/ConsultarTipoTransacciones")]
         [HttpCache(DefaultExpirySeconds = 2)]
@@ -277,24 +311,7 @@ namespace WebApiSpa.Controllers
             {
                 return Content(HttpStatusCode.InternalServerError, "Error consultando los tipos de pago: " + ex.Message);
             }
-        }
-
-        [HttpPost]
-        [Route("api/SPA/RegistrarActualizarEmpleado")]
-        [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult RegistrarActualizarEmpleado(List<Empleado> empleado)
-        {
-            try
-            {
-                bool result = _spaService.RegistrarActualizarEmpleado(empleado);
-
-                return Content(HttpStatusCode.OK, result);
-            }
-            catch (Exception ex)
-            {
-                return Content(HttpStatusCode.InternalServerError, "Error actualizando el empleado: " + ex.Message);
-            }
-        }
+        }        
 
         [HttpPost]
         [Route("api/SPA/GuardarProducto")]
