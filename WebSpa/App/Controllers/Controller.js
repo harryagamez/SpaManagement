@@ -1072,8 +1072,7 @@
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {                            
                             $scope.EmpleadoServicio = [];
-                            $scope.EmpleadoServicio = result.data;
-                            debugger;
+                            $scope.EmpleadoServicio = result.data;                            
                             $scope.EmpleadoServicioGridOptions.api.setRowData($scope.EmpleadoServicio);
 
                             $timeout(function () {
@@ -1535,7 +1534,7 @@
                 headerName: "Servicio", field: 'servicio', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Tipo", field: 'tipoServicio', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Tipo", field: 'tipoServicio', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true
             }  
         ];
 
