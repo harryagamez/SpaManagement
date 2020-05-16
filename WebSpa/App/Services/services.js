@@ -56,7 +56,7 @@
             localStorageService.remove('masterdataMunicipios');
             localStorageService.remove('masterdataBarrios');
             localStorageService.remove('masterdataTipoServicio');
-            localStorageService.remove('masterdataTipoTransacciones');
+            localStorageService.remove('masterdataTipoTransacciones');            
 
             $rootScope.Menu = [];
             $rootScope.TipoClientes = [];
@@ -133,7 +133,7 @@
             localStorageService.remove('masterdataMunicipios');
             localStorageService.remove('masterdataBarrios');
             localStorageService.remove('masterdataTipoServicio');
-            localStorageService.remove('masterdataTipoTransacciones');
+            localStorageService.remove('masterdataTipoTransacciones');            
 
             $rootScope.Menu = [];
             $rootScope.TipoClientes = [];
@@ -183,7 +183,7 @@
 
                 var masterdataTipoServicio = localStorageService.get('masterdataTipoServicio');
                 if (masterdataTipoServicio)
-                    $rootScope.TipoServicios = masterdataTipoServicio.tipoServicios;
+                    $rootScope.TipoServicios = masterdataTipoServicio.tipoServicios;                
 
                 var masterDataTipoPagos = localStorageService.get('masterdataTipoPagos');
                 if (masterDataTipoPagos)
@@ -456,14 +456,10 @@
             return deferred.promise;
         }
 
-        function ConsultarEmpleadoServicio(id_empleado) {
+        function ConsultarEmpleadoServicio(IdEmpleado) {
             var deferred = $q.defer();
-            serviceRest.Get('SPA', 'ConsultarEmpleadoServicio',
+            serviceRest.Get('SPA', 'ConsultarEmpleadoServicio?IdEmpleado=' + IdEmpleado,
                 function (data) {
-                    localStorageService.set('masterdataEmpleadoservicio',
-                        {
-                            empleadoservicio: data
-                        });
                     deferred.resolve(data);
                 },
                 function (err) {

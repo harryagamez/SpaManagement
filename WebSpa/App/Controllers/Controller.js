@@ -1046,8 +1046,7 @@
             SPAService._consultarEmpleados($scope.IdEmpresa)
                 .then(
                     function (result) {
-                        if (result.data !== undefined && result.data !== null) {
-
+                        if (result.data !== undefined && result.data !== null) {                            
                             $scope.Empleados = [];
                             $scope.Empleados = result.data;
                             $scope.EmpleadosGridOptions.api.setRowData($scope.Empleados);
@@ -1068,16 +1067,16 @@
         }
 
         // Consultar EmpleadoServicios
-        $scope.ConsultarEmpleadoServicio = function (id_Empleado) {
-            debugger;
-            SPAService._consultarEmpleadoServicio(id_Empleado)
+        $scope.ConsultarEmpleadoServicio = function () {
+           
+            SPAService._consultarEmpleadoServicio($scope.IdEmpleado)
                 .then(
                     function (result) {
-                        if (result.data !== undefined && result.data !== null) {
-
+                        if (result.data !== undefined && result.data !== null) {                            
                             $scope.EmpleadoServicio = [];
                             $scope.EmpleadoServicio = result.data;
-                            $scope.EmpleadosGridOptions.api.setRowData($scope.Empleados);
+                            debugger;
+                            $scope.EmpleadoServicioGridOptions.api.setRowData($scope.EmpleadoServicio);
 
                             $timeout(function () {
                                 $scope.EmpleadoServicioGridOptions.api.sizeColumnsToFit();
@@ -1178,6 +1177,24 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
 
+        }
+
+        //Consultar Tipo Servicios
+        $scope.ConsultarTipoServicios = function () {
+
+            SPAService._consultarTipoServicios()
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+
+                            $scope.TipoServicios = [];
+                            $scope.TipoServicios = result.data;                            
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
         }
 
         // Consultar Servicios
@@ -1371,7 +1388,7 @@
 
         $scope.AsignarServicios = function (data) {            
             $scope.IdEmpleado = data.id_Empleado;
-            $scope.ConsultarEmpleadoServicio(data.id_Empleado);
+            $scope.ConsultarEmpleadoServicio();
             $scope.ModalAsignarServicios();
         }
 
@@ -1515,10 +1532,10 @@
                 },
             },            
             {
-                headerName: "Servicio", field: 'Servicio', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
+                headerName: "Servicio", field: 'servicio', width: 110, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
             },
             {
-                headerName: "Tipo", field: 'tipo', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Tipo", field: 'tipoServicio', width: 140, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
             }  
         ];
 
@@ -1557,6 +1574,7 @@
 
         //INVOCACIÓN FUNCIONES
         $scope.ConsultarServicios();
+        $scope.ConsultarTipoServicios();
         $scope.ConsultarEmpleados();
         $scope.ConsultarMunicipios();
         $scope.ConsultarTipoPagos();

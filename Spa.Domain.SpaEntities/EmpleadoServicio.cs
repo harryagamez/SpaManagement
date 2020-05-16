@@ -1,6 +1,8 @@
-﻿namespace Spa.Domain.SpaEntities
+﻿using Spa.Domain.SpaEntities.Extensions;
+using System;
+namespace Spa.Domain.SpaEntities
 {
-    public class EmpleadoServicio
+    public class EmpleadoServicio : BusquedaServicioTipo
     {
         public int Id_Empleado_Servicio { get; set; }
         public int Id_Empleado { get; set; }
