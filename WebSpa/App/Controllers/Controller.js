@@ -997,11 +997,9 @@
                     .then(
                         function (result) {
                             if (result.data === true) {
-                                toastr.success('Servicios asignados correctamente', '', $scope.toastrOptions);
-                                //$scope.ConsultarEmpleadosServicios();
-                                //$scope.LimpiarDatos();
-                                $('#txtCedula').focus();
-
+                                toastr.success('Servicios asignados correctamente', '', $scope.toastrOptions);                                
+                                $scope.ServiciosSeleccionados = [];
+                                $scope.ConsultarEmpleadoServicio();
                             }
                         }, function (err) {
                             toastr.remove();
@@ -1248,6 +1246,8 @@
             $scope.CedulaReadOnly = false;
 
         }
+
+
 
         // FUNCIONES
         //Foco Monto
@@ -1532,10 +1532,10 @@
                 },
             },            
             {
-                headerName: "Servicio", field: 'servicio', width: 110, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
+                headerName: "Servicio", field: 'servicio', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Tipo", field: 'tipoServicio', width: 140, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
+                headerName: "Tipo", field: 'tipoServicio', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             }  
         ];
 
