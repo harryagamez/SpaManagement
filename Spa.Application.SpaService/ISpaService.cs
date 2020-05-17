@@ -27,5 +27,6 @@ namespace Spa.Application.SpaService
         List<TipoTransaccion> ConsultarTipoTransacciones();
         List<Producto> ConsultarProductos(string IdEmpresa);
         bool GuardarProducto(List<Producto> _Producto);
+        List<Transaccion> ConsultarProductoTransacciones(int IdProducto, string IdEmpresa);
     }
 }

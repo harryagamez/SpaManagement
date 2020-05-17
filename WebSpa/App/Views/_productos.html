@@ -162,6 +162,35 @@
                 </md-dialog>
             </div>
 
+            <div class="md-dialog-container" id="dlgProductoTransacciones">
+
+                <md-dialog id="mdProductoTransacciones" style="width: 50% !important; color: #666666 !important;">
+                    <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2 style="font-size:16px;">{{ DescripcionProductoTransacciones }}</h2>
+                            <span flex></span>
+                            <md-button class="md-icon-button" ng-click="Cancelar()">
+                                <i class="material-icons" style="transform: scaleX(-1)">close</i>
+                            </md-button>
+                        </div>
+                    </md-toolbar>
+
+                    <form id="frmServiciosModal">
+
+                        <md-dialog-content style="background-color: rgb(250,250,250);">
+
+                            <div layout="row" layout-align="center center">
+                                <div id="divGridProductoTransacciones" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 300px); margin-top:11px; overflow-y:auto;">
+                                    <div id="divProductoTransaccionesGridOptions" data-ag-grid="ProductoTransaccionesGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+                                </div>
+                            </div>
+
+                        </md-dialog-content>
+                    </form>
+
+                </md-dialog>
+            </div>
+
         </div>
 
     </div>

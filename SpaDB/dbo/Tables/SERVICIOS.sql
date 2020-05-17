@@ -5,6 +5,7 @@
     [TIEMPO]             INT              NULL,
     [VALOR]              REAL             CONSTRAINT [DF_SERVICIOS_VALOR] DEFAULT ((0)) NULL,
     [ID_TIPOSERVICIO]    INT              NULL,
+    [LOGO_BASE64]        NVARCHAR(MAX)    NULL,
     [ESTADO]             CHAR (10)        NULL,
     [FECHA_REGISTRO]     DATETIME         NULL,
     [FECHA_MODIFICACION] DATETIME         NULL,

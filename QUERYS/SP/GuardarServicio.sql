@@ -1,4 +1,4 @@
-CREATE PROCEDURE GuardarServicio(@JsonServicio NVARCHAR(MAX))
+ALTER PROCEDURE GuardarServicio(@JsonServicio NVARCHAR(MAX))
 AS
 BEGIN
 	
@@ -18,6 +18,9 @@ BEGIN
 		JSON_VALUE (C.value, '$.Id_Empresa') AS Id_Empresa,
 		JSON_VALUE (C.value, '$.Logo_Base64') AS Logo_Base64
 	FROM OPENJSON(@JsonServicio) AS C
+
+	SELECT * FROM #TempServicio
+	RETURN
 
 	BEGIN TRY
 		

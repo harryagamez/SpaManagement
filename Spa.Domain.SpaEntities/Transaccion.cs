@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Spa.Domain.SpaEntities.Extensions;
+using System;
 
 namespace Spa.Domain.SpaEntities
 {
-    public class Transaccion
+    public class Transaccion : BusquedaProductoTransaccion
     {
         public int Id_Transaccion { get; set; }
         public DateTime? Fecha { get; set; }

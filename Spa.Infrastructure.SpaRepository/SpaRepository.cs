@@ -955,5 +955,48 @@ namespace Spa.Infrastructure.SpaRepository
                 throw;
             }
         }
+
+        public List<Transaccion> ConsultarProductoTransacciones(int IdProducto, string IdEmpresa)
+        {
+            DataTable _datatable = new DataTable();
+            List<Transaccion> _transacciones = new List<Transaccion>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarProductoTransacciones";
+                        _command.Parameters.AddWithValue("@IdProducto", IdProducto);
+                        _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _transacciones = _datatable.DataTableToList<Transaccion>();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _transacciones;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

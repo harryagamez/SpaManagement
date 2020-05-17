@@ -324,5 +324,19 @@ namespace Spa.Application.SpaService
                 throw;
             }
         }
+
+        public List<Transaccion> ConsultarProductoTransacciones(int IdProducto, string IdEmpresa)
+        {
+            try
+            {
+                List<Transaccion> _transacciones = _spaRepository.ConsultarProductoTransacciones(IdProducto, IdEmpresa);
+
+                return _transacciones;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }
