@@ -228,6 +228,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/SPA/ConsultarEmpleado")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarEmpleado(string Cedula, string IdEmpresa)
+        {
+            try
+            {
+                Empleado _empleado = _spaService.ConsultarEmpleado(Cedula, IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _empleado);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando el empleado: " + ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("api/SPA/RegistrarActualizarEmpleado")]
         [HttpCache(DefaultExpirySeconds = 2)]
