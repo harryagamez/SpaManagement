@@ -251,7 +251,7 @@
             _guardarProducto: GuardarProducto,
             _asignarEmpleadoServicio: AsignarEmpleadoServicio,
             _consultarEmpleadoServicio: ConsultarEmpleadoServicio,
-            _consultarProductoTransacciones: ConsultarProductoTransacciones
+            _consultarProductoTransacciones: ConsultarProductoTransacciones,
             _consultarEmpleado: ConsultarEmpleado
         }
 
