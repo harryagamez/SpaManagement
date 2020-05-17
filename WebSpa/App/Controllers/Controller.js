@@ -250,16 +250,16 @@
 
                                 $scope.ConsultarBarrios($scope.MunicipioSeleccionado);
 
+                                $('#txtNombre').focus();
+                                $scope.CedulaReadOnly = true;
+
                             }
 
                         }, function (err) {
                             toastr.remove();
                             if (err.data !== null && err.status === 500)
                                 toastr.error(err.data, '', $scope.toastrOptions);
-                        })
-
-                $('#txtNombre').focus();
-                $scope.CedulaReadOnly = true;
+                        })               
 
             }
 
@@ -1091,7 +1091,7 @@
                         function (result) {
 
                             if (result.data !== undefined && result.data !== null) {
-                                debugger;
+                                
                                 $scope.Accion = 'BUSQUEDA_EMPLEADO';
 
                                 $scope.Empleado.Id_Empleado = result.data.id_Empleado;
@@ -1116,16 +1116,16 @@
 
                                 $scope.ConsultarBarrios($scope.MunicipioSeleccionado);
 
+                                $('#txtNombre').focus();
+                                $scope.CedulaReadOnly = true;
+
                             }
 
                         }, function (err) {
                             toastr.remove();
                             if (err.data !== null && err.status === 500)
                                 toastr.error(err.data, '', $scope.toastrOptions);
-                        })
-
-                $('#txtNombre').focus();
-                $scope.CedulaReadOnly = true;
+                        })               
 
             }
 

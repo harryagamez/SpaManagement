@@ -50,7 +50,7 @@
                         <label class="label-form-clientes" style="">
                             Cédula:
                         </label>                        
-                            <input ng-model="Cliente.Cedula" ng-readonly="CedulaReadOnly" id="txtCedula" numbers-only maxlength="15" data-ng-enter="ConsultarCliente($event, Cliente.Cedula)" type="text" class="" placeholder="Digite su cédula..." value="" tabindex=1>                        
+                            <input ng-model="Cliente.Cedula" ng-readonly="CedulaReadOnly" id="txtCedula" numbers-only maxlength="15" data-ng-enter="ConsultarCliente($event, Cliente.Cedula)" ng-blur="ConsultarCliente($event, Cliente.Cedula)" type="text" class="" placeholder="Digite su cédula..." value="" tabindex=1>                        
                     </md-input-container>
                 </div>
 
