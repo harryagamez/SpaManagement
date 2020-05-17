@@ -1064,6 +1064,73 @@
 
         }
 
+        //Consultar Empleado
+        $scope.ConsultarEmpleado = function (e, cedula_empleado) {
+
+            $scope.Accion = '';
+
+            $scope.Empleado.Id_Empleado = -1;
+            $scope.Empleado.Nombres = '';
+            $scope.Empleado.Apellidos = '';
+            $scope.Empleado.Telefono_Fijo = '';
+            $scope.Empleado.Telefono_Movil = '';            
+            $scope.Empleado.Direccion = '';
+            $scope.Empleado.Id_Barrio = -1;
+            $scope.Empleado.Id_Municipio = -1;
+            $scope.Empleado.Fecha_Nacimiento = $filter('date')(new Date(), 'MM-dd-yyyy');
+            $scope.Empleado.Id_TipoPago = -1;
+            $scope.Empleado.Estado_Civil = '';
+            $scope.Empleado.Monto = '';
+            $scope.Empleado.Numero_Hijos;
+            $scope.Empleado.Estado = $scope.EstadoSeleccionado;
+
+            if (cedula_empleado !== null && cedula_empleado !== '') {
+
+                SPAService._consultarEmpleado(cedula_empleado, $scope.IdEmpresa)
+                    .then(
+                        function (result) {
+
+                            if (result.data !== undefined && result.data !== null) {
+                                debugger;
+                                $scope.Accion = 'BUSQUEDA_EMPLEADO';
+
+                                $scope.Empleado.Id_Empleado = result.data.id_Empleado;
+                                $scope.Empleado.Cedula = result.data.cedula;
+                                $scope.Empleado.Nombres = result.data.nombres;
+                                $scope.Empleado.Apellidos = result.data.apellidos;
+                                $scope.Empleado.Telefono_Fijo = result.data.telefono_Fijo;
+                                $scope.Empleado.Telefono_Movil = result.data.telefono_Movil;
+                                $scope.Empleado.Numero_Hijos = result.data.numero_Hijos;
+                                $scope.Empleado.Direccion = result.data.direccion;
+                                $scope.Empleado.Id_Barrio = result.data.id_Barrio;
+                                $scope.Empleado.Id_Municipio = result.data.id_Municipio;
+                                $scope.Empleado.Fecha_Nacimiento = $filter('date')(new Date(result.data.fecha_Nacimiento), 'MM/dd/yyyy');
+                                $scope.Empleado.Id_TipoPago = result.data.id_TipoPago;
+                                $scope.Empleado.Estado_Civil = result.data.estado_Civil;                                
+                                $scope.Empleado.Estado = result.data.estado;
+                                $scope.Empleado.Monto = result.data.monto;
+
+                                $scope.EstadoCivilSeleccionado = $scope.Empleado.Estado_Civil;
+                                $scope.MunicipioSeleccionado = $scope.Empleado.Id_Municipio;
+                                $scope.TipoPagoSeleccionado = $scope.Empleado.Id_TipoPago;
+
+                                $scope.ConsultarBarrios($scope.MunicipioSeleccionado);
+
+                            }
+
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        })
+
+                $('#txtNombre').focus();
+                $scope.CedulaReadOnly = true;
+
+            }
+
+        }
+
         // Consultar EmpleadoServicios
         $scope.ConsultarEmpleadoServicio = function () {
            

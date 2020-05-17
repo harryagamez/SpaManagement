@@ -250,7 +250,8 @@
             _registrarActualizarEmpleado: RegistrarActualizarEmpleado,
             _guardarProducto: GuardarProducto,
             _asignarEmpleadoServicio: AsignarEmpleadoServicio,
-            _consultarEmpleadoServicio : ConsultarEmpleadoServicio
+            _consultarEmpleadoServicio: ConsultarEmpleadoServicio,
+            _consultarEmpleado: ConsultarEmpleado
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -387,6 +388,18 @@
         function ConsultarEmpleados(id_empresa) {
             var deferred = $q.defer();
             serviceRest.Get('SPA', 'ConsultarEmpleados?IdEmpresa=' + id_empresa,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarEmpleado(cedula_empleado, id_empresa) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarEmpleado?Cedula=' + cedula_empleado + '&IdEmpresa=' + id_empresa,
                 function (data) {
                     deferred.resolve(data);
                 },

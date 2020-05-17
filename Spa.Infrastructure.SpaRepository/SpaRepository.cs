@@ -612,6 +612,49 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public Empleado ConsultarEmpleado(string Cedula, string IdEmpresa)
+        {
+            DataTable _datatable = new DataTable();
+            Empleado _empleado = new Empleado();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarEmpleado";
+                        _command.Parameters.AddWithValue("@CedulaEmpleado", Cedula);
+                        _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _empleado = _datatable.DataTableToList<Empleado>().FirstOrDefault();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _empleado;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado)
         {
             DataTable _datatable = new DataTable();

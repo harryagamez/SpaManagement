@@ -219,6 +219,20 @@ namespace Spa.Application.SpaService
             }
         }
 
+        public Empleado ConsultarEmpleado(string Cedula, string IdEmpresa)
+        {
+            try
+            {
+                Empleado _empleado = _spaRepository.ConsultarEmpleado(Cedula, IdEmpresa);
+
+                return _empleado;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public List<TipoTransaccion> ConsultarTipoTransacciones()
         {
             try

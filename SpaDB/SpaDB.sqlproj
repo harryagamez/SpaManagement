@@ -236,6 +236,7 @@
     <Build Include="dbo\Stored Procedures\GuardarProducto.sql" />
     <Build Include="dbo\Stored Procedures\AsignarEmpleadoServicio.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarEmpleadoServicio.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarEmpleado.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />
