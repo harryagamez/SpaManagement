@@ -250,7 +250,9 @@
             _registrarActualizarEmpleado: RegistrarActualizarEmpleado,
             _guardarProducto: GuardarProducto,
             _asignarEmpleadoServicio: AsignarEmpleadoServicio,
-            _consultarEmpleadoServicio : ConsultarEmpleadoServicio
+            _consultarEmpleadoServicio: ConsultarEmpleadoServicio,
+            _consultarProductoTransacciones: ConsultarProductoTransacciones
+
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -492,6 +494,19 @@
                     deferred.reject(err);
                 });
 
+            return deferred.promise;
+        }
+
+        function ConsultarProductoTransacciones(id_producto, id_empresa) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarProductoTransacciones?IdProducto=' + id_producto + '&IdEmpresa=' + id_empresa,
+                function (data) {
+                    deferred.resolve(data);
+
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
             return deferred.promise;
         }
 

@@ -27,5 +27,6 @@ namespace Spa.Infrastructure.SpaRepository
         bool AsignarEmpleadoServicio(List<EmpleadoServicio> _EmpleadoServicio);
         List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado);
         bool GuardarProducto(List<Producto> _Producto);
+        List<Transaccion> ConsultarProductoTransacciones(int IdProducto, string IdEmpresa);
     }
 }

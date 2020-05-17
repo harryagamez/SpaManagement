@@ -11,6 +11,7 @@ namespace Spa.Domain.SpaEntities
         public int Tiempo { get; set; }
         public float Valor { get; set; }
         public int Id_TipoServicio { get; set; }
+        public string Logo_Base64 { get; set; }
         public string Estado { get; set; }
         public DateTime? Fecha_Registro { get; set; }
         public DateTime? Fecha_Modificacion { get; set; }

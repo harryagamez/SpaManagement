@@ -48,8 +48,8 @@
                     <md-input-container>
                         <label class="label-form-clientes" style="">
                             Nombre Servicio:
-                        </label>                        
-                            <input ng-keyup="onFilterTextBoxChanged()" id="txtBuscarServicio" maxlength="25" data-ng-enter="ConsultarServicio($event, Servicio.Nombre)" type="text" style="min-width: 200px;" placeholder="Digite el nombre del servicio..." tabindex=1>                        
+                        </label>
+                        <input ng-keyup="onFilterTextBoxChanged()" id="txtBuscarServicio" maxlength="25" data-ng-enter="ConsultarServicio($event, Servicio.Nombre)" type="text" style="min-width: 200px;" placeholder="Digite el nombre del servicio..." tabindex=1>
                     </md-input-container>
                 </div>
             </div>
@@ -61,6 +61,8 @@
 
         <!-- Modales -->
         <div style="visibility: hidden">
+
+            <input type="file" name="file" id="ImagenServicio" style="visibility:hidden;" data-toggle="tooltip" title="Upload" data-file-model="SeleccionarImagen($event)" accept=".png, .jpg, .jpeg" />
 
             <div class="md-dialog-container" id="dlgNuevoServicio">
                 <md-dialog id="mdNuevoServicio" aria-label="Nuevo Servicio" style="width: 40% !important; color: #666666 !important;">
@@ -91,7 +93,7 @@
                                         <label class="label-form-servicios" style="">
                                             Descripción Servicio:
                                         </label>
-                                        <textarea ng-model="Servicio.Descripcion" id="txtDescripcionServicio"  type="text" placeholder="Digite la descripción del servicio ..." md-maxlength="300" rows="2" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2 md-autofocus="AccionServicio == 'Editar Servicio'"></textarea>
+                                        <textarea ng-model="Servicio.Descripcion" id="txtDescripcionServicio" type="text" placeholder="Digite la descripción del servicio ..." md-maxlength="300" rows="2" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2 md-autofocus="AccionServicio == 'Editar Servicio'"></textarea>
                                     </md-input-container>
 
                                 </div>
@@ -103,7 +105,7 @@
                                         <label class="label-form-servicios" style="">
                                             Tiempo Servicio(MIN):
                                         </label>
-                                        <input ng-model="Servicio.Tiempo" id="txtTiempoServicio"  numbers-only type="text" style="" class="" placeholder="Digite el tiempo del servicio en minutos ..." value="" tabindex=3>
+                                        <input ng-model="Servicio.Tiempo" id="txtTiempoServicio" numbers-only type="text" style="" class="" placeholder="Digite el tiempo del servicio en minutos ..." value="" tabindex=3>
                                     </md-input-container>
 
                                 </div>
@@ -127,7 +129,7 @@
                                         <label class="label-form-servicios" style="">
                                             Valor Servicio
                                         </label>
-                                        <input ng-model="Servicio.Valor" id="txtValorServicio" numbers-only type="text" style="" class="" placeholder="Digite el valor del servicio ..." value="" tabindex=5>
+                                        <input ng-model="Servicio.Valor" id="txtValorServicio" numbers-only type="text" placeholder="Digite el valor del servicio ..." tabindex=5>
                                     </md-input-container>
 
                                 </div>
@@ -143,17 +145,32 @@
                                     </md-input-container>
                                 </div>
                             </div>
-                            <div layout="row" layout-align="end center">                                
-                                    <md-button type="button" id="btnGuardar" style="margin: 6px 3px !important;" class="btn-spa groupX left" data-toggle="tooltip" title="Guardar" ng-click="GuardarServicio()" tabindex=7>
-                                        <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
-                                    </md-button> 
-                                    <md-button type="button" id="btnNuevoModal" ng-hide="OcultarbtnNuevo" style="margin: 6px 3px !important;" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
-                                        <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                                    </md-button>                                     
+
+                            <div layout="row" layout-sm="column" layout-align="center start" style="margin-top: -15px!important;">
+                                <div flex="50">
+                                    <md-button type="button" id="btnGuardar" style="margin: 6px 3px !important;" class="btn-spa groupX left" data-toggle="tooltip" title="Seleccionar imagen" ng-click="ProcesarImagen()" tabindex=7>
+                                        <i class="material-icons md-18" style="transform: scaleX(-1)">image</i>Imagen Servicio
+                                    </md-button>
+                                </div>
+
+                                <div flex="50">
+                                    <label class="label-form-servicios" style="font-size:11px!important;" data-toggle="tooltip" title="Información imagen">
+                                        {{ InformacionImagen }}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div layout="row" layout-align="end center">
+                                <md-button type="button" id="btnGuardar" style="margin: 6px 3px !important;" class="btn-spa groupX left" data-toggle="tooltip" title="Guardar" ng-click="GuardarServicio()" tabindex=8>
+                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                                </md-button>
+                                <md-button type="button" id="btnNuevoModal" ng-hide="OcultarbtnNuevo" style="margin: 6px 3px !important;" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()" tabindex=9>
+                                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                                </md-button>
                             </div>
                         </md-dialog-content>
                     </form>
-                    
+
                 </md-dialog>
             </div>
 

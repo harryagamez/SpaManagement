@@ -8,6 +8,7 @@
         .directive('renderOptionDatePicker', renderOptionDatePicker)
         .directive('ngEnter', ngEnter)
         .directive('tooltip', tooltip)
+        .directive('fileModel', fileModel)
         .directive('validateEmail', function () {
             var email_regexp = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
             return {
@@ -271,6 +272,23 @@
                 element.bind('mouseleave', function () {
                     $('body>.tooltip').remove();
                 });
+            }
+        };
+    }
+
+    function fileModel() {
+        return {
+            restrict: 'A',
+            scope: {
+                fileModel: '&'
+            },
+            link: function (scope, element, attrs) {
+
+                element.bind('change', function (event) {
+                    scope.$apply();
+                    event.preventDefault();
+                    scope.fileModel({ $event: event });
+                })
             }
         };
     }

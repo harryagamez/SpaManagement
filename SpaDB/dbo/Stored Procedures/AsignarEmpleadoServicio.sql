@@ -16,10 +16,12 @@ BEGIN
 		
 	
 	BEGIN CATCH
+
 		IF OBJECT_ID('tempdb..#TempEmpleadoServicio') IS NOT NULL DROP TABLE #TempEmpleadoServicio
 
         DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE()
-        RAISERROR (@ErrorMessage, 16, 1)	
+        RAISERROR (@ErrorMessage, 16, 1)
+		
 	END CATCH
 END
 

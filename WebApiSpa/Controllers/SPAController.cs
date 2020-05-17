@@ -328,7 +328,7 @@ namespace WebApiSpa.Controllers
             {
                 return Content(HttpStatusCode.InternalServerError, "Error consultando los tipos de pago: " + ex.Message);
             }
-        }        
+        }
 
         [HttpPost]
         [Route("api/SPA/GuardarProducto")]
@@ -344,6 +344,23 @@ namespace WebApiSpa.Controllers
             catch (Exception ex)
             {
                 return Content(HttpStatusCode.InternalServerError, "Error registrando/actualizando el producto: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarProductoTransacciones")]
+        [HttpCache(DefaultExpirySeconds =2)]
+        public IHttpActionResult ConsultarProductoTransacciones(int IdProducto, string IdEmpresa)
+        {
+            try
+            {
+                List<Transaccion> _transacciones = _spaService.ConsultarProductoTransacciones(IdProducto, IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _transacciones);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando las transacciones del producto: " + ex.Message);
             }
         }
     }
