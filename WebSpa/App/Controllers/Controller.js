@@ -259,7 +259,7 @@
                             toastr.remove();
                             if (err.data !== null && err.status === 500)
                                 toastr.error(err.data, '', $scope.toastrOptions);
-                        })               
+                        })
 
             }
 
@@ -283,6 +283,7 @@
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
+
         }
 
         $scope.ConsultarBarrios = function (id_Municipio) {
@@ -427,6 +428,7 @@
             }
 
             return true;
+
         }
 
         // Limpiar Datos
@@ -524,9 +526,11 @@
         }
 
         function ChangeRowColor(params) {
+
             if (params.data.estado === 'INACTIVO') {
                 return { 'background-color': '#ecf0e0', 'color': '#999999', 'font-weight': '300' };
             }
+
         }
 
         function OnRowClicked(event) {
@@ -556,6 +560,7 @@
 
                 $scope.CedulaReadOnly = true;
                 $('#txtNombre').focus();
+
             }
 
         }
@@ -612,7 +617,7 @@
         $scope.GuardarServicio = function () {
 
             if ($scope.ValidarDatos()) {
-                debugger;
+
                 $scope.ObjetoServicio = [];
                 $scope.ObjetoServicio.push($scope.Servicio);
 
@@ -634,6 +639,7 @@
                             if (err.data !== null && err.status === 500)
                                 toastr.error(err.data, '', $scope.toastrOptions);
                         })
+
             }
 
         }
@@ -690,6 +696,7 @@
             $scope.TipoServicioSeleccionado = -1;
 
             if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
+
                 $scope.Servicio.Nombre = data.nombre;
                 $scope.Servicio.Descripcion = data.descripcion;
                 $scope.Servicio.Estado = data.estado;
@@ -700,11 +707,13 @@
                 $scope.Servicio.Tiempo = data.tiempo;
                 $scope.Servicio.Valor = data.valor;
                 $scope.Servicio.Id_Servicio = data.id_Servicio;
+                $scope.Servicio.Logo_Base64 = data.logo_Base64;
                 $scope.TipoServicioSeleccionado = data.id_TipoServicio;
                 $scope.ModalEditarServicio();
                 $scope.NombreServicioReadOnly = true;
 
                 $scope.EstadoSeleccionado = $scope.Servicio.Estado;
+
             }
 
         }
@@ -716,6 +725,7 @@
             if (row === undefined) return;
 
             if (row.data.nombre !== undefined && row.data.nombre !== null) {
+
                 $scope.AccionServicio = 'Editar Servicio';
                 $scope.Servicio.Nombre = row.data.nombre;
                 $scope.Servicio.Descripcion = row.data.descripcion;
@@ -731,6 +741,7 @@
 
                 $scope.NombreServicioReadOnly = true;
                 $scope.OcultarbtnNuevo = true;
+
             }
 
         }
@@ -765,7 +776,7 @@
 
         // Validaciones Servicios
         $scope.ValidarDatos = function () {
-            
+
             $scope.Servicio.Id_TipoServicio = $scope.TipoServicioSeleccionado;
             $scope.Servicio.Estado = $scope.EstadoSeleccionado;
 
@@ -908,25 +919,34 @@
             getRowStyle: ChangeRowColor
 
         }
+
         //Change Row Color Inactive Users
         function ChangeRowColor(params) {
+
             if (params.data.estado === 'INACTIVO') {
                 return { 'background-color': '#ecf0e0', 'color': '#999999', 'font-weight': '300' };
             }
+
         }
 
         $scope.ServiciosGridOptions.getRowNodeId = function (data) {
+
             return data.nombre;
+
         };
 
         $scope.onFilterTextBoxChanged = function () {
-            $scope.ServiciosGridOptions.api.setQuickFilter(document.getElementById('txtBuscarServicio').value);
+
+            $scope.ServiciosGridOptions.api.setQuickFilter($('#txtBuscarServicio').val());
+
         }
 
         // Formatos
         function currencyFormatter(params) {
-            var valueGrid = params.value;
+
+            let valueGrid = params.value;
             return $filter('currency')(valueGrid, '$', 0);
+
         }
 
         // Eventos
@@ -939,8 +959,10 @@
         }
 
         $scope.Cancelar = function () {
+
             $mdDialog.cancel();
             $('#txtBuscarServicio').focus();
+
         };
 
         $scope.SeleccionarImagen = function (event) {
@@ -971,8 +993,10 @@
         }
 
         function getBase64(file) {
-            var reader = new FileReader();
+
+            let reader = new FileReader();
             reader.readAsDataURL(file);
+
             reader.onload = function () {
                 $scope.ImagenServicioBase64 = reader.result;
                 $scope.Servicio.Logo_Base64 = $scope.ImagenServicioBase64;
@@ -983,6 +1007,7 @@
                 console.log('Error: ', error);
                 $("#ImagenServicio").val('');
             };
+
         }
 
         // Invocación Funciones
@@ -1128,7 +1153,7 @@
             $scope.Empleado.Nombres = '';
             $scope.Empleado.Apellidos = '';
             $scope.Empleado.Telefono_Fijo = '';
-            $scope.Empleado.Telefono_Movil = '';            
+            $scope.Empleado.Telefono_Movil = '';
             $scope.Empleado.Direccion = '';
             $scope.Empleado.Id_Barrio = -1;
             $scope.Empleado.Id_Municipio = -1;
@@ -1146,7 +1171,7 @@
                         function (result) {
 
                             if (result.data !== undefined && result.data !== null) {
-                                
+
                                 $scope.Accion = 'BUSQUEDA_EMPLEADO';
 
                                 $scope.Empleado.Id_Empleado = result.data.id_Empleado;
@@ -1161,7 +1186,7 @@
                                 $scope.Empleado.Id_Municipio = result.data.id_Municipio;
                                 $scope.Empleado.Fecha_Nacimiento = $filter('date')(new Date(result.data.fecha_Nacimiento), 'MM/dd/yyyy');
                                 $scope.Empleado.Id_TipoPago = result.data.id_TipoPago;
-                                $scope.Empleado.Estado_Civil = result.data.estado_Civil;                                
+                                $scope.Empleado.Estado_Civil = result.data.estado_Civil;
                                 $scope.Empleado.Estado = result.data.estado;
                                 $scope.Empleado.Monto = result.data.monto;
 
@@ -1180,7 +1205,7 @@
                             toastr.remove();
                             if (err.data !== null && err.status === 500)
                                 toastr.error(err.data, '', $scope.toastrOptions);
-                        })               
+                        })
 
             }
 
@@ -1861,6 +1886,7 @@
 
                 $scope.NombreProductoReadOnly = true;
                 $scope.OcultarbtnNuevo = true;
+
             }
 
         }
@@ -2103,23 +2129,31 @@
         }
 
         function ChangeRowColor(params) {
+
             if (params.data.inventario === 0) {
                 return { 'background-color': '#ecf0e0', 'color': '#999999', 'font-weight': '300' };
             }
+
         }
 
         $scope.ProductosGridOptions.getRowNodeId = function (data) {
+
             return data.nombre;
+
         };
 
         $scope.onFilterTextBoxChanged = function () {
-            $scope.ProductosGridOptions.api.setQuickFilter(document.getElementById('txtBuscarProducto').value);
+
+            $scope.ProductosGridOptions.api.setQuickFilter($('#txtBuscarProducto').val());
+
         }
 
         // Formatos
         function currencyFormatter(params) {
-            var valueGrid = params.value;
+
+            let valueGrid = params.value;
             return $filter('currency')(valueGrid, '$', 0);
+
         }
 
         // Eventos
@@ -2136,8 +2170,10 @@
         }
 
         $scope.Cancelar = function () {
+
             $mdDialog.cancel();
             $('#txtBuscarProducto').focus();
+
         };
 
         // Invocación Funciones
