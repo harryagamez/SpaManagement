@@ -208,7 +208,7 @@
             <md-dialog id="mdAsignarServicios" aria-label="" style="width: 38% !important; color: #666666 !important;">
                 <md-toolbar>
                     <div class="md-toolbar-tools">
-                        <h2 style="font-size:16px;">{{AccionEmpleado}}</h2>
+                        <h2 style="font-size:16px;">{{AccionEmpleado}} - {{NombreEmpleado}}</h2>
                         <span flex></span>
                         <md-button class="md-icon-button" ng-click="Cancelar()">
                             <i class="material-icons" style="transform: scaleX(-1)">close</i>
@@ -227,7 +227,7 @@
                                 <md-input-container class="md-block" style="margin:0; padding: 0;">
                                     <md-select ng-model="ServiciosSeleccionados" multiple ng-change="AsignarRemover(ServiciosSeleccionados)" aria-label="checks asignarservicio" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slServicios" tabindex=1>
                                         <md-optgroup label="Servicios">
-                                            <md-option ng-value="servicio.id_Servicio" ng-repeat="servicio in Servicios">{{servicio.nombre}}</md-option>
+                                            <md-option ng-value="servicio.id_Servicio" ng-repeat="servicio in TempListadoServicios">{{servicio.nombre}}</md-option>
                                         </md-optgroup>
                                     </md-select>
                                 </md-input-container>

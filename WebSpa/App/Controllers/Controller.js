@@ -1222,6 +1222,14 @@
                             $scope.EmpleadoServicio = result.data;
                             $scope.EmpleadoServicioGridOptions.api.setRowData($scope.EmpleadoServicio);
 
+                            $scope.TempListadoServicios = [];
+                            $scope.TempListadoServicios = $scope.Servicios.filter(function (s) {
+                                return !$scope.EmpleadoServicio.some(function (es) {
+                                    return s.id_Servicio === es.id_Servicio;
+                                });
+                            });
+                                
+
                             $timeout(function () {
                                 $scope.EmpleadoServicioGridOptions.api.sizeColumnsToFit();
                             }, 200);
@@ -1534,6 +1542,7 @@
 
         $scope.AsignarServicios = function (data) {
             $scope.IdEmpleado = data.id_Empleado;
+            $scope.NombreEmpleado = data.nombres + ' ' + data.apellidos;
             $scope.ConsultarEmpleadoServicio();
             $scope.ModalAsignarServicios();
         }
