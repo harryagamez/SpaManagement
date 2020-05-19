@@ -1575,12 +1575,14 @@
                 parent: angular.element(document.body),
                 targetEvent: event,
                 clickOutsideToClose: true,
-                multiple: true
+                multiple: true,                
             })
                 .then(function () {
                 }, function () {
-                    //$('#txtBuscarServicio').focus();
-                });
+                        $scope.ServiciosSeleccionados = [];
+                        $scope.ServiciosAsignados = [];
+                        
+                });           
         }
 
         $scope.AsignarServicios = function (data) {
