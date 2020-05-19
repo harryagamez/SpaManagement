@@ -1068,16 +1068,20 @@
         // INVOCACIONES API
         // Asignar Servicios Empleados
         $scope.AsignarEmpleadoServicio = function () {
+
             if ($scope.ServiciosAsignados.length > 0) {
+
                 $scope.ListaServiciosAsignados = [];
                 $scope.ListaServiciosAsignados = $scope.ServiciosAsignados.map(function (e) {
                     return { Id_Empleado_Servicio: -1, Id_Servicio: e, Id_Empleado: $scope.IdEmpleado }
                 });
+
                 SPAService._asignarEmpleadoServicio(JSON.stringify($scope.ListaServiciosAsignados))
                     .then(
                         function (result) {
                             if (result.data === true) {
                                 toastr.success('Servicios asignados correctamente', '', $scope.toastrOptions);
+                                $scope.ServiciosAsignados = [];
                                 $scope.ServiciosSeleccionados = [];
                                 $scope.ConsultarEmpleadoServicio();
                             }
@@ -1086,14 +1090,17 @@
                             if (err.data !== null && err.status === 500)
                                 toastr.error(err.data, '', $scope.toastrOptions);
                         })
-            }
-            else
-                toastr.error('Debe seleccionar al menos 1 servicio', '', $scope.toastrOptions);
+
+
+            } else toastr.info('Debe seleccionar al menos 1 servicio', '', $scope.toastrOptions);
+
         }
 
         // Desasignar Servicios Empleados
         $scope.DesasignarEmpleadoServicio = function (data) {
-            let IdEmpleadoServicio = data.id_Empleado_Servicio;            
+
+            let IdEmpleadoServicio = data.id_Empleado_Servicio;
+
             SPAService._desasignarEmpleadoServicio(IdEmpleadoServicio)
                     .then(
                         function (result) {                              
@@ -1245,7 +1252,7 @@
                                     return s.id_Servicio === es.id_Servicio;
                                 });
                             });
-                                
+
                             $scope.TempListadoServicios = $filter('orderBy')($scope.TempListadoServicios, 'nombre', false);
                             $timeout(function () {
                                 $scope.EmpleadoServicioGridOptions.api.sizeColumnsToFit();
@@ -1418,8 +1425,6 @@
 
         }
 
-
-
         // FUNCIONES
         //Foco Monto
         $scope.FocoMonto = function () {
@@ -1542,23 +1547,23 @@
         }
 
         //Show Comfirm Desasignar Servicios
-        $scope.showConfirm = function (ev, data) {            
-            $mdDialog.show({
-                multiple: true
-            })
+        $scope.showConfirm = function (ev, data) {
+
             let confirm = $mdDialog.confirm()
                 .title('Desasignar Servicio')
                 .textContent('¿Seguro que deseas desasignar el servicio ' + data.servicio + ' ?')
                 .ariaLabel('Desasignar Servicio')
                 .targetEvent(ev, data)
                 .ok('Sí')
-                .cancel('No');            
+                .cancel('No')
+                .multiple(true);
 
             $mdDialog.show(confirm).then(function () {
                 $scope.DesasignarEmpleadoServicio(data);
             }, function () {
-                    return;
+                return;
             });
+
         };
 
         //Modal Asignar Servicio
@@ -1568,8 +1573,9 @@
             $mdDialog.show({
                 contentElement: '#dlgAsignarServicios',
                 parent: angular.element(document.body),
-                targetEvent: event,                
-                clickOutsideToClose: true                
+                targetEvent: event,
+                clickOutsideToClose: true,
+                multiple: true
             })
                 .then(function () {
                 }, function () {
@@ -1578,10 +1584,12 @@
         }
 
         $scope.AsignarServicios = function (data) {
+
             $scope.IdEmpleado = data.id_Empleado;
             $scope.NombreEmpleado = data.nombres + ' ' + data.apellidos;
             $scope.ConsultarEmpleadoServicio();
             $scope.ModalAsignarServicios();
+
         }
 
         // Modal Asignar Insumos
@@ -1611,7 +1619,9 @@
             $scope.LimpiarDatos();
 
             $scope.Accion = 'BUSQUEDA_EMPLEADO';
+
             if (event.node.data !== undefined && event.node.data !== null) {
+
                 $scope.Empleado.Id_Empleado = event.node.data.id_Empleado;
                 $scope.Empleado.Cedula = event.node.data.cedula;
                 $scope.Empleado.Nombres = event.node.data.nombres;
@@ -1636,6 +1646,7 @@
 
                 $scope.CedulaReadOnly = true;
                 $('#txtNombre').focus();
+
             }
 
         }
@@ -1718,7 +1729,7 @@
         $scope.EmpleadoServicioGridOptionsColumns = [
 
             {
-                headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+                headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
                     return "<i data-ng-click='showConfirm($event, data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>delete_sweep</i>";
                 },
