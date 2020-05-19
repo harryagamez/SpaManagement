@@ -23,7 +23,7 @@
                         <md-input-container style="display:flex; width:100%;">
                             <label>Contraseña:</label>
                             <md-icon class="material-icons login-icons">lock</md-icon>
-                            <input type="password" ng-model="DatosUsuario.Clave" class="form-control-login" id="txtContraseña" placeholder="Contraseña" autocomplete="new-password">
+                            <input type="password" ng-model="DatosUsuario.Clave" data-ng-enter="Login()" class="form-control-login" id="txtContraseña" placeholder="Contraseña" autocomplete="new-password">
                         </md-input-container>
                     </div>
                     <div flex="" style="padding-top:5px;">

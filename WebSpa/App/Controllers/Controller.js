@@ -1098,7 +1098,7 @@
                     .then(
                         function (result) {                              
                             if (result.data === true) {
-                                toastr.success('Servicios desasignado correctamente', '', $scope.toastrOptions);                                
+                                toastr.success('Servicio '+data.servicio +' desasignado correctamente', '', $scope.toastrOptions);                                
                                 $scope.ConsultarEmpleadoServicio();
                             }
                         }, function (err) {
@@ -1543,17 +1543,16 @@
 
         //Show Comfirm Desasignar Servicios
         $scope.showConfirm = function (ev, data) {            
-            let confirm = $mdDialog.confirm()
-                .title('Desasignar Servicio')
-                .textContent('¿Seguro que deseas desasignar el servicio?')
-                .ariaLabel('Desasignar Servicio')
-                .targetEvent(ev, data)
-                .ok('Sí')
-                .cancel('No');          
-
             $mdDialog.show({
                 multiple: true
             })
+            let confirm = $mdDialog.confirm()
+                .title('Desasignar Servicio')
+                .textContent('¿Seguro que deseas desasignar el servicio ' + data.servicio + ' ?')
+                .ariaLabel('Desasignar Servicio')
+                .targetEvent(ev, data)
+                .ok('Sí')
+                .cancel('No');            
 
             $mdDialog.show(confirm).then(function () {
                 $scope.DesasignarEmpleadoServicio(data);
@@ -1570,8 +1569,7 @@
                 contentElement: '#dlgAsignarServicios',
                 parent: angular.element(document.body),
                 targetEvent: event,                
-                clickOutsideToClose: true, 
-                multiple: true
+                clickOutsideToClose: true                
             })
                 .then(function () {
                 }, function () {
@@ -1726,10 +1724,14 @@
                 },
             },
             {
-                headerName: "Servicio", field: 'servicio', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Servicio", field: 'servicio', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function () {
+                    return "<span  data-toggle='tooltip' data-placement='left' title='{{data.servicio}}'>{{data.servicio}}</span>"
+                }
             },
             {
-                headerName: "Tipo", field: 'tipoServicio', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true
+                headerName: "Tipo", field: 'tipoServicio', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true, cellRenderer: function () {
+                    return "<span  data-toggle='tooltip' data-placement='left' title='{{data.tipoServicio}}'>{{data.tipoServicio}}</span>"
+                }
             }
         ];
 
