@@ -280,6 +280,23 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpGet]
+        [Route("api/SPA/DesasignarEmpleadoServicio")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult DesasignarEmpleadoServicio(int IdEmpleadoServicio)
+        {
+            try
+            {
+                bool result = _spaService.DesasignarEmpleadoServicio(IdEmpleadoServicio);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error desasignando el servicio: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("api/SPA/ConsultarEmpleadoServicio")]
         [HttpCache(DefaultExpirySeconds = 2)]
         public IHttpActionResult ConsultarEmpleadoServicio(int IdEmpleado)

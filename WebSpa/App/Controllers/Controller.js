@@ -1091,6 +1091,23 @@
                 toastr.error('Debe seleccionar al menos 1 servicio', '', $scope.toastrOptions);
         }
 
+        // Desasignar Servicios Empleados
+        $scope.DesasignarEmpleadoServicio = function (data) {
+            let IdEmpleadoServicio = data.id_Empleado_Servicio;            
+            SPAService._desasignarEmpleadoServicio(IdEmpleadoServicio)
+                    .then(
+                        function (result) {                              
+                            if (result.data === true) {
+                                toastr.success('Servicios desasignado correctamente', '', $scope.toastrOptions);                                
+                                $scope.ConsultarEmpleadoServicio();
+                            }
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        })            
+        }
+
         // Guardar Empleado
         $scope.GuardarEmpleado = function () {
 
@@ -1229,7 +1246,7 @@
                                 });
                             });
                                 
-
+                            $scope.TempListadoServicios = $filter('orderBy')($scope.TempListadoServicios, 'nombre', false);
                             $timeout(function () {
                                 $scope.EmpleadoServicioGridOptions.api.sizeColumnsToFit();
                             }, 200);
@@ -1524,6 +1541,27 @@
             $scope.ConsultarBarrios(id_Municipio);
         }
 
+        //Show Comfirm Desasignar Servicios
+        $scope.showConfirm = function (ev, data) {            
+            let confirm = $mdDialog.confirm()
+                .title('Desasignar Servicio')
+                .textContent('¿Seguro que deseas desasignar el servicio?')
+                .ariaLabel('Desasignar Servicio')
+                .targetEvent(ev, data)
+                .ok('Sí')
+                .cancel('No');          
+
+            $mdDialog.show({
+                multiple: true
+            })
+
+            $mdDialog.show(confirm).then(function () {
+                $scope.DesasignarEmpleadoServicio(data);
+            }, function () {
+                    return;
+            });
+        };
+
         //Modal Asignar Servicio
         $scope.ModalAsignarServicios = function () {
             $scope.AccionEmpleado = 'Asignar Servicios';
@@ -1531,8 +1569,9 @@
             $mdDialog.show({
                 contentElement: '#dlgAsignarServicios',
                 parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true
+                targetEvent: event,                
+                clickOutsideToClose: true, 
+                multiple: true
             })
                 .then(function () {
                 }, function () {
@@ -1683,7 +1722,7 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='DesasignarServicio(data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>delete_sweep</i>";
+                    return "<i data-ng-click='showConfirm($event, data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>delete_sweep</i>";
                 },
             },
             {

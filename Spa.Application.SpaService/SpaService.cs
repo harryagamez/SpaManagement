@@ -299,6 +299,18 @@ namespace Spa.Application.SpaService
             }
         }
 
+        public bool DesasignarEmpleadoServicio(int IdEmpleadoServicio)
+        {
+            try
+            {
+                return _spaRepository.DesasignarEmpleadoServicio(IdEmpleadoServicio);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado)
         {
             try

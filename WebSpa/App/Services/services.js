@@ -252,7 +252,8 @@
             _asignarEmpleadoServicio: AsignarEmpleadoServicio,
             _consultarEmpleadoServicio: ConsultarEmpleadoServicio,
             _consultarProductoTransacciones: ConsultarProductoTransacciones,
-            _consultarEmpleado: ConsultarEmpleado
+            _consultarEmpleado: ConsultarEmpleado,
+            _desasignarEmpleadoServicio: DesasignarEmpleadoServicio
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -457,8 +458,7 @@
         }
 
         function AsignarEmpleadoServicio(empleadoservicio) {
-            var deferred = $q.defer();
-
+            var deferred = $q.defer();            
             serviceRest.Post('SPA', 'AsignarEmpleadoServicio', empleadoservicio,
                 function (data) {
                     deferred.resolve(data);
@@ -467,6 +467,18 @@
                     deferred.reject(err);
                 });
 
+            return deferred.promise;
+        }
+
+        function DesasignarEmpleadoServicio(IdEmpleadoServicio) {
+            var deferred = $q.defer();            
+            serviceRest.Get('SPA', 'DesasignarEmpleadoServicio?IdEmpleadoServicio=' + IdEmpleadoServicio,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });            
             return deferred.promise;
         }
 
