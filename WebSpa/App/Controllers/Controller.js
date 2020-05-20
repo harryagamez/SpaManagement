@@ -1265,7 +1265,6 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
 
-            $('#txtCedula').focus();
 
         }
 
@@ -1433,10 +1432,12 @@
 
         //Asignar Remover Elementos Lista Servicios
         $scope.AsignarRemover = function (ServiciosSeleccionados) {
+
             if (ServiciosSeleccionados.length > 0)
                 $scope.ServiciosAsignados = ServiciosSeleccionados;
             else
                 $scope.ServiciosAsignados.splice($scope.ServiciosAsignados.indexOf(ServiciosSeleccionados), 1);
+
         }
 
         // Validar Datos
@@ -1565,7 +1566,9 @@
                 .multiple(true);
 
             $mdDialog.show(confirm).then(function () {
+
                 $scope.DesasignarEmpleadoServicio(data);
+
             }, function () {
                 return;
             });

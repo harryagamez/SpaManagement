@@ -47,7 +47,7 @@
                         <label class="label-form-empleados" style="">
                             Cédula:
                         </label>
-                        <input ng-model="Empleado.Cedula" id="txtCedula" ng-readonly="CedulaReadOnly" numbers-only data-ng-enter="ConsultarEmpleado($event, Empleado.Cedula)" ng-blur="ConsultarEmpleado($event, Empleado.Cedula)" maxlength="15" type="text" class="" placeholder="Digite su cédula ..." value="" tabindex=1>
+                        <input ng-model="Empleado.Cedula" id="txtCedula" ng-readonly="CedulaReadOnly" numbers-only data-ng-enter="ConsultarEmpleado($event, Empleado.Cedula)" ng-blur="ConsultarEmpleado($event, Empleado.Cedula)" maxlength="15" type="text" placeholder="Digite su cédula ..." tabindex=1>
                     </md-input-container>
                 </div>
 
@@ -56,7 +56,7 @@
                         <label class="label-form-empleados" style="">
                             Nombre(s):
                         </label>
-                        <input ng-model="Empleado.Nombres" id="txtNombre" maxlength="60" type="text" class="" placeholder="Digite su nombre ..." value="" tabindex=2>
+                        <input ng-model="Empleado.Nombres" id="txtNombre" maxlength="60" type="text" placeholder="Digite su nombre ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
                     </md-input-container>
                 </div>
 
@@ -65,7 +65,7 @@
                         <label class="label-form-empleados" style="">
                             Apellido(s):
                         </label>
-                        <input ng-model="Empleado.Apellidos" id="txtApellido" maxlength="60" type="text" class="" placeholder="Digite sus apellidos ..." value="" tabindex=3>
+                        <input ng-model="Empleado.Apellidos" id="txtApellido" maxlength="60" type="text" placeholder="Digite sus apellidos ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=3>
                     </md-input-container>
                 </div>
 
@@ -74,7 +74,7 @@
                         <label class="label-form-empleados" style="">
                             Dirección:
                         </label>
-                        <input ng-model="Empleado.Direccion" id="txtDireccion" maxlength="25" type="text" class="" placeholder="Digite su dirección ..." value="" tabindex=4>
+                        <input ng-model="Empleado.Direccion" id="txtDireccion" maxlength="25" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Digite su dirección ..." tabindex=4>
                     </md-input-container>
                 </div>
 
@@ -87,7 +87,7 @@
                         <label class="label-form-empleados" style="">
                             Telefono Fijo:
                         </label>
-                        <input ng-model="Empleado.Telefono_Fijo" maxlength="10" numbers-only id="txtFijo" type="text" class="" placeholder="Digite su telefono fijo ..." value="" tabindex=5>
+                        <input ng-model="Empleado.Telefono_Fijo" maxlength="10" numbers-only id="txtFijo" type="text" placeholder="Digite su telefono fijo ..." tabindex=5>
                     </md-input-container>
                 </div>
 
@@ -96,7 +96,7 @@
                         <label class="label-form-empleados" style="">
                             Celular:
                         </label>
-                        <input ng-model="Empleado.Telefono_Movil" id="txtMovil" maxlength="12" numbers-only type="text" class="" placeholder="Digite su celular ..." value="" tabindex=6>
+                        <input ng-model="Empleado.Telefono_Movil" id="txtMovil" maxlength="12" numbers-only type="text" placeholder="Digite su celular ..." tabindex=6>
                     </md-input-container>
                 </div>
 
@@ -105,7 +105,7 @@
                         <label class="label-form-empleados" style="">
                             Número de Hijos:
                         </label>
-                        <input ng-model="Empleado.Numero_Hijos" id="txtHijos" numbers-only type="text" class="" placeholder="Digite su número de hijos ..." value="" tabindex=7>
+                        <input ng-model="Empleado.Numero_Hijos" id="txtHijos" numbers-only type="text" placeholder="Digite su número de hijos ..." tabindex=7>
                     </md-input-container>
                 </div>
 
@@ -114,7 +114,7 @@
                         <label class="label-form-empleados" style="">
                             Fecha Nacimiento:
                         </label>
-                        <md-datepicker ng-model="Empleado.Fecha_Nacimiento" ng-change="ValidarFechaNacimiento()" md-placeholder="Enter date" style="" class="" id="dpFechaNacimiento" tabindex=8></md-datepicker>
+                        <md-datepicker ng-model="Empleado.Fecha_Nacimiento" ng-change="ValidarFechaNacimiento()" md-placeholder="Enter date" id="dpFechaNacimiento" tabindex=8></md-datepicker>
                     </md-input-container>
                 </div>
             </div>
@@ -153,7 +153,7 @@
                         <label class="label-form-empleados" style="">
                             Municipio
                         </label>
-                        <md-select ng-model="MunicipioSeleccionado" ng-change="FiltrarBarrios(MunicipioSeleccionado)" class="" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slMunicipio" tabindex=11>
+                        <md-select ng-model="MunicipioSeleccionado" ng-change="FiltrarBarrios(MunicipioSeleccionado)" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slMunicipio" tabindex=11>
                             <md-option ng-bind="municipio.nombre" ng-value="municipio.id_Municipio" ng-repeat="municipio in Municipios track by municipio.id_Municipio"></md-option>
                         </md-select>
                     </md-input-container>
@@ -164,7 +164,7 @@
                         <label class="label-form-empleados" style="">
                             Barrio:
                         </label>
-                        <md-select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" class="" style="display:inline-flex; min-width: 100% !important; max-width: 170px; margin:15px 0;" id="slBarrio" tabindex=12>
+                        <md-select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" style="display:inline-flex; min-width: 100% !important; max-width: 170px; margin:15px 0;" id="slBarrio" tabindex=12>
                             <md-option ng-bind="barrio.nombre" ng-value="barrio.id_Barrio" ng-repeat="barrio in Barrios track by barrio.id_Barrio"></md-option>
                         </md-select>
                     </md-input-container>
@@ -178,7 +178,7 @@
                         <label class="label-form-empleados" style="">
                             Tipo Pago:
                         </label>
-                        <md-select ng-model="TipoPagoSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slTipoPago" ng-change="FocoMonto()" tabindex=13>
+                        <md-select ng-model="TipoPagoSeleccionado" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slTipoPago" ng-change="FocoMonto()" tabindex=13>
                             <md-option ng-bind="tipopago.descripcion" ng-value="tipopago.id_TipoPago" ng-repeat="tipopago in TipoPagos track by $index"></md-option>
                         </md-select>
                     </md-input-container>
@@ -189,7 +189,7 @@
                         <label class="label-form-empleados" style="margin-bottom:-8px;">
                             Monto / %:
                         </label>
-                        <input ng-model="Empleado.Monto" id="txtMonto" focus="selectChanged" type="text" float-numbers-only ng-pattern="/(^[0-9]{1,9})+(\.[0-9]{1,4})?$/" class="" style="position:relative; margin-top:16px;" placeholder="Digite el monto a pagar ..." value="" tabindex=14>
+                        <input ng-model="Empleado.Monto" id="txtMonto" focus="selectChanged" type="text" float-numbers-only ng-pattern="/(^[0-9]{1,9})+(\.[0-9]{1,4})?$/" style="position:relative; margin-top:16px;" placeholder="Digite el monto a pagar ..." tabindex=14>
                     </md-input-container>
                 </div>
 
@@ -213,17 +213,17 @@
                         <md-button class="md-icon-button" ng-click="Cancelar()">
                             <i class="material-icons" style="transform: scaleX(-1)">close</i>
                         </md-button>
-                    </div>                    
+                    </div>
                 </md-toolbar>
 
                 <form id="frmServicios" style="">
 
                     <md-dialog-content style="background-color: rgb(250,250,250);">
                         <div layout="row" layout-sm="column" layout-align="center center">
-                            <div flex="15">                                
-                                    <label>Servicios:</label>                                
+                            <div flex="15">
+                                <label>Servicios:</label>
                             </div>
-                            <div flex="60">                                
+                            <div flex="60">
                                 <md-input-container class="md-block" style="margin:0; padding: 0;">
                                     <md-select ng-model="ServiciosSeleccionados" multiple ng-change="AsignarRemover(ServiciosSeleccionados)" aria-label="checks asignarservicio" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slServicios" tabindex=1>
                                         <md-optgroup label="Servicios">
@@ -236,7 +236,7 @@
                                 <md-button type="button" id="btnNuevoModal" class="btn-spa groupX middle" data-toggle="tooltip" title="Asignar Servicio" data-ng-click="AsignarEmpleadoServicio()">
                                     Agregar<i class="material-icons md-18" style="transform: scaleX(-1)">add</i>
                                 </md-button>
-                            </div>                            
+                            </div>
                         </div>
 
                         <div layout="row" layout-align="center center">
