@@ -1742,7 +1742,7 @@
                 }
             },
             {
-                headerName: "Tipo", field: 'tipoServicio', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true, cellRenderer: function () {
+                headerName: "Tipo", field: 'tipoServicio', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function () {
                     return "<span  data-toggle='tooltip' data-placement='left' title='{{data.tipoServicio}}'>{{data.tipoServicio}}</span>"
                 }
             }
@@ -1766,6 +1766,52 @@
             suppressRowClickSelection: true,
             rowSelection: 'multiple'
         }
+
+        //API GRID ASIGNAR INSUMOS OPTIONS
+        $scope.EmpleadoInsumoGridOptionsColumns = [
+
+            {
+                headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+                cellRenderer: function () {
+                    return "<i data-ng-click='showConfirm($event, data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>delete_sweep</i>";
+                },
+            },
+            {
+                headerName: "Producto", field: 'producto', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function () {
+                    return "<span  data-toggle='tooltip' data-placement='left' title='{{data.producto}}'>{{data.producto}}</span>"
+                }
+            },
+            {
+                headerName: "Cantidad", field: 'cantidad', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true, cellRenderer: function () {
+                    return "<span  data-toggle='tooltip' data-placement='left' title='{{data.cantidad}}'>{{data.cantidad}}</span>"
+                }
+            },
+            {
+                headerName: "Fecha", field: 'fecha', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true, cellRenderer: function () {
+                    return "<span  data-toggle='tooltip' data-placement='left' title='{{data.fecha}}'>{{data.fecha}}</span>"
+                }
+            }
+        ];
+
+        $scope.EmpleadoInsumoGridOptions = {
+
+            defaultColDef: {
+                resizable: true
+            },
+            columnDefs: $scope.EmpleadoServicioGridOptionsColumns,
+            rowData: [],
+            enableSorting: true,
+            enableFilter: true,
+            enableColResize: true,
+            angularCompileRows: true,
+            onGridReady: function (params) {
+            },
+            fullWidthCellRenderer: true,
+            animateRows: true,
+            suppressRowClickSelection: true,
+            rowSelection: 'multiple'
+        }
+
 
         //Eventos
         $scope.Cancelar = function () {
