@@ -296,6 +296,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/SPA/AsignarEmpleadoInsumo")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult AsignarEmpleadoInsumo(List<Transaccion> empleadoinsumo)
+        {
+            try
+            {
+                bool result = _spaService.AsignarEmpleadoInsumo(empleadoinsumo);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error asignando insumo al empleado: " + ex.Message);
+            }
+        }
+
         [HttpGet]
         [Route("api/SPA/ConsultarEmpleadoServicio")]
         [HttpCache(DefaultExpirySeconds = 2)]

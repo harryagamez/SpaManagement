@@ -1025,6 +1025,8 @@
         $scope.TipoPagos = [];
         $scope.Barrios = [];
         $scope.ServiciosAsignados = [];
+        $scope.ProductoSeleccionado = -1;
+        $scope.CantidadInsumo = '';
         $scope.MunicipioSeleccionado = -1;
         $scope.BarrioSeleccionado = -1;
         $scope.EstadoSeleccionado = 'ACTIVO';
@@ -1066,11 +1068,50 @@
 
 
         // INVOCACIONES API
+        //Asignar Insumos
+        $scope.AsignarEmpleadoInsumo = function () {
+            
+            if ($scope.ProductoSeleccionado != -1) {
+                if ($scope.CantidadInsumo > 0) {
+                    if ($scope.CantidadInsumo <= $scope.InventarioProducto) {
+                        debugger;
+                        $scope.InsumoAsignado = [];
+                        $scope.Insumo =
+                        {
+                            Id_Transaccion: -1, Id_Producto: $scope.ProductoSeleccionado, Cantidad: $scope.CantidadInsumo, Id_EmpleadoCliente: $scope.IdEmpleado, Id_TipoTransaccion: $scope.TipoTransaccionSeleccionada
+                        }
+                        $scope.InsumoAsignado.push($scope.Insumo);
+                        SPAService._asignarEmpleadoInsumo(JSON.stringify($scope.InsumoAsignado))
+                            .then(
+                                function (result) {
+                                    if (result.data === true) {
+                                        toastr.success('Insumo asignado correctamente', '', $scope.toastrOptions);
+                                        $scope.InsumoAsignado = [];
+                                        $scope.ProductoSeleccionado = -1;                                       
+                                        $scope.CantidadInsumo = '';
+                                        $scope.InventarioProducto = [];
+                                        //$scope.ConsultarTransacciones();
+                                    }
+                                }, function (err) {
+                                    toastr.remove();
+                                    if (err.data !== null && err.status === 500)
+                                        toastr.error(err.data, '', $scope.toastrOptions);
+                                })
+                    }
+                    else
+                        toastr.info('El cantidad de insumos a asignar no puede ser mayor a la cantidad existente en inventario', '', $scope.toastrOptions);
+                }
+                else
+                    toastr.info('El número de insumos a asignar debe ser mayor a 0', '', $scope.toastrOptions);
+            }
+            else
+                toastr.info('Debe seleccionar al menos 1 producto', '', $scope.toastrOptions);
+        }
+
         // Asignar Servicios Empleados
         $scope.AsignarEmpleadoServicio = function () {
 
-            if ($scope.ServiciosAsignados.length > 0) {
-
+            if ($scope.ServiciosAsignados.length > 0) {                
                 $scope.ListaServiciosAsignados = [];
                 $scope.ListaServiciosAsignados = $scope.ServiciosAsignados.map(function (e) {
                     return { Id_Empleado_Servicio: -1, Id_Servicio: e, Id_Empleado: $scope.IdEmpleado }
@@ -1264,6 +1305,37 @@
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
+        }
+
+        //Consultar EmpleadoInsumos
+        $scope.ConsultarEmpleadoInsumos = function () {
+
+            SPAService._consultarEmpleadoInsumos($scope.IdEmpleado)
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+                            $scope.EmpleadoServicio = [];
+                            $scope.EmpleadoServicio = result.data;
+                            $scope.EmpleadoServicioGridOptions.api.setRowData($scope.EmpleadoServicio);
+
+                            $scope.TempListadoServicios = [];
+                            $scope.TempListadoServicios = $scope.Servicios.filter(function (s) {
+                                return !$scope.EmpleadoServicio.some(function (es) {
+                                    return s.id_Servicio === es.id_Servicio;
+                                });
+                            });
+
+                            $scope.TempListadoServicios = $filter('orderBy')($scope.TempListadoServicios, 'nombre', false);
+                            $timeout(function () {
+                                $scope.EmpleadoServicioGridOptions.api.sizeColumnsToFit();
+                            }, 200);
+
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
 
 
         }
@@ -1390,6 +1462,55 @@
                     })
         }
 
+        //Consultar Tipo Transacciones
+        $scope.ConsultarTipoTransacciones = function () {
+
+            SPAService._consultarTipoTransacciones()
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+
+                            $scope.TipoTransacciones = [];
+                            $scope.TipoTransacciones = result.data;
+                            $scope.TipoTransacciones.push({ id_TipoTransaccion: -1, nombre: '[Seleccione]', descripcion: '' });
+                            $scope.TipoTransacciones = $filter('orderBy')($scope.TipoTransacciones, 'nombre', false);
+
+                            let filtrarEntrada = Enumerable.From($scope.TipoTransacciones)
+                                .Where(function (x) { return x.nombre === "INSUMO" })
+                                .ToArray();
+
+                            if (filtrarEntrada.length > 0)
+                                $scope.TipoTransaccionSeleccionada = filtrarEntrada[0].id_TipoTransaccion;
+
+
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+
+        }
+
+        //Consultar Productos
+        $scope.ConsultarProductos = function () {
+
+            SPAService._consultarProductos($scope.IdEmpresa)
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+
+                            $scope.Productos = [];
+                            $scope.Productos = result.data; 
+
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+        }
+
         // Limpiar Datos
         $scope.LimpiarDatos = function () {
 
@@ -1424,7 +1545,17 @@
 
         }
 
+
         // FUNCIONES
+        //Consultar Inventario Producto
+        $scope.ConsultarInventario = function (inventario) {            
+            $scope.InventarioProducto = [];
+            let filtrarEntrada = Enumerable.From($scope.Productos)
+                .Where(function (x) { return x.id_Producto === inventario })
+                .ToArray();
+            $scope.InventarioProducto = filtrarEntrada[0].inventario;
+        }
+
         //Foco Monto
         $scope.FocoMonto = function () {
             $scope.$broadcast('selectChanged');
@@ -1577,8 +1708,7 @@
 
         //Modal Asignar Servicio
         $scope.ModalAsignarServicios = function () {
-            $scope.AccionEmpleado = 'Asignar Servicios';
-
+            $scope.AccionEmpleado = 'Asignar Servicios';            
             $mdDialog.show({
                 contentElement: '#dlgAsignarServicios',
                 parent: angular.element(document.body),
@@ -1616,11 +1746,16 @@
             })
                 .then(function () {
                 }, function () {
-                    //$('#txtBuscarServicio').focus();
+                        $scope.ProductoSeleccionado = -1;
+                        $scope.CantidadInsumo = '';
+                        $scope.InventarioProducto = [];
                 });
         }
 
         $scope.AsignarInsumos = function (data) {
+            $scope.IdEmpleado = data.id_Empleado;
+            $scope.NombreEmpleado = data.nombres + ' ' + data.apellidos;
+            $scope.ConsultarEmpleadoInsumo();
             $scope.ModalAsignarInsumos();
         }
 
@@ -1782,7 +1917,7 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='showConfirm($event, data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>delete_sweep</i>";
+                    return "<i data-ng-click='showConfirm($event, data)' data-toggle='tooltip' title='Desasignar Insumo' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>delete_sweep</i>";
                 },
             },
             {
@@ -1842,6 +1977,8 @@
         $scope.ConsultarEmpleados();
         $scope.ConsultarMunicipios();
         $scope.ConsultarTipoPagos();
+        $scope.ConsultarProductos();
+        $scope.ConsultarTipoTransacciones();
         $scope.Inicializacion();
 
     }

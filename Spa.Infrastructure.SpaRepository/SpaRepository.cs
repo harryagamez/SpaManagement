@@ -956,6 +956,51 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public bool AsignarEmpleadoInsumo(List<Transaccion> _EmpleadoInsumo)
+        {
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "AsignarEmpleadoInsumo";
+                        _command.Parameters.AddWithValue("@JsonEmpleadoInsumo", JsonConvert.SerializeObject(_EmpleadoInsumo));
+
+                        try
+                        {
+                            _command.ExecuteNonQuery();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                        finally
+                        {
+                            if (_command.Connection.State == ConnectionState.Open)
+                            {
+                                _command.Connection.Close();
+                            }
+
+                            _command.Dispose();
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public bool GuardarProducto(List<Producto> _Producto)
         {
             try

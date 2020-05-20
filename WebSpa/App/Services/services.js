@@ -253,7 +253,8 @@
             _consultarEmpleadoServicio: ConsultarEmpleadoServicio,
             _consultarProductoTransacciones: ConsultarProductoTransacciones,
             _consultarEmpleado: ConsultarEmpleado,
-            _desasignarEmpleadoServicio: DesasignarEmpleadoServicio
+            _desasignarEmpleadoServicio: DesasignarEmpleadoServicio,
+            _asignarEmpleadoInsumo : AsignarEmpleadoInsumo
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -479,6 +480,19 @@
                 function (err) {
                     deferred.reject(err);
                 });            
+            return deferred.promise;
+        }
+
+        function AsignarEmpleadoInsumo(empleadoinsumo) {
+            var deferred = $q.defer();
+            serviceRest.Post('SPA', 'AsignarEmpleadoInsumo', empleadoinsumo,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
             return deferred.promise;
         }
 

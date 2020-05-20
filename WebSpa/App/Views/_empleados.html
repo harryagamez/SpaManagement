@@ -233,7 +233,7 @@
                                 </md-input-container>
                             </div>
                             <div flex="25">
-                                <md-button type="button" id="btnNuevoModal" class="btn-spa groupX middle" data-toggle="tooltip" title="Asignar Servicio" data-ng-click="AsignarEmpleadoServicio()">
+                                <md-button type="button" id="btnAgregarServicio" class="btn-spa groupX middle" data-toggle="tooltip" title="Asignar Servicio" data-ng-click="AsignarEmpleadoServicio()">
                                     Agregar<i class="material-icons md-18" style="transform: scaleX(-1)">add</i>
                                 </md-button>
                             </div>
@@ -259,7 +259,7 @@
 
                 <md-toolbar>
                     <div class="md-toolbar-tools">
-                        <h2 style="font-size:16px;">{{AccionEmpleado}}</h2>
+                        <h2 style="font-size:16px;">{{AccionEmpleado}}: {{NombreEmpleado}}</h2>
                         <span flex></span>
                         <md-button class="md-icon-button" ng-click="Cancelar()">
                             <i class="material-icons" style="transform: scaleX(-1)">close</i>
@@ -278,9 +278,9 @@
                             </div>
                             <div flex="">
                                 <md-input-container class="md-block" style="margin:0; padding: 0;">
-                                    <md-select ng-model="" multiple ng-change="" aria-label="" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slServicios" tabindex=1>
+                                    <md-select ng-model="ProductoSeleccionado" ng-change="ConsultarInventario(ProductoSeleccionado)" aria-label="Producto Seleccionado" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:5px 0;" id="slProductos" tabindex=1>
                                         <md-optgroup label="Producto">
-                                            <md-option ng-value="" ng-repeat=""></md-option>
+                                            <md-option ng-value="producto.id_Producto" ng-repeat="producto in Productos track by producto.nombre">{{producto.nombre}}</md-option>
                                         </md-optgroup>
                                     </md-select>
                                 </md-input-container>
@@ -295,7 +295,7 @@
                             </div>
                             <div flex="">
                                 <md-input-container style="min-width:100%; margin:0; padding: 0;">
-                                    <input ng-model="" id="txtInvProd" maxlength="12" numbers-only type="text" class="" style="min-width:100%; margin:0; padding: 0;" placeholder="" value="" tabindex=2>
+                                    <input ng-model="InventarioProducto" id="txtInvProd" maxlength="12" numbers-only ng-disabled="true" type="text" class="" style="min-width:100%; margin:0; padding: 0;" placeholder="" value="" >
                                 </md-input-container>
                             </div>
                         </div>
@@ -308,7 +308,7 @@
                             </div>
                             <div flex="">
                                 <md-input-container style="min-width:100%; margin:0; padding: 0;">
-                                    <input ng-model="" id="txtCantidadInsumo" maxlength="12" numbers-only type="text" class="" style="min-width:100%; margin:0; padding: 0;" placeholder="" value="" tabindex=3>
+                                    <input ng-model="CantidadInsumo" md-autofocus="ProductoChanged == 1" id="txtCantidadInsumo" maxlength="12" numbers-only type="text" class="" style="min-width:100%; margin:0; padding: 0;" placeholder="" value="" tabindex=2>
                                 </md-input-container>
                             </div>
                         </div>
@@ -321,19 +321,15 @@
                             </div>
                             <div flex="">
                                 <md-input-container class="md-block" style="margin:0; padding: 0;">
-                                    <md-select ng-model="" multiple ng-change="" aria-label="" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slServicios" tabindex=4>
-                                        <md-option ng-value="" ng-repeat=""></md-option>
+                                    <md-select ng-model="TipoTransaccionSeleccionada"  ng-disabled="true" aria-label="Tipo Transaccion Seleccionada" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:5px 0;" id="slTransaccion">
+                                        <md-option ng-value="item.id_TipoTransaccion" ng-repeat="item in TipoTransacciones">{{item.nombre}}</md-option>
                                     </md-select>
                                 </md-input-container>
                             </div>
                         </div>
-
                         <div layout="row" layout-align="end center">
-                            <md-button type="button" id="btnGuardar" class="btn-spa groupX left" data-toggle="tooltip" title="Guardar" ng-click="GuardarServicio()" tabindex=7>
-                                <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
-                            </md-button>
-                            <md-button type="button" id="btnNuevoModal" ng-hide="OcultarbtnNuevo" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
-                                <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                            <md-button type="button" id="btnAgregarInsumo" class="btn-spa groupX left" data-toggle="tooltip" title="Agregar" ng-click="AsignarEmpleadoInsumo()" tabindex=7>
+                                Agregar<i class="material-icons md-18" style="transform: scaleX(-1)">add</i>
                             </md-button>
                         </div>
 
