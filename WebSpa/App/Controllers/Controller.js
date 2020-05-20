@@ -1102,17 +1102,17 @@
             let IdEmpleadoServicio = data.id_Empleado_Servicio;
 
             SPAService._desasignarEmpleadoServicio(IdEmpleadoServicio)
-                    .then(
-                        function (result) {                              
-                            if (result.data === true) {
-                                toastr.success('Servicio '+data.servicio +' desasignado correctamente', '', $scope.toastrOptions);                                
-                                $scope.ConsultarEmpleadoServicio();
-                            }
-                        }, function (err) {
-                            toastr.remove();
-                            if (err.data !== null && err.status === 500)
-                                toastr.error(err.data, '', $scope.toastrOptions);
-                        })            
+                .then(
+                    function (result) {
+                        if (result.data === true) {
+                            toastr.success('Servicio ' + data.servicio + ' desasignado correctamente', '', $scope.toastrOptions);
+                            $scope.ConsultarEmpleadoServicio();
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
         }
 
         // Guardar Empleado
@@ -1513,22 +1513,28 @@
                 return false;
             }
 
-            let filtrarDesc = Enumerable.From($scope.TipoPagos)
+            let filtrarCriterio = Enumerable.From($scope.TipoPagos)
                 .Where(function (x) { return x.id_TipoPago === $scope.Empleado.Id_TipoPago })
                 .ToArray();
 
-            if (filtrarDesc[0].descripcion === 'POR SERVICIOS') {
-                if ($scope.Empleado.Monto === '') {
-                    toastr.info('Monto del empleado es requerido', '', $scope.toastrOptions);
-                    $('#txtMonto').focus();
-                    return false;
+            if (filtrarCriterio.length > 0) {
+
+                if (filtrarCriterio[0].criterio === 'PAGO_PORCENTUAL') {
+
+                    if ($scope.Empleado.Monto === '') {
+                        toastr.info('Monto del empleado es requerido', '', $scope.toastrOptions);
+                        $('#txtMonto').focus();
+                        return false;
+                    }
+
+                    if ($scope.Empleado.Monto > 1) {
+                        toastr.info('El monto no puede ser mayor a "1" si el tipo de pago es "POR SERVICIOS"', '', $scope.toastrOptions);
+                        $('#txtMonto').focus();
+                        return false;
+                    }
+
                 }
 
-                if ($scope.Empleado.Monto > 1) {
-                    toastr.info('El monto no puede ser mayor a "1" si el tipo de pago es "POR SERVICIOS"', '', $scope.toastrOptions);
-                    $('#txtMonto').focus();
-                    return false;
-                }
             }
 
             if ($scope.Empleado.Monto === '') {
@@ -1575,14 +1581,14 @@
                 parent: angular.element(document.body),
                 targetEvent: event,
                 clickOutsideToClose: true,
-                multiple: true,                
+                multiple: true,
             })
                 .then(function () {
                 }, function () {
-                        $scope.ServiciosSeleccionados = [];
-                        $scope.ServiciosAsignados = [];
-                        
-                });           
+                    $scope.ServiciosSeleccionados = [];
+                    $scope.ServiciosAsignados = [];
+
+                });
         }
 
         $scope.AsignarServicios = function (data) {
