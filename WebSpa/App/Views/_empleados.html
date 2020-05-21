@@ -221,7 +221,7 @@
                     <md-dialog-content style="background-color: rgb(250,250,250);">
                         <div layout="row" layout-sm="column" layout-align="center center">
                             <div flex="15">
-                                <label>Servicios:</label>
+                                <label class="label-form-servicios">Servicios:</label>
                             </div>
                             <div flex="60">
                                 <md-input-container class="md-block" style="margin:0; padding: 0;">
@@ -255,7 +255,7 @@
     <!-- Modales Asignar Insumos-->
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgAsignarInsumos">
-            <md-dialog id="mdAsignarInsumos" aria-label="" style="width: 38% !important; color: #666666 !important;">
+            <md-dialog id="mdAsignarInsumos" aria-label="" style="width: 33% !important; color: #666666 !important;">
 
                 <md-toolbar>
                     <div class="md-toolbar-tools">
@@ -272,13 +272,16 @@
                     <md-dialog-content style="background-color: rgb(250,250,250);">
                         <div layout="row" layout-sm="column" layout-align="center center">
                             <div flex="">
-                                <label class="" style="">
+                                <label class="label-form-servicios" style="">
                                     Seleccionar Producto:
                                 </label>
                             </div>
                             <div flex="">
                                 <md-input-container class="md-block" style="margin:0; padding: 0;">
-                                    <md-select ng-model="ProductoSeleccionado" ng-change="ConsultarInventario(ProductoSeleccionado)" aria-label="Producto Seleccionado" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:5px 0;" id="slProductos" tabindex=1>
+                                    <label class="label-form-servicios" style="">
+                                        Seleccionar Producto:
+                                    </label>
+                                    <md-select ng-model="ProductoSeleccionado" ng-change="ConsultarInventario(ProductoSeleccionado)" aria-label="Producto Seleccionado" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slProductos" tabindex=1>
                                         <md-optgroup label="Producto">
                                             <md-option ng-value="producto.id_Producto" ng-repeat="producto in Productos track by producto.nombre">{{producto.nombre}}</md-option>
                                         </md-optgroup>
@@ -287,41 +290,36 @@
                             </div>
                         </div>
 
-                        <div layout="row" layout-sm="column" layout-align="center center">
-                            <div flex="">
-                                <label class="" style="">
-                                    Inventario Producto:
-                                </label>
-                            </div>
-                            <div flex="">
+                        <div layout="row" layout-align="center center">                            
+                            <div flex="">                                
                                 <md-input-container style="min-width:100%; margin:0; padding: 0;">
-                                    <input ng-model="InventarioProducto" id="txtInvProd" maxlength="12" numbers-only ng-disabled="true" type="text" class="" style="min-width:100%; margin:0; padding: 0;" placeholder="" value="" >
+                                    <label class="label-form-servicios" style="">
+                                        Inventario Producto:
+                                    </label>
+                                    <input ng-model="InventarioProducto" id="txtInvProd" maxlength="12" numbers-only ng-disabled="true" type="text" class="" style="min-width:100%; margin:0; padding: 0;" placeholder="" value="">
                                 </md-input-container>
                             </div>
                         </div>
 
-                        <div layout="row" layout-sm="column" layout-align="center center">
-                            <div flex="">
-                                <label class="" style="">
-                                    Cantidad (Insumo):
-                                </label>
-                            </div>
-                            <div flex="">
+                        <div layout="row" layout-align="center center">                            
+                            <div flex="">                                
                                 <md-input-container style="min-width:100%; margin:0; padding: 0;">
+                                    <label class="label-form-servicios" style="">
+                                        Cantidad (Insumo):
+                                    </label>
                                     <input ng-model="CantidadInsumo" md-autofocus="ProductoChanged == 1" id="txtCantidadInsumo" maxlength="12" numbers-only type="text" class="" style="min-width:100%; margin:0; padding: 0;" placeholder="" value="" tabindex=2>
                                 </md-input-container>
                             </div>
                         </div>
 
-                        <div layout="row" layout-sm="column" layout-align="center center">
-                            <div flex="">
-                                <label class="" style="">
-                                    Tipo Transacción:
-                                </label>
-                            </div>
+                        <div layout="row"  layout-align="center center">
+                           
                             <div flex="">
                                 <md-input-container class="md-block" style="margin:0; padding: 0;">
-                                    <md-select ng-model="TipoTransaccionSeleccionada"  ng-disabled="true" aria-label="Tipo Transaccion Seleccionada" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:5px 0;" id="slTransaccion">
+                                    <label class="label-form-servicios" style="">
+                                        Tipo Transacción:
+                                    </label>
+                                    <md-select ng-model="TipoTransaccionSeleccionada" ng-disabled="true" aria-label="Tipo Transaccion Seleccionada" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slTransaccion">
                                         <md-option ng-value="item.id_TipoTransaccion" ng-repeat="item in TipoTransacciones">{{item.nombre}}</md-option>
                                     </md-select>
                                 </md-input-container>

@@ -1874,14 +1874,10 @@
                 },
             },
             {
-                headerName: "Servicio", field: 'servicio', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function () {
-                    return "<span  data-toggle='tooltip' data-placement='left' title='{{data.servicio}}'>{{data.servicio}}</span>"
-                }
+                headerName: "Servicio", field: 'servicio', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
             },
             {
-                headerName: "Tipo", field: 'tipoServicio', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function () {
-                    return "<span  data-toggle='tooltip' data-placement='left' title='{{data.tipoServicio}}'>{{data.tipoServicio}}</span>"
-                }
+                headerName: "Tipo", field: 'tipoServicio', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true
             }
         ];
 
@@ -1910,22 +1906,18 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='showConfirm($event, data)' data-toggle='tooltip' title='Desasignar Insumo' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>delete_sweep</i>";
+                    return "<i data-ng-click='' data-toggle='tooltip' title='Eliminar Insumo' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>delete_sweep</i>";
                 },
             },
             {
-                headerName: "Producto", field: 'nombre_Producto', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function () {
-                    return "<span  data-toggle='tooltip' data-placement='left' title='{{data.nombre_Producto}}'>{{data.nombre_Producto}}</span>"
-                }
+                headerName: "Producto", field: 'nombre_Producto', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Cantidad", field: 'cantidad', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true, cellRenderer: function () {
-                    return "<span  data-toggle='tooltip' data-placement='left' title='{{data.cantidad}}'>{{data.cantidad}}</span>"
-                }
+                headerName: "Cantidad", field: 'cantidad', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true
             },
             {
-                headerName: "Fecha", field: 'fecha', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true, cellRenderer: function () {
-                    return "<span  data-toggle='tooltip' data-placement='left' title='{{data.fecha}}'>{{data.fecha}}</span>"
+                headerName: "Fecha", field: 'fecha', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true, cellRenderer: (data) => {
+                    return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy') : '';
                 }
             }
         ];
