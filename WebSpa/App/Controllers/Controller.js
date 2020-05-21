@@ -1090,7 +1090,8 @@
                                         $scope.ProductoSeleccionado = -1;                                       
                                         $scope.CantidadInsumo = '';
                                         $scope.InventarioProducto = [];
-                                        //$scope.ConsultarTransacciones();
+                                        $scope.ConsultarEmpleadoInsumos();
+                                        $scope.ConsultarProductos();
                                     }
                                 }, function (err) {
                                     toastr.remove();
@@ -1314,20 +1315,12 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
-                            $scope.EmpleadoServicio = [];
-                            $scope.EmpleadoServicio = result.data;
-                            $scope.EmpleadoServicioGridOptions.api.setRowData($scope.EmpleadoServicio);
-
-                            $scope.TempListadoServicios = [];
-                            $scope.TempListadoServicios = $scope.Servicios.filter(function (s) {
-                                return !$scope.EmpleadoServicio.some(function (es) {
-                                    return s.id_Servicio === es.id_Servicio;
-                                });
-                            });
-
-                            $scope.TempListadoServicios = $filter('orderBy')($scope.TempListadoServicios, 'nombre', false);
+                            $scope.EmpleadoInsumos = [];
+                            $scope.EmpleadoInsumos = result.data;                            
+                            $scope.EmpleadoInsumosGridOptions.api.setRowData($scope.EmpleadoInsumos);
+                            
                             $timeout(function () {
-                                $scope.EmpleadoServicioGridOptions.api.sizeColumnsToFit();
+                                $scope.EmpleadoInsumosGridOptions.api.sizeColumnsToFit();
                             }, 200);
 
                         }
@@ -1755,7 +1748,7 @@
         $scope.AsignarInsumos = function (data) {
             $scope.IdEmpleado = data.id_Empleado;
             $scope.NombreEmpleado = data.nombres + ' ' + data.apellidos;
-            $scope.ConsultarEmpleadoInsumo();
+            $scope.ConsultarEmpleadoInsumos();
             $scope.ModalAsignarInsumos();
         }
 
@@ -1912,7 +1905,7 @@
         }
 
         //API GRID ASIGNAR INSUMOS OPTIONS
-        $scope.EmpleadoInsumoGridOptionsColumns = [
+        $scope.EmpleadoInsumosGridOptionsColumns = [
 
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
@@ -1921,8 +1914,8 @@
                 },
             },
             {
-                headerName: "Producto", field: 'producto', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function () {
-                    return "<span  data-toggle='tooltip' data-placement='left' title='{{data.producto}}'>{{data.producto}}</span>"
+                headerName: "Producto", field: 'nombre_Producto', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function () {
+                    return "<span  data-toggle='tooltip' data-placement='left' title='{{data.nombre_Producto}}'>{{data.nombre_Producto}}</span>"
                 }
             },
             {
@@ -1937,12 +1930,12 @@
             }
         ];
 
-        $scope.EmpleadoInsumoGridOptions = {
+        $scope.EmpleadoInsumosGridOptions = {
 
             defaultColDef: {
                 resizable: true
             },
-            columnDefs: $scope.EmpleadoServicioGridOptionsColumns,
+            columnDefs: $scope.EmpleadoInsumosGridOptionsColumns,
             rowData: [],
             enableSorting: true,
             enableFilter: true,

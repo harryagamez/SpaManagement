@@ -331,6 +331,23 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpGet]
+        [Route("api/SPA/ConsultarEmpleadoInsumos")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarEmpleadoInsumos(int IdEmpleado)
+        {
+            try
+            {
+                List<Transaccion> _listEmpleadoInsumo = _spaService.ConsultarEmpleadoInsumos(IdEmpleado);
+
+                return Content(HttpStatusCode.OK, _listEmpleadoInsumo);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los insumos del empleado: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("api/SPA/ConsultarTipoTransacciones")]
         [HttpCache(DefaultExpirySeconds = 2)]
         public IHttpActionResult ConsultarTipoTransacciones()

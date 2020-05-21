@@ -697,6 +697,48 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public List<Transaccion> ConsultarEmpleadoInsumos(int IdEmpleado)
+        {
+            DataTable _datatable = new DataTable();
+            List<Transaccion> _listEmpleadoInsumo = new List<Transaccion>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarEmpleadoInsumos";
+                        _command.Parameters.AddWithValue("@IdEmpleado", IdEmpleado);
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _listEmpleadoInsumo = _datatable.DataTableToList<Transaccion>();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _listEmpleadoInsumo;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public List<TipoTransaccion> ConsultarTipoTransacciones()
         {
             DataTable _datatable = new DataTable();
