@@ -283,7 +283,7 @@
                                     <label class="" style="display:none;">
                                         Seleccionar Producto:
                                     </label>
-                                    <md-select ng-model="ProductoSeleccionado" ng-change="ConsultarInventario(ProductoSeleccionado)" placeholder="PRODUCTOS" aria-label="Seleccionar Producto:" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slProductos" tabindex=1>
+                                    <md-select ng-model="ProductoSeleccionado" ng-change="ConsultarInventario(ProductoSeleccionado)" placeholder="PRODUCTO" aria-label="Seleccionar Producto:" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slProductos" tabindex=1>
                                         <md-optgroup label="Producto">
                                             <md-option ng-value="producto.id_Producto" ng-repeat="producto in Productos track by producto.nombre">{{producto.nombre}}</md-option>
                                         </md-optgroup>
