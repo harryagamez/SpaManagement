@@ -10,9 +10,14 @@ BEGIN
 		JSON_VALUE (C.value, '$.Id_Servicio') AS Id_Servicio, 
 		JSON_VALUE (C.value, '$.Id_Empleado') AS Id_Empleado			
 	FROM OPENJSON(@JsonEmpleadoServicio) AS C
+
 	BEGIN TRY
-		INSERT INTO EMPLEADOS_SERVICIOS (ID_SERVICIO, ID_EMPLEADO) SELECT Id_Servicio, Id_Empleado 
+
+		INSERT INTO EMPLEADOS_SERVICIOS (ID_SERVICIO, ID_EMPLEADO) 
+		SELECT 
+			Id_Servicio, Id_Empleado 
 		FROM #TempEmpleadoServicio
+
 	END TRY
 		
 	
