@@ -1,15 +1,7 @@
-CREATE PROCEDURE EliminarEmpleadoInsumo(@IdTransaccion INT)
+CREATE PROCEDURE EliminarEmpleadoInsumo(@IdTransaccion INT, @Cantidad INT, @IdProducto INT)
 AS
 
-BEGIN
-	
-	SET XACT_ABORT, NOCOUNT ON
-	DECLARE @CantidadInsumo INT
-	DECLARE @IdProducto INT	
-	
-	SELECT @CantidadInsumo = CANTIDAD, @IdProducto = ID_PRODUCTO 
-	FROM TRANSACCIONES 
-	WHERE ID_TRANSACCION = @IdTransaccion
+BEGIN	
 
 	BEGIN TRY
 
@@ -20,7 +12,7 @@ BEGIN
 	WHERE ID_TRANSACCION = @IdTransaccion
 
 	UPDATE PRODUCTOS 
-	SET INVENTARIO = INVENTARIO + @CantidadInsumo
+	SET INVENTARIO = INVENTARIO + @Cantidad
 	WHERE ID_PRODUCTO = @IdProducto
 
 	COMMIT TRANSACTION

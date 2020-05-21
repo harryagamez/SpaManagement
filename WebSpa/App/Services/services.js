@@ -499,9 +499,9 @@
             return deferred.promise;
         }
 
-        function EliminarEmpleadoInsumo(IdTransaccion) {
+        function EliminarEmpleadoInsumo(IdTransaccion, Cantidad, IdProducto) {
             var deferred = $q.defer();
-            serviceRest.Get('SPA', 'EliminarEmpleadoInsumo?IdTransaccion=' + IdTransaccion,
+            serviceRest.Get('SPA', 'EliminarEmpleadoInsumo?IdTransaccion=' + IdTransaccion + '&Cantidad=' + Cantidad + '&IdProducto=' + IdProducto,
                 function (data) {
                     deferred.resolve(data);
                 },

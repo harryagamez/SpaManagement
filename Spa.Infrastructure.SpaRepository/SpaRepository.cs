@@ -1043,7 +1043,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool EliminarEmpleadoInsumo(int IdTransaccion)
+        public bool EliminarEmpleadoInsumo(int IdTransaccion, int Cantidad, int IdProducto)
         {
             try
             {
@@ -1059,7 +1059,8 @@ namespace Spa.Infrastructure.SpaRepository
                         _command.CommandType = CommandType.StoredProcedure;
                         _command.CommandText = "EliminarEmpleadoInsumo";
                         _command.Parameters.AddWithValue("@IdTransaccion", IdTransaccion);
-
+                        _command.Parameters.AddWithValue("@Cantidad", Cantidad);
+                        _command.Parameters.AddWithValue("@IdProducto", IdProducto);
                         try
                         {
                             _command.ExecuteNonQuery();

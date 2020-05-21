@@ -316,11 +316,11 @@ namespace WebApiSpa.Controllers
         [HttpGet]
         [Route("api/SPA/EliminarEmpleadoInsumo")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult EliminarEmpleadoInsumo(int IdTransaccion)
+        public IHttpActionResult EliminarEmpleadoInsumo(int IdTransaccion, int Cantidad, int IdProducto)
         {
             try
             {
-                bool result = _spaService.EliminarEmpleadoInsumo(IdTransaccion);
+                bool result = _spaService.EliminarEmpleadoInsumo(IdTransaccion, Cantidad, IdProducto);
 
                 return Content(HttpStatusCode.OK, result);
             }

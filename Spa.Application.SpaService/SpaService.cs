@@ -311,11 +311,11 @@ namespace Spa.Application.SpaService
             }
         }
 
-        public bool EliminarEmpleadoInsumo(int IdTransaccion)
+        public bool EliminarEmpleadoInsumo(int IdTransaccion, int Cantidad, int IdProducto)
         {
             try
             {
-                return _spaRepository.EliminarEmpleadoInsumo(IdTransaccion);
+                return _spaRepository.EliminarEmpleadoInsumo(IdTransaccion, Cantidad, IdProducto);
             }
             catch
             {

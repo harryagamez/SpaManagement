@@ -1161,7 +1161,9 @@
         $scope.EliminarEmpleadoInsumo = function (data) {
             
             let IdTransaccion = data.id_Transaccion;
-            SPAService._eliminarEmpleadoInsumo(IdTransaccion)
+            let Cantidad = data.cantidad;
+            let IdProducto = data.id_Producto;
+            SPAService._eliminarEmpleadoInsumo(IdTransaccion,Cantidad, IdProducto)
                 .then(
                     function (result) {
                         if (result.data === true) {
