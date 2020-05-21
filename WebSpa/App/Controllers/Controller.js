@@ -1913,7 +1913,7 @@
                 headerName: "Producto", field: 'nombre_Producto', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Cantidad", field: 'cantidad', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true
+                headerName: "Cantidad", field: 'cantidad', width: 140, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, suppressSizeToFit: true
             },
             {
                 headerName: "Fecha", field: 'fecha', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true, cellRenderer: (data) => {
