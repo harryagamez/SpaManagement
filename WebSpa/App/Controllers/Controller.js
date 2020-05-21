@@ -1547,6 +1547,7 @@
                 .Where(function (x) { return x.id_Producto === inventario })
                 .ToArray();
             $scope.InventarioProducto = filtrarEntrada[0].inventario;
+            $scope.$broadcast('productChanged');
         }
 
         //Foco Monto
