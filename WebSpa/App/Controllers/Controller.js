@@ -1157,6 +1157,11 @@
                     })
         }
 
+        //Eliminar Insumo Empleados
+        $scope.EliminarEmpleadoInsumo = function (data) {
+
+        }
+
         // Guardar Empleado
         $scope.GuardarEmpleado = function () {
 
@@ -1679,7 +1684,7 @@
         }
 
         //Show Comfirm Desasignar Servicios
-        $scope.showConfirm = function (ev, data) {
+        $scope.showConfirmServicio = function (ev, data) {
 
             let confirm = $mdDialog.confirm()
                 .title('Desasignar Servicio')
@@ -1726,6 +1731,28 @@
             $scope.ModalAsignarServicios();
 
         }
+
+        //Show Comfirm Eliminar Insumo
+        $scope.showConfirmInsumo = function (ev, data) {
+
+            let confirm = $mdDialog.confirm()
+                .title('Eliminar Insumo')
+                .textContent('¿Seguro que deseas eliminar el insumo ' + data.nombre_Producto + ' ?')
+                .ariaLabel('Eliminar Insumo')
+                .targetEvent(ev, data)
+                .ok('Sí')
+                .cancel('No')
+                .multiple(true);
+
+            $mdDialog.show(confirm).then(function () {
+
+                $scope.EliminarEmpleadoInsumo(data);
+
+            }, function () {
+                return;
+            });
+
+        };
 
         // Modal Asignar Insumos
         $scope.ModalAsignarInsumos = function () {
@@ -1871,7 +1898,7 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='showConfirm($event, data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>delete_sweep</i>";
+                    return "<i data-ng-click='showConfirmServicio($event, data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>delete_sweep</i>";
                 },
             },
             {
@@ -1907,7 +1934,7 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='' data-toggle='tooltip' title='Eliminar Insumo' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>delete_sweep</i>";
+                    return "<i data-ng-click='showConfirmInsumo($event,data)' data-toggle='tooltip' title='Eliminar Insumo' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>delete_sweep</i>";
                 },
             },
             {
@@ -1918,7 +1945,7 @@
             },
             {
                 headerName: "Fecha", field: 'fecha', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true, cellRenderer: (data) => {
-                    return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy') : '';
+                    return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy HH:mm') : '';
                 }
             }
         ];
