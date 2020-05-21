@@ -25,6 +25,7 @@ namespace Spa.Application.SpaService
         bool AsignarEmpleadoServicio(List<EmpleadoServicio> _EmpleadoServicio);
         bool DesasignarEmpleadoServicio(int IdEmpleadoServicio);
         bool AsignarEmpleadoInsumo(List<Transaccion> _EmpleadoInsumo);
+        bool EliminarEmpleadoInsumo(int IdTransaccion);
         List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado);
         List<Transaccion> ConsultarEmpleadoInsumos(int IdEmpleado);
         List<TipoTransaccion> ConsultarTipoTransacciones();

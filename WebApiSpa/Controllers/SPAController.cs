@@ -314,6 +314,23 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpGet]
+        [Route("api/SPA/EliminarEmpleadoInsumo")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult EliminarEmpleadoInsumo(int IdTransaccion)
+        {
+            try
+            {
+                bool result = _spaService.EliminarEmpleadoInsumo(IdTransaccion);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error eliminando el insumo: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("api/SPA/ConsultarEmpleadoServicio")]
         [HttpCache(DefaultExpirySeconds = 2)]
         public IHttpActionResult ConsultarEmpleadoServicio(int IdEmpleado)

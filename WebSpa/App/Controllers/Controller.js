@@ -1068,7 +1068,7 @@
 
 
         // INVOCACIONES API
-        //Asignar Insumos
+        //Asignar Insumos Empleado
         $scope.AsignarEmpleadoInsumo = function () {
             
             if ($scope.ProductoSeleccionado != -1) {
@@ -1159,7 +1159,25 @@
 
         //Eliminar Insumo Empleados
         $scope.EliminarEmpleadoInsumo = function (data) {
-
+            
+            let IdTransaccion = data.id_Transaccion;
+            SPAService._eliminarEmpleadoInsumo(IdTransaccion)
+                .then(
+                    function (result) {
+                        if (result.data === true) {
+                            toastr.success('Insumo ' + data.nombre_Producto + ' eliminado correctamente', '', $scope.toastrOptions);                            
+                            $scope.InsumoAsignado = [];
+                            $scope.ProductoSeleccionado = -1;
+                            $scope.CantidadInsumo = '';
+                            $scope.InventarioProducto = [];
+                            $scope.ConsultarEmpleadoInsumos();
+                            $scope.ConsultarProductos();
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    }) 
         }
 
         // Guardar Empleado

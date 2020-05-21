@@ -255,7 +255,8 @@
             _consultarEmpleado: ConsultarEmpleado,
             _desasignarEmpleadoServicio: DesasignarEmpleadoServicio,
             _asignarEmpleadoInsumo: AsignarEmpleadoInsumo,
-            _consultarEmpleadoInsumos: ConsultarEmpleadoInsumos
+            _consultarEmpleadoInsumos: ConsultarEmpleadoInsumos,
+            _eliminarEmpleadoInsumo: EliminarEmpleadoInsumo
 
         }
 
@@ -495,6 +496,18 @@
                     deferred.reject(err);
                 });
 
+            return deferred.promise;
+        }
+
+        function EliminarEmpleadoInsumo(IdTransaccion) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'EliminarEmpleadoInsumo?IdTransaccion=' + IdTransaccion,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
             return deferred.promise;
         }
 

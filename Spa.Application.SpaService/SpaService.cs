@@ -311,6 +311,18 @@ namespace Spa.Application.SpaService
             }
         }
 
+        public bool EliminarEmpleadoInsumo(int IdTransaccion)
+        {
+            try
+            {
+                return _spaRepository.EliminarEmpleadoInsumo(IdTransaccion);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public bool AsignarEmpleadoInsumo(List<Transaccion> _EmpleadoInsumo)
         {
             try
