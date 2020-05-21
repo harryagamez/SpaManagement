@@ -39,12 +39,18 @@
                     .then(
                         function (result) {
                             if (result.data !== undefined && result.data !== null) {
+
                                 if (result.data.access_token !== undefined && result.data.access_token !== null) {
+
                                     if (result.data.IntegrationCode == null || result.data.IntegrationCode === "undefined") {
+
                                         $scope.validarIntegracion = true;
                                         $('#ctlIntegration').focus();
+
                                     } else {
-                                        $state.go('home')
+
+                                        $state.go('home');
+
                                     }
                                 }
                             }
@@ -55,6 +61,7 @@
                             else if (err.data !== null && err.status === 500)
                                 toastr.error(err.data, '', $scope.toastrOptions);
                         })
+
             }
 
         }
@@ -163,6 +170,7 @@
                     .then(
                         function (result) {
                             if (result.data === true) {
+
                                 toastr.success('Cliente registrado y/o actualizado correctamente', '', $scope.toastrOptions);
                                 $scope.ConsultarClientes();
                                 $scope.LimpiarDatos();
@@ -184,6 +192,7 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
+
                             $scope.Clientes = [];
                             $scope.Clientes = result.data;
                             $scope.ClientesGridOptions.api.setRowData($scope.Clientes);
@@ -303,8 +312,7 @@
                                 $scope.Barrios = $filter('orderBy')($scope.Barrios, 'id_Municipio', false);
 
 
-                            } else
-                                $scope.MunicipioSeleccionado = -1;
+                            } else $scope.MunicipioSeleccionado = -1;
 
                             if ($scope.Accion === 'BUSQUEDA_CLIENTE') {
 
@@ -655,6 +663,7 @@
                             $scope.TipoServicios = result.data;
                             $scope.TipoServicios.push({ id_TipoServicio: -1, nombre: '[Seleccione]', descripcion: '', fecha_Registro: null, fecha_Modificacion: null });
                             $scope.TipoServicios = $filter('orderBy')($scope.TipoServicios, 'nombre', false);
+
                         }
                     }, function (err) {
                         toastr.remove();
@@ -1061,58 +1070,66 @@
         $scope.TipoPagos.push({ id_TipoPago: '00000000-000-000-000000000000', descripcion: '[Seleccione]', criterio: '' });
 
         $scope.Inicializacion = function () {
+
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
             $('#txtCedula').focus();
 
         }
 
-
         // INVOCACIONES API
         //Asignar Insumos Empleado
         $scope.AsignarEmpleadoInsumo = function () {
-            
+
             if ($scope.ProductoSeleccionado != -1) {
+
                 if ($scope.CantidadInsumo > 0) {
+
                     if ($scope.CantidadInsumo <= $scope.InventarioProducto) {
-                        debugger;
+
                         $scope.InsumoAsignado = [];
                         $scope.Insumo =
                         {
-                            Id_Transaccion: -1, Id_Producto: $scope.ProductoSeleccionado, Cantidad: $scope.CantidadInsumo, Id_EmpleadoCliente: $scope.IdEmpleado, Id_TipoTransaccion: $scope.TipoTransaccionSeleccionada
+                            Id_Transaccion: -1,
+                            Id_Producto: $scope.ProductoSeleccionado,
+                            Cantidad: $scope.CantidadInsumo,
+                            Id_EmpleadoCliente: $scope.IdEmpleado,
+                            Id_TipoTransaccion: $scope.TipoTransaccionSeleccionada
                         }
+
                         $scope.InsumoAsignado.push($scope.Insumo);
+
                         SPAService._asignarEmpleadoInsumo(JSON.stringify($scope.InsumoAsignado))
                             .then(
                                 function (result) {
+
                                     if (result.data === true) {
+
                                         toastr.success('Insumo asignado correctamente', '', $scope.toastrOptions);
                                         $scope.InsumoAsignado = [];
-                                        $scope.ProductoSeleccionado = -1;                                       
+                                        $scope.ProductoSeleccionado = -1;
                                         $scope.CantidadInsumo = '';
                                         $scope.InventarioProducto = [];
                                         $scope.ConsultarEmpleadoInsumos();
                                         $scope.ConsultarProductos();
+
                                     }
                                 }, function (err) {
                                     toastr.remove();
                                     if (err.data !== null && err.status === 500)
                                         toastr.error(err.data, '', $scope.toastrOptions);
                                 })
-                    }
-                    else
-                        toastr.info('El cantidad de insumos a asignar no puede ser mayor a la cantidad existente en inventario', '', $scope.toastrOptions);
-                }
-                else
-                    toastr.info('El número de insumos a asignar debe ser mayor a 0', '', $scope.toastrOptions);
-            }
-            else
-                toastr.info('Debe seleccionar al menos 1 producto', '', $scope.toastrOptions);
+
+                    } else toastr.info('El cantidad del insumo a asignar no puede ser mayor a la cantidad existente en inventario', '', $scope.toastrOptions);
+
+                } else toastr.info('La cantidad del insumo a asignar debe ser mayor a 0', '', $scope.toastrOptions);
+
+            } else toastr.info('Debe seleccionar al menos 1 producto', '', $scope.toastrOptions);
         }
 
         // Asignar Servicios Empleados
         $scope.AsignarEmpleadoServicio = function () {
 
-            if ($scope.ServiciosAsignados.length > 0) {                
+            if ($scope.ServiciosAsignados.length > 0) {
                 $scope.ListaServiciosAsignados = [];
                 $scope.ListaServiciosAsignados = $scope.ServiciosAsignados.map(function (e) {
                     return { Id_Empleado_Servicio: -1, Id_Servicio: e, Id_Empleado: $scope.IdEmpleado }
@@ -1122,10 +1139,12 @@
                     .then(
                         function (result) {
                             if (result.data === true) {
+
                                 toastr.success('Servicios asignados correctamente', '', $scope.toastrOptions);
                                 $scope.ServiciosAsignados = [];
                                 $scope.ServiciosSeleccionados = [];
                                 $scope.ConsultarEmpleadoServicio();
+
                             }
                         }, function (err) {
                             toastr.remove();
@@ -1159,27 +1178,30 @@
 
         //Eliminar Insumo Empleados
         $scope.EliminarEmpleadoInsumo = function (data) {
-            
+
             let IdTransaccion = data.id_Transaccion;
             let Cantidad = data.cantidad;
             let IdProducto = data.id_Producto;
-            SPAService._eliminarEmpleadoInsumo(IdTransaccion,Cantidad, IdProducto)
+
+            SPAService._eliminarEmpleadoInsumo(IdTransaccion, Cantidad, IdProducto)
                 .then(
                     function (result) {
                         if (result.data === true) {
-                            toastr.success('Insumo ' + data.nombre_Producto + ' eliminado correctamente', '', $scope.toastrOptions);                            
+
+                            toastr.success('Insumo ' + data.nombre_Producto + ' eliminado correctamente', '', $scope.toastrOptions);
                             $scope.InsumoAsignado = [];
                             $scope.ProductoSeleccionado = -1;
                             $scope.CantidadInsumo = '';
                             $scope.InventarioProducto = [];
                             $scope.ConsultarEmpleadoInsumos();
                             $scope.ConsultarProductos();
+
                         }
                     }, function (err) {
                         toastr.remove();
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
-                    }) 
+                    })
         }
 
         // Guardar Empleado
@@ -1194,6 +1216,7 @@
                     .then(
                         function (result) {
                             if (result.data === true) {
+
                                 toastr.success('Empleado registrado y/o actualizado correctamente', '', $scope.toastrOptions);
                                 $scope.ConsultarEmpleados();
                                 $scope.LimpiarDatos();
@@ -1216,6 +1239,7 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
+
                             $scope.Empleados = [];
                             $scope.Empleados = result.data;
                             $scope.EmpleadosGridOptions.api.setRowData($scope.Empleados);
@@ -1309,6 +1333,7 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
+
                             $scope.EmpleadoServicio = [];
                             $scope.EmpleadoServicio = result.data;
                             $scope.EmpleadoServicioGridOptions.api.setRowData($scope.EmpleadoServicio);
@@ -1340,10 +1365,11 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
+
                             $scope.EmpleadoInsumos = [];
-                            $scope.EmpleadoInsumos = result.data;                            
+                            $scope.EmpleadoInsumos = result.data;
                             $scope.EmpleadoInsumosGridOptions.api.setRowData($scope.EmpleadoInsumos);
-                            
+
                             $timeout(function () {
                                 $scope.EmpleadoInsumosGridOptions.api.sizeColumnsToFit();
                             }, 200);
@@ -1376,8 +1402,7 @@
                                 $scope.Barrios = $filter('orderBy')($scope.Barrios, 'id_Municipio', false);
 
 
-                            } else
-                                $scope.MunicipioSeleccionado = -1;
+                            } else $scope.MunicipioSeleccionado = -1;
 
                             if ($scope.Accion === 'BUSQUEDA_EMPLEADO') {
 
@@ -1430,6 +1455,7 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
+
                             $scope.TipoPagos = [];
                             $scope.TipoPagos = result.data;
                             $scope.TipoPagos.push({ id_TipoPago: '00000000-000-000-000000000000', descripcion: '[Seleccione]', criterio: '' });
@@ -1454,6 +1480,7 @@
 
                             $scope.TipoServicios = [];
                             $scope.TipoServicios = result.data;
+
                         }
                     }, function (err) {
                         toastr.remove();
@@ -1469,9 +1496,11 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
+
                             $scope.Servicios = [];
                             $scope.Servicios = result.data;
                             $scope.Servicios = $filter('orderBy')($scope.Servicios, 'id_Servicio', false);
+
                         }
                     }, function (err) {
                         toastr.remove();
@@ -1500,7 +1529,6 @@
                             if (filtrarEntrada.length > 0)
                                 $scope.TipoTransaccionSeleccionada = filtrarEntrada[0].id_TipoTransaccion;
 
-
                         }
                     }, function (err) {
                         toastr.remove();
@@ -1519,7 +1547,8 @@
                         if (result.data !== undefined && result.data !== null) {
 
                             $scope.Productos = [];
-                            $scope.Productos = result.data; 
+                            $scope.Productos = result.data;
+                            $scope.Productos = $filter('orderBy')($scope.Productos, 'nombre', false);
 
                         }
                     }, function (err) {
@@ -1566,18 +1595,22 @@
 
         // FUNCIONES
         //Consultar Inventario Producto
-        $scope.ConsultarInventario = function (inventario) {            
+        $scope.ConsultarInventario = function (inventario) {
+
             $scope.InventarioProducto = [];
             let filtrarEntrada = Enumerable.From($scope.Productos)
                 .Where(function (x) { return x.id_Producto === inventario })
                 .ToArray();
             $scope.InventarioProducto = filtrarEntrada[0].inventario;
             $scope.$broadcast('productChanged');
+
         }
 
         //Foco Monto
         $scope.FocoMonto = function () {
+
             $scope.$broadcast('selectChanged');
+
         }
 
         //Asignar Remover Elementos Lista Servicios
@@ -1700,7 +1733,9 @@
 
         // Filtros Barrios
         $scope.FiltrarBarrios = function (id_Municipio) {
+
             $scope.ConsultarBarrios(id_Municipio);
+
         }
 
         //Show Comfirm Desasignar Servicios
@@ -1727,7 +1762,8 @@
 
         //Modal Asignar Servicio
         $scope.ModalAsignarServicios = function () {
-            $scope.AccionEmpleado = 'Asignar Servicios';            
+
+            $scope.AccionEmpleado = 'Asignar Servicios';
             $mdDialog.show({
                 contentElement: '#dlgAsignarServicios',
                 parent: angular.element(document.body),
@@ -1741,6 +1777,7 @@
                     $scope.ServiciosAsignados = [];
 
                 });
+
         }
 
         $scope.AsignarServicios = function (data) {
@@ -1787,17 +1824,19 @@
             })
                 .then(function () {
                 }, function () {
-                        $scope.ProductoSeleccionado = -1;
-                        $scope.CantidadInsumo = '';
-                        $scope.InventarioProducto = [];
+                    $scope.ProductoSeleccionado = -1;
+                    $scope.CantidadInsumo = '';
+                    $scope.InventarioProducto = [];
                 });
         }
 
         $scope.AsignarInsumos = function (data) {
+
             $scope.IdEmpleado = data.id_Empleado;
             $scope.NombreEmpleado = data.nombres + ' ' + data.apellidos;
             $scope.ConsultarEmpleadoInsumos();
             $scope.ModalAsignarInsumos();
+
         }
 
         //SelectedRow
@@ -1840,9 +1879,11 @@
 
         //Change Row Color
         function ChangeRowColor(params) {
+
             if (params.data.estado === 'INACTIVO') {
                 return { 'background-color': '#ecf0e0', 'color': '#999999', 'font-weight': '300' };
             }
+
         }
 
         //API GRID EMPLEADOS OPTIONS
@@ -1927,6 +1968,7 @@
             {
                 headerName: "Tipo", field: 'tipoServicio', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true
             }
+
         ];
 
         $scope.EmpleadoServicioGridOptions = {
@@ -1946,6 +1988,7 @@
             animateRows: true,
             suppressRowClickSelection: true,
             rowSelection: 'multiple'
+
         }
 
         //API GRID ASIGNAR INSUMOS OPTIONS
@@ -1958,16 +2001,17 @@
                 },
             },
             {
-                headerName: "Producto", field: 'nombre_Producto', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Producto", field: 'nombre_Producto', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Cantidad", field: 'cantidad', width: 140, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, suppressSizeToFit: true
+                headerName: "Cantidad", field: 'cantidad', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, suppressSizeToFit: true
             },
             {
-                headerName: "Fecha", field: 'fecha', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: (data) => {
+                headerName: "Fecha", field: 'fecha', width: 90, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
                     return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy HH:mm:ss') : '';
                 }
             }
+
         ];
 
         $scope.EmpleadoInsumosGridOptions = {
@@ -1987,13 +2031,16 @@
             animateRows: true,
             suppressRowClickSelection: true,
             rowSelection: 'multiple'
+
         }
 
 
         //Eventos
         $scope.Cancelar = function () {
+
             $mdDialog.cancel();
             $('#txtBuscarServicio').focus();
+
         };
 
         window.onresize = function () {
@@ -2093,6 +2140,8 @@
 
                             $scope.Productos = [];
                             $scope.Productos = result.data;
+                            $scope.Productos = $filter('orderBy')($scope.Productos, 'nombre', false);
+
                             $scope.ProductosGridOptions.api.setRowData($scope.Productos);
 
                             $timeout(function () {
@@ -2196,7 +2245,7 @@
                                 $scope.ProductoTransaccionesGridOptions.api.sizeColumnsToFit();
                             }, 200);
 
-                            $scope.DescripcionProductoTransacciones = 'Transacciones del producto: ' + data.nombre;
+                            $scope.DescripcionProductoTransacciones = 'Producto: ' + data.nombre;
 
                             $mdDialog.show({
                                 contentElement: '#dlgProductoTransacciones',
@@ -2208,7 +2257,6 @@
                                 }, function () {
                                     $('#txtBuscarProducto').focus();
                                 });
-
 
                         }
                     }, function (err) {
@@ -2320,33 +2368,33 @@
         $scope.ProductosGridOptionsColumns = [
 
             {
-                headerName: "", field: "Checked", suppressFilter: true, width: 25, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
+                headerName: "", field: "Checked", suppressFilter: true, width: 20, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
             },
             {
-                headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+                headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
                     return "<i data-ng-click='ConsultarProducto(data)' data-toggle='tooltip' title='Editar producto' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>create</i>";
                 },
             },
             {
-                headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+                headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
                     return "<i data-ng-click='ConsultarProductoTransacciones(data)' data-toggle='tooltip' title='Transacciones' class='material-icons' style='font-size:20px;margin-top:-1px;color:#646769;'>list</i>";
                 },
             },
             {
-                headerName: "Nombre", field: 'nombre', width: 100, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Nombre", field: 'nombre', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Descripcion", field: 'descripcion', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function (params) {
+                headerName: "Descripcion", field: 'descripcion', width: 170, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function (params) {
                     return "<span  data-toggle='tooltip' data-placement='left' title='{{data.descripcion}}'>{{data.descripcion}}</span>"
                 },
             },
             {
-                headerName: "Precio", field: 'precio', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
+                headerName: "Precio", field: 'precio', width: 50, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
             },
             {
-                headerName: "Inventario", field: 'inventario', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
+                headerName: "Inventario", field: 'inventario', width: 80, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
             }
 
         ];
@@ -2375,13 +2423,13 @@
         $scope.ProductoTransaccionesGridOptionsColumns = [
 
             {
-                headerName: "Nombre", field: 'nombre_Producto', width: 120, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Nombre", field: 'nombre_Producto', width: 150, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Tipo", field: 'nombre_Tipo_Transaccion', width: 80, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Tipo", field: 'nombre_Tipo_Transaccion', width: 50, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Cantidad", field: 'cantidad', width: 80, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, cellRenderer: (params) => {
+                headerName: "Cantidad", field: 'cantidad', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, cellRenderer: (params) => {
                     if (params.data.nombre_Tipo_Transaccion !== "ENTRADA")
                         return (params.data.cantidad * - 1);
                     else
@@ -2389,7 +2437,7 @@
                 }
             },
             {
-                headerName: "Fecha", field: 'fecha', width: 110, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (params) => {
+                headerName: "Fecha", field: 'fecha', width: 90, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (params) => {
                     return params.value ? $filter('date')(new Date(params.value), 'MM/dd/yyyy HH:mm:ss') : '';
                 }
             },
