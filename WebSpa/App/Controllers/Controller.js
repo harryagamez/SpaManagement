@@ -1962,8 +1962,8 @@
                 headerName: "Cantidad", field: 'cantidad', width: 140, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, suppressSizeToFit: true
             },
             {
-                headerName: "Fecha", field: 'fecha', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true, cellRenderer: (data) => {
-                    return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy HH:mm') : '';
+                headerName: "Fecha", field: 'fecha', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: (data) => {
+                    return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy HH:mm:ss') : '';
                 }
             }
         ];
