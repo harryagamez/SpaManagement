@@ -86,7 +86,7 @@
                                         <label class="label-form-servicios" style="">
                                             Nombre Producto:
                                         </label>
-                                        <input ng-model="Producto.Nombre" ng-blur="ConsultarProductoNombre($event, Producto.Nombre)" data-ng-enter="ConsultarProductoNombre($event, Producto.Nombre)" ng-readonly="NombreProductoReadOnly" id="txtNombreProducto" type="text" style="" maxlength="30" class="" placeholder="Digite el nombre del producto ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=1 md-autofocus>
+                                        <input ng-model="Producto.Nombre" ng-blur="ConsultarProductoNombre($event, Producto.Nombre)" data-ng-enter="ConsultarProductoNombre($event, Producto.Nombre)" ng-readonly="NombreProductoReadOnly" id="txtNombreProducto" type="text" style="" maxlength="60" class="" placeholder="Digite el nombre del producto ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=1 md-autofocus>
                                     </md-input-container>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                                         <label class="label-form-servicios" style="">
                                             Descripción Producto:
                                         </label>
-                                        <textarea ng-model="Producto.Descripcion" id="txtDescripcionProducto" type="text" placeholder="Digite la descripción del producto ..." md-maxlength="300" rows="2" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2 md-autofocus="AccionProducto == 'Editar Producto'"></textarea>
+                                        <textarea ng-model="Producto.Descripcion" id="txtDescripcionProducto" type="text" placeholder="Digite la descripción del producto ..." md-maxlength="200" rows="2" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2 md-autofocus="AccionProducto == 'Editar Producto'"></textarea>
                                     </md-input-container>
 
                                 </div>

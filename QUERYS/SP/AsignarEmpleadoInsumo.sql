@@ -1,4 +1,4 @@
-CREATE PROCEDURE AsignarEmpleadoInsumo(@JsonEmpleadoInsumo NVARCHAR(MAX))
+ALTER PROCEDURE AsignarEmpleadoInsumo(@JsonEmpleadoInsumo NVARCHAR(MAX))
 AS
 BEGIN
 
@@ -6,6 +6,7 @@ BEGIN
 
 	CREATE TABLE #TempEmpleadoInsumo(Id_Transaccion INT, Id_Producto INT, Id_EmpleadoCliente INT, Id_TipoTransaccion INT, Cantidad INT)
 	DECLARE @CantidadInsumo INT
+	DECLARE @IdProducto INT
 
 	INSERT INTO #TempEmpleadoInsumo (Id_Transaccion, Id_Producto, Id_EmpleadoCliente, Id_TipoTransaccion, Cantidad)
 	SELECT 
@@ -16,7 +17,7 @@ BEGIN
 		JSON_VALUE (C.value, '$.Cantidad') AS Cantidad
 	FROM OPENJSON(@JsonEmpleadoInsumo) AS C	
 
-	SET @CantidadInsumo = (SELECT TOP 1 Cantidad FROM #TempEmpleadoInsumo)
+	SELECT TOP 1 @CantidadInsumo = Cantidad, @IdProducto = Id_Producto FROM #TempEmpleadoInsumo
 
 	BEGIN TRY
 
@@ -27,6 +28,7 @@ BEGIN
 		FROM #TempEmpleadoInsumo	
 	
 		UPDATE PRODUCTOS SET INVENTARIO = INVENTARIO - @CantidadInsumo
+		WHERE ID_PRODUCTO = @IdProducto
 
 	COMMIT TRANSACTION
 
