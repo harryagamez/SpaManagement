@@ -1,4 +1,5 @@
 ﻿using Spa.Domain.SpaEntities;
+using Spa.Domain.SpaEntities.Extensions;
 using Spa.InfraCommon.SpaCommon.Models;
 using System.Collections.Generic;
 
@@ -33,5 +34,6 @@ namespace Spa.Infrastructure.SpaRepository
         List<Transaccion> ConsultarEmpleadoInsumos(int IdEmpleado);
         bool GuardarProducto(List<Producto> _Producto);
         List<Transaccion> ConsultarProductoTransacciones(int IdProducto, string IdEmpresa);
+        List<Gasto> ConsultarGastos(BusquedaGasto _BusquedaGasto);
     }
 }

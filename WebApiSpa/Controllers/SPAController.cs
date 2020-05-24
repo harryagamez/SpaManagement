@@ -1,6 +1,7 @@
 ﻿using CacheCow.Server.WebApi;
 using Spa.Application.SpaService;
 using Spa.Domain.SpaEntities;
+using Spa.Domain.SpaEntities.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -448,5 +449,23 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error consultando las transacciones del producto: " + ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("api/SPA/ConsultarGastos")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarGastos(BusquedaGasto _BusquedaGasto)
+        {
+            try
+            {
+                List<Gasto> _gastos = _spaService.ConsultarGastos(_BusquedaGasto);
+
+                return Content(HttpStatusCode.OK, _gastos);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los gastos: " + ex.Message);
+            }
+        }
+
     }
 }

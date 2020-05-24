@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Gastos</title>
+</head>
+<body>
+
+    <div layout="row" style="height: calc(100vh - 70px); overflow:auto;">
+
+        <form id="frmGastos">
+
+
+            <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
+                <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Buscar">
+                    <i class="material-icons md-18" style="transform: scaleX(-1)">search</i>Buscar
+                </md-button>
+
+                <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: 6px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevoGasto()">
+                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                </md-button>
+
+                <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Eliminar">
+                    <i class="material-icons md-18" style="transform: scaleX(-1)">delete</i>Eliminar
+                </md-button>
+
+                <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: 6px;" data-toggle="tooltip" title="Caja menor">
+                    <i class="material-icons md-18" style="transform: scaleX(-1)">account_balance</i>Caja Menor
+                </md-button>
+
+                <md-button type="button" id="btnInformes" class="btn-spa groupX middle" style="margin-right:0;margin-left: -1px;" data-toggle="tooltip" title="Informes">
+                    <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Informes
+                </md-button>
+
+                <md-button type="button" class="btn-spa dropdown-toggle-split groupX right" style="min-width:0; margin-left:-1px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="material-icons" style="transform: scaleX(-1); margin-top: -0px;">settings</i>
+                </md-button>
+                <div class="dropdown-menu">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item btn-informe">
+                            <md-checkbox ng-model="ListadoProductos" aria-label="Checkbox 1">
+                                Listado por tipo de gasto
+                            </md-checkbox>
+                        </li>
+                        <li class="list-group-item btn-informe">
+                            <md-checkbox ng-model="DetalladoProductos" aria-label="Checkbox 2">
+                                Detallado gastos liquidados
+                            </md-checkbox>
+                        </li>
+                        <li class="list-group-item btn-informe">
+                            <md-checkbox ng-model="GeneralProductos" aria-label="Checkbox 3">
+                                Detallado gastos pendientes
+                            </md-checkbox>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-around center">
+
+                <div flex="">
+                    <md-input-container style="margin-left: -40px; min-width: 50%;">
+                        <label class="label-form-clientes" style="">
+                            Fecha Desde:
+                        </label>
+                        <md-datepicker ng-model="Filtros.Desde" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=1></md-datepicker>
+                    </md-input-container>
+                </div>
+
+                <div flex="">
+                    <md-input-container style="margin-left: -40px; min-width: 50%;">
+                        <label class="label-form-clientes" style="">
+                            Fecha Hasta:
+                        </label>
+                        <md-datepicker ng-model="Filtros.Hasta" md-placeholder="Enter date" class="dateClientes" id="dpFechaHasta" tabindex=2></md-datepicker>
+                    </md-input-container>
+                </div>
+
+                <div flex="">
+                    <md-input-container style="width:50%">
+                        <label class="label-form-clientes">
+                            Tipo Gasto:
+                        </label>
+                        <select ng-model="TipoGastoSeleccionado" ng-options="item.id_TipoGasto as item.Nombre for item in TipoGastos | orderBy:'Nombre'" style="display:none; width:auto; " tabindex=3>
+                        </select>
+                        <md-select ng-model="TipoGastoSeleccionado" style="display:inline-flex; min-width: 100% !important; margin:15px 0; margin-top:1px;" id="slTipoGasto" tabindex=4>
+                            <md-option ng-bind="item.Nombre" ng-value="item.id_TipoGasto" ng-repeat="item in TipoGastos track by item.id_TipoGasto"></md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+
+                <!--<div flex="">
+                    <md-input-container style="width:50%">
+                        <label class="label-form-clientes">
+                            Caja Menor:
+                        </label>
+                        <select ng-model="TipoCajaSeleccionada" ng-options="item.id_TipoCaja as item.Nombre for item in TipoCaja | orderBy:'Nombre'" style="display:none; width:auto; " tabindex=5>
+                        </select>
+                        <md-select ng-model="TipoCajaSeleccionada" style="display:inline-flex; min-width: 100% !important; margin:15px 0; margin-top:1px;" id="slTipoCaja" tabindex=6>
+                            <md-option ng-bind="item.Nombre" ng-value="item.id_TipoCaja" ng-repeat="item in TipoCaja track by item.id_TipoCaja"></md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+
+                <div flex="">
+                    <md-input-container style="width:50%">
+                        <label class="label-form-empleados" style="margin-bottom:-8px;">
+                            Saldo Inicial:
+                        </label>
+                        <input ng-model="Caja.SaldoInicial" id="txtSaldoInicial" focus="selectChanged" type="text" numbers-only style="position:relative; margin-top:16px;" placeholder="Digite el monto a pagar ..." tabindex=14>
+                    </md-input-container>
+                </div>-->
+
+            </div>
+
+
+            <div id="divGridGastos" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 250px); margin-top:14px; overflow-y:auto;">
+                <div id="divGastosGridOptions" data-ag-grid="GastosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+</html>
