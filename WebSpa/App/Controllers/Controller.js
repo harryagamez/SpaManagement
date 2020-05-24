@@ -618,14 +618,16 @@
             Nombre_Tipo_Servicio: '',
             Tiempo: 0,
             Valor: 0,
-            Logo_Base64: '',
+            Imagenes_Servicio: [{                
+                Imagen_Base64: ''
+                }]
         }
 
         // INVOCACIONES API
         $scope.GuardarServicio = function () {
 
             if ($scope.ValidarDatos()) {
-
+                debugger;
                 $scope.ObjetoServicio = [];
                 $scope.ObjetoServicio.push($scope.Servicio);
 
@@ -658,7 +660,7 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
-
+                            
                             $scope.TipoServicios = [];
                             $scope.TipoServicios = result.data;
                             $scope.TipoServicios.push({ id_TipoServicio: -1, nombre: '[Seleccione]', descripcion: '', fecha_Registro: null, fecha_Modificacion: null });
@@ -716,7 +718,7 @@
                 $scope.Servicio.Tiempo = data.tiempo;
                 $scope.Servicio.Valor = data.valor;
                 $scope.Servicio.Id_Servicio = data.id_Servicio;
-                $scope.Servicio.Logo_Base64 = data.logo_Base64;
+                //$scope.Servicio.Imagenes_Servicio = data.imagenes_Servicio;
                 $scope.TipoServicioSeleccionado = data.id_TipoServicio;
                 $scope.ModalEditarServicio();
                 $scope.NombreServicioReadOnly = true;
@@ -772,7 +774,9 @@
                 Nombre_Tipo_Servicio: '',
                 Tiempo: 0,
                 Valor: 0,
-                Logo_Base64: '',
+                Imagenes_Servicio: [{                    
+                    Imagen_Base64: ''                    
+                }]
             }
 
             $scope.ImagenServicioBase64 = '';
@@ -832,7 +836,8 @@
                 contentElement: '#dlgNuevoServicio',
                 parent: angular.element(document.body),
                 targetEvent: event,
-                clickOutsideToClose: true
+                clickOutsideToClose: true,
+                multiple: true
             })
                 .then(function () {
                 }, function () {
@@ -854,18 +859,40 @@
                 contentElement: '#dlgNuevoServicio',
                 parent: angular.element(document.body),
                 targetEvent: event,
-                clickOutsideToClose: true
+                clickOutsideToClose: true,
+                multiple: true
             })
                 .then(function () {
                 }, function () {
                     $('#txtBuscarServicio').focus();
-                    $scope.LimpiarDatos();
+                        $scope.LimpiarDatos();
+                        $scope.ImagenServicioBase64 = '';
+                        $scope.InformacionImagen = '';
+                        $scope.Servicio.Imagenes_Servicio = [];
+                        $scope.ImagenesAdjuntas = 0;
+                        let mayorDosMB = false;
                 });
 
             $scope.NombreServicioReadOnly = true
             $scope.OcultarbtnNuevo = true;
 
         }
+
+        //Show Comfirm Imágenes Adjuntas
+        $scope.showAlertImagenesAdjuntas = function (ev) {
+
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title('Imágenes Adjuntas')
+                    .textContent('Total Imagenes Adjuntas: ' + $scope.ImagenesAdjuntas +'\n\n' + $scope.InformacionImagen)
+                    .ariaLabel('Alert Dialog Demo')
+                    .ok('Aceptar')
+                    .targetEvent(ev)
+                    .multiple(true)                    
+            );           
+        };
 
         // Agr-grid Options
         $scope.ServiciosGridOptionsColumns = [
@@ -975,40 +1002,53 @@
         };
 
         $scope.SeleccionarImagen = function (event) {
-
+            
             $scope.ImagenServicioBase64 = '';
             $scope.InformacionImagen = '';
+            $scope.Servicio.Imagenes_Servicio = [];
+            $scope.ImagenesAdjuntas = 0;
+            let mayorDosMB = false;
             let files = event.target.files;
-
-            let fileSize = files[0].size / 1024 / 1024;
-            if (fileSize <= 2) {
-
-                $scope.InformacionImagen = 'Nombre: ' + files[0].name + ' - Tamaño: ' + fileSize.toFixed(3) + ' MB';
-                getBase64(files[0]);
-
-            } else {
-
-                toastr.info('El tamaño de la imagen, no puede ser mayor a 2 MB', '', $scope.toastrOptions);
-                $scope.$apply();
-
+            
+            if (files.length > 5) {
+                toastr.info('Solo puede seleccionar un máximo de 5 imágenes', '', $scope.toastrOptions);
+                files = [];
+                return;
             }
+
+            for (i = 0; i < files.length; i++) {
+                let fileSize = (files[i].size / 1024 / 1024)
+                if (fileSize > 2)
+                    mayorDosMB = true;
+            }
+
+            if (mayorDosMB) {
+                toastr.info('El tamaño de las imágenes debe ser de máximo 2MB', '', $scope.toastrOptions);
+                files = [];
+                return;
+            }                
+
+            for (i = 0; i < files.length; i++) {
+                let fileSize = (files[i].size / 1024 / 1024);
+                $scope.InformacionImagen += 'Nombre: ' + files[i].name + ' - Tamaño: ' + fileSize.toFixed(3) + ' MB' + "\n";
+                $scope.ImagenesAdjuntas = files.length;
+                $scope.getBase64(files[i]);
+            } 
 
         }
 
         $scope.ProcesarImagen = function () {
-
             $('#ImagenServicio').trigger('click');
-
         }
 
-        function getBase64(file) {
-
+        $scope.getBase64 = function(file) {            
+            
             let reader = new FileReader();
-            reader.readAsDataURL(file);
-
-            reader.onload = function () {
+            reader.readAsDataURL(file); 
+            reader.onload = function () {                 
                 $scope.ImagenServicioBase64 = reader.result;
-                $scope.Servicio.Logo_Base64 = $scope.ImagenServicioBase64;
+                $scope.Servicio.Imagenes_Servicio.push({
+                    Id_Servicio_Image: '00000000 - 000 - 000 - 000000000000' ,Id_Servicio: -1, Imagen_Base64: $scope.ImagenServicioBase64 });
                 $("#ImagenServicio").val('');
                 $('#txtNombreServicio').focus();
             };
@@ -1018,6 +1058,8 @@
             };
 
         }
+
+
 
         // Invocación Funciones
         $scope.ConsultarTipoServicios();

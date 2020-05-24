@@ -62,7 +62,7 @@
         <!-- Modales -->
         <div style="visibility: hidden">
 
-            <input type="file" name="file" id="ImagenServicio" style="visibility:hidden;" data-toggle="tooltip" title="Upload" data-file-model="SeleccionarImagen($event)" accept=".png, .jpg, .jpeg" />
+            <input type="file" name="file" id="ImagenServicio" multiple style="visibility:hidden;" data-toggle="tooltip" title="Upload" data-file-model="SeleccionarImagen($event)" accept=".png, .jpg, .jpeg" />
 
             <div class="md-dialog-container" id="dlgNuevoServicio">
                 <md-dialog id="mdNuevoServicio" aria-label="Nuevo Servicio" style="width: 40% !important; color: #666666 !important;">
@@ -149,14 +149,18 @@
                             <div layout="row" layout-sm="column" layout-align="center start" style="margin-top: -15px!important;">
                                 <div flex="50">
                                     <md-button type="button" id="btnImagenesServicio" style="margin: 6px 3px !important;" class="groupX left" data-toggle="tooltip" title="Seleccionar imagenes" ng-click="ProcesarImagen()" tabindex=7>
-                                        <i class="material-icons md-18" style="transform: scaleX(-1)">image</i>Imagenes
+                                        <i class="material-icons md-18" style="transform: scaleX(-1)">image</i>Imágenes
                                     </md-button>
                                 </div>
 
                                 <div flex="50">
-                                    <label class="label-form-servicios" style="font-size:11px!important;" data-toggle="tooltip" title="Información imagen">
+                                    <md-button type="button" style="margin: 6px 3px !important;" class="groupX left" data-toggle="tooltip" title="Ver Imágenes Adjuntas" data-ng-click="showAlertImagenesAdjuntas()">
+                                        [...]
+                                    </md-button>
+
+                                    <!--<label class="label-form-servicios" style="font-size:11px!important;" data-toggle="tooltip" title="{{ InformacionImagen }}">
                                         {{ InformacionImagen }}
-                                    </label>
+                                    </label>-->
                                 </div>
                             </div>
 

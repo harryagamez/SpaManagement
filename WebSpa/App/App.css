@@ -506,3 +506,7 @@ input:-webkit-autofill:active {
     padding-right: 0 !important;
 }
 
+.md-dialog-content-body p {
+    white-space: pre;
+}
+
