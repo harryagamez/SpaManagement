@@ -39,7 +39,7 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SpaDB", "SpaDB\SpaDB.sqlpro
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-Azure Cloud Services", "3-Azure Cloud Services", "{C0BC1898-EEB0-4300-9DD2-298150A6E32F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunction.SpaApplicationPools", "AzureFunction.SpaApplicationPools\AzureFunction.SpaApplicationPools.csproj", "{C50FEC32-87FA-48FE-AFBD-C8D16C95C594}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunction.SpaApplicationPools", "AzureFunction.SpaApplicationPools\AzureFunction.SpaApplicationPools.csproj", "{C50FEC32-87FA-48FE-AFBD-C8D16C95C594}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

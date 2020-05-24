@@ -100,12 +100,10 @@
     <Content Include="App\Services\services.js" />
     <Content Include="App\Views\_clientes.html" />
     <Content Include="App\Views\_empleados.html" />
+    <Content Include="App\Views\_gastos.html" />
     <Content Include="App\Views\_home.html" />
-    <Content Include="App\Views\_inventory.html" />
     <Content Include="App\Views\_productos.html" />
     <Content Include="App\Views\_servicios.html" />
-    <Content Include="App\Views\_settings.html" />
-    <Content Include="App\Views\_shrink.html" />
     <Content Include="Images\cerrar_sesion.png" />
     <Content Include="Images\empresa.png" />
     <Content Include="Images\home.png" />

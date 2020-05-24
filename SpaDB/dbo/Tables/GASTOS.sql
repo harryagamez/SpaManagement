@@ -5,7 +5,7 @@
     [VALOR]              REAL             NULL,
     [FECHA]              SMALLDATETIME    NULL,
     [ESTADO]             CHAR (12)        NULL,
-    [ID_EMPLEADO]        CHAR (15)        NULL,
+    [ID_EMPLEADO]        INT              NULL,
     [FECHA_REGISTRO]     DATETIME         NULL,
     [FECHA_MODIFICACION] DATETIME         NULL,
     [ID_EMPRESA]         UNIQUEIDENTIFIER NULL,
@@ -16,20 +16,4 @@
 
 GO
 
---Create insert trigger
-CREATE TRIGGER [dbo].[MG_MasterCreation] ON [dbo].[GASTOS] FOR INSERT
-AS
-UPDATE [GASTOS]
-SET FECHA_REGISTRO = GETDATE(),FECHA_MODIFICACION = GETDATE()
-WHERE [GASTOS].ID_GASTO = (SELECT TOP 1 ID_GASTO FROM INSERTED)
-
-
-GO
-
---Create update trigger
-CREATE TRIGGER [dbo].[MG_MasterModification] ON [dbo].[GASTOS] FOR UPDATE
-AS
-UPDATE [GASTOS]
-SET FECHA_MODIFICACION = GETDATE()
-WHERE [GASTOS].ID_GASTO = (SELECT TOP 1 ID_GASTO FROM INSERTED)
 

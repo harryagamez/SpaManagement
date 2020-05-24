@@ -64,6 +64,11 @@
                 templateUrl: 'Views/_productos.html',
                 controller: 'ProductosController'
             })
+            .state('home.gastos', {
+                url: '/gastos',
+                templateUrl: 'Views/_gastos.html',
+                controller: 'GastosController'
+            })
 
         $mdDateLocaleProvider.formatDate = function (date) {
 

@@ -9,6 +9,7 @@
         .controller("ServiciosController", ServiciosController)
         .controller("EmpleadosController", EmpleadosController)
         .controller("ProductosController", ProductosController)
+        .controller("GastosController", GastosController)
 
     LoginController.$inject = ['$scope', '$state', '$location', '$mdDialog', '$rootScope', '$timeout', 'AuthService'];
     HomeController.$inject = ['$scope', '$rootScope', '$element', '$location', 'localStorageService', 'AuthService'];
@@ -16,6 +17,7 @@
     ServiciosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     EmpleadosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     ProductosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+    GastosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
     function LoginController($scope, $state, $location, $mdDialog, $rootScope, $timeout, authService) {
 
@@ -2516,6 +2518,116 @@
         $scope.ConsultarTipoTransacciones();
         $scope.ConsultarProductos();
         $scope.Inicializacion();
+
+    }
+
+    function GastosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+
+        // VARIABLES
+        $scope.ObjetoGasto = [];
+        $scope.Gastos = [];
+        $scope.AccionGasto = 'Registrar Gasto';
+        $scope.TipoGastoSeleccionado = -1;
+        $scope.TipoCajaSeleccionada = -1;
+        $scope.Filtros = { Desde: $filter('date')(new Date(), 'MM-dd-yyyy'), Hasta: $filter('date')(new Date(), 'MM-dd-yyyy') }
+
+        $scope.TipoGastos =
+            [
+                { id_TipoGasto: -1, Nombre: "[Seleccione]" },
+                { id_TipoGasto: 1, Nombre: "SERVICIOS" },
+                { id_TipoGasto: 2, Nombre: "PRESTAMOS" },
+                { id_TipoGasto: 3, Nombre: "COMPRAS" },
+                { id_TipoGasto: 4, Nombre: "VARIOS" },
+                { id_TipoGasto: 5, Nombre: "NOMINA" }
+            ];
+        $scope.TipoGastos = $filter('orderBy')($scope.TipoGastos, 'Nombre', false);
+
+        $scope.TipoCaja =
+            [
+                { id_TipoCaja: -1, Nombre: "[Seleccione]" },
+                { id_TipoCaja: 1, Nombre: "DIARIA" },
+                { id_TipoCaja: 2, Nombre: "MENSUAL" }
+            ];
+        $scope.TipoCaja = $filter('orderBy')($scope.TipoCaja, 'Nombre', false);
+
+        // INICIALIZACIÓN
+        $scope.Inicializacion = function () {
+
+            $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
+
+        }
+
+        $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.IdUsuario = parseInt($rootScope.userData.userId);
+
+        //API GRID EMPLEADOS OPTIONS
+        $scope.GastosGridOptionsColumns = [
+
+            {
+                headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
+            },
+            {
+                headerName: "Tipo", field: 'tipo', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Descripcion", field: 'descripcion', width: 150, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function (params) {
+                    return "<span  data-toggle='tooltip' data-placement='left' title='{{data.descripcion}}'>{{data.descripcion}}</span>"
+                },
+            },
+            {
+                headerName: "Valor", field: 'valor', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
+            },
+            {
+                headerName: "Registro", field: 'fecha_Registro', width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
+                    return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy') : '';
+                },
+            },
+            {
+                headerName: "Estado", field: 'estado', width: 120, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Empleado", field: 'empleado', width: 240, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            },
+
+        ];
+
+        $scope.GastosGridOptions = {
+
+            defaultColDef: {
+                resizable: true
+            },
+            columnDefs: $scope.GastosGridOptionsColumns,
+            rowData: [],
+            enableSorting: true,
+            enableFilter: true,
+            enableColResize: true,
+            angularCompileRows: true,
+            onGridReady: function (params) {
+            },
+            fullWidthCellRenderer: true,
+            animateRows: true,
+            suppressRowClickSelection: true,
+            rowSelection: 'multiple'
+
+        }
+
+        // Eventos
+        window.onresize = function () {
+
+            $timeout(function () {
+                $scope.GastosGridOptions.api.sizeColumnsToFit();
+            }, 200);
+
+        }
+
+        // Formatos
+        function currencyFormatter(params) {
+
+            let valueGrid = params.value;
+            return $filter('currency')(valueGrid, '$', 0);
+
+        }
+
 
     }
 

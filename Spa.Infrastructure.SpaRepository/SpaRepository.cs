@@ -7,6 +7,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Spa.InfraCommon.SpaCommon.Models;
+using Spa.Domain.SpaEntities.Extensions;
 
 namespace Spa.Infrastructure.SpaRepository
 {
@@ -1170,6 +1171,48 @@ namespace Spa.Infrastructure.SpaRepository
                 }
 
                 return _transacciones;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<Gasto> ConsultarGastos(BusquedaGasto _BusquedaGasto)
+        {
+            DataTable _datatable = new DataTable();
+            List<Gasto> _gastos = new List<Gasto>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarGastos";
+                        _command.Parameters.AddWithValue("@JsonBusqueda", JsonConvert.SerializeObject(_BusquedaGasto));
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _gastos = _datatable.DataTableToList<Gasto>();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _gastos;
             }
             catch
             {

@@ -256,7 +256,8 @@
             _desasignarEmpleadoServicio: DesasignarEmpleadoServicio,
             _asignarEmpleadoInsumo: AsignarEmpleadoInsumo,
             _consultarEmpleadoInsumos: ConsultarEmpleadoInsumos,
-            _eliminarEmpleadoInsumo: EliminarEmpleadoInsumo
+            _eliminarEmpleadoInsumo: EliminarEmpleadoInsumo,
+            _consultarGastos: ConsultarGastos
 
         }
 
@@ -362,7 +363,6 @@
                 });
             return deferred.promise;
         }
-
 
         function ConsultarServicios(id_empresa) {
             var deferred = $q.defer();
@@ -567,7 +567,18 @@
             serviceRest.Get('SPA', 'ConsultarProductoTransacciones?IdProducto=' + id_producto + '&IdEmpresa=' + id_empresa,
                 function (data) {
                     deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
 
+        function ConsultarGastos(busqueda_gasto) {
+            var deferred = $q.defer();
+            serviceRest.Post('SPA', 'ConsultarGastos', busqueda_gasto,
+                function (data) {
+                    deferred.resolve(data);
                 },
                 function (err) {
                     deferred.reject(err);
@@ -577,7 +588,6 @@
 
     }
     
-
     function serviceRest($http, $q, $rootScope) {
         return {
             Get: function (controller, action, callback, errorCallback) {

@@ -133,7 +133,7 @@ li.active {
     margin-left: 12px;
 }
 
-#frmClientes, #frmServicios, #frmEmpleados, #frmProductos {
+#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos {
     padding: 13px;
     height: auto;
     margin-top: 3px;
@@ -244,11 +244,12 @@ select,
     color: darkgray;
 }
 
-#frmClientes, #frmServicios, #frmEmpleados, #frmProductos {
+#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos {
     font-size: 13px;
 }
 
-    #frmClientes .material-icons, #frmServicios .material-icons, #frmEmpleados .material-icons, #frmProductos .material-icons {
+    #frmClientes .material-icons, #frmServicios .material-icons, 
+    #frmEmpleados .material-icons, #frmProductos .material-icons, #frmGastos .material-icons {
         font-size: 16px;
     }
 
@@ -355,7 +356,7 @@ li.active {
     background-color: #3A6EA5 !important;
 }
 
-#frmClientes, #frmServicios, #frmEmpleados, #frmProductos {
+#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos {
     background-color: white !important;
     border-radius: 10px;
 }

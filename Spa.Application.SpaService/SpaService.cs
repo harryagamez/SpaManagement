@@ -4,6 +4,7 @@ using System;
 using Spa.InfraCommon.SpaCommon.Models;
 using Spa.InfraCommon.SpaCommon.Helpers;
 using System.Collections.Generic;
+using Spa.Domain.SpaEntities.Extensions;
 
 namespace Spa.Application.SpaService
 {
@@ -382,6 +383,20 @@ namespace Spa.Application.SpaService
                 List<Transaccion> _transacciones = _spaRepository.ConsultarProductoTransacciones(IdProducto, IdEmpresa);
 
                 return _transacciones;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<Gasto> ConsultarGastos(BusquedaGasto _BusquedaGasto)
+        {
+            try
+            {
+                List<Gasto> _gastos = _spaRepository.ConsultarGastos(_BusquedaGasto);
+
+                return _gastos;
             }
             catch
             {
