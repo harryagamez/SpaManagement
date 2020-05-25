@@ -629,7 +629,7 @@
         $scope.GuardarServicio = function () {
 
             if ($scope.ValidarDatos()) {
-                debugger;
+               
                 $scope.ObjetoServicio = [];
                 $scope.ObjetoServicio.push($scope.Servicio);
 
@@ -777,7 +777,9 @@
                 Tiempo: 0,
                 Valor: 0,
                 Imagenes_Servicio: [{                    
-                    Imagen_Base64: ''                    
+                    Imagen_Base64: '',
+                    Id_Servicio: -1,
+                    TuvoCambios: false
                 }]
             }
 
@@ -1050,7 +1052,7 @@
             reader.onload = function () {                 
                 $scope.ImagenServicioBase64 = reader.result;
                 $scope.Servicio.Imagenes_Servicio.push({
-                    Id_Servicio_Image: '00000000 - 000 - 000 - 000000000000' ,Id_Servicio: -1, Imagen_Base64: $scope.ImagenServicioBase64 });
+                    Id_Servicio_Image: '00000000-0000-0000-000000000000', Id_Servicio: -1, Imagen_Base64: $scope.ImagenServicioBase64, TuvoCambios: true});
                 $("#ImagenServicio").val('');
                 $('#txtNombreServicio').focus();
             };
