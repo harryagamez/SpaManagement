@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Spa.Domain.SpaEntities.Extensions;
+using System;
 
 namespace Spa.Domain.SpaEntities
 {
-    public class Gasto
+    public class Gasto : BusquedaGasto
     {
         public int Id_Gasto { get; set; }
         public string Tipo_Gasto { get; set; }

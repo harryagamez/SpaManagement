@@ -46,6 +46,8 @@ BEGIN
 		SELECT GETDATE(),@Id_Producto,Cantidad_Transaccion,Id_Tipo_Transaccion,GETDATE(),GETDATE() FROM #TempProducto
 		WHERE Cantidad_Transaccion > 0
 
+		IF OBJECT_ID('tempdb..#TempProducto') IS NOT NULL DROP TABLE #TempProducto
+
 	END TRY
 	BEGIN CATCH
 

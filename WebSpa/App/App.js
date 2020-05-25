@@ -70,20 +70,20 @@
                 controller: 'GastosController'
             })
 
-        $mdDateLocaleProvider.formatDate = function (date) {
+        //$mdDateLocaleProvider.formatDate = function (date) {
 
-            if (date) {
-                var day = date.getDate();
-                var monthIndex = date.getMonth() + 1;
-                var year = date.getFullYear();
+        //    if (date) {
+        //        var day = date.getDate();
+        //        var monthIndex = date.getMonth() + 1;
+        //        var year = date.getFullYear();
 
-                day = (day <= 9) ? '0' + day : day;
-                monthIndex = (monthIndex <= 9) ? '0' + monthIndex : monthIndex;
+        //        day = (day <= 9) ? '0' + day : day;
+        //        monthIndex = (monthIndex <= 9) ? '0' + monthIndex : monthIndex;
 
-                return day + '/' + monthIndex + '/' + year;
-            }
+        //        return day + '/' + monthIndex + '/' + year;
+        //    }
 
-        };
+        //};
 
     }
 

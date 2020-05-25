@@ -620,16 +620,16 @@
             Nombre_Tipo_Servicio: '',
             Tiempo: 0,
             Valor: 0,
-            Imagenes_Servicio: [{                
+            Imagenes_Servicio: [{
                 Imagen_Base64: ''
-                }]
+            }]
         }
 
         // INVOCACIONES API
         $scope.GuardarServicio = function () {
 
             if ($scope.ValidarDatos()) {
-               
+
                 $scope.ObjetoServicio = [];
                 $scope.ObjetoServicio.push($scope.Servicio);
 
@@ -662,7 +662,7 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
-                            
+
                             $scope.TipoServicios = [];
                             $scope.TipoServicios = result.data;
                             $scope.TipoServicios.push({ id_TipoServicio: -1, nombre: '[Seleccione]', descripcion: '', fecha_Registro: null, fecha_Modificacion: null });
@@ -776,7 +776,7 @@
                 Nombre_Tipo_Servicio: '',
                 Tiempo: 0,
                 Valor: 0,
-                Imagenes_Servicio: [{                    
+                Imagenes_Servicio: [{
                     Imagen_Base64: '',
                     Id_Servicio: -1,
                     TuvoCambios: false
@@ -869,12 +869,12 @@
                 .then(function () {
                 }, function () {
                     $('#txtBuscarServicio').focus();
-                        $scope.LimpiarDatos();
-                        $scope.ImagenServicioBase64 = '';
-                        $scope.InformacionImagen = '';
-                        $scope.Servicio.Imagenes_Servicio = [];
-                        $scope.ImagenesAdjuntas = 0;
-                        let mayorDosMB = false;
+                    $scope.LimpiarDatos();
+                    $scope.ImagenServicioBase64 = '';
+                    $scope.InformacionImagen = '';
+                    $scope.Servicio.Imagenes_Servicio = [];
+                    $scope.ImagenesAdjuntas = 0;
+                    let mayorDosMB = false;
                 });
 
             $scope.NombreServicioReadOnly = true
@@ -890,12 +890,12 @@
                     .parent(angular.element(document.querySelector('#popupContainer')))
                     .clickOutsideToClose(true)
                     .title('Imágenes Adjuntas')
-                    .textContent('Total Imagenes Adjuntas: ' + $scope.ImagenesAdjuntas +'\n\n' + $scope.InformacionImagen)
+                    .textContent('Total Imagenes Adjuntas: ' + $scope.ImagenesAdjuntas + '\n\n' + $scope.InformacionImagen)
                     .ariaLabel('Alert Dialog Demo')
                     .ok('Aceptar')
                     .targetEvent(ev)
-                    .multiple(true)                    
-            );           
+                    .multiple(true)
+            );
         };
 
         // Agr-grid Options
@@ -1006,14 +1006,14 @@
         };
 
         $scope.SeleccionarImagen = function (event) {
-            
+
             $scope.ImagenServicioBase64 = '';
             $scope.InformacionImagen = '';
             $scope.Servicio.Imagenes_Servicio = [];
             $scope.ImagenesAdjuntas = 0;
             let mayorDosMB = false;
             let files = event.target.files;
-            
+
             if (files.length > 5) {
                 toastr.info('Solo puede seleccionar un máximo de 5 imágenes', '', $scope.toastrOptions);
                 files = [];
@@ -1030,14 +1030,14 @@
                 toastr.info('El tamaño de las imágenes debe ser de máximo 2MB', '', $scope.toastrOptions);
                 files = [];
                 return;
-            }                
+            }
 
             for (i = 0; i < files.length; i++) {
                 let fileSize = (files[i].size / 1024 / 1024);
                 $scope.InformacionImagen += 'Nombre: ' + files[i].name + ' - Tamaño: ' + fileSize.toFixed(3) + ' MB' + "\n";
                 $scope.ImagenesAdjuntas = files.length;
                 $scope.getBase64(files[i]);
-            } 
+            }
 
         }
 
@@ -1045,14 +1045,15 @@
             $('#ImagenServicio').trigger('click');
         }
 
-        $scope.getBase64 = function(file) {            
-            
+        $scope.getBase64 = function (file) {
+
             let reader = new FileReader();
-            reader.readAsDataURL(file); 
-            reader.onload = function () {                 
+            reader.readAsDataURL(file);
+            reader.onload = function () {
                 $scope.ImagenServicioBase64 = reader.result;
                 $scope.Servicio.Imagenes_Servicio.push({
-                    Id_Servicio_Imagen: '00000000-0000-0000-000000000000', Id_Servicio: -1, Imagen_Base64: $scope.ImagenServicioBase64, TuvoCambios: true});
+                    Id_Servicio_Imagen: '00000000-0000-0000-000000000000', Id_Servicio: -1, Imagen_Base64: $scope.ImagenServicioBase64, TuvoCambios: true
+                });
                 $("#ImagenServicio").val('');
                 $('#txtNombreServicio').focus();
             };
@@ -1170,6 +1171,7 @@
                 } else toastr.info('La cantidad del insumo a asignar debe ser mayor a 0', '', $scope.toastrOptions);
 
             } else toastr.info('Debe seleccionar al menos 1 producto', '', $scope.toastrOptions);
+
         }
 
         // Asignar Servicios Empleados
@@ -1220,6 +1222,7 @@
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
+
         }
 
         //Eliminar Insumo Empleados
@@ -1248,6 +1251,7 @@
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
+
         }
 
         // Guardar Empleado
@@ -1274,6 +1278,7 @@
                             if (err.data !== null && err.status === 500)
                                 toastr.error(err.data, '', $scope.toastrOptions);
                         })
+
             }
 
         }
@@ -1402,6 +1407,7 @@
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
+
         }
 
         //Consultar EmpleadoInsumos
@@ -1553,6 +1559,7 @@
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
+
         }
 
         //Consultar Tipo Transacciones
@@ -1602,6 +1609,7 @@
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
+
         }
 
         // Limpiar Datos
@@ -1874,6 +1882,7 @@
                     $scope.CantidadInsumo = '';
                     $scope.InventarioProducto = [];
                 });
+
         }
 
         $scope.AsignarInsumos = function (data) {
@@ -2486,7 +2495,7 @@
                 headerName: "Fecha", field: 'fecha', width: 90, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (params) => {
                     return params.value ? $filter('date')(new Date(params.value), 'MM/dd/yyyy HH:mm:ss') : '';
                 }
-            },
+            }
 
         ];
 
@@ -2573,7 +2582,7 @@
         $scope.AccionGasto = 'Registrar Gasto';
         $scope.TipoGastoSeleccionado = -1;
         $scope.TipoCajaSeleccionada = -1;
-        $scope.Filtros = { Desde: $filter('date')(new Date(), 'MM-dd-yyyy'), Hasta: $filter('date')(new Date(), 'MM-dd-yyyy') }
+        $scope.Filtros = { Desde: new Date(), Hasta: new Date() }
 
         $scope.TipoGastos =
             [
@@ -2598,11 +2607,103 @@
         $scope.Inicializacion = function () {
 
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
+            window.onresize();
 
         }
 
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
+
+        $scope.BusquedaGasto = {
+            Fecha_Desde: new Date(),
+            Fecha_Hasta: new Date(),
+            Tipo_Gasto: null,
+            Id_Empresa: $scope.IdEmpresa
+        };
+
+        $scope.ConsultarGastos = function () {
+
+            $scope.BusquedaGasto.Tipo_Gasto = null;
+
+            if ($scope.ValidarDatos()) {
+
+                if ($scope.TipoGastoSeleccionado !== -1) {
+
+                    let filtrarTipoGasto = Enumerable.From($scope.TipoGastos)
+                        .Where(function (x) { return x.id_TipoGasto === $scope.TipoGastoSeleccionado })
+                        .ToArray();
+
+                    if (filtrarTipoGasto.length > 0)
+                        $scope.BusquedaGasto.Tipo_Gasto = filtrarTipoGasto[0].Nombre;
+                }
+
+                $scope.BusquedaGasto.Fecha_Desde = $scope.Filtros.Desde;
+                $scope.BusquedaGasto.Fecha_Hasta = $scope.Filtros.Hasta;
+
+                SPAService._consultarGastos(JSON.stringify($scope.BusquedaGasto))
+                    .then(
+                        function (result) {
+                            if (result.data !== undefined && result.data !== null) {
+
+                                $scope.Gastos = [];
+                                $scope.GastosGridOptions.api.setRowData($scope.Gastos);
+
+                                $scope.Gastos = result.data;
+
+                                if ($scope.Gastos.length > 0) {
+
+                                    $scope.GastosGridOptions.api.setRowData($scope.Gastos);
+
+                                    $timeout(function () {
+                                        $scope.GastosGridOptions.api.sizeColumnsToFit();
+                                    }, 200);
+
+                                } else toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
+
+
+                            }
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        })
+
+            }
+
+        }
+
+        $scope.ValidarDatos = function () {
+
+            if ($scope.IdEmpresa === null || $scope.IdEmpresa === undefined) {
+                toastr.info('Código de empresa inválido', '', $scope.toastrOptions);
+                return false;
+            }
+
+            if ($scope.Filtros.Desde === null || $scope.Filtros.Desde === undefined) {
+                toastr.info('Fecha [Desde] inválida', '', $scope.toastrOptions);
+                return false;
+            }
+
+            if ($scope.Filtros.Hasta === null || $scope.Filtros.Hasta === undefined) {
+                toastr.info('Fecha [Hasta] inválida', '', $scope.toastrOptions);
+                return false;
+            }
+
+            let DateLimit = new Date($scope.Filtros.Hasta);
+            DateLimit.setDate(DateLimit.getDate() - 15);
+
+            if ($filter('date')($scope.Filtros.Desde, 'MM-dd-yyyy') < $filter('date')(DateLimit, 'MM-dd-yyyy')) {
+
+                if ($scope.TipoGastoSeleccionado === -1) {
+                    toastr.info('Debe seleccionar un tipo de gasto', '', $scope.toastrOptions);
+                    return false;
+                }
+
+            }
+
+            return true;
+
+        }
 
         //API GRID EMPLEADOS OPTIONS
         $scope.GastosGridOptionsColumns = [
@@ -2611,27 +2712,27 @@
                 headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
             },
             {
-                headerName: "Tipo", field: 'tipo', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Tipo", field: 'tipo_Gasto', width: 90, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Descripcion", field: 'descripcion', width: 150, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function (params) {
+                headerName: "Descripcion", field: 'descripcion', width: 260, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function (params) {
                     return "<span  data-toggle='tooltip' data-placement='left' title='{{data.descripcion}}'>{{data.descripcion}}</span>"
                 },
             },
             {
-                headerName: "Valor", field: 'valor', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
+                headerName: "Valor", field: 'valor', width: 80, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
             },
             {
                 headerName: "Registro", field: 'fecha_Registro', width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
-                    return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy') : '';
+                    return data.value ? $filter('date')(new Date(data.value), 'dd/MM/yyyy HH:mm:ss') : '';
                 },
             },
             {
-                headerName: "Estado", field: 'estado', width: 120, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Estado", field: 'estado', width: 80, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Empleado", field: 'empleado', width: 240, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
-            },
+                headerName: "Empleado", field: 'nombre_Empleado', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            }
 
         ];
 
@@ -2664,6 +2765,30 @@
 
         }
 
+        $scope.ValidarFechaDesde = function () {
+
+            if ($scope.Filtros.Desde == undefined) {
+                $scope.Filtros.Desde = new Date();
+            }
+
+            if (parseInt($filter("date")(new Date($scope.Filtros.Desde), 'yyyyMMdd')) > parseInt($filter("date")(new Date($scope.Filtros.Hasta), 'yyyyMMdd'))) {
+                $scope.Filtros.Desde = angular.copy($scope.Filtros.Hasta);
+            }
+
+        }
+
+        $scope.ValidarFechaHasta = function () {
+
+            if ($scope.Filtros.Hasta == undefined) {
+                $scope.Filtros.Hasta = new Date();
+            }
+
+            if (parseInt($filter("date")(new Date($scope.Filtros.Hasta), 'yyyyMMdd')) < parseInt($filter("date")(new Date($scope.Filtros.Desde), 'yyyyMMdd'))) {
+                $scope.Filtros.Hasta = angular.copy($scope.Filtros.Desde);
+            }
+
+        }
+
         // Formatos
         function currencyFormatter(params) {
 
@@ -2672,6 +2797,8 @@
 
         }
 
+
+        $scope.Inicializacion();
 
     }
 
