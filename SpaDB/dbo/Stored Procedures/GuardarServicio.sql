@@ -1,6 +1,8 @@
 CREATE PROCEDURE GuardarServicio(@JsonServicio NVARCHAR(MAX))
 AS
 BEGIN
+
+	DECLARE @ServicioId INT
 	
 	BEGIN TRY
 		
@@ -34,9 +36,9 @@ BEGIN
 		WITH (
 			Id_Servicio INT '$.Id_Servicio' 
 		)
+
 		IF @ServicioId = -1
 			SET @ServicioId = SCOPE_IDENTITY()	
-
 		
 		MERGE SERVICIO_IMAGENES AS TARGET
 		USING(
@@ -48,19 +50,18 @@ BEGIN
 			) AS JsonServicio
 			CROSS APPLY OPENJSON(JsonServicio.Imagenes_Servicio)
 			WITH (
-				Id_Servicio_Image VARCHAR(36) '$.Id_Servicio_Image',
+				Id_Servicio_Imagen VARCHAR(36) '$.Id_Servicio_Imagen',
 				Id_Servicio INT '$.Id_Servicio',
 				Imagen_Base64 NVARCHAR(MAX) '$.Imagen_Base64',
 				TuvoCambios BIT '$.TuvoCambios'
 			) JsonServicioImagenes
-		) AS SOURCE(Id_Servicio_Image, Id_Servicio, Imagen_Base64, TuvoCambios)
-		ON TARGET.ID_SERVICIO = @ServicioId AND CAST(TARGET.ID_SERVICIO_IMAGE as varchar(36)) = SOURCE.Id_Servicio_Image AND SOURCE.TuvoCambios = 'true'
+		) AS SOURCE(Id_Servicio_Imagen, Id_Servicio, Imagen_Base64, TuvoCambios)
+		ON TARGET.ID_SERVICIO = @ServicioId AND CAST(TARGET.ID_SERVICIO_IMAGEN as varchar(36)) = SOURCE.Id_Servicio_Imagen AND SOURCE.TuvoCambios = 'true'
 		WHEN MATCHED THEN
 			UPDATE SET TARGET.IMAGEN_BASE64 = SOURCE.Imagen_Base64, TARGET.FECHA_MODIFICACION = GETDATE()
 		WHEN NOT MATCHED THEN			
-			INSERT (ID_SERVICIO_IMAGE, ID_SERVICIO, IMAGEN_BASE64, FECHA_REGISTRO, FECHA_MODIFICACION) 
+			INSERT (ID_SERVICIO_IMAGEN, ID_SERVICIO, IMAGEN_BASE64, FECHA_REGISTRO, FECHA_MODIFICACION) 
 			VALUES (NEWID(), @ServicioId, SOURCE.Imagen_Base64, GETDATE(), GETDATE());
-
 
 	END TRY
 	BEGIN CATCH
