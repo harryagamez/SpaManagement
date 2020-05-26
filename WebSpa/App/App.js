@@ -68,7 +68,7 @@
                 url: '/gastos',
                 templateUrl: 'Views/_gastos.html',
                 controller: 'GastosController'
-            })
+            })            
 
         //$mdDateLocaleProvider.formatDate = function (date) {
 

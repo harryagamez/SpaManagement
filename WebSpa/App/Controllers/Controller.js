@@ -635,7 +635,7 @@
 
                 $scope.ObjetoServicio = [];
                 $scope.ObjetoServicio.push($scope.Servicio);
-                debugger;
+                
                 SPAService._guardarServicio(JSON.stringify($scope.ObjetoServicio))
                     .then(
                         function (result) {
@@ -730,10 +730,20 @@
 
                 $scope.EstadoSeleccionado = $scope.Servicio.Estado;
 
-                $scope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;
+                if ($scope.Servicio.Imagenes_Servicio != null) {
+                    $scope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;
+                }
+                
+                
 
             }
 
+        }
+
+        // Visualizar Imagen
+        $scope.VisualizarImagen = function (data) {
+
+            $scope.ModalSliderServicio();
         }
 
         // Consultar Servicio Por Nombre
@@ -862,6 +872,23 @@
             $scope.OcultarbtnNuevo = false;
 
         }
+
+        //Modal Servicio Imagenes Slider
+        $scope.ModalSliderServicio = function () {
+
+            $mdDialog.show({
+                controller: ServiciosController,
+                templateUrl: 'Views/Templates/_slider.tmpl.html',
+                parent: angular.element(document.body),
+                //targetEvent: ev,
+                clickOutsideToClose: true,
+                //fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+            })
+                .then(function () {
+                    
+                }, function () {                    
+                });
+        };
 
         // Modal Editar Servicio
         $scope.ModalEditarServicio = function () {
@@ -1040,7 +1067,7 @@
 
             $scope.ImagenServicioBase64 = '';
             $scope.InformacionImagen = '';
-            debugger;
+            
             if ($scope.Servicio.Imagenes_Servicio == null) { $scope.Servicio.Imagenes_Servicio = [];}
             $scope.ImagenesAdjuntas = 0;
             let mayorDosMB = false;
@@ -1084,7 +1111,7 @@
             reader.onload = function () {
                 $scope.ImagenServicioBase64 = reader.result;
                 $scope.Servicio.Imagenes_Servicio.push({
-                    Imagen_Base64: $scope.ImagenServicioBase64, TuvoCambios: true
+                    Id_Servicio: -1, Imagen_Base64: $scope.ImagenServicioBase64, TuvoCambios: true
                 });
                 $("#ImagenServicio").val('');
                 $('#txtNombreServicio').focus();
