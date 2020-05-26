@@ -155,6 +155,7 @@
         $scope.Inicializacion = function () {
 
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
+            window.onresize();
 
             $('#txtCedula').focus();
 
@@ -601,6 +602,7 @@
         $scope.Inicializacion = function () {
 
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
+            window.onresize();
 
             $('#txtBuscarServicio').focus();
 
@@ -1180,6 +1182,8 @@
         $scope.Inicializacion = function () {
 
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
+            window.onresize();
+
             $('#txtCedula').focus();
 
         }
@@ -2195,6 +2199,7 @@
         $scope.Inicializacion = function () {
 
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
+            window.onresize();
 
             $('#txtBuscarProducto').focus();
 

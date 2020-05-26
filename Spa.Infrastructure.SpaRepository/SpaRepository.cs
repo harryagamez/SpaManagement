@@ -487,7 +487,7 @@ namespace Spa.Infrastructure.SpaRepository
         {
 
             DataSet _dataset = new DataSet();
-            List<Servicio> _servicios= new List<Servicio>();
+            List<Servicio> _servicios = new List<Servicio>();
             SqlDataAdapter _adapter = new SqlDataAdapter();
 
             try
@@ -509,32 +509,24 @@ namespace Spa.Infrastructure.SpaRepository
                         try
                         {
                             _adapter.Fill(_dataset);
-                            
-                            int countRows = _dataset.Tables[1].Rows.Count;
+
                             _dataset.Tables[0].TableName = "Servicios";
-                            if (countRows > 0)
+                            _dataset.Tables[1].TableName = "Servicio_Imagenes";
+
+                            _dataset.Relations.Add("ServicioImagenes",
+                           _dataset.Tables["Servicios"].Columns["Id_Servicio"],
+                           _dataset.Tables["Servicio_Imagenes"].Columns["Id_Servicio"]);
+
+                            _servicios = _dataset.Tables["Servicios"]
+                            .AsEnumerable()
+                            .Select(row =>
                             {
-                                _dataset.Tables[1].TableName = "Servicio_Imagenes";
+                                Servicio servicio = row.ToObject<Servicio>();
+                                servicio.Imagenes_Servicio = row.GetChildRows("ServicioImagenes").DataTableToList<ImagenServicio>();
+                                return servicio;
+                            })
+                            .ToList();
 
-                                _dataset.Relations.Add("Rel",
-                               _dataset.Tables["Servicios"].Columns["Id_Servicio"],
-                               _dataset.Tables["Servicio_Imagenes"].Columns["Id_Servicio"]);                              
-
-                                _servicios = _dataset.Tables["Servicios"]
-                                .AsEnumerable()
-                                .Select(row =>
-                                {
-                                    Servicio servicio = row.ToObject<Servicio>();
-                                    servicio.Imagenes_Servicio = row.GetChildRows("Rel").DataTableToList<ImagenServicio>();
-                                    return servicio;
-                                })
-                                .ToList();
-                            }
-                            else
-                            {                                
-                                _servicios = _dataset.Tables[0].DataTableToList<Servicio>();
-                            }                         
-                            
                         }
                         catch
                         {
