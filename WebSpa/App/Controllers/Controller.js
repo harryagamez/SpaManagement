@@ -594,6 +594,7 @@
         $scope.AccionServicio = 'Registrar Servicio';
         $scope.ImagenServicioBase64 = '';
         $scope.InformacionImagen = '';
+        $scope.ImagenesAdjuntas = 0;
 
 
         // INICIALIZACIÓN
@@ -683,7 +684,7 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
-
+                            debugger;
                             $scope.Servicios = [];
                             $scope.Servicios = result.data;
                             $scope.ServiciosGridOptions.api.setRowData($scope.Servicios);
@@ -707,9 +708,9 @@
         $scope.ConsultarServicio = function (data) {
 
             $scope.TipoServicioSeleccionado = -1;
-
+           
             if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
-
+                
                 $scope.Servicio.Nombre = data.nombre;
                 $scope.Servicio.Descripcion = data.descripcion;
                 $scope.Servicio.Estado = data.estado;
@@ -720,12 +721,14 @@
                 $scope.Servicio.Tiempo = data.tiempo;
                 $scope.Servicio.Valor = data.valor;
                 $scope.Servicio.Id_Servicio = data.id_Servicio;
-                //$scope.Servicio.Imagenes_Servicio = data.imagenes_Servicio;
+                $scope.Servicio.Imagenes_Servicio = data.imagenes_Servicio;
                 $scope.TipoServicioSeleccionado = data.id_TipoServicio;
                 $scope.ModalEditarServicio();
                 $scope.NombreServicioReadOnly = true;
 
                 $scope.EstadoSeleccionado = $scope.Servicio.Estado;
+
+                $scope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;
 
             }
 
@@ -835,7 +838,7 @@
         $scope.ModalNuevoServicio = function () {
 
             $scope.AccionServicio = 'Registrar Servicio';
-
+            $scope.ImagenesAdjuntas = 0;
             $mdDialog.show({
                 contentElement: '#dlgNuevoServicio',
                 parent: angular.element(document.body),
@@ -872,9 +875,9 @@
                     $scope.LimpiarDatos();
                     $scope.ImagenServicioBase64 = '';
                     $scope.InformacionImagen = '';
-                    $scope.Servicio.Imagenes_Servicio = [];
-                    $scope.ImagenesAdjuntas = 0;
-                    let mayorDosMB = false;
+                    $scope.Servicio.Imagenes_Servicio = [];                    
+                        let mayorDosMB = false;
+                        $scope.ImagenesAdjuntas = 0;
                 });
 
             $scope.NombreServicioReadOnly = true
@@ -896,6 +899,29 @@
                     .targetEvent(ev)
                     .multiple(true)
             );
+        };
+
+        //Show Comfirm Reemplazar Imágenes Servicios
+        $scope.showReemplazarImagenesServicio = function (ev, data) {
+
+            if ($scope.ImagenesAdjuntas > 0) {
+                let confirm = $mdDialog.confirm()
+                    .title('Sobreescribir Imágenes')
+                    .textContent('Ya existen ' + $scope.ImagenesAdjuntas+ ' imágenes adjuntas. ¿Desea reemplazarlas?')
+                    .ariaLabel('Desasignar Servicio')
+                    .targetEvent(ev, data)
+                    .ok('Sí')
+                    .cancel('No')
+                    .multiple(true);
+
+                $mdDialog.show(confirm).then(function () {
+                    $scope.ProcesarImagen();
+                }, function () {                        
+                    return;
+                });
+            }
+            else
+                $scope.ProcesarImagen(); 
         };
 
         // Agr-grid Options
