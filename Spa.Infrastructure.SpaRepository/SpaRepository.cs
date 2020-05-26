@@ -512,7 +512,7 @@ namespace Spa.Infrastructure.SpaRepository
                             
                             int countRows = _dataset.Tables[1].Rows.Count;
                             _dataset.Tables[0].TableName = "Servicios";
-                            if (countRows > 1)
+                            if (countRows > 0)
                             {
                                 _dataset.Tables[1].TableName = "Servicio_Imagenes";
 

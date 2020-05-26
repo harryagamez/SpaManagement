@@ -849,6 +849,10 @@
                 .then(function () {
                 }, function () {
                     $('#txtBuscarServicio').focus();
+                    $scope.ImagenServicioBase64 = '';
+                    $scope.InformacionImagen = '';
+                    $scope.Servicio.Imagenes_Servicio = [];
+                    $scope.ImagenesAdjuntas = 0;
                 });
 
             $scope.LimpiarDatos();
@@ -875,9 +879,8 @@
                     $scope.LimpiarDatos();
                     $scope.ImagenServicioBase64 = '';
                     $scope.InformacionImagen = '';
-                    $scope.Servicio.Imagenes_Servicio = [];                    
-                        let mayorDosMB = false;
-                        $scope.ImagenesAdjuntas = 0;
+                    $scope.Servicio.Imagenes_Servicio = [];
+                    $scope.ImagenesAdjuntas = 0;
                 });
 
             $scope.NombreServicioReadOnly = true
