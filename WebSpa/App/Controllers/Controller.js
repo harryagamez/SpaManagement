@@ -742,7 +742,9 @@
 
         // Visualizar Imagen
         $scope.VisualizarImagen = function (data) {
-
+            debugger;
+            $scope.ServicioListaImagenes = [];
+            $scope.ServicioListaImagenes = data.imagenes_Servicio;
             $scope.ModalSliderServicio();
         }
 
@@ -880,9 +882,9 @@
                 controller: ServiciosController,
                 templateUrl: 'Views/Templates/_slider.tmpl.html',
                 parent: angular.element(document.body),
-                //targetEvent: ev,
+                targetEvent: event,
                 clickOutsideToClose: true,
-                //fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+                fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
             })
                 .then(function () {
                     
