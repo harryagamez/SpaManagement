@@ -622,6 +622,8 @@
             Tiempo: 0,
             Valor: 0,
             Imagenes_Servicio: [{
+                Id_Servicio_Imagen: '',
+                Id_Servicio: -1,
                 Imagen_Base64: ''
             }]
         }
@@ -633,7 +635,7 @@
 
                 $scope.ObjetoServicio = [];
                 $scope.ObjetoServicio.push($scope.Servicio);
-
+                debugger;
                 SPAService._guardarServicio(JSON.stringify($scope.ObjetoServicio))
                     .then(
                         function (result) {
@@ -684,7 +686,7 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
-                            debugger;
+                            
                             $scope.Servicios = [];
                             $scope.Servicios = result.data;
                             $scope.ServiciosGridOptions.api.setRowData($scope.Servicios);
@@ -1038,7 +1040,8 @@
 
             $scope.ImagenServicioBase64 = '';
             $scope.InformacionImagen = '';
-            $scope.Servicio.Imagenes_Servicio = [];
+            debugger;
+            if ($scope.Servicio.Imagenes_Servicio == null) { $scope.Servicio.Imagenes_Servicio = [];}
             $scope.ImagenesAdjuntas = 0;
             let mayorDosMB = false;
             let files = event.target.files;
@@ -1081,7 +1084,7 @@
             reader.onload = function () {
                 $scope.ImagenServicioBase64 = reader.result;
                 $scope.Servicio.Imagenes_Servicio.push({
-                    Id_Servicio_Imagen: '00000000-0000-0000-000000000000', Id_Servicio: -1, Imagen_Base64: $scope.ImagenServicioBase64, TuvoCambios: true
+                    Imagen_Base64: $scope.ImagenServicioBase64, TuvoCambios: true
                 });
                 $("#ImagenServicio").val('');
                 $('#txtNombreServicio').focus();
