@@ -29,16 +29,23 @@ namespace WebApiSpa.Providers
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
+
+            Usuario usuario = new Usuario();
+
             IFormCollection parameters = await context.Request.ReadFormAsync();
 
             bool Validatedintegration = Convert.ToBoolean(parameters.Get("validatedintegration"));
             string Integrationcode = parameters.Get("integrationcode");
 
-            Usuario usuario = _spaService.ValidarUsuario(context.UserName, context.Password, Validatedintegration, Integrationcode);
+            usuario = _spaService.ValidarUsuario(context.UserName, context.Password, Validatedintegration, Integrationcode);
             if (usuario == null)
             {
-                context.SetError("invalid_grant", "El nombre de usuario y/o contraseña son incorrectos, contacte con el administrador");
-                return;
+                usuario = _spaService.ValidarUsuarioAdmin(context.UserName, context.Password);
+                if (usuario == null)
+                {
+                    context.SetError("invalid_grant", "El nombre de usuario y/o contraseña son incorrectos, contacte con el administrador");
+                    return;
+                }
             }
 
             ClaimsIdentity identity = new ClaimsIdentity(context.Options.AuthenticationType);
@@ -60,6 +67,7 @@ namespace WebApiSpa.Providers
             context.Validated(ticket);
 
             await Task.Delay(500);
+
         }
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)

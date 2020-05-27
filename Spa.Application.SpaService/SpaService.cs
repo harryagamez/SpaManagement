@@ -403,5 +403,19 @@ namespace Spa.Application.SpaService
                 throw;
             }
         }
+
+        public Usuario ValidarUsuarioAdmin(string Nombre, string Password)
+        {
+            try
+            {
+                Usuario _usuario = _spaRepository.ValidarUsuarioAdmin(Nombre, Password);
+
+                return _usuario;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

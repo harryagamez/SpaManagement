@@ -1236,5 +1236,49 @@ namespace Spa.Infrastructure.SpaRepository
                 throw;
             }
         }
+
+        public Usuario ValidarUsuarioAdmin(string Nombre, string Password)
+        {
+            DataTable _datatable = new DataTable();
+            Usuario _usuario = new Usuario();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ValidarUsuarioAdmin";
+                        _command.Parameters.AddWithValue("@Nombre", Nombre);
+                        _command.Parameters.AddWithValue("@Password", Password);
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _usuario = _datatable.DataTableToList<Usuario>().FirstOrDefault();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _usuario;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

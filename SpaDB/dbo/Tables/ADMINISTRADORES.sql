@@ -1,0 +1,9 @@
+﻿CREATE TABLE [dbo].[ADMINISTRADORES] (
+    [ID_USUARIO]         INT              IDENTITY (1, 1) NOT NULL,
+    [NOMBRE]             CHAR (25)        NULL,
+    [CONTRASEÑA]         CHAR (30)        NULL,
+    [MAIL]               CHAR(50)         NULL,
+    [FECHA_REGISTRO]     DATETIME         NULL,
+    [FECHA_MODIFICACION] DATETIME         NULL
+    CONSTRAINT [PK_ADMINISTRADORES] PRIMARY KEY CLUSTERED ([ID_USUARIO] ASC)
+)
