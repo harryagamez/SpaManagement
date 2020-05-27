@@ -244,6 +244,9 @@
     <Build Include="dbo\Stored Procedures\EliminarEmpleadoInsumo.sql" />
     <Build Include="dbo\Tables\SERVICIO_IMAGENES.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarGastos.sql" />
+    <Build Include="dbo\Tables\MENU_USUARIOS.sql" />
+    <Build Include="dbo\Tables\ADMINISTRADORES.sql" />
+    <Build Include="dbo\Stored Procedures\ValidarUsuarioAdmin.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />
