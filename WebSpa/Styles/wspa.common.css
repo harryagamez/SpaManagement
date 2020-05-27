@@ -780,9 +780,9 @@ md-option {
 
 	.ag-fresh .ag-header,
 	.ag-theme-fresh .ag-header {
-		color: #454545;
-		background: #d5d5d5 !important;
-		border-color: #d5d5d5 !important;
+		color: #fff;
+		background: rgba(19, 38, 68, 0.90) !important;
+		border-color: rgba(19, 38, 68, 1) !important;
 		font-size: 13px;
 	}
 
