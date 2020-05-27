@@ -734,9 +734,7 @@
 
                 if ($scope.Servicio.Imagenes_Servicio != null) {
                     $scope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;
-                }
-                
-                
+                } 
 
             }
 
@@ -744,10 +742,14 @@
 
         // Visualizar Imagen
         $scope.VisualizarImagen = function (data) {
-            debugger;
-            $scope.ServicioListaImagenes = [];
-            $scope.ServicioListaImagenes = data.imagenes_Servicio;
-            $scope.ModalSliderServicio();
+            $rootScope.ServicioNombre = data.nombre.trim();
+            $rootScope.ServicioListaImagenes = [];
+            $rootScope.ServicioListaImagenes = data.imagenes_Servicio;
+
+            if ($rootScope.ServicioListaImagenes.length > 0)
+                $scope.ModalSliderServicio();
+            else
+                $scope.showAlertSinImagenesAdjuntas();
         }
 
         // Consultar Servicio Por Nombre
@@ -881,12 +883,12 @@
         $scope.ModalSliderServicio = function () {
 
             $mdDialog.show({
-                controller: ServiciosController,
+                controller: SliderController,                
                 templateUrl: 'Views/Templates/_slider.tmpl.html',
                 parent: angular.element(document.body),
                 targetEvent: event,
                 clickOutsideToClose: true,
-                fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+                fullscreen: $scope.customFullscreen
             })
                 .then(function () {
                     
@@ -921,7 +923,7 @@
 
         }
 
-        //Show Comfirm Imágenes Adjuntas
+        //Show Alert Imágenes Adjuntas
         $scope.showAlertImagenesAdjuntas = function (ev) {
 
             $mdDialog.show(
@@ -936,6 +938,23 @@
                     .multiple(true)
             );
         };
+
+        //Show Alert Sin Imágenes Adjuntas
+        $scope.showAlertSinImagenesAdjuntas = function (ev) {
+
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title('Imágenes Adjuntas')
+                    .textContent('El servicio ' + $rootScope.ServicioNombre +' no tiene imagenes adjuntas.')
+                    .ariaLabel('Alert Dialog Demo')
+                    .ok('Aceptar')
+                    .targetEvent(ev)
+                    .multiple(true)
+            );
+        };
+
 
         //Show Comfirm Reemplazar Imágenes Servicios
         $scope.showReemplazarImagenesServicio = function (ev, data) {
@@ -2866,6 +2885,20 @@
 
         $scope.Inicializacion();
 
+    }
+
+    function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+        
+        $scope.ServicioNombre = $rootScope.ServicioNombre;
+        $rootScope.ServicioNombre = ''; //Reseteo del objeto Servicio Nombre para posterior uso
+        $scope.SliderServicios = $rootScope.ServicioListaImagenes;
+        $scope.SliderClass = 'container' + $scope.SliderServicios.length;        
+        $scope.Cancelar = function () {
+
+            $mdDialog.cancel();
+            $('#txtBuscarServicio').focus();
+
+        };
     }
 
     angular.element(document).ready(function () {

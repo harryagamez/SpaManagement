@@ -511,3 +511,159 @@ input:-webkit-autofill:active {
     white-space: pre;
 }
 
+/*SLIDER*/
+
+.container1 {
+    max-width: 400px;
+    max-height: 400px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+    .container1 > ul {
+        white-space: nowrap;        
+    }    
+
+
+.container2 {
+    max-width: 400px;
+    max-height: 400px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+    .container2 > ul {
+        white-space: nowrap;
+        animation: slide2 infinite 4s alternate;
+    }
+
+    .container2:hover > ul {
+        animation-play-state: paused;
+    }
+
+@keyframes slide2 {
+    0%, 30% {
+        margin-left: 0px;
+    }
+
+    50%, 100% {
+        margin-left: -400px;
+    }
+}
+
+.container3 {
+    max-width: 400px;
+    max-height: 400px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+    .container3 > ul {
+        white-space: nowrap;
+        animation: slide3 infinite 9s alternate;        
+    }
+
+    .container3:hover > ul {
+        animation-play-state: paused;
+    }
+
+@keyframes slide3 {
+    0%, 33% {
+        margin-left: 0px;        
+    }
+
+    45%, 63% {
+        margin-left: -400px;        
+    }
+
+    95%, 100% {
+        margin-left: -800px;        
+    }
+}
+
+.container4 {
+    max-width: 400px;
+    max-height: 400px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+    .container4 > ul {
+        white-space: nowrap;
+        animation: slide4 infinite 15s alternate;
+    }
+
+    .container4:hover > ul {
+        animation-play-state: paused;
+    }
+
+@keyframes slide4 {
+    0%, 12% {
+        margin-left: 0px;
+    }
+    18%, 25% {
+        margin-left: -400px;
+    }
+    40%, 50% {
+        margin-left: -800px;
+    }
+    60%, 75% {
+        margin-left: -1200px;
+    }
+    87%, 100% {
+        margin-left: -1600px;
+    }
+}
+
+.container5 {
+    max-width: 400px;
+    max-height: 400px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+    .container5 > ul {
+        white-space: nowrap;
+        animation: slide5 infinite 18s alternate;
+    }
+
+    .container5:hover > ul {
+        animation-play-state: paused;
+    }
+
+@keyframes slide5 {
+    0%, 10% {
+        margin-left: 0px;
+    }
+
+    14%, 20% {
+        margin-left: -400px;
+    }
+
+    32%, 40% {
+        margin-left: -800px;
+    }
+
+    52%, 60% {
+        margin-left: -1200px;
+    }
+
+    72%, 80% {
+        margin-left: -1600px;
+    }
+
+    92%, 100% {
+        margin-left: -2000px;
+    }
+}
+

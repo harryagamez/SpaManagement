@@ -1,20 +1,21 @@
-<md-dialog aria-label="Mango (Fruit)">
-    <form ng-cloak>
-      <md-toolbar >
-          <div class="md-toolbar-tools" style="background: #fff; height:0;">
+<md-dialog aria-label="Slider Servicios" style="background-color:transparent; box-shadow:none;">
+    <form ng-cloak style="overflow:hidden;">
+      <md-toolbar style="background-color: transparent !important;">
+          <div class="md-toolbar-tools" style="background-color: transparent; padding-right: 0px !important; padding-le ">
+              <h2 style="font-size:20px; color:#212121; font-weight:600; text-shadow: 0px 0px 15px orange; ">{{ServicioNombre}}</h2>
               <span flex></span>
               <md-button class="md-icon-button" ng-click="Cancelar()">
-                  <i class="material-icons" style="transform: scaleX(-1); color: #212121;">close</i>
+                  <i class="material-icons" style="transform: scaleX(-1); color: #212121; font-size:30px; font-weight:600;">close</i>
               </md-button>
           </div>
       </md-toolbar>
   
-      <md-dialog-content>
-          <ul>
-              <li class="li-padding" ng-repeat="imagen in ServicioListaImagenes">
-                  <img ng-src="{{imagen.imagen_Base64}}" style="max-width:300px;">
-              </li>
-          </ul>
+      <md-dialog-content ng-class="SliderClass" style="">         
+              <ul style="white-space:nowrap;">
+                  <li class="" ng-repeat="imagen in SliderServicios" style="display:inline; margin-right:-4px;">
+                      <img ng-src="{{imagen.imagen_Base64}}" style="min-width:400px; max-width:400px; min-height:400px; object-fit:cover;">
+                  </li>
+              </ul>                 
       </md-dialog-content>
   
       <!--<md-dialog-actions layout="row">
