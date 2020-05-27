@@ -716,10 +716,10 @@
             $scope.TipoServicioSeleccionado = -1;
            
             if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
-                
+                debugger;
                 $scope.Servicio.Nombre = data.nombre;
                 $scope.Servicio.Descripcion = data.descripcion;
-                $scope.Servicio.Estado = data.estado;
+                $scope.Servicio.Estado = data.estado.trim();
                 $scope.Servicio.Fecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
                 $scope.Servicio.Id_Empresa = $scope.IdEmpresa;
                 $scope.Servicio.Id_TipoServicio = data.id_TipoServicio;
@@ -728,7 +728,7 @@
                 $scope.Servicio.Valor = data.valor;
                 $scope.Servicio.Id_Servicio = data.id_Servicio;
                 $scope.Servicio.Imagenes_Servicio = data.imagenes_Servicio;
-                $scope.TipoServicioSeleccionado = data.id_TipoServicio;
+                $scope.TipoServicioSeleccionado = data.id_TipoServicio;                
                 $scope.ModalEditarServicio();
                 $scope.NombreServicioReadOnly = true;
 
@@ -868,7 +868,7 @@
                     $('#txtBuscarServicio').focus();
                     $scope.ImagenServicioBase64 = '';
                     $scope.InformacionImagen = '';
-                    $scope.Servicio.Imagenes_Servicio = [];
+                    //$scope.Servicio.Imagenes_Servicio = [];
                     $scope.ImagenesAdjuntas = 0;
                 });
 
