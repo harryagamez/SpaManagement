@@ -13,5 +13,6 @@ namespace Spa.Domain.SpaEntities
         public int Id_EmpleadoCliente { get; set; }
         public DateTime? Fecha_Registro { get; set; }
         public DateTime? Fecha_Modificacion { get; set; }
+        public string Id_Empresa { get; set; }
     }
 }

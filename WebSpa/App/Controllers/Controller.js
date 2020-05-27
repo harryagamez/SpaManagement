@@ -1224,7 +1224,8 @@
                             Id_Producto: $scope.ProductoSeleccionado,
                             Cantidad: $scope.CantidadInsumo,
                             Id_EmpleadoCliente: $scope.IdEmpleado,
-                            Id_TipoTransaccion: $scope.TipoTransaccionSeleccionada
+                            Id_TipoTransaccion: $scope.TipoTransaccionSeleccionada,
+                            Id_Empresa: $scope.IdEmpresa
                         }
 
                         $scope.InsumoAsignado.push($scope.Insumo);

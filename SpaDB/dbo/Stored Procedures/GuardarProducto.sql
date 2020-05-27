@@ -7,6 +7,7 @@ BEGIN
 
 	DECLARE @JsonId_Producto INT
 	DECLARE @Id_Producto INT
+	DECLARE @Id_Empresa VARCHAR(36)
 
 	INSERT INTO #TempProducto (Id_Producto, Nombre, Descripcion, Precio, Inventario, Id_Tipo_Transaccion, Cantidad_Transaccion, Id_Empresa)
 	SELECT 
@@ -21,6 +22,7 @@ BEGIN
 	FROM OPENJSON(@JsonProducto) AS C
 
 	SET @JsonId_Producto = (SELECT TOP 1 Id_Producto FROM #TempProducto)
+	SET @Id_Empresa = (SELECT TOP 1 Id_Empresa FROM #TempProducto)
 
 	BEGIN TRY
 		
@@ -42,8 +44,11 @@ BEGIN
 			SET @Id_Producto = @JsonId_Producto
 		END
 			
-		INSERT INTO TRANSACCIONES (FECHA,ID_PRODUCTO,CANTIDAD,ID_TIPOTRANSACCION,FECHA_REGISTRO,FECHA_MODIFICACION)
-		SELECT GETDATE(),@Id_Producto,Cantidad_Transaccion,Id_Tipo_Transaccion,GETDATE(),GETDATE() FROM #TempProducto
+		INSERT INTO TRANSACCIONES (FECHA, ID_PRODUCTO, CANTIDAD, ID_TIPOTRANSACCION, ID_EMPRESA, FECHA_REGISTRO, FECHA_MODIFICACION)
+		SELECT 
+			GETDATE(),@Id_Producto,Cantidad_Transaccion,Id_Tipo_Transaccion,
+			@Id_Empresa,GETDATE(),GETDATE() 
+		FROM #TempProducto
 		WHERE Cantidad_Transaccion > 0
 
 		IF OBJECT_ID('tempdb..#TempProducto') IS NOT NULL DROP TABLE #TempProducto
