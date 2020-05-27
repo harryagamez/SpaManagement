@@ -623,11 +623,13 @@
             Nombre_Tipo_Servicio: '',
             Tiempo: 0,
             Valor: 0,
-            Imagenes_Servicio: [{
-                Id_Servicio_Imagen: '',
-                Id_Servicio: -1,
-                Imagen_Base64: ''
-            }]
+            Imagenes_Servicio: [
+                //{
+                //Id_Servicio_Imagen: '',
+                //Id_Servicio: -1,
+                //Imagen_Base64: ''
+                //}
+            ]
         }
 
         // INVOCACIONES API
@@ -637,7 +639,7 @@
 
                 $scope.ObjetoServicio = [];
                 $scope.ObjetoServicio.push($scope.Servicio);
-                
+                debugger;
                 SPAService._guardarServicio(JSON.stringify($scope.ObjetoServicio))
                     .then(
                         function (result) {
@@ -784,7 +786,7 @@
         $scope.LimpiarDatos = function () {
 
             $scope.EstadoSeleccionado = 'ACTIVO';
-
+            $scope.ImagenesAdjuntas = 0;
             $scope.Servicio =
             {
                 Nombre: '',
@@ -797,11 +799,7 @@
                 Nombre_Tipo_Servicio: '',
                 Tiempo: 0,
                 Valor: 0,
-                Imagenes_Servicio: [{
-                    Imagen_Base64: '',
-                    Id_Servicio: -1,
-                    TuvoCambios: false
-                }]
+                Imagenes_Servicio: []
             }
 
             $scope.ImagenServicioBase64 = '';
@@ -857,6 +855,7 @@
 
             $scope.AccionServicio = 'Registrar Servicio';
             $scope.ImagenesAdjuntas = 0;
+            $scope.Servicio.Imagenes_Servicio.length = 0;
             $mdDialog.show({
                 contentElement: '#dlgNuevoServicio',
                 parent: angular.element(document.body),
@@ -914,7 +913,7 @@
                     $scope.LimpiarDatos();
                     $scope.ImagenServicioBase64 = '';
                     $scope.InformacionImagen = '';
-                    $scope.Servicio.Imagenes_Servicio = [];
+                    //$scope.Servicio.Imagenes_Servicio = [];
                     $scope.ImagenesAdjuntas = 0;
                 });
 
@@ -954,7 +953,6 @@
                     .multiple(true)
             );
         };
-
 
         //Show Comfirm Reemplazar Imágenes Servicios
         $scope.showReemplazarImagenesServicio = function (ev, data) {
