@@ -1084,13 +1084,13 @@
 
             $scope.ImagenServicioBase64 = '';
             $scope.InformacionImagen = '';
-            
-            if ($scope.Servicio.Imagenes_Servicio == null) { $scope.Servicio.Imagenes_Servicio = [];}
+
+            if ($scope.Servicio.Imagenes_Servicio == null) { $scope.Servicio.Imagenes_Servicio = []; }
             $scope.ImagenesAdjuntas = 0;
             let mayorDosMB = false;
             let files = event.target.files;
 
-            if (files.length > 5) {
+            if (files.length + $scope.Servicio.Imagenes_Servicio.length > 5) {
                 toastr.info('Solo puede seleccionar un máximo de 5 imágenes', '', $scope.toastrOptions);
                 files = [];
                 return;
