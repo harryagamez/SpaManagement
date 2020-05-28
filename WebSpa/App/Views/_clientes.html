@@ -50,7 +50,7 @@
                         <label class="label-form-clientes" style="">
                             Cédula:
                         </label>                        
-                            <input ng-model="Cliente.Cedula" ng-readonly="CedulaReadOnly" id="txtCedula" numbers-only maxlength="15" data-ng-enter="ConsultarCliente($event, Cliente.Cedula)" ng-blur="ConsultarCliente($event, Cliente.Cedula)" type="text" class="" placeholder="Digite su cédula..." value="" tabindex=1>                        
+                            <input ng-model="Cliente.Cedula" ng-readonly="CedulaReadOnly" id="txtCedula" numbers-only maxlength="15" data-ng-enter="ConsultarCliente($event, Cliente.Cedula)" ng-blur="ConsultarCliente($event, Cliente.Cedula)" type="text" class="" placeholder="Digite su cédula..." value="" autocomplete="off" tabindex=1>                        
                     </md-input-container>
                 </div>
 
@@ -178,7 +178,7 @@
 
             </div>
             
-            <div id="divGridClientes" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 360px); margin-top:14px; overflow-y:auto;">
+            <div id="divGridClientes" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 360px); margin-top:22px; overflow-y:auto;">
                 <div id="divClientesGridOptions" data-ag-grid="ClientesGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
             </div>
 

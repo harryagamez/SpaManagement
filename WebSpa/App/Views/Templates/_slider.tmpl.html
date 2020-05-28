@@ -1,34 +1,21 @@
 <md-dialog aria-label="Slider Servicios" style="">
     <form ng-cloak style="overflow:hidden;">
-      <md-toolbar style="">
-          <div class="md-toolbar-tools" style="padding-right: 0px !important; background-color: #fff;">
-              <h2 style="font-size:20px; color:#212121; font-weight:600;">{{ServicioNombre}}</h2>
-              <span flex></span>
-              <md-button class="md-icon-button" ng-click="Cancelar()" style="margin-right:5px; margin-top: -4px;">
-                  <i class="material-icons" style="transform: scaleX(-1); color: #212121; font-size:30px; font-weight:600;">close</i>
-              </md-button>
-          </div>
-      </md-toolbar>
-  
-      <md-dialog-content ng-class="SliderClass" style="">         
-              <ul style="white-space:nowrap;">
-                  <li class="" ng-repeat="imagen in SliderServicios" style="display:inline; margin-right:-4px;">
-                      <img ng-src="{{imagen.imagen_Base64}}" style="min-width:400px; max-width:400px; min-height:400px; object-fit:cover;">
-                  </li>
-              </ul>                 
-      </md-dialog-content>
-  
-      <!--<md-dialog-actions layout="row">
-        <md-button href="" target="_blank" md-autofocus>
-          More on Wikipedia
-        </md-button>
-        <span flex></span>
-        <md-button ng-click="answer('not useful')">
-         Not Useful
-        </md-button>
-        <md-button ng-click="answer('useful')">
-          Useful
-        </md-button>
-      </md-dialog-actions>-->
+        <md-toolbar style="">
+            <div class="md-toolbar-tools" style="padding-right: 0px !important; background-color: #fff;">
+                <h2 style="font-size:20px; color:#212121; font-weight:600;">{{ServicioNombre}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="Cancelar()" style="margin-right:5px; margin-top: -4px;">
+                    <i class="material-icons" style="transform: scaleX(-1); color: #212121; font-size:30px; font-weight:600;">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content ng-class="SliderClass" style="">
+            <ul style="white-space:nowrap;">
+                <li class="" ng-repeat="imagen in SliderServicios" style="display:inline; margin-right:-4px;">
+                    <img ng-src="{{imagen.imagen_Base64}}" style="min-width:400px; max-width:400px; min-height:400px; object-fit:cover;">
+                </li>
+            </ul>
+        </md-dialog-content>
     </form>
-  </md-dialog>
+</md-dialog>

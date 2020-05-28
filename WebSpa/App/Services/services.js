@@ -105,6 +105,7 @@
                     $rootScope.userData = { userName: response.data.UserName, userId: response.data.UserId, userRole: response.data.Role, companyName: response.data.CompanyName }
 
                     $rootScope.Id_Empresa = response.data.CompanyId;
+                    $rootScope.Perfil = response.data.userRole;
                     $rootScope.Nombre_Empresa = response.data.CompanyName;
 
                     _authentication.isAuth = true;
@@ -207,7 +208,7 @@
             $http({
                 headers: { 'Content-Type': 'application/json' },
                 method: 'GET',
-                url: $rootScope.config.data.API_URL + 'SPA/ConsultarMenu?IdUsuario=' + parseInt(authorizationData.userId)
+                url: $rootScope.config.data.API_URL + 'SPA/ConsultarMenu?IdUsuario=' + parseInt(authorizationData.userId) + '&IdEmpresa=' + authorizationData.companyId + '&Perfil=' + authorizationData.userRole
             }).then(function (result) {
                 localStorageService.set('menu', result.data);
                 $rootScope.Menu = result.data;

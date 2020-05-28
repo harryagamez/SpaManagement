@@ -10,7 +10,7 @@ namespace Spa.Infrastructure.SpaRepository
         Usuario ValidarUsuario(string Nombre, string Password, bool ValidarIntegracion, string CodigoIntegracion);
         bool ActualizarCodigoIntegracion(int IdUsuario, string IdEmpresa, string CodigoIntegracion);
         bool RegistrarActualizarCliente(List<Cliente> _Cliente);
-        List<Menu> ConsultarMenu(int IdUsuario);
+        List<Menu> ConsultarMenu(int IdUsuario, string IdEmpresa, string Perfil);
         List<Cliente> ConsultarClientes(string IdEmpresa);
         bool SincronizarBarrios(List<Properties> _Properties, string _Municipio);
         List<Municipio> ConsultarMunicipios();

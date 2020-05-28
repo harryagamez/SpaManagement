@@ -149,7 +149,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Menu> ConsultarMenu(int IdUsuario)
+        public List<Menu> ConsultarMenu(int IdUsuario, string IdEmpresa, string Perfil)
         {
             DataTable _datatable = new DataTable();
             List<Menu> _listMenu = new List<Menu>();
@@ -169,6 +169,8 @@ namespace Spa.Infrastructure.SpaRepository
                         _command.CommandType = CommandType.StoredProcedure;
                         _command.CommandText = "ConsultarMenu";
                         _command.Parameters.AddWithValue("@IdUsuario", IdUsuario);
+                        _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                        _command.Parameters.AddWithValue("@Perfil", Perfil);
                         _adapter.SelectCommand = _command;
 
                         try
