@@ -1,22 +1,24 @@
 ﻿<header id="header">
     <div layout="row">
-        <div flex="43" flex-gt-sm="40">
+        <div flex="44" flex-gt-sm="40">
             <div class="site-title">
                 <a ui-sref="home"><img src="../../Images/logo-spa.png" style="max-height:48px; margin-top:-5px;" /></a>
             </div>
         </div>
         <div flex="56" flex-gt-sm="60">
             <div class="site-widgets">
-                <ul>
+                <ul style=" white-space: nowrap;">
                     <li ng-show="!MultipleEmpresa"><span><img src="../../Images/empresa.png" style="max-width:30px; margin-top: -5px;cursor:pointer;" data-toggle="tooltip" title="Empresa activa en el sistema" />{{ NombreEmpresa }}</span></li>
                     <li ng-show="MultipleEmpresa">
                         <span>
                             <img src="../../Images/empresa.png" style="max-width:30px; margin-top: -5px;cursor:pointer;" data-toggle="tooltip" title="Empresa activa en el sistema" />
                         </span>
                     </li>
-                    <md-select ng-model="EmpresaSeleccionada" style="display:inline-flex; max-width: 50% !important;" id="slEstado" ng-show="MultipleEmpresa">
+                    <md-select ng-model="EmpresaSeleccionada" style="display:inline-flex; max-width: 55% !important;" id="slEstado" ng-show="MultipleEmpresa">
                         <md-option value="EMPRESA1">EMPRESA 1</md-option>
-                        <md-option value="EMPRESA2">EMPRESA 2</md-option>
+                        <md-option value="EMPRESA2">EMPRESA 2 EMPRESA</md-option>
+                        <md-option value="EMPRESA3">EMPRESA 3 EMPRESA EMPRESA</md-option>
+                        <md-option value="EMPRESA4">EMPRESA 4 EMPRESA EMPRESA EMPRESA</md-option>
                     </md-select>
                     <li><span><img src="../../Images/usuario.png" style="max-width:24px; margin-top: -3px;cursor:pointer;" data-toggle="tooltip" title="Usuario activo en el sistema" />{{ UsuarioSistema }}</span></li>
                     <li><a href="" ng-click="Logout()"><img src="../../Images/cerrar_sesion.png" style="max-width:24px; margin-top: -3px;" />Cerrar Sesión</a></li>

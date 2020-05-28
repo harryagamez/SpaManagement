@@ -33,14 +33,13 @@ Positions, Display, Top, Bottom, left, rights ################*/
 }
 
 #header .site-widgets {
-    float: right;
-    
+    float: right;    
     margin: 14px 20px 0 0;
 }
 
 #header .site-widgets ul li {
     display: inline;
-    padding: 0 10px 0 10px;
+    padding: 0 3px 0 3px;
 }
 
 .bg {
