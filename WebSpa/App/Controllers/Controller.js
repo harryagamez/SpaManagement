@@ -85,7 +85,7 @@
 
     function HomeController($scope, $rootScope, $element, $location, localStorageService, authService) {
 
-        $scope.MultipleEmpresa = true;
+        $scope.MultipleEmpresa = false;
         $scope.EmpresaSeleccionada = 'EMPRESA1';
 
         $scope.Logout = function () {
