@@ -623,16 +623,12 @@
             Nombre_Tipo_Servicio: '',
             Tiempo: 0,
             Valor: 0,
-            Imagenes_Servicio: [
-                //{
-                //Id_Servicio_Imagen: '',
-                //Id_Servicio: -1,
-                //Imagen_Base64: ''
-                //}
-            ]
+            Imagenes_Servicio: []
         }
 
         // INVOCACIONES API
+
+        //Guardar Servicio
         $scope.GuardarServicio = function () {
 
             if ($scope.ValidarDatos()) {
@@ -663,6 +659,7 @@
 
         }
 
+        //Consultar Tipo Servicios
         $scope.ConsultarTipoServicios = function () {
 
             SPAService._consultarTipoServicios()
@@ -684,6 +681,7 @@
 
         }
 
+        //Consultar Servicios
         $scope.ConsultarServicios = function () {
 
             SPAService._consultarServicios($scope.IdEmpresa)
@@ -867,8 +865,7 @@
                 }, function () {
                     $('#txtBuscarServicio').focus();
                     $scope.ImagenServicioBase64 = '';
-                    $scope.InformacionImagen = '';
-                    //$scope.Servicio.Imagenes_Servicio = [];
+                    $scope.InformacionImagen = '';                    
                     $scope.ImagenesAdjuntas = 0;
                 });
 
@@ -912,8 +909,7 @@
                     $('#txtBuscarServicio').focus();
                     $scope.LimpiarDatos();
                     $scope.ImagenServicioBase64 = '';
-                    $scope.InformacionImagen = '';
-                    //$scope.Servicio.Imagenes_Servicio = [];
+                    $scope.InformacionImagen = '';                    
                     $scope.ImagenesAdjuntas = 0;
                 });
 
@@ -1143,8 +1139,6 @@
             };
 
         }
-
-
 
         // Invocación Funciones
         $scope.ConsultarTipoServicios();

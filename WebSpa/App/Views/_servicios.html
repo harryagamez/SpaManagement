@@ -106,7 +106,7 @@
                                         <label class="label-form-servicios" style="">
                                             Tipo Servicio
                                         </label>
-                                        <select ng-model="TipoServicioSeleccionado" ng-options="item.id_tiposervicio as item.nombre for item in TipoServicios | orderBy:'nombre'" style="display:none; width:auto;" tabindex=4>
+                                        <select ng-model="TipoServicioSeleccionado" ng-options="item.id_tiposervicio as item.nombre for item in TipoServicios | orderBy:'nombre'" style="display:none; width:auto;" tabindex=3>
                                         </select>
                                         <md-select ng-model="TipoServicioSeleccionado" ng-readonly="TipoServicioReadOnly" style="min-width:200px; margin-top: 6px;" id="slTipoServicio" tabindex=4>
                                             <md-option ng-bind="item.nombre" ng-value="item.id_TipoServicio" ng-repeat="item in TipoServicios track by item.id_TipoServicio"></md-option>
@@ -119,7 +119,7 @@
                                         <label class="label-form-servicios" style="">
                                             Tiempo Servicio(MIN):
                                         </label>
-                                        <input ng-model="Servicio.Tiempo" id="txtTiempoServicio" numbers-only type="text" style="" class="" placeholder="Digite el tiempo del servicio en minutos ..." value="" tabindex=3>
+                                        <input ng-model="Servicio.Tiempo" id="txtTiempoServicio" numbers-only type="text" style="" class="" placeholder="Digite el tiempo del servicio en minutos ..." value="" tabindex=4>
                                     </md-input-container>
                                 </div>
 
