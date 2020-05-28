@@ -96,11 +96,11 @@ namespace WebApiSpa.Controllers
         [HttpGet]
         [Route("api/SPA/ConsultarMenu")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult ConsultarMenu(int IdUsuario)
+        public IHttpActionResult ConsultarMenu(int IdUsuario, string IdEmpresa, string Perfil)
         {
             try
             {
-                List<Menu> _listMenu = _spaService.ConsultarMenu(IdUsuario);
+                List<Menu> _listMenu = _spaService.ConsultarMenu(IdUsuario, IdEmpresa, Perfil);
 
                 return Content(HttpStatusCode.OK, _listMenu);
             }

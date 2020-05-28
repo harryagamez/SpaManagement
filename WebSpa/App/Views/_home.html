@@ -1,20 +1,29 @@
 ﻿<header id="header">
-    <div layout="row" >
+    <div layout="row">
         <div flex="43" flex-gt-sm="40">
             <div class="site-title">
-                <a ui-sref="home"><img src="../../Images/logo-spa.png" style="max-height:48px; margin-top:-5px;"/></a>
+                <a ui-sref="home"><img src="../../Images/logo-spa.png" style="max-height:48px; margin-top:-5px;" /></a>
             </div>
         </div>
         <div flex="56" flex-gt-sm="60">
             <div class="site-widgets">
                 <ul>
-                    <li><span><img src="../../Images/empresa.png" style="max-width:30px; margin-top: -5px;cursor:pointer;" data-toggle="tooltip" title="Empresa activa en el sistema" />{{ NombreEmpresa }}</span></li>
+                    <li ng-show="!MultipleEmpresa"><span><img src="../../Images/empresa.png" style="max-width:30px; margin-top: -5px;cursor:pointer;" data-toggle="tooltip" title="Empresa activa en el sistema" />{{ NombreEmpresa }}</span></li>
+                    <li ng-show="MultipleEmpresa">
+                        <span>
+                            <img src="../../Images/empresa.png" style="max-width:30px; margin-top: -5px;cursor:pointer;" data-toggle="tooltip" title="Empresa activa en el sistema" />
+                        </span>
+                    </li>
+                    <md-select ng-model="EmpresaSeleccionada" style="display:inline-flex; min-width: 50% !important;" id="slEstado" ng-show="MultipleEmpresa">
+                        <md-option value="EMPRESA1">EMPRESA 1</md-option>
+                        <md-option value="EMPRESA2">EMPRESA 2</md-option>
+                    </md-select>
                     <li><span><img src="../../Images/usuario.png" style="max-width:24px; margin-top: -3px;cursor:pointer;" data-toggle="tooltip" title="Usuario activo en el sistema" />{{ UsuarioSistema }}</span></li>
                     <li><a href="" ng-click="Logout()"><img src="../../Images/cerrar_sesion.png" style="max-width:24px; margin-top: -3px;" />Cerrar Sesión</a></li>
                 </ul>
             </div>
         </div>
-    </div> 
+    </div>
 </header>
 <aside id="sidebar">
     <ul>
@@ -24,11 +33,11 @@
     </ul>
 </aside>
 <div class="background-image"></div>
-<div class="wrapper">    
-    <section id="section">        
+<div class="wrapper">
+    <section id="section">
         <img src="../../Images/spa_.png" style="display:block; margin:auto; width: 75%; opacity: 0.15; padding-top:30px; position:fixed; z-index:0; filter:grayscale(80%)" />
-        <ui-view>            
-            <div>                
+        <ui-view>
+            <div>
             </div>
         </ui-view>
     </section>

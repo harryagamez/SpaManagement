@@ -63,11 +63,11 @@ namespace Spa.Application.SpaService
             }
         }
 
-        public List<Menu> ConsultarMenu(int IdUsuario)
+        public List<Menu> ConsultarMenu(int IdUsuario, string IdEmpresa, string Perfil)
         {
             try
             {
-                List<Menu> _listMenu = _spaRepository.ConsultarMenu(IdUsuario);
+                List<Menu> _listMenu = _spaRepository.ConsultarMenu(IdUsuario, IdEmpresa, Perfil);
 
                 return _listMenu;
             }
