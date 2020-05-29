@@ -656,7 +656,7 @@
         $scope.AccionServicio = 'Registrar Servicio';
         $scope.ImagenServicioBase64 = '';
         $scope.InformacionImagen = '';
-        $scope.ImagenesAdjuntas = 0;
+        $scope.ImagenesxAdjuntar = 0;
 
 
         // INICIALIZACIÓN
@@ -778,7 +778,7 @@
 
                 $scope.Servicio.Nombre = data.nombre;
                 $scope.Servicio.Descripcion = data.descripcion;
-                $scope.Servicio.Estado = data.estado.trim();
+                $scope.Servicio.Estado = data.estado;
                 $scope.Servicio.Fecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
                 $scope.Servicio.Id_Empresa = $scope.IdEmpresa;
                 $scope.Servicio.Id_TipoServicio = data.id_TipoServicio;
@@ -793,9 +793,9 @@
 
                 $scope.EstadoSeleccionado = $scope.Servicio.Estado;
 
-                if ($scope.Servicio.Imagenes_Servicio != null) {
-                    $scope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;
-                }
+                //if ($scope.Servicio.Imagenes_Servicio != null) {
+                //    $scope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;
+                //}
 
             }
 
@@ -803,7 +803,7 @@
 
         // Visualizar Imagen
         $scope.VisualizarImagen = function (data) {
-            $rootScope.ServicioNombre = data.nombre.trim();
+            $rootScope.ServicioNombre = data.nombre;
             $rootScope.ServicioListaImagenes = [];
             $rootScope.ServicioListaImagenes = data.imagenes_Servicio;
 
@@ -845,7 +845,11 @@
         $scope.LimpiarDatos = function () {
 
             $scope.EstadoSeleccionado = 'ACTIVO';
+            $scope.ImagenServicioBase64 = '';
             $scope.ImagenesAdjuntas = 0;
+            $scope.InformacionImagen = '';
+            $scope.ImagenesxAdjuntar = 0; 
+
             $scope.Servicio =
             {
                 Nombre: '',
@@ -914,6 +918,7 @@
 
             $scope.AccionServicio = 'Registrar Servicio';
             $scope.ImagenesAdjuntas = 0;
+            $scope.ImagenesxAdjuntar = 0;
             $scope.Servicio.Imagenes_Servicio.length = 0;
             $mdDialog.show({
                 contentElement: '#dlgNuevoServicio',
@@ -925,9 +930,7 @@
                 .then(function () {
                 }, function () {
                     $('#txtBuscarServicio').focus();
-                    $scope.ImagenServicioBase64 = '';
-                    $scope.InformacionImagen = '';
-                    $scope.ImagenesAdjuntas = 0;
+                    $scope.LimpiarDatos(); 
                 });
 
             $scope.LimpiarDatos();
@@ -957,7 +960,7 @@
         $scope.ModalEditarServicio = function () {
 
             $scope.AccionServicio = 'Editar Servicio';
-
+            $scope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;
             $mdDialog.show({
                 contentElement: '#dlgNuevoServicio',
                 parent: angular.element(document.body),
@@ -967,11 +970,13 @@
             })
                 .then(function () {
                 }, function () {
+                        
+                        $scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.filter(function (item) {
+                            return item.Id_Servicio !== -1;
+                        }); //removemos las imágenes x adjuntar seleccionadas en caso de cancelar el modal
                     $('#txtBuscarServicio').focus();
-                    $scope.LimpiarDatos();
-                    $scope.ImagenServicioBase64 = '';
-                    $scope.InformacionImagen = '';
-                    $scope.ImagenesAdjuntas = 0;
+                    $scope.LimpiarDatos();                                        
+                    
                 });
 
             $scope.NombreServicioReadOnly = true
@@ -987,7 +992,7 @@
                     .parent(angular.element(document.querySelector('#popupContainer')))
                     .clickOutsideToClose(true)
                     .title('Imágenes Adjuntas')
-                    .textContent('Total Imagenes Adjuntas: ' + $scope.ImagenesAdjuntas + '\n\n' + $scope.InformacionImagen)
+                    .textContent('Total Imagenes Adjuntas: ' + $scope.ImagenesAdjuntas + '\n\nImágenes seleccionadas para adjuntar: ' + $scope.ImagenesxAdjuntar + '\n\n' + $scope.InformacionImagen)
                     .ariaLabel('Alert Dialog Demo')
                     .ok('Aceptar')
                     .targetEvent(ev)
@@ -1013,12 +1018,17 @@
 
         //Show Comfirm Reemplazar Imágenes Servicios
         $scope.showReemplazarImagenesServicio = function (ev, data) {
+            
+            if ($scope.ImagenesAdjuntas >= 5) {
+                toastr.info('El servicio ya tiene 5 imágenes adjuntas. Si desea subir más, debe borrar alguna imagen existente', '', $scope.toastrOptions);
+                return;
+            }                
 
-            if ($scope.ImagenesAdjuntas > 0) {
+            if ($scope.ImagenesAdjuntas > 0 && $scope.ImagenesAdjuntas <= 5) {
                 let confirm = $mdDialog.confirm()
                     .title('Sobreescribir Imágenes')
-                    .textContent('Ya existen ' + $scope.ImagenesAdjuntas + ' imágenes adjuntas. ¿Desea reemplazarlas?')
-                    .ariaLabel('Desasignar Servicio')
+                    .textContent('Ya existen ' + $scope.Servicio.Imagenes_Servicio.length + ' imágenes adjuntas. ¿Desea agregar más?')
+                    .ariaLabel('Sobreescribir Imágenes')
                     .targetEvent(ev, data)
                     .ok('Sí')
                     .cancel('No')
@@ -1134,8 +1144,7 @@
 
         }
 
-        $scope.Cancelar = function () {
-
+        $scope.Cancelar = function () {            
             $mdDialog.cancel();
             $('#txtBuscarServicio').focus();
 
@@ -1147,15 +1156,22 @@
             $scope.InformacionImagen = '';
 
             if ($scope.Servicio.Imagenes_Servicio == null) { $scope.Servicio.Imagenes_Servicio = []; }
-            $scope.ImagenesAdjuntas = 0;
+            
             let mayorDosMB = false;
             let files = event.target.files;
 
-            if (files.length + $scope.Servicio.Imagenes_Servicio.length > 5) {
+            if (files.length > 5) {
                 toastr.info('Solo puede seleccionar un máximo de 5 imágenes', '', $scope.toastrOptions);
                 files = [];
                 return;
             }
+
+            if (files.length + $scope.Servicio.Imagenes_Servicio.length > 5) {
+                toastr.info('El servicio solo puede tener un máximo de 5 imágenes. Ya tiene ' + $scope.Servicio.Imagenes_Servicio.length +' imágenes adjuntas', '', $scope.toastrOptions);
+                files = [];
+                return;
+            }
+
 
             for (i = 0; i < files.length; i++) {
                 let fileSize = (files[i].size / 1024 / 1024)
@@ -1172,7 +1188,7 @@
             for (i = 0; i < files.length; i++) {
                 let fileSize = (files[i].size / 1024 / 1024);
                 $scope.InformacionImagen += 'Nombre: ' + files[i].name + ' - Tamaño: ' + fileSize.toFixed(3) + ' MB' + "\n";
-                $scope.ImagenesAdjuntas = files.length;
+                $scope.ImagenesxAdjuntar = files.length;
                 $scope.getBase64(files[i]);
             }
 
@@ -1187,6 +1203,7 @@
             let reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = function () {
+                
                 $scope.ImagenServicioBase64 = reader.result;
                 $scope.Servicio.Imagenes_Servicio.push({
                     Id_Servicio: -1, Imagen_Base64: $scope.ImagenServicioBase64, TuvoCambios: true
