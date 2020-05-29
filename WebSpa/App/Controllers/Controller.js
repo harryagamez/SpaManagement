@@ -693,6 +693,8 @@
         $scope.GuardarServicio = function () {
 
             if ($scope.ValidarDatos()) {
+                debugger;
+                $scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.concat($scope.TEMPServicio);
 
                 $scope.ObjetoServicio = [];
                 $scope.ObjetoServicio.push($scope.Servicio);
@@ -848,7 +850,8 @@
             $scope.ImagenServicioBase64 = '';
             $scope.ImagenesAdjuntas = 0;
             $scope.InformacionImagen = '';
-            $scope.ImagenesxAdjuntar = 0; 
+            $scope.ImagenesxAdjuntar = 0;
+            $scope.TEMPServicio = [];
 
             $scope.Servicio =
             {
@@ -1199,13 +1202,13 @@
         }
 
         $scope.getBase64 = function (file) {
-
+            $scope.TEMPServicio = [];
             let reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = function () {
                 
-                $scope.ImagenServicioBase64 = reader.result;
-                $scope.Servicio.Imagenes_Servicio.push({
+                $scope.ImagenServicioBase64 = reader.result;                
+                $scope.TEMPServicio.push({
                     Id_Servicio: -1, Imagen_Base64: $scope.ImagenServicioBase64, TuvoCambios: true
                 });
                 $("#ImagenServicio").val('');
