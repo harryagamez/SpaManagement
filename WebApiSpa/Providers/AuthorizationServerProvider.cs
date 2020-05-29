@@ -51,7 +51,11 @@ namespace WebApiSpa.Providers
             ClaimsIdentity identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new Claim("sub", context.UserName));
             identity.AddClaim(new Claim("userName", context.UserName));
-            identity.AddClaim(new Claim("role", "user"));
+
+            if (usuario.Nombre_Empresa.Contains("[MULTIPLE]") && usuario.Id_Empresa.ToString().Contains("00000000-0000-0000-0000-000000000000"))
+                identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+            else
+                identity.AddClaim(new Claim(ClaimTypes.Role, "User"));
 
             AuthenticationProperties props = new AuthenticationProperties(new Dictionary<string, string>
                 {

@@ -12,7 +12,7 @@
         .controller("GastosController", GastosController)
 
     LoginController.$inject = ['$scope', '$state', '$location', '$mdDialog', '$rootScope', '$timeout', 'AuthService'];
-    HomeController.$inject = ['$scope', '$rootScope', '$element', '$location', 'localStorageService', 'AuthService'];
+    HomeController.$inject = ['$scope', '$state', '$rootScope', '$element', '$location', 'localStorageService', 'AuthService'];
     ClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     ServiciosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     EmpleadosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
@@ -83,13 +83,28 @@
 
     }
 
-    function HomeController($scope, $rootScope, $element, $location, localStorageService, authService) {
+    function HomeController($scope, $state, $rootScope, $element, $location, localStorageService, authService) {
 
-        $scope.MultipleEmpresa = false;
-        $scope.EmpresaSeleccionada = 'EMPRESA1';
+        if ($rootScope.Empresas.length === 0) {
+
+            $scope.Empresas = [];
+            $scope.MultipleEmpresa = false;
+            $scope.EmpresaSeleccionada = '00000000-0000-0000-0000-000000000000';
+
+        } else {
+
+            $scope.Empresas = [];
+            $scope.Empresas = $rootScope.Empresas;
+            $scope.EmpresaSeleccionada = $rootScope.Empresas[0].id_Empresa;
+            $rootScope.Id_Empresa = $scope.EmpresaSeleccionada;
+            $scope.MultipleEmpresa = true;
+
+        }
 
         $scope.Logout = function () {
+
             authService.logOut();
+
         }
 
         $scope.UsuarioSistema = $rootScope.userData.userName;
@@ -100,12 +115,36 @@
                 $scope.Menu = $rootScope.Menu;
         });
 
+        $scope.$on('successfull.companiesLoaded', function () {
+           
+            $scope.Empresas = [];
+            if ($scope.Empresas.length == 0)
+                $scope.Empresas = $rootScope.Empresas;
+
+            if ($scope.Empresas.length > 0) {
+
+                $scope.EmpresaSeleccionada = $scope.Empresas[0].id_Empresa;
+                $rootScope.Id_Empresa = $scope.EmpresaSeleccionada;
+                $scope.MultipleEmpresa = true;
+
+            }
+
+        });
+
+        $scope.FiltrarEmpresa = function (id_empresa) {
+
+            $rootScope.Id_Empresa = id_empresa;
+            $rootScope.$broadcast("CompanyChange");  
+
+        }
+
         $scope.$on('$viewContentLoaded', function () {
             $location.replace();
         });
 
         $scope.$on("$destroy", function () {
             $scope.Menu = [];
+            $scope.Empresas = [];
         });
 
     }
@@ -180,7 +219,7 @@
                                 toastr.success('Cliente registrado y/o actualizado correctamente', '', $scope.toastrOptions);
                                 $scope.ConsultarClientes();
                                 $scope.LimpiarDatos();
-                                $('#txtInvoiceNumber').focus();
+                                $('#txtCedula').focus();
 
                             }
                         }, function (err) {
@@ -579,6 +618,15 @@
 
         }
 
+        $scope.$on("CompanyChange", function () {
+           
+            $scope.IdEmpresa = $rootScope.Id_Empresa;
+            $scope.LimpiarDatos();
+            $scope.ConsultarClientes();
+            $scope.Inicializacion();
+
+        });  
+
         // Invocación Funciones
         $scope.ConsultarClientes();
         $scope.ConsultarMunicipios();
@@ -638,7 +686,7 @@
 
                 $scope.ObjetoServicio = [];
                 $scope.ObjetoServicio.push($scope.Servicio);
-                debugger;
+                
                 SPAService._guardarServicio(JSON.stringify($scope.ObjetoServicio))
                     .then(
                         function (result) {
@@ -691,7 +739,7 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
-                            
+
                             $scope.Servicios = [];
                             $scope.Servicios = result.data;
                             $scope.ServiciosGridOptions.api.setRowData($scope.Servicios);
@@ -715,9 +763,9 @@
         $scope.ConsultarServicio = function (data) {
 
             $scope.TipoServicioSeleccionado = -1;
-           
+
             if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
-                debugger;
+                
                 $scope.Servicio.Nombre = data.nombre;
                 $scope.Servicio.Descripcion = data.descripcion;
                 $scope.Servicio.Estado = data.estado.trim();
@@ -729,7 +777,7 @@
                 $scope.Servicio.Valor = data.valor;
                 $scope.Servicio.Id_Servicio = data.id_Servicio;
                 $scope.Servicio.Imagenes_Servicio = data.imagenes_Servicio;
-                $scope.TipoServicioSeleccionado = data.id_TipoServicio;                
+                $scope.TipoServicioSeleccionado = data.id_TipoServicio;
                 $scope.ModalEditarServicio();
                 $scope.NombreServicioReadOnly = true;
 
@@ -737,7 +785,7 @@
 
                 if ($scope.Servicio.Imagenes_Servicio != null) {
                     $scope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;
-                } 
+                }
 
             }
 
@@ -868,7 +916,7 @@
                 }, function () {
                     $('#txtBuscarServicio').focus();
                     $scope.ImagenServicioBase64 = '';
-                    $scope.InformacionImagen = '';                    
+                    $scope.InformacionImagen = '';
                     $scope.ImagenesAdjuntas = 0;
                 });
 
@@ -882,7 +930,7 @@
         $scope.ModalSliderServicio = function () {
 
             $mdDialog.show({
-                controller: SliderController,                
+                controller: SliderController,
                 templateUrl: 'Views/Templates/_slider.tmpl.html',
                 parent: angular.element(document.body),
                 targetEvent: event,
@@ -890,8 +938,8 @@
                 fullscreen: $scope.customFullscreen
             })
                 .then(function () {
-                    
-                }, function () {                    
+
+                }, function () {
                 });
         };
 
@@ -912,7 +960,7 @@
                     $('#txtBuscarServicio').focus();
                     $scope.LimpiarDatos();
                     $scope.ImagenServicioBase64 = '';
-                    $scope.InformacionImagen = '';                    
+                    $scope.InformacionImagen = '';
                     $scope.ImagenesAdjuntas = 0;
                 });
 
@@ -945,7 +993,7 @@
                     .parent(angular.element(document.querySelector('#popupContainer')))
                     .clickOutsideToClose(true)
                     .title('Imágenes Adjuntas')
-                    .textContent('El servicio ' + $rootScope.ServicioNombre +' no tiene imagenes adjuntas.')
+                    .textContent('El servicio ' + $rootScope.ServicioNombre + ' no tiene imagenes adjuntas.')
                     .ariaLabel('Alert Dialog Demo')
                     .ok('Aceptar')
                     .targetEvent(ev)
@@ -959,7 +1007,7 @@
             if ($scope.ImagenesAdjuntas > 0) {
                 let confirm = $mdDialog.confirm()
                     .title('Sobreescribir Imágenes')
-                    .textContent('Ya existen ' + $scope.ImagenesAdjuntas+ ' imágenes adjuntas. ¿Desea reemplazarlas?')
+                    .textContent('Ya existen ' + $scope.ImagenesAdjuntas + ' imágenes adjuntas. ¿Desea reemplazarlas?')
                     .ariaLabel('Desasignar Servicio')
                     .targetEvent(ev, data)
                     .ok('Sí')
@@ -968,12 +1016,12 @@
 
                 $mdDialog.show(confirm).then(function () {
                     $scope.ProcesarImagen();
-                }, function () {                        
+                }, function () {
                     return;
                 });
             }
             else
-                $scope.ProcesarImagen(); 
+                $scope.ProcesarImagen();
         };
 
         // Agr-grid Options
@@ -1142,6 +1190,15 @@
             };
 
         }
+
+        $scope.$on("CompanyChange", function () {
+
+            $scope.IdEmpresa = $rootScope.Id_Empresa;
+            $scope.LimpiarDatos();
+            $scope.ConsultarServicios();
+            $scope.Inicializacion();
+
+        });  
 
         // Invocación Funciones
         $scope.ConsultarTipoServicios();
@@ -1726,7 +1783,6 @@
 
         }
 
-
         // FUNCIONES
         //Consultar Inventario Producto
         $scope.ConsultarInventario = function (inventario) {
@@ -2185,6 +2241,18 @@
             }, 200);
 
         }
+
+
+        $scope.$on("CompanyChange", function () {
+
+            $scope.IdEmpresa = $rootScope.Id_Empresa;
+            $scope.LimpiarDatos();
+            $scope.ConsultarServicios();
+            $scope.ConsultarEmpleados();
+            $scope.ConsultarProductos();
+            $scope.Inicializacion();
+
+        });  
 
         //INVOCACIÓN FUNCIONES
         $scope.ConsultarServicios();
@@ -2648,6 +2716,15 @@
 
         };
 
+        $scope.$on("CompanyChange", function () {
+
+            $scope.IdEmpresa = $rootScope.Id_Empresa;
+            $scope.LimpiarDatos();
+            $scope.ConsultarProductos();
+            $scope.Inicializacion();
+
+        });  
+
         // Invocación Funciones
         $scope.ConsultarTipoTransacciones();
         $scope.ConsultarProductos();
@@ -2878,17 +2955,23 @@
 
         }
 
+        $scope.$on("CompanyChange", function () {
+
+            $scope.IdEmpresa = $rootScope.Id_Empresa;
+            $scope.Inicializacion();
+
+        });  
 
         $scope.Inicializacion();
 
     }
 
     function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-        
+
         $scope.ServicioNombre = $rootScope.ServicioNombre;
         $rootScope.ServicioNombre = ''; //Reseteo del objeto Servicio Nombre para posterior uso
         $scope.SliderServicios = $rootScope.ServicioListaImagenes;
-        $scope.SliderClass = 'container' + $scope.SliderServicios.length;        
+        $scope.SliderClass = 'container' + $scope.SliderServicios.length;
         $scope.Cancelar = function () {
 
             $mdDialog.cancel();

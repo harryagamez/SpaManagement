@@ -14,11 +14,8 @@
                             <img src="../../Images/empresa.png" style="max-width:30px; margin-top: -5px;cursor:pointer;" data-toggle="tooltip" title="Empresa activa en el sistema" />
                         </span>
                     </li>
-                    <md-select ng-model="EmpresaSeleccionada" style="display:inline-flex; max-width: 55% !important;" id="slEstado" ng-show="MultipleEmpresa">
-                        <md-option value="EMPRESA1">EMPRESA 1</md-option>
-                        <md-option value="EMPRESA2">EMPRESA 2 EMPRESA</md-option>
-                        <md-option value="EMPRESA3">EMPRESA 3 EMPRESA EMPRESA</md-option>
-                        <md-option value="EMPRESA4">EMPRESA 4 EMPRESA EMPRESA EMPRESA</md-option>
+                    <md-select ng-model="EmpresaSeleccionada" style="display:inline-flex; max-width: 55% !important;" id="slEstado" ng-show="MultipleEmpresa" ng-change="FiltrarEmpresa(EmpresaSeleccionada)">
+                        <md-option ng-bind="empresa.nombre" ng-value="empresa.id_Empresa" ng-repeat="empresa in Empresas track by empresa.id_Empresa"></md-option>
                     </md-select>
                     <li><span><img src="../../Images/usuario.png" style="max-width:24px; margin-top: -3px;cursor:pointer;" data-toggle="tooltip" title="Usuario activo en el sistema" />{{ UsuarioSistema }}</span></li>
                     <li><a href="" ng-click="Logout()"><img src="../../Images/cerrar_sesion.png" style="max-width:24px; margin-top: -3px;" />Cerrar Sesión</a></li>

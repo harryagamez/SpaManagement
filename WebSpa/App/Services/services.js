@@ -56,13 +56,15 @@
             localStorageService.remove('masterdataMunicipios');
             localStorageService.remove('masterdataBarrios');
             localStorageService.remove('masterdataTipoServicio');
-            localStorageService.remove('masterdataTipoTransacciones');            
+            localStorageService.remove('masterdataTipoTransacciones');
+            localStorageService.remove('masterdataEmpresas');
 
             $rootScope.Menu = [];
             $rootScope.TipoClientes = [];
             $rootScope.Clientes = [];
             $rootScope.Municipios = [];
             $rootScope.Barrios = [];
+            $rootScope.Empresas = [];
 
             $rootScope.Id_Empresa = '';
             $rootScope.Nombre_Empresa = '';
@@ -113,7 +115,11 @@
                     _authentication.userPassword = password;
                     _consultarMenu($rootScope.userData.userId);
 
+                    if ($rootScope.userData.companyName === '[MULTIPLE]')
+                        _consultarEmpresas();
+
                     deferred.resolve(response);
+
                 },
                 function (err) {
                     _logOut();
@@ -134,13 +140,15 @@
             localStorageService.remove('masterdataMunicipios');
             localStorageService.remove('masterdataBarrios');
             localStorageService.remove('masterdataTipoServicio');
-            localStorageService.remove('masterdataTipoTransacciones');            
+            localStorageService.remove('masterdataTipoTransacciones');
+            localStorageService.remove('masterdataEmpresas');
 
             $rootScope.Menu = [];
             $rootScope.TipoClientes = [];
             $rootScope.Clientes = [];
             $rootScope.Municipios = [];
             $rootScope.Barrios = [];
+            $rootScope.Empresas = [];
 
             _authentication.isAuth = false;
             _authentication.userName = "";
@@ -155,12 +163,16 @@
 
             var authData = localStorageService.get('authorizationData');
             if (authData) {
+               
                 _authentication.isAuth = true;
                 _authentication.userName = authData.userName;
 
                 $rootScope.userData = { userName: authData.userName, userId: authData.userId }
-                $rootScope.Id_Empresa = authData.companyId;
-                $rootScope.Nombre_Empresa = authData.companyName;
+
+                if (authData.companyId !== '00000000-0000-0000-0000-000000000000' && authData.companyName !== '[MULTIPLE]') {
+                    $rootScope.Id_Empresa = authData.companyId;
+                    $rootScope.Nombre_Empresa = authData.companyName;
+                }
 
                 var masterDataMenu = localStorageService.get('masterdataMenu');
                 if (masterDataMenu)
@@ -184,7 +196,7 @@
 
                 var masterdataTipoServicio = localStorageService.get('masterdataTipoServicio');
                 if (masterdataTipoServicio)
-                    $rootScope.TipoServicios = masterdataTipoServicio.tipoServicios;                
+                    $rootScope.TipoServicios = masterdataTipoServicio.tipoServicios;
 
                 var masterDataTipoPagos = localStorageService.get('masterdataTipoPagos');
                 if (masterDataTipoPagos)
@@ -193,6 +205,10 @@
                 var masterdataTipoTransaccion = localStorageService.get('masterdataTipoTransacciones');
                 if (masterdataTipoTransaccion)
                     $rootScope.TipoTransacciones = masterdataTipoTransaccion.tipoTransacciones;
+
+                var masterdataEmpresas = localStorageService.get('masterdataEmpresas');
+                if (masterdataEmpresas)
+                    $rootScope.Empresas = masterdataEmpresas.empresas;
 
             }
             else {
@@ -216,6 +232,24 @@
                 localStorageService.set('masterdataMenu',
                     {
                         menu: result.data
+                    });
+            })
+
+        }
+
+        var _consultarEmpresas = function () {
+
+            $http({
+                headers: { 'Content-Type': 'application/json' },
+                method: 'GET',
+                url: $rootScope.config.data.API_URL + 'SPA/ConsultarEmpresas'
+            }).then(function (result) {
+                localStorageService.set('empresas', result.data);
+                $rootScope.Empresas = result.data;
+                $rootScope.$broadcast('successfull.companiesLoaded');
+                localStorageService.set('masterdataEmpresas',
+                    {
+                        empresas: result.data
                     });
             })
 
@@ -463,7 +497,7 @@
         }
 
         function AsignarEmpleadoServicio(empleadoservicio) {
-            var deferred = $q.defer();            
+            var deferred = $q.defer();
             serviceRest.Post('SPA', 'AsignarEmpleadoServicio', empleadoservicio,
                 function (data) {
                     deferred.resolve(data);
@@ -476,14 +510,14 @@
         }
 
         function DesasignarEmpleadoServicio(IdEmpleadoServicio) {
-            var deferred = $q.defer();            
+            var deferred = $q.defer();
             serviceRest.Get('SPA', 'DesasignarEmpleadoServicio?IdEmpleadoServicio=' + IdEmpleadoServicio,
                 function (data) {
                     deferred.resolve(data);
                 },
                 function (err) {
                     deferred.reject(err);
-                });            
+                });
             return deferred.promise;
         }
 
@@ -588,7 +622,7 @@
         }
 
     }
-    
+
     function serviceRest($http, $q, $rootScope) {
         return {
             Get: function (controller, action, callback, errorCallback) {

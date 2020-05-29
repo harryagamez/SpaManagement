@@ -8,6 +8,7 @@
         public string Direccion { get; set; }
         public string Telefono_Fijo { get; set; }
         public string Telefono_Movil { get; set; }
+        public string Mail { get; set; }
         public string Logo { get; set; }
         public string Id_SedePrincipal { get; set; }
     }

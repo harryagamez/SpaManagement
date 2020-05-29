@@ -435,7 +435,7 @@ namespace WebApiSpa.Controllers
 
         [HttpGet]
         [Route("api/SPA/ConsultarProductoTransacciones")]
-        [HttpCache(DefaultExpirySeconds =2)]
+        [HttpCache(DefaultExpirySeconds = 2)]
         public IHttpActionResult ConsultarProductoTransacciones(int IdProducto, string IdEmpresa)
         {
             try
@@ -464,6 +464,24 @@ namespace WebApiSpa.Controllers
             catch (Exception ex)
             {
                 return Content(HttpStatusCode.InternalServerError, "Error consultando los gastos: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        [Route("api/SPA/ConsultarEmpresas")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarEmpresas()
+        {
+            try
+            {
+                List<Empresa> _empresas = _spaService.ConsultarEmpresas();
+
+                return Content(HttpStatusCode.OK, _empresas);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando las empresas: " + ex.Message);
             }
         }
 

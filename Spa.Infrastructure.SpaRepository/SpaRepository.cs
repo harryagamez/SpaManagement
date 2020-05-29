@@ -1282,5 +1282,46 @@ namespace Spa.Infrastructure.SpaRepository
                 throw;
             }
         }
+
+        public List<Empresa> ConsultarEmpresas()
+        {
+            DataTable _datatable = new DataTable();
+            List<Empresa> _empresas = new List<Empresa>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarEmpresas";
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _empresas = _datatable.DataTableToList<Empresa>();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _empresas;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

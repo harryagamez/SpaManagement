@@ -36,6 +36,7 @@ namespace Spa.Infrastructure.SpaRepository
         List<Transaccion> ConsultarProductoTransacciones(int IdProducto, string IdEmpresa);
         List<Gasto> ConsultarGastos(BusquedaGasto _BusquedaGasto);
         Usuario ValidarUsuarioAdmin(string Nombre, string Password);
+        List<Empresa> ConsultarEmpresas();
 
     }
 }

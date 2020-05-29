@@ -10,6 +10,7 @@ namespace Spa.Application.SpaService
 {
     public class SpaService : ISpaService
     {
+
         protected ISpaRepository _spaRepository;
         protected readonly string _connectionString;
 
@@ -417,5 +418,20 @@ namespace Spa.Application.SpaService
                 throw;
             }
         }
+
+        public List<Empresa> ConsultarEmpresas()
+        {
+            try
+            {
+                List<Empresa> _empresas = _spaRepository.ConsultarEmpresas();
+
+                return _empresas;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 }
