@@ -693,7 +693,7 @@
         $scope.GuardarServicio = function () {
 
             if ($scope.ValidarDatos()) {
-                debugger;
+                
                 $scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.concat($scope.TEMPServicio);
 
                 $scope.ObjetoServicio = [];
