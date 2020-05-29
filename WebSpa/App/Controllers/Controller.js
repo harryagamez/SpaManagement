@@ -85,19 +85,23 @@
 
     function HomeController($scope, $state, $rootScope, $element, $location, localStorageService, authService) {
 
-        if ($rootScope.Empresas.length === 0) {
+        if ($rootScope.Empresas !== undefined) {
 
-            $scope.Empresas = [];
-            $scope.MultipleEmpresa = false;
-            $scope.EmpresaSeleccionada = '00000000-0000-0000-0000-000000000000';
+            if ($rootScope.Empresas.length === 0) {
 
-        } else {
+                $scope.Empresas = [];
+                $scope.MultipleEmpresa = false;
+                $scope.EmpresaSeleccionada = '00000000-0000-0000-0000-000000000000';
 
-            $scope.Empresas = [];
-            $scope.Empresas = $rootScope.Empresas;
-            $scope.EmpresaSeleccionada = $rootScope.Empresas[0].id_Empresa;
-            $rootScope.Id_Empresa = $scope.EmpresaSeleccionada;
-            $scope.MultipleEmpresa = true;
+            } else {
+
+                $scope.Empresas = [];
+                $scope.Empresas = $rootScope.Empresas;
+                $scope.EmpresaSeleccionada = $rootScope.Empresas[0].id_Empresa;
+                $rootScope.Id_Empresa = $scope.EmpresaSeleccionada;
+                $scope.MultipleEmpresa = true;
+
+            }
 
         }
 
@@ -111,12 +115,14 @@
         $scope.NombreEmpresa = $rootScope.Nombre_Empresa;
 
         $scope.$on('successfull.menuload', function () {
+
             if ($scope.Menu.length == 0)
                 $scope.Menu = $rootScope.Menu;
+
         });
 
         $scope.$on('successfull.companiesLoaded', function () {
-           
+
             $scope.Empresas = [];
             if ($scope.Empresas.length == 0)
                 $scope.Empresas = $rootScope.Empresas;
@@ -134,17 +140,21 @@
         $scope.FiltrarEmpresa = function (id_empresa) {
 
             $rootScope.Id_Empresa = id_empresa;
-            $rootScope.$broadcast("CompanyChange");  
+            $rootScope.$broadcast("CompanyChange");
 
         }
 
         $scope.$on('$viewContentLoaded', function () {
+
             $location.replace();
+
         });
 
         $scope.$on("$destroy", function () {
+
             $scope.Menu = [];
             $scope.Empresas = [];
+
         });
 
     }
@@ -619,13 +629,13 @@
         }
 
         $scope.$on("CompanyChange", function () {
-           
+
             $scope.IdEmpresa = $rootScope.Id_Empresa;
             $scope.LimpiarDatos();
             $scope.ConsultarClientes();
             $scope.Inicializacion();
 
-        });  
+        });
 
         // Invocación Funciones
         $scope.ConsultarClientes();
@@ -686,7 +696,7 @@
 
                 $scope.ObjetoServicio = [];
                 $scope.ObjetoServicio.push($scope.Servicio);
-                
+
                 SPAService._guardarServicio(JSON.stringify($scope.ObjetoServicio))
                     .then(
                         function (result) {
@@ -765,7 +775,7 @@
             $scope.TipoServicioSeleccionado = -1;
 
             if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
-                
+
                 $scope.Servicio.Nombre = data.nombre;
                 $scope.Servicio.Descripcion = data.descripcion;
                 $scope.Servicio.Estado = data.estado.trim();
@@ -1198,7 +1208,7 @@
             $scope.ConsultarServicios();
             $scope.Inicializacion();
 
-        });  
+        });
 
         // Invocación Funciones
         $scope.ConsultarTipoServicios();
@@ -2252,7 +2262,7 @@
             $scope.ConsultarProductos();
             $scope.Inicializacion();
 
-        });  
+        });
 
         //INVOCACIÓN FUNCIONES
         $scope.ConsultarServicios();
@@ -2723,7 +2733,7 @@
             $scope.ConsultarProductos();
             $scope.Inicializacion();
 
-        });  
+        });
 
         // Invocación Funciones
         $scope.ConsultarTipoTransacciones();
@@ -2960,7 +2970,7 @@
             $scope.IdEmpresa = $rootScope.Id_Empresa;
             $scope.Inicializacion();
 
-        });  
+        });
 
         $scope.Inicializacion();
 

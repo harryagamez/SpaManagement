@@ -27,7 +27,13 @@ BEGIN
 	FROM SERVICIO_IMAGENES 
 	INNER JOIN #TempServicios ON SERVICIO_IMAGENES.ID_SERVICIO = #TempServicios.Id_Servicio
 
-	SELECT * FROM #TempServicios ORDER BY Nombre
+	SELECT 
+		Id_Servicio,RTRIM(Nombre) AS Nombre, RTRIM(Descripcion) AS Descripcion, Valor, 
+		Tiempo, Id_TipoServicio, RTRIM(Estado) AS Estado,Id_Empresa, RTRIM(Logo_Base64) AS Logo_Base64, 
+		Fecha_Registro, Fecha_Modificacion, RTRIM(Nombre_Tipo_Servicio) AS Nombre_Tipo_Servicio
+	FROM #TempServicios 
+	ORDER BY Nombre
+
 	SELECT * FROM #TempServicioImagenes
 
 END

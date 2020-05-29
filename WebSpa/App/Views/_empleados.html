@@ -87,7 +87,7 @@
                         <label class="label-form-empleados" style="">
                             Telefono Fijo:
                         </label>
-                        <input ng-model="Empleado.Telefono_Fijo" maxlength="10" numbers-only id="txtFijo" type="text" placeholder="Digite su telefono fijo ..." tabindex=5>
+                        <input ng-model="Empleado.Telefono_Fijo" maxlength="10" numbers-only id="txtFijo" type="text" placeholder="Digite su telefono fijo ..." autocomplete="off" tabindex=5>
                     </md-input-container>
                 </div>
 
@@ -96,7 +96,7 @@
                         <label class="label-form-empleados" style="">
                             Celular:
                         </label>
-                        <input ng-model="Empleado.Telefono_Movil" id="txtMovil" maxlength="12" numbers-only type="text" placeholder="Digite su celular ..." tabindex=6>
+                        <input ng-model="Empleado.Telefono_Movil" id="txtMovil" maxlength="12" numbers-only type="text" placeholder="Digite su celular ..." autocomplete="off" tabindex=6>
                     </md-input-container>
                 </div>
 
@@ -105,7 +105,7 @@
                         <label class="label-form-empleados" style="">
                             Número de Hijos:
                         </label>
-                        <input ng-model="Empleado.Numero_Hijos" id="txtHijos" numbers-only type="text" placeholder="Digite su número de hijos ..." tabindex=7>
+                        <input ng-model="Empleado.Numero_Hijos" id="txtHijos" numbers-only type="text" placeholder="Digite su número de hijos ..." autocomplete="off" tabindex=7>
                     </md-input-container>
                 </div>
 
@@ -189,7 +189,7 @@
                         <label class="label-form-empleados" style="margin-bottom:-8px;">
                             Monto / %:
                         </label>
-                        <input ng-model="Empleado.Monto" id="txtMonto" focus="selectChanged" type="text" float-numbers-only ng-pattern="/(^[0-9]{1,9})+(\.[0-9]{1,4})?$/" style="position:relative; margin-top:16px;" placeholder="Digite el monto a pagar ..." tabindex=14>
+                        <input ng-model="Empleado.Monto" id="txtMonto" focus="selectChanged" type="text" float-numbers-only ng-pattern="/(^[0-9]{1,9})+(\.[0-9]{1,4})?$/" style="position:relative; margin-top:16px;" placeholder="Digite el monto a pagar ..." autocomplete="off" tabindex=14>
                     </md-input-container>
                 </div>
 
