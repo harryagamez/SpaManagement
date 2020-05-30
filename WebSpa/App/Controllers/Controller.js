@@ -1204,8 +1204,8 @@
             }
             
             for (i = 0; i < files.length; i++) {
-                let fileSize = (files[i].size / 1024 / 1024);
-                $rootScope.InformacionImagen += 'Nombre: ' + files[i].name + ' - Tamaño: ' + fileSize.toFixed(3) + ' MB' + '\n';
+                let fileSize = (files[i].size / 1024 / 1024); debugger;
+                $rootScope.InformacionImagen += 'Nombre: ' + files[i].name + ' - Tamaño: ' + fileSize.toFixed(3) + ' MB';
                 $rootScope.ImagenesxAdjuntar = files.length;
                 $scope.getBase64(files[i]);
             }
@@ -3029,14 +3029,81 @@
     }
 
     function ImgAttachedController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-        $scope.ServicioImagenesAdjuntas = $rootScope.ServicioImagenesAdjuntas;
-        //$rootScope.ServicioImagenesAdjuntas = '';
-        
+
+        //INICIALIZACIÓN
+        $scope.ServicioImagenesAdjuntas = $rootScope.ServicioImagenesAdjuntas;        
         $scope.ImagenesAdjuntas = $rootScope.ImagenesAdjuntas;
-        $scope.ImagenesxAdjuntar = $rootScope.ImagenesxAdjuntar;
-        
+        $scope.ImagenesxAdjuntar = $rootScope.ImagenesxAdjuntar;        
         $scope.InformacionImagen = $rootScope.InformacionImagen;
 
+        //API
+
+        //  Eliminar Imagen Adjunta Servicio
+        $scope.EliminarImagenAdjunta = function (data) {            
+            
+            let IdImagenAdjunta = data;
+
+            SPAService._eliminarImagenAdjunta(IdImagenAdjunta)
+                .then(
+                    function (result) {
+                        if (result.data === true) {
+                            toastr.success('Imagen eliminada correctamente', '', $scope.toastrOptions);
+                            $scope.ConsultarServicios();
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })            
+        }
+
+        //Consultar Servicios
+        $scope.ConsultarServicios = function () {
+
+            SPAService._consultarServicios($scope.IdEmpresa)
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+
+                            $scope.Servicios = [];
+                            $scope.Servicios = result.data;
+                            $scope.ServiciosGridOptions.api.setRowData($scope.Servicios);
+
+                            $timeout(function () {
+                                $scope.ServiciosGridOptions.api.sizeColumnsToFit();
+                            }, 200);
+
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+
+        }
+
+        //FUNCIONES
+
+        //Modal Show Confirm Borrar Servicio Imagen
+        $scope.showConfirmBorrarServicioImagen = function (ev, data) {
+            
+            let confirm = $mdDialog.confirm()
+                .title('Eliminar Imagen')
+                .textContent('¿Desea Eliminar la imagen adjunta?')
+                .ariaLabel('Eliminar Imagen')
+                .targetEvent(ev, data)
+                .ok('Sí')
+                .cancel('No')
+                .multiple(true);
+
+            $mdDialog.show(confirm).then(function () {
+                $scope.EliminarImagenAdjunta(data);
+            }, function () {
+                return;
+            });
+        }
+
+        //EVENTOS
         $scope.Cancelar = function () {
             $mdDialog.cancel();
             $('#txtBuscarServicio').focus();

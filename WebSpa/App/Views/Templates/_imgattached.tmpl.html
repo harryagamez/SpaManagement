@@ -11,17 +11,17 @@
         </md-toolbar>
 
         <md-dialog-content style="padding:15px;">
-            <p style="padding: 5px; display:inline;">Total imágenes adjuntas: {{ImagenesAdjuntas}}</p>
+            <label style="padding-left: 5px;" class="label-form-clientes">Total imágenes adjuntas:</label>{{ImagenesAdjuntas}}
             <hr />
-            <ul style="white-space:nowrap;">
-                <li class="imagenes-adjuntas" ng-repeat="imagen in ServicioImagenesAdjuntas" style="padding-left: 5px; padding-right:5px;  display:inline; ">
-                    <i class="material-icons md-18" style="transform: scaleX(-1); color:red;" data-ng-click='showConfirmBorrarServicioImagen($event, data)' data-toggle='tooltip' title='Eliminar Imagen'>delete_sweep</i>
-                    <img ng-src="{{imagen.imagen_Base64}}" style="max-width:64px; max-height:64px; min-width:64px; min-height:64px; border:1px solid #e3e3e3; object-fit:cover;">
+            <ul style="white-space:nowrap; margin-top:-10px;">
+                <li class="imagenes-adjuntas" ng-repeat="imagen in ServicioImagenesAdjuntas" style="padding-left: 10px; padding-right:10px;  display:inline; ">
+                    <img ng-src="{{imagen.imagen_Base64}}" style="max-width:64px; max-height:64px; min-width:64px; min-height:64px; border:1px solid #e3e3e3; object-fit:cover; margin-bottom:5px;">
+                    <i class="material-icons md-18" style="transform: scaleX(-1); color:red; position:fixed; bottom:55px; margin-left:-50px; padding:5px; text-align:center;" data-ng-click='showConfirmBorrarServicioImagen($event, imagen.id_Servicio_Imagen)' data-toggle='tooltip' title='Eliminar Imagen'>delete_sweep</i>
                 </li>
             </ul>
             <hr />
-            <p style="padding: 2px;">Imágenes seleccionadas: {{ImagenesxAdjuntar}}</p>            
-            <p>{{InformacionImagen}}</p>
+            <label style="padding-left: 5px;" class="label-form-clientes">Imágenes seleccionadas:</label>{{ImagenesxAdjuntar}}
+            
         </md-dialog-content>
     </form>
 </md-dialog>

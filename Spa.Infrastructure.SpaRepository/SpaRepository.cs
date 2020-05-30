@@ -590,6 +590,51 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public bool EliminarImagenAdjunta(string IdImagenAdjunta)
+        {
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "EliminarImagenAdjunta";
+                        _command.Parameters.AddWithValue("@IdImagenAdjunta", IdImagenAdjunta);
+
+                        try
+                        {
+                            _command.ExecuteNonQuery();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                        finally
+                        {
+                            if (_command.Connection.State == ConnectionState.Open)
+                            {
+                                _command.Connection.Close();
+                            }
+
+                            _command.Dispose();
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public List<Empleado> ConsultarEmpleados(string IdEmpresa)
         {
             DataTable _datatable = new DataTable();

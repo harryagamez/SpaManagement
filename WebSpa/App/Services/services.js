@@ -278,6 +278,7 @@
             _consultarTipoServicios: ConsultarTipoServicios,
             _consultarServicios: ConsultarServicios,
             _guardarServicio: GuardarServicio,
+            _eliminarImagenAdjunta: EliminarImagenAdjunta,
             _consultarEmpleados: ConsultarEmpleados,
             _consultarTipoPagos: ConsultarTipoPagos,
             _consultarTipoTransacciones: ConsultarTipoTransacciones,
@@ -423,6 +424,18 @@
                     deferred.reject(err);
                 });
 
+            return deferred.promise;
+        }
+
+        function EliminarImagenAdjunta(IdImagenAdjunta) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'EliminarImagenAdjunta?IdImagenAdjunta=' + IdImagenAdjunta,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
             return deferred.promise;
         }
 
