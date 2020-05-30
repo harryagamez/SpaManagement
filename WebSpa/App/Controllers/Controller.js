@@ -1011,19 +1011,7 @@
                 .then(function () {
 
                 }, function () {
-                });
-
-            //$mdDialog.show(
-            //    $mdDialog.alert()
-            //        .parent(angular.element(document.querySelector('#popupContainer')))
-            //        .clickOutsideToClose(true)
-            //        .title('Imágenes Adjuntas')
-            //        .textContent('Total Imagenes Adjuntas: ' + $scope.ImagenesAdjuntas + '\n\nImágenes seleccionadas para adjuntar: ' + $scope.ImagenesxAdjuntar + '\n\n' + $scope.InformacionImagen)
-            //        .ariaLabel('Alert Dialog Demo')
-            //        .ok('Aceptar')
-            //        .targetEvent(ev)
-            //        .multiple(true)
-            //);
+                });            
         };
 
         //Show Alert Sin Imágenes Adjuntas
@@ -2203,7 +2191,7 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='showConfirmServicio($event, data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#e84c3d;'>delete_sweep</i>";
+                    return "<i data-ng-click='showConfirmServicio($event, data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#dc6911;'>delete_sweep</i>";
                 },
             },
             {
@@ -2241,7 +2229,7 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='showConfirmInsumo($event,data)' data-toggle='tooltip' title='Eliminar Insumo' class='material-icons' style='font-size:20px;margin-top:-1px;color:#e84c3d;'>delete_sweep</i>";
+                    return "<i data-ng-click='showConfirmInsumo($event,data)' data-toggle='tooltip' title='Eliminar Insumo' class='material-icons' style='font-size:20px;margin-top:-1px;color:#dc6911;'>delete_sweep</i>";
                 },
             },
             {

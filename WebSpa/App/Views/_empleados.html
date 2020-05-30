@@ -205,7 +205,7 @@
     <!-- Modales Asignar Servicios-->
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgAsignarServicios">
-            <md-dialog id="mdAsignarServicios" aria-label="" style="width: 38% !important; color: #666666 !important;">
+            <md-dialog id="mdAsignarServicios" aria-label="" style="min-width: 38% !important; max-width:38%; color: #666666 !important;">
                 <md-toolbar>
                     <div class="md-toolbar-tools">
                         <h2 style="font-size:16px;">{{AccionEmpleado}}: {{NombreEmpleado}}</h2>
@@ -236,7 +236,7 @@
                                 </md-input-container>
                             </div>
                             <div flex="25">
-                                <md-button type="button" id="btnAgregarServicio" class="btn-spa groupX middle" data-toggle="tooltip" title="Asignar Servicio" data-ng-click="AsignarEmpleadoServicio()">
+                                <md-button type="button" id="btnAgregarServicio"  style="right: 8px; position: fixed; margin-top: -18px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Asignar Servicio" data-ng-click="AsignarEmpleadoServicio()">
                                     Agregar<i class="material-icons md-18" style="transform: scaleX(-1)">add</i>
                                 </md-button>
                             </div>
@@ -324,7 +324,7 @@
                             </div>
 
                             <div flex="">
-                                <md-button type="button" id="btnAgregarInsumo" class="btn-spa groupX left" style="margin-top: -25px; position: relative; float:right;" data-toggle="tooltip" title="Agregar" ng-click="AsignarEmpleadoInsumo()" tabindex=7>
+                                <md-button type="button" id="btnAgregarInsumo" class="btn-spa groupX left" style="margin-top: -25px; position: relative; float:right; right:6px; position:fixed;" data-toggle="tooltip" title="Agregar" ng-click="AsignarEmpleadoInsumo()" tabindex=7>
                                     Agregar<i class="material-icons md-18" style="transform: scaleX(-1)">add</i>
                                 </md-button>
                             </div> 
