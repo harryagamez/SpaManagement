@@ -213,6 +213,23 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpGet]
+        [Route("api/SPA/EliminarImagenAdjunta")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult EliminarImagenAdjunta(string IdImagenAdjunta)
+        {
+            try
+            {
+                bool result = _spaService.EliminarImagenAdjunta(IdImagenAdjunta);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error eliminando la imagen: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("api/SPA/ConsultarEmpleados")]
         [HttpCache(DefaultExpirySeconds = 2)]
         public IHttpActionResult ConsultarEmpleados(string IdEmpresa)

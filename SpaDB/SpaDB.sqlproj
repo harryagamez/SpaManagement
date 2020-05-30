@@ -249,6 +249,7 @@
     <Build Include="dbo\Stored Procedures\ValidarUsuarioAdmin.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarEmpresas.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarUsuarioEmpresas.sql" />
+    <Build Include="dbo\Stored Procedures\EliminarImagenAdjunta.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

@@ -207,6 +207,18 @@ namespace Spa.Application.SpaService
             }
         }
 
+        public bool EliminarImagenAdjunta(string IdImagenAdjunta)
+        {
+            try
+            {
+                return _spaRepository.EliminarImagenAdjunta(IdImagenAdjunta);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public List<Empleado> ConsultarEmpleados(string IdEmpresa)
         {
             try
