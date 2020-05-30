@@ -777,7 +777,7 @@
 
         // Consultar Servicio
         $scope.ConsultarServicio = function (data) {
-
+           
             $rootScope.ServicioImagenesAdjuntas = data.imagenes_Servicio;
 
             $scope.TipoServicioSeleccionado = -1;
