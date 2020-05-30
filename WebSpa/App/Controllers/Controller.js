@@ -692,8 +692,7 @@
         //Guardar Servicio
         $scope.GuardarServicio = function () {
 
-            if ($scope.ValidarDatos()) {
-                
+            if ($scope.ValidarDatos()) {                
                 $scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.concat($scope.TEMPServicio);
 
                 $scope.ObjetoServicio = [];
@@ -774,6 +773,8 @@
         // Consultar Servicio
         $scope.ConsultarServicio = function (data) {
 
+            $rootScope.ServicioImagenesAdjuntas = data.imagenes_Servicio;
+
             $scope.TipoServicioSeleccionado = -1;
 
             if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
@@ -793,12 +794,7 @@
                 $scope.ModalEditarServicio();
                 $scope.NombreServicioReadOnly = true;
 
-                $scope.EstadoSeleccionado = $scope.Servicio.Estado;
-
-                //if ($scope.Servicio.Imagenes_Servicio != null) {
-                //    $scope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;
-                //}
-
+                $scope.EstadoSeleccionado = $scope.Servicio.Estado; 
             }
 
         }
@@ -849,7 +845,7 @@
             $scope.EstadoSeleccionado = 'ACTIVO';
             $scope.ImagenServicioBase64 = '';
             $scope.ImagenesAdjuntas = 0;
-            $scope.InformacionImagen = '';
+            $rootScope.InformacionImagen = '';
             $scope.ImagenesxAdjuntar = 0;
             $scope.TEMPServicio = [];
 
@@ -866,10 +862,8 @@
                 Tiempo: 0,
                 Valor: 0,
                 Imagenes_Servicio: []
-            }
-
-            $scope.ImagenServicioBase64 = '';
-            $scope.InformacionImagen = '';
+            }          
+            
             $scope.TipoServicioSeleccionado = -1;
 
             $('#txtNombreServicio').focus();
@@ -921,7 +915,9 @@
 
             $scope.AccionServicio = 'Registrar Servicio';
             $scope.ImagenesAdjuntas = 0;
+            $rootScope.ImagenesAdjuntas = $scope.ImagenesAdjuntas;
             $scope.ImagenesxAdjuntar = 0;
+            $rootScope.ImagenesxAdjuntar = $scope.ImagenesxAdjuntar;
             $scope.Servicio.Imagenes_Servicio.length = 0;
             $mdDialog.show({
                 contentElement: '#dlgNuevoServicio',
@@ -942,6 +938,38 @@
 
         }
 
+        // Modal Editar Servicio
+        $scope.ModalEditarServicio = function () {
+
+            $scope.AccionServicio = 'Editar Servicio';
+            $scope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;
+            $rootScope.ImagenesAdjuntas = $scope.ImagenesAdjuntas;
+            $scope.ImagenesxAdjuntar = 0;
+            $rootScope.ImagenesxAdjuntar = $scope.ImagenesxAdjuntar;
+            $mdDialog.show({
+                contentElement: '#dlgNuevoServicio',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                multiple: true
+            })
+                .then(function () {
+                }, function () {
+
+                    $scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.filter(function (item) {
+                        return item.Id_Servicio !== -1;
+                    }); //removemos las imágenes x adjuntar seleccionadas en caso de cancelar el modal
+                    $('#txtBuscarServicio').focus();
+                    $scope.LimpiarDatos();
+
+                });
+
+            $scope.NombreServicioReadOnly = true
+            $scope.OcultarbtnNuevo = true;
+
+        }
+
+
         //Modal Servicio Imagenes Slider
         $scope.ModalSliderServicio = function () {
 
@@ -958,49 +986,36 @@
                 }, function () {
                 });
         };
+        
 
-        // Modal Editar Servicio
-        $scope.ModalEditarServicio = function () {
+        //Show Custom Imágenes Adjuntas
+        $scope.showCustomImagenesAdjuntas = function (ev) {
 
-            $scope.AccionServicio = 'Editar Servicio';
-            $scope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;
             $mdDialog.show({
-                contentElement: '#dlgNuevoServicio',
+                controller: ImgAttachedController,
+                templateUrl: 'Views/Templates/_imgattached.tmpl.html',
                 parent: angular.element(document.body),
                 targetEvent: event,
                 clickOutsideToClose: true,
-                multiple: true
+                fullscreen: $scope.customFullscreen,
+                multiple:true
             })
                 .then(function () {
+
                 }, function () {
-                        
-                        $scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.filter(function (item) {
-                            return item.Id_Servicio !== -1;
-                        }); //removemos las imágenes x adjuntar seleccionadas en caso de cancelar el modal
-                    $('#txtBuscarServicio').focus();
-                    $scope.LimpiarDatos();                                        
-                    
                 });
 
-            $scope.NombreServicioReadOnly = true
-            $scope.OcultarbtnNuevo = true;
-
-        }
-
-        //Show Alert Imágenes Adjuntas
-        $scope.showAlertImagenesAdjuntas = function (ev) {
-
-            $mdDialog.show(
-                $mdDialog.alert()
-                    .parent(angular.element(document.querySelector('#popupContainer')))
-                    .clickOutsideToClose(true)
-                    .title('Imágenes Adjuntas')
-                    .textContent('Total Imagenes Adjuntas: ' + $scope.ImagenesAdjuntas + '\n\nImágenes seleccionadas para adjuntar: ' + $scope.ImagenesxAdjuntar + '\n\n' + $scope.InformacionImagen)
-                    .ariaLabel('Alert Dialog Demo')
-                    .ok('Aceptar')
-                    .targetEvent(ev)
-                    .multiple(true)
-            );
+            //$mdDialog.show(
+            //    $mdDialog.alert()
+            //        .parent(angular.element(document.querySelector('#popupContainer')))
+            //        .clickOutsideToClose(true)
+            //        .title('Imágenes Adjuntas')
+            //        .textContent('Total Imagenes Adjuntas: ' + $scope.ImagenesAdjuntas + '\n\nImágenes seleccionadas para adjuntar: ' + $scope.ImagenesxAdjuntar + '\n\n' + $scope.InformacionImagen)
+            //        .ariaLabel('Alert Dialog Demo')
+            //        .ok('Aceptar')
+            //        .targetEvent(ev)
+            //        .multiple(true)
+            //);
         };
 
         //Show Alert Sin Imágenes Adjuntas
@@ -1156,7 +1171,7 @@
         $scope.SeleccionarImagen = function (event) {
 
             $scope.ImagenServicioBase64 = '';
-            $scope.InformacionImagen = '';
+            $rootScope.InformacionImagen = '';
 
             if ($scope.Servicio.Imagenes_Servicio == null) { $scope.Servicio.Imagenes_Servicio = []; }
             
@@ -1187,11 +1202,11 @@
                 files = [];
                 return;
             }
-
+            
             for (i = 0; i < files.length; i++) {
                 let fileSize = (files[i].size / 1024 / 1024);
-                $scope.InformacionImagen += 'Nombre: ' + files[i].name + ' - Tamaño: ' + fileSize.toFixed(3) + ' MB' + "\n";
-                $scope.ImagenesxAdjuntar = files.length;
+                $rootScope.InformacionImagen += 'Nombre: ' + files[i].name + ' - Tamaño: ' + fileSize.toFixed(3) + ' MB' + '\n';
+                $rootScope.ImagenesxAdjuntar = files.length;
                 $scope.getBase64(files[i]);
             }
 
@@ -2997,16 +3012,34 @@
     }
 
     function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-
+        //  Inicialización de Objetos
         $scope.ServicioNombre = $rootScope.ServicioNombre;
-        $rootScope.ServicioNombre = ''; //Reseteo del objeto Servicio Nombre para posterior uso
-        $scope.SliderServicios = $rootScope.ServicioListaImagenes;
-        $scope.SliderClass = 'container' + $scope.SliderServicios.length;
-        $scope.Cancelar = function () {
 
+        //$rootScope.ServicioNombre = '';     //Reseteo del objeto Servicio Nombre para posterior uso
+
+        $scope.SliderServicios = $rootScope.ServicioListaImagenes;
+
+        $scope.SliderClass = 'container' + $scope.SliderServicios.length;
+
+        // Eventos
+        $scope.Cancelar = function () {
             $mdDialog.cancel();
             $('#txtBuscarServicio').focus();
+        };
+    }
 
+    function ImgAttachedController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+        $scope.ServicioImagenesAdjuntas = $rootScope.ServicioImagenesAdjuntas;
+        //$rootScope.ServicioImagenesAdjuntas = '';
+        
+        $scope.ImagenesAdjuntas = $rootScope.ImagenesAdjuntas;
+        $scope.ImagenesxAdjuntar = $rootScope.ImagenesxAdjuntar;
+        
+        $scope.InformacionImagen = $rootScope.InformacionImagen;
+
+        $scope.Cancelar = function () {
+            $mdDialog.cancel();
+            $('#txtBuscarServicio').focus();
         };
     }
 

@@ -659,3 +659,13 @@ input:-webkit-autofill:active {
     }
 }
 
+/* IMAGENES ADJUNTAS */
+
+.imagenes-adjuntas {
+    border-left: 1px solid #ccc;
+    min-height:64px;
+}
+
+.imagenes-adjuntas:first-child {
+    border-left:none !important;
+}
