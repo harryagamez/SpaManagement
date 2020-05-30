@@ -485,5 +485,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpGet]
+        [Authorize(Roles = "User")]
+        [Route("api/SPA/ConsultarUsuarioEmpresas")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarUsuarioEmpresas(int IdUsuario)
+        {
+            try
+            {
+                List<Empresa> _empresas = _spaService.ConsultarUsuarioEmpresas(IdUsuario);
+
+                return Content(HttpStatusCode.OK, _empresas);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando las empresas: " + ex.Message);
+            }
+        }
+
     }
 }

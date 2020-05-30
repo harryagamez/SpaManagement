@@ -212,6 +212,9 @@
     <Content Include="Styles\Fonts\Roboto\Roboto-Regular-webfont.woff" />
     <Content Include="Styles\wspa.common.css" />
     <Content Include="App\app-config-dev.json" />
+    <Content Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Styles\Fonts\Open_Sans\open-sans-v17-latin-300.eot" />
     <Content Include="Styles\Fonts\Open_Sans\open-sans-v17-latin-300.ttf" />

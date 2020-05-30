@@ -30,7 +30,9 @@ namespace WebApiSpa.Providers
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
 
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             Usuario usuario = new Usuario();
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
 
             IFormCollection parameters = await context.Request.ReadFormAsync();
 

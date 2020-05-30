@@ -248,6 +248,7 @@
     <Build Include="dbo\Tables\ADMINISTRADORES.sql" />
     <Build Include="dbo\Stored Procedures\ValidarUsuarioAdmin.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarEmpresas.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarUsuarioEmpresas.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

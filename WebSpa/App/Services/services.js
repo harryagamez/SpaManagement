@@ -115,8 +115,11 @@
                     _authentication.userPassword = password;
                     _consultarMenu($rootScope.userData.userId);
 
-                    if ($rootScope.userData.companyName === '[MULTIPLE]')
+                    if (($rootScope.userData.companyName === '[MULTIPLE]')
+                        && ($rootScope.Id_Empresa === '00000000-0000-0000-0000-000000000000'))
                         _consultarEmpresas();
+                    else
+                        _consultarUsuarioEmpresas($rootScope.userData.userId);
 
                     deferred.resolve(response);
 
@@ -243,6 +246,26 @@
                 headers: { 'Content-Type': 'application/json' },
                 method: 'GET',
                 url: $rootScope.config.data.API_URL + 'SPA/ConsultarEmpresas'
+            }).then(function (result) {
+                localStorageService.set('empresas', result.data);
+                $rootScope.Empresas = result.data;
+                $rootScope.$broadcast('successfull.companiesLoaded');
+                localStorageService.set('masterdataEmpresas',
+                    {
+                        empresas: result.data
+                    });
+            })
+
+        }
+
+        var _consultarUsuarioEmpresas = function () {
+
+            var authData = localStorageService.get('authorizationData');
+
+            $http({
+                headers: { 'Content-Type': 'application/json' },
+                method: 'GET',
+                url: $rootScope.config.data.API_URL + 'SPA/ConsultarUsuarioEmpresas?IdUsuario=' + parseInt(authData.userId)
             }).then(function (result) {
                 localStorageService.set('empresas', result.data);
                 $rootScope.Empresas = result.data;

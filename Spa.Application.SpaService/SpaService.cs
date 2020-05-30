@@ -433,5 +433,18 @@ namespace Spa.Application.SpaService
             }
         }
 
+        public List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario)
+        {
+            try
+            {
+                List<Empresa> _empresas = _spaRepository.ConsultarUsuarioEmpresas(IdUsuario);
+
+                return _empresas;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

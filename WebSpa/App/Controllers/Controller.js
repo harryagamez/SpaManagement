@@ -97,9 +97,14 @@
 
                 $scope.Empresas = [];
                 $scope.Empresas = $rootScope.Empresas;
-                $scope.EmpresaSeleccionada = $rootScope.Empresas[0].id_Empresa;
-                $rootScope.Id_Empresa = $scope.EmpresaSeleccionada;
-                $scope.MultipleEmpresa = true;
+
+                if ($scope.Empresas.length > 1) {
+
+                    $scope.EmpresaSeleccionada = $rootScope.Empresas[0].id_Empresa;
+                    $rootScope.Id_Empresa = $scope.EmpresaSeleccionada;
+                    $scope.MultipleEmpresa = true;
+
+                } else $scope.MultipleEmpresa = false;
 
             }
 
@@ -693,7 +698,7 @@
         $scope.GuardarServicio = function () {
 
             if ($scope.ValidarDatos()) {
-                
+
                 $scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.concat($scope.TEMPServicio);
 
                 $scope.ObjetoServicio = [];
@@ -933,7 +938,7 @@
                 .then(function () {
                 }, function () {
                     $('#txtBuscarServicio').focus();
-                    $scope.LimpiarDatos(); 
+                    $scope.LimpiarDatos();
                 });
 
             $scope.LimpiarDatos();
@@ -973,13 +978,13 @@
             })
                 .then(function () {
                 }, function () {
-                        
-                        $scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.filter(function (item) {
-                            return item.Id_Servicio !== -1;
-                        }); //removemos las imágenes x adjuntar seleccionadas en caso de cancelar el modal
+
+                    $scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.filter(function (item) {
+                        return item.Id_Servicio !== -1;
+                    }); //removemos las imágenes x adjuntar seleccionadas en caso de cancelar el modal
                     $('#txtBuscarServicio').focus();
-                    $scope.LimpiarDatos();                                        
-                    
+                    $scope.LimpiarDatos();
+
                 });
 
             $scope.NombreServicioReadOnly = true
@@ -1021,11 +1026,11 @@
 
         //Show Comfirm Reemplazar Imágenes Servicios
         $scope.showReemplazarImagenesServicio = function (ev, data) {
-            
+
             if ($scope.ImagenesAdjuntas >= 5) {
                 toastr.info('El servicio ya tiene 5 imágenes adjuntas. Si desea subir más, debe borrar alguna imagen existente', '', $scope.toastrOptions);
                 return;
-            }                
+            }
 
             if ($scope.ImagenesAdjuntas > 0 && $scope.ImagenesAdjuntas <= 5) {
                 let confirm = $mdDialog.confirm()
@@ -1147,7 +1152,7 @@
 
         }
 
-        $scope.Cancelar = function () {            
+        $scope.Cancelar = function () {
             $mdDialog.cancel();
             $('#txtBuscarServicio').focus();
 
@@ -1159,7 +1164,7 @@
             $scope.InformacionImagen = '';
 
             if ($scope.Servicio.Imagenes_Servicio == null) { $scope.Servicio.Imagenes_Servicio = []; }
-            
+
             let mayorDosMB = false;
             let files = event.target.files;
 
@@ -1170,7 +1175,7 @@
             }
 
             if (files.length + $scope.Servicio.Imagenes_Servicio.length > 5) {
-                toastr.info('El servicio solo puede tener un máximo de 5 imágenes. Ya tiene ' + $scope.Servicio.Imagenes_Servicio.length +' imágenes adjuntas', '', $scope.toastrOptions);
+                toastr.info('El servicio solo puede tener un máximo de 5 imágenes. Ya tiene ' + $scope.Servicio.Imagenes_Servicio.length + ' imágenes adjuntas', '', $scope.toastrOptions);
                 files = [];
                 return;
             }
@@ -1206,8 +1211,8 @@
             let reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = function () {
-                
-                $scope.ImagenServicioBase64 = reader.result;                
+
+                $scope.ImagenServicioBase64 = reader.result;
                 $scope.TEMPServicio.push({
                     Id_Servicio: -1, Imagen_Base64: $scope.ImagenServicioBase64, TuvoCambios: true
                 });

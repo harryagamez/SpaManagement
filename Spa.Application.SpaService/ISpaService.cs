@@ -37,6 +37,7 @@ namespace Spa.Application.SpaService
         List<Gasto> ConsultarGastos(BusquedaGasto _BusquedaGasto);
         Usuario ValidarUsuarioAdmin(string Nombre, string Password);
         List<Empresa> ConsultarEmpresas();
+        List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario);
 
     }
 }
