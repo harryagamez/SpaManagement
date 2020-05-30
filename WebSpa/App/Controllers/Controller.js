@@ -1204,7 +1204,7 @@
             }
             
             for (i = 0; i < files.length; i++) {
-                let fileSize = (files[i].size / 1024 / 1024); debugger;
+                let fileSize = (files[i].size / 1024 / 1024); 
                 $rootScope.InformacionImagen += 'Nombre: ' + files[i].name + ' - Tamaño: ' + fileSize.toFixed(3) + ' MB';
                 $rootScope.ImagenesxAdjuntar = files.length;
                 $scope.getBase64(files[i]);
@@ -3047,40 +3047,14 @@
                 .then(
                     function (result) {
                         if (result.data === true) {
-                            toastr.success('Imagen eliminada correctamente', '', $scope.toastrOptions);
-                            $scope.ConsultarServicios();
+                            toastr.success('Imagen eliminada correctamente', '', $scope.toastrOptions);                            
                         }
                     }, function (err) {
                         toastr.remove();
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })            
-        }
-
-        //Consultar Servicios
-        $scope.ConsultarServicios = function () {
-
-            SPAService._consultarServicios($scope.IdEmpresa)
-                .then(
-                    function (result) {
-                        if (result.data !== undefined && result.data !== null) {
-
-                            $scope.Servicios = [];
-                            $scope.Servicios = result.data;
-                            $scope.ServiciosGridOptions.api.setRowData($scope.Servicios);
-
-                            $timeout(function () {
-                                $scope.ServiciosGridOptions.api.sizeColumnsToFit();
-                            }, 200);
-
-                        }
-                    }, function (err) {
-                        toastr.remove();
-                        if (err.data !== null && err.status === 500)
-                            toastr.error(err.data, '', $scope.toastrOptions);
-                    })
-
-        }
+        }        
 
         //FUNCIONES
 
