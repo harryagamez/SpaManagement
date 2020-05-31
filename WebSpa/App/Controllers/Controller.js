@@ -87,7 +87,7 @@
     }
 
     function HomeController($scope, $state, $rootScope, $element, $location, localStorageService, authService) {
-      
+        
         if ($rootScope.Empresas !== undefined) {
 
             if ($rootScope.Empresas.length === 0) {
@@ -106,6 +106,13 @@
                     $scope.EmpresaSeleccionada = $rootScope.Empresas[0].id_Empresa;
                     $rootScope.Id_Empresa = $scope.EmpresaSeleccionada;
                     $scope.MultipleEmpresa = true;
+
+                } else if ($scope.Empresas.length === 1 && $rootScope.Id_Empresa === '00000000-0000-0000-0000-000000000000') {
+
+                    $scope.EmpresaSeleccionada = $rootScope.Empresas[0].id_Empresa;
+                    $rootScope.Nombre_Empresa = $rootScope.Empresas[0].nombre;
+                    $rootScope.Id_Empresa = $scope.EmpresaSeleccionada;
+                    $scope.MultipleEmpresa = false
 
                 } else $scope.MultipleEmpresa = false;
 
@@ -141,7 +148,17 @@
                 $rootScope.Id_Empresa = $scope.EmpresaSeleccionada;
                 $scope.MultipleEmpresa = true;
 
+            } else if ($scope.Empresas.length === 1 && $rootScope.Id_Empresa === '00000000-0000-0000-0000-000000000000') {
+
+                $scope.EmpresaSeleccionada = $rootScope.Empresas[0].id_Empresa;
+                $rootScope.Nombre_Empresa = $rootScope.Empresas[0].nombre;
+                $rootScope.Id_Empresa = $scope.EmpresaSeleccionada;
+                $scope.MultipleEmpresa = false
+
             } else $scope.MultipleEmpresa = false;
+
+
+            $scope.NombreEmpresa = $rootScope.Nombre_Empresa;
 
         });
 
