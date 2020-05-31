@@ -4,6 +4,7 @@
     [CONTRASEÑA]         CHAR (15)        NULL,
     [PERFIL]             CHAR (15)        NULL,
     [ID_EMPRESA]         UNIQUEIDENTIFIER NOT NULL,
+    [VERIFICADO]         BIT              NULL,
     [CODIGO_INTEGRACION] VARCHAR (36)     NULL,
     [FECHA_REGISTRO]     DATETIME         NULL,
     [FECHA_MODIFICACION] DATETIME         NULL

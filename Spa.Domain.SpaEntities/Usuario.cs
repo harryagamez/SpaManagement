@@ -11,6 +11,7 @@ namespace Spa.Domain.SpaEntities
         public string Perfil { get; set; }
         public Guid Id_Empresa { get; set; }
         public string Codigo_Integracion { get; set; }
+        public bool Verificado { get; set; }
         public DateTime? Fecha_Registro { get; set; }
         public DateTime? Fecha_Modificacion { get; set; }
         public string HashKey { get; set; } = string.Empty;
