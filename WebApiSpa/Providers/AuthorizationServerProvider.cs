@@ -39,6 +39,9 @@ namespace WebApiSpa.Providers
             bool Validatedintegration = Convert.ToBoolean(parameters.Get("validatedintegration"));
             string Integrationcode = parameters.Get("integrationcode");
 
+            if (!string.IsNullOrEmpty(Integrationcode))
+                Validatedintegration = true;
+
             usuario = _spaService.ValidarUsuario(context.UserName, context.Password, Validatedintegration, Integrationcode);
             if (usuario == null)
             {
@@ -64,6 +67,7 @@ namespace WebApiSpa.Providers
                     { "UserName", usuario.Nombre },
                     { "UserId", usuario.Id_Usuario.ToString() },
                     { "IntegrationCode", string.IsNullOrEmpty(usuario.Codigo_Integracion) ? "undefined" : usuario.Codigo_Integracion },
+                    { "Validated", (usuario.Nombre_Empresa.Contains("[MULTIPLE]") && usuario.Id_Empresa.ToString().Contains("00000000-0000-0000-0000-000000000000")) ? "True" : usuario.Verificado.ToString() },
                     { "CompanyId", usuario.Id_Empresa.ToString() },
                     { "CompanyName", usuario.Nombre_Empresa.Trim() },
                     { "Role", usuario.Perfil }

@@ -25,7 +25,7 @@
         $scope.ValidarDatos = ValidarDatos;
         $scope.Login = Login;
         $scope.ValidarIntegracion = false;
-        $scope.DatosUsuario = { Usuario: '', Clave: '', CodigoIntegracion: '' }
+        $scope.DatosUsuario = { Usuario: '', Clave: '', CodigoIntegracion: '' };
 
         $('#txtUsuario').focus();
 
@@ -43,14 +43,17 @@
                             if (result.data !== undefined && result.data !== null) {
 
                                 if (result.data.access_token !== undefined && result.data.access_token !== null) {
-
-                                    if (result.data.IntegrationCode == null || result.data.IntegrationCode === "undefined") {
+                                   
+                                    if (result.data.IntegrationCode == null
+                                        || result.data.IntegrationCode === "undefined"
+                                        || result.data.Validated === "False") {
 
                                         $scope.validarIntegracion = true;
                                         $('#ctlIntegration').focus();
 
                                     } else {
 
+                                        $scope.DatosUsuario = { Usuario: '', Clave: '', CodigoIntegracion: '' };
                                         $state.go('home');
 
                                     }
@@ -84,7 +87,7 @@
     }
 
     function HomeController($scope, $state, $rootScope, $element, $location, localStorageService, authService) {
-
+      
         if ($rootScope.Empresas !== undefined) {
 
             if ($rootScope.Empresas.length === 0) {
@@ -120,7 +123,7 @@
         $scope.NombreEmpresa = $rootScope.Nombre_Empresa;
 
         $scope.$on('successfull.menuload', function () {
-
+            
             if ($scope.Menu.length == 0)
                 $scope.Menu = $rootScope.Menu;
 
@@ -132,13 +135,13 @@
             if ($scope.Empresas.length == 0)
                 $scope.Empresas = $rootScope.Empresas;
 
-            if ($scope.Empresas.length > 0) {
+            if ($scope.Empresas.length > 1) {
 
                 $scope.EmpresaSeleccionada = $scope.Empresas[0].id_Empresa;
                 $rootScope.Id_Empresa = $scope.EmpresaSeleccionada;
                 $scope.MultipleEmpresa = true;
 
-            }
+            } else $scope.MultipleEmpresa = false;
 
         });
 
@@ -697,7 +700,7 @@
         //Guardar Servicio
         $scope.GuardarServicio = function () {
 
-            if ($scope.ValidarDatos()) {                
+            if ($scope.ValidarDatos()) {
                 $scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.concat($scope.TEMPServicio);
 
                 $scope.ObjetoServicio = [];
@@ -777,7 +780,7 @@
 
         // Consultar Servicio
         $scope.ConsultarServicio = function (data) {
-           
+
             $rootScope.ServicioImagenesAdjuntas = data.imagenes_Servicio;
 
             $scope.TipoServicioSeleccionado = -1;
@@ -799,7 +802,7 @@
                 $scope.ModalEditarServicio();
                 $scope.NombreServicioReadOnly = true;
 
-                $scope.EstadoSeleccionado = $scope.Servicio.Estado; 
+                $scope.EstadoSeleccionado = $scope.Servicio.Estado;
             }
 
         }
@@ -869,8 +872,8 @@
                 Tiempo: 0,
                 Valor: 0,
                 Imagenes_Servicio: []
-            }          
-            
+            }
+
             $scope.TipoServicioSeleccionado = -1;
 
             $('#txtNombreServicio').focus();
@@ -994,7 +997,7 @@
                 });
 
         };
-        
+
 
         //Show Custom Imágenes Adjuntas
         $scope.showCustomImagenesAdjuntas = function (ev) {
@@ -1006,12 +1009,12 @@
                 targetEvent: event,
                 clickOutsideToClose: true,
                 fullscreen: $scope.customFullscreen,
-                multiple:true
+                multiple: true
             })
                 .then(function () {
 
                 }, function () {
-                });            
+                });
         };
 
         //Show Alert Sin Imágenes Adjuntas
@@ -1198,9 +1201,9 @@
                 files = [];
                 return;
             }
-            
+
             for (i = 0; i < files.length; i++) {
-                let fileSize = (files[i].size / 1024 / 1024); 
+                let fileSize = (files[i].size / 1024 / 1024);
                 $rootScope.InformacionImagen += 'Nombre: ' + files[i].name + ' - Tamaño: ' + fileSize.toFixed(3) + ' MB';
                 $rootScope.ImagenesxAdjuntar = files.length;
                 $scope.getBase64(files[i]);
@@ -3053,26 +3056,26 @@
     function ImgAttachedController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
 
         //INICIALIZACIÓN
-        $scope.ServicioImagenesAdjuntas = $rootScope.ServicioImagenesAdjuntas;        
+        $scope.ServicioImagenesAdjuntas = $rootScope.ServicioImagenesAdjuntas;
         $scope.ImagenesAdjuntas = $rootScope.ImagenesAdjuntas;
-        $scope.ImagenesxAdjuntar = $rootScope.ImagenesxAdjuntar;        
+        $scope.ImagenesxAdjuntar = $rootScope.ImagenesxAdjuntar;
         $scope.InformacionImagen = $rootScope.InformacionImagen;
 
         //API
 
         //  Eliminar Imagen Adjunta Servicio
-        $scope.EliminarImagenAdjunta = function (data) {            
-            
+        $scope.EliminarImagenAdjunta = function (data) {
+
             let IdImagenAdjunta = data.id_Servicio_Imagen;
 
             SPAService._eliminarImagenAdjunta(IdImagenAdjunta)
                 .then(
                     function (result) {
                         if (result.data === true) {
-                            toastr.success('Imagen eliminada correctamente', '', $scope.toastrOptions); 
+                            toastr.success('Imagen eliminada correctamente', '', $scope.toastrOptions);
 
                             let index = $scope.ServicioImagenesAdjuntas.indexOf(data);
-                            $scope.ServicioImagenesAdjuntas.splice(index, 1);  
+                            $scope.ServicioImagenesAdjuntas.splice(index, 1);
 
                             $rootScope.ImagenesAdjuntas = $scope.ServicioImagenesAdjuntas.length;
                             $scope.ImagenesAdjuntas = $rootScope.ImagenesAdjuntas;
@@ -3082,14 +3085,14 @@
                         toastr.remove();
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
-                    })            
-        }        
+                    })
+        }
 
         //FUNCIONES
 
         //Modal Show Confirm Borrar Servicio Imagen
         $scope.showConfirmBorrarServicioImagen = function (ev, data) {
-            
+
             let confirm = $mdDialog.confirm()
                 .title('Eliminar Imagen')
                 .textContent('¿Desea Eliminar la imagen adjunta?')
