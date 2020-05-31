@@ -2955,6 +2955,27 @@
 
         }
 
+
+        //Funciones
+
+        //Modal Caja Menor        
+        $scope.ModalCajaMenor = function () {
+
+            $scope.AccionGastos = 'Caja Menor';
+            $mdDialog.show({
+                contentElement: '#dlgCajaMenor',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                multiple: true,
+            })
+                .then(function () {
+                }, function () {                   
+
+                });
+
+        }
+
         // Eventos
         window.onresize = function () {
 
@@ -2963,6 +2984,11 @@
             }, 200);
 
         }
+
+        $scope.Cancelar = function () {
+
+            $mdDialog.cancel();   
+        };
 
         $scope.ValidarFechaDesde = function () {
 

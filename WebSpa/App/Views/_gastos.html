@@ -23,7 +23,7 @@
                     <i class="material-icons md-18" style="transform: scaleX(-1)">delete</i>Eliminar
                 </md-button>
 
-                <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: 6px;" data-toggle="tooltip" title="Caja menor">
+                <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: 6px;" data-toggle="tooltip" title="Caja menor" data-ng-click="ModalCajaMenor()">
                     <i class="material-icons md-18" style="transform: scaleX(-1)">account_balance</i>Caja Menor
                 </md-button>
 
@@ -62,7 +62,7 @@
                         <label class="label-form-clientes" style="">
                             Fecha Desde:
                         </label>
-                        <md-datepicker ng-model="Filtros.Desde" data-ng-change="ValidarFechaDesde()"  md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=1></md-datepicker>
+                        <md-datepicker ng-model="Filtros.Desde" data-ng-change="ValidarFechaDesde()" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=1></md-datepicker>
                     </md-input-container>
                 </div>
 
@@ -112,13 +112,75 @@
 
             </div>
 
-
             <div id="divGridGastos" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 250px); margin-top:14px; overflow-y:auto;">
                 <div id="divGastosGridOptions" data-ag-grid="GastosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
             </div>
 
         </form>
 
+    </div>
+
+    <!-- Modal Caja Menor-->
+    <div style="visibility: hidden">
+        <div class="md-dialog-container" id="dlgCajaMenor">
+            <md-dialog id="mdCajaMenor" aria-label="" style="min-width: 38% !important; max-width:38%; color: #666666 !important;">
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2 style="font-size:16px;">{{AccionGastos}}</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="Cancelar()">
+                            <i class="material-icons" style="transform: scaleX(-1)">close</i>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+
+                <form id="frmServicios" style="">
+
+                    <md-dialog-content style="background-color: rgb(250,250,250);">
+                        <div layout="row" layout-sm="column" style="margin-top: 15px;" layout-align="center center">
+                            <div flex="">
+                                <md-input-container class="md-block" style="margin:0; padding: 0;">
+                                    <label class="" style="display:none;">
+                                        Distribución:
+                                    </label>
+                                    <md-select ng-model="DistribucionSeleccionada" aria-label="Distribucion Seleccionada" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slServicios" tabindex=1>
+                                        <md-option value="DIARIA" selected>DIARIA</md-option>
+                                        <md-option value="MENSUAL">MENSUAL</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                            <div flex="">
+                                <md-input-container style="width:90%">
+                                    <label class="label-form-empleados" style="">
+                                        Saldo Inicial:
+                                    </label>
+                                    <input ng-model="Empleado.Numero_Hijos" id="txtHijos" numbers-only type="text" placeholder="Digite su número de hijos ..." autocomplete="off" tabindex=7>
+                                </md-input-container>
+                            </div>
+
+                            
+                        </div>
+                        <div layout="row" layout-sm="column" style="margin-top: 15px;" layout-align="center center">
+                            <div flex="">
+                                <md-input-container style="width:90%">
+                                    <label class="label-form-empleados" style="">
+                                        Acumulado:
+                                    </label>
+                                    <input ng-model="Empleado.Numero_Hijos" id="txtHijos" numbers-only type="text" placeholder="Digite su número de hijos ..." autocomplete="off" tabindex=7>
+                                </md-input-container>
+                            </div>
+                            <div flex="25">
+                                <md-button type="button" id="btnGuardarCajaMenor" style="right: 8px; position: fixed; margin-top: -18px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Asignar Servicio" data-ng-click="AsignarEmpleadoServicio()">
+                                    Guardar<i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
+                                </md-button>
+                            </div>
+                        </div>
+
+                    </md-dialog-content>
+                </form>
+
+            </md-dialog>
+        </div>
     </div>
 
 </body>
