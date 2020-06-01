@@ -2801,6 +2801,7 @@
         $scope.AccionGasto = 'Registrar Gasto';
         $scope.TipoGastoSeleccionado = -1;
         $scope.TipoCajaSeleccionada = -1;
+        $scope.EmpleadoSeleccionado = -1;
         $scope.Filtros = { Desde: new Date(), Hasta: new Date() }
 
         $scope.TipoGastos =
@@ -2891,6 +2892,26 @@
 
         }
 
+        // Consultar Empleados
+        $scope.ConsultarEmpleados = function () {
+
+            SPAService._consultarEmpleados($scope.IdEmpresa)
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {                            
+                            $scope.Empleados = [];
+                            $scope.Empleados = result.data;
+                            $scope.Empleados.push({ id_Empleado: -1, nombres: '[Seleccione]' });
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })           
+
+        }
+
+
         $scope.ValidarDatos = function () {
 
             if ($scope.IdEmpresa === null || $scope.IdEmpresa === undefined) {
@@ -2924,7 +2945,7 @@
 
         }
 
-        //API GRID EMPLEADOS OPTIONS
+        //API GRID GASTOS OPTIONS
         $scope.GastosGridOptionsColumns = [
 
             {
@@ -2980,8 +3001,9 @@
 
         //Modal Caja Menor        
         $scope.ModalCajaMenor = function () {
+            $scope.ConsultarEmpleados();
+            $scope.AccionGasto = 'Caja Menor';
 
-            $scope.AccionGastos = 'Caja Menor';
             $mdDialog.show({
                 contentElement: '#dlgCajaMenor',
                 parent: angular.element(document.body),
@@ -2991,6 +3013,25 @@
             })
                 .then(function () {
                 }, function () {                   
+
+                });
+
+        }
+
+        //Modal Nuevo Gasto        
+        $scope.ModalNuevoGasto = function () {
+
+            $scope.AccionGasto = 'Nuevo Gasto';
+
+            $mdDialog.show({
+                contentElement: '#dlgNuevoGasto',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                multiple: true,
+            })
+                .then(function () {
+                }, function () {
 
                 });
 
@@ -3049,7 +3090,8 @@
 
         });
 
-        $scope.Inicializacion();
+        
+        $scope.Inicializacion();        
 
     }
 
