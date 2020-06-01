@@ -2890,14 +2890,14 @@
                             if (result.data !== undefined && result.data !== null) {
                                 $scope.Caja_Menor = [];   
                                 $scope.Caja_Menor = result.data;
-                                
+                                debugger;
                                 } else toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
                             
                         }, function (err) {
                             toastr.remove();
                             if (err.data !== null && err.status === 500)
                                 toastr.error(err.data, '', $scope.toastrOptions);
-                        }            
+                        })           
         }
 
 
