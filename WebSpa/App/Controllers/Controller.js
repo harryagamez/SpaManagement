@@ -2899,9 +2899,10 @@
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {                            
-                            $scope.Empleados = [];
+                            $scope.Empleados = []; 
                             $scope.Empleados = result.data;
                             $scope.Empleados.push({ id_Empleado: -1, nombres: '[Seleccione]' });
+                            $scope.Empleados = $filter('orderBy')($scope.Empleados, 'nombres', false);
                         }
                     }, function (err) {
                         toastr.remove();
@@ -3001,7 +3002,7 @@
 
         //Modal Caja Menor        
         $scope.ModalCajaMenor = function () {
-            $scope.ConsultarEmpleados();
+            
             $scope.AccionGasto = 'Caja Menor';
 
             $mdDialog.show({
@@ -3020,7 +3021,7 @@
 
         //Modal Nuevo Gasto        
         $scope.ModalNuevoGasto = function () {
-
+            $scope.ConsultarEmpleados();
             $scope.AccionGasto = 'Nuevo Gasto';
 
             $mdDialog.show({

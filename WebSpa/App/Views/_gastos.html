@@ -80,9 +80,9 @@
                         <label class="label-form-clientes">
                             Tipo Gasto:
                         </label>
-                        <select ng-model="TipoGastoSeleccionado" ng-options="item.id_TipoGasto as item.Nombre for item in TipoGastos | orderBy:'Nombre'" style="display:none; width:auto; " tabindex=3>
-                        </select>
-                        <md-select ng-model="TipoGastoSeleccionado" style="display:inline-flex; min-width: 100% !important; margin:15px 0; margin-top:1px;" id="slTipoGasto" tabindex=4>
+                        <!--<select ng-model="TipoGastoSeleccionado" ng-options="item.id_TipoGasto as item.Nombre for item in TipoGastos | orderBy:'Nombre'" style="display:none; width:auto; " tabindex=3>
+                        </select>-->
+                        <md-select ng-model="TipoGastoSeleccionado" style="display:inline-flex; min-width: 100% !important; margin:15px 0; margin-top:1px;" id="slTipoGasto" tabindex=3>
                             <md-option ng-bind="item.Nombre" ng-value="item.id_TipoGasto" ng-repeat="item in TipoGastos track by item.id_TipoGasto"></md-option>
                         </md-select>
                     </md-input-container>
@@ -190,7 +190,7 @@
     <!-- Modal Nuevo Gasto-->
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgNuevoGasto">
-            <md-dialog id="mdCajaMenor" aria-label="" style="min-width: 35% !important; max-width:35%; color: #666666 !important;">
+            <md-dialog id="mdCajaMenor" aria-label="" style="min-width: 36% !important; max-width:36%; color: #666666 !important;">
                 <md-toolbar>
                     <div class="md-toolbar-tools">
                         <h2 style="font-size:16px;">{{AccionGasto}}</h2>
@@ -222,7 +222,7 @@
                                     <label class="label-form-empleados" style="">
                                         Empleados:
                                     </label>
-                                    <md-select ng-model="EmpleadoSeleccionado" aria-label="Empleados" class="" style="display:inline-flex; min-width:80%; max-width: 80% !important; margin-top:9px;" id="slEmpleados" tabindex=1>
+                                    <md-select ng-model="EmpleadoSeleccionado" aria-label="Empleados" class="" style="display:inline-flex; min-width:80%; max-width: 80% !important; margin-top:9px;" id="slEmpleados" tabindex=2>
                                         <md-option ng-bind="empleado.nombres" ng-value="empleado.id_Empleado" ng-repeat="empleado in Empleados track by $index"></md-option>
                                     </md-select>
                                 </md-input-container>
@@ -233,21 +233,41 @@
                         <div layout="row" layout-sm="column" style="" layout-align="center center">
 
                             <div flex="">
-                                <md-input-container style="width:90%">
+                                <md-input-container style="width:100%">
                                     <label class="label-form-empleados" style="">
-                                        Acumulado:
+                                        Descripción:
                                     </label>
-                                    <input ng-model="CajaMenor.Acumulado" id="txtAcumulado" numbers-only placeholder="Acumulado ..." type="text" ng-readonly="true" autocomplete="off" tabindex=3>
+                                    <textarea ng-model="Gasto.Descripcion" id="txtAcumulado" rows="2" maxlength="300" placeholder="Descripción ..." type="text" autocomplete="off" tabindex=3></textarea>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-xs="column" style="margin-top:-30px;" layout-align="start center">
+
+                            <div flex="50">
+                                <md-input-container style="margin-left:-40px;">
+                                    <label class="label-form-clientes" style="">
+                                        Fecha Registro:
+                                    </label>
+                                    <md-datepicker ng-model="Gasto.FechaRegistro" data-ng-change="ValidarFechaDesde()" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=4></md-datepicker>
                                 </md-input-container>
                             </div>
 
                             <div flex="25">
-                                <md-button type="button" id="btnGuardarCajaMenor" style="right: 8px; position: fixed; margin-top: -32px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarCajaMenor()">
+                                <md-input-container style="min-width: 50%; margin-left:-30px;">
+                                    <label class="label-form-clientes" style="">
+                                        Valor Gasto:
+                                    </label>
+                                    <input ng-model="Gasto.Valor" id="txtValorGasto" numbers-only placeholder="Valor del gasto ..." type="text" autocomplete="off" tabindex=5>
+                                </md-input-container>
+                            </div>
+
+                            <div flex="20">
+                                <md-button type="button" id="btnGuardarCajaMenor" style="right: 8px; position: fixed; margin-top: -32px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarNuevoGasto()" tabindex="6">
                                     Guardar<i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
                                 </md-button>
                             </div>
-
-                        </div>
+                        </div>                        
                     </md-dialog-content>
                 </form>
 
