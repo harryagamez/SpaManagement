@@ -485,6 +485,23 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpGet]
+        [Route("api/SPA/ConsultarCajaMenor")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarCajaMenor(string IdEmpresa)
+        {
+            try
+            {
+                List<CajaMenor> _cajamenor = _spaService.ConsultarCajaMenor(IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _cajamenor);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando la caja menor: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Authorize(Roles = "Admin")]
         [Route("api/SPA/ConsultarEmpresas")]
         [HttpCache(DefaultExpirySeconds = 2)]

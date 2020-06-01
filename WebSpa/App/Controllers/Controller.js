@@ -2841,6 +2841,67 @@
             Id_Empresa: $scope.IdEmpresa
         };
 
+        $scope.CajaMenor = {
+            SaldoInicial: 0,
+            Acumulado: '',
+            Distribucion: $scope.TipoCajaSeleccionada,
+            Id_Empresa: $scope.IdEmpresa
+        }
+
+        $scope.Gasto = {
+            Fecha_Registro: new Date()
+        }
+
+        //Guardar Caja Menor
+
+        $scope.GuardarCajaMenor = function () {
+            if ($scope.ValidarCajaMenor()) {
+
+                $scope.ObjetoCajaMenor = [];
+                $scope.ObjetoCajaMenor.push($scope.CajaMenor);
+
+                SPAService._guardarCajaMenor(JSON.stringify($scope.ObjetoCajaMenor))
+                    .then(
+                        function (result) {
+                            if (result.data === true) {
+
+                                toastr.success('Caja menor guardada correctamente', '', $scope.toastrOptions);                               
+                                //$scope.LimpiarDatos();
+
+                                if ($scope.AccionServicio === 'Caja Menor')
+                                    $scope.Cancelar();
+
+                            }
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        })
+
+            }            
+        }
+
+        //Consultar Caja Menor
+        $scope.ConsultarCajaMenor = function () {            
+
+            SPAService._consultarCajaMenor(JSON.stringify($scope.IdEmpresa))
+                    .then(
+                        function (result) {
+                            if (result.data !== undefined && result.data !== null) {
+                                $scope.Caja_Menor = [];   
+                                $scope.Caja_Menor = result.data;
+                                
+                                } else toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
+                            
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        }            
+        }
+
+
+        //Consultar Gastos
         $scope.ConsultarGastos = function () {
 
             $scope.BusquedaGasto.Tipo_Gasto = null;
@@ -2867,7 +2928,7 @@
 
                                 $scope.Gastos = [];
                                 $scope.GastosGridOptions.api.setRowData($scope.Gastos);
-
+                                
                                 $scope.Gastos = result.data;
 
                                 if ($scope.Gastos.length > 0) {
@@ -2912,7 +2973,7 @@
 
         }
 
-
+        //Validar Datos
         $scope.ValidarDatos = function () {
 
             if ($scope.IdEmpresa === null || $scope.IdEmpresa === undefined) {
@@ -2945,6 +3006,28 @@
             return true;
 
         }
+
+        //Validar Caja Menor
+        $scope.ValidarCajaMenor = function () {
+
+            if ($scope.IdEmpresa === null || $scope.IdEmpresa === undefined) {
+                toastr.info('Código de empresa inválido', '', $scope.toastrOptions);
+                return false;
+            }
+
+            if ($scope.TipoCajaSeleccionada === -1) {
+                toastr.info('Debe seleccionar una distribución', '', $scope.toastrOptions);
+                return false;
+            }
+
+            if ($scope.CajaMenor.SaldoInicial === 0 || $scope.CajaMenor.SaldoInicial == '') {
+                toastr.info('Debe debe ingresar un saldo inicial', '', $scope.toastrOptions);
+                return false;
+            }
+
+            return true;
+        }
+
 
         //API GRID GASTOS OPTIONS
         $scope.GastosGridOptionsColumns = [
@@ -3004,6 +3087,7 @@
         $scope.ModalCajaMenor = function () {
             
             $scope.AccionGasto = 'Caja Menor';
+            $scope.ConsultarCajaMenor();
 
             $mdDialog.show({
                 contentElement: '#dlgCajaMenor',

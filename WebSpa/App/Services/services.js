@@ -316,7 +316,8 @@
             _asignarEmpleadoInsumo: AsignarEmpleadoInsumo,
             _consultarEmpleadoInsumos: ConsultarEmpleadoInsumos,
             _eliminarEmpleadoInsumo: EliminarEmpleadoInsumo,
-            _consultarGastos: ConsultarGastos
+            _consultarGastos: ConsultarGastos,
+            _consultarCajaMenor: ConsultarCajaMenor
 
         }
 
@@ -648,6 +649,18 @@
         function ConsultarGastos(busqueda_gasto) {
             var deferred = $q.defer();
             serviceRest.Post('SPA', 'ConsultarGastos', busqueda_gasto,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarCajaMenor(IdEmpresa) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarCajaMenor?IdEmpresa=' + IdEmpresa,
                 function (data) {
                     deferred.resolve(data);
                 },

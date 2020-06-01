@@ -1284,6 +1284,48 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public List<CajaMenor> ConsultarCajaMenor(string IdEmpresa)
+        {
+            DataTable _datatable = new DataTable();
+            List<CajaMenor> _cajamenor = new List<CajaMenor>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarCajaMenor";                        
+                        _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_datatable);
+                            _cajamenor = _datatable.DataTableToList<CajaMenor>();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _cajamenor;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public Usuario ValidarUsuarioAdmin(string Nombre, string Password)
         {
             DataTable _datatable = new DataTable();

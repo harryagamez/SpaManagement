@@ -417,6 +417,20 @@ namespace Spa.Application.SpaService
             }
         }
 
+        public List<CajaMenor> ConsultarCajaMenor(string IdEmpresa)
+        {
+            try
+            {
+                List<CajaMenor> _cajamenor = _spaRepository.ConsultarCajaMenor(IdEmpresa);
+
+                return _cajamenor;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public Usuario ValidarUsuarioAdmin(string Nombre, string Password)
         {
             try

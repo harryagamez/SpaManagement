@@ -137,8 +137,8 @@
                                         <label class="label-form-servicios" style="">
                                             Tipo Transacción:
                                         </label>
-                                        <select ng-model="TipoTransaccionSeleccionada" ng-disabled="true" ng-options="item.id_TipoTransaccion as item.nombre for item in TipoTransacciones | orderBy:'nombre'" style="display:none; width:auto;" tabindex=5>
-                                        </select>
+                                        <!--<select ng-model="TipoTransaccionSeleccionada" ng-disabled="true" ng-options="item.id_TipoTransaccion as item.nombre for item in TipoTransacciones | orderBy:'nombre'" style="display:none; width:auto;" tabindex=5>
+                                        </select>-->
                                         <md-select ng-model="TipoTransaccionSeleccionada" ng-disabled="true" style="min-width:200px;" id="slTipoTransaccion" tabindex=4>
                                             <md-option ng-bind="item.nombre" ng-value="item.id_TipoTransaccion" ng-repeat="item in TipoTransacciones track by item.id_TipoTransaccion"></md-option>
                                         </md-select>
