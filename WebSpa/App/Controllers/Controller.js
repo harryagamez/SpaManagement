@@ -2348,7 +2348,7 @@
             $('#txtBuscarProducto').focus();
 
         }
-
+        
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
 
@@ -2397,7 +2397,7 @@
         }
 
         $scope.ConsultarProductos = function () {
-
+            
             SPAService._consultarProductos($scope.IdEmpresa)
                 .then(
                     function (result) {
@@ -2802,6 +2802,7 @@
         $scope.TipoGastoSeleccionado = -1;
         $scope.TipoCajaSeleccionada = -1;
         $scope.EmpleadoSeleccionado = -1;
+        $scope.Acumulado = 0;
         $scope.Filtros = { Desde: new Date(), Hasta: new Date() }
 
         $scope.TipoGastos =
@@ -2830,7 +2831,7 @@
             window.onresize();
 
         }
-
+        
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
 
@@ -2843,7 +2844,7 @@
 
         $scope.CajaMenor = {
             SaldoInicial: 0,
-            Acumulado: '',
+            Acumulado: $scope.Acumulado,
             Distribucion: $scope.TipoCajaSeleccionada,
             Id_Empresa: $scope.IdEmpresa
         }
@@ -2853,7 +2854,6 @@
         }
 
         //Guardar Caja Menor
-
         $scope.GuardarCajaMenor = function () {
             if ($scope.ValidarCajaMenor()) {
 
@@ -2883,14 +2883,13 @@
 
         //Consultar Caja Menor
         $scope.ConsultarCajaMenor = function () {            
-
-            SPAService._consultarCajaMenor(JSON.stringify($scope.IdEmpresa))
+            
+            SPAService._consultarCajaMenor($scope.IdEmpresa)
                     .then(
                         function (result) {
                             if (result.data !== undefined && result.data !== null) {
-                                $scope.Caja_Menor = [];   
-                                $scope.Caja_Menor = result.data;
-                                debugger;
+                                $scope.Caja_Menor = [];  
+                                $scope.Caja_Menor = result.data;                                
                                 } else toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
                             
                         }, function (err) {
@@ -3087,7 +3086,7 @@
         $scope.ModalCajaMenor = function () {
             
             $scope.AccionGasto = 'Caja Menor';
-            $scope.ConsultarCajaMenor();
+            $scope.ConsultarCajaMenor();            
 
             $mdDialog.show({
                 contentElement: '#dlgCajaMenor',
@@ -3120,6 +3119,36 @@
 
                 });
 
+        }
+
+        //Calcular Acumulado
+        $scope.CalcularAcumulado = function () {
+            
+            let añoActual = $filter('date')(new Date(), 'yyyy');
+            let mesActual = $filter('date')(new Date(), 'MM');
+            let diaActual = $filter('date')(new Date(), 'dd');
+            $scope.Acumulado = 0;
+            if ($scope.TipoCajaSeleccionada === -1) {
+                $scope.Acumulado = 0;                
+            }
+            
+            if ($scope.TipoCajaSeleccionada === 1) {
+                let filteracumulado = $scope.Caja_Menor.filter(function (item) {
+                    return item.dia == diaActual && item.mes == mesActual && item.año == añoActual;
+                });
+            }
+
+            if ($scope.TipoCajaSeleccionada === 2) {
+                let filteracumulado = $scope.Caja_Menor.filter(function (item) {
+                    return item.mes == mesActual && item.año == añoActual;
+                });
+
+                if (filteracumulado.length > 0) {
+                    $scope.Acumulado = filteracumulado[0].acumulado;
+                }
+                else
+                    $scope.Acumulado = 0;                
+            }
         }
 
         // Eventos
