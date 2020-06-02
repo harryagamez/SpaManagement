@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[CAJA_MENOR] (
     [ID_REGISTRO]        INT              IDENTITY (1, 1) NOT NULL,
-    [AÑO]                INT              NULL,
+    [ANIO]                INT              NULL,
     [MES]                INT              NULL,
     [DIA]                SMALLDATETIME    NULL,
     [QUINCENA]           INT              NULL,
