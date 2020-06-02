@@ -431,6 +431,18 @@ namespace Spa.Application.SpaService
             }
         }
 
+        public bool GuardarCajaMenor(List<CajaMenor> _CajaMenor)
+        {
+            try
+            {
+                return _spaRepository.GuardarCajaMenor(_CajaMenor);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public Usuario ValidarUsuarioAdmin(string Nombre, string Password)
         {
             try

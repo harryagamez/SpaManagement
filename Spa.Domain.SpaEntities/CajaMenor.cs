@@ -8,6 +8,7 @@ namespace Spa.Domain.SpaEntities
         public int Año { get; set; }
         public int Mes { get; set; }
         public DateTime? Dia { get; set; }
+        public int Distribucion { get; set; }
         public int? Quincena { get; set; }
         public float Saldo_Inicial { get; set; }
         public float Acumulado { get; set; }

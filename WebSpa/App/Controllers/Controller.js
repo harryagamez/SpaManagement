@@ -2843,11 +2843,11 @@
         };
 
         $scope.CajaMenor = {
-            SaldoInicial: 0,
+            Saldo_Inicial: 0,
             Acumulado: $scope.Acumulado,
             Distribucion: $scope.TipoCajaSeleccionada,
             Id_Empresa: $scope.IdEmpresa
-        }
+        };
 
         $scope.Gasto = {
             Fecha_Registro: new Date()
@@ -2859,18 +2859,18 @@
 
                 $scope.ObjetoCajaMenor = [];
                 $scope.ObjetoCajaMenor.push($scope.CajaMenor);
-
+                
                 SPAService._guardarCajaMenor(JSON.stringify($scope.ObjetoCajaMenor))
                     .then(
                         function (result) {
                             if (result.data === true) {
-
-                                toastr.success('Caja menor guardada correctamente', '', $scope.toastrOptions);                               
-                                //$scope.LimpiarDatos();
-
-                                if ($scope.AccionServicio === 'Caja Menor')
+                                
+                                toastr.success('Caja menor guardada correctamente', '', $scope.toastrOptions);
+                                if ($scope.AccionGasto == 'Caja Menor')
                                     $scope.Cancelar();
 
+                                $scope.LimpiarDatos();
+                                $scope.ConsultarCajaMenor();
                             }
                         }, function (err) {
                             toastr.remove();
@@ -2898,7 +2898,6 @@
                                 toastr.error(err.data, '', $scope.toastrOptions);
                         })           
         }
-
 
         //Consultar Gastos
         $scope.ConsultarGastos = function () {
@@ -3009,12 +3008,14 @@
         //Validar Caja Menor
         $scope.ValidarCajaMenor = function () {
 
+            $scope.CajaMenor.Distribucion = $scope.TipoCajaSeleccionada;
+
             if ($scope.IdEmpresa === null || $scope.IdEmpresa === undefined) {
                 toastr.info('Código de empresa inválido', '', $scope.toastrOptions);
                 return false;
             }
 
-            if ($scope.TipoCajaSeleccionada === -1) {
+            if ($scope.CajaMenor.Distribucion === -1) {
                 toastr.info('Debe seleccionar una distribución', '', $scope.toastrOptions);
                 return false;
             }
@@ -3082,9 +3083,26 @@
 
         //Funciones
 
+        //Limpiar Datos
+
+        $scope.LimpiarDatos = function () {
+
+            $scope.TipoGastoSeleccionado = -1;
+            $scope.TipoCajaSeleccionada = -1;
+            $scope.EmpleadoSeleccionado = -1;
+            $scope.Acumulado = 0;
+
+            $scope.CajaMenor = {
+                Saldo_Inicial: 0,
+                Acumulado: $scope.Acumulado,
+                Distribucion: $scope.TipoCajaSeleccionada,
+                Id_Empresa: $scope.IdEmpresa
+            }
+        }
+
         //Modal Caja Menor        
         $scope.ModalCajaMenor = function () {
-            
+            $scope.LimpiarDatos();
             $scope.AccionGasto = 'Caja Menor';
             $scope.ConsultarCajaMenor();            
 
@@ -3126,16 +3144,23 @@
             
             let añoActual = $filter('date')(new Date(), 'yyyy');
             let mesActual = $filter('date')(new Date(), 'MM');
-            let diaActual = $filter('date')(new Date(), 'dd');
-            $scope.Acumulado = 0;
+            let diaActual = $filter('date')(new Date(), 'yyyy-MM-dd');
+            $scope.Acumulado = 0;                        
+
             if ($scope.TipoCajaSeleccionada === -1) {
                 $scope.Acumulado = 0;                
             }
             
             if ($scope.TipoCajaSeleccionada === 1) {
                 let filteracumulado = $scope.Caja_Menor.filter(function (item) {
-                    return item.dia == diaActual && item.mes == mesActual && item.año == añoActual;
+                    return $filter('date')(new Date(item.dia), 'yyyy-MM-dd') == diaActual && item.mes == mesActual && item.año == añoActual;
                 });
+
+                if (filteracumulado.length > 0) {
+                    $scope.Acumulado = filteracumulado[0].acumulado;
+                }
+                else
+                    $scope.Acumulado = 0;
             }
 
             if ($scope.TipoCajaSeleccionada === 2) {
@@ -3160,8 +3185,7 @@
 
         }
 
-        $scope.Cancelar = function () {
-
+        $scope.Cancelar = function () {           
             $mdDialog.cancel();   
         };
 
