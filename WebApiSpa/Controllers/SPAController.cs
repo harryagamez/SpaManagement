@@ -491,7 +491,7 @@ namespace WebApiSpa.Controllers
         {
             try
             {
-                List<CajaMenor> _cajamenor = _spaService.ConsultarCajaMenor(IdEmpresa);
+                CajaMenor _cajamenor = _spaService.ConsultarCajaMenor(IdEmpresa);
 
                 return Content(HttpStatusCode.OK, _cajamenor);
             }

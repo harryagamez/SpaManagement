@@ -417,11 +417,11 @@ namespace Spa.Application.SpaService
             }
         }
 
-        public List<CajaMenor> ConsultarCajaMenor(string IdEmpresa)
+        public CajaMenor ConsultarCajaMenor(string IdEmpresa)
         {
             try
             {
-                List<CajaMenor> _cajamenor = _spaRepository.ConsultarCajaMenor(IdEmpresa);
+                CajaMenor _cajamenor = _spaRepository.ConsultarCajaMenor(IdEmpresa);
 
                 return _cajamenor;
             }

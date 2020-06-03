@@ -36,7 +36,7 @@ namespace Spa.Application.SpaService
         bool GuardarProducto(List<Producto> _Producto);
         List<Transaccion> ConsultarProductoTransacciones(int IdProducto, string IdEmpresa);
         List<Gasto> ConsultarGastos(BusquedaGasto _BusquedaGasto);
-        List<CajaMenor> ConsultarCajaMenor(string IdEmpresa);
+       CajaMenor ConsultarCajaMenor(string IdEmpresa);
         bool GuardarCajaMenor(List<CajaMenor> _CajaMenor);
         Usuario ValidarUsuarioAdmin(string Nombre, string Password);
         List<Empresa> ConsultarEmpresas();

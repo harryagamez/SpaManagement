@@ -1087,13 +1087,13 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='ConsultarServicio(data)' data-toggle='tooltip' title='Editar servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#dc6911;'>create</i>";
+                    return "<i data-ng-click='ConsultarServicio(data)' data-toggle='tooltip' title='Editar servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:orangered;'>create</i>";
                 },
             },
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='VisualizarImagen(data)' data-toggle='tooltip' title='Ver imagen' class='material-icons' style='font-size:20px;margin-top:-1px;color:#dc6911;'>image</i>";
+                    return "<i data-ng-click='VisualizarImagen(data)' data-toggle='tooltip' title='Ver imagen' class='material-icons' style='font-size:20px;margin-top:-1px;color:orangered;'>image</i>";
                 },
             },
             {
@@ -2147,13 +2147,13 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='AsignarServicios(data)' data-toggle='tooltip' title='Asignar Servicios' class='material-icons' style='font-size:20px;margin-top:-1px;color:#dc6911;'>settings</i>";
+                    return "<i data-ng-click='AsignarServicios(data)' data-toggle='tooltip' title='Asignar Servicios' class='material-icons' style='font-size:20px;margin-top:-1px;color:orangered;'>settings</i>";
                 },
             },
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='AsignarInsumos(data)' data-toggle='tooltip' title='Asignar Insumos' class='material-icons' style='font-size:20px;margin-top:-1px;color:#dc6911;'>add_to_photos</i>";
+                    return "<i data-ng-click='AsignarInsumos(data)' data-toggle='tooltip' title='Asignar Insumos' class='material-icons' style='font-size:20px;margin-top:-1px;color:orangered;'>add_to_photos</i>";
                 },
             },
             {
@@ -2211,7 +2211,7 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='showConfirmServicio($event, data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#dc6911;'>delete_sweep</i>";
+                    return "<i data-ng-click='showConfirmServicio($event, data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:orangered;'>delete_sweep</i>";
                 },
             },
             {
@@ -2249,7 +2249,7 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='showConfirmInsumo($event,data)' data-toggle='tooltip' title='Eliminar Insumo' class='material-icons' style='font-size:20px;margin-top:-1px;color:#dc6911;'>delete_sweep</i>";
+                    return "<i data-ng-click='showConfirmInsumo($event,data)' data-toggle='tooltip' title='Eliminar Insumo' class='material-icons' style='font-size:20px;margin-top:-1px;color:orangered;'>delete_sweep</i>";
                 },
             },
             {
@@ -2638,13 +2638,13 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='ConsultarProducto(data)' data-toggle='tooltip' title='Editar producto' class='material-icons' style='font-size:20px;margin-top:-1px;color:#dc6911;'>create</i>";
+                    return "<i data-ng-click='ConsultarProducto(data)' data-toggle='tooltip' title='Editar producto' class='material-icons' style='font-size:20px;margin-top:-1px;color:orangered;'>create</i>";
                 },
             },
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='ConsultarProductoTransacciones(data)' data-toggle='tooltip' title='Transacciones' class='material-icons' style='font-size:20px;margin-top:-1px;color:#dc6911;'>list</i>";
+                    return "<i data-ng-click='ConsultarProductoTransacciones(data)' data-toggle='tooltip' title='Transacciones' class='material-icons' style='font-size:20px;margin-top:-1px;color:orangered;'>list</i>";
                 },
             },
             {
@@ -2825,12 +2825,14 @@
         $scope.TipoCaja = $filter('orderBy')($scope.TipoCaja, 'Nombre', false);
 
         // INICIALIZACIÓN
-        $scope.Inicializacion = function () {
-
-            $scope.ConsultarCajaMenor();
+        $scope.Inicializacion = function () {            
+            
 
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
             window.onresize();
+
+            $scope.LimpiarDatos();
+            $scope.ConsultarCajaMenor();
 
         }
         
@@ -2902,36 +2904,29 @@
             SPAService._consultarCajaMenor($scope.IdEmpresa)
                     .then(
                         function (result) {
+                            
                             if (result.data !== undefined && result.data !== null) {
                                 $scope.Caja_Menor = [];  
                                 $scope.Caja_Menor = result.data;
                                 
                                 let añoActual = $filter('date')(new Date(), 'yyyy');
                                 let mesActual = $filter('date')(new Date(), 'MM');
-                                let diaActual = $filter('date')(new Date(), 'yyyy-MM-dd'); 
-                                
-                                let buscarcajamenordia = $scope.Caja_Menor.filter(function (item) {
-                                    return $filter('date')(new Date(item.dia), 'yyyy-MM-dd') == diaActual;
-                                });
-                                
-                                let buscarcajamenormes = $scope.Caja_Menor.filter(function (item) {
-                                    return item.mes == mesActual && item.anio == añoActual;
-                                });
+                                let diaActual = $filter('date')(new Date(), 'yyyy-MM-dd');  
 
-                                if (buscarcajamenordia.length == 0 && buscarcajamenormes == 0) {
+                                if ($scope.Caja_Menor == null) {
                                     toastr.info('Debe configurar la caja menor', '', $scope.toastrOptions);
                                 }
-                                else if (buscarcajamenordia.length > 0) {
+                                else if ($scope.Caja_Menor != null && $filter('date')(new Date($scope.Caja_Menor.dia), 'yyyy-MM-dd') == diaActual) {                                    
                                     $scope.TipoCajaSeleccionada = 1;
-                                    $scope.Acumulado = buscarcajamenordia[0].acumulado;
+                                    $scope.Acumulado = $scope.Caja_Menor.acumulado;
                                 }
-                                else if (buscarcajamenormes.length > 0) {
+                                else if ($scope.Caja_Menor != null && $scope.Caja_Menor.mes == mesActual && $scope.Caja_Menor.anio == añoActual) {                                    
                                     $scope.TipoCajaSeleccionada = 2;
-                                    $scope.Acumulado = buscarcajamenormes[0].acumulado;
+                                    $scope.Acumulado = $scope.Caja_Menor.acumulado;
                                 }
 
                             }
-                                else toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
+                                else toastr.info('Debe configurar la caja menor (TABLA VACIA)', '', $scope.toastrOptions);
                             
                         }, function (err) {
                             toastr.remove();
@@ -3157,8 +3152,7 @@
         //Modal Caja Menor        
         $scope.ModalCajaMenor = function () {
             
-            $scope.AccionGasto = 'Caja Menor';
-            //$scope.ConsultarCajaMenor();            
+            $scope.AccionGasto = 'Caja Menor';                       
 
             $mdDialog.show({
                 contentElement: '#dlgCajaMenor',
@@ -3168,8 +3162,8 @@
                 multiple: true,
             })
                 .then(function () {
-                }, function () {                   
-                      
+                }, function () {
+                        $scope.CajaMenor.Saldo_Inicial = 0;  
                 });
 
         }
@@ -3191,45 +3185,7 @@
                 }, function () {
                         
                 });
-
-        }
-
-        ////Calcular Acumulado
-        //$scope.CalcularAcumulado = function () {
-            
-        //    let añoActual = $filter('date')(new Date(), 'yyyy');
-        //    let mesActual = $filter('date')(new Date(), 'MM');
-        //    let diaActual = $filter('date')(new Date(), 'yyyy-MM-dd');
-        //    $scope.Acumulado = 0;                        
-
-        //    if ($scope.TipoCajaSeleccionada === -1) {
-        //        $scope.Acumulado = 0;                
-        //    }
-            
-        //    if ($scope.TipoCajaSeleccionada === 1) {
-        //        let filteracumulado = $scope.Caja_Menor.filter(function (item) {
-        //            return $filter('date')(new Date(item.dia), 'yyyy-MM-dd') == diaActual && item.mes == mesActual && item.año == añoActual;
-        //        });
-
-        //        if (filteracumulado.length > 0) {
-        //            $scope.Acumulado = filteracumulado[0].acumulado;
-        //        }
-        //        else
-        //            $scope.Acumulado = 0;
-        //    }
-
-        //    if ($scope.TipoCajaSeleccionada === 2) {
-        //        let filteracumulado = $scope.Caja_Menor.filter(function (item) {
-        //            return item.mes == mesActual && item.año == añoActual;
-        //        });
-
-        //        if (filteracumulado.length > 0) {
-        //            $scope.Acumulado = filteracumulado[0].acumulado;
-        //        }
-        //        else
-        //            $scope.Acumulado = 0;                
-        //    }
-        //}
+        }        
 
         // Eventos
         window.onresize = function () {

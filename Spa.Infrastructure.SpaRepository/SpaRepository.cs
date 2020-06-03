@@ -1284,10 +1284,10 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<CajaMenor> ConsultarCajaMenor(string IdEmpresa)
+        public CajaMenor ConsultarCajaMenor(string IdEmpresa)
         {
             DataTable _datatable = new DataTable();
-            List<CajaMenor> _cajamenor = new List<CajaMenor>();
+            CajaMenor _cajamenor = new CajaMenor();
             SqlDataAdapter _adapter = new SqlDataAdapter();
 
             try
@@ -1309,7 +1309,7 @@ namespace Spa.Infrastructure.SpaRepository
                         try
                         {
                             _adapter.Fill(_datatable);
-                            _cajamenor = _datatable.DataTableToList<CajaMenor>();
+                            _cajamenor = _datatable.DataTableToList<CajaMenor>().FirstOrDefault();
                         }
                         catch
                         {

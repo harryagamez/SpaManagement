@@ -79,36 +79,12 @@
                     <md-input-container style="width:50%">
                         <label class="label-form-clientes">
                             Tipo Gasto:
-                        </label>
-                        <!--<select ng-model="TipoGastoSeleccionado" ng-options="item.id_TipoGasto as item.Nombre for item in TipoGastos | orderBy:'Nombre'" style="display:none; width:auto; " tabindex=3>
-                        </select>-->
+                        </label>                        
                         <md-select ng-model="TipoGastoSeleccionado" style="display:inline-flex; min-width: 100% !important; margin:15px 0; margin-top:1px;" id="slTipoGasto" tabindex=3>
                             <md-option ng-bind="item.Nombre" ng-value="item.id_TipoGasto" ng-repeat="item in TipoGastos track by item.id_TipoGasto"></md-option>
                         </md-select>
                     </md-input-container>
-                </div>
-
-                <!--<div flex="">
-                    <md-input-container style="width:50%">
-                        <label class="label-form-clientes">
-                            Caja Menor:
-                        </label>
-                        <select ng-model="TipoCajaSeleccionada" ng-options="item.id_TipoCaja as item.Nombre for item in TipoCaja | orderBy:'Nombre'" style="display:none; width:auto; " tabindex=5>
-                        </select>
-                        <md-select ng-model="TipoCajaSeleccionada" style="display:inline-flex; min-width: 100% !important; margin:15px 0; margin-top:1px;" id="slTipoCaja" tabindex=6>
-                            <md-option ng-bind="item.Nombre" ng-value="item.id_TipoCaja" ng-repeat="item in TipoCaja track by item.id_TipoCaja"></md-option>
-                        </md-select>
-                    </md-input-container>
-                </div>
-
-                <div flex="">
-                    <md-input-container style="width:50%">
-                        <label class="label-form-empleados" style="margin-bottom:-8px;">
-                            Saldo Inicial:
-                        </label>
-                        <input ng-model="Caja.SaldoInicial" id="txtSaldoInicial" focus="selectChanged" type="text" numbers-only style="position:relative; margin-top:16px;" placeholder="Digite el monto a pagar ..." tabindex=14>
-                    </md-input-container>
-                </div>-->
+                </div>               
 
             </div>
 
@@ -155,7 +131,7 @@
                                     <label class="label-form-empleados" style="">
                                         Saldo Inicial:
                                     </label>
-                                    <input ng-model="CajaMenor.Saldo_Inicial" id="txtSaldoInicial" placeholder="Digite el saldo inicial ..." numbers-only type="text" autocomplete="off" tabindex=2>
+                                    <input ng-model="CajaMenor.Saldo_Inicial" id="txtSaldoInicial" placeholder="Digite el saldo inicial ..." numbers-only type="text" md-autofocus autocomplete="off" tabindex=2>
                                 </md-input-container>
                             </div>
 
@@ -236,12 +212,12 @@
                                     <label class="label-form-empleados" style="">
                                         Descripción:
                                     </label>
-                                    <textarea ng-model="Gasto.Descripcion" id="txtAcumulado" rows="2" maxlength="300" placeholder="Descripción ..." type="text" autocomplete="off" tabindex=3></textarea>
+                                    <textarea ng-model="Gasto.Descripcion" id="txtAcumulado" rows="2" md-maxlength="300" placeholder="Descripción ..." type="text" autocomplete="off" tabindex=3></textarea>
                                 </md-input-container>
                             </div>
                         </div>
 
-                        <div layout="row" layout-xs="column" style="margin-top:-30px;" layout-align="start center">
+                        <div layout="row" layout-xs="column" style="margin-top:-20px;" layout-align="start center">
 
                             <div flex="50">
                                 <md-input-container style="margin-left:-40px;">
