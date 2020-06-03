@@ -2801,6 +2801,7 @@
         $scope.AccionGasto = 'Registrar Gasto';
         $scope.TipoGastoSeleccionado = -1;
         $scope.TipoCajaSeleccionada = -1;
+        $scope.DistribucionActual = -1;
         $scope.EmpleadoSeleccionado = -1;
         $scope.CambiarDistribucionCajaMenor = false;
         $scope.Acumulado = 0;
@@ -2877,7 +2878,9 @@
 
                 $scope.ObjetoCajaMenor = [];
                 $scope.ObjetoCajaMenor.push($scope.CajaMenor);
-                
+
+
+
                 SPAService._guardarCajaMenor(JSON.stringify($scope.ObjetoCajaMenor))
                     .then(
                         function (result) {
@@ -2907,20 +2910,18 @@
                         function (result) {
                             
                             if (result.data !== undefined && result.data !== null) {
-                                debugger;
-                                $scope.Caja_Menor = [];  
-                                $scope.Caja_Menor = result.data;
                                 
-                                //let añoActual = $filter('date')(new Date(), 'yyyy');
-                                //let mesActual = $filter('date')(new Date(), 'MM');
-                                //let diaActual = $filter('date')(new Date(), 'yyyy-MM-dd');                                  
+                                $scope.Caja_Menor = [];  
+                                $scope.Caja_Menor = result.data;    
 
                                 if ($scope.Caja_Menor.dia !== null) {                                    
                                     $scope.TipoCajaSeleccionada = 1;
+                                    $scope.DistribucionActual = $scope.TipoCajaSeleccionada;
                                     $scope.Acumulado = $scope.Caja_Menor.acumulado;
                                 }
                                 else {                                    
                                     $scope.TipoCajaSeleccionada = 2;
+                                    $scope.DistribucionActual = $scope.TipoCajaSeleccionada;
                                     $scope.Acumulado = $scope.Caja_Menor.acumulado;
                                 }                                
                             }
@@ -3050,11 +3051,11 @@
             }
 
             if ($scope.CajaMenor.Distribucion === -1) {
-                toastr.info('Debe seleccionar una distribución', '', $scope.toastrOptions);
+                toastr.info('Debe seleccionar una distribución DIARIA o MENSUAL', '', $scope.toastrOptions);
                 return false;
             }
 
-            if ($scope.CajaMenor.SaldoInicial === 0 || $scope.CajaMenor.SaldoInicial == '') {
+            if ($scope.CajaMenor.Saldo_Inicial === 0 || $scope.CajaMenor.Saldo_Inicial == '') {
                 toastr.info('Debe debe ingresar un saldo inicial', '', $scope.toastrOptions);
                 return false;
             }
@@ -3124,7 +3125,15 @@
 
         //Cambiar Distribución Caja Menor
         $scope.CambiarDistribucion = function () {
-            $scope.showConfirmCambiarDistribucion();
+            if ($scope.TipoCajaSeleccionada === -1) {
+                toastr.info('Debe seleccionar una distribución DIARIA o MENSUAL', '', $scope.toastrOptions);
+                $scope.TipoCajaSeleccionada = $scope.DistribucionActual;
+                return;
+            }
+
+            if ($scope.DistribucionActual !== -1) {
+                $scope.showConfirmCambiarDistribucion();
+            }
         }
 
 
@@ -3132,6 +3141,7 @@
         //Limpiar Datos
         $scope.LimpiarDatos = function () {
 
+            $scope.DistribucionActual = -1;
             $scope.TipoGastoSeleccionado = -1;
             $scope.TipoCajaSeleccionada = -1;
             $scope.EmpleadoSeleccionado = -1;
@@ -3169,7 +3179,8 @@
             })
                 .then(function () {
                 }, function () {
-                        $scope.CajaMenor.Saldo_Inicial = 0;  
+                        $scope.CajaMenor.Saldo_Inicial = 0;
+                        $scope.TipoCajaSeleccionada = $scope.DistribucionActual;
                 });
 
         }
@@ -3210,6 +3221,7 @@
                 $scope.CambiarDistribucionCajaMenor = true;
 
             }, function () {
+                $scope.TipoCajaSeleccionada = $scope.DistribucionActual;
                 return;
             });
 
@@ -3274,9 +3286,7 @@
 
     function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
         //  Inicialización de Objetos
-        $scope.ServicioNombre = $rootScope.ServicioNombre;
-
-        //$rootScope.ServicioNombre = '';     //Reseteo del objeto Servicio Nombre para posterior uso
+        $scope.ServicioNombre = $rootScope.ServicioNombre;        
 
         $scope.SliderServicios = $rootScope.ServicioListaImagenes;
 
