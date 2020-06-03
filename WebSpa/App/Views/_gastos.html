@@ -120,7 +120,7 @@
                                     <label class="label-form-empleados" style="">
                                         Distribución:
                                     </label>
-                                    <md-select ng-model="TipoCajaSeleccionada" aria-label="Distribucion Seleccionada" class="" ng-change="CalcularAcumulado()" style="display:inline-flex; min-width:80%; max-width: 80% !important; margin-top:9px;" id="slTipoPago" tabindex=1>
+                                    <md-select ng-model="TipoCajaSeleccionada" aria-label="Distribucion Seleccionada" class="" ng-change="CambiarDistribucion()" style="display:inline-flex; min-width:80%; max-width: 80% !important; margin-top:9px;" id="slTipoPago" tabindex=1>
                                         <md-option ng-bind="tipocaja.Nombre" ng-value="tipocaja.id_TipoCaja" ng-repeat="tipocaja in TipoCaja track by $index"></md-option>
                                     </md-select>
                                 </md-input-container>

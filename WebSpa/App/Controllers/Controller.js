@@ -2802,6 +2802,7 @@
         $scope.TipoGastoSeleccionado = -1;
         $scope.TipoCajaSeleccionada = -1;
         $scope.EmpleadoSeleccionado = -1;
+        $scope.CambiarDistribucionCajaMenor = false;
         $scope.Acumulado = 0;
         $scope.Filtros = { Desde: new Date(), Hasta: new Date() }
 
@@ -2829,7 +2830,7 @@
             
 
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
-            window.onresize();
+            window.onresize();  
 
             $scope.LimpiarDatos();
             $scope.ConsultarCajaMenor();
@@ -2906,17 +2907,15 @@
                         function (result) {
                             
                             if (result.data !== undefined && result.data !== null) {
+                                debugger;
                                 $scope.Caja_Menor = [];  
                                 $scope.Caja_Menor = result.data;
                                 
                                 let añoActual = $filter('date')(new Date(), 'yyyy');
                                 let mesActual = $filter('date')(new Date(), 'MM');
-                                let diaActual = $filter('date')(new Date(), 'yyyy-MM-dd');  
+                                let diaActual = $filter('date')(new Date(), 'yyyy-MM-dd');                                  
 
-                                if ($scope.Caja_Menor == null) {
-                                    toastr.info('Debe configurar la caja menor', '', $scope.toastrOptions);
-                                }
-                                else if ($scope.Caja_Menor != null && $filter('date')(new Date($scope.Caja_Menor.dia), 'yyyy-MM-dd') == diaActual) {                                    
+                                if ($filter('date')(new Date($scope.Caja_Menor.dia), 'yyyy-MM-dd') == diaActual) {                                    
                                     $scope.TipoCajaSeleccionada = 1;
                                     $scope.Acumulado = $scope.Caja_Menor.acumulado;
                                 }
@@ -2926,7 +2925,7 @@
                                 }
 
                             }
-                                else toastr.info('Debe configurar la caja menor (TABLA VACIA)', '', $scope.toastrOptions);
+                                else toastr.info('Debe configurar la caja menor', '', $scope.toastrOptions);
                             
                         }, function (err) {
                             toastr.remove();
@@ -3124,6 +3123,13 @@
 
         //Funciones
 
+        //Cambiar Distribución Caja Menor
+        $scope.CambiarDistribucion = function () {
+            $scope.showConfirmCambiarDistribucion();
+        }
+
+
+
         //Limpiar Datos
         $scope.LimpiarDatos = function () {
 
@@ -3131,6 +3137,7 @@
             $scope.TipoCajaSeleccionada = -1;
             $scope.EmpleadoSeleccionado = -1;
             $scope.Acumulado = 0;
+            $scope.CambiarDistribucionCajaMenor = false;
 
             $scope.CajaMenor = {
                 Saldo_Inicial: 0,
@@ -3185,7 +3192,30 @@
                 }, function () {
                         
                 });
-        }        
+        }
+
+        //Show Comfirm Cambiar Distribucion
+        $scope.showConfirmCambiarDistribucion = function (ev, data) {
+
+            let confirm = $mdDialog.confirm()
+                .title('Distribución Caja Menor')
+                .textContent('¿Ya existe una distribución de caja menor asignada. Desea cambiarla?')
+                .ariaLabel('Cambiar Distribución')
+                .targetEvent(ev, data)
+                .ok('Sí')
+                .cancel('No')
+                .multiple(true);
+
+            $mdDialog.show(confirm).then(function () {
+
+                $scope.CambiarDistribucionCajaMenor = true;
+
+            }, function () {
+                return;
+            });
+
+        };
+
 
         // Eventos
         window.onresize = function () {
@@ -3235,7 +3265,7 @@
         $scope.$on("CompanyChange", function () {
 
             $scope.IdEmpresa = $rootScope.Id_Empresa;
-            $scope.Inicializacion();
+            $scope.Inicializacion();           
 
         });
         
