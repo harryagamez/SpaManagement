@@ -5,7 +5,7 @@ namespace Spa.Domain.SpaEntities
     public class CajaMenor
     {
         public int Id_Registro { get; set; }
-        public int Año { get; set; }
+        public int Anio { get; set; }
         public int Mes { get; set; }
         public DateTime? Dia { get; set; }
         public int Distribucion { get; set; }

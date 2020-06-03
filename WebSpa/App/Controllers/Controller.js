@@ -2827,6 +2827,8 @@
         // INICIALIZACIÓN
         $scope.Inicializacion = function () {
 
+            $scope.ConsultarCajaMenor();
+
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
             window.onresize();
 
@@ -2834,6 +2836,7 @@
         
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
+        
 
         $scope.BusquedaGasto = {
             Fecha_Desde: new Date(),
@@ -2847,10 +2850,22 @@
             Acumulado: $scope.Acumulado,
             Distribucion: $scope.TipoCajaSeleccionada,
             Id_Empresa: $scope.IdEmpresa
-        };
+        };        
 
         $scope.Gasto = {
-            Fecha_Registro: new Date()
+            Descripcion: '',
+            Id_Empleado: -1,
+            Tipo_Gasto: '',
+            Fecha_Registro: new Date(),
+            Valor: 0,
+            Id_Empresa: $scope.IdEmpresa
+        }
+
+        //Registrar Nuevo Gasto
+        $scope.GuardarNuevoGasto = function () {
+            if ($scope.ValidarNuevoGasto()) {
+
+            }
         }
 
         //Guardar Caja Menor
@@ -2889,8 +2904,34 @@
                         function (result) {
                             if (result.data !== undefined && result.data !== null) {
                                 $scope.Caja_Menor = [];  
-                                $scope.Caja_Menor = result.data;                                
-                                } else toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
+                                $scope.Caja_Menor = result.data;
+                                
+                                let añoActual = $filter('date')(new Date(), 'yyyy');
+                                let mesActual = $filter('date')(new Date(), 'MM');
+                                let diaActual = $filter('date')(new Date(), 'yyyy-MM-dd'); 
+                                
+                                let buscarcajamenordia = $scope.Caja_Menor.filter(function (item) {
+                                    return $filter('date')(new Date(item.dia), 'yyyy-MM-dd') == diaActual;
+                                });
+                                
+                                let buscarcajamenormes = $scope.Caja_Menor.filter(function (item) {
+                                    return item.mes == mesActual && item.anio == añoActual;
+                                });
+
+                                if (buscarcajamenordia.length == 0 && buscarcajamenormes == 0) {
+                                    toastr.info('Debe configurar la caja menor', '', $scope.toastrOptions);
+                                }
+                                else if (buscarcajamenordia.length > 0) {
+                                    $scope.TipoCajaSeleccionada = 1;
+                                    $scope.Acumulado = buscarcajamenordia[0].acumulado;
+                                }
+                                else if (buscarcajamenormes.length > 0) {
+                                    $scope.TipoCajaSeleccionada = 2;
+                                    $scope.Acumulado = buscarcajamenormes[0].acumulado;
+                                }
+
+                            }
+                                else toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
                             
                         }, function (err) {
                             toastr.remove();
@@ -3028,6 +3069,11 @@
             return true;
         }
 
+        //Validar Nuevo Gasto
+        $scope.ValidarNuegoGasto = function () {
+
+        }
+
 
         //API GRID GASTOS OPTIONS
         $scope.GastosGridOptionsColumns = [
@@ -3084,7 +3130,6 @@
         //Funciones
 
         //Limpiar Datos
-
         $scope.LimpiarDatos = function () {
 
             $scope.TipoGastoSeleccionado = -1;
@@ -3098,13 +3143,22 @@
                 Distribucion: $scope.TipoCajaSeleccionada,
                 Id_Empresa: $scope.IdEmpresa
             }
+
+            $scope.Gasto = {
+                Descripcion: '',
+                Id_Empleado: -1,
+                Tipo_Gasto: '',
+                Fecha_Registro: new Date(),
+                Valor: 0,
+                Id_Empresa: $scope.IdEmpresa
+            }
         }
 
         //Modal Caja Menor        
         $scope.ModalCajaMenor = function () {
-            $scope.LimpiarDatos();
+            
             $scope.AccionGasto = 'Caja Menor';
-            $scope.ConsultarCajaMenor();            
+            //$scope.ConsultarCajaMenor();            
 
             $mdDialog.show({
                 contentElement: '#dlgCajaMenor',
@@ -3115,13 +3169,14 @@
             })
                 .then(function () {
                 }, function () {                   
-
+                      
                 });
 
         }
 
         //Modal Nuevo Gasto        
         $scope.ModalNuevoGasto = function () {
+            $scope.LimpiarDatos();
             $scope.ConsultarEmpleados();
             $scope.AccionGasto = 'Nuevo Gasto';
 
@@ -3134,47 +3189,47 @@
             })
                 .then(function () {
                 }, function () {
-
+                        
                 });
 
         }
 
-        //Calcular Acumulado
-        $scope.CalcularAcumulado = function () {
+        ////Calcular Acumulado
+        //$scope.CalcularAcumulado = function () {
             
-            let añoActual = $filter('date')(new Date(), 'yyyy');
-            let mesActual = $filter('date')(new Date(), 'MM');
-            let diaActual = $filter('date')(new Date(), 'yyyy-MM-dd');
-            $scope.Acumulado = 0;                        
+        //    let añoActual = $filter('date')(new Date(), 'yyyy');
+        //    let mesActual = $filter('date')(new Date(), 'MM');
+        //    let diaActual = $filter('date')(new Date(), 'yyyy-MM-dd');
+        //    $scope.Acumulado = 0;                        
 
-            if ($scope.TipoCajaSeleccionada === -1) {
-                $scope.Acumulado = 0;                
-            }
+        //    if ($scope.TipoCajaSeleccionada === -1) {
+        //        $scope.Acumulado = 0;                
+        //    }
             
-            if ($scope.TipoCajaSeleccionada === 1) {
-                let filteracumulado = $scope.Caja_Menor.filter(function (item) {
-                    return $filter('date')(new Date(item.dia), 'yyyy-MM-dd') == diaActual && item.mes == mesActual && item.año == añoActual;
-                });
+        //    if ($scope.TipoCajaSeleccionada === 1) {
+        //        let filteracumulado = $scope.Caja_Menor.filter(function (item) {
+        //            return $filter('date')(new Date(item.dia), 'yyyy-MM-dd') == diaActual && item.mes == mesActual && item.año == añoActual;
+        //        });
 
-                if (filteracumulado.length > 0) {
-                    $scope.Acumulado = filteracumulado[0].acumulado;
-                }
-                else
-                    $scope.Acumulado = 0;
-            }
+        //        if (filteracumulado.length > 0) {
+        //            $scope.Acumulado = filteracumulado[0].acumulado;
+        //        }
+        //        else
+        //            $scope.Acumulado = 0;
+        //    }
 
-            if ($scope.TipoCajaSeleccionada === 2) {
-                let filteracumulado = $scope.Caja_Menor.filter(function (item) {
-                    return item.mes == mesActual && item.año == añoActual;
-                });
+        //    if ($scope.TipoCajaSeleccionada === 2) {
+        //        let filteracumulado = $scope.Caja_Menor.filter(function (item) {
+        //            return item.mes == mesActual && item.año == añoActual;
+        //        });
 
-                if (filteracumulado.length > 0) {
-                    $scope.Acumulado = filteracumulado[0].acumulado;
-                }
-                else
-                    $scope.Acumulado = 0;                
-            }
-        }
+        //        if (filteracumulado.length > 0) {
+        //            $scope.Acumulado = filteracumulado[0].acumulado;
+        //        }
+        //        else
+        //            $scope.Acumulado = 0;                
+        //    }
+        //}
 
         // Eventos
         window.onresize = function () {
@@ -3227,7 +3282,6 @@
             $scope.Inicializacion();
 
         });
-
         
         $scope.Inicializacion();        
 

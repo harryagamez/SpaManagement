@@ -211,7 +211,7 @@
                                         Tipo de Gasto:
                                     </label>
                                     <md-select ng-model="TipoGastoSeleccionado" aria-label="Tipo Gasto" class="" style="display:inline-flex; min-width:80%; max-width: 80% !important; margin-top:9px;" id="slTipoGastos" tabindex=1>
-                                        <md-option ng-bind="tipogasto.Nombre" ng-value="tipogasto.id_TipoGasto" ng-repeat="tipogasto in TipoGastos track by $index"></md-option>
+                                        <md-option ng-bind="tipogasto.Nombre" ng-value="tipogasto.id_TipoGasto" ng-repeat="tipogasto in TipoGastos track by $index" ng-show="tipogasto.id_TipoGasto !==5"></md-option>
                                     </md-select>
                                 </md-input-container>
                             </div>
@@ -246,9 +246,9 @@
                             <div flex="50">
                                 <md-input-container style="margin-left:-40px;">
                                     <label class="label-form-clientes" style="">
-                                        Fecha Registro:
+                                        Fecha Gasto:
                                     </label>
-                                    <md-datepicker ng-model="Gasto.Fecha_Registro" ng-readonly="true" md-placeholder="" class="dateClientes" id="dpFechaRegistro" tabindex=4></md-datepicker>
+                                    <md-datepicker ng-model="Gasto.Fecha_Registro" md-placeholder="" class="dateClientes" id="dpFechaRegistro" tabindex=4></md-datepicker>
                                 </md-input-container>
                             </div>
 
