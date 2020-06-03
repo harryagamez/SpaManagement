@@ -2911,19 +2911,18 @@
                                 $scope.Caja_Menor = [];  
                                 $scope.Caja_Menor = result.data;
                                 
-                                let añoActual = $filter('date')(new Date(), 'yyyy');
-                                let mesActual = $filter('date')(new Date(), 'MM');
-                                let diaActual = $filter('date')(new Date(), 'yyyy-MM-dd');                                  
+                                //let añoActual = $filter('date')(new Date(), 'yyyy');
+                                //let mesActual = $filter('date')(new Date(), 'MM');
+                                //let diaActual = $filter('date')(new Date(), 'yyyy-MM-dd');                                  
 
-                                if ($filter('date')(new Date($scope.Caja_Menor.dia), 'yyyy-MM-dd') == diaActual) {                                    
+                                if ($scope.Caja_Menor.dia !== null) {                                    
                                     $scope.TipoCajaSeleccionada = 1;
                                     $scope.Acumulado = $scope.Caja_Menor.acumulado;
                                 }
-                                else if ($scope.Caja_Menor != null && $scope.Caja_Menor.mes == mesActual && $scope.Caja_Menor.anio == añoActual) {                                    
+                                else {                                    
                                     $scope.TipoCajaSeleccionada = 2;
                                     $scope.Acumulado = $scope.Caja_Menor.acumulado;
-                                }
-
+                                }                                
                             }
                                 else toastr.info('Debe configurar la caja menor', '', $scope.toastrOptions);
                             
