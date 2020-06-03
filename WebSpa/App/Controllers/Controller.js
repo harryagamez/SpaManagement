@@ -2879,25 +2879,46 @@
                 $scope.ObjetoCajaMenor = [];
                 $scope.ObjetoCajaMenor.push($scope.CajaMenor);
 
+                if (!$scope.CambiarDistribucionCajaMenor) {
 
+                    SPAService._guardarCajaMenor(JSON.stringify($scope.ObjetoCajaMenor))
+                        .then(
+                            function (result) {
+                                if (result.data === true) {
 
-                SPAService._guardarCajaMenor(JSON.stringify($scope.ObjetoCajaMenor))
-                    .then(
-                        function (result) {
-                            if (result.data === true) {
-                                
-                                toastr.success('Caja menor guardada correctamente', '', $scope.toastrOptions);
-                                if ($scope.AccionGasto == 'Caja Menor')
-                                    $scope.Cancelar();
+                                    toastr.success('Caja menor guardada correctamente', '', $scope.toastrOptions);
+                                    if ($scope.AccionGasto == 'Caja Menor')
+                                        $scope.Cancelar();
 
-                                $scope.LimpiarDatos();
-                                $scope.ConsultarCajaMenor();
-                            }
-                        }, function (err) {
-                            toastr.remove();
-                            if (err.data !== null && err.status === 500)
-                                toastr.error(err.data, '', $scope.toastrOptions);
-                        })
+                                    $scope.LimpiarDatos();
+                                    $scope.ConsultarCajaMenor();
+                                }
+                            }, function (err) {
+                                toastr.remove();
+                                if (err.data !== null && err.status === 500)
+                                    toastr.error(err.data, '', $scope.toastrOptions);
+                            })
+                }
+                else {
+
+                    SPAService._reemplazarCajaMenor(JSON.stringify($scope.ObjetoCajaMenor))
+                        .then(
+                            function (result) {
+                                if (result.data === true) {
+
+                                    toastr.success('Distribución de caja menor reemplazada correctamente', '', $scope.toastrOptions);
+                                    if ($scope.AccionGasto == 'Caja Menor')
+                                        $scope.Cancelar();
+
+                                    $scope.LimpiarDatos();
+                                    $scope.ConsultarCajaMenor();
+                                }
+                            }, function (err) {
+                                toastr.remove();
+                                if (err.data !== null && err.status === 500)
+                                    toastr.error(err.data, '', $scope.toastrOptions);
+                            })
+                }
 
             }            
         }
