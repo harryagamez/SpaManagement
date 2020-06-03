@@ -318,7 +318,8 @@
             _eliminarEmpleadoInsumo: EliminarEmpleadoInsumo,
             _consultarGastos: ConsultarGastos,
             _consultarCajaMenor: ConsultarCajaMenor,
-            _guardarCajaMenor: GuardarCajaMenor
+            _guardarCajaMenor: GuardarCajaMenor,
+            _reemplazarCajaMenor: ReemplazarCajaMenor
 
         }
 
@@ -675,6 +676,20 @@
             var deferred = $q.defer();
 
             serviceRest.Post('SPA', 'GuardarCajaMenor', cajamenor,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
+            return deferred.promise;
+        }
+
+        function ReemplazarCajaMenor(cajamenor) {
+            var deferred = $q.defer();
+
+            serviceRest.Post('SPA', 'ReemplazarCajaMenor', cajamenor,
                 function (data) {
                     deferred.resolve(data);
                 },

@@ -1087,13 +1087,13 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='ConsultarServicio(data)' data-toggle='tooltip' title='Editar servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:orangered;'>create</i>";
+                    return "<i data-ng-click='ConsultarServicio(data)' data-toggle='tooltip' title='Editar servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>create</i>";
                 },
             },
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='VisualizarImagen(data)' data-toggle='tooltip' title='Ver imagen' class='material-icons' style='font-size:20px;margin-top:-1px;color:orangered;'>image</i>";
+                    return "<i data-ng-click='VisualizarImagen(data)' data-toggle='tooltip' title='Ver imagen' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>image</i>";
                 },
             },
             {
@@ -2147,13 +2147,13 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='AsignarServicios(data)' data-toggle='tooltip' title='Asignar Servicios' class='material-icons' style='font-size:20px;margin-top:-1px;color:orangered;'>settings</i>";
+                    return "<i data-ng-click='AsignarServicios(data)' data-toggle='tooltip' title='Asignar Servicios' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>settings</i>";
                 },
             },
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='AsignarInsumos(data)' data-toggle='tooltip' title='Asignar Insumos' class='material-icons' style='font-size:20px;margin-top:-1px;color:orangered;'>add_to_photos</i>";
+                    return "<i data-ng-click='AsignarInsumos(data)' data-toggle='tooltip' title='Asignar Insumos' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>add_to_photos</i>";
                 },
             },
             {
@@ -2211,7 +2211,7 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='showConfirmServicio($event, data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:orangered;'>delete_sweep</i>";
+                    return "<i data-ng-click='showConfirmServicio($event, data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>delete_sweep</i>";
                 },
             },
             {
@@ -2249,7 +2249,7 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='showConfirmInsumo($event,data)' data-toggle='tooltip' title='Eliminar Insumo' class='material-icons' style='font-size:20px;margin-top:-1px;color:orangered;'>delete_sweep</i>";
+                    return "<i data-ng-click='showConfirmInsumo($event,data)' data-toggle='tooltip' title='Eliminar Insumo' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>delete_sweep</i>";
                 },
             },
             {
@@ -2638,13 +2638,13 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='ConsultarProducto(data)' data-toggle='tooltip' title='Editar producto' class='material-icons' style='font-size:20px;margin-top:-1px;color:orangered;'>create</i>";
+                    return "<i data-ng-click='ConsultarProducto(data)' data-toggle='tooltip' title='Editar producto' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>create</i>";
                 },
             },
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='ConsultarProductoTransacciones(data)' data-toggle='tooltip' title='Transacciones' class='material-icons' style='font-size:20px;margin-top:-1px;color:orangered;'>list</i>";
+                    return "<i data-ng-click='ConsultarProductoTransacciones(data)' data-toggle='tooltip' title='Transacciones' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>list</i>";
                 },
             },
             {
@@ -2857,6 +2857,7 @@
         };        
 
         $scope.Gasto = {
+            Id_Registro: -1,
             Descripcion: '',
             Id_Empleado: -1,
             Tipo_Gasto: '',
@@ -2878,7 +2879,7 @@
 
                 $scope.ObjetoCajaMenor = [];
                 $scope.ObjetoCajaMenor.push($scope.CajaMenor);
-
+                
                 if (!$scope.CambiarDistribucionCajaMenor) {
 
                     SPAService._guardarCajaMenor(JSON.stringify($scope.ObjetoCajaMenor))
@@ -2900,7 +2901,6 @@
                             })
                 }
                 else {
-
                     SPAService._reemplazarCajaMenor(JSON.stringify($scope.ObjetoCajaMenor))
                         .then(
                             function (result) {
@@ -3064,7 +3064,12 @@
         //Validar Caja Menor
         $scope.ValidarCajaMenor = function () {
 
-            $scope.CajaMenor.Distribucion = $scope.TipoCajaSeleccionada;
+            $scope.CajaMenor.Distribucion = $scope.TipoCajaSeleccionada;            
+            $scope.CajaMenor.Acumulado = $scope.Acumulado;
+            
+            if ($scope.Caja_Menor !== null && $scope.Caja_Menor !== undefined) {
+                $scope.CajaMenor.Id_Registro = $scope.Caja_Menor.id_Registro;
+            }                
 
             if ($scope.IdEmpresa === null || $scope.IdEmpresa === undefined) {
                 toastr.info('Código de empresa inválido', '', $scope.toastrOptions);
@@ -3207,8 +3212,7 @@
         }
 
         //Modal Nuevo Gasto        
-        $scope.ModalNuevoGasto = function () {
-            $scope.LimpiarDatos();
+        $scope.ModalNuevoGasto = function () {            
             $scope.ConsultarEmpleados();
             $scope.AccionGasto = 'Nuevo Gasto';
 

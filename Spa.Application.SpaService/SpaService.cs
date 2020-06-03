@@ -443,6 +443,18 @@ namespace Spa.Application.SpaService
             }
         }
 
+        public bool ReemplazarCajaMenor(List<CajaMenor> _CajaMenor)
+        {
+            try
+            {
+                return _spaRepository.ReemplazarCajaMenor(_CajaMenor);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public Usuario ValidarUsuarioAdmin(string Nombre, string Password)
         {
             try

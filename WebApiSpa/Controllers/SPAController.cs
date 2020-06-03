@@ -518,6 +518,24 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/SPA/ReemplazarCajaMenor")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ReemplazarCajaMenor(List<CajaMenor> cajamenor)
+        {
+            try
+            {
+                bool result = _spaService.ReemplazarCajaMenor(cajamenor);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error guardando el saldo en caja menor: " + ex.Message);
+            }
+        }
+
+
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [Route("api/SPA/ConsultarEmpresas")]

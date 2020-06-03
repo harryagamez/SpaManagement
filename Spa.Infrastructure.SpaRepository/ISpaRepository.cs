@@ -38,6 +38,7 @@ namespace Spa.Infrastructure.SpaRepository
         List<Gasto> ConsultarGastos(BusquedaGasto _BusquedaGasto);
         CajaMenor ConsultarCajaMenor(string IdEmpresa);
         bool GuardarCajaMenor(List<CajaMenor> _CajaMenor);
+        bool ReemplazarCajaMenor(List<CajaMenor> _CajaMenor);
         Usuario ValidarUsuarioAdmin(string Nombre, string Password);
         List<Empresa> ConsultarEmpresas();
         List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario);
