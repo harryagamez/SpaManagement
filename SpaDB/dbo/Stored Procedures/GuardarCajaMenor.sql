@@ -2,25 +2,25 @@ CREATE PROCEDURE GuardarCajaMenor(@JsonCajaMenor NVARCHAR(MAX))
 AS
 BEGIN
 
-	DECLARE @Distribucion INT
+	DECLARE @Distribucion CHAR(10)
 
 	SELECT @Distribucion = Distribucion
 		FROM 
 			OPENJSON(@JsonCajaMenor)
 		WITH (
-			Distribucion INT '$.Distribucion' 
+			Distribucion CHAR(10) '$.Distribucion' 
 		)
 
 	BEGIN TRY
 
-		IF @Distribucion = 1 BEGIN
+		IF @Distribucion = 'DIARIA' BEGIN
 
 			MERGE CAJA_MENOR AS TARGET
 				USING(
 					SELECT JsonCajaMenor.Saldo_Inicial, JsonCajaMenor.Acumulado, JsonCajaMenor.Distribucion, JsonCajaMenor.Id_Empresa
 					FROM OPENJSON(@JsonCajaMenor) 
 					WITH (
-						Saldo_Inicial REAL '$.Saldo_Inicial', Acumulado REAL '$.Acumulado', Distribucion INT '$.Distribucion', Id_Empresa VARCHAR(36) '$.Id_Empresa'				
+						Saldo_Inicial REAL '$.Saldo_Inicial', Acumulado REAL '$.Acumulado', Distribucion CHAR(10) '$.Distribucion', Id_Empresa VARCHAR(36) '$.Id_Empresa'				
 					) AS JsonCajaMenor
 				) AS SOURCE(Saldo_Inicial, Acumulado, Distribucion, Id_Empresa)		
 
@@ -33,14 +33,14 @@ BEGIN
 					VALUES (YEAR(GETDATE()), MONTH(GETDATE()), CAST(GETDATE() AS SMALLDATETIME), SOURCE.Saldo_Inicial, SOURCE.Saldo_Inicial, GETDATE(), GETDATE(), SOURCE.Id_Empresa);
 		END
 
-		IF @Distribucion = 2 BEGIN
+		IF @Distribucion = 'MENSUAL' BEGIN
 
 			MERGE CAJA_MENOR AS TARGET
 				USING(
 					SELECT JsonCajaMenor.Saldo_Inicial, JsonCajaMenor.Acumulado, JsonCajaMenor.Distribucion, JsonCajaMenor.Id_Empresa
 					FROM OPENJSON(@JsonCajaMenor) 
 					WITH (
-						Saldo_Inicial REAL '$.Saldo_Inicial', Acumulado REAL '$.Acumulado', Distribucion INT '$.Distribucion', Id_Empresa VARCHAR(36) '$.Id_Empresa'				
+						Saldo_Inicial REAL '$.Saldo_Inicial', Acumulado REAL '$.Acumulado', Distribucion CHAR(10) '$.Distribucion', Id_Empresa VARCHAR(36) '$.Id_Empresa'				
 					) AS JsonCajaMenor
 				) AS SOURCE(Saldo_Inicial, Acumulado, Distribucion, Id_Empresa)		
 

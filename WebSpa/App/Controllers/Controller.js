@@ -3085,9 +3085,9 @@
         }
 
         //Validar Caja Menor
-        $scope.ValidarCajaMenor = function () {
+        $scope.ValidarCajaMenor = function () {                
 
-            $scope.CajaMenor.Distribucion = $scope.TipoCajaSeleccionada;            
+                       
             $scope.CajaMenor.Acumulado = $scope.Acumulado;
             
             if ($scope.Caja_Menor !== null && $scope.Caja_Menor !== undefined) {
@@ -3099,10 +3099,16 @@
                 return false;
             }
 
-            if ($scope.CajaMenor.Distribucion === -1) {
+            if ($scope.TipoCajaSeleccionada === -1) {
                 toastr.info('Debe seleccionar una distribución DIARIA o MENSUAL', '', $scope.toastrOptions);
                 return false;
             }
+            else if ($scope.TipoCajaSeleccionada === 1) {
+                $scope.CajaMenor.Distribucion = 'DIARIA';
+            }
+            else if ($scope.TipoCajaSeleccionada === 2) {
+                $scope.CajaMenor.Distribucion = 'MENSUAL';
+            }     
 
             if ($scope.CajaMenor.Saldo_Inicial === 0 || $scope.CajaMenor.Saldo_Inicial == '') {
                 toastr.info('Debe debe ingresar un saldo inicial', '', $scope.toastrOptions);
