@@ -503,7 +503,7 @@
                 return false;
             }
 
-            if (new Date($scope.Cliente.Fecha_Nacimiento) > $filter('date')(new Date(), 'MM/dd/yyyy')) {
+            if (filter('date')(new Date($scope.Cliente.Fecha_Nacimiento), 'MM/dd/yyyy') > $filter('date')(new Date(), 'MM/dd/yyyy')) {
                 toastr.info('La fecha de nacimiento, debe ser menor que la fecha actual', '', $scope.toastrOptions);
                 $('#dpFechaNacimiento').focus();
                 return false;
@@ -1930,7 +1930,7 @@
                 return false;
             }
 
-            if (new Date($scope.Empleado.Fecha_Nacimiento) > $filter('date')(new Date(), 'MM/dd/yyyy')) {
+            if (filter('date')(new Date($scope.Empleado.Fecha_Nacimiento), 'MM/dd/yyyy') > $filter('date')(new Date(), 'MM/dd/yyyy')) {
                 toastr.info('La fecha de nacimiento debe ser menor que la fecha actual', '', $scope.toastrOptions);
                 $('#dpFechaNacimiento').focus();
                 return false;
