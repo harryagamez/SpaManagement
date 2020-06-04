@@ -455,6 +455,18 @@ namespace Spa.Application.SpaService
             }
         }
 
+        public bool GuardarGasto(List<Gasto> _Gasto)
+        {
+            try
+            {
+                return _spaRepository.GuardarGasto(_Gasto);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public Usuario ValidarUsuarioAdmin(string Nombre, string Password)
         {
             try

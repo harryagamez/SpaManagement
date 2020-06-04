@@ -535,6 +535,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/SPA/GuardarGasto")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarGasto(List<Gasto> gasto)
+        {
+            try
+            {
+                bool result = _spaService.GuardarGasto(gasto);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando el gasto: " + ex.Message);
+            }
+        }
+
 
         [HttpGet]
         [Authorize(Roles = "Admin")]

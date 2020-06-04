@@ -2833,7 +2833,7 @@
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
             window.onresize();  
 
-            $scope.LimpiarDatos();
+            $scope.LimpiarDatosCajaMenor();
             $scope.ConsultarCajaMenor();
 
         }
@@ -2861,15 +2861,37 @@
             Descripcion: '',
             Id_Empleado: -1,
             Tipo_Gasto: '',
-            Fecha_Registro: new Date(),
+            Fecha: new Date(),
             Valor: 0,
+            Estado: null,
             Id_Empresa: $scope.IdEmpresa
         }
 
         //Registrar Nuevo Gasto
         $scope.GuardarNuevoGasto = function () {
             if ($scope.ValidarNuevoGasto()) {
+                
+                $scope.ObjetoGasto = [];
+                $scope.ObjetoGasto.push($scope.Gasto);
 
+                SPAService._guardarGasto(JSON.stringify($scope.ObjetoGasto))
+                    .then(
+                        function (result) {
+                            if (result.data === true) {
+                                $scope.ConsultarCajaMenor();
+                                toastr.success('Gasto registrado correctamente', '', $scope.toastrOptions);
+                                if ($scope.AccionGasto == 'Registrar Gasto') {
+                                    $scope.Cancelar();
+                                }   
+                                $scope.LimpiarDatosNuevoGasto();                               
+                                
+
+                            }
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        })
             }
         }
 
@@ -2891,8 +2913,9 @@
                                     if ($scope.AccionGasto == 'Caja Menor')
                                         $scope.Cancelar();
 
-                                    $scope.LimpiarDatos();
+                                    $scope.LimpiarDatosCajaMenor();
                                     $scope.ConsultarCajaMenor();
+
                                 }
                             }, function (err) {
                                 toastr.remove();
@@ -3090,7 +3113,56 @@
         }
 
         //Validar Nuevo Gasto
-        $scope.ValidarNuegoGasto = function () {
+        $scope.ValidarNuevoGasto = function () {
+            
+            if ($scope.TipoGastoSeleccionado === -1) {
+                toastr.info('Debe seleccionar un tipo de gasto', '', $scope.toastrOptions);
+                return false;
+            }
+
+            if ($scope.TipoGastoSeleccionado === 2 && $scope.EmpleadoSeleccionado === -1) {
+                toastr.info('Para el tipo de gasto PRESTAMOS debe seleccionar un empleado', '', $scope.toastrOptions);
+                return false;
+            }
+
+            if ($scope.TipoGastoSeleccionado !== -1 && $scope.TipoGastoSeleccionado !== 2) {
+                $scope.Gasto.Id_Empleado = null;
+                $scope.Gasto.Estado = null;
+            }
+            else {
+                $scope.Gasto.Id_Empleado = $scope.EmpleadoSeleccionado;
+                $scope.Gasto.Estado = 'ASIGNADO';
+            }
+               
+
+            if ($scope.Gasto.Descripcion == '') {
+                toastr.info('Debe ingresar un descripción', '', $scope.toastrOptions);
+                return false;
+            }
+
+            if ($filter('date')(new Date($scope.Gasto.Fecha), 'MM/dd/yyyy') > $filter('date')(new Date(), 'MM/dd/yyyy')) {
+                toastr.info('La fecha del gasto no puede ser mayor a la fecha actual', '', $scope.toastrOptions);
+                return false;
+            }
+
+            if ($scope.Gasto.Valor === 0) {
+                toastr.info('El valor del gasto no puede cero', '', $scope.toastrOptions);
+                return false;
+            }
+
+            if ($scope.Gasto.Valor > $scope.Acumulado) {
+                toastr.info('Solo dispone de ' + $scope.Acumulado +' acumulado en CAJA MENOR', '', $scope.toastrOptions);
+                return false;
+            }
+
+            let filtrarTipoGasto = Enumerable.From($scope.TipoGastos)
+                .Where(function (x) { return x.id_TipoGasto === $scope.TipoGastoSeleccionado })
+                .ToArray();
+
+            if (filtrarTipoGasto.length > 0)
+                $scope.Gasto.Tipo_Gasto = filtrarTipoGasto[0].Nombre;            
+
+            return true;
 
         }
 
@@ -3165,12 +3237,9 @@
 
 
         //Limpiar Datos
-        $scope.LimpiarDatos = function () {
-
+        $scope.LimpiarDatosCajaMenor = function () {
             $scope.DistribucionActual = -1;
-            $scope.TipoGastoSeleccionado = -1;
             $scope.TipoCajaSeleccionada = -1;
-            $scope.EmpleadoSeleccionado = -1;
             $scope.Acumulado = 0;
             $scope.CambiarDistribucionCajaMenor = false;
 
@@ -3180,13 +3249,21 @@
                 Distribucion: $scope.TipoCajaSeleccionada,
                 Id_Empresa: $scope.IdEmpresa
             }
+        }
+
+        $scope.LimpiarDatosGastos = function () {            
+
+            $scope.TipoGastoSeleccionado = -1;            
+            $scope.EmpleadoSeleccionado = -1;            
 
             $scope.Gasto = {
+                Id_Registro: -1,
                 Descripcion: '',
                 Id_Empleado: -1,
                 Tipo_Gasto: '',
-                Fecha_Registro: new Date(),
+                Fecha: new Date(),
                 Valor: 0,
+                Estado: null,
                 Id_Empresa: $scope.IdEmpresa
             }
         }
@@ -3214,7 +3291,7 @@
         //Modal Nuevo Gasto        
         $scope.ModalNuevoGasto = function () {            
             $scope.ConsultarEmpleados();
-            $scope.AccionGasto = 'Nuevo Gasto';
+            $scope.AccionGasto = 'Registrar Gasto';
 
             $mdDialog.show({
                 contentElement: '#dlgNuevoGasto',
@@ -3225,7 +3302,7 @@
             })
                 .then(function () {
                 }, function () {
-                        
+                        $scope.LimpiarDatosGastos();
                 });
         }
 

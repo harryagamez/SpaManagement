@@ -1416,6 +1416,51 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public bool GuardarGasto(List<Gasto> _Gasto)
+        {
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "GuardarGasto";
+                        _command.Parameters.AddWithValue("@JsonGasto", JsonConvert.SerializeObject(_Gasto));
+
+                        try
+                        {
+                            _command.ExecuteNonQuery();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                        finally
+                        {
+                            if (_command.Connection.State == ConnectionState.Open)
+                            {
+                                _command.Connection.Close();
+                            }
+
+                            _command.Dispose();
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
 
         public Usuario ValidarUsuarioAdmin(string Nombre, string Password)
         {
