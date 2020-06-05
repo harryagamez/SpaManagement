@@ -56,7 +56,7 @@
                         <label class="label-form-empleados" style="">
                             Nombre(s):
                         </label>
-                        <input ng-model="Empleado.Nombres" id="txtNombre" maxlength="60" type="text" placeholder="Digite su nombre ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
+                        <input ng-model="Empleado.Nombres" id="txtNombres" ng-keyup="onFilterTextBoxChanged()" maxlength="60" type="text" placeholder="Digite su nombre ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
                     </md-input-container>
                 </div>
 

@@ -159,6 +159,7 @@
         $scope.ListadoClientes = false;
         $scope.DetalladoServicios = false;
         $scope.GeneralServicios = false;
+        $scope.PermitirFiltrar = true;
 
         // Inicialización
         $scope.IdEmpresa = $rootScope.Id_Empresa;
@@ -281,6 +282,7 @@
 
                                 $('#txtNombre').focus();
                                 $scope.CedulaReadOnly = true;
+                                $scope.PermitirFiltrar = false;
                             }
                         }, function (err) {
                             toastr.remove();
@@ -460,6 +462,7 @@
             $scope.TipoClienteSeleccionado = -1;
 
             $scope.ListadoClientes = false;
+            $scope.PermitirFiltrar = true;
             $scope.DetalladoServicios = false;
             $scope.GeneralServicios = false;
             $scope.Accion = '';
@@ -530,6 +533,13 @@
             }
         }
 
+        //Filtrar por nombre
+        $scope.onFilterTextBoxChanged = function () {
+            if ($scope.PermitirFiltrar === true) {
+                $scope.ClientesGridOptions.api.setQuickFilter($('#txtNombres').val());
+            }
+        }
+
         function OnRowClicked(event) {
             if (event.node.data !== undefined && event.node.data !== null) {
                 $scope.Accion = 'BUSQUEDA_CLIENTE';
@@ -555,6 +565,7 @@
 
                 $scope.CedulaReadOnly = true;
                 $('#txtNombre').focus();
+                $scope.PermitirFiltrar = false;
             }
         }
 
@@ -1119,6 +1130,7 @@
         $scope.EstadoCivilSeleccionado = 'SOLTERA';
         $scope.TipoPagoSeleccionado = '00000000-000-000-000000000000';
         $scope.InventarioProducto = 0;
+        $scope.PermitirFiltrar = true;
 
         //INICIALIZACIÓN
         $scope.IdEmpresa = $rootScope.Id_Empresa;
@@ -1276,6 +1288,7 @@
                                 toastr.success('Empleado registrado y/o actualizado correctamente', '', $scope.toastrOptions);
                                 $scope.ConsultarEmpleados();
                                 $scope.LimpiarDatos();
+                                $scope.PermitirFiltrar = true;
                                 $('#txtCedula').focus();
                             }
                         }, function (err) {
@@ -1295,7 +1308,7 @@
                             $scope.Empleados = [];
                             $scope.Empleados = result.data;
                             $scope.EmpleadosGridOptions.api.setRowData($scope.Empleados);
-
+                            $scope.PermitirFiltrar = true;
                             $timeout(function () {
                                 $scope.EmpleadosGridOptions.api.sizeColumnsToFit();
                             }, 200);
@@ -1327,7 +1340,6 @@
             $scope.Empleado.Monto = '';
             $scope.Empleado.Numero_Hijos;
             $scope.Empleado.Estado = $scope.EstadoSeleccionado;
-
             if (cedula_empleado !== null && cedula_empleado !== '') {
                 SPAService._consultarEmpleado(cedula_empleado, $scope.IdEmpresa)
                     .then(
@@ -1359,6 +1371,7 @@
 
                                 $('#txtNombre').focus();
                                 $scope.CedulaReadOnly = true;
+                                $scope.PermitirFiltrar = false;
                             }
                         }, function (err) {
                             toastr.remove();
@@ -1592,7 +1605,7 @@
             $scope.TipoPagoSeleccionado = '00000000-000-000-000000000000';
             $scope.EstadoCivilSeleccionado = 'SOLTERA';
             $('#txtCedula').focus();
-            $scope.CedulaReadOnly = false;
+            $scope.PermitirFiltrar = true;
         }
 
         // FUNCIONES
@@ -1840,8 +1853,16 @@
                 $scope.EstadoSeleccionado = $scope.Empleado.Estado;
                 $scope.ConsultarBarrios($scope.MunicipioSeleccionado);
 
+                $scope.PermitirFiltrar = false;
                 $scope.CedulaReadOnly = true;
                 $('#txtNombre').focus();
+            }
+        }
+
+        //Filtrar por nombre
+        $scope.onFilterTextBoxChanged = function () {
+            if ($scope.PermitirFiltrar === true) {
+                $scope.EmpleadosGridOptions.api.setQuickFilter($('#txtNombres').val());
             }
         }
 
@@ -2531,7 +2552,6 @@
 
         //Eliminar Gastos
         $scope.EliminarGastos = function () {
-            debugger;
             if ($scope.ObjetoBorrarGasto.length > 0) {
                 SPAService._eliminarGastos(JSON.stringify($scope.ObjetoBorrarGasto))
                     .then(
@@ -2551,8 +2571,7 @@
             }
             else {
                 toastr.info('Debe seleccionar al menos un registro de gastos', '', $scope.toastrOptions);
-            }                
-
+            }
         }
 
         //Guardar Caja Menor
