@@ -1087,13 +1087,13 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='ConsultarServicio(data)' data-toggle='tooltip' title='Editar servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>create</i>";
+                    return "<i data-ng-click='ConsultarServicio(data)' data-toggle='tooltip' title='Editar servicio' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>create</i>";
                 },
             },
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='VisualizarImagen(data)' data-toggle='tooltip' title='Ver imagen' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>image</i>";
+                    return "<i data-ng-click='VisualizarImagen(data)' data-toggle='tooltip' title='Ver imagen' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>image</i>";
                 },
             },
             {
@@ -1283,6 +1283,7 @@
         $scope.EstadoSeleccionado = 'ACTIVO';
         $scope.EstadoCivilSeleccionado = 'SOLTERA';
         $scope.TipoPagoSeleccionado = '00000000-000-000-000000000000';
+        $scope.InventarioProducto = 0;
 
         //INICIALIZACIÓN        
         $scope.IdEmpresa = $rootScope.Id_Empresa;
@@ -1352,8 +1353,8 @@
                                         toastr.success('Insumo asignado correctamente', '', $scope.toastrOptions);
                                         $scope.InsumoAsignado = [];
                                         $scope.ProductoSeleccionado = -1;
-                                        $scope.CantidadInsumo = '';
-                                        $scope.InventarioProducto = [];
+                                        $scope.CantidadInsumo = '';                                        
+                                        $scope.InventarioProducto = 0;
                                         $scope.ConsultarEmpleadoInsumos();
                                         $scope.ConsultarProductos();
 
@@ -1439,7 +1440,7 @@
                             $scope.InsumoAsignado = [];
                             $scope.ProductoSeleccionado = -1;
                             $scope.CantidadInsumo = '';
-                            $scope.InventarioProducto = [];
+                            $scope.InventarioProducto = 0;
                             $scope.ConsultarEmpleadoInsumos();
                             $scope.ConsultarProductos();
 
@@ -1848,7 +1849,7 @@
         //Consultar Inventario Producto
         $scope.ConsultarInventario = function (inventario) {
 
-            $scope.InventarioProducto = [];
+            $scope.InventarioProducto = 0;
             let filtrarEntrada = Enumerable.From($scope.Productos)
                 .Where(function (x) { return x.id_Producto === inventario })
                 .ToArray();
@@ -2077,7 +2078,7 @@
                 }, function () {
                     $scope.ProductoSeleccionado = -1;
                     $scope.CantidadInsumo = '';
-                    $scope.InventarioProducto = [];
+                    $scope.InventarioProducto = 0;
                 });
 
         }
@@ -2147,13 +2148,13 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='AsignarServicios(data)' data-toggle='tooltip' title='Asignar Servicios' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>settings</i>";
+                    return "<i data-ng-click='AsignarServicios(data)' data-toggle='tooltip' title='Asignar Servicios' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>settings</i>";
                 },
             },
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='AsignarInsumos(data)' data-toggle='tooltip' title='Asignar Insumos' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>add_to_photos</i>";
+                    return "<i data-ng-click='AsignarInsumos(data)' data-toggle='tooltip' title='Asignar Insumos' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>add_to_photos</i>";
                 },
             },
             {
@@ -2211,7 +2212,7 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='showConfirmServicio($event, data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>delete_sweep</i>";
+                    return "<i data-ng-click='showConfirmServicio($event, data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>delete_sweep</i>";
                 },
             },
             {
@@ -2249,7 +2250,7 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='showConfirmInsumo($event,data)' data-toggle='tooltip' title='Eliminar Insumo' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>delete_sweep</i>";
+                    return "<i data-ng-click='showConfirmInsumo($event,data)' data-toggle='tooltip' title='Eliminar Insumo' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>delete_sweep</i>";
                 },
             },
             {
@@ -2638,13 +2639,13 @@
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='ConsultarProducto(data)' data-toggle='tooltip' title='Editar producto' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>create</i>";
+                    return "<i data-ng-click='ConsultarProducto(data)' data-toggle='tooltip' title='Editar producto' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>create</i>";
                 },
             },
             {
                 headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
-                    return "<i data-ng-click='ConsultarProductoTransacciones(data)' data-toggle='tooltip' title='Transacciones' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>list</i>";
+                    return "<i data-ng-click='ConsultarProductoTransacciones(data)' data-toggle='tooltip' title='Transacciones' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>list</i>";
                 },
             },
             {
@@ -2908,14 +2909,13 @@
                         .then(
                             function (result) {
                                 if (result.data === true) {
-
-                                    toastr.success('Caja menor guardada correctamente', '', $scope.toastrOptions);
-                                    if ($scope.AccionGasto == 'Caja Menor')
-                                        $scope.Cancelar();
-
                                     $scope.LimpiarDatosCajaMenor();
                                     $scope.ConsultarCajaMenor();
+                                    toastr.success('Caja menor guardada correctamente', '', $scope.toastrOptions);
 
+                                    if ($scope.AccionGasto == 'Caja Menor') {
+                                        $scope.Cancelar();
+                                    }  
                                 }
                             }, function (err) {
                                 toastr.remove();
@@ -2933,7 +2933,7 @@
                                     if ($scope.AccionGasto == 'Caja Menor')
                                         $scope.Cancelar();
 
-                                    $scope.LimpiarDatos();
+                                    $scope.LimpiarDatosCajaMenor();
                                     $scope.ConsultarCajaMenor();
                                 }
                             }, function (err) {
@@ -2957,7 +2957,7 @@
                                 
                                 $scope.Caja_Menor = [];  
                                 $scope.Caja_Menor = result.data;    
-
+                                
                                 if ($scope.Caja_Menor.dia !== null) {                                    
                                     $scope.TipoCajaSeleccionada = 1;
                                     $scope.DistribucionActual = $scope.TipoCajaSeleccionada;

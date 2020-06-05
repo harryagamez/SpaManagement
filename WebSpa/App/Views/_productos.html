@@ -19,7 +19,7 @@
                     <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Informes
                 </md-button>
 
-                <md-button type="button" class="btn-spa dropdown-toggle-split groupX right" style="min-width:0; margin-left:-1px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <md-button type="button" class="btn-spa dropdown-toggle-split groupX right" style="min-width:0; margin-left:-12px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="material-icons" style="transform: scaleX(-1); margin-top: -0px;">settings</i>
                 </md-button>
                 <div class="dropdown-menu">
@@ -71,7 +71,7 @@
                 <md-dialog id="mdNuevoProducto" aria-label="Nuevo Producto" style="width: 40% !important; color: #666666 !important;">
                     <md-toolbar>
                         <div class="md-toolbar-tools">
-                            <h2 style="font-size:16px;">{{ AccionProducto}}</h2>
+                            <h2 style="font-size:16px;">{{AccionProducto}}</h2>
                             <span flex></span>
                             <md-button class="md-icon-button" ng-click="Cancelar()">
                                 <i class="material-icons" style="transform: scaleX(-1)">close</i>
@@ -112,15 +112,7 @@
                                     </md-input-container>
 
                                 </div>
-                                <div flex="">
-                                    <md-input-container style="margin: 5px 0;">
-                                        <label class="label-form-servicios" style="">
-                                            Inventario:
-                                        </label>
-                                        <input ng-model="Producto.Inventario" id="txtInventarioProducto" numbers-only type="text" ng-readonly="true" placeholder="Inventario producto..." value="" tabindex=3>
-                                    </md-input-container>
 
-                                </div>
                                 <div flex="">
                                     <md-input-container style="margin: 5px 0;">
                                         <label class="label-form-servicios" style="">
@@ -128,6 +120,17 @@
                                         </label>
                                         <input ng-model="Producto.Precio" id="txtValorProducto" numbers-only type="text" placeholder="Digite el valor del producto ..." value="" tabindex=4>
                                     </md-input-container>
+                                </div>
+
+                                <div flex="" style="">
+                                    <md-input-container style="margin: 5px 0; margin-top: -22px; position:fixed; right:57px; ">
+                                        <label class="label-form-servicios" style="font-size: 11px; color: orangered;">
+                                            Inventario:
+                                        </label>
+                                        <br />
+                                        <div style="font-size:20px; color: orangered; font-weight:600; padding-top:10px; margin-left:5px;">{{Producto.Inventario}}</div>
+                                    </md-input-container>
+
                                 </div>
                             </div>
 
@@ -137,8 +140,7 @@
                                         <label class="label-form-servicios" style="">
                                             Tipo Transacción:
                                         </label>
-                                        <!--<select ng-model="TipoTransaccionSeleccionada" ng-disabled="true" ng-options="item.id_TipoTransaccion as item.nombre for item in TipoTransacciones | orderBy:'nombre'" style="display:none; width:auto;" tabindex=5>
-                                        </select>-->
+                                        
                                         <md-select ng-model="TipoTransaccionSeleccionada" ng-disabled="true" style="min-width:200px;" id="slTipoTransaccion" tabindex=4>
                                             <md-option ng-bind="item.nombre" ng-value="item.id_TipoTransaccion" ng-repeat="item in TipoTransacciones track by item.id_TipoTransaccion"></md-option>
                                         </md-select>

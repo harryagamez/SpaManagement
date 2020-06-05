@@ -6,14 +6,7 @@ BEGIN
 
 	DECLARE @Gasto REAL
 	DECLARE @IdEmpresa VARCHAR(36)
-	CREATE TABLE #TempGastos(Id_Gasto INT, Tipo_Gasto CHAR(15), Descripcion CHAR(300), Valor REAL, Fecha SMALLDATETIME, Estado CHAR(12), Id_Empleado INT, Fecha_Registro DATETIME, Fecha_Modificacion DATETIME, Id_Empresa VARCHAR(36))
-	SELECT @Gasto = Valor, @IdEmpresa = Id_Empresa
-		FROM 
-			OPENJSON(@JsonGasto)
-		WITH (
-			Valor Real '$.Valor',
-			Id_Empresa VARCHAR(36) '$.Id_Empresa'
-		)
+	CREATE TABLE #TempGastos(Id_Gasto INT, Tipo_Gasto CHAR(15), Descripcion CHAR(300), Valor REAL, Fecha SMALLDATETIME, Estado CHAR(12), Id_Empleado INT, Fecha_Registro DATETIME, Fecha_Modificacion DATETIME, Id_Empresa VARCHAR(36))	
 
 	INSERT INTO #TempGastos (Id_Gasto, Tipo_Gasto, Descripcion, Valor, Fecha, Estado, Id_Empleado, Id_Empresa)
 			SELECT 
@@ -25,7 +18,10 @@ BEGIN
 				JSON_VALUE (C.value, '$.Estado') AS Estado,
 				JSON_VALUE (C.value, '$.Id_Empleado') AS Id_Empleado,				
 				JSON_VALUE (C.value, '$.Id_Empresa') AS Id_Empresa
-			FROM OPENJSON(@JsonGasto) AS C	
+			FROM OPENJSON(@JsonGasto) AS C
+			
+	SELECT @Gasto = Valor, @IdEmpresa = Id_Empresa
+		FROM #TempGastos
 
 	BEGIN TRY
 
