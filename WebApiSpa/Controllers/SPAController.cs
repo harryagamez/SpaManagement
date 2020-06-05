@@ -552,6 +552,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/SPA/EliminarGastos")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult EliminarGastos(List<Gasto> gastos)
+        {
+            try
+            {
+                bool result = _spaService.EliminarGastos(gastos);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error eliminando los gastos seleccionados: " + ex.Message);
+            }
+        }
+
 
         [HttpGet]
         [Authorize(Roles = "Admin")]

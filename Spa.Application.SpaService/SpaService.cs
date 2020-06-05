@@ -467,6 +467,18 @@ namespace Spa.Application.SpaService
             }
         }
 
+        public bool EliminarGastos(List<Gasto> _Gastos)
+        {
+            try
+            {
+                return _spaRepository.EliminarGastos(_Gastos);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public Usuario ValidarUsuarioAdmin(string Nombre, string Password)
         {
             try
