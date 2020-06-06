@@ -2766,6 +2766,7 @@
 
             if ($scope.CajaMenor.Saldo_Inicial === 0 || $scope.CajaMenor.Saldo_Inicial == '') {
                 toastr.info('Debe debe ingresar un saldo inicial', '', $scope.toastrOptions);
+                $('#txtSaldoInicial').focus();
                 return false;
             }
 
@@ -2797,6 +2798,7 @@
 
             if ($scope.Gasto.Descripcion == '') {
                 toastr.info('Debe ingresar un descripción', '', $scope.toastrOptions);
+                $('#txtDescripcion').focus();
                 return false;
             }
 
@@ -2807,11 +2809,13 @@
 
             if ($scope.Gasto.Valor === 0) {
                 toastr.info('El valor del gasto no puede cero', '', $scope.toastrOptions);
+                $('#txtValorGasto').focus();
                 return false;
             }
 
             if ($scope.Gasto.Valor > $scope.Acumulado) {
                 toastr.info('Solo dispone de ' + $scope.Acumulado + ' acumulado en CAJA MENOR', '', $scope.toastrOptions);
+                $('#txtValorGasto').focus();
                 return false;
             }
 
