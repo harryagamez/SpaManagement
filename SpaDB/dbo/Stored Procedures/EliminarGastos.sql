@@ -5,35 +5,41 @@ BEGIN
 	SET XACT_ABORT, NOCOUNT ON
 
 	DECLARE @Gasto REAL = 0
-	DECLARE @IdEmpresa VARCHAR(36)				
+	DECLARE @IdEmpresa VARCHAR(36)	
+	
 	CREATE TABLE #TempGastos(Id_Gasto INT, Valor REAL, Id_Empresa VARCHAR(36))	
+
 	INSERT INTO #TempGastos (Id_Gasto, Valor, Id_Empresa)
-			SELECT 
-				JSON_VALUE (C.value, '$.Id_Gasto') AS Id_Gasto,				
-				JSON_VALUE (C.value, '$.Valor') AS Valor,								
-				JSON_VALUE (C.value, '$.Id_Empresa') AS Id_Empresa
-			FROM OPENJSON(@JsonGastos) AS C
+	SELECT 
+		JSON_VALUE (C.value, '$.Id_Gasto') AS Id_Gasto,				
+		JSON_VALUE (C.value, '$.Valor') AS Valor,								
+		JSON_VALUE (C.value, '$.Id_Empresa') AS Id_Empresa
+	FROM OPENJSON(@JsonGastos) AS C
 
-	SELECT @Gasto =  SUM(VALOR)
+	SELECT 
+		@Gasto =  SUM(VALOR),
+		@IdEmpresa = Id_Empresa
 	FROM #TempGastos
-
-	SELECT TOP 1 @IdEmpresa = Id_Empresa
-	FROM #TempGastos
+	GROUP BY Id_Empresa
 			
-
 	BEGIN TRY
 
 		BEGIN TRANSACTION Tn_EliminarGastos
 			
 			UPDATE CAJA_MENOR SET ACUMULADO = (ACUMULADO + @Gasto) WHERE ID_EMPRESA = @IdEmpresa
 
-			DELETE FROM GASTOS WHERE ID_GASTO IN (SELECT Id_Gasto FROM #TempGastos)
+			DELETE EMPRESA_GASTOS 
+				FROM GASTOS AS EMPRESA_GASTOS 
+			INNER JOIN #TempGastos 
+			ON EMPRESA_GASTOS.ID_GASTO = #TempGastos.Id_Gasto
+			WHERE EMPRESA_GASTOS.ID_EMPRESA = @IdEmpresa
 			
-		COMMIT TRANSACTION
+		COMMIT TRANSACTION Tn_EliminarGastos
 
 	END TRY
 
 	BEGIN CATCH
+
 		IF OBJECT_ID('tempdb..#TempGastos') IS NOT NULL DROP TABLE #TempGastos
 		IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION Tn_EliminarGastos
         DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE()
@@ -42,3 +48,7 @@ BEGIN
 	END CATCH
 
 END
+
+GO
+
+

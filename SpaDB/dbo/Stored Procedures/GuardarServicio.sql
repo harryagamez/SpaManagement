@@ -30,7 +30,8 @@ BEGIN
 			VALUES (SOURCE.Nombre, SOURCE.Descripcion, SOURCE.Tiempo, SOURCE.Valor, SOURCE.Id_TipoServicio, SOURCE.Estado, GETDATE(), GETDATE(),
 					SOURCE.Id_Empresa, SOURCE.Logo_Base64);
 
-		SELECT @ServicioId = Id_Servicio
+		SELECT 
+			@ServicioId = Id_Servicio
 		FROM 
 			OPENJSON(@JsonServicio)
 		WITH (
