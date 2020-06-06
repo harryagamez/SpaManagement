@@ -19,7 +19,7 @@
                     <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
                 </md-button>
 
-                <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Eliminar" data-ng-click="EliminarGastos()">
+                <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Eliminar" data-ng-click="showConfirmEliminarGastos()">
                     <i class="material-icons md-18" style="transform: scaleX(-1)">delete</i>Eliminar
                 </md-button>
 
@@ -113,7 +113,7 @@
                 <form id="frmServicios" style="">
 
                     <md-dialog-content style="background-color: rgb(250,250,250);">
-                        <img src="../../Images/spa_.png" style="display:block; margin:auto; width: 75%; opacity: 0.15; position:fixed; z-index:0; filter:grayscale(80%)" />
+                        
                         <div layout="row" layout-xs="column" style="" layout-align="center center">
 
                             <div flex="50">
@@ -146,7 +146,7 @@
                                         Acumulado:
                                     </label>
                                     <br />                                    
-                                    <div style="font-size:18px; color: orangered; font-weight:600; padding-top:5px;">{{Acumulado | currency}}</div>
+                                    <div style="font-size:22px; color: orangered; font-weight:600; padding-top:5px;">{{Acumulado | currency}}</div>
                                 </md-input-container>
                             </div>
 
@@ -182,7 +182,7 @@
                 <form id="frmServicios" style="">
 
                     <md-dialog-content style="background-color: rgb(250,250,250); overflow:hidden;">
-                        <img src="../../Images/spa_.png" style="display:block; margin:auto; width: 75%; opacity: 0.15; position:fixed; z-index:0; filter:grayscale(80%)" />
+                        
                         <div layout="row" layout-sm="column" style="" layout-align="center center">
 
                             <div flex="50">

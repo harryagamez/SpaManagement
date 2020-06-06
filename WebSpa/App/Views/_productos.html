@@ -123,12 +123,12 @@
                                 </div>
 
                                 <div flex="" style="">
-                                    <md-input-container style="margin: 5px 0; margin-top: -22px; position:fixed; right:57px; ">
+                                    <md-input-container style="margin: 5px 0; margin-top: -22px; position:fixed; right:120px; ">
                                         <label class="label-form-servicios" style="font-size: 11px; color: orangered;">
                                             Inventario:
                                         </label>
                                         <br />
-                                        <div style="font-size:20px; color: orangered; font-weight:600; padding-top:10px; margin-left:5px;">{{Producto.Inventario}}</div>
+                                        <div style="font-size:22px; color: orangered; font-weight:600; padding-top:5px; text-align:center;">{{Producto.Inventario}}</div>
                                     </md-input-container>
 
                                 </div>
@@ -146,17 +146,17 @@
                                         </md-select>
                                     </md-input-container>
                                 </div>
-                            </div>
 
-                            <div layout="row" layout-align="end center">
-                                <md-button type="button" id="btnGuardar" class="btn-spa groupX left" style="margin-left: -10px;margin: 6px 4px !important;" data-toggle="tooltip" title="Guardar" ng-click="GuardarProducto()" tabindex=7>
-                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
-                                </md-button>
+                                <div flex="" style="position:fixed; right: 14px; margin-top: -5px;">
+                                    <md-button type="button" id="btnGuardar" class="btn-spa groupX left" style="margin-right: -5px;" data-toggle="tooltip" title="Guardar" ng-click="GuardarProducto()" tabindex=7>
+                                        <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                                    </md-button>
 
-                                <md-button type="button" id="btnNuevoModal" ng-hide="OcultarbtnNuevo" style="margin: 6px 4px !important;" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
-                                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                                </md-button>
-                            </div>
+                                    <md-button type="button" id="btnNuevoModal" ng-hide="OcultarbtnNuevo" style="" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
+                                        <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                                    </md-button>
+                                </div>
+                            </div>                            
 
                         </md-dialog-content>
                     </form>

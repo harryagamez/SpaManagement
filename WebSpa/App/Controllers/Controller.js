@@ -1647,7 +1647,7 @@
 
             if ($scope.Empleado.Nombres === '') {
                 toastr.info('Nombre del empleado es requerido', '', $scope.toastrOptions);
-                $('#txtNombre').focus();
+                $('#txtNombres').focus();
                 return false;
             }
 
@@ -2976,6 +2976,24 @@
                 $scope.CambiarDistribucionCajaMenor = true;
             }, function () {
                 $scope.TipoCajaSeleccionada = $scope.DistribucionActual;
+                return;
+            });
+        };
+
+        //Show Comfirm Eliminar Gastos        
+        $scope.showConfirmEliminarGastos = function (ev) {
+            let confirm = $mdDialog.confirm()
+                .title('Eliminar Gastos')
+                .textContent('¿Seguro que deseas eliminar los gastos seleccionados?')
+                .ariaLabel('Eliminar Gastos')
+                .targetEvent(ev)
+                .ok('Sí')
+                .cancel('No')
+                .multiple(true);
+
+            $mdDialog.show(confirm).then(function () {
+                $scope.EliminarGastos();
+            }, function () {
                 return;
             });
         };

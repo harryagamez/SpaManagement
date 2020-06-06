@@ -421,9 +421,9 @@ label {
     box-shadow: 0 0 6px #999;
 }
 
-.btn-spa:active {
+/*.btn-spa:active {
     transform: translateY(2px);
-}
+}*/
 
 #sidebar {
     transition: all 500ms linear;

@@ -1,7 +1,7 @@
 <md-dialog aria-label="Slider Servicios">
     <form ng-cloak>
         <md-toolbar>
-            <div class="md-toolbar-tools" style="padding-right: 0px !important; background-color: #fff;" >
+            <div class="md-toolbar-tools" style="padding-right: 0px !important; background-color: #fff;">
                 <h2 style="font-size:16px; color:#212121; font-weight:600;">Imágenes Adjuntas</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="Cancelar()" style="margin-right:5px; margin-top: -4px;">
@@ -12,18 +12,16 @@
 
         <md-dialog-content style="padding:15px;">
             <label style="padding-left: 5px;" class="label-form-clientes">Total imágenes adjuntas:</label>{{ImagenesAdjuntas}}
-            <hr />
-            <div style="text-align: center;">
+            <div style="text-align: center; border:1px solid #e1e1e1; padding:3px;">
                 <ul style="white-space:nowrap; margin-top:-10px; margin: auto;">
                     <li class="imagenes-adjuntas" ng-repeat="imagen in ServicioImagenesAdjuntas" style="padding-left: 10px; padding-right:10px;  display:inline; ">
                         <img ng-src="{{imagen.imagen_Base64}}" style="max-width:64px; max-height:64px; min-width:64px; min-height:64px; border:1px solid #e3e3e3; object-fit:cover; margin-bottom:5px;">
                         <i class="material-icons md-18" style="transform: scaleX(-1); color:#f17325; font-weight:600; font-size:16px; position:fixed; bottom:55px; margin-left:-47px; padding:5px; text-align:center;" data-ng-click='showConfirmBorrarServicioImagen($event, imagen)' data-toggle='tooltip' title='Eliminar Imagen'>close</i>
                     </li>
                 </ul>
-            </div>            
-            <hr />
+            </div>
+
             <label style="padding-left: 5px;" class="label-form-clientes">Imágenes seleccionadas:</label>{{ImagenesxAdjuntar}}
-            
         </md-dialog-content>
     </form>
 </md-dialog>
