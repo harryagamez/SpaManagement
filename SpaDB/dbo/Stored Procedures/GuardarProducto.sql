@@ -2,7 +2,7 @@
 AS
 BEGIN
 	
-	CREATE TABLE #TempProducto(Id_Producto INT, Nombre CHAR(60) COLLATE SQL_Latin1_General_CP1_CI_AS , Descripcion CHAR(300) COLLATE SQL_Latin1_General_CP1_CI_AS, 
+	CREATE TABLE #TempProducto(Id_Producto INT, Nombre CHAR(60) COLLATE SQL_Latin1_General_CP1_CI_AS , Descripcion CHAR(200) COLLATE SQL_Latin1_General_CP1_CI_AS, 
 	Precio REAL, Inventario INT, Id_Tipo_Transaccion INT, Cantidad_Transaccion INT, Id_Empresa VARCHAR(36) COLLATE SQL_Latin1_General_CP1_CI_AS)
 
 	DECLARE @JsonId_Producto INT
