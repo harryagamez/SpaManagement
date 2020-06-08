@@ -251,8 +251,7 @@
             $scope.Cliente.Id_Municipio = -1;
             $scope.Cliente.Fecha_Nacimiento = $filter('date')(new Date(), 'MM-dd-yyyy');
             $scope.Cliente.Id_Tipo = -1;
-            $scope.Cliente.Estado = $scope.EstadoSeleccionado;
-
+            $scope.Cliente.Estado = $scope.EstadoSeleccionado;            
             if (cedula_cliente !== null && cedula_cliente !== '') {
                 SPAService._consultarCliente(cedula_cliente, $scope.IdEmpresa)
                     .then(
@@ -284,8 +283,10 @@
                                 $scope.CedulaReadOnly = true;
                                 $scope.PermitirFiltrar = false;
                             }
+                            else
+                                $scope.PermitirFiltrar = false;
                         }, function (err) {
-                            toastr.remove();
+                            toastr.remove();                            
                             if (err.data !== null && err.status === 500)
                                 toastr.error(err.data, '', $scope.toastrOptions);
                         })
@@ -419,7 +420,7 @@
                 $('#slTipoCliente').focus();
                 return false;
             }
-
+            
             if ($filter('date')(new Date($scope.Cliente.Fecha_Nacimiento), 'MM/dd/yyyy') > $filter('date')(new Date(), 'MM/dd/yyyy')) {
                 toastr.info('La fecha de nacimiento, debe ser menor que la fecha actual', '', $scope.toastrOptions);
                 $('#dpFechaNacimiento').focus();
@@ -593,7 +594,7 @@
         $scope.AccionServicio = 'Registrar Servicio';
         $scope.ImagenServicioBase64 = '';
         $scope.InformacionImagen = '';
-        $scope.ImagenesxAdjuntar = 0;
+        $rootScope.ImagenesxAdjuntar = 0;
 
         // INICIALIZACIÓN
         $scope.Inicializacion = function () {
@@ -757,9 +758,9 @@
         $scope.LimpiarDatos = function () {
             $scope.EstadoSeleccionado = 'ACTIVO';
             $scope.ImagenServicioBase64 = '';
-            $scope.ImagenesAdjuntas = 0;
+            $rootScope.ImagenesAdjuntas = 0;
             $rootScope.InformacionImagen = '';
-            $scope.ImagenesxAdjuntar = 0;
+            $rootScope.ImagenesxAdjuntar = 0;
             $scope.TEMPServicio = [];
 
             $scope.Servicio =
@@ -822,11 +823,9 @@
 
         // Modal Nuevo Servicio
         $scope.ModalNuevoServicio = function () {
-            $scope.AccionServicio = 'Registrar Servicio';
-            $scope.ImagenesAdjuntas = 0;
-            $rootScope.ImagenesAdjuntas = $scope.ImagenesAdjuntas;
-            $scope.ImagenesxAdjuntar = 0;
-            $rootScope.ImagenesxAdjuntar = $scope.ImagenesxAdjuntar;
+            $scope.AccionServicio = 'Registrar Servicio';            
+            $rootScope.ImagenesAdjuntas = 0;            
+            $rootScope.ImagenesxAdjuntar = 0;
             $scope.Servicio.Imagenes_Servicio.length = 0;
             $mdDialog.show({
                 contentElement: '#dlgNuevoServicio',
@@ -849,10 +848,8 @@
         // Modal Editar Servicio
         $scope.ModalEditarServicio = function () {
             $scope.AccionServicio = 'Editar Servicio';
-            $scope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;
-            $rootScope.ImagenesAdjuntas = $scope.ImagenesAdjuntas;
-            $scope.ImagenesxAdjuntar = 0;
-            $rootScope.ImagenesxAdjuntar = $scope.ImagenesxAdjuntar;
+            $rootScope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;                        
+            $rootScope.ImagenesxAdjuntar = 0;
             $mdDialog.show({
                 contentElement: '#dlgNuevoServicio',
                 parent: angular.element(document.body),
@@ -921,12 +918,12 @@
 
         //Show Comfirm Reemplazar Imágenes Servicios
         $scope.showReemplazarImagenesServicio = function (ev, data) {
-            if ($scope.ImagenesAdjuntas >= 5) {
+            if ($rootScope.ImagenesAdjuntas >= 5) {
                 toastr.info('El servicio ya tiene 5 imágenes adjuntas. Si desea subir más, debe borrar alguna imagen existente', '', $scope.toastrOptions);
                 return;
             }
-
-            if ($scope.ImagenesAdjuntas > 0 && $scope.ImagenesAdjuntas <= 5) {
+            
+            if ($rootScope.ImagenesAdjuntas > 0 && $rootScope.ImagenesAdjuntas <= 5) {
                 let confirm = $mdDialog.confirm()
                     .title('Sobreescribir Imágenes')
                     .textContent('Ya existen ' + $scope.Servicio.Imagenes_Servicio.length + ' imágenes adjuntas. ¿Desea agregar más?')
@@ -1373,6 +1370,7 @@
                                 $scope.CedulaReadOnly = true;
                                 $scope.PermitirFiltrar = false;
                             }
+                            else $scope.PermitirFiltrar = false;
                         }, function (err) {
                             toastr.remove();
                             if (err.data !== null && err.status === 500)
@@ -1658,7 +1656,7 @@
             }
 
             if ($scope.Empleado.Direccion === '') {
-                toastr.info('Dirreción del empleado es requerida', '', $scope.toastrOptions);
+                toastr.info('Dirección del empleado es requerida', '', $scope.toastrOptions);
                 $('#txtDireccion').focus();
                 return false;
             }
@@ -1687,7 +1685,7 @@
                 return false;
             }
 
-            if (filter('date')(new Date($scope.Empleado.Fecha_Nacimiento), 'MM/dd/yyyy') > $filter('date')(new Date(), 'MM/dd/yyyy')) {
+            if ($filter('date')(new Date($scope.Empleado.Fecha_Nacimiento), 'MM/dd/yyyy') > $filter('date')(new Date(), 'MM/dd/yyyy')) {
                 toastr.info('La fecha de nacimiento debe ser menor que la fecha actual', '', $scope.toastrOptions);
                 $('#dpFechaNacimiento').focus();
                 return false;
@@ -1880,13 +1878,13 @@
                 headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
             },
             {
-                headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+                headerName: "", field: "", colId: 'AsignarServicios', suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
                     return "<i data-ng-click='AsignarServicios(data)' data-toggle='tooltip' title='Asignar Servicios' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>settings</i>";
                 },
             },
             {
-                headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+                headerName: "", field: "", colId: 'AsignarInsumos', suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
                 cellRenderer: function () {
                     return "<i data-ng-click='AsignarInsumos(data)' data-toggle='tooltip' title='Asignar Insumos' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>add_to_photos</i>";
                 },
@@ -1934,7 +1932,8 @@
             suppressRowClickSelection: true,
             rowSelection: 'multiple',
             onRowClicked: OnRowClicked,
-            getRowStyle: ChangeRowColor
+            getRowStyle: ChangeRowColor,
+            suppressRowClickSelection: true            
         }
 
         //API GRID ASIGNAR SERVICIOS OPTIONS
@@ -2729,7 +2728,7 @@
             let DateLimit = new Date($scope.Filtros.Hasta);
             DateLimit.setDate(DateLimit.getDate() - 15);
 
-            if ($filter('date')($scope.Filtros.Desde, 'MM-dd-yyyy') < $filter('date')(DateLimit, 'MM-dd-yyyy')) {
+            if ($filter('date')($scope.Filtros.Desde, 'MM/dd/yyyy') < $filter('date')(DateLimit, 'MM/dd/yyyy')) {
                 if ($scope.TipoGastoSeleccionado === -1) {
                     toastr.info('Debe seleccionar un tipo de gasto', '', $scope.toastrOptions);
                     return false;
@@ -3093,9 +3092,8 @@
                             toastr.success('Imagen eliminada correctamente', '', $scope.toastrOptions);
 
                             let index = $scope.ServicioImagenesAdjuntas.indexOf(data);
-                            $scope.ServicioImagenesAdjuntas.splice(index, 1);
-
-                            $rootScope.ImagenesAdjuntas = $scope.ServicioImagenesAdjuntas.length;
+                            $scope.ServicioImagenesAdjuntas.splice(index, 1);                            
+                            $rootScope.ImagenesAdjuntas = $scope.ServicioImagenesAdjuntas.length;                            
                             $scope.ImagenesAdjuntas = $rootScope.ImagenesAdjuntas;
                         }
                     }, function (err) {
