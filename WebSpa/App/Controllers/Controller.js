@@ -2813,8 +2813,8 @@
                 return false;
             }
 
-            if ($scope.Gasto.Valor > $scope.Acumulado) {
-                toastr.info('Solo dispone de ' + $scope.Acumulado + ' acumulado en CAJA MENOR', '', $scope.toastrOptions);
+            if ($scope.Gasto.Valor > $scope.Acumulado) {                
+                toastr.info('Solo dispone de un acumulado de ' + $filter('currency')($scope.Acumulado, '$', 2) , '', $scope.toastrOptions);
                 $('#txtValorGasto').focus();
                 return false;
             }
