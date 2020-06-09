@@ -2541,7 +2541,7 @@
                                 if ($scope.AccionGasto == 'Registrar Gasto') {
                                     $scope.Cancelar();
                                 }
-                                $scope.LimpiarDatosNuevoGasto();
+                                $scope.LimpiarDatosGastos();
                             }
                         }, function (err) {
                             toastr.remove();
@@ -2663,8 +2663,8 @@
                         $scope.BusquedaGasto.Tipo_Gasto = filtrarTipoGasto[0].Nombre;
                 }
                 
-                $scope.BusquedaGasto.Fecha_Desde = $scope.Filtros.Desde;
-                $scope.BusquedaGasto.Fecha_Hasta = $scope.Filtros.Hasta;
+                $scope.BusquedaGasto.Fecha_Desde = new Date($scope.Filtros.Desde + 'Z');
+                $scope.BusquedaGasto.Fecha_Hasta = new Date($scope.Filtros.Hasta + 'Z');
                 $scope.BusquedaGasto.Id_Empresa = $scope.IdEmpresa;
 
                 SPAService._consultarGastos(JSON.stringify($scope.BusquedaGasto))
@@ -2777,7 +2777,7 @@
         //Validar Nuevo Gasto
         $scope.ValidarNuevoGasto = function () {
             $scope.Gasto.Id_Empresa = $scope.IdEmpresa; 
-
+            $scope.Gasto.Fecha = new Date($scope.Gasto.Fecha + 'Z');
             if ($scope.TipoGastoSeleccionado === -1) {
                 toastr.info('Debe seleccionar un tipo de gasto', '', $scope.toastrOptions);
                 return false;
