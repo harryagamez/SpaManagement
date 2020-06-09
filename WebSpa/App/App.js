@@ -68,7 +68,12 @@
                 url: '/gastos',
                 templateUrl: 'Views/_gastos.html',
                 controller: 'GastosController'
-            })            
+            })
+            .state('home.gestion', {
+                url: '/gestion',
+                templateUrl: 'Views/_gestion.html',
+                controller: 'GestionController'
+            }) 
 
         //$mdDateLocaleProvider.formatDate = function (date) {
 

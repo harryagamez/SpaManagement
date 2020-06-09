@@ -132,7 +132,7 @@ li.active {
     margin-left: 12px;
 }
 
-#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos {
+#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos, #frmGestion {
     padding: 13px;
     height: auto;
     margin-top: 3px;
@@ -243,12 +243,13 @@ select,
     color: darkgray;
 }
 
-#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos {
+#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos, #frmGestion {
     font-size: 13px;
 }
 
-    #frmClientes .material-icons, #frmServicios .material-icons, 
-    #frmEmpleados .material-icons, #frmProductos .material-icons, #frmGastos .material-icons {
+    #frmClientes .material-icons, #frmServicios .material-icons,
+    #frmEmpleados .material-icons, #frmProductos .material-icons, #frmGastos .material-icons,
+    #frmGestion .material-icons {
         font-size: 16px;
     }
 
@@ -355,7 +356,7 @@ li.active {
     background-color: #3A6EA5 !important;
 }
 
-#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos {
+#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos, #frmGestion {
     background-color: white !important;
     border-radius: 10px;
 }
@@ -508,6 +509,15 @@ input:-webkit-autofill:active {
 
 .md-dialog-content-body p {
     white-space: pre;
+}
+
+/*TABS GESTION*/
+md-tabs.md-primary > md-tabs-wrapper {
+    background-color: #385178;
+}
+md-tabs md-ink-bar {
+    background: orange !important;
+    color: purple;
 }
 
 /*SLIDER*/
