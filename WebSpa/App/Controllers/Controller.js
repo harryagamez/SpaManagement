@@ -2528,7 +2528,7 @@
             if ($scope.ValidarNuevoGasto()) {
                 $scope.ObjetoGasto = [];
                 $scope.ObjetoGasto.push($scope.Gasto);
-
+                
                 SPAService._guardarGasto(JSON.stringify($scope.ObjetoGasto))
                     .then(
                         function (result) {
@@ -2662,7 +2662,7 @@
                     if (filtrarTipoGasto.length > 0)
                         $scope.BusquedaGasto.Tipo_Gasto = filtrarTipoGasto[0].Nombre;
                 }
-
+                
                 $scope.BusquedaGasto.Fecha_Desde = $scope.Filtros.Desde;
                 $scope.BusquedaGasto.Fecha_Hasta = $scope.Filtros.Hasta;
                 $scope.BusquedaGasto.Id_Empresa = $scope.IdEmpresa;
@@ -2776,7 +2776,7 @@
 
         //Validar Nuevo Gasto
         $scope.ValidarNuevoGasto = function () {
-            $scope.Gasto.Id_Empresa = $scope.IdEmpresa;
+            $scope.Gasto.Id_Empresa = $scope.IdEmpresa; 
 
             if ($scope.TipoGastoSeleccionado === -1) {
                 toastr.info('Debe seleccionar un tipo de gasto', '', $scope.toastrOptions);
@@ -2802,8 +2802,8 @@
                 $('#txtDescripcion').focus();
                 return false;
             }
-
-            if ($filter('date')(new Date($scope.Gasto.Fecha), 'MM/dd/yyyy') > $filter('date')(new Date(), 'MM/dd/yyyy')) {
+            
+            if (parseInt($filter('date')($scope.Gasto.Fecha, 'yyyyMMdd')) > parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
                 toastr.info('La fecha del gasto no puede ser mayor a la fecha actual', '', $scope.toastrOptions);
                 return false;
             }
@@ -3038,7 +3038,7 @@
                 $scope.Filtros.Hasta = new Date();
             }
 
-            if (parseInt($filter("date")(new Date($scope.Filtros.Hasta), 'yyyyMMdd')) < parseInt($filter("date")(new Date($scope.Filtros.Desde), 'yyyyMMdd'))) {
+            if ($filter("date")(new Date($scope.Filtros.Hasta), 'yyyy-MM-dd') < $filter("date")(new Date($scope.Filtros.Desde), 'yyyy-MM-dd')) {
                 $scope.Filtros.Hasta = angular.copy($scope.Filtros.Desde);
             }
         }
