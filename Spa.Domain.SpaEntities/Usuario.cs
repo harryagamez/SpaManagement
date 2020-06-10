@@ -7,7 +7,7 @@ namespace Spa.Domain.SpaEntities
     {
         public int Id_Usuario { get; set; }
         public string Nombre { get; set; }
-        public string Contraseña { get; set; }
+        public string Contrasenia { get; set; }
         public string Perfil { get; set; }
         public Guid Id_Empresa { get; set; }
         public string Codigo_Integracion { get; set; }

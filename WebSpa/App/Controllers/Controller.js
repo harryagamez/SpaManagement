@@ -253,7 +253,7 @@
             $scope.Cliente.Id_Municipio = -1;
             $scope.Cliente.Fecha_Nacimiento = $filter('date')(new Date(), 'MM-dd-yyyy');
             $scope.Cliente.Id_Tipo = -1;
-            $scope.Cliente.Estado = $scope.EstadoSeleccionado;            
+            $scope.Cliente.Estado = $scope.EstadoSeleccionado;
             if (cedula_cliente !== null && cedula_cliente !== '') {
                 SPAService._consultarCliente(cedula_cliente, $scope.IdEmpresa)
                     .then(
@@ -288,7 +288,7 @@
                             else
                                 $scope.PermitirFiltrar = false;
                         }, function (err) {
-                            toastr.remove();                            
+                            toastr.remove();
                             if (err.data !== null && err.status === 500)
                                 toastr.error(err.data, '', $scope.toastrOptions);
                         })
@@ -422,7 +422,7 @@
                 $('#slTipoCliente').focus();
                 return false;
             }
-            
+
             if ($filter('date')(new Date($scope.Cliente.Fecha_Nacimiento), 'MM/dd/yyyy') > $filter('date')(new Date(), 'MM/dd/yyyy')) {
                 toastr.info('La fecha de nacimiento, debe ser menor que la fecha actual', '', $scope.toastrOptions);
                 $('#dpFechaNacimiento').focus();
@@ -825,8 +825,8 @@
 
         // Modal Nuevo Servicio
         $scope.ModalNuevoServicio = function () {
-            $scope.AccionServicio = 'Registrar Servicio';            
-            $rootScope.ImagenesAdjuntas = 0;            
+            $scope.AccionServicio = 'Registrar Servicio';
+            $rootScope.ImagenesAdjuntas = 0;
             $rootScope.ImagenesxAdjuntar = 0;
             $scope.Servicio.Imagenes_Servicio.length = 0;
             $mdDialog.show({
@@ -850,7 +850,7 @@
         // Modal Editar Servicio
         $scope.ModalEditarServicio = function () {
             $scope.AccionServicio = 'Editar Servicio';
-            $rootScope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;                        
+            $rootScope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;
             $rootScope.ImagenesxAdjuntar = 0;
             $mdDialog.show({
                 contentElement: '#dlgNuevoServicio',
@@ -924,7 +924,7 @@
                 toastr.info('El servicio ya tiene 5 imágenes adjuntas. Si desea subir más, debe borrar alguna imagen existente', '', $scope.toastrOptions);
                 return;
             }
-            
+
             if ($rootScope.ImagenesAdjuntas > 0 && $rootScope.ImagenesAdjuntas <= 5) {
                 let confirm = $mdDialog.confirm()
                     .title('Sobreescribir Imágenes')
@@ -1935,7 +1935,7 @@
             rowSelection: 'multiple',
             onRowClicked: OnRowClicked,
             getRowStyle: ChangeRowColor,
-            suppressRowClickSelection: true            
+            suppressRowClickSelection: true
         }
 
         //API GRID ASIGNAR SERVICIOS OPTIONS
@@ -2528,7 +2528,7 @@
             if ($scope.ValidarNuevoGasto()) {
                 $scope.ObjetoGasto = [];
                 $scope.ObjetoGasto.push($scope.Gasto);
-                
+
                 SPAService._guardarGasto(JSON.stringify($scope.ObjetoGasto))
                     .then(
                         function (result) {
@@ -2662,7 +2662,7 @@
                     if (filtrarTipoGasto.length > 0)
                         $scope.BusquedaGasto.Tipo_Gasto = filtrarTipoGasto[0].Nombre;
                 }
-                
+
                 $scope.BusquedaGasto.Fecha_Desde = new Date($scope.Filtros.Desde + 'Z');
                 $scope.BusquedaGasto.Fecha_Hasta = new Date($scope.Filtros.Hasta + 'Z');
                 $scope.BusquedaGasto.Id_Empresa = $scope.IdEmpresa;
@@ -2776,7 +2776,7 @@
 
         //Validar Nuevo Gasto
         $scope.ValidarNuevoGasto = function () {
-            $scope.Gasto.Id_Empresa = $scope.IdEmpresa; 
+            $scope.Gasto.Id_Empresa = $scope.IdEmpresa;
             $scope.Gasto.Fecha = new Date($scope.Gasto.Fecha + 'Z');
             if ($scope.TipoGastoSeleccionado === -1) {
                 toastr.info('Debe seleccionar un tipo de gasto', '', $scope.toastrOptions);
@@ -2802,7 +2802,7 @@
                 $('#txtDescripcion').focus();
                 return false;
             }
-            
+
             if (parseInt($filter('date')($scope.Gasto.Fecha, 'yyyyMMdd')) > parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
                 toastr.info('La fecha del gasto no puede ser mayor a la fecha actual', '', $scope.toastrOptions);
                 return false;
@@ -2814,8 +2814,8 @@
                 return false;
             }
 
-            if ($scope.Gasto.Valor > $scope.Acumulado) {                
-                toastr.info('Solo dispone de un acumulado de ' + $filter('currency')($scope.Acumulado, '$', 2) , '', $scope.toastrOptions);
+            if ($scope.Gasto.Valor > $scope.Acumulado) {
+                toastr.info('Solo dispone de un acumulado de ' + $filter('currency')($scope.Acumulado, '$', 2), '', $scope.toastrOptions);
                 $('#txtValorGasto').focus();
                 return false;
             }
@@ -2981,7 +2981,7 @@
             });
         };
 
-        //Show Comfirm Eliminar Gastos        
+        //Show Comfirm Eliminar Gastos
         $scope.showConfirmEliminarGastos = function (ev) {
             let confirm = $mdDialog.confirm()
                 .title('Eliminar Gastos')
@@ -3060,15 +3060,137 @@
     }
 
     function GestionController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+        //Variables
+        $scope.TipoPerfilSeleccionado = -1;
+        $scope.Confirmacion = '';
+        $scope.TipoPerfil =
+            [
+                { id_TipoPerfil: -1, Nombre: "[Seleccione]" },
+                { id_TipoPerfil: 1, Nombre: "ADMINISTRADOR" },
+                { id_TipoPerfil: 2, Nombre: "INVITADO" }
+            ];
+        $scope.TipoPerfil = $filter('orderBy')($scope.TipoPerfil, 'Nombre', false);
+        
         //Inicialización
+        $scope.Inicializacion = function () {
+            $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
+            window.onresize();            
+        }
 
+        $scope.Menu = $rootScope.Menu;
+        $scope.Menu = $scope.Menu.map(function (e) {
+            return { id_Menu: e.id_Menu, descripcion: e.descripcion, Estado: false }
+        });
+
+        $scope.Usuario = {
+            Id_Usuario: -1,
+            Nombre: '',
+            Contrasenia: '',
+            Perfil: $scope.TipoPerfilSeleccionado,
+            Id_Empresa: $scope.IdEmpresa,
+            Logo_Base64: '',
+            Menu: $scope.Menu
+        }
+        
+        $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.IdUsuario = parseInt($rootScope.userData.userId);        
         //API
 
         //GRID
+        //API GRID USUARIOS OPTIONS
+        $scope.UsuariosGridOptionsColumns = [
+
+            {
+                headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+                cellRenderer: function () {
+                    return "<i data-ng-click='showConfirmInsumo($event,data)' data-toggle='tooltip' title='Eliminar Insumo' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>delete_sweep</i>";
+                },
+            },
+            {
+                headerName: "Nombre", field: 'nombre_Producto', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            },
+            {
+                headerName: "Empresa", field: 'cantidad', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, suppressSizeToFit: true
+            },
+            {
+                headerName: "Fecha Registro", field: 'fecha', width: 90, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
+                    return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy HH:mm:ss') : '';
+                }
+            },
+            {
+                headerName: "Perfil", field: 'perfil', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            }
+
+        ];
+
+        $scope.UsuariosGridOptions = {
+            defaultColDef: {
+                resizable: true
+            },
+            columnDefs: $scope.UsuariosGridOptionsColumns,
+            rowData: [],
+            enableSorting: true,
+            enableFilter: true,
+            enableColResize: true,
+            angularCompileRows: true,
+            onGridReady: function (params) {
+            },
+            fullWidthCellRenderer: true,
+            animateRows: true,
+            suppressRowClickSelection: true,
+            rowSelection: 'multiple'
+        }
+
 
         //Funciones
+        //Limpiar Datos
+        $scope.LimpiarDatos = function () {
+
+            $scope.Menu = $scope.Menu.map(function (e) {
+                return { id_Menu: e.id_Menu, descripcion: e.descripcion, Estado: false }
+            });
+
+            $scope.TipoPerfilSeleccionado = -1;
+            $scope.Confirmacion = '';
+
+            $scope.Usuario = {
+                Id_Usuario: -1,
+                Nombre: '',
+                Contrasenia: '',
+                Mail: '',
+                Perfil: $scope.TipoPerfilSeleccionado,
+                Id_Empresa: $scope.IdEmpresa,
+                Logo_Base64: '',
+                Menu: $scope.Menu
+            }
+        }
+
+        //Modal Caja Menor
+        $scope.ModalMenu = function () {
+            $scope.AccionGasto = 'MENU';
+
+            $mdDialog.show({
+                contentElement: '#dlgMenu',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                multiple: true,
+            })
+                .then(function () {
+                }, function () {
+                    
+                });
+        }
 
         //Eventos
+        $scope.Cancelar = function () {
+            $mdDialog.cancel();
+        };
+        $scope.$on("CompanyChange", function () {
+            $scope.IdEmpresa = $rootScope.Id_Empresa;
+            $scope.Inicializacion();            
+        });
+
     }
 
     function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
@@ -3106,8 +3228,8 @@
                             toastr.success('Imagen eliminada correctamente', '', $scope.toastrOptions);
 
                             let index = $scope.ServicioImagenesAdjuntas.indexOf(data);
-                            $scope.ServicioImagenesAdjuntas.splice(index, 1);                            
-                            $rootScope.ImagenesAdjuntas = $scope.ServicioImagenesAdjuntas.length;                            
+                            $scope.ServicioImagenesAdjuntas.splice(index, 1);
+                            $rootScope.ImagenesAdjuntas = $scope.ServicioImagenesAdjuntas.length;
                             $scope.ImagenesAdjuntas = $rootScope.ImagenesAdjuntas;
                         }
                     }, function (err) {

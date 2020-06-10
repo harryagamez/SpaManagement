@@ -133,9 +133,7 @@
                     <md-input-container style="width:90%">
                         <label class="label-form-clientes" style="">
                             Municipio:
-                        </label>
-                        <select ng-model="MunicipioSeleccionado" ng-options="municipio.id_Municipio as municipio.nombre for municipio in Municipios | orderBy:'nombre'" ng-change="FiltrarBarrios(MunicipioSeleccionado)" class="" style="display:none; width:auto;" tabindex=9>
-                        </select>
+                        </label>                        
                         <md-select ng-model="MunicipioSeleccionado" ng-change="FiltrarBarrios(MunicipioSeleccionado)" class="" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slMunicipio" tabindex=9>
                             <md-option ng-bind="municipio.nombre" ng-value="municipio.id_Municipio" ng-repeat="municipio in Municipios track by municipio.id_Municipio"></md-option>
                         </md-select>
@@ -157,9 +155,7 @@
                     <md-input-container style="width:90%">
                         <label class="label-form-clientes" style="">
                             Tipo Cliente:
-                        </label>
-                        <select ng-model="TipoClienteSeleccionado" ng-options="item.id_Tipo as item.nombre for item in TipoClientes | orderBy:'nombre'" class="" style="display:none; width:auto; " tabindex=11>
-                        </select>
+                        </label>                        
                         <md-select ng-model="TipoClienteSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slTipoCliente" tabindex=11>
                             <md-option ng-bind="item.nombre" ng-value="item.id_Tipo" ng-repeat="item in TipoClientes track by item.id_Tipo"></md-option>
                         </md-select>

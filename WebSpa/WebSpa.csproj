@@ -108,6 +108,7 @@
     <Content Include="App\Views\_productos.html" />
     <Content Include="App\Views\_servicios.html" />
     <Content Include="Images\cerrar_sesion.png" />
+    <Content Include="Images\default-perfil.png" />
     <Content Include="Images\empresa.png" />
     <Content Include="Images\home.png" />
     <Content Include="Images\img_spa.jpg" />

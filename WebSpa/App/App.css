@@ -408,6 +408,42 @@ label {
     background:transparent;
 }
 
+.label-imagen-usuario {
+    color: transparent;
+    background-color: transparent;
+    font-size: 12px;
+    font-weight: 300;
+    width: 108px;
+    height:40px;
+    position: absolute;
+    bottom: -2px;
+    transition-duration: 0.5s;
+    text-align:center;
+    line-height:40px;
+}
+
+    .label-imagen-usuario:hover {
+        color: white;
+        background-color: rgba(0,0,0,0.6);
+        transition-duration: 0.5s;        
+    }
+
+.usuario-imagen {
+    border: 1px solid #e1e1e1;
+    min-height: 110px;
+    min-width: 110px;
+    max-height: 110px;
+    max-width: 110px;
+    box-shadow: inset 0 0 5px #999;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 65px;
+    right: 10px;
+    background-image: url(../Images/default-perfil.png);
+    background-size: cover;
+}
+
 
 /*################ Filters, Shadows, Transitions ################*/
 #header {
@@ -513,15 +549,34 @@ input:-webkit-autofill:active {
 
 /*TABS GESTION*/
 md-tabs.md-primary > md-tabs-wrapper {
-    background-color: #385178;
+    background-color: white;
+    border-bottom: 2px solid orange;
+    color:grey;
 }
 md-tabs md-ink-bar {
-    background: orange !important;
+    background: transparent !important;
     color: purple;
 }
 
-/*SLIDER*/
+.md-tab.md-active {
+    background: #383838;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 5px 5px 10px #999;
+}
 
+md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active {
+    color: white;
+    font-weight:600;
+}
+
+
+
+md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
+    color: #212121;
+    font-weight: 300;
+}
+
+/*SLIDER*/
 .container1 {
     max-width: 400px;
     max-height: 400px;
@@ -678,4 +733,11 @@ md-tabs md-ink-bar {
 
 .imagenes-adjuntas:first-child {
     border-left:none !important;
+}
+
+
+/*GESTION MENU LIST*/
+md-list-item .md-list-item-inner {
+    min-height:28px !important;
+    height:28px !important;
 }

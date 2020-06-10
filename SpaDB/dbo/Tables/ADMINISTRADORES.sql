@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[ADMINISTRADORES] (
     [ID_USUARIO]         INT              IDENTITY (1, 1) NOT NULL,
     [NOMBRE]             CHAR (25)        NULL,
-    [CONTRASEÑA]         CHAR (30)        NULL,
+    [CONTRASENIA]         CHAR (30)        NULL,
     [MAIL]               CHAR(50)         NULL,
     [FECHA_REGISTRO]     DATETIME         NULL,
     [FECHA_MODIFICACION] DATETIME         NULL
