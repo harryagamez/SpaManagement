@@ -3079,7 +3079,7 @@
 
         $scope.Menu = $rootScope.Menu;
         $scope.Menu = $scope.Menu.map(function (e) {
-            return { id_Menu: e.id_Menu, descripcion: e.descripcion, Estado: false }
+            return { id_Menu: e.id_Menu, descripcion: e.descripcion, Estado: true }
         });
 
         $scope.Usuario = {
@@ -3147,7 +3147,7 @@
         $scope.LimpiarDatos = function () {
 
             $scope.Menu = $scope.Menu.map(function (e) {
-                return { id_Menu: e.id_Menu, descripcion: e.descripcion, Estado: false }
+                return { id_Menu: e.id_Menu, descripcion: e.descripcion, Estado: true }
             });
 
             $scope.TipoPerfilSeleccionado = -1;
