@@ -1,0 +1,12 @@
+CREATE PROCEDURE ConsultarUsuario(@Nombre CHAR(25))
+AS
+
+BEGIN
+	
+	SELECT NOMBRE
+	FROM USUARIOS 
+	WHERE NOMBRE = @Nombre
+
+END
+
+GO

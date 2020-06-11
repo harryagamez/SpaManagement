@@ -3062,7 +3062,10 @@
     function GestionController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
         //Variables
         $scope.TipoPerfilSeleccionado = -1;
+        $scope.NombreReadOnly = false;
         $scope.Confirmacion = '';
+        $scope.EditarUsuario = false;
+        $scope.ImagenUsuario = '../Images/default-perfil.png';
         $scope.TipoPerfil =
             [
                 { id_TipoPerfil: -1, Nombre: "[Seleccione]" },
@@ -3089,7 +3092,7 @@
             Perfil: '',
             Id_Empresa: $scope.IdEmpresa,
             Mail: '',
-            Logo_Base64: '',
+            Logo_Base64: $scope.ImagenUsuario,
             Menu_Usuario: $scope.Menu
         }
 
@@ -3119,6 +3122,24 @@
                     })
         }
 
+        //Consultar Usuario
+        $scope.ConsultarUsuario = function (e, Nombre) {
+            if (Nombre !== null && Nombre !== '' && $scope.EditarUsuario === false) {
+                SPAService._consultarUsuario(Nombre)
+                    .then(
+                        function (result) {
+                            if (result.data === true) {
+                                toastr.info('Ya existe ese nombre de usuario. Debe ingresar uno diferente', '', $scope.toastrOptions);
+                                $('#txtUsuario').focus();
+                            }
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        })
+            }
+        }
+
         //Guardar Usuario
         $scope.GuardarUsuario = function () {
             if ($scope.ValidarUsuario()) {
@@ -3145,21 +3166,24 @@
         $scope.UsuariosGridOptionsColumns = [
 
             {
-                headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
+                headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }, suppressSizeToFit: true
             },
             {
-                headerName: "Nombre", field: 'nombre', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Nombre", field: 'nombre', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true
             },
             {
-                headerName: "Empresa", field: 'nombre_Empresa', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, suppressSizeToFit: true
+                headerName: "Empresa", field: 'nombre_Empresa', width: 100, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }
             },
             {
-                headerName: "Fecha Registro", field: 'fecha_Registro', width: 90, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
-                    return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy HH:mm:ss') : '';
+                headerName: "Mail", field: 'mail', width: 100, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
+            },
+            {
+                headerName: "Fecha Registro", field: 'fecha_Registro', width: 90, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, suppressSizeToFit: true, cellRenderer: (data) => {
+                    return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy') : '';
                 }
             },
             {
-                headerName: "Perfil", field: 'perfil', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Perfil", field: 'perfil', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true
             }
 
         ];
@@ -3179,7 +3203,8 @@
             fullWidthCellRenderer: true,
             animateRows: true,
             suppressRowClickSelection: true,
-            rowSelection: 'multiple'
+            rowSelection: 'multiple',
+            onRowClicked: OnRowClicked
         }
 
         //Funciones
@@ -3187,6 +3212,7 @@
         $scope.ValidarUsuario = function () {
             let maiL_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
             $scope.Usuario.Id_Empresa = $scope.IdEmpresa;
+            $scope.Usuario.Logo_Base64 = $scope.ImagenUsuario;
 
             if ($scope.PerfilUsuario !== 'Administrador' && $scope.PerfilUsuario !== '[MANAGER]') {
                 toastr.info('Solo los Administradores pueden registrar/actualizar usuarios', '', $scope.toastrOptions);
@@ -3264,14 +3290,16 @@
 
         //Limpiar Datos
         $scope.LimpiarDatos = function () {
+            $scope.EditarUsuario = false;
+            $scope.ImagenUsuario = '../Images/default-perfil.png';
             $scope.Menu = $rootScope.Menu;
             $scope.Menu = $scope.Menu.map(function (e) {
-                return { Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
+                return { Id_Menu_Usuario: '', Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
             });
-
+            $('#txtUsuario').focus();
             $scope.TipoPerfilSeleccionado = -1;
             $scope.Confirmacion = '';
-
+            $scope.NombreReadOnly = false;
             $scope.Usuario = {
                 Id_Usuario: -1,
                 Nombre: '',
@@ -3279,8 +3307,51 @@
                 Mail: '',
                 Perfil: '',
                 Id_Empresa: $scope.IdEmpresa,
-                Logo_Base64: '',
+                Logo_Base64: $scope.ImagenUsuario,
                 Menu_Usuario: $scope.Menu
+            }
+        }
+
+        //On Row Clicked
+        function OnRowClicked(event) {
+            $scope.LimpiarDatos();
+            if (event.node.data !== undefined && event.node.data !== null) {
+                $scope.EditarUsuario = true;
+                $scope.Usuario.Id_Usuario = event.node.data.id_Usuario;
+                $scope.Usuario.Nombre = event.node.data.nombre;
+                $scope.Usuario.Contrasenia = event.node.data.contrasenia;
+                $scope.Usuario.Mail = event.node.data.mail;
+                $scope.Usuario.Id_Empresa = event.node.data.id_Empresa;
+
+                if (event.node.data.logo_Base64 !== null)
+                    $scope.ImagenUsuario = event.node.data.logo_Base64;
+                else
+                    $scope.ImagenUsuario = '../Images/default-perfil.png';
+                $scope.Usuario.Logo_Base64 = $scope.ImagenUsuario;
+                $scope.Menu = event.node.data.menu_Usuario;
+                $scope.Menu = $scope.Menu.map(function (e) {
+                    return { Id_Menu_Usuario: e.id_Menu_Usuario, Id_Usuario: e.id_Usuario, Id_Menu: e.id_Menu, Estado: e.estado }
+                });
+
+                let rootmenu = $filter('orderBy')($rootScope.Menu, 'id_Menu', false);
+                $scope.Menu = $filter('orderBy')($scope.Menu, 'Id_Menu', false);
+
+                for (let i = 0; i < $scope.Menu.length; i++) {
+                    $scope.Menu[i].Descripcion = rootmenu[i].descripcion;
+                }
+
+                $scope.Usuario.Menu_Usuario = $scope.Menu;
+                $scope.Confirmacion = $scope.Usuario.Contrasenia;
+
+                let filtrarTipoPerfil = Enumerable.From($scope.TipoPerfil)
+                    .Where(function (x) { return x.Nombre === event.node.data.perfil })
+                    .ToArray();
+
+                if (filtrarTipoPerfil.length > 0)
+                    $scope.TipoPerfilSeleccionado = filtrarTipoPerfil[0].id_TipoPerfil;
+
+                $scope.NombreReadOnly = true;
+                $('#txtContrasenia').focus();
             }
         }
 
@@ -3300,7 +3371,43 @@
                 });
         }
 
+        //Seleccionar Imagen
+        $scope.SeleccionarImagen = function (event) {
+            let mayorDosMB = false;
+            let files = event.target.files[0];
+
+            let fileSize = (files.size / 1024 / 1024)
+            if (fileSize > 2)
+                mayorDosMB = true;
+
+            if (mayorDosMB) {
+                toastr.info('El tamaño de las imágenes debe ser de máximo 2MB', '', $scope.toastrOptions);
+                files = '';
+                return;
+            }
+
+            $scope.getBase64(files);
+        }
+
         //Eventos
+        $scope.ProcesarImagen = function () {
+            $('#ImagenUsuario').trigger('click');
+        }
+
+        $scope.getBase64 = function (file) {
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                $scope.ImagenUsuario = reader.result;
+                $("#ImagenServicio").val('');
+                $('#txtNombreServicio').focus();
+            };
+            reader.onerror = function (error) {
+                console.log('Error: ', error);
+                $("#ImagenServicio").val('');
+            };
+        }
+
         window.onresize = function () {
             $timeout(function () {
                 $scope.UsuariosGridOptions.api.sizeColumnsToFit();
@@ -3313,6 +3420,7 @@
 
         $scope.$on("CompanyChange", function () {
             $scope.IdEmpresa = $rootScope.Id_Empresa;
+            $scope.LimpiarDatos();
             $scope.ConsultarUsuarios();
             $scope.Inicializacion();
         });

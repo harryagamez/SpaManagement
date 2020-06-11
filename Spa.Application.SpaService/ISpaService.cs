@@ -42,6 +42,7 @@ namespace Spa.Application.SpaService
         bool GuardarGasto(List<Gasto> _Gasto);
         bool EliminarGastos(List<Gasto> _Gastos);
         List<Usuario> ConsultarUsuarios(string IdEmpresa);
+        bool ConsultarUsuario(string Nombre);
         bool GuardarUsuario(List<Usuario> _Usuario);
         Usuario ValidarUsuarioAdmin(string Nombre, string Password);
         List<Empresa> ConsultarEmpresas();

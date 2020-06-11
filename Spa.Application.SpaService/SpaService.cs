@@ -493,6 +493,18 @@ namespace Spa.Application.SpaService
             }
         }
 
+        public bool ConsultarUsuario(string Nombre)
+        {
+            try
+            {
+                return _spaRepository.ConsultarUsuario(Nombre);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public bool GuardarUsuario(List<Usuario> _Usuario)
         {
             try

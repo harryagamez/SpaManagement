@@ -440,9 +440,18 @@ label {
     position: absolute;
     top: 65px;
     right: 10px;
-    background-image: url(../Images/default-perfil.png);
-    background-size: cover;
 }
+
+    .usuario-imagen img {
+        min-height: 106px;
+        min-width: 106px;
+        max-height: 106px;
+        max-width: 106px;
+        margin-left:auto;
+        margin-right:auto;
+        display:block;
+        margin-top:1px;
+    }
 
 
 /*################ Filters, Shadows, Transitions ################*/

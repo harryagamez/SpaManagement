@@ -1521,6 +1521,55 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public bool ConsultarUsuario(string Nombre)
+        {
+            bool existeRegistro;
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarUsuario";
+                        _command.Parameters.AddWithValue("@Nombre", Nombre);
+
+                        try
+                        {
+                            SqlDataReader reader = _command.ExecuteReader();
+                            if (reader.Read())
+                                existeRegistro = true;
+                            else
+                                existeRegistro = false;
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                        finally
+                        {
+                            if (_command.Connection.State == ConnectionState.Open)
+                            {
+                                _command.Connection.Close();
+                            }
+
+                            _command.Dispose();
+                        }
+                    }
+                }
+                return existeRegistro;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public bool GuardarUsuario(List<Usuario> _Usuario)
         {
             try

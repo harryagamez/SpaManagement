@@ -322,7 +322,8 @@
             _reemplazarCajaMenor: ReemplazarCajaMenor,
             _guardarGasto: GuardarGasto,
             _eliminarGastos: EliminarGastos,
-            _consultarUsuarios:ConsultarUsuarios,
+            _consultarUsuarios: ConsultarUsuarios,
+            _consultarUsuario: ConsultarUsuario,
             _guardarUsuario: GuardarUsuario
 
         }
@@ -738,6 +739,18 @@
                 function (data) {
                     deferred.resolve(data);
 
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarUsuario(Nombre) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarUsuario?Nombre=' + Nombre,
+                function (data) {
+                    deferred.resolve(data);
                 },
                 function (err) {
                     deferred.reject(err);

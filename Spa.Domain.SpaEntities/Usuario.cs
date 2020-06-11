@@ -18,5 +18,6 @@ namespace Spa.Domain.SpaEntities
         public DateTime? Fecha_Modificacion { get; set; }
         public string HashKey { get; set; } = string.Empty;
         public string Mail { get; set; }
+        public string Logo_Base64 { set; get; }
     }
 }
