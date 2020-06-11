@@ -569,6 +569,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/SPA/ConsultarUsuarios")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarUsuarios(string IdEmpresa)
+        {
+            try
+            {
+                List<Usuario> _usuarios = _spaService.ConsultarUsuarios(IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _usuarios);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los usuarios: " + ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("api/SPA/GuardarUsuario")]
         [HttpCache(DefaultExpirySeconds = 2)]

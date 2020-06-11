@@ -479,6 +479,20 @@ namespace Spa.Application.SpaService
             }
         }
 
+        public List<Usuario> ConsultarUsuarios(string IdEmpresa)
+        {
+            try
+            {
+                List<Usuario> _usuarios = _spaRepository.ConsultarUsuarios(IdEmpresa);
+
+                return _usuarios;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public bool GuardarUsuario(List<Usuario> _Usuario)
         {
             try

@@ -322,6 +322,7 @@
             _reemplazarCajaMenor: ReemplazarCajaMenor,
             _guardarGasto: GuardarGasto,
             _eliminarGastos: EliminarGastos,
+            _consultarUsuarios:ConsultarUsuarios,
             _guardarUsuario: GuardarUsuario
 
         }
@@ -728,6 +729,19 @@
                     deferred.reject(err);
                 });
 
+            return deferred.promise;
+        }
+
+        function ConsultarUsuarios(id_empresa) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarUsuarios?IdEmpresa=' + id_empresa,
+                function (data) {
+                    deferred.resolve(data);
+
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
             return deferred.promise;
         }
 

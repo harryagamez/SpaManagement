@@ -1461,6 +1461,66 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public List<Usuario> ConsultarUsuarios(string IdEmpresa)
+        {
+
+            DataSet _dataset = new DataSet();
+            List<Usuario> _usuarios = new List<Usuario>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "ConsultarUsuarios";
+                        _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                        _adapter.SelectCommand = _command;
+
+                        try
+                        {
+                            _adapter.Fill(_dataset);
+
+                            _dataset.Tables[0].TableName = "Usuarios";
+                            _dataset.Tables[1].TableName = "Menu_Usuarios";
+
+                            _dataset.Relations.Add("MenuUsuarios",
+                           _dataset.Tables["Usuarios"].Columns["Id_Usuario"],
+                           _dataset.Tables["Menu_Usuarios"].Columns["Id_Usuario"]);
+
+                            _usuarios = _dataset.Tables["Usuarios"]
+                            .AsEnumerable()
+                            .Select(row =>
+                            {
+                                Usuario usuario = row.ToObject<Usuario>();
+                                usuario.Menu_Usuario = row.GetChildRows("MenuUsuarios").DataTableToList<MenuUsuario>();
+                                return usuario;
+                            })
+                            .ToList();
+
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                return _usuarios;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public bool GuardarUsuario(List<Usuario> _Usuario)
         {
             try

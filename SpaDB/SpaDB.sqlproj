@@ -255,6 +255,8 @@
     <Build Include="dbo\Stored Procedures\ReemplazarCajaMenor.sql" />
     <Build Include="dbo\Stored Procedures\GuardarGasto.sql" />
     <Build Include="dbo\Stored Procedures\EliminarGastos.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarUsuarios.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarUsuario.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />
