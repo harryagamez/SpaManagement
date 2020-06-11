@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[USUARIOS] (
     [ID_USUARIO]         INT              IDENTITY (1, 1) NOT NULL,
     [NOMBRE]             CHAR (25)        NULL,
-    [CONTRASENIA]         CHAR (15)        NULL,
+    [CONTRASENIA]        NVARCHAR(MAX)        NULL,
     [PERFIL]             CHAR (15)        NULL,
     [ID_EMPRESA]         UNIQUEIDENTIFIER NOT NULL,
     [VERIFICADO]         BIT              NULL,

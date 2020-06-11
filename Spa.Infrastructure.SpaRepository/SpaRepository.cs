@@ -1461,6 +1461,51 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public bool GuardarUsuario(List<Usuario> _Usuario)
+        {
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                {
+                    if (_connection.State == ConnectionState.Closed)
+                    {
+                        _connection.Open();
+                    }
+
+                    using (SqlCommand _command = _connection.CreateCommand())
+                    {
+                        _command.CommandType = CommandType.StoredProcedure;
+                        _command.CommandText = "GuardarUsuario";
+                        _command.Parameters.AddWithValue("@JsonUsuario", JsonConvert.SerializeObject(_Usuario));
+
+                        try
+                        {
+                            _command.ExecuteNonQuery();
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                        finally
+                        {
+                            if (_command.Connection.State == ConnectionState.Open)
+                            {
+                                _command.Connection.Close();
+                            }
+
+                            _command.Dispose();
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public bool EliminarGastos(List<Gasto> _Gastos)
         {
             try

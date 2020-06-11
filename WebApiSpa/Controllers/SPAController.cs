@@ -569,6 +569,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/SPA/GuardarUsuario")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarUsuario(List<Usuario> usuario)
+        {
+            try
+            {
+                bool result = _spaService.GuardarUsuario(usuario);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando/actualizando el usuario: " + ex.Message);
+            }
+        }
+
 
         [HttpGet]
         [Authorize(Roles = "Admin")]

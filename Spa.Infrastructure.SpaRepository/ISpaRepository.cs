@@ -41,6 +41,7 @@ namespace Spa.Infrastructure.SpaRepository
         bool ReemplazarCajaMenor(List<CajaMenor> _CajaMenor);
         bool GuardarGasto(List<Gasto> _Gasto);
         bool EliminarGastos(List<Gasto> _Gastos);
+        bool GuardarUsuario(List<Usuario> _Usuario);
         Usuario ValidarUsuarioAdmin(string Nombre, string Password);
         List<Empresa> ConsultarEmpresas();
         List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario);

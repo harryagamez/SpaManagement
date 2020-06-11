@@ -166,11 +166,11 @@
 
             var authData = localStorageService.get('authorizationData');
             if (authData) {
-               
+                
                 _authentication.isAuth = true;
                 _authentication.userName = authData.userName;
 
-                $rootScope.userData = { userName: authData.userName, userId: authData.userId }
+                $rootScope.userData = { userName: authData.userName, userId: authData.userId, userRole: authData.userRole, companyName: authData.companyName }
 
                 if (authData.companyId !== '00000000-0000-0000-0000-000000000000' && authData.companyName !== '[MULTIPLE]') {
                     $rootScope.Id_Empresa = authData.companyId;
@@ -321,7 +321,8 @@
             _guardarCajaMenor: GuardarCajaMenor,
             _reemplazarCajaMenor: ReemplazarCajaMenor,
             _guardarGasto: GuardarGasto,
-            _eliminarGastos: EliminarGastos
+            _eliminarGastos: EliminarGastos,
+            _guardarUsuario: GuardarUsuario
 
         }
 
@@ -720,6 +721,20 @@
             var deferred = $q.defer();
 
             serviceRest.Post('SPA', 'EliminarGastos', gastos,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
+            return deferred.promise;
+        }
+
+        function GuardarUsuario(usuario) {
+            var deferred = $q.defer();
+
+            serviceRest.Post('SPA', 'GuardarUsuario', usuario,
                 function (data) {
                     deferred.resolve(data);
                 },

@@ -3066,8 +3066,8 @@
         $scope.TipoPerfil =
             [
                 { id_TipoPerfil: -1, Nombre: "[Seleccione]" },
-                { id_TipoPerfil: 1, Nombre: "ADMINISTRADOR" },
-                { id_TipoPerfil: 2, Nombre: "INVITADO" }
+                { id_TipoPerfil: 1, Nombre: "Administrador" },
+                { id_TipoPerfil: 2, Nombre: "Invitado" }
             ];
         $scope.TipoPerfil = $filter('orderBy')($scope.TipoPerfil, 'Nombre', false);
         
@@ -3079,22 +3079,45 @@
 
         $scope.Menu = $rootScope.Menu;
         $scope.Menu = $scope.Menu.map(function (e) {
-            return { id_Menu: e.id_Menu, descripcion: e.descripcion, Estado: true }
+            return { Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
         });
 
         $scope.Usuario = {
             Id_Usuario: -1,
             Nombre: '',
             Contrasenia: '',
-            Perfil: $scope.TipoPerfilSeleccionado,
-            Id_Empresa: $scope.IdEmpresa,
+            Perfil: '',
+            Id_Empresa: $scope.IdEmpresa,            
+            Mail: '',
             Logo_Base64: '',
-            Menu: $scope.Menu
+            Menu_Usuario: $scope.Menu
         }
         
         $scope.IdEmpresa = $rootScope.Id_Empresa;
-        $scope.IdUsuario = parseInt($rootScope.userData.userId);        
+        $scope.IdUsuario = parseInt($rootScope.userData.userId);
+        $scope.PerfilUsuario = $rootScope.userData.userRole;        
+
         //API
+        //Guardar Usuario
+        $scope.GuardarUsuario = function () {
+            if ($scope.ValidarUsuario()) {
+                $scope.ObjetoUsuario = [];
+                $scope.ObjetoUsuario.push($scope.Usuario);                
+                SPAService._guardarUsuario(JSON.stringify($scope.ObjetoUsuario))
+                    .then(
+                        function (result) {
+                            if (result.data === true) {
+                                //$scope.ConsultarCajaMenor();
+                                toastr.success('Usuario registrado/actualizado correctamente', '', $scope.toastrOptions);
+                                $scope.LimpiarDatos();                                
+                            }
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        })
+            }
+        }
 
         //GRID
         //API GRID USUARIOS OPTIONS
@@ -3143,11 +3166,91 @@
 
 
         //Funciones
+        //Validar Usuario
+        $scope.ValidarUsuario = function () {
+            let maiL_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
+            $scope.Usuario.Id_Empresa = $scope.IdEmpresa;
+            
+            if ($scope.PerfilUsuario !== 'Administrador' && $scope.PerfilUsuario !== '[MANAGER]') {
+                toastr.info('Solo los Administradores pueden registrar/actualizar usuarios', '', $scope.toastrOptions);
+                $scope.LimpiarDatos();
+                return false;
+            }
+
+            if ($scope.Usuario.Nombre === '') {
+                toastr.info('Debe ingresar un nombre de usuario', '', $scope.toastrOptions);
+                $('#txtUsuario').focus();
+                return false;
+            }
+
+            if ($scope.Usuario.Contrasenia === '') {
+                toastr.info('Debe ingresar una contraseña', '', $scope.toastrOptions);
+                $('#txtContrasenia').focus();
+                return false;
+            }
+
+            if ($scope.Confirmacion === '') {
+                toastr.info('Debe confirmar la contraseña', '', $scope.toastrOptions);
+                $('#txtConfirmacion').focus();
+                return false;
+            }
+
+            if ($scope.Usuario.Contrasenia !== $scope.Confirmacion) {
+                toastr.info('La confirmación de la contraseña no coincide con la contraseña', '', $scope.toastrOptions);
+                $('#txtConfirmacion').focus();
+                return false;
+            }
+            
+            if ($scope.Usuario.Mail === '') {
+                toastr.info('Debe ingresar una dirección de correo electrónico', '', $scope.toastrOptions);
+                $('#txtMail').focus();
+                return false;
+            }
+
+            if (!maiL_expression.test($scope.Usuario.Mail)) {
+                toastr.info('La dirección de correo electrónico no es válida.', '', $scope.toastrOptions);
+                $('#txtMail').focus();
+                return false;
+            }
+
+            if ($scope.TipoPerfilSeleccionado === -1) {
+                toastr.info('Debe seleccionar un perfil', '', $scope.toastrOptions);
+                $('#slTipoPerfil').focus();
+                return false;
+            }
+
+            let filtrarTipoPerfil = Enumerable.From($scope.TipoPerfil)
+                .Where(function (x) { return x.id_TipoPerfil === $scope.TipoPerfilSeleccionado })
+                .ToArray();
+
+            if (filtrarTipoPerfil.length > 0)
+                $scope.Usuario.Perfil = filtrarTipoPerfil[0].Nombre;            
+
+            let menuUnchecked = 0;
+            for (let i = 0; i < $scope.Usuario.Menu_Usuario.length; i++) {
+                if ($scope.Usuario.Menu_Usuario[i].Estado === false)
+                    menuUnchecked += 1;
+            }
+
+            if (menuUnchecked === $scope.Usuario.Menu_Usuario.length) {
+                toastr.info('Debe asignar almenos un elemento del menú', '', $scope.toastrOptions);
+                $scope.ModalMenu();
+                return false;
+            }
+
+            return true;
+            //var ciphertext = CryptoJS.AES.encrypt($scope.Usuario.Contrasenia, 'Caify');
+            //ciphertext= ciphertext.toString();
+            //var bytes = CryptoJS.AES.decrypt(ciphertext, 'Caify');
+            //var plaintext = bytes.toString(CryptoJS.enc.Utf8);
+        }
+
         //Limpiar Datos
         $scope.LimpiarDatos = function () {
 
+            $scope.Menu = $rootScope.Menu;
             $scope.Menu = $scope.Menu.map(function (e) {
-                return { id_Menu: e.id_Menu, descripcion: e.descripcion, Estado: true }
+                return { Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
             });
 
             $scope.TipoPerfilSeleccionado = -1;
@@ -3158,10 +3261,10 @@
                 Nombre: '',
                 Contrasenia: '',
                 Mail: '',
-                Perfil: $scope.TipoPerfilSeleccionado,
-                Id_Empresa: $scope.IdEmpresa,
+                Perfil: '',
+                Id_Empresa: $scope.IdEmpresa,               
                 Logo_Base64: '',
-                Menu: $scope.Menu
+                Menu_Usuario: $scope.Menu
             }
         }
 
@@ -3186,6 +3289,7 @@
         $scope.Cancelar = function () {
             $mdDialog.cancel();
         };
+
         $scope.$on("CompanyChange", function () {
             $scope.IdEmpresa = $rootScope.Id_Empresa;
             $scope.Inicializacion();            
