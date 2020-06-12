@@ -508,7 +508,7 @@ namespace Spa.Application.SpaService
         public bool GuardarUsuario(List<Usuario> _Usuario)
         {
             try
-            {
+            {                
                 return _spaRepository.GuardarUsuario(_Usuario);
             }
             catch
