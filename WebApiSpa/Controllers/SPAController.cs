@@ -620,7 +620,6 @@ namespace WebApiSpa.Controllers
             }
         }
 
-
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [Route("api/SPA/ConsultarEmpresas")]
