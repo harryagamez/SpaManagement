@@ -36,8 +36,9 @@ BEGIN
 			
 		COMMIT TRANSACTION Tn_EliminarGastos
 
-	END TRY
+		IF OBJECT_ID('tempdb..#TempGastos') IS NOT NULL DROP TABLE #TempGastos
 
+	END TRY
 	BEGIN CATCH
 
 		IF OBJECT_ID('tempdb..#TempGastos') IS NOT NULL DROP TABLE #TempGastos

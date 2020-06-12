@@ -57,7 +57,6 @@ BEGIN
 		END
 
 	END TRY
-
 	BEGIN CATCH
 		
         DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE()

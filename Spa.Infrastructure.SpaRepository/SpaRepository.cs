@@ -23,252 +23,171 @@ namespace Spa.Infrastructure.SpaRepository
         public Usuario ValidarUsuario(string Nombre, string Password, bool ValidarIntegracion, string CodigoIntegracion)
         {
             DataTable _datatable = new DataTable();
-            Usuario _usuario = new Usuario();
             SqlDataAdapter _adapter = new SqlDataAdapter();
 
-            try
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                if (_connection.State == ConnectionState.Closed)
                 {
-
-                    if (_connection.State == ConnectionState.Closed)
-                    {
-                        _connection.Open();
-                    }
-
-                    using (SqlCommand _command = _connection.CreateCommand())
-                    {
-                        _command.CommandType = CommandType.StoredProcedure;
-                        _command.CommandText = "ValidarUsuario";
-                        _command.Parameters.AddWithValue("@Nombre", Nombre);
-                        _command.Parameters.AddWithValue("@Password", Password);
-                        _command.Parameters.AddWithValue("@ValidarIntegracion", ValidarIntegracion);
-                        _command.Parameters.AddWithValue("@CodigoIntegracion", CodigoIntegracion);
-                        _adapter.SelectCommand = _command;
-
-                        try
-                        {
-                            _adapter.Fill(_datatable);
-                            _usuario = _datatable.DataTableToList<Usuario>().FirstOrDefault();
-                        }
-                        catch
-                        {
-                            throw;
-                        }
-                    }
+                    _connection.Open();
                 }
 
-                return _usuario;
-            }
-            catch
-            {
-                throw;
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ValidarUsuario";
+                    _command.Parameters.AddWithValue("@Nombre", Nombre);
+                    _command.Parameters.AddWithValue("@Password", Password);
+                    _command.Parameters.AddWithValue("@ValidarIntegracion", ValidarIntegracion);
+                    _command.Parameters.AddWithValue("@CodigoIntegracion", CodigoIntegracion);
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+
+                    Usuario _usuario = _datatable.DataTableToList<Usuario>().FirstOrDefault();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _usuario;
+                }
             }
         }
 
         public bool ActualizarCodigoIntegracion(int IdUsuario, string IdEmpresa, string CodigoIntegracion)
         {
-            try
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                if (_connection.State == ConnectionState.Closed)
                 {
-                    if (_connection.State == ConnectionState.Closed)
-                    {
-                        _connection.Open();
-                    }
-
-                    using (SqlCommand _command = _connection.CreateCommand())
-                    {
-                        _command.CommandType = CommandType.StoredProcedure;
-                        _command.CommandText = "ActualizarCodigoIntegracion";
-                        _command.Parameters.AddWithValue("@IdUsuario", IdUsuario);
-                        _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
-                        _command.Parameters.AddWithValue("@CodigoIntegracion", CodigoIntegracion);
-
-                        try
-                        {
-                            _command.ExecuteNonQuery();
-                        }
-                        catch
-                        {
-                            throw;
-                        }
-                    }
+                    _connection.Open();
                 }
 
-                return true;
-            }
-            catch
-            {
-                throw;
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ActualizarCodigoIntegracion";
+                    _command.Parameters.AddWithValue("@IdUsuario", IdUsuario);
+                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@CodigoIntegracion", CodigoIntegracion);
+
+                    _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return true;
+                }
             }
         }
 
         public bool RegistrarActualizarCliente(List<Cliente> _Cliente)
         {
-            try
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                if (_connection.State == ConnectionState.Closed)
                 {
-                    if (_connection.State == ConnectionState.Closed)
-                    {
-                        _connection.Open();
-                    }
-
-                    using (SqlCommand _command = _connection.CreateCommand())
-                    {
-                        _command.CommandType = CommandType.StoredProcedure;
-                        _command.CommandText = "RegistrarActualizarCliente";
-                        _command.Parameters.AddWithValue("@JsonCliente", JsonConvert.SerializeObject(_Cliente));
-
-                        try
-                        {
-                            _command.ExecuteNonQuery();
-                        }
-                        catch
-                        {
-                            throw;
-                        }
-                        finally
-                        {
-                            if (_command.Connection.State == ConnectionState.Open)
-                            {
-                                _command.Connection.Close();
-                            }
-
-                            _command.Dispose();
-                        }
-                    }
+                    _connection.Open();
                 }
 
-                return true;
-            }
-            catch
-            {
-                throw;
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "RegistrarActualizarCliente";
+                    _command.Parameters.AddWithValue("@JsonCliente", JsonConvert.SerializeObject(_Cliente));
+
+                    _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return true;
+                }
             }
         }
 
         public List<Menu> ConsultarMenu(int IdUsuario, string IdEmpresa, string Perfil)
         {
             DataTable _datatable = new DataTable();
-            List<Menu> _listMenu = new List<Menu>();
             SqlDataAdapter _adapter = new SqlDataAdapter();
 
-            try
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                if (_connection.State == ConnectionState.Closed)
                 {
-                    if (_connection.State == ConnectionState.Closed)
-                    {
-                        _connection.Open();
-                    }
-
-                    using (SqlCommand _command = _connection.CreateCommand())
-                    {
-                        _command.CommandType = CommandType.StoredProcedure;
-                        _command.CommandText = "ConsultarMenu";
-                        _command.Parameters.AddWithValue("@IdUsuario", IdUsuario);
-                        _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
-                        _command.Parameters.AddWithValue("@Perfil", Perfil);
-                        _adapter.SelectCommand = _command;
-
-                        try
-                        {
-                            _adapter.Fill(_datatable);
-                            _listMenu = _datatable.DataTableToList<Menu>();
-                        }
-                        catch
-                        {
-                            throw;
-                        }
-                    }
+                    _connection.Open();
                 }
 
-                return _listMenu;
-            }
-            catch
-            {
-                throw;
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarMenu";
+                    _command.Parameters.AddWithValue("@IdUsuario", IdUsuario);
+                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@Perfil", Perfil);
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<Menu> _listMenu = _datatable.DataTableToList<Menu>();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _listMenu;
+                }
             }
         }
 
         public List<Cliente> ConsultarClientes(string IdEmpresa)
         {
             DataTable _datatable = new DataTable();
-            List<Cliente> _clientes = new List<Cliente>();
             SqlDataAdapter _adapter = new SqlDataAdapter();
 
-            try
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                if (_connection.State == ConnectionState.Closed)
                 {
-                    if (_connection.State == ConnectionState.Closed)
-                    {
-                        _connection.Open();
-                    }
-
-                    using (SqlCommand _command = _connection.CreateCommand())
-                    {
-                        _command.CommandType = CommandType.StoredProcedure;
-                        _command.CommandText = "ConsultarClientes";
-                        _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
-                        _adapter.SelectCommand = _command;
-
-                        try
-                        {
-                            _adapter.Fill(_datatable);
-                            _clientes = _datatable.DataTableToList<Cliente>();
-                        }
-                        catch
-                        {
-                            throw;
-                        }
-                    }
+                    _connection.Open();
                 }
 
-                return _clientes;
-            }
-            catch
-            {
-                throw;
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarClientes";
+                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<Cliente> _clientes = _datatable.DataTableToList<Cliente>();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _clientes;
+                }
             }
         }
 
         public bool SincronizarBarrios(List<Properties> _Properties, string _Municipio)
         {
-            try
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                if (_connection.State == ConnectionState.Closed)
                 {
-                    if (_connection.State == ConnectionState.Closed)
-                    {
-                        _connection.Open();
-                    }
-
-                    using (SqlCommand _command = _connection.CreateCommand())
-                    {
-                        _command.CommandType = CommandType.StoredProcedure;
-                        _command.CommandText = "SincronizarBarrios";
-                        _command.Parameters.AddWithValue("@Json", JsonConvert.SerializeObject(_Properties));
-                        _command.Parameters.AddWithValue("@Municipio", _Municipio);
-
-                        try
-                        {
-                            _command.ExecuteNonQuery();
-                        }
-                        catch
-                        {
-                            throw;
-                        }
-                    }
+                    _connection.Open();
                 }
 
-                return true;
-            }
-            catch
-            {
-                throw;
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "SincronizarBarrios";
+                    _command.Parameters.AddWithValue("@Json", JsonConvert.SerializeObject(_Properties));
+                    _command.Parameters.AddWithValue("@Municipio", _Municipio);
+
+                    _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return true;
+                }
             }
         }
 
@@ -280,41 +199,26 @@ namespace Spa.Infrastructure.SpaRepository
         public List<Municipio> ConsultarMunicipios()
         {
             DataTable _datatable = new DataTable();
-            List<Municipio> _listMunicipios = new List<Municipio>();
             SqlDataAdapter _adapter = new SqlDataAdapter();
 
-            try
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                if (_connection.State == ConnectionState.Closed)
                 {
-                    if (_connection.State == ConnectionState.Closed)
-                    {
-                        _connection.Open();
-                    }
-
-                    using (SqlCommand _command = _connection.CreateCommand())
-                    {
-                        _command.CommandType = CommandType.StoredProcedure;
-                        _command.CommandText = "ConsultarMunicipios";
-                        _adapter.SelectCommand = _command;
-
-                        try
-                        {
-                            _adapter.Fill(_datatable);
-                            _listMunicipios = _datatable.DataTableToList<Municipio>();
-                        }
-                        catch
-                        {
-                            throw;
-                        }
-                    }
+                    _connection.Open();
                 }
 
-                return _listMunicipios;
-            }
-            catch
-            {
-                throw;
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarMunicipios";
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<Municipio> _listMunicipios = _datatable.DataTableToList<Municipio>();
+
+                    return _listMunicipios;
+                }
             }
         }
 
@@ -1302,7 +1206,7 @@ namespace Spa.Infrastructure.SpaRepository
                     using (SqlCommand _command = _connection.CreateCommand())
                     {
                         _command.CommandType = CommandType.StoredProcedure;
-                        _command.CommandText = "ConsultarCajaMenor";                        
+                        _command.CommandText = "ConsultarCajaMenor";
                         _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
                         _adapter.SelectCommand = _command;
 
@@ -1708,83 +1612,59 @@ namespace Spa.Infrastructure.SpaRepository
         public List<Empresa> ConsultarEmpresas()
         {
             DataTable _datatable = new DataTable();
-            List<Empresa> _empresas = new List<Empresa>();
             SqlDataAdapter _adapter = new SqlDataAdapter();
 
-            try
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                if (_connection.State == ConnectionState.Closed)
                 {
-                    if (_connection.State == ConnectionState.Closed)
-                    {
-                        _connection.Open();
-                    }
-
-                    using (SqlCommand _command = _connection.CreateCommand())
-                    {
-                        _command.CommandType = CommandType.StoredProcedure;
-                        _command.CommandText = "ConsultarEmpresas";
-                        _adapter.SelectCommand = _command;
-
-                        try
-                        {
-                            _adapter.Fill(_datatable);
-                            _empresas = _datatable.DataTableToList<Empresa>();
-                        }
-                        catch
-                        {
-                            throw;
-                        }
-                    }
+                    _connection.Open();
                 }
 
-                return _empresas;
-            }
-            catch
-            {
-                throw;
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarEmpresas";
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<Empresa> _empresas = _datatable.DataTableToList<Empresa>();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _empresas;
+                }
             }
         }
 
         public List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario)
         {
             DataTable _datatable = new DataTable();
-            List<Empresa> _empresas = new List<Empresa>();
             SqlDataAdapter _adapter = new SqlDataAdapter();
 
-            try
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                using (SqlConnection _connection = new SqlConnection(_connectionString))
+                if (_connection.State == ConnectionState.Closed)
                 {
-                    if (_connection.State == ConnectionState.Closed)
-                    {
-                        _connection.Open();
-                    }
-
-                    using (SqlCommand _command = _connection.CreateCommand())
-                    {
-                        _command.CommandType = CommandType.StoredProcedure;
-                        _command.CommandText = "ConsultarUsuarioEmpresas";
-                        _command.Parameters.AddWithValue("@IdUsuario", IdUsuario);
-                        _adapter.SelectCommand = _command;
-
-                        try
-                        {
-                            _adapter.Fill(_datatable);
-                            _empresas = _datatable.DataTableToList<Empresa>();
-                        }
-                        catch
-                        {
-                            throw;
-                        }
-                    }
+                    _connection.Open();
                 }
 
-                return _empresas;
-            }
-            catch
-            {
-                throw;
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarUsuarioEmpresas";
+                    _command.Parameters.AddWithValue("@IdUsuario", IdUsuario);
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<Empresa> _empresas = _datatable.DataTableToList<Empresa>();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _empresas;
+                }
             }
         }
     }

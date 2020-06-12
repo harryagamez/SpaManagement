@@ -36,6 +36,9 @@ BEGIN
 
 	SELECT * FROM #TempServicioImagenes
 
+	IF OBJECT_ID('tempdb..#TempServicios') IS NOT NULL DROP TABLE #TempServicios
+	IF OBJECT_ID('tempdb..#TempServicioImagenes') IS NOT NULL DROP TABLE #TempServicioImagenes
+
 END
 
 GO

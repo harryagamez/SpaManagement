@@ -44,6 +44,8 @@ BEGIN
 			SOURCE.Direccion, SOURCE.Id_Barrio, SOURCE.Fecha_Nacimiento, SOURCE.Estado_Civil, SOURCE.Numero_Hijos, SOURCE.Monto, SOURCE.Estado, GETDATE(),
 			SOURCE.Id_Empresa);
 
+		IF OBJECT_ID('tempdb..#TempEmpleado') IS NOT NULL DROP TABLE #TempEmpleado
+
 	END TRY
 	BEGIN CATCH
 

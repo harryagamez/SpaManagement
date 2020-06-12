@@ -18,9 +18,9 @@ BEGIN
 			Id_Servicio, Id_Empleado 
 		FROM #TempEmpleadoServicio
 
+		IF OBJECT_ID('tempdb..#TempEmpleadoServicio') IS NOT NULL DROP TABLE #TempEmpleadoServicio
+
 	END TRY
-		
-	
 	BEGIN CATCH
 
 		IF OBJECT_ID('tempdb..#TempEmpleadoServicio') IS NOT NULL DROP TABLE #TempEmpleadoServicio

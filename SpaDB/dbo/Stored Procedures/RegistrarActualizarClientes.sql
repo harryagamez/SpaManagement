@@ -44,6 +44,8 @@ BEGIN
 			SOURCE.Id_Empresa, SOURCE.Id_Usuario_Creacion)
 		OUTPUT $action, inserted.*;
 
+		IF OBJECT_ID('tempdb..#TempCliente') IS NOT NULL DROP TABLE #TempCliente
+
 	END TRY
 	BEGIN CATCH
 
