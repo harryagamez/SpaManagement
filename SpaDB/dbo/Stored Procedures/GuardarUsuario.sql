@@ -1,4 +1,4 @@
-CREATE PROCEDURE GuardarUsuarios(@JsonUsuario NVARCHAR(MAX))
+CREATE PROCEDURE GuardarUsuario(@JsonUsuario NVARCHAR(MAX))
 AS
 BEGIN
 
@@ -12,7 +12,7 @@ BEGIN
 			JsonUsuario.Mail, JsonUsuario.Logo_Base64
 			FROM OPENJSON(@JsonUsuario) 
 			WITH (
-				Id_Usuario INT '$.Id_Usuario', Nombre CHAR(25) '$.Nombre', Contrasenia NVARCHAR(MAX) '$.Contrasenia', Perfil CHAR(15) '$.Perfil',
+				Id_Usuario INT '$.Id_Usuario', Nombre CHAR(25) '$.Nombre', Contrasenia VARCHAR(100) '$.Contrasenia', Perfil CHAR(15) '$.Perfil',
 				Id_Empresa VARCHAR(36) '$.Id_Empresa', Mail CHAR(60) '$.Mail', Logo_Base64 NVARCHAR(MAX) '$.Logo_Base64'
 			) AS JsonUsuario
 		) AS SOURCE(Id_Usuario, Nombre, Contrasenia, Perfil, Id_Empresa, Mail, Logo_Base64)

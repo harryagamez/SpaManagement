@@ -1115,6 +1115,7 @@
     }
 
     function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+
         // VARIABLES
         $scope.Empleados = [];
         $scope.Municipios = [];
@@ -2457,6 +2458,7 @@
     }
 
     function GastosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+
         // VARIABLES
         $scope.ObjetoGasto = [];
         $scope.ObjetoBorrarGasto = [];
@@ -3052,14 +3054,14 @@
         $scope.$on("CompanyChange", function () {
             $scope.IdEmpresa = $rootScope.Id_Empresa;
             $scope.Inicializacion();
-            $scope.ConsultarGastos();
         });
 
         $scope.Inicializacion();
-        $scope.ConsultarGastos();
+
     }
 
     function GestionController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+
         //Variables
         $scope.TipoPerfilSeleccionado = -1;
         $scope.NombreReadOnly = false;
@@ -3078,6 +3080,8 @@
         $scope.Inicializacion = function () {
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
             window.onresize();
+
+            $('#txtUsuario').focus();
         }
 
         $scope.Menu = $rootScope.Menu;
@@ -3142,23 +3146,27 @@
 
         //Guardar Usuario
         $scope.GuardarUsuario = function () {
+
             if ($scope.ValidarUsuario()) {
-                //$scope.ObjetoUsuario = [];
-                //$scope.ObjetoUsuario.push($scope.Usuario);
+
                 SPAService._guardarUsuario(JSON.stringify($scope.Usuario))
                     .then(
                         function (result) {
                             if (result.data === true) {
+
                                 toastr.success('Usuario registrado/actualizado correctamente', '', $scope.toastrOptions);
                                 $scope.ConsultarUsuarios();
                                 $scope.LimpiarDatos();
+
                             }
                         }, function (err) {
                             toastr.remove();
                             if (err.data !== null && err.status === 500)
                                 toastr.error(err.data, '', $scope.toastrOptions);
                         })
+
             }
+
         }
 
         //GRID
@@ -3166,29 +3174,27 @@
         $scope.UsuariosGridOptionsColumns = [
 
             {
-                headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }, suppressSizeToFit: true
-            },
-            {
                 headerName: "Nombre", field: 'nombre', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true
             },
             {
-                headerName: "Empresa", field: 'nombre_Empresa', width: 100, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }
+                headerName: "Empresa", field: 'nombre_Empresa', width: 100, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
             },
             {
-                headerName: "Mail", field: 'mail', width: 100, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
+                headerName: "Mail", field: 'mail', width: 90, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
             },
             {
-                headerName: "Fecha Registro", field: 'fecha_Registro', width: 90, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, suppressSizeToFit: true, cellRenderer: (data) => {
+                headerName: "Fecha Registro", field: 'fecha_Registro', width: 150, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, suppressSizeToFit: true, cellRenderer: (data) => {
                     return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy') : '';
                 }
             },
             {
-                headerName: "Perfil", field: 'perfil', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true
+                headerName: "Perfil", field: 'perfil', width: 160, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, suppressSizeToFit: true
             }
 
         ];
 
         $scope.UsuariosGridOptions = {
+
             defaultColDef: {
                 resizable: true
             },
@@ -3205,12 +3211,14 @@
             suppressRowClickSelection: true,
             rowSelection: 'multiple',
             onRowClicked: OnRowClicked
+
         }
 
         //Funciones
         //Validar Usuario
         $scope.ValidarUsuario = function () {
-            let maiL_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
+
+            let mail_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
             $scope.Usuario.Id_Empresa = $scope.IdEmpresa;
             $scope.Usuario.Logo_Base64 = $scope.ImagenUsuario;
 
@@ -3250,7 +3258,7 @@
                 return false;
             }
 
-            if (!maiL_expression.test($scope.Usuario.Mail)) {
+            if (!mail_expression.test($scope.Usuario.Mail)) {
                 toastr.info('La dirección de correo electrónico no es válida.', '', $scope.toastrOptions);
                 $('#txtMail').focus();
                 return false;

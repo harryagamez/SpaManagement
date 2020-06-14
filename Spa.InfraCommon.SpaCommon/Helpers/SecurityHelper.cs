@@ -12,6 +12,7 @@ namespace Spa.InfraCommon.SpaCommon.Helpers
 
         private const int DerivationIterations = 1000;
 
+        // NonDeterministic Method
         public static string Encrypt(string plainText, string passPhrase)
         {
             byte[] saltStringBytes = Generate256BitsOfRandomEntropy();
@@ -88,6 +89,27 @@ namespace Spa.InfraCommon.SpaCommon.Helpers
                 rngCsp.GetBytes(randomBytes);
             }
             return randomBytes;
+        }
+
+        // Deterministic Method
+        public static string EncryptPasswordHash(string plainText)
+        {
+            UnicodeEncoding Encode = new UnicodeEncoding();
+            byte[] data = Encode.GetBytes(plainText);
+            byte[] Result;
+            string EncryptedData;
+
+            SHA1CryptoServiceProvider HashObject = new SHA1CryptoServiceProvider();
+            Result = HashObject.ComputeHash(data);
+
+            StringBuilder sBuilder = new StringBuilder();
+
+            for (int item = 0; item <= Result.Length - 1; item++)
+                sBuilder.Append(Result[item].ToString("x2"));
+
+            EncryptedData = sBuilder.ToString();
+
+            return EncryptedData;
         }
     }
 }

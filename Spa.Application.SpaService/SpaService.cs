@@ -24,7 +24,9 @@ namespace Spa.Application.SpaService
         {
             try
             {
-                Usuario _usuario = _spaRepository.ValidarUsuario(Nombre, Password, ValidarIntegracion, CodigoIntegracion);
+                string encryptedPassword = SecurityHelper.EncryptPasswordHash(Password);
+
+                Usuario _usuario = _spaRepository.ValidarUsuario(Nombre, encryptedPassword, ValidarIntegracion, CodigoIntegracion);
 
                 if (_usuario != null)
                 {
@@ -54,56 +56,22 @@ namespace Spa.Application.SpaService
 
         public bool RegistrarActualizarCliente(List<Cliente> _Cliente)
         {
-            try
-            {
-                return _spaRepository.RegistrarActualizarCliente(_Cliente);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.RegistrarActualizarCliente(_Cliente);
         }
 
         public List<Menu> ConsultarMenu(int IdUsuario, string IdEmpresa, string Perfil)
         {
-            try
-            {
-                List<Menu> _listMenu = _spaRepository.ConsultarMenu(IdUsuario, IdEmpresa, Perfil);
-
-                return _listMenu;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarMenu(IdUsuario, IdEmpresa, Perfil);
         }
 
         public List<Cliente> ConsultarClientes(string IdEmpresa)
         {
-            try
-            {
-                List<Cliente> _clientes = _spaRepository.ConsultarClientes(IdEmpresa);
-
-                return _clientes;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarClientes(IdEmpresa);
         }
 
         public bool SincronizarBarrios(List<Properties> _Properties, string _Municipio)
         {
-            try
-            {
-                bool _result = _spaRepository.SincronizarBarrios(_Properties, _Municipio);
-
-                return _result;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.SincronizarBarrios(_Properties, _Municipio);
         }
 
         public void Dispose()
@@ -113,450 +81,178 @@ namespace Spa.Application.SpaService
 
         public List<Municipio> ConsultarMunicipios()
         {
-            try
-            {
-                List<Municipio> _municipios = _spaRepository.ConsultarMunicipios();
-
-                return _municipios;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarMunicipios();
         }
 
         public List<Barrio> ConsultarBarrios(int IdMunicipio)
         {
-            try
-            {
-                List<Barrio> _barrios = _spaRepository.ConsultarBarrios(IdMunicipio);
-
-                return _barrios;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarBarrios(IdMunicipio);
         }
 
         public List<TipoCliente> ConsultarTipoClientes()
         {
-            try
-            {
-                List<TipoCliente> _tipoClientes = _spaRepository.ConsultarTipoClientes();
-
-                return _tipoClientes;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarTipoClientes();
         }
 
         public Cliente ConsultarCliente(string Cedula, string IdEmpresa)
         {
-            try
-            {
-                Cliente _cliente = _spaRepository.ConsultarCliente(Cedula, IdEmpresa);
-
-                return _cliente;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarCliente(Cedula, IdEmpresa);
         }
 
         public List<TipoServicio> ConsultarTipoServicios()
         {
-            try
-            {
-                List<TipoServicio> _tipoServicios = _spaRepository.ConsultarTipoServicios();
-
-                return _tipoServicios;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarTipoServicios();
         }
 
         public List<Servicio> ConsultarServicios(string IdEmpresa)
         {
-            try
-            {
-                List<Servicio> _servicios = _spaRepository.ConsultarServicios(IdEmpresa);
-
-                return _servicios;
-            }
-            catch
-            {
-                throw;
-            }
+           return _spaRepository.ConsultarServicios(IdEmpresa);
         }
 
         public bool GuardarServicio(List<Servicio> _Servicio)
         {
-            try
-            {
-                return _spaRepository.GuardarServicio(_Servicio);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.GuardarServicio(_Servicio);
         }
 
         public bool EliminarImagenAdjunta(string IdImagenAdjunta)
         {
-            try
-            {
-                return _spaRepository.EliminarImagenAdjunta(IdImagenAdjunta);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.EliminarImagenAdjunta(IdImagenAdjunta);
         }
 
         public List<Empleado> ConsultarEmpleados(string IdEmpresa)
         {
-            try
-            {
-                List<Empleado> _empleados = _spaRepository.ConsultarEmpleados(IdEmpresa);
-
-                return _empleados;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarEmpleados(IdEmpresa);
         }
 
         public Empleado ConsultarEmpleado(string Cedula, string IdEmpresa)
         {
-            try
-            {
-                Empleado _empleado = _spaRepository.ConsultarEmpleado(Cedula, IdEmpresa);
-
-                return _empleado;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarEmpleado(Cedula, IdEmpresa);
         }
 
         public List<TipoTransaccion> ConsultarTipoTransacciones()
         {
-            try
-            {
-                List<TipoTransaccion> _tipoTransacciones = _spaRepository.ConsultarTipoTransacciones();
-
-                return _tipoTransacciones;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarTipoTransacciones();
         }
 
         public List<Producto> ConsultarProductos(string IdEmpresa)
         {
-            try
-            {
-                List<Producto> _productos = _spaRepository.ConsultarProductos(IdEmpresa);
-
-                return _productos;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarProductos(IdEmpresa);
         }
 
         public List<TipoPago> ConsultarTipoPagos()
         {
-            try
-            {
-                List<TipoPago> _tipopagos = _spaRepository.ConsultarTipoPagos();
-
-                return _tipopagos;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarTipoPagos();
         }
 
         public bool RegistrarActualizarEmpleado(List<Empleado> _Empleado)
         {
-            try
-            {
-                return _spaRepository.RegistrarActualizarEmpleado(_Empleado);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.RegistrarActualizarEmpleado(_Empleado);
         }
 
         public bool AsignarEmpleadoServicio(List<EmpleadoServicio> _EmpleadoServicio)
         {
-            try
-            {
-                return _spaRepository.AsignarEmpleadoServicio(_EmpleadoServicio);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.AsignarEmpleadoServicio(_EmpleadoServicio);
         }
 
         public bool DesasignarEmpleadoServicio(int IdEmpleadoServicio)
         {
-            try
-            {
-                return _spaRepository.DesasignarEmpleadoServicio(IdEmpleadoServicio);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.DesasignarEmpleadoServicio(IdEmpleadoServicio);
         }
 
         public bool EliminarEmpleadoInsumo(int IdTransaccion, int Cantidad, int IdProducto)
         {
-            try
-            {
-                return _spaRepository.EliminarEmpleadoInsumo(IdTransaccion, Cantidad, IdProducto);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.EliminarEmpleadoInsumo(IdTransaccion, Cantidad, IdProducto);
         }
 
         public bool AsignarEmpleadoInsumo(List<Transaccion> _EmpleadoInsumo)
         {
-            try
-            {
-                return _spaRepository.AsignarEmpleadoInsumo(_EmpleadoInsumo);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.AsignarEmpleadoInsumo(_EmpleadoInsumo);
         }
 
         public List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado)
         {
-            try
-            {
-                List<EmpleadoServicio> _empleadoservicio = _spaRepository.ConsultarEmpleadoServicio(IdEmpleado);
-
-                return _empleadoservicio;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarEmpleadoServicio(IdEmpleado);
         }
 
         public List<Transaccion> ConsultarEmpleadoInsumos(int IdEmpleado)
         {
-            try
-            {
-                List<Transaccion> _empleadoinsumo = _spaRepository.ConsultarEmpleadoInsumos(IdEmpleado);
-
-                return _empleadoinsumo;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarEmpleadoInsumos(IdEmpleado);
         }
 
         public bool GuardarProducto(List<Producto> _Producto)
         {
-            try
-            {
-                return _spaRepository.GuardarProducto(_Producto);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.GuardarProducto(_Producto);
         }
 
         public List<Transaccion> ConsultarProductoTransacciones(int IdProducto, string IdEmpresa)
         {
-            try
-            {
-                List<Transaccion> _transacciones = _spaRepository.ConsultarProductoTransacciones(IdProducto, IdEmpresa);
-
-                return _transacciones;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarProductoTransacciones(IdProducto, IdEmpresa);
         }
 
         public List<Gasto> ConsultarGastos(BusquedaGasto _BusquedaGasto)
         {
-            try
-            {
-                List<Gasto> _gastos = _spaRepository.ConsultarGastos(_BusquedaGasto);
-
-                return _gastos;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarGastos(_BusquedaGasto);
         }
 
         public CajaMenor ConsultarCajaMenor(string IdEmpresa)
         {
-            try
-            {
-                CajaMenor _cajamenor = _spaRepository.ConsultarCajaMenor(IdEmpresa);
-
-                return _cajamenor;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarCajaMenor(IdEmpresa);
         }
 
         public bool GuardarCajaMenor(List<CajaMenor> _CajaMenor)
         {
-            try
-            {
-                return _spaRepository.GuardarCajaMenor(_CajaMenor);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.GuardarCajaMenor(_CajaMenor);
         }
 
         public bool ReemplazarCajaMenor(List<CajaMenor> _CajaMenor)
         {
-            try
-            {
-                return _spaRepository.ReemplazarCajaMenor(_CajaMenor);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ReemplazarCajaMenor(_CajaMenor);
         }
 
         public bool GuardarGasto(List<Gasto> _Gasto)
         {
-            try
-            {
-                return _spaRepository.GuardarGasto(_Gasto);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.GuardarGasto(_Gasto);
         }
 
         public bool EliminarGastos(List<Gasto> _Gastos)
         {
-            try
-            {
-                return _spaRepository.EliminarGastos(_Gastos);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.EliminarGastos(_Gastos);
         }
 
         public List<Usuario> ConsultarUsuarios(string IdEmpresa)
         {
-            try
-            {
-                List<Usuario> _usuarios = _spaRepository.ConsultarUsuarios(IdEmpresa);
-
-                return _usuarios;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarUsuarios(IdEmpresa);
         }
 
         public bool ConsultarUsuario(string Nombre)
         {
-            try
-            {
-                return _spaRepository.ConsultarUsuario(Nombre);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarUsuario(Nombre);
         }
 
         public bool GuardarUsuario(Usuario _Usuario)
         {
-            try
-            {                
-                return _spaRepository.GuardarUsuario(_Usuario);
-            }
-            catch
-            {
-                throw;
-            }
+            string encryptedPassword = SecurityHelper.EncryptPasswordHash(_Usuario.Contrasenia);
+            _Usuario.Contrasenia = encryptedPassword;
+
+            return _spaRepository.GuardarUsuario(_Usuario);
         }
 
         public Usuario ValidarUsuarioAdmin(string Nombre, string Password)
         {
-            try
-            {
-                Usuario _usuario = _spaRepository.ValidarUsuarioAdmin(Nombre, Password);
+            string encryptedPassword = SecurityHelper.EncryptPasswordHash(Password);
 
-                return _usuario;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ValidarUsuarioAdmin(Nombre, encryptedPassword);
         }
 
         public List<Empresa> ConsultarEmpresas()
         {
-            try
-            {
-                List<Empresa> _empresas = _spaRepository.ConsultarEmpresas();
-
-                return _empresas;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarEmpresas();
         }
 
         public List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario)
         {
-            try
-            {
-                List<Empresa> _empresas = _spaRepository.ConsultarUsuarioEmpresas(IdUsuario);
-
-                return _empresas;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarUsuarioEmpresas(IdUsuario);
         }
+
     }
 }

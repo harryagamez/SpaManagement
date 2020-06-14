@@ -7,7 +7,6 @@ namespace Spa.Application.SpaService
 {
     public interface ISpaService
     {
-
         Usuario ValidarUsuario(string Nombre, string Password, bool ValidarIntegracion, string CodigoIntegracion);
         bool RegistrarActualizarCliente(List<Cliente> _Cliente);
         List<Menu> ConsultarMenu(int IdUsuario, string IdEmpresa, string Perfil);

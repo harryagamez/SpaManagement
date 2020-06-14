@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE ValidarUsuarioAdmin(@Nombre VARCHAR(25), @Password CHAR(30))
+﻿CREATE PROCEDURE ValidarUsuarioAdmin(@Nombre VARCHAR(25), @Password VARCHAR(100))
 AS
 BEGIN	
 
