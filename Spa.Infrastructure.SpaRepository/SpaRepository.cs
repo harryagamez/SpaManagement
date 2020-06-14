@@ -1474,7 +1474,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool GuardarUsuario(List<Usuario> _Usuario)
+        public bool GuardarUsuario(Usuario _Usuario)
         {
             try
             {

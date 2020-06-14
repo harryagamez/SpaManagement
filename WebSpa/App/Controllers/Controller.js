@@ -3143,9 +3143,9 @@
         //Guardar Usuario
         $scope.GuardarUsuario = function () {
             if ($scope.ValidarUsuario()) {
-                $scope.ObjetoUsuario = [];
-                $scope.ObjetoUsuario.push($scope.Usuario);
-                SPAService._guardarUsuario(JSON.stringify($scope.ObjetoUsuario))
+                //$scope.ObjetoUsuario = [];
+                //$scope.ObjetoUsuario.push($scope.Usuario);
+                SPAService._guardarUsuario(JSON.stringify($scope.Usuario))
                     .then(
                         function (result) {
                             if (result.data === true) {

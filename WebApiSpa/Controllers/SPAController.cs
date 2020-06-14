@@ -606,7 +606,7 @@ namespace WebApiSpa.Controllers
         [HttpPost]
         [Route("api/SPA/GuardarUsuario")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult GuardarUsuario(List<Usuario> usuario)
+        public IHttpActionResult GuardarUsuario(Usuario usuario)
         {
             try
             {

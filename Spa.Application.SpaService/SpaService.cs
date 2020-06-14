@@ -505,7 +505,7 @@ namespace Spa.Application.SpaService
             }
         }
 
-        public bool GuardarUsuario(List<Usuario> _Usuario)
+        public bool GuardarUsuario(Usuario _Usuario)
         {
             try
             {                
