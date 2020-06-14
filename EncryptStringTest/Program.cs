@@ -22,6 +22,11 @@ namespace EncryptStringTest
             Console.WriteLine(encryptedstring);
             Console.WriteLine("");
 
+            Console.WriteLine("Your encrypted string 2 is:");
+            string encryptedstring2 = SecurityHelper.EncryptPasswordHash(plaintext);
+            Console.WriteLine(encryptedstring2);
+            Console.WriteLine("");
+
             Console.WriteLine("Your decrypted string is:");
             string decryptedstring = SecurityHelper.Decrypt(encryptedstring, password);
             Console.WriteLine(decryptedstring);

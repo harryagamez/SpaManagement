@@ -7,7 +7,6 @@ namespace Spa.Application.SpaService
 {
     public interface ISpaService
     {
-
         Usuario ValidarUsuario(string Nombre, string Password, bool ValidarIntegracion, string CodigoIntegracion);
         bool RegistrarActualizarCliente(List<Cliente> _Cliente);
         List<Menu> ConsultarMenu(int IdUsuario, string IdEmpresa, string Perfil);
@@ -43,7 +42,7 @@ namespace Spa.Application.SpaService
         bool EliminarGastos(List<Gasto> _Gastos);
         List<Usuario> ConsultarUsuarios(string IdEmpresa);
         bool ConsultarUsuario(string Nombre);
-        bool GuardarUsuario(List<Usuario> _Usuario);
+        bool GuardarUsuario(Usuario _Usuario);
         Usuario ValidarUsuarioAdmin(string Nombre, string Password);
         List<Empresa> ConsultarEmpresas();
         List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario);
