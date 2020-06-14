@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using Spa.InfraCommon.SpaCommon.Models;
 using Spa.Domain.SpaEntities.Extensions;
-using System.Net.Http.Headers;
 
 namespace Spa.Infrastructure.SpaRepository
 {
