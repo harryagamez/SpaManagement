@@ -12,7 +12,7 @@
         .controller("GestionController", GestionController)
 
     LoginController.$inject = ['$scope', '$state', '$location', '$mdDialog', '$rootScope', '$timeout', 'AuthService'];
-    HomeController.$inject = ['$scope', '$state', '$rootScope', '$element', '$location', 'localStorageService', 'AuthService'];
+    HomeController.$inject = ['$scope', '$state', '$rootScope', '$element', '$location', 'localStorageService', 'AuthService', 'SPAService'];
     ClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     ServiciosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     EmpleadosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
@@ -73,7 +73,9 @@
         }
     }
 
-    function HomeController($scope, $state, $rootScope, $element, $location, localStorageService, authService) {
+    function HomeController($scope, $state, $rootScope, $element, $location, localStorageService, authService, SPAService) {
+        
+
         if ($rootScope.Empresas !== undefined) {
             if ($rootScope.Empresas.length === 0) {
                 $scope.Empresas = [];
@@ -99,10 +101,10 @@
         $scope.Logout = function () {
             authService.logOut();
         }
-
+        
         $scope.UsuarioSistema = $rootScope.userData.userName;
-        $scope.NombreEmpresa = $rootScope.Nombre_Empresa;
-
+        $scope.NombreEmpresa = $rootScope.Nombre_Empresa;        
+        $scope.UserId = $rootScope.userData.userId;
         $scope.$on('successfull.menuload', function () {
             if ($scope.Menu.length == 0)
                 $scope.Menu = $rootScope.Menu;
@@ -127,6 +129,24 @@
             $scope.NombreEmpresa = $rootScope.Nombre_Empresa;
         });
 
+        //API
+        $scope.ConsultarAvatar = function () {
+            SPAService._consultarUserAvatar($scope.UserId)
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null)
+                            $scope.UserAvatar = result.data.logo_Base64;
+                        else
+                            $scope.UserAvatar = '../Images/default-perfil.png';
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+        }
+
+        $scope.ConsultarAvatar();
+
         $scope.FiltrarEmpresa = function (id_empresa) {
             $rootScope.Id_Empresa = id_empresa;
             $rootScope.$broadcast("CompanyChange");
@@ -139,7 +159,8 @@
         $scope.$on("$destroy", function () {
             $scope.Menu = [];
             $scope.Empresas = [];
-        });
+        });        
+
     }
 
     function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {

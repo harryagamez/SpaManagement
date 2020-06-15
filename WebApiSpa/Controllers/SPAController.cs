@@ -621,6 +621,23 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpGet]
+        [Route("api/SPA/ConsultarUserAvatar")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarUserAvatar(int UserId)
+        {
+            try
+            {
+                Usuario _usuario = _spaService.ConsultarUserAvatar(UserId);
+
+                return Content(HttpStatusCode.OK, _usuario);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando el usuario: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Authorize(Roles = "Admin")]
         [Route("api/SPA/ConsultarEmpresas")]
         [HttpCache(DefaultExpirySeconds = 2)]

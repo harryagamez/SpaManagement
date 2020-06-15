@@ -258,6 +258,7 @@
     <Build Include="dbo\Stored Procedures\ConsultarUsuarios.sql" />
     <Build Include="dbo\Stored Procedures\GuardarUsuario.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarUsuario.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarUserAvatar.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

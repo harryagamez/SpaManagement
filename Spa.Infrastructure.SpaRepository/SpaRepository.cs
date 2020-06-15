@@ -1045,6 +1045,36 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public Usuario ConsultarUserAvatar(int UserId)
+        {
+            DataTable _datatable = new DataTable();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                if (_connection.State == ConnectionState.Closed)
+                {
+                    _connection.Open();
+                }
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarUserAvatar";
+                    _command.Parameters.AddWithValue("@UserId", UserId);                    
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    Usuario _usuario = _datatable.DataTableToList<Usuario>().FirstOrDefault();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _usuario;
+                }
+            }
+        }
+
         public bool EliminarGastos(List<Gasto> _Gastos)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))

@@ -291,7 +291,7 @@
     function SPAService($http, $rootScope, $q, serviceRest, localStorageService) {
 
         return {
-
+            _consultarUserAvatar: ConsultarUserAvatar,
             _registrarActualizarCliente: RegistrarActualizarCliente,
             _consultarClientes: ConsultarClientes,
             _consultarBarrios: ConsultarBarrios,
@@ -325,6 +325,7 @@
             _consultarUsuarios: ConsultarUsuarios,
             _consultarUsuario: ConsultarUsuario,
             _guardarUsuario: GuardarUsuario
+            
 
         }
 
@@ -769,6 +770,18 @@
                     deferred.reject(err);
                 });
 
+            return deferred.promise;
+        }
+
+        function ConsultarUserAvatar(UserId) {
+            var deferred = $q.defer();            
+            serviceRest.Get('SPA', 'ConsultarUserAvatar?UserId=' + UserId,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
             return deferred.promise;
         }
 
