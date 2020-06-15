@@ -36,7 +36,9 @@ BEGIN
 	FROM #TempUsuarios 
 	ORDER BY Nombre
 
-	SELECT * FROM #TempMenuUsuarios
+	SELECT Id_Menu_Usuario, Id_Usuario, Id_Menu,Estado, Fecha_Registro, Fecha_Modificacion, 
+	(SELECT DESCRIPCION FROM MENU WHERE MENU.ID_MENU = #TempMenuUsuarios.Id_Menu) AS Descripcion
+	FROM #TempMenuUsuarios
 
 	IF OBJECT_ID('tempdb..#TempUsuarios') IS NOT NULL DROP TABLE #TempUsuarios
 	IF OBJECT_ID('tempdb..#TempMenuUsuarios') IS NOT NULL DROP TABLE #TempMenuUsuarios

@@ -10,5 +10,6 @@ namespace Spa.Domain.SpaEntities
         public bool Estado { get; set; }
         public DateTime Fecha_Registro { get; set; }
         public DateTime Fecha_Modificacion { get; set; }
+        public string Descripcion { get; set; }
     }
 }

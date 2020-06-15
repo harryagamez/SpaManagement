@@ -231,9 +231,12 @@ namespace Spa.Application.SpaService
 
         public bool GuardarUsuario(Usuario _Usuario)
         {
-            string encryptedPassword = SecurityHelper.EncryptPasswordHash(_Usuario.Contrasenia);
-            _Usuario.Contrasenia = encryptedPassword;
-
+            if(_Usuario.PasswordHasChanged)
+            {
+                string encryptedPassword = SecurityHelper.EncryptPasswordHash(_Usuario.Contrasenia);
+                _Usuario.Contrasenia = encryptedPassword;
+            }            
+            
             return _spaRepository.GuardarUsuario(_Usuario);
         }
 
