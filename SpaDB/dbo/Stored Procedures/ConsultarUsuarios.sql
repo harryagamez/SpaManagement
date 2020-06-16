@@ -36,9 +36,13 @@ BEGIN
 	FROM #TempUsuarios 
 	ORDER BY Nombre
 
-	SELECT Id_Menu_Usuario, Id_Usuario, Id_Menu,Estado, Fecha_Registro, Fecha_Modificacion, 
-	(SELECT DESCRIPCION FROM MENU WHERE MENU.ID_MENU = #TempMenuUsuarios.Id_Menu) AS Descripcion
+	SELECT 
+		#TempMenuUsuarios.Id_Menu_Usuario, #TempMenuUsuarios.Id_Usuario, 
+		#TempMenuUsuarios.Id_Menu, #TempMenuUsuarios.Estado, #TempMenuUsuarios.Fecha_Registro, 
+		#TempMenuUsuarios.Fecha_Modificacion, MENU.DESCRIPCION
 	FROM #TempMenuUsuarios
+	INNER JOIN MENU 
+	ON MENU.ID_MENU = #TempMenuUsuarios.Id_Menu
 
 	IF OBJECT_ID('tempdb..#TempUsuarios') IS NOT NULL DROP TABLE #TempUsuarios
 	IF OBJECT_ID('tempdb..#TempMenuUsuarios') IS NOT NULL DROP TABLE #TempMenuUsuarios
