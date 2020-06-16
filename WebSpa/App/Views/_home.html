@@ -2,7 +2,7 @@
     <div layout="row">
         <div flex="44" flex-gt-sm="40">
             <div class="site-title">
-                <a ui-sref="home"><img src="../../Images/logo-spa.png" style="max-height:48px; margin-top:-5px;" /></a>
+                <a ui-sref="home"><img src="../../Images/spa_header.png" style="max-height:44px; margin-top:-5px;" /></a>
             </div>
         </div>
         <div flex="56" flex-gt-sm="60">
@@ -18,7 +18,7 @@
                         <md-option ng-bind="empresa.nombre" ng-value="empresa.id_Empresa" ng-repeat="empresa in Empresas track by empresa.id_Empresa"></md-option>
                     </md-select>
                     <!--<li><span><img src="../../Images/usuario.png" style="max-width:24px; margin-top: -3px;cursor:pointer;" data-toggle="tooltip" title="Usuario activo en el sistema" />{{ UsuarioSistema }}</span></li>-->
-                    <li><span><img ng-src="{{UserAvatar}}" style="max-width:30px; max-height:28px; min-height:28px; max-width:30px; padding-right:5px; border-radius:50%; margin-top: -3px;cursor:pointer;" data-toggle="tooltip" title="Usuario activo en el sistema" />{{ UsuarioSistema }}</span></li>
+                    <li><span><img ng-src="{{UserAvatar}}" style="max-width:30px; max-height:30px; min-height:30px; max-width:30px; padding-right:5px; border-radius:50%; margin-top: -3px;cursor:pointer;" data-toggle="tooltip" title="Usuario activo en el sistema" />{{ UsuarioSistema }}</span></li>
                     <li><a href="" ng-click="Logout()"><img src="../../Images/cerrar_sesion.png" style="max-width:24px; margin-top: -3px;" />Cerrar Sesión</a></li>
                 </ul>
             </div>
@@ -35,7 +35,7 @@
 <div class="background-image"></div>
 <div class="wrapper">
     <section id="section">
-        <img src="../../Images/spa_.png" style="display:block; margin:auto; width: 75%; opacity: 0.15; padding-top:30px; position:fixed; z-index:0; filter:grayscale(80%)" />
+        <!--<img src="../../Images/spa_.png" style="display:block; margin:auto; width: 75%; opacity: 0.15; padding-top:30px; position:fixed; z-index:0; filter:grayscale(80%)" />-->
         <ui-view>
             <div>
             </div>

@@ -108,6 +108,7 @@
     <Content Include="App\Views\_productos.html" />
     <Content Include="App\Views\_servicios.html" />
     <Content Include="Images\cerrar_sesion.png" />
+    <Content Include="Images\config.png" />
     <Content Include="Images\default-perfil.png" />
     <Content Include="Images\empresa.png" />
     <Content Include="Images\home.png" />
@@ -117,7 +118,10 @@
     <Content Include="Images\logo-spa.png" />
     <Content Include="Images\logout.png" />
     <Content Include="Images\spa_.png" />
+    <Content Include="Images\spa_header.png" />
+    <Content Include="Images\spa_login.png" />
     <Content Include="Images\usuario.png" />
+    <Content Include="Images\usuarios.png" />
     <Content Include="Scripts\Ag-Grid\v17.1.1\ag-grid.css" />
     <Content Include="Scripts\Ag-Grid\v17.1.1\ag-grid.min.js" />
     <Content Include="Scripts\Ag-Grid\v17.1.1\themes\ag-theme-balham-dark.css" />

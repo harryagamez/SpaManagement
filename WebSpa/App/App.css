@@ -562,6 +562,8 @@ md-tabs.md-primary > md-tabs-wrapper {
     border-bottom: 2px solid orange;
     color:grey;
 }
+
+
 md-tabs md-ink-bar {
     background: transparent !important;
     color: purple;
@@ -577,8 +579,6 @@ md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > 
     color: white;
     font-weight:600;
 }
-
-
 
 md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
     color: #212121;
