@@ -428,6 +428,11 @@ label {
         transition-duration: 0.5s;        
     }
 
+    .label-imagen-usuario:focus {
+        border: none;
+        outline: none;
+    }
+
 .usuario-imagen {
     border: 1px solid #e1e1e1;
     min-height: 110px;
