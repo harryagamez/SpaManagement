@@ -51,6 +51,7 @@
 
             localStorageService.remove('authorizationData');
             localStorageService.remove('masterdataMenu');
+            localStorageService.remove('masterdataUserAvatar');
             localStorageService.remove('masterDataTipoClientes');
             localStorageService.remove('masterdataClientes');
             localStorageService.remove('masterdataMunicipios');
@@ -109,11 +110,12 @@
                     $rootScope.Id_Empresa = response.data.CompanyId;
                     $rootScope.Perfil = response.data.userRole;
                     $rootScope.Nombre_Empresa = response.data.CompanyName;
-
+                    
                     _authentication.isAuth = true;
                     _authentication.userName = userName;
                     _authentication.userPassword = password;
                     _consultarMenu($rootScope.userData.userId);
+                    _consultarUserAvatar($rootScope.userData.userId);
 
                     if (($rootScope.userData.companyName === '[MULTIPLE]')
                         && ($rootScope.Id_Empresa === '00000000-0000-0000-0000-000000000000'))
@@ -138,6 +140,7 @@
 
             localStorageService.remove('authorizationData');
             localStorageService.remove('masterdataMenu');
+            localStorageService.remove('masterdataUserAvatar');
             localStorageService.remove('masterDataTipoClientes');
             localStorageService.remove('masterdataClientes');
             localStorageService.remove('masterdataMunicipios');
@@ -181,6 +184,10 @@
                 if (masterDataMenu)
                     $rootScope.Menu = masterDataMenu.menu;
 
+                var masterDataUserAvatar = localStorageService.get('masterdataUserAvatar');
+                if (masterDataUserAvatar)
+                    $rootScope.UserAvatar = masterDataUserAvatar.useravatar;
+                
                 var masterDataTipoClientes = localStorageService.get('masterdataTipoClientes');
                 if (masterDataTipoClientes)
                     $rootScope.TipoClientes = masterDataTipoClientes.tipoClientes;
@@ -240,6 +247,32 @@
 
         }
 
+        var _consultarUserAvatar = function () {
+
+            var authorizationData = localStorageService.get('authorizationData');
+            
+            $http({
+                headers: { 'Content-Type': 'application/json' },
+                method: 'GET',
+                url: $rootScope.config.data.API_URL + 'SPA/ConsultarUserAvatar?UserId=' + parseInt(authorizationData.userId)
+            }).then(function (result) {                
+                
+                if (result.data !== null)
+                    $rootScope.UserAvatar = result.data.logo_Base64;
+                else
+                    $rootScope.UserAvatar = '../../Images/default-perfil.png';
+
+                $rootScope.$broadcast('successfull.useravatarload');
+
+                if (result.data !== null) {
+                    localStorageService.set('masterdataUserAvatar',
+                        {
+                            useravatar: result.data.logo_Base64
+                        });
+                }                
+            })
+        }        
+
         var _consultarEmpresas = function () {
 
             $http({
@@ -282,8 +315,8 @@
         authServiceFactory.logOut = _logOut;
         authServiceFactory.fillAuthData = _fillAuthData;
         authServiceFactory.authentication = _authentication;
-        authServiceFactory.consultarMenu = _consultarMenu
-
+        authServiceFactory.consultarMenu = _consultarMenu;
+        authServiceFactory.consultarUserAvatar = _consultarUserAvatar;
         return authServiceFactory;
 
     }
@@ -291,7 +324,7 @@
     function SPAService($http, $rootScope, $q, serviceRest, localStorageService) {
 
         return {
-            _consultarUserAvatar: ConsultarUserAvatar,
+            
             _registrarActualizarCliente: RegistrarActualizarCliente,
             _consultarClientes: ConsultarClientes,
             _consultarBarrios: ConsultarBarrios,
@@ -773,17 +806,17 @@
             return deferred.promise;
         }
 
-        function ConsultarUserAvatar(UserId) {
-            var deferred = $q.defer();            
-            serviceRest.Get('SPA', 'ConsultarUserAvatar?UserId=' + UserId,
-                function (data) {
-                    deferred.resolve(data);
-                },
-                function (err) {
-                    deferred.reject(err);
-                });
-            return deferred.promise;
-        }
+        //function ConsultarUserAvatar(UserId) {
+        //    var deferred = $q.defer();            
+        //    serviceRest.Get('SPA', 'ConsultarUserAvatar?UserId=' + UserId,
+        //        function (data) {
+        //            deferred.resolve(data);
+        //        },
+        //        function (err) {
+        //            deferred.reject(err);
+        //        });
+        //    return deferred.promise;
+        //}
 
     }
 

@@ -73,8 +73,9 @@
         }
     }
 
-    function HomeController($scope, $state, $rootScope, $element, $location, localStorageService, authService, SPAService) {
-        
+    function HomeController($scope, $state, $rootScope, $element, $location, localStorageService, authService, SPAService) {        
+
+        $scope.UserAvatar = '../../Images/default-perfil.png';
 
         if ($rootScope.Empresas !== undefined) {
             if ($rootScope.Empresas.length === 0) {
@@ -110,6 +111,14 @@
                 $scope.Menu = $rootScope.Menu;
         });
 
+        $scope.$on('successfull.useravatarload', function () {
+            if ($rootScope.UserAvatar !== null && $rootScope.UserAvatar !== undefined)
+                $scope.UserAvatar = $rootScope.UserAvatar;            
+        });
+
+        if ($rootScope.UserAvatar !== null && $rootScope.UserAvatar !== undefined)
+            $scope.UserAvatar = $rootScope.UserAvatar;
+
         $scope.$on('successfull.companiesLoaded', function () {
             $scope.Empresas = [];
             if ($scope.Empresas.length == 0)
@@ -127,25 +136,7 @@
             } else $scope.MultipleEmpresa = false;
 
             $scope.NombreEmpresa = $rootScope.Nombre_Empresa;
-        });
-
-        //API
-        $scope.ConsultarAvatar = function () {
-            SPAService._consultarUserAvatar($scope.UserId)
-                .then(
-                    function (result) {
-                        if (result.data !== undefined && result.data !== null)
-                            $scope.UserAvatar = result.data.logo_Base64;
-                        else
-                            $scope.UserAvatar = '../Images/default-perfil.png';
-                    }, function (err) {
-                        toastr.remove();
-                        if (err.data !== null && err.status === 500)
-                            toastr.error(err.data, '', $scope.toastrOptions);
-                    })
-        }
-
-        $scope.ConsultarAvatar();
+        });        
 
         $scope.FiltrarEmpresa = function (id_empresa) {
             $rootScope.Id_Empresa = id_empresa;

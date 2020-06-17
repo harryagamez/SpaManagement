@@ -1,16 +1,15 @@
 ﻿using Spa.Domain.SpaEntities;
+using Spa.Domain.SpaEntities.Extensions;
+using Spa.InfraCommon.SpaCommon.Helpers;
+using Spa.InfraCommon.SpaCommon.Models;
 using Spa.Infrastructure.SpaRepository;
 using System;
-using Spa.InfraCommon.SpaCommon.Models;
-using Spa.InfraCommon.SpaCommon.Helpers;
 using System.Collections.Generic;
-using Spa.Domain.SpaEntities.Extensions;
 
 namespace Spa.Application.SpaService
 {
     public class SpaService : ISpaService
     {
-
         protected ISpaRepository _spaRepository;
         protected readonly string _connectionString;
 
@@ -30,13 +29,42 @@ namespace Spa.Application.SpaService
 
                 if (_usuario != null)
                 {
+                    string htmlString = @"<!DOCTYPE html PUBLIC ' -//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+                    <html xmlns='http://www.w3.org/1999/xhtml'>
+                    <head>
+                        <meta http-equiv='Content - Type' content='text / html; charset = UTF - 8'/>
+                        <meta name = 'viewport' content = 'width=device-width, initial-scale=1.0'/>
+                    </head>
+                    <body style='margin: 0; padding: 0;'>
+                           <table align='center' border='0' cellpadding='0' cellspacing='0' width='600'>
+                           <tr>
+                           <td align='center' bgcolor='#ffffff' style='padding: 30px 0 30px 0;'>
+                               <img src='https://i.imgur.com/aPr5B0t.png' alt='SPA MANAGEMENT' style='display: block; max-width:400px;'/>
+                           </td>
+                           </tr>
+                           <tr>
+                           <td bgcolor='#2b5daa' style='padding: 20px 30px 20px 30px; color: white; font-size:16px;'>
+                                <b>CÓDIGO DE ACTIVACIÓN: " + _usuario.HashKey + @"</b>
+                           </tr>
+                           <tr>
+                           <td bgcolor='#212121' style='padding: 10px 30px 10px 30px; text-align:center; color: white;' >
+                            <p>SPA MANAGEMENT © Todos los derechos reservados</p>
+                           </td>
+                           </td>
+                           </tr>
+                           </table>                            
+                    </body>                    
+                    </html>
+                    ";
+
                     if (_usuario.Codigo_Integracion == null)
                     {
                         EmailModel _emailModel = new EmailModel
                         {
                             MailTo = _usuario.Mail,
                             Subject = "Activación cuenta de usuario - SpaManagement",
-                            Body = "Su código de validación para iniciar sesión es: " + _usuario.HashKey
+                            //Body = "Su código de validación para iniciar sesión es: " + _usuario.HashKey
+                            Body = htmlString
                         };
 
                         if (MailHelper.SendMail(_emailModel))
@@ -106,7 +134,7 @@ namespace Spa.Application.SpaService
 
         public List<Servicio> ConsultarServicios(string IdEmpresa)
         {
-           return _spaRepository.ConsultarServicios(IdEmpresa);
+            return _spaRepository.ConsultarServicios(IdEmpresa);
         }
 
         public bool GuardarServicio(List<Servicio> _Servicio)
@@ -231,12 +259,12 @@ namespace Spa.Application.SpaService
 
         public bool GuardarUsuario(Usuario _Usuario)
         {
-            if(_Usuario.PasswordHasChanged)
+            if (_Usuario.PasswordHasChanged)
             {
                 string encryptedPassword = SecurityHelper.EncryptPasswordHash(_Usuario.Contrasenia);
                 _Usuario.Contrasenia = encryptedPassword;
-            }            
-            
+            }
+
             return _spaRepository.GuardarUsuario(_Usuario);
         }
 
@@ -261,6 +289,5 @@ namespace Spa.Application.SpaService
         {
             return _spaRepository.ConsultarUsuarioEmpresas(IdUsuario);
         }
-
     }
 }

@@ -17,7 +17,7 @@ namespace Spa.InfraCommon.SpaCommon.Helpers
 					Body = eMailModel.Body
 				};
 				message.To.Add(eMailModel.MailTo);
-				message.IsBodyHtml = false;
+				message.IsBodyHtml = true;
 
 				SmtpClient smtp = new SmtpClient("smtp.gmail.com")
 				{
