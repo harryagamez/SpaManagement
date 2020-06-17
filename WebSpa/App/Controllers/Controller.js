@@ -3061,14 +3061,11 @@
         }
 
         $scope.$on("CompanyChange", function () {
-            $scope.IdEmpresa = $rootScope.Id_Empresa;
-
-            $scope.ConsultarGastos();
+            $scope.IdEmpresa = $rootScope.Id_Empresa;            
             $scope.Inicializacion();
         });
 
-        $scope.Inicializacion();
-        $scope.ConsultarGastos();
+        $scope.Inicializacion();        
     }
 
     function GestionController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
