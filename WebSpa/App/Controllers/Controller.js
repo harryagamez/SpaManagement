@@ -3383,7 +3383,7 @@
         }
 
         //Seleccionar Imagen
-        $scope.SeleccionarImagen = function (event) {
+        $scope.SeleccionarImagen = function (event) {            
             let mayorDosMB = false;
             let files = event.target.files[0];
 
@@ -3397,7 +3397,8 @@
                 return;
             }
 
-            $scope.getBase64(files);
+           $scope.getBase64(files);
+            
         }
 
         //Eventos
@@ -3408,10 +3409,12 @@
         $scope.getBase64 = function (file) {
             let reader = new FileReader();
             reader.readAsDataURL(file);
-            reader.onload = function () {
-                $scope.ImagenUsuario = reader.result;
-                $("#ImagenServicio").val('');
-                $('#txtNombreServicio').focus();
+            reader.onload = function () {                
+                
+                $scope.$apply(function () {
+                    $scope.ImagenUsuario = reader.result;
+                });                                
+                $("#ImagenServicio").val('');                
             };
             reader.onerror = function (error) {
                 console.log('Error: ', error);

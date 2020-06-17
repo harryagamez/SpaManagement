@@ -36,21 +36,31 @@ namespace Spa.Application.SpaService
                         <meta name = 'viewport' content = 'width=device-width, initial-scale=1.0'/>
                     </head>
                     <body style='margin: 0; padding: 0;'>
-                           <table align='center' border='0' cellpadding='0' cellspacing='0' width='600'>
+                           <table align='center' border='0' cellpadding='0' cellspacing='0' width='900'>
                            <tr>
                            <td align='center' bgcolor='#ffffff' style='padding: 30px 0 30px 0;'>
-                               <img src='https://i.imgur.com/aPr5B0t.png' alt='SPA MANAGEMENT' style='display: block; max-width:400px;'/>
+                               <img src='https://i.imgur.com/JsBabEb.jpg' alt='SPA MANAGEMENT' style='display: block; max-width:900px;'/>
                            </td>
                            </tr>
                            <tr>
-                           <td bgcolor='#2b5daa' style='padding: 20px 30px 20px 30px; color: white; font-size:16px;'>
-                                <b>CÓDIGO DE ACTIVACIÓN: " + _usuario.HashKey + @"</b>
+                           <td bgcolor='#ffffff' style='padding: 20px 30px 20px 30px; color: #1360a7; font-size:20px; text-align:center;'>
+                                <h2>¡Hola!, " + _usuario.Nombre + @"</h2>
+                           </td>                           
+                           </tr>
+                            <tr>
+                           <td bgcolor='#ffffff' style='padding: 20px 30px 20px 30px; color: grey; font-size:18px;'>
+                                <b>Gracias por crear una cuenta en SPA MANAGEMENT. Pero antes de poder acceder al sistema, deberá activar su cuenta. El siguiente es su código de activación:</b>                                
+                           </td>                           
+                           </tr>
+                           <tr>
+                           <td bgcolor='#ffffff' style='padding: 5px 30px 5px 30px; color: grey; font-size:16px; text-align:center;'>
+                                <p>" + _usuario.HashKey + @"</p>
+                           </td>                           
                            </tr>
                            <tr>
                            <td bgcolor='#212121' style='padding: 10px 30px 10px 30px; text-align:center; color: white;' >
                             <p>SPA MANAGEMENT © Todos los derechos reservados</p>
-                           </td>
-                           </td>
+                           </td>                           
                            </tr>
                            </table>                            
                     </body>                    
@@ -62,8 +72,7 @@ namespace Spa.Application.SpaService
                         EmailModel _emailModel = new EmailModel
                         {
                             MailTo = _usuario.Mail,
-                            Subject = "Activación cuenta de usuario - SpaManagement",
-                            //Body = "Su código de validación para iniciar sesión es: " + _usuario.HashKey
+                            Subject = "Activación cuenta de usuario - SpaManagement",                            
                             Body = htmlString
                         };
 

@@ -111,6 +111,7 @@
     <Content Include="Images\config.png" />
     <Content Include="Images\default-perfil.png" />
     <Content Include="Images\empresa.png" />
+    <Content Include="Images\header_mail.jpeg" />
     <Content Include="Images\home.png" />
     <Content Include="Images\img_spa.jpg" />
     <Content Include="Images\login-header.jpg" />
