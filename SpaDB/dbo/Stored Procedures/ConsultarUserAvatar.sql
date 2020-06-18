@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarUserAvatar(@UserId CHAR(25))
+CREATE PROCEDURE ConsultarUserAvatar(@UserId INT)
 AS
 BEGIN
 	
