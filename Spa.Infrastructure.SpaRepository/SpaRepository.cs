@@ -5,7 +5,6 @@ using System.Data.SqlClient;
 using Spa.InfraCommon.SpaCommon.Helpers;
 using System.Linq;
 using Newtonsoft.Json;
-using System.Security.Cryptography;
 using System.Collections.Generic;
 using Spa.InfraCommon.SpaCommon.Models;
 using Spa.Domain.SpaEntities.Extensions;

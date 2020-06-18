@@ -115,13 +115,18 @@
                     _authentication.userName = userName;
                     _authentication.userPassword = password;
                     _consultarMenu($rootScope.userData.userId);
-                    _consultarUserAvatar($rootScope.userData.userId);
 
                     if (($rootScope.userData.companyName === '[MULTIPLE]')
                         && ($rootScope.Id_Empresa === '00000000-0000-0000-0000-000000000000'))
+
                         _consultarEmpresas();
-                    else
+
+                    else {
+
+                        _consultarUserAvatar($rootScope.userData.userId);
                         _consultarUsuarioEmpresas($rootScope.userData.userId);
+
+                    }
 
                     deferred.resolve(response);
 
