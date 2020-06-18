@@ -323,6 +323,7 @@
         authServiceFactory.authentication = _authentication;
         authServiceFactory.consultarMenu = _consultarMenu;
         authServiceFactory.consultarUserAvatar = _consultarUserAvatar;
+
         return authServiceFactory;
 
     }
@@ -363,8 +364,7 @@
             _eliminarGastos: EliminarGastos,
             _consultarUsuarios: ConsultarUsuarios,
             _consultarUsuario: ConsultarUsuario,
-            _guardarUsuario: GuardarUsuario
-            
+            _guardarUsuario: GuardarUsuario         
 
         }
 
@@ -405,7 +405,6 @@
                 });
             return deferred.promise;
         }
-
 
         function ConsultarBarrios(id_municipio) {
             var deferred = $q.defer();
@@ -811,18 +810,6 @@
 
             return deferred.promise;
         }
-
-        //function ConsultarUserAvatar(UserId) {
-        //    var deferred = $q.defer();            
-        //    serviceRest.Get('SPA', 'ConsultarUserAvatar?UserId=' + UserId,
-        //        function (data) {
-        //            deferred.resolve(data);
-        //        },
-        //        function (err) {
-        //            deferred.reject(err);
-        //        });
-        //    return deferred.promise;
-        //}
 
     }
 
