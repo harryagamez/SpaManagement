@@ -7,12 +7,176 @@
 <body>
     <div layout="row" style="height: calc(100vh - 70px);">
         <form id="frmAgenda">
+
             <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
                 <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Buscar" data-ng-click="ConsultarAgenda()">
                     <i class="material-icons md-18" style="transform: scaleX(-1)">search</i>Buscar
-                </md-button>                
+                </md-button>
             </section>
+
+
+            <div drag-me type="button" id="btnAgendarCita" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Agendar Cita" data-ng-click="ModalAgendarCita()">
+                <i class="material-icons md-18" style="font-size:40px; z-index:9999; width:110%; height:110%; text-align:center; display:block;">add</i>
+            </div>
+
+
+            <div layout="row" layout-xs="column" style="background-color:rgb(250,250,250); margin-bottom:-25px;" layout-align="start center">
+
+                <div flex="">
+                    <md-input-container style="width:90%">
+                        <label for="dateType" class="label-form-clientes" style="">
+                            Clientes:
+                        </label>
+                        <input ng-model="Agenda.Cliente" maxlength="60" type="text" class="" placeholder="Nombre del cliente ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtCliente" tabindex=2>
+                    </md-input-container>
+                </div>
+
+                <div flex="">
+                    <md-input-container style="width:90%">
+                        <label for="dateType" class="label-form-clientes" style="">
+                            Empleados:
+                        </label>
+                        <input ng-model="Agenda.Empleado" maxlength="60" type="text" class="" placeholder="Nombre empleado ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex=2>
+                    </md-input-container>
+                </div>
+
+                <div flex="">
+                    <md-input-container style="width:90%">
+                        <label for="dateType" class="label-form-clientes" style="">
+                            Servicios
+                        </label>
+                        <input ng-model="Agenda.Servicio" maxlength="60" type="text" class="" placeholder="Nombre del servicio ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtServicio" tabindex=2>
+                    </md-input-container>
+                </div>
+
+                <div flex="20" style="margin-top: -25px;">
+                    <md-input-container style="width:95%">
+                        <label class="label-form-clientes">
+                            Estado:
+                        </label>
+                        <md-select ng-model="EstadoSeleccionado" style="display:inline-flex; min-width: 100% !important; margin-top:5px;" id="slEstado" tabindex=9>
+                            <md-option ng-bind="item.Nombre" ng-value="item.id_Estado" ng-repeat="item in Estado track by item.id_Estado"></md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+
+            <div layout="row" layout-xs="column" style="background-color:rgb(250,250,250); margin-bottom:-25px;" layout-align="start center">
+
+                <div flex="20">
+                    <md-input-container style="margin-left: -40px; min-width: 50%;  z-index:9999; margin-bottom:0;">
+                        <label class="label-form-clientes" style="">
+                            Fecha Desde:
+                        </label>
+                        <md-datepicker ng-model="Filtros.Desde" data-ng-change="ValidarFechaDesde()" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=7></md-datepicker>
+                    </md-input-container>
+                </div>
+
+                <div flex="20">
+                    <md-input-container style="margin-left: -40px; min-width: 50%; margin-bottom:0;">
+                        <label class="label-form-clientes" style="">
+                            Fecha Hasta:
+                        </label>
+                        <md-datepicker ng-model="Filtros.Hasta" data-ng-change="ValidarFechaHasta()" md-placeholder="Enter date" class="dateClientes" id="dpFechaHasta" tabindex=8></md-datepicker>
+                    </md-input-container>
+                </div>
+            </div>
         </form>
+    </div>
+
+    <!-- Modal Agendar Cita-->
+    <div style="visibility: hidden">
+        <div class="md-dialog-container" id="dlgAgendarCita">
+            <md-dialog id="mdAgendarCita" aria-label="" style="min-width: 36% !important; max-width:36%; color: #666666 !important;" tabindex="-1">
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2 style="font-size:16px;">{{AccionAgenda}}</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="Cancelar()">
+                            <i class="material-icons" style="transform: scaleX(-1)">close</i>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+
+                <form id="frmServicios" style="">
+
+                    <md-dialog-content style="background-color: rgb(250,250,250); overflow:hidden;">
+
+                        <div layout="row" layout-sm="column" style="" layout-align="center center">
+                            <div flex="">
+                                <md-input-container style="width:90%">
+                                    <label for="dateType" class="label-form-clientes" style="">
+                                        Clientes:
+                                    </label>
+                                    <input ng-model="Agenda.Cliente" maxlength="60" type="text" class="" placeholder="Nombre del cliente ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtCliente" tabindex=2>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="" layout-align="center center">
+                            <div flex="">
+                                <md-input-container style="width:90%">
+                                    <label for="dateType" class="label-form-clientes" style="">
+                                        Empleados:
+                                    </label>
+                                    <input ng-model="Agenda.Empleado" maxlength="60" type="text" class="" placeholder="Nombre empleado ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex=2>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="" layout-align="center center">
+                            <div flex="">
+                                <md-input-container style="width:90%">
+                                    <label for="dateType" class="label-form-clientes" style="">
+                                        Servicios
+                                    </label>
+                                    <input ng-model="Agenda.Servicio" maxlength="60" type="text" class="" placeholder="Nombre del servicio ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtServicio" tabindex=2>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="" layout-align="center center">
+                            <div flex="">
+                                <md-input-container style="margin-left: -40px; min-width: 50%;  z-index:9999; margin-bottom:0;">
+                                    <label class="label-form-clientes" style="">
+                                        Fecha Desde:
+                                    </label>
+                                    <md-datepicker ng-model="Filtros.Desde" data-ng-change="ValidarFechaDesde()" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=7></md-datepicker>
+                                </md-input-container>
+                            </div>
+                            <div flex="">
+                                <md-input-container style="margin-left: -40px; min-width: 50%; margin-bottom:0;">
+                                    <label class="label-form-clientes" style="">
+                                        Fecha Hasta:
+                                    </label>
+                                    <md-datepicker ng-model="Filtros.Hasta" data-ng-change="ValidarFechaHasta()" md-placeholder="Enter date" class="dateClientes" id="dpFechaHasta" tabindex=8></md-datepicker>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="" layout-align="center center">
+                            <div flex="">
+                                <md-input-container style="width:100%">
+                                    <label class="label-form-empleados" style="">
+                                        Observaciones:
+                                    </label>
+                                    <textarea ng-model="Gasto.Descripcion" id="txtDescripcion" rows="2" md-maxlength="300" placeholder="Descripción ..." type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=3></textarea>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-xs="column" style="margin-top:-20px; margin-bottom: -20px;" layout-align="start center">
+                            <div flex="20">
+                                <md-button type="button" id="btnGuardarCita" style="right: 8px; position: fixed; margin-top: -32px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarNuevaCita()" tabindex="6">
+                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                                </md-button>
+                            </div>
+                        </div>
+                    </md-dialog-content>
+                </form>
+
+            </md-dialog>
+        </div>
     </div>
 </body>
 </html>

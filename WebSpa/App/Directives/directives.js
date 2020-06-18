@@ -62,8 +62,15 @@
                     }, 500);
                 });
             };
+        })
+        .directive('dragMe', function () {
+            return {
+                restrict: 'A',
+                link: function (scope, elem, attr, ctrl) {
+                    elem.draggable();
+                }
+            };
         });
-
     function cbutton() {
         return {
             restrict: 'C',

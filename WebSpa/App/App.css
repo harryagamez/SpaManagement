@@ -755,3 +755,19 @@ md-list-item .md-list-item-inner {
     min-height:28px !important;
     height:28px !important;
 }
+
+/*FLOAT BUTTON AGENDA*/
+#btnAgendarCita {
+    max-width: 60px;
+    max-height: 60px;
+    min-height: 60px;
+    min-width: 60px;
+    padding-top: 10px;
+    position: absolute;
+    top: 130px;
+    right: 25px;
+    border-radius: 50%;
+    display: flex;
+    z-index: 999999;
+    box-shadow: 0px 0px 21px 0px rgba(153,153,153,1);    
+}

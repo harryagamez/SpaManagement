@@ -3368,7 +3368,7 @@
             }
         }
 
-        //Modal Caja Menor
+        //Modal Menu
         $scope.ModalMenu = function () {
             $scope.AccionGasto = 'MENU';
 
@@ -3447,14 +3447,44 @@
 
     function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
         //Variables
+        $scope.Estado =
+            [
+                { id_Estado: -1, Nombre: "[Seleccione]" },
+                { id_Estado: 1, Nombre: "PROGRAMADA" },
+                { id_Estado: 2, Nombre: "FACTURADA" },
+                { id_Estado: 4, Nombre: "LIQUIDADA" },
+                { id_Estado: 5, Nombre: "CANCELADA" },
+            ];
+        $scope.Estado = $filter('orderBy')($scope.Estado, 'Nombre', false);
 
         //Inicialización
-
+        $scope.EstadoSeleccionado = -1;
+        $scope.Filtros = { Desde: new Date(), Hasta: new Date() }
+        $scope.AccionAgenda = 'Agendar Cita';
         //Api
 
         //Funciones
 
+        //Modal Agendar Cita
+        $scope.ModalAgendarCita = function () {
+            $scope.AccionAgenda = 'Agendar Cita';
+
+            $mdDialog.show({
+                contentElement: '#dlgAgendarCita',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                multiple: true,
+            })
+                .then(function () {
+                }, function () {
+                   
+                });
+        }
         //Eventos
+        $scope.Cancelar = function () {
+            $mdDialog.cancel();
+        };
     }
 
     function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
