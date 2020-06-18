@@ -623,11 +623,11 @@ namespace WebApiSpa.Controllers
         [HttpGet]
         [Route("api/SPA/ConsultarUserAvatar")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult ConsultarUserAvatar(int UserId)
+        public IHttpActionResult ConsultarUserAvatar(int UserId, string IdEmpresa)
         {
             try
             {
-                Usuario _usuario = _spaService.ConsultarUserAvatar(UserId);
+                Usuario _usuario = _spaService.ConsultarUserAvatar(UserId, IdEmpresa);
 
                 return Content(HttpStatusCode.OK, _usuario);
             }

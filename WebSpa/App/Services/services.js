@@ -160,6 +160,7 @@
             $rootScope.Municipios = [];
             $rootScope.Barrios = [];
             $rootScope.Empresas = [];
+            $rootScope.UserAvatar = '../../Images/default-perfil.png';
 
             _authentication.isAuth = false;
             _authentication.userName = "";
@@ -259,7 +260,7 @@
             $http({
                 headers: { 'Content-Type': 'application/json' },
                 method: 'GET',
-                url: $rootScope.config.data.API_URL + 'SPA/ConsultarUserAvatar?UserId=' + parseInt(authorizationData.userId)
+                url: $rootScope.config.data.API_URL + 'SPA/ConsultarUserAvatar?UserId=' + parseInt(authorizationData.userId) + '&IdEmpresa=' + authorizationData.companyId
             }).then(function (result) {                
                 
                 if (result.data !== null)

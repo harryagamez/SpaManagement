@@ -1,5 +1,4 @@
 ﻿(function () {
-
     angular.module('app', [
         "ngRoute",
         "ngAnimate",
@@ -22,7 +21,6 @@
     Initialize.$inject = ['$rootScope', '$http', '$window', 'localStorageService', 'AuthService'];
 
     function Configuration($stateProvider, $urlRouterProvider, $routeProvider, $httpProvider, $locationProvider, $mdDateLocaleProvider, $mdThemingProvider) {
-    
         $httpProvider.interceptors.push('AuthtenticantionIntecerptorService');
 
         $locationProvider.hashPrefix('');
@@ -73,10 +71,14 @@
                 url: '/gestion',
                 templateUrl: 'Views/_gestion.html',
                 controller: 'GestionController'
+            })
+            .state('home.agenda', {
+                url: '/agenda',
+                templateUrl: 'Views/_agenda.html',
+                controller: 'AgendaController'
             }) 
 
         //$mdDateLocaleProvider.formatDate = function (date) {
-
         //    if (date) {
         //        var day = date.getDate();
         //        var monthIndex = date.getMonth() + 1;
@@ -89,11 +91,9 @@
         //    }
 
         //};
-
     }
 
     function Initialize($rootScope, $http, $window, localStorageService, authService) {
-
         $http.get('app-config-dev.json').then(function (data, status, headers, config) {
             $rootScope.config = data;
         },
@@ -102,22 +102,17 @@
             });
 
         authService.fillAuthData();
-
     }
 
     function sumInventory() {
-
         return function (data, key) {
-
             if (typeof (data) === 'undefined' || typeof (key) === 'undefined') {
-
                 return 0;
             }
 
             var sum = 0;
 
             for (var i = data.length - 1; i >= 0; i--) {
-
                 sum += parseInt(data[i]["Front"] + data[i]["Back"] + data[i]["Delivery"]);
             }
 
@@ -125,17 +120,12 @@
                 sum = pad(sum, 2);
             }
             return sum;
-
         };
-
     }
 
     function sumShrink() {
-
         return function (data, key) {
-
             if (typeof (data) === 'undefined' || typeof (key) === 'undefined') {
-
                 return 0;
             }
 
@@ -148,9 +138,6 @@
             }
 
             return sum;
-
         };
-
     }
-
 })();

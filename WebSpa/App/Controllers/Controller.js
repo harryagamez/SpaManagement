@@ -10,6 +10,7 @@
         .controller("ProductosController", ProductosController)
         .controller("GastosController", GastosController)
         .controller("GestionController", GestionController)
+        .controller("AgendaController", AgendaController)
 
     LoginController.$inject = ['$scope', '$state', '$location', '$mdDialog', '$rootScope', '$timeout', 'AuthService'];
     HomeController.$inject = ['$scope', '$state', '$rootScope', '$element', '$location', 'localStorageService', 'AuthService', 'SPAService'];
@@ -19,6 +20,7 @@
     ProductosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     GastosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     GestionController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+    AgendaController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
     function LoginController($scope, $state, $location, $mdDialog, $rootScope, $timeout, authService) {
         // Variables
@@ -3441,6 +3443,18 @@
 
         $scope.Inicializacion();
         $scope.ConsultarUsuarios();
+    }
+
+    function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+        //Variables
+
+        //Inicialización
+
+        //Api
+
+        //Funciones
+
+        //Eventos
     }
 
     function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {

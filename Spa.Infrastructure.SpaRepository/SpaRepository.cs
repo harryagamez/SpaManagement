@@ -1044,7 +1044,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public Usuario ConsultarUserAvatar(int UserId)
+        public Usuario ConsultarUserAvatar(int UserId, string IdEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -1060,7 +1060,8 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarUserAvatar";
-                    _command.Parameters.AddWithValue("@UserId", UserId);                    
+                    _command.Parameters.AddWithValue("@UserId", UserId);
+                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);

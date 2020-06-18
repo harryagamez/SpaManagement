@@ -284,9 +284,9 @@ namespace Spa.Application.SpaService
             return _spaRepository.ValidarUsuarioAdmin(Nombre, encryptedPassword);
         }
 
-        public Usuario ConsultarUserAvatar(int UserId)
+        public Usuario ConsultarUserAvatar(int UserId, string IdEmpresa)
         {
-            return _spaRepository.ConsultarUserAvatar(UserId);
+            return _spaRepository.ConsultarUserAvatar(UserId, IdEmpresa);
         }
 
         public List<Empresa> ConsultarEmpresas()

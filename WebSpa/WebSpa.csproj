@@ -100,6 +100,7 @@
     <Content Include="App\Services\services.js" />
     <Content Include="App\Views\Templates\_imgattached.tmpl.html" />
     <Content Include="App\Views\Templates\_slider.tmpl.html" />
+    <Content Include="App\Views\_agenda.html" />
     <Content Include="App\Views\_clientes.html" />
     <Content Include="App\Views\_empleados.html" />
     <Content Include="App\Views\_gastos.html" />
