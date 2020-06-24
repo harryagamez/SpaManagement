@@ -25,40 +25,40 @@ namespace Spa.Application.SpaService
             {
                 string encryptedPassword = SecurityHelper.EncryptPasswordHash(Password);
 
-                Usuario _usuario = _spaRepository.ValidarUsuario(Nombre, encryptedPassword, ValidarIntegracion, CodigoIntegracion);
+                Usuario _usuario = _spaRepository.ValidarUsuario(Nombre, encryptedPassword, ValidarIntegracion, CodigoIntegracion);                
 
                 if (_usuario != null)
                 {
-                    string htmlString = @"<!DOCTYPE html PUBLIC ' -//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
-                    <html xmlns='http://www.w3.org/1999/xhtml'>
+                    string htmlString = @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">
+                    <html xmlns=""http://www.w3.org/1999/xhtml"">
                     <head>
-                        <meta http-equiv='Content - Type' content='text / html; charset = UTF - 8'/>
-                        <meta name = 'viewport' content = 'width=device-width, initial-scale=1.0'/>
+                        <meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8""/>
+                        <meta name = ""viewport"" content = ""width=device-width, initial-scale=1.0""/>
                     </head>
-                    <body style='margin: 0; padding: 0;'>
-                           <table align='center' border='0' cellpadding='0' cellspacing='0' width='900'>
+                    <body style=""margin: 0; padding: 0;"">
+                           <table align=""center"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""900"">
                            <tr>
-                           <td align='center' bgcolor='#ffffff' style='padding: 30px 0 30px 0;'>
-                               <img src='https://i.imgur.com/JsBabEb.jpg' alt='SPA MANAGEMENT' style='display: block; max-width:900px;'/>
+                           <td align=""center"" bgcolor=""#ffffff"" style=""padding: 30px 0 30px 0;"">
+                               <img src=""https://i.imgur.com/JsBabEb.jpg"" alt=""SPA MANAGEMENT"" style=""display: block; max-width:900px;""/>
                            </td>
                            </tr>
                            <tr>
-                           <td bgcolor='#ffffff' style='padding: 20px 30px 20px 30px; color: #1360a7; font-size:20px; text-align:center;'>
+                           <td bgcolor=""#ffffff"" style=""padding: 20px 30px 20px 30px; color: #1360a7; font-size:20px; text-align:center;"">
                                 <h2>¡Hola!, " + _usuario.Nombre + @"</h2>
                            </td>                           
                            </tr>
                             <tr>
-                           <td bgcolor='#ffffff' style='padding: 20px 30px 20px 30px; color: grey; font-size:18px;'>
+                           <td bgcolor=""#ffffff"" style=""padding: 20px 30px 20px 30px; color: grey; font-size:18px;"">
                                 <b>Gracias por crear una cuenta en SPA MANAGEMENT. Pero antes de poder acceder al sistema, deberá activar su cuenta. El siguiente es su código de activación:</b>                                
                            </td>                           
                            </tr>
                            <tr>
-                           <td bgcolor='#ffffff' style='padding: 5px 30px 5px 30px; color: grey; font-size:16px; text-align:center;'>
+                           <td bgcolor=""#ffffff"" style=""padding: 5px 30px 5px 30px; color: grey; font-size:16px; text-align:center;"">
                                 <p>" + _usuario.HashKey + @"</p>
                            </td>                           
                            </tr>
                            <tr>
-                           <td bgcolor='#212121' style='padding: 10px 30px 10px 30px; text-align:center; color: white;' >
+                           <td bgcolor=""#212121"" style=""padding: 10px 30px 10px 30px; text-align:center; color: white;"" >
                             <p>SPA MANAGEMENT © Todos los derechos reservados</p>
                            </td>                           
                            </tr>

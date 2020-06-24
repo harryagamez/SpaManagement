@@ -28,7 +28,7 @@
 
                         </section>
 
-                        <div layout="row" layout-xs="column" style="background-color:rgb(250,250,250); padding:10px 0;" layout-align="center center">
+                        <div layout="row" layout-xs="column" style="padding:10px 0;" layout-align="center center">
                             <div flex="">
                                 <md-input-container style="width:90%; margin-bottom:0;">
                                     <label class="label-form-empleados" style="">
@@ -72,7 +72,7 @@
                             </div>
                         </div>
 
-                        <div layout="row" layout-xs="column" style="background-color:rgb(250,250,250); padding:10px 0;" layout-align="start center">
+                        <div layout="row" layout-xs="column" style="padding:10px 0;" layout-align="start center">
                             <div flex="20">
                                 <md-input-container style="width:90%; margin-top:-18px; margin-bottom:0;">
                                     <label class="label-form-clientes">
@@ -102,7 +102,7 @@
     <!-- Modal Menu-->
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgMenu">
-            <md-dialog id="mdCajaMenor" aria-label="" style="min-width: 18% !important; max-width:18%;">
+            <md-dialog id="mdMenu" aria-label="" style="min-width: 230px !important; max-width:230px;">
                 <md-toolbar>
                     <div class="md-toolbar-tools">
                         <h2 style="font-size:16px;">Menú</h2>
@@ -115,13 +115,13 @@
 
                 <form id="frmServicios" style="">
 
-                    <md-dialog-content style="background-color: rgb(250,250,250); overflow:hidden;">
-                        <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250); " layout-align="start start">
+                    <md-dialog-content style="overflow:hidden;">
+                        <div layout="row" layout-sm="column" style="" layout-align="start start">
                             <div flex="">
                                 <md-list style="border:1px solid #e1e1e1;">
-                                    <md-subheader class="md-no-sticky" style="margin-top:-8px; padding:0;">Menú</md-subheader>
+                                    <!--<md-subheader class="md-no-sticky" style="margin-top:-8px; padding:0; background:white;">Menú</md-subheader>-->
                                     <md-list-item ng-repeat="item in Menu" style="min-height:20px; height:20px;">
-                                        <p style="font-size:16px;">{{item.Descripcion}}</p>
+                                        <p style="font-size:14px;">{{item.Descripcion}}</p>
                                         <md-checkbox class="md-secondary" ng-model="item.Estado"></md-checkbox>
                                     </md-list-item>
                                 </md-list>

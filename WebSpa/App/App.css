@@ -371,7 +371,8 @@ md-checkbox.md-default-theme.md-checked .md-icon {
 }
 
 .md-toolbar-tools {
-    background: rgba(19,38,68,0.5);
+    background-color:white;
+    color:#212121;
     height: 35px!important;
 }
 
@@ -444,7 +445,8 @@ label {
     padding: 0;
     position: absolute;
     top: 65px;
-    right: 2px;
+    right: 8px;
+    box-shadow:0px 0px 9px 2px rgba(224,224,224,1);
 }
 
     .usuario-imagen img {
@@ -457,6 +459,10 @@ label {
         display:block;
         margin-top:1px;
     }
+
+.flex, .flex-15,.flex-20, .flex-40, .flex-60, .flex-80 {
+    background-color: white !important;
+}
 
 
 /*################ Filters, Shadows, Transitions ################*/
@@ -575,7 +581,7 @@ md-tabs md-ink-bar {
 }
 
 .md-tab.md-active {
-    background: #383838;
+    background: orange;
     border-radius: 10px 10px 0 0;
     box-shadow: 5px 5px 10px #999;
 }
@@ -770,4 +776,39 @@ md-list-item .md-list-item-inner {
     display: flex;
     z-index: 999999;
     box-shadow: 0px 0px 21px 0px rgba(153,153,153,1);    
+}
+
+
+/*TABLE SCHEDULE*/
+
+.table-schedule {
+    border:1px solid #ddd;
+}
+.table-schedule, .table-schedule td, .table-schedule th, .table.table-schedule tr {
+    padding:0px 10px 0px 10px;
+    margin:0;
+}
+
+.table-schedule th {
+    text-align:center;
+    vertical-align:top;
+}
+
+.table-schedule td, .table-schedule th {
+    min-width: 150px;
+    max-width: 150px;
+    border-bottom: 1px solid #ddd;
+}
+
+.table-schedule td {
+    border-left: 1px solid #ddd;
+}
+
+.table-schedule td:last-child {
+    border-right: 1px solid #ddd;
+}
+
+.table-schedule tr {
+    min-height:30px;
+    max-height:30px;
 }

@@ -68,7 +68,7 @@
         <div style="visibility: hidden">
 
             <div class="md-dialog-container" id="dlgNuevoProducto">
-                <md-dialog id="mdNuevoProducto" aria-label="Nuevo Producto" style="width: 40% !important; color: #666666 !important;">
+                <md-dialog id="mdNuevoProducto" aria-label="Nuevo Producto" style="min-width: 480px; max-width:480px; color: #666666 !important;">
                     <md-toolbar>
                         <div class="md-toolbar-tools">
                             <h2 style="font-size:16px;">{{AccionProducto}}</h2>
@@ -79,7 +79,7 @@
                         </div>
                     </md-toolbar>
                     <form id="frmServiciosModal" style="">
-                        <md-dialog-content style="background-color: rgb(250,250,250);">
+                        <md-dialog-content style="">
                             <div layout="row" layout-align="">
                                 <div flex="">
                                     <md-input-container class="md-block" style="margin: 13px 0 0 0;">
@@ -166,7 +166,7 @@
 
             <div class="md-dialog-container" id="dlgProductoTransacciones">
 
-                <md-dialog id="mdProductoTransacciones" style="width: 50% !important; color: #666666 !important;">
+                <md-dialog id="mdProductoTransacciones" style="min-width: 550px; max-width:550px; color: #666666 !important;">
                     <md-toolbar>
                         <div class="md-toolbar-tools">
                             <h2 style="font-size:16px;">{{ DescripcionProductoTransacciones }}</h2>
@@ -179,7 +179,7 @@
 
                     <form id="frmServiciosModal">
 
-                        <md-dialog-content style="background-color: rgb(250,250,250);">
+                        <md-dialog-content style="">
 
                             <div layout="row" layout-align="center center">
                                 <div id="divGridProductoTransacciones" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 300px); margin-top:11px; overflow-y:auto;">

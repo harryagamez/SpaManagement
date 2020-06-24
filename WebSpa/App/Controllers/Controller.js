@@ -75,8 +75,7 @@
         }
     }
 
-    function HomeController($scope, $state, $rootScope, $element, $location, localStorageService, authService, SPAService) {        
-
+    function HomeController($scope, $state, $rootScope, $element, $location, localStorageService, authService, SPAService) {
         $scope.UserAvatar = '../../Images/default-perfil.png';
 
         if ($rootScope.Empresas !== undefined) {
@@ -104,9 +103,9 @@
         $scope.Logout = function () {
             authService.logOut();
         }
-        
+
         $scope.UsuarioSistema = $rootScope.userData.userName;
-        $scope.NombreEmpresa = $rootScope.Nombre_Empresa;        
+        $scope.NombreEmpresa = $rootScope.Nombre_Empresa;
         $scope.UserId = $rootScope.userData.userId;
         $scope.$on('successfull.menuload', function () {
             if ($scope.Menu.length == 0)
@@ -115,7 +114,7 @@
 
         $scope.$on('successfull.useravatarload', function () {
             if ($rootScope.UserAvatar !== null && $rootScope.UserAvatar !== undefined)
-                $scope.UserAvatar = $rootScope.UserAvatar;            
+                $scope.UserAvatar = $rootScope.UserAvatar;
         });
 
         if ($rootScope.UserAvatar !== null && $rootScope.UserAvatar !== undefined)
@@ -138,7 +137,7 @@
             } else $scope.MultipleEmpresa = false;
 
             $scope.NombreEmpresa = $rootScope.Nombre_Empresa;
-        });        
+        });
 
         $scope.FiltrarEmpresa = function (id_empresa) {
             $rootScope.Id_Empresa = id_empresa;
@@ -152,8 +151,7 @@
         $scope.$on("$destroy", function () {
             $scope.Menu = [];
             $scope.Empresas = [];
-        });        
-
+        });
     }
 
     function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
@@ -1701,7 +1699,7 @@
                 return false;
             }
 
-            if ($filter('date')(new Date($scope.Empleado.Fecha_Nacimiento), 'MM/dd/yyyy') > $filter('date')(new Date(), 'MM/dd/yyyy')) {
+            if (parseInt($filter('date')(new Date($scope.Empleado.Fecha_Nacimiento), 'yyyyMMdd')) > parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
                 toastr.info('La fecha de nacimiento debe ser menor que la fecha actual', '', $scope.toastrOptions);
                 $('#dpFechaNacimiento').focus();
                 return false;
@@ -2511,7 +2509,6 @@
             $scope.TipoGastoSeleccionado = -1;
             $scope.LimpiarDatosCajaMenor();
             $scope.ConsultarCajaMenor();
-            
         }
 
         $scope.IdEmpresa = $rootScope.Id_Empresa;
@@ -3011,7 +3008,7 @@
 
                 $mdDialog.show(confirm).then(function () {
                     $scope.EliminarGastos();
-                }, function () {                    
+                }, function () {
                     return;
                 });
             }
@@ -3020,9 +3017,9 @@
         };
 
         //OnRowSelected
-        function OnRowSelected(event) {            
+        function OnRowSelected(event) {
             $scope.ObjetoBorrarGasto = [];
-            $scope.ObjetoBorrarGasto = $scope.GastosGridOptions.api.getSelectedRows();                   
+            $scope.ObjetoBorrarGasto = $scope.GastosGridOptions.api.getSelectedRows();
         }
 
         // Eventos
@@ -3063,11 +3060,11 @@
         }
 
         $scope.$on("CompanyChange", function () {
-            $scope.IdEmpresa = $rootScope.Id_Empresa;            
+            $scope.IdEmpresa = $rootScope.Id_Empresa;
             $scope.Inicializacion();
         });
 
-        $scope.Inicializacion();        
+        $scope.Inicializacion();
     }
 
     function GestionController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
@@ -3385,7 +3382,7 @@
         }
 
         //Seleccionar Imagen
-        $scope.SeleccionarImagen = function (event) {            
+        $scope.SeleccionarImagen = function (event) {
             let mayorDosMB = false;
             let files = event.target.files[0];
 
@@ -3399,8 +3396,7 @@
                 return;
             }
 
-           $scope.getBase64(files);
-            
+            $scope.getBase64(files);
         }
 
         //Eventos
@@ -3411,12 +3407,11 @@
         $scope.getBase64 = function (file) {
             let reader = new FileReader();
             reader.readAsDataURL(file);
-            reader.onload = function () {                
-                
+            reader.onload = function () {
                 $scope.$apply(function () {
                     $scope.ImagenUsuario = reader.result;
-                });                                
-                $("#ImagenServicio").val('');                
+                });
+                $("#ImagenServicio").val('');
             };
             reader.onerror = function (error) {
                 console.log('Error: ', error);
@@ -3457,14 +3452,71 @@
             ];
         $scope.Estado = $filter('orderBy')($scope.Estado, 'Nombre', false);
 
+        $scope.doc_classes_colors = ["#96bdc4", "#c2dbdf", "#fdd4c1", "#eaabbc", "#F1CBB5"];
+        $scope.PorHoras = ["06:00 AM", "07:00 AM", "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
+            "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "00:00 AM", "07:00 PM",
+            "08:00 PM", "09:00 PM", "10:00 PM"]
+
+        //$scope.getRandomColor = function () {
+        //    $scope.bgColor = $scope.doc_classes_colors[Math.floor(Math.random() * $scope.doc_classes_colors.length)];
+        //    return $scope.bgColor;
+        //};
+
         //Inicialización
         $scope.EstadoSeleccionado = -1;
+        $scope.ServicioSeleccionado = -1;
         $scope.Filtros = { Desde: new Date(), Hasta: new Date() }
         $scope.AccionAgenda = 'Agendar Cita';
+        $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.IdUsuario = parseInt($rootScope.userData.userId);
+
+        let currentDate = new Date();
+        let currentHour = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes());
+
+        $scope.Agenda = {
+            Cliente: '',
+            Empleado: '',
+            Servicio: '',
+            Fecha: new Date(),
+            Hora: currentHour
+        };
+
         //Api
+        // Consultar Empleados
+        $scope.ConsultarEmpleados = function () {
+            SPAService._consultarEmpleados($scope.IdEmpresa)
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+                            $scope.Empleados = [];
+                            $scope.Empleados = result.data;                            
+                            $scope.Empleados = $filter('orderBy')($scope.Empleados, 'id_Empleado', false);
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })            
+        }
 
-        //Funciones
-
+        // Consultar Servicios
+        $scope.ConsultarServicios = function () {
+            SPAService._consultarServicios($scope.IdEmpresa)
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+                            $scope.Servicios = [];
+                            $scope.Servicios = result.data;
+                            $scope.Servicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
+                            $scope.Servicios = $filter('orderBy')($scope.Servicios, 'id_Servicio', false);
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+        }
+        //Funciones      
         //Modal Agendar Cita
         $scope.ModalAgendarCita = function () {
             $scope.AccionAgenda = 'Agendar Cita';
@@ -3478,13 +3530,20 @@
             })
                 .then(function () {
                 }, function () {
-                   
                 });
         }
         //Eventos
         $scope.Cancelar = function () {
             $mdDialog.cancel();
         };
+
+        $scope.$on("CompanyChange", function () {
+            $scope.IdEmpresa = $rootScope.Id_Empresa;
+            $scope.ConsultarServicios();
+        });
+
+        $scope.ConsultarServicios();
+        $scope.ConsultarEmpleados();        
     }
 
     function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {

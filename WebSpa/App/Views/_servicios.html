@@ -65,7 +65,7 @@
             <input type="file" name="file" id="ImagenServicio" multiple style="visibility:hidden;" data-toggle="tooltip" title="Upload" data-file-model="SeleccionarImagen($event)" accept=".png, .jpg, .jpeg" />
 
             <div class="md-dialog-container" id="dlgNuevoServicio">
-                <md-dialog id="mdNuevoServicio" aria-label="Nuevo Servicio" style="width: 40% !important; color: #666666 !important;">
+                <md-dialog id="mdNuevoServicio" aria-label="Nuevo Servicio" style="min-width: 540px !important; max-width: 540px !important; color: #666666 !important;">
                     <md-toolbar>
                         <div class="md-toolbar-tools">
                             <h2 style="font-size:16px;">{{ AccionServicio }}</h2>
@@ -76,7 +76,7 @@
                         </div>
                     </md-toolbar>
                     <form id="frmServiciosModal" style="">
-                        <md-dialog-content style="background-color: rgb(250,250,250);">
+                        <md-dialog-content style="">
                             <div layout="row" layout-align="">
                                 <div flex="">
                                     <md-input-container class="md-block" style="margin: 13px 0 0 0;">
@@ -171,12 +171,9 @@
                             </div>
                         </md-dialog-content>
                     </form>
-
                 </md-dialog>
             </div>
-
         </div>
-
     </div>
 </body>
 </html>
