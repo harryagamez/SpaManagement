@@ -567,6 +567,10 @@ input:-webkit-autofill:active {
     white-space: pre;
 }
 
+.md-whiteframe-1dp, .md-whiteframe-z1 {
+    box-shadow: none !important;
+}
+
 /*TABS GESTION*/
 md-tabs.md-primary > md-tabs-wrapper {
     background-color: white;
@@ -784,6 +788,12 @@ md-list-item .md-list-item-inner {
 .table-schedule {
     border:1px solid #ddd;
 }
+
+.table-schedule tbody td {
+    min-height:36px !important;
+    max-height:36px !important;
+}
+
 .table-schedule, .table-schedule td, .table-schedule th, .table.table-schedule tr {
     padding:0px 10px 0px 10px;
     margin:0;
@@ -792,6 +802,7 @@ md-list-item .md-list-item-inner {
 .table-schedule th {
     text-align:center;
     vertical-align:top;
+    border-left: 1px solid #ddd;
 }
 
 .table-schedule td, .table-schedule th {
@@ -802,6 +813,15 @@ md-list-item .md-list-item-inner {
 
 .table-schedule td {
     border-left: 1px solid #ddd;
+    height:36px !important;
+}
+
+.table-schedule td:focus {
+    outline: none;
+}
+
+.table-schedule td:hover {
+    background:#e1e1e1;    
 }
 
 .table-schedule td:last-child {
@@ -809,6 +829,6 @@ md-list-item .md-list-item-inner {
 }
 
 .table-schedule tr {
-    min-height:30px;
-    max-height:30px;
+    min-height:36px;
+    max-height:36px;
 }

@@ -3453,25 +3453,25 @@
         $scope.Estado = $filter('orderBy')($scope.Estado, 'Nombre', false);
 
         $scope.doc_classes_colors = ["#96bdc4", "#c2dbdf", "#fdd4c1", "#eaabbc", "#F1CBB5"];
-        $scope.PorHoras = ["06:00 AM", "07:00 AM", "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
-            "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "00:00 AM", "07:00 PM",
-            "08:00 PM", "09:00 PM", "10:00 PM"]
-
-        //$scope.getRandomColor = function () {
-        //    $scope.bgColor = $scope.doc_classes_colors[Math.floor(Math.random() * $scope.doc_classes_colors.length)];
-        //    return $scope.bgColor;
-        //};
+        $scope.PorHoras = ["06:00 AM", "07:00 AM", "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 M",
+            "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM",
+            "08:00 PM", "09:00 PM", "10:00 PM"];        
 
         //Inicialización
         $scope.EstadoSeleccionado = -1;
         $scope.ServicioSeleccionado = -1;
-        $scope.Filtros = { Desde: new Date(), Hasta: new Date() }
+        $scope.Filtros = { Desde: new Date(new Date().setHours(0, 0, 0, 0)), Hasta: new Date(new Date().setHours(0, 0, 0, 0)) }
+        $scope.FechaDetallada = new Date(new Date().setHours(0, 0, 0, 0));
         $scope.AccionAgenda = 'Agendar Cita';
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
-
+        $scope.ClienteSeleccionado = '';        
+        $scope.EmpleadoSeleccionado = '';
         let currentDate = new Date();
         let currentHour = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes());
+
+        //Config
+        $scope.ConfigHoraFin = false;        
 
         $scope.Agenda = {
             Cliente: '',
@@ -3482,6 +3482,23 @@
         };
 
         //Api
+        //Consultar Clientes
+        $scope.ConsultarClientes = function () {
+            SPAService._consultarClientes($scope.IdEmpresa)
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+                            $scope.Clientes = [];
+                            $scope.Clientes = result.data;
+                            $scope.Clientes = $filter('orderBy')($scope.Clientes, 'id_Cliente', false);                            
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })            
+        }
+
         // Consultar Empleados
         $scope.ConsultarEmpleados = function () {
             SPAService._consultarEmpleados($scope.IdEmpresa)
@@ -3516,13 +3533,30 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         }
-        //Funciones      
-        //Modal Agendar Cita
-        $scope.ModalAgendarCita = function () {
+        //Funciones
+        //Encontrar Cliente
+        $scope.EncontrarCliente = function(nombre) {
+            let busqueda = '';
+            busqueda = $filter('filter')($scope.Clientes, { 'nombres': nombre });            
+            return busqueda;            
+        }
+
+        //Encontrar Empleado
+        $scope.EncontrarEmpleado = function (nombre) {
+            let busqueda = '';
+            busqueda = $filter('filter')($scope.Empleados, { 'nombres': nombre });
+            return busqueda;
+        }
+        
+
+        //Modales Agendar Cita
+
+        //Modal Agendar Cita General
+        $scope.ModalAgendaGeneral = function () {
             $scope.AccionAgenda = 'Agendar Cita';
 
             $mdDialog.show({
-                contentElement: '#dlgAgendarCita',
+                contentElement: '#dlgAgendaGeneral',
                 parent: angular.element(document.body),
                 targetEvent: event,
                 clickOutsideToClose: true,
@@ -3532,6 +3566,59 @@
                 }, function () {
                 });
         }
+
+        //Modal Agendar Cita Detallada
+        $scope.ModalAgendaDetallada = function (horas, empleado, minutos) {            
+            $scope.AccionAgenda = 'Agendar Cita';           
+            $scope.EmpleadoSeleccionado = empleado.nombres;
+            $scope.FechaHoraAgendaDetallada(horas, minutos);            
+
+            $mdDialog.show({
+                contentElement: '#dlgAgendaDetallada',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                multiple: true,
+            })
+                .then(function () {                    
+                }, function () {
+                });
+        }
+
+        //Fecha y Hora Agenda Detallada
+        $scope.FechaHoraAgendaDetallada = function (horas, minutos) {
+            let setHora = 0;
+            let setMinutos = 0;
+
+            if (horas.indexOf('PM') !== -1) {
+                horas = horas.replace('PM', '');
+                setHora = parseInt(horas) + 12;
+                if (minutos === 'enpunto')
+                    setMinutos = '0';
+                else
+                    setMinutos = '30';
+            } else {
+
+                if (horas === '12:00 M')
+                    horas = horas.replace('M', '');
+                else
+                    horas = horas.replace('AM', '');
+
+                setHora = parseInt(horas);
+
+                if (minutos === 'enpunto')
+                    setMinutos = 0;
+                else
+                    setMinutos = 30;
+            }
+
+            $scope.Agenda.Fecha = angular.copy($scope.FechaDetallada);
+            $scope.Agenda.Fecha = new Date(($scope.Agenda.Fecha).setHours(setHora, setMinutos, 0, 0));
+            $scope.Agenda.Hora = new Date($scope.Agenda.Fecha.getFullYear(), $scope.Agenda.Fecha.getMonth(),
+                $scope.Agenda.Fecha.getDate(), $scope.Agenda.Fecha.getHours(), $scope.Agenda.Fecha.getMinutes());
+        }
+
+
         //Eventos
         $scope.Cancelar = function () {
             $mdDialog.cancel();
@@ -3540,10 +3627,13 @@
         $scope.$on("CompanyChange", function () {
             $scope.IdEmpresa = $rootScope.Id_Empresa;
             $scope.ConsultarServicios();
+            $scope.ConsultarEmpleados();
+            $scope.ConsultarClientes();
         });
 
         $scope.ConsultarServicios();
-        $scope.ConsultarEmpleados();        
+        $scope.ConsultarEmpleados();
+        $scope.ConsultarClientes();
     }
 
     function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {

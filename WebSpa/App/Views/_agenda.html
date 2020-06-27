@@ -9,57 +9,6 @@
         <form id="frmAgenda">
 
             <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
-
-                <md-tab label="Detallada">
-                    <md-content class="md-padding" style="background-color:transparent; margin-bottom:10px;">
-                        <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
-                            <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Buscar" data-ng-click="ConsultarAgenda()">
-                                <i class="material-icons md-18" style="transform: scaleX(-1)">search</i>Buscar
-                            </md-button>
-                        </section>                        
-
-                        <div layout="row" layout-xs="column" style="margin-bottom:-5px;" layout-align="start center">
-                            <!--<div flex="15" style="margin-top: -20px;">
-                                <md-input-container style="width:95%">
-                                    <label class="label-form-clientes">
-                                        Estado:
-                                    </label>
-                                    <md-select ng-model="EstadoSeleccionado" style="display:inline-flex; min-width: 95% !important; margin-top:5px; position: relative; z-index:99999;" id="slEstado" tabindex=4>
-                                        <md-option ng-bind="item.Nombre" ng-value="item.id_Estado" ng-repeat="item in Estado track by item.id_Estado"></md-option>
-                                    </md-select>
-                                </md-input-container>
-                            </div>-->
-
-                            <div flex="" style="margin-top:-3px;">
-                                <md-input-container style="margin-left: -40px; max-width:300px;z-index:99; margin-top:15px;">
-                                    <label class="label-form-clientes">
-                                        Fecha:
-                                    </label>
-                                    <md-datepicker ng-model="Filtros.Desde" data-ng-change="ValidarFechaDesde()" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=5 style="margin-bottom:0;"></md-datepicker>
-                                </md-input-container>
-                            </div>
-                        </div>
-
-                        <div id="divScheduleCitas" layout="row" style="width:100%; height: calc(100vh - 280px); margin-top:-15px; overflow-y:auto; overflow-x:auto;">
-                            <table class="table-schedule">
-                                <tr>
-                                    <td style="border-left:none;"></td>
-                                    <th scope="col" ng-repeat="empleado in Empleados" style="font-size:13px; font-weight:600; text-transform:uppercase;">{{empleado.nombres}}</th>
-                                </tr>
-                                <tbody ng-repeat="hora in PorHoras track by $index">
-                                    <tr>
-                                        <th scope="rowgroup" rowspan="2" style="font-size:14px; font-weight:300;">{{hora}}</th>
-                                        <td ng-repeat="empleado in Empleados"><md-button style="width:calc(100% + 20px); height:calc(100% + 0px); margin:0 0 0 -10px;" data-ng-click="ModalAgendarCita()"></md-button></td>
-                                    </tr>
-                                    <tr>
-                                        <td ng-repeat="empleado in Empleados"><md-button style="width:calc(100% + 20px); height:calc(100% + 0px); margin:0 0 0 -10px;" data-ng-click="ModalAgendarCita()"></md-button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </md-content>
-                </md-tab>
-
                 <md-tab label="General">
                     <md-content class="md-padding" style="background-color:transparent;">
                         <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
@@ -68,7 +17,7 @@
                             </md-button>
                         </section>
 
-                        <div type="button" id="btnAgendarCita" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Agendar Cita" data-ng-click="ModalAgendarCita()">
+                        <div type="button" id="btnAgendarCita" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Agendar Cita" data-ng-click="ModalAgendaGeneral()">
                             <i class="material-icons md-18" style="font-size:40px; font-weight:800; z-index:9999; width:110%; height:110%; text-align:center; display:block;">add</i>
                         </div>
 
@@ -135,7 +84,7 @@
 
                         <div id="divCardsCitas" layout="row" style="width:100%; height: calc(100vh - 280px); margin-top:-15px; overflow-y:auto; overflow-x:hidden;">
                             <div flex-xs class="md-padding" layout="row" style="margin-top:-20px; margin-left:0; margin-right:0; padding-left:0;padding-right:0;" layout-wrap>
-                                <md-card flex="21" ng-repeat="n in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]" ng-style="{'background-color': doc_classes_colors[$index % doc_classes_colors.length]}">
+                                <md-card flex="21" ng-repeat="n in [1,2]" ng-style="{'background-color': doc_classes_colors[$index % doc_classes_colors.length]}">
                                     <md-card-title>
                                         <md-card-title-text>
                                             <span class="md-headline" style="border-bottom:1px dashed #212121; padding-bottom:3px;">Citas de hoy</span>
@@ -156,14 +105,57 @@
                     </md-content>
                 </md-tab>
 
-            </md-tabs>            
+                <md-tab label="Detallada">
+                    <md-content class="md-padding" style="background-color:transparent; margin-bottom:10px;">
+                        <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
+                            <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Buscar" data-ng-click="ConsultarAgenda()">
+                                <i class="material-icons md-18" style="transform: scaleX(-1)">search</i>Buscar
+                            </md-button>
+                        </section>
+
+                        <div layout="row" layout-xs="column" style="margin-bottom:-5px;" layout-align="start center">
+
+                            <div flex="" style="margin-top:-3px;">
+                                <md-input-container style="margin-left: -40px; max-width:300px;z-index:99; margin-top:15px;">
+                                    <label class="label-form-clientes">
+                                        Fecha:
+                                    </label>
+                                    <md-datepicker ng-model="FechaDetallada" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=5 style="margin-bottom:0;"></md-datepicker>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div id="divScheduleCitas" layout="row" style="width:100%; height: calc(100vh - 280px); margin-top:-15px; overflow-y:auto; overflow-x:auto;">
+                            <table class="table-schedule">
+                                <tr>
+                                    <td style="border-left:none;"></td>
+                                    <th scope="col" ng-repeat="empleado in Empleados" style="font-size:13px; font-weight:600; text-transform:uppercase; padding:10px;">{{empleado.nombres}}</th>
+                                </tr>
+                                <tbody ng-repeat="hora in PorHoras track by $index">
+                                    <tr>
+                                        <th scope="rowgroup" rowspan="2" style="font-size:14px; font-weight:300;">{{hora}}</th>
+                                        <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado, 'enpunto')"><!--<md-button style="width:calc(100% + 20px); height:calc(100% + 0px); margin:0 0 0 -10px;" data-ng-click="ModalAgendarCita()"></md-button>--></td>
+                                    </tr>
+                                    <tr>
+                                        <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado, 'media')"><!--<md-button style="width:calc(100% + 20px); height:calc(100% + 0px); margin:0 0 0 -10px;" data-ng-click="ModalAgendarCita()"></md-button>--></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </md-content>
+                </md-tab>
+
+
+
+            </md-tabs>
         </form>
     </div>
 
-    <!-- Modal Agendar Cita-->
+    <!-- Modales-->
+    <!-- Modal Agenda General-->
     <div style="visibility: hidden">
-        <div class="md-dialog-container" id="dlgAgendarCita">
-            <md-dialog id="mdAgendarCita" aria-label="" style="min-width: 300px !important; max-width:300px; color: #666666 !important;" tabindex="-1">
+        <div class="md-dialog-container" id="dlgAgendaGeneral">
+            <md-dialog id="mdAgendarCita" aria-label="" style="min-width: 280px !important; max-width:280px; color: #666666 !important;" tabindex="-1">
                 <md-toolbar>
                     <div class="md-toolbar-tools">
                         <h2 style="font-size:16px;">{{AccionAgenda}}</h2>
@@ -178,107 +170,49 @@
 
                     <md-dialog-content style="overflow:hidden;">
 
-                        <div layout="row" layout-sm="column" style="margin-bottom:-30px;" layout-align="center center">
+                        <div layout="row" layout-sm="column" style="margin-bottom:-15px;" layout-align="center center">
                             <div flex="">
-                                <md-input-container style="width:99%">
-                                    <label for="dateType" class="label-form-empleados" style="">
-                                        Clientes:
-                                    </label>
-                                    <input ng-model="Agenda.Cliente" maxlength="60" type="text" class="" placeholder="Nombre del cliente ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtCliente" tabindex=8>
-                                </md-input-container>
-                            </div>
-                        </div>
-
-                        <div layout="row" layout-sm="column" style="margin-bottom:-10px;" layout-align="center center">
-                            <div flex="">
-                                <md-input-container style="width:99%">
+                                <md-input-container style="min-width:100%; max-width:100%;">
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Empleados:
                                     </label>
-                                    <input ng-model="Agenda.Empleado" maxlength="60" type="text" class="" placeholder="Nombre empleado ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex=9>
+                                    <md-autocomplete md-clear-button="false" md-selected-item="EmpleadoSeleccionado" md-search-text="buscarEmpleado" md-items="empleado in EncontrarEmpleado(buscarEmpleado)" md-item-text="empleado.nombres" tabindex="7">
+                                        <md-item-template>
+                                            <span ng-bind="empleado.id_Empleado" md-highlight-text="buscarEmpleado">{{empleado.nombres + ' ' + empleado.apellidos}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No se encontraron resultados.
+                                        </md-not-found>
+                                    </md-autocomplete>
                                 </md-input-container>
                             </div>
                         </div>
-
-                        <div layout="row" layout-sm="column" style="" layout-align="center center">
-                            <div flex="" style="margin-top: -25px;">
-                                <md-input-container style="width:100%">
-                                    <label class="label-form-empleados">
-                                        Servicios:
+                        
+                        <div layout="row" layout-sm="column" style="margin-top:-5px; margin-bottom:-15px;" layout-align="center center">
+                            <div flex="">
+                                <md-input-container style="min-width:100%; max-width:100%;">
+                                    <label for="dateType" class="label-form-empleados" style="">
+                                        Clientes:
                                     </label>
-                                    <md-select ng-model="ServicioSeleccionado" style="display:inline-flex; min-width: 99% !important; max-width: 99% !important; margin-top:5px; position: relative; z-index:99999;" id="slServicios" tabindex=10>
-                                        <md-option ng-bind="item.nombre" ng-value="item.id_Servicio" ng-repeat="item in Servicios track by item.id_Servicio"></md-option>
-                                    </md-select>
-                                </md-input-container>
-                            </div>
-                        </div>
-
-                        <div layout="row" layout-sm="column" style="margin-bottom:-10px;" layout-align="center center">
-                            <div flex="60">
-                                <md-input-container style="margin-left: -40px; min-width: 100%;  z-index:9999; margin-bottom:0;">
-                                    <label class="llabel-form-empleados" style="">
-                                        Fecha Cita:
-                                    </label>
-                                    <md-datepicker ng-model="Agenda.Fecha" md-placeholder="Enter date" class="dateClientes" id="dpFechaCita" tabindex=11></md-datepicker>
-                                </md-input-container>
-                            </div>
-
-                            <div flex="40">
-                                <md-input-container style="margin-top: 20px; min-width: 100%; margin-bottom:0;">
-                                    <label class="label-form-empleados" style="">
-                                        Hora Cita:
-                                    </label>
-                                    <input ng-model="Agenda.Hora" type="time" class="" placeholder="Hora Cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex=12>
+                                    <md-autocomplete md-clear-button="false" md-selected-item="ClienteSeleccionado" md-search-text="buscarCliente" md-items="cliente in EncontrarCliente(buscarCliente)" md-item-text="cliente.nombres" tabindex="8">
+                                        <md-item-template>
+                                            <span md-highlight-text="buscarCliente" ng-bind="cliente.id_Cliente">{{cliente.nombres + ' ' + cliente.apellidos}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No se encontraron resultados.
+                                        </md-not-found>
+                                    </md-autocomplete>
                                 </md-input-container>
                             </div>
                         </div>                        
 
-                        <div layout="row" layout-sm="column" style="margin-bottom:-10px;" layout-align="center center">
-                            <div flex="">
-                                <md-input-container style="width:100%">
-                                    <label class="label-form-empleados" style="">
-                                        Observaciones:
-                                    </label>
-                                    <textarea ng-model="Gasto.Descripcion" id="txtDescripcion" rows="2" md-maxlength="200" placeholder="Observaciones ..." type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=13></textarea>
-                                </md-input-container>
-                            </div>
-                        </div>
-
                         <div layout="row" layout-sm="column" style="" layout-align="center center">
-                            <div flex="">
+                            <div flex="" style="">
                                 <md-input-container style="width:100%">
-                                    <md-button type="button" id="btnGuardarCita" style="position: fixed; right:7px; bottom:20px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarNuevaCita()" tabindex="14">
-                                        <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
-                                    </md-button>
-                                </md-input-container>
-                            </div>
-                        </div>
-
-                        <!--<div layout="row" layout-sm="column" style="margin-bottom:-30px;" layout-align="center center">
-                            <div flex="">
-                                <md-input-container style="width:90%">
-                                    <label for="dateType" class="label-form-empleados" style="">
-                                        Clientes:
-                                    </label>
-                                    <input ng-model="Agenda.Cliente" maxlength="60" type="text" class="" placeholder="Nombre del cliente ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtCliente" tabindex=2>
-                                </md-input-container>
-                            </div>
-
-                            <div flex="">
-                                <md-input-container style="width:90%">
-                                    <label for="dateType" class="label-form-empleados" style="">
-                                        Empleados:
-                                    </label>
-                                    <input ng-model="Agenda.Empleado" maxlength="60" type="text" class="" placeholder="Nombre empleado ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex=2>
-                                </md-input-container>
-                            </div>
-
-                            <div flex="" style="margin-top: -25px;">
-                                <md-input-container style="width:95%">
-                                    <label class="label-form-clientes">
+                                    <label class="label-form-empleados">
                                         Servicios:
                                     </label>
-                                    <md-select ng-model="ServicioSeleccionado" style="display:inline-flex; min-width: 95% !important; max-width: 95% !important; margin-top:5px; position: relative; z-index:99999;" id="slServicios" tabindex=3>
+                                    <md-select ng-model="ServicioSeleccionado" style="display:inline-flex; min-width: 99% !important; max-width: 99% !important; margin-top:5px; position: relative; z-index:99999;" id="slServicios" tabindex="9">
                                         <md-option ng-bind="item.nombre" ng-value="item.id_Servicio" ng-repeat="item in Servicios track by item.id_Servicio"></md-option>
                                     </md-select>
                                 </md-input-container>
@@ -287,19 +221,42 @@
 
                         <div layout="row" layout-sm="column" style="margin-bottom:-10px;" layout-align="start center">
                             <div flex="">
-                                <md-input-container style="margin-left: -40px; min-width: 50%;  z-index:9999; margin-bottom:0;">
-                                    <label class="label-form-clientes" style="">
+                                <md-input-container style="margin-left: -40px; min-width: 100%;  z-index:9999; margin-bottom:0;">
+                                    <label class="label-form-empleados" style="position: absolute; left: 43px; }">
                                         Fecha Cita:
                                     </label>
-                                    <md-datepicker ng-model="Agenda.Fecha" md-placeholder="Enter date" class="dateClientes" id="dpFechaCita" tabindex=7></md-datepicker>
+                                    <md-datepicker ng-model="Agenda.Fecha" md-placeholder="Enter date" class="dateClientes" id="dpFechaCita" tabindex="10"></md-datepicker>
                                 </md-input-container>
                             </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="margin-bottom:-10px;" layout-align="center center">
                             <div flex="">
-                                <md-input-container style="margin-left: -40px; min-width: 50%; margin-bottom:0;">
-                                    <label class="label-form-clientes" style="">
-                                        Hora Cita:
+                                <md-input-container style="margin-top: 20px; min-width: 98%; margin-bottom:0;">
+                                    <label class="label-form-empleados" style="">
+                                        Hora Inicio Cita:
                                     </label>
-                                    <input ng-model="Agenda.Hora" type="time" class="" placeholder="Hora Cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex=8>
+                                    <input ng-model="Agenda.Hora" type="time" class="" placeholder="Hora Cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex="11">
+                                </md-input-container>
+                            </div>
+
+                            <div flex="" ng-hide="ConfigHoraFin">
+                                <md-input-container style="margin-top: 20px; min-width: 98%; margin-bottom:0;">
+                                    <label class="label-form-empleados" style="">
+                                        Hora Fin Cita:
+                                    </label>
+                                    <input ng-model="Agenda.Hora" type="time" class="" placeholder="Hora Cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex="11">
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="margin-bottom:-10px;" layout-align="center center">
+                            <div flex="">
+                                <md-input-container style="width:100%">
+                                    <label class="label-form-empleados" style="">
+                                        Observaciones:
+                                    </label>
+                                    <textarea ng-model="Gasto.Descripcion" id="txtDescripcion" rows="2" md-maxlength="200" placeholder="Observaciones ..." type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="12"></textarea>
                                 </md-input-container>
                             </div>
                         </div>
@@ -307,23 +264,139 @@
                         <div layout="row" layout-sm="column" style="" layout-align="center center">
                             <div flex="">
                                 <md-input-container style="width:100%">
-                                    <label class="label-form-empleados" style="">
-                                        Observaciones:
-                                    </label>
-                                    <textarea ng-model="Gasto.Descripcion" id="txtDescripcion" rows="2" md-maxlength="200" placeholder="Descripción ..." type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=3></textarea>
-                                </md-input-container>
-                            </div>
-                        </div>
-
-                        <div layout="row" layout-xs="column" style="margin-bottom:-10px;" layout-align="end center">
-                            <div flex="">
-                                <md-input-container style="width:100%">
-                                    <md-button type="button" id="btnGuardarCita" style="position: fixed; right:7px; bottom:20px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarNuevaCita()" tabindex="6">
+                                    <md-button type="button" id="btnGuardarCita" style="position: fixed; right:7px; bottom:20px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarNuevaCita()" tabindex="13">
                                         <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                                     </md-button>
                                 </md-input-container>
                             </div>
-                        </div>-->
+                        </div>
+
+                    </md-dialog-content>
+                </form>
+
+            </md-dialog>
+        </div>
+    </div>
+
+    <!-- Modal Agenda Detallada-->
+    <div style="visibility: hidden">
+        <div class="md-dialog-container" id="dlgAgendaDetallada">
+            <md-dialog id="mdAgendarCita" aria-label="" style="min-width: 280px !important; max-width:280px; color: #666666 !important;" tabindex="-1">
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2 style="font-size:16px;">{{AccionAgenda}}</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="Cancelar()">
+                            <i class="material-icons" style="transform: scaleX(-1)">close</i>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+
+                <form id="frmServicios" style="">
+
+                    <md-dialog-content style="overflow:hidden;">
+
+                        <div layout="row" layout-sm="column" style="margin-bottom:-15px;" layout-align="center center">
+                            <div flex="">
+                                <md-input-container style="min-width:100%; max-width:100%;">
+                                    <label for="dateType" class="label-form-empleados" style="">
+                                        Empleados:
+                                    </label>
+                                    <md-autocomplete md-clear-button="false" ng-readonly="true" md-selected-item="EmpleadoSeleccionado" md-search-text="buscarEmpleado" md-items="empleado in EncontrarEmpleado(buscarEmpleado)" md-item-text="empleado.nombres" tabindex="7">
+                                        <md-item-template>
+                                            <span ng-bind="empleado.id_Empleado" md-highlight-text="buscarEmpleado">{{empleado.nombres + ' ' + empleado.apellidos}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No se encontraron resultados.
+                                        </md-not-found>
+                                    </md-autocomplete>
+                                </md-input-container>
+                            </div>
+                        </div>
+                        
+                        <div layout="row" layout-sm="column" style="margin-top:-5px; margin-bottom:-15px;" layout-align="center center">
+                            <div flex="">
+                                <md-input-container style="min-width:100%; max-width:100%;">
+                                    <label for="dateType" class="label-form-empleados" style="">
+                                        Clientes:
+                                    </label>
+                                    <md-autocomplete md-autofocus md-clear-button="false" md-selected-item="ClienteSeleccionado" md-search-text="buscarCliente" md-items="cliente in EncontrarCliente(buscarCliente)" md-item-text="cliente.nombres" tabindex="8">
+                                        <md-item-template>
+                                            <span md-highlight-text="buscarCliente" ng-bind="cliente.id_Cliente">{{cliente.nombres + ' ' + cliente.apellidos}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No se encontraron resultados.
+                                        </md-not-found>
+                                    </md-autocomplete>
+                                </md-input-container>
+                            </div>
+                        </div>                        
+
+                        <div layout="row" layout-sm="column" style="" layout-align="center center">
+                            <div flex="" style="">
+                                <md-input-container style="width:100%">
+                                    <label class="label-form-empleados">
+                                        Servicios:
+                                    </label>
+                                    <md-select ng-model="ServicioSeleccionado" style="display:inline-flex; min-width: 99% !important; max-width: 99% !important; margin-top:5px; position: relative; z-index:99999;" id="slServicios" tabindex="9">
+                                        <md-option ng-bind="item.nombre" ng-value="item.id_Servicio" ng-repeat="item in Servicios track by item.id_Servicio"></md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="margin-bottom:-10px;" layout-align="start center">
+                            <div flex="">
+                                <md-input-container style="margin-left: -40px; min-width: 100%;  z-index:9999; margin-bottom:0;">
+                                    <label class="label-form-empleados" style="position: absolute; left: 43px; }">
+                                        Fecha Cita:
+                                    </label>
+                                    <md-datepicker ng-model="Agenda.Fecha" md-placeholder="Enter date" class="dateClientes" id="dpFechaCita" tabindex="10"></md-datepicker>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="margin-bottom:-10px;" layout-align="center center">
+                            <div flex="">
+                                <md-input-container style="margin-top: 20px; min-width: 98%; margin-bottom:0;">
+                                    <label class="label-form-empleados" style="">
+                                        Hora Inicio Cita:
+                                    </label>
+                                    <input ng-model="Agenda.Hora" type="time" class="" placeholder="Hora Cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex="11">
+                                </md-input-container>
+                            </div>
+
+                            <div flex="" ng-hide="ConfigHoraFin">
+                                <md-input-container style="margin-top: 20px; min-width: 98%; margin-bottom:0;">
+                                    <label class="label-form-empleados" style="">
+                                        Hora Fin Cita:
+                                    </label>
+                                    <input ng-model="Agenda.Hora" type="time" class="" placeholder="Hora Cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex="11">
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="margin-bottom:-10px;" layout-align="center center">
+                            <div flex="">
+                                <md-input-container style="width:100%">
+                                    <label class="label-form-empleados" style="">
+                                        Observaciones:
+                                    </label>
+                                    <textarea ng-model="Gasto.Descripcion" id="txtDescripcion" rows="2" md-maxlength="200" placeholder="Observaciones ..." type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="12"></textarea>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="" layout-align="center center">
+                            <div flex="">
+                                <md-input-container style="width:100%">
+                                    <md-button type="button" id="btnGuardarCita" style="position: fixed; right:7px; bottom:20px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarNuevaCita()" tabindex="13">
+                                        <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                                    </md-button>
+                                </md-input-container>
+                            </div>
+                        </div>
+
                     </md-dialog-content>
                 </form>
 
