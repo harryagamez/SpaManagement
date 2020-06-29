@@ -1999,10 +1999,10 @@
                 headerName: "Producto", field: 'nombre_Producto', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Cantidad", field: 'cantidad', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, suppressSizeToFit: true
+                headerName: "Cantidad", field: 'cantidad', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, 
             },
             {
-                headerName: "Fecha", field: 'fecha', width: 90, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
+                headerName: "Fecha", field: 'fecha', width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
                     return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy HH:mm:ss') : '';
                 }
             }
@@ -2036,6 +2036,14 @@
         window.onresize = function () {
             $timeout(function () {
                 $scope.EmpleadosGridOptions.api.sizeColumnsToFit();
+            }, 200);
+
+            $timeout(function () {
+                $scope.EmpleadoInsumosGridOptions.api.sizeColumnsToFit();
+            }, 200);
+
+            $timeout(function () {
+                $scope.EmpleadoServicioGridOptions.api.sizeColumnsToFit();
             }, 200);
         }
 
