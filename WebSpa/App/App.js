@@ -78,19 +78,15 @@
                 controller: 'AgendaController'
             }) 
 
-        //$mdDateLocaleProvider.formatDate = function (date) {
-        //    if (date) {
-        //        var day = date.getDate();
-        //        var monthIndex = date.getMonth() + 1;
-        //        var year = date.getFullYear();
+        $mdDateLocaleProvider.formatDate = function (date) {
 
-        //        day = (day <= 9) ? '0' + day : day;
-        //        monthIndex = (monthIndex <= 9) ? '0' + monthIndex : monthIndex;
+            var day = date.getDate();
+            var monthIndex = date.getMonth();
+            var year = date.getFullYear();
 
-        //        return day + '/' + monthIndex + '/' + year;
-        //    }
+            return day + '/' + (monthIndex + 1) + '/' + year;
 
-        //};
+        };
     }
 
     function Initialize($rootScope, $http, $window, localStorageService, authService) {
