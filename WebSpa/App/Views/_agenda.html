@@ -134,10 +134,10 @@
                                 <tbody ng-repeat="hora in PorHoras track by $index">
                                     <tr>
                                         <th scope="rowgroup" rowspan="2" style="font-size:14px; font-weight:300;">{{hora}}</th>
-                                        <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado, 'enpunto')"><!--<md-button style="width:calc(100% + 20px); height:calc(100% + 0px); margin:0 0 0 -10px;" data-ng-click="ModalAgendarCita()"></md-button>--></td>
+                                        <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado, 'enpunto')"></td>
                                     </tr>
                                     <tr>
-                                        <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado, 'media')"><!--<md-button style="width:calc(100% + 20px); height:calc(100% + 0px); margin:0 0 0 -10px;" data-ng-click="ModalAgendarCita()"></md-button>--></td>
+                                        <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado, 'media')"></td>
                                     </tr>
                                 </tbody>
                             </table>
