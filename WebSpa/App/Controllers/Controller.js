@@ -3494,6 +3494,21 @@
             }
         }
 
+        //Consultar Empresa Propiedades
+        $scope.ConsultarEmpresaPropiedades = function () {
+            SPAService._consultarEmpresaPropiedades($scope.IdEmpresa)
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {
+                            $scope.EmpresaPropiedades = [];
+                            $scope.EmpresaPropiedades = result.data;
+                        }
+                    }, function (err) {
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+        }
+
         //Consultar Clientes
         $scope.ConsultarClientes = function () {
             SPAService._consultarClientes($scope.IdEmpresa)

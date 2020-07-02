@@ -364,7 +364,8 @@
             _eliminarGastos: EliminarGastos,
             _consultarUsuarios: ConsultarUsuarios,
             _consultarUsuario: ConsultarUsuario,
-            _guardarUsuario: GuardarUsuario         
+            _guardarUsuario: GuardarUsuario,
+            _consultarEmpresaPropiedades: ConsultarEmpresaPropiedades
 
         }
 
@@ -808,6 +809,18 @@
                     deferred.reject(err);
                 });
 
+            return deferred.promise;
+        }
+
+        function ConsultarEmpresaPropiedades(id_empresa) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarEmpresaPropiedades?IdEmpresa=' + id_empresa,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
             return deferred.promise;
         }
 

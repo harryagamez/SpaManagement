@@ -638,6 +638,23 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpGet]
+        [Route("api/SPA/ConsultarEmpresaPropiedades")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarEmpresaPropiedades(string IdEmpresa)
+        {
+            try
+            {
+                EmpresaPropiedades _empresapropiedades = _spaService.ConsultarEmpresaPropiedades(IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _empresapropiedades);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando las propiedades de la empresa: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Authorize(Roles = "Admin")]
         [Route("api/SPA/ConsultarEmpresas")]
         [HttpCache(DefaultExpirySeconds = 2)]

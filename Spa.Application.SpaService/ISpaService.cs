@@ -44,6 +44,7 @@ namespace Spa.Application.SpaService
         bool ConsultarUsuario(string Nombre);
         bool GuardarUsuario(Usuario _Usuario);
         Usuario ConsultarUserAvatar(int UserId, string IdEmpresa);
+        EmpresaPropiedades ConsultarEmpresaPropiedades(string IdEmpresa);
         Usuario ValidarUsuarioAdmin(string Nombre, string Password);
         List<Empresa> ConsultarEmpresas();
         List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario);
