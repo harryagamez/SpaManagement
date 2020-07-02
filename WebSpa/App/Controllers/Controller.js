@@ -3464,7 +3464,7 @@
         $scope.PorHoras = ["06:00 AM", "07:00 AM", "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 M",
             "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM",
             "08:00 PM", "09:00 PM", "10:00 PM"];        
-        debugger;
+        
         //Inicialización
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
@@ -3482,7 +3482,8 @@
             Empleado: '',
             Servicio: '',
             FechaInicio: '',
-            FechaFin: ''
+            FechaFin: '',
+            Observaciones: ''
         };
 
         //Api
@@ -3549,11 +3550,14 @@
         //Validar Datos
         $scope.ValidarNuevaCita = function () {
 
+            debugger;
             if ($scope.EmpleadoSeleccionado === '') {
                 toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
                 $('#acEmpleados').focus();
                 return false;
             }
+
+            $scope.Agenda.Empleado = $scope.EmpleadoSeleccionado.id_Empleado;
 
             if ($scope.ClienteSeleccionado === '') {
                 toastr.info('Debe seleccionar un cliente', '', $scope.toastrOptions);
@@ -3561,11 +3565,15 @@
                 return false;
             }
 
+            $scope.Agenda.Cliente = $scope.ClienteSeleccionado.id_Cliente;
+
             if ($scope.ServicioSeleccionado === -1) {
                 toastr.info('Debe seleccionar un servicio', '', $scope.toastrOptions);
                 $('#slServicios').focus();
                 return false;
             }
+
+            $scope.Agenda.Servicio = $scope.ServicioSeleccionado;
 
             if ($scope.Agenda.Fecha === '') {
                 toastr.info('Debe seleccionar una fecha', '', $scope.toastrOptions);
@@ -3590,6 +3598,8 @@
                 $('#txtObservaciones').focus();
                 return false;
             }
+
+            return true;
         }
 
         //Encontrar Cliente
