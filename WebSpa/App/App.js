@@ -76,17 +76,7 @@
                 url: '/agenda',
                 templateUrl: 'Views/_agenda.html',
                 controller: 'AgendaController'
-            }) 
-
-        $mdDateLocaleProvider.formatDate = function (date) {
-
-            var day = date.getDate();
-            var monthIndex = date.getMonth();
-            var year = date.getFullYear();
-
-            return day + '/' + (monthIndex + 1) + '/' + year;
-
-        };
+            })        
     }
 
     function Initialize($rootScope, $http, $window, localStorageService, authService) {

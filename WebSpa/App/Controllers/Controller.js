@@ -190,7 +190,7 @@
             Mail: '', Direccion: '',
             Id_Municipio: -1,
             Id_Barrio: -1,
-            Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
+            Fecha_Nacimiento: $filter('date')(new Date(), 'dd-MM-yyyy'),
             Id_Tipo: -1,
             Estado: $scope.EstadoSeleccionado,
             Id_Empresa: $scope.IdEmpresa,
@@ -3464,32 +3464,35 @@
         $scope.PorHoras = ["06:00 AM", "07:00 AM", "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 M",
             "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM",
             "08:00 PM", "09:00 PM", "10:00 PM"];        
-
+        debugger;
         //Inicialización
-        $scope.EstadoSeleccionado = -1;
-        $scope.ServicioSeleccionado = -1;
-        $scope.Filtros = { Desde: new Date(new Date().setHours(0, 0, 0, 0)), Hasta: new Date(new Date().setHours(0, 0, 0, 0)) }
-        $scope.FechaDetallada = new Date(new Date().setHours(0, 0, 0, 0));
-        $scope.AccionAgenda = 'Agendar Cita';
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
-        $scope.ClienteSeleccionado = '';        
-        $scope.EmpleadoSeleccionado = '';
-        let currentDate = new Date();
-        let currentHour = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes());
-
-        //Config
-        $scope.ConfigHoraFin = false;        
+        $scope.EstadoSeleccionado = -1;
+        $scope.ServicioSeleccionado = -1;
+        $scope.ClienteSeleccionado = '';
+        $scope.EmpleadoSeleccionado = '';        
+        $scope.Filtros = { Desde: new Date(new Date().setHours(0, 0, 0, 0)), Hasta: new Date(new Date().setHours(0, 0, 0, 0)) };
+        $scope.FechaActual = new Date();
+        $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes()); 
+              
 
         $scope.Agenda = {
             Cliente: '',
             Empleado: '',
             Servicio: '',
-            Fecha: new Date(),
-            Hora: currentHour
+            FechaInicio: '',
+            FechaFin: ''
         };
 
         //Api
+        //GuardarNuevaCita
+        $scope.GuardarNuevaCita = function() {            
+            if ($scope.ValidarNuevaCita()) {
+
+            }
+        }
+
         //Consultar Clientes
         $scope.ConsultarClientes = function () {
             SPAService._consultarClientes($scope.IdEmpresa)
@@ -3541,7 +3544,54 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         }
+
         //Funciones
+        //Validar Datos
+        $scope.ValidarNuevaCita = function () {
+
+            if ($scope.EmpleadoSeleccionado === '') {
+                toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
+                $('#acEmpleados').focus();
+                return false;
+            }
+
+            if ($scope.ClienteSeleccionado === '') {
+                toastr.info('Debe seleccionar un cliente', '', $scope.toastrOptions);
+                $('#acClientes').focus();
+                return false;
+            }
+
+            if ($scope.ServicioSeleccionado === -1) {
+                toastr.info('Debe seleccionar un servicio', '', $scope.toastrOptions);
+                $('#slServicios').focus();
+                return false;
+            }
+
+            if ($scope.Agenda.Fecha === '') {
+                toastr.info('Debe seleccionar una fecha', '', $scope.toastrOptions);
+                $('#dpFecha').focus();
+                return false;
+            }
+
+            if ($scope.HoraInicio === '') {
+                toastr.info('Debe seleccionar una hora de inicio', '', $scope.toastrOptions);
+                $('#timeInicio').focus();
+                return false;
+            }
+
+            if ($scope.HoraFin === '') {
+                toastr.info('Debe seleccionar una hora fin', '', $scope.toastrOptions);
+                $('#timeFin').focus();
+                return false;
+            }
+
+            if ($scope.Agenda.Observaciones === '') {
+                toastr.info('El campo "Observaciones" no puede estar vacío', '', $scope.toastrOptions);
+                $('#txtObservaciones').focus();
+                return false;
+            }
+        }
+
         //Encontrar Cliente
         $scope.EncontrarCliente = function(nombre) {
             let busqueda = '';
@@ -3558,10 +3608,11 @@
         
 
         //Modales Agendar Cita
-
         //Modal Agendar Cita General
         $scope.ModalAgendaGeneral = function () {
             $scope.AccionAgenda = 'Agendar Cita';
+
+            $scope.FechaHoraAgendaGeneral();
 
             $mdDialog.show({
                 contentElement: '#dlgAgendaGeneral',
@@ -3579,6 +3630,7 @@
         $scope.ModalAgendaDetallada = function (horas, empleado, minutos) {            
             $scope.AccionAgenda = 'Agendar Cita';           
             $scope.EmpleadoSeleccionado = empleado.nombres;
+
             $scope.FechaHoraAgendaDetallada(horas, minutos);            
 
             $mdDialog.show({
@@ -3591,6 +3643,13 @@
                 .then(function () {                    
                 }, function () {
                 });
+        }
+
+        //Fecha y Hora Agenda General
+        $scope.FechaHoraAgendaGeneral = function () {
+            $scope.FechaInicio = angular.copy($scope.FechaActual);
+            $scope.HoraInicio = new Date($scope.FechaInicio.getFullYear(), $scope.FechaInicio.getMonth(), $scope.FechaInicio.getDate(), $scope.FechaInicio.getHours(), $scope.FechaInicio.getMinutes());
+            $scope.HoraFin = angular.copy($scope.HoraInicio);
         }
 
         //Fecha y Hora Agenda Detallada
@@ -3619,11 +3678,12 @@
                 else
                     setMinutos = 30;
             }
-
-            $scope.Agenda.Fecha = angular.copy($scope.FechaDetallada);
-            $scope.Agenda.Fecha = new Date(($scope.Agenda.Fecha).setHours(setHora, setMinutos, 0, 0));
-            $scope.Agenda.Hora = new Date($scope.Agenda.Fecha.getFullYear(), $scope.Agenda.Fecha.getMonth(),
-                $scope.Agenda.Fecha.getDate(), $scope.Agenda.Fecha.getHours(), $scope.Agenda.Fecha.getMinutes());
+            
+            $scope.FechaInicio = angular.copy($scope.FechaActual);
+            $scope.FechaInicio = new Date(($scope.FechaInicio).setHours(setHora, setMinutos, 0, 0));
+            $scope.FechaFin = angular.copy($scope.FechaInicio);
+            $scope.HoraInicio = new Date($scope.FechaInicio.getFullYear(), $scope.FechaInicio.getMonth(), $scope.FechaInicio.getDate(), $scope.FechaInicio.getHours(), $scope.FechaInicio.getMinutes());
+            $scope.HoraFin = angular.copy($scope.HoraInicio);
         }
 
 

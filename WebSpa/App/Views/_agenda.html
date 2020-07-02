@@ -68,7 +68,7 @@
                                     <label class="label-form-clientes" style="">
                                         Fecha Desde:
                                     </label>
-                                    <md-datepicker ng-model="Filtros.Desde" data-ng-change="ValidarFechaDesde()" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=5 style="margin-bottom:0;"></md-datepicker>
+                                    <md-datepicker ng-model="Filtros.Desde" data-ng-change="" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=5 style="margin-bottom:0;"></md-datepicker>
                                 </md-input-container>
                             </div>
 
@@ -77,7 +77,7 @@
                                     <label class="label-form-clientes" style="">
                                         Fecha Hasta:
                                     </label>
-                                    <md-datepicker ng-model="Filtros.Hasta" data-ng-change="ValidarFechaHasta()" md-placeholder="Enter date" class="dateClientes" id="dpFechaHasta" tabindex=6 style="margin-bottom:0;"></md-datepicker>
+                                    <md-datepicker ng-model="Filtros.Hasta" data-ng-change="" md-placeholder="Enter date" class="dateClientes" id="dpFechaHasta" tabindex=6 style="margin-bottom:0;"></md-datepicker>
                                 </md-input-container>
                             </div>
                         </div>
@@ -120,7 +120,7 @@
                                     <label class="label-form-clientes">
                                         Fecha:
                                     </label>
-                                    <md-datepicker ng-model="FechaDetallada" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=5 style="margin-bottom:0;"></md-datepicker>
+                                    <md-datepicker ng-model="FechaActual" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=5 style="margin-bottom:0;"></md-datepicker>
                                 </md-input-container>
                             </div>
                         </div>
@@ -176,7 +176,7 @@
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Empleados:
                                     </label>
-                                    <md-autocomplete md-clear-button="false" md-selected-item="EmpleadoSeleccionado" md-search-text="buscarEmpleado" md-items="empleado in EncontrarEmpleado(buscarEmpleado)" md-item-text="empleado.nombres" tabindex="7">
+                                    <md-autocomplete id="acEmpleados" md-clear-button="false" md-selected-item="EmpleadoSeleccionado" md-search-text="buscarEmpleado" md-items="empleado in EncontrarEmpleado(buscarEmpleado)" md-item-text="empleado.nombres" tabindex="7">
                                         <md-item-template>
                                             <span ng-bind="empleado.id_Empleado" md-highlight-text="buscarEmpleado">{{empleado.nombres + ' ' + empleado.apellidos}}</span>
                                         </md-item-template>
@@ -194,7 +194,7 @@
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Clientes:
                                     </label>
-                                    <md-autocomplete md-clear-button="false" md-selected-item="ClienteSeleccionado" md-search-text="buscarCliente" md-items="cliente in EncontrarCliente(buscarCliente)" md-item-text="cliente.nombres" tabindex="8">
+                                    <md-autocomplete id="acClientes" md-clear-button="false" md-selected-item="ClienteSeleccionado" md-search-text="buscarCliente" md-items="cliente in EncontrarCliente(buscarCliente)" md-item-text="cliente.nombres" tabindex="8">
                                         <md-item-template>
                                             <span md-highlight-text="buscarCliente" ng-bind="cliente.id_Cliente">{{cliente.nombres + ' ' + cliente.apellidos}}</span>
                                         </md-item-template>
@@ -225,7 +225,7 @@
                                     <label class="label-form-empleados" style="position: absolute; left: 43px; }">
                                         Fecha Cita:
                                     </label>
-                                    <md-datepicker ng-model="Agenda.Fecha" md-placeholder="Enter date" class="dateClientes" id="dpFechaCita" tabindex="10"></md-datepicker>
+                                    <md-datepicker ng-model="FechaInicio" md-placeholder="Enter date" class="dateClientes" id="dpFechaCita" tabindex="10"></md-datepicker>
                                 </md-input-container>
                             </div>
                         </div>
@@ -236,7 +236,7 @@
                                     <label class="label-form-empleados" style="">
                                         Hora Inicio Cita:
                                     </label>
-                                    <input ng-model="Agenda.Hora" type="time" class="" placeholder="Hora Cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex="11">
+                                    <input ng-model="HoraInicio" type="time" class="" placeholder="Hora inicio cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="timeInicio" tabindex="11">
                                 </md-input-container>
                             </div>
 
@@ -245,7 +245,7 @@
                                     <label class="label-form-empleados" style="">
                                         Hora Fin Cita:
                                     </label>
-                                    <input ng-model="Agenda.Hora" type="time" class="" placeholder="Hora Cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex="11">
+                                    <input ng-model="HoraFin" type="time" class="" placeholder="Hora fin cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="timeFin" tabindex="11">
                                 </md-input-container>
                             </div>
                         </div>
@@ -256,7 +256,7 @@
                                     <label class="label-form-empleados" style="">
                                         Observaciones:
                                     </label>
-                                    <textarea ng-model="Gasto.Descripcion" id="txtDescripcion" rows="2" md-maxlength="200" placeholder="Observaciones ..." type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="12"></textarea>
+                                    <textarea ng-model="Agenda.Observaciones" id="txtObservaciones" rows="2" md-maxlength="200" placeholder="Observaciones ..." type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="12"></textarea>
                                 </md-input-container>
                             </div>
                         </div>
@@ -351,7 +351,7 @@
                                     <label class="label-form-empleados" style="position: absolute; left: 43px; }">
                                         Fecha Cita:
                                     </label>
-                                    <md-datepicker ng-model="Agenda.Fecha" md-placeholder="Enter date" class="dateClientes" id="dpFechaCita" tabindex="10"></md-datepicker>
+                                    <md-datepicker ng-model="FechaInicio" md-placeholder="Enter date" class="dateClientes" id="dpFechaCita" tabindex="10"></md-datepicker>
                                 </md-input-container>
                             </div>
                         </div>
@@ -362,7 +362,7 @@
                                     <label class="label-form-empleados" style="">
                                         Hora Inicio Cita:
                                     </label>
-                                    <input ng-model="Agenda.Hora" type="time" class="" placeholder="Hora Cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex="11">
+                                    <input ng-model="HoraInicio" type="time" class="" placeholder="Hora Cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex="11">
                                 </md-input-container>
                             </div>
 
@@ -371,7 +371,7 @@
                                     <label class="label-form-empleados" style="">
                                         Hora Fin Cita:
                                     </label>
-                                    <input ng-model="Agenda.Hora" type="time" class="" placeholder="Hora Cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex="11">
+                                    <input ng-model="HoraFin" type="time" class="" placeholder="Hora Cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex="11">
                                 </md-input-container>
                             </div>
                         </div>
