@@ -1075,7 +1075,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public EmpresaPropiedades ConsultarEmpresaPropiedades(string IdEmpresa)
+        public List<EmpresaPropiedades> ConsultarEmpresaPropiedades(string IdEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -1095,7 +1095,7 @@ namespace Spa.Infrastructure.SpaRepository
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
-                    EmpresaPropiedades _empresapropiedades = _datatable.DataTableToList<EmpresaPropiedades>().FirstOrDefault();
+                    List<EmpresaPropiedades> _empresapropiedades = _datatable.DataTableToList<EmpresaPropiedades>();
 
                     return _empresapropiedades;
                 }

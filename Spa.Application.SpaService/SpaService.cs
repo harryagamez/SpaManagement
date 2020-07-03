@@ -289,7 +289,7 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarUserAvatar(UserId, IdEmpresa);
         }
 
-        public EmpresaPropiedades ConsultarEmpresaPropiedades(string IdEmpresa)
+        public List<EmpresaPropiedades> ConsultarEmpresaPropiedades(string IdEmpresa)
         {
             return _spaRepository.ConsultarEmpresaPropiedades(IdEmpresa);
         }

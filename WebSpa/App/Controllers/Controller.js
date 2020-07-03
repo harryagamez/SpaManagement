@@ -3475,7 +3475,9 @@
         $scope.Filtros = { Desde: new Date(new Date().setHours(0, 0, 0, 0)), Hasta: new Date(new Date().setHours(0, 0, 0, 0)) };
         $scope.FechaActual = new Date();
         $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes()); 
-              
+
+        //Variables de Configuración
+        $scope.fDisableHoraFin = false;
 
         $scope.Agenda = {
             Cliente: '',
@@ -3501,7 +3503,7 @@
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
                             $scope.EmpresaPropiedades = [];
-                            $scope.EmpresaPropiedades = result.data;
+                            $scope.EmpresaPropiedades = result.data;                            
                         }
                     }, function (err) {
                         if (err.data !== null && err.status === 500)
@@ -3564,8 +3566,7 @@
         //Funciones
         //Validar Datos
         $scope.ValidarNuevaCita = function () {
-
-            debugger;
+            
             if ($scope.EmpleadoSeleccionado === '') {
                 toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
                 $('#acEmpleados').focus();
@@ -3636,7 +3637,7 @@
         //Modal Agendar Cita General
         $scope.ModalAgendaGeneral = function () {
             $scope.AccionAgenda = 'Agendar Cita';
-
+            
             $scope.FechaHoraAgendaGeneral();
 
             $mdDialog.show({
@@ -3672,6 +3673,13 @@
 
         //Fecha y Hora Agenda General
         $scope.FechaHoraAgendaGeneral = function () {
+            
+            let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
+            if (papts[0].valor_Propiedad.toUpperCase() === 'SI' || papts[0].valor_Propiedad.toUpperCase() === 'SÍ')
+                $scope.fDisableHoraFin = true;
+            else
+                $scope.fDisableHoraFin = false;
+
             $scope.FechaInicio = angular.copy($scope.FechaActual);
             $scope.HoraInicio = new Date($scope.FechaInicio.getFullYear(), $scope.FechaInicio.getMonth(), $scope.FechaInicio.getDate(), $scope.FechaInicio.getHours(), $scope.FechaInicio.getMinutes());
             $scope.HoraFin = angular.copy($scope.HoraInicio);
@@ -3722,11 +3730,13 @@
             $scope.ConsultarServicios();
             $scope.ConsultarEmpleados();
             $scope.ConsultarClientes();
+            $scope.ConsultarEmpresaPropiedades();
         });
 
         $scope.ConsultarServicios();
         $scope.ConsultarEmpleados();
         $scope.ConsultarClientes();
+        $scope.ConsultarEmpresaPropiedades();
     }
 
     function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {

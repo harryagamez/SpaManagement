@@ -240,12 +240,12 @@
                                 </md-input-container>
                             </div>
 
-                            <div flex="" ng-hide="ConfigHoraFin">
+                            <div flex="" >
                                 <md-input-container style="margin-top: 20px; min-width: 98%; margin-bottom:0;">
                                     <label class="label-form-empleados" style="">
                                         Hora Fin Cita:
                                     </label>
-                                    <input ng-model="HoraFin" type="time" class="" placeholder="Hora fin cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="timeFin" tabindex="11">
+                                    <input ng-model="HoraFin" ng-disabled="fDisableHoraFin" type="time" class="" placeholder="Hora fin cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="timeFin" tabindex="11">
                                 </md-input-container>
                             </div>
                         </div>
@@ -366,12 +366,12 @@
                                 </md-input-container>
                             </div>
 
-                            <div flex="" ng-hide="ConfigHoraFin">
+                            <div flex="" >
                                 <md-input-container style="margin-top: 20px; min-width: 98%; margin-bottom:0;">
                                     <label class="label-form-empleados" style="">
                                         Hora Fin Cita:
                                     </label>
-                                    <input ng-model="HoraFin" type="time" class="" placeholder="Hora Cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex="11">
+                                    <input ng-model="HoraFin" type="time" ng-disabled="fDisableHoraFin" class="" placeholder="Hora Cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="txtEmpleado" tabindex="11">
                                 </md-input-container>
                             </div>
                         </div>
@@ -382,7 +382,7 @@
                                     <label class="label-form-empleados" style="">
                                         Observaciones:
                                     </label>
-                                    <textarea ng-model="Gasto.Descripcion" id="txtDescripcion" rows="2" md-maxlength="200" placeholder="Observaciones ..." type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="12"></textarea>
+                                    <textarea ng-model="Agenda.Observaciones" id="txtObservaciones" rows="2" md-maxlength="200" placeholder="Observaciones ..." type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="12"></textarea>
                                 </md-input-container>
                             </div>
                         </div>

@@ -10,5 +10,6 @@ namespace Spa.Domain.SpaEntities
         public string Id_Empresa { get; set; }
         public string Id_Sistema_Propiedad { get; set; }
         public string Valor_Propiedad { get; set; }
+        public string Codigo { get; set; }
     }
 }

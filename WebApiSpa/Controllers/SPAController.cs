@@ -644,7 +644,7 @@ namespace WebApiSpa.Controllers
         {
             try
             {
-                EmpresaPropiedades _empresapropiedades = _spaService.ConsultarEmpresaPropiedades(IdEmpresa);
+                List<EmpresaPropiedades> _empresapropiedades = _spaService.ConsultarEmpresaPropiedades(IdEmpresa);
 
                 return Content(HttpStatusCode.OK, _empresapropiedades);
             }
