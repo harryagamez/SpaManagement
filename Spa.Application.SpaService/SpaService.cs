@@ -289,6 +289,11 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarUserAvatar(UserId, IdEmpresa);
         }
 
+        public EmpresaPropiedades ConsultarEmpresaPropiedades(string IdEmpresa)
+        {
+            return _spaRepository.ConsultarEmpresaPropiedades(IdEmpresa);
+        }
+
         public List<Empresa> ConsultarEmpresas()
         {
             return _spaRepository.ConsultarEmpresas();

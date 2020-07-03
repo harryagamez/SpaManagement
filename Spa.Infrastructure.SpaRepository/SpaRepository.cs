@@ -1075,6 +1075,33 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public EmpresaPropiedades ConsultarEmpresaPropiedades(string IdEmpresa)
+        {
+            DataTable _datatable = new DataTable();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                if (_connection.State == ConnectionState.Closed)
+                {
+                    _connection.Open();
+                }
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarEmpresaPropiedades";
+                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    EmpresaPropiedades _empresapropiedades = _datatable.DataTableToList<EmpresaPropiedades>().FirstOrDefault();
+
+                    return _empresapropiedades;
+                }
+            }
+        }
+
         public bool EliminarGastos(List<Gasto> _Gastos)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
