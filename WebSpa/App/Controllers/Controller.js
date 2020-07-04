@@ -117,6 +117,10 @@
                 $scope.UserAvatar = $rootScope.UserAvatar;
         });
 
+        //$scope.$on('successfull.empresapropiedadesload', function () {
+        //    $rootScope.EmpresaPropiedades = $rootScope.sEmpresaPropiedades;
+        //});
+
         if ($rootScope.UserAvatar !== null && $rootScope.UserAvatar !== undefined)
             $scope.UserAvatar = $rootScope.UserAvatar;
 
@@ -1999,7 +2003,7 @@
                 headerName: "Producto", field: 'nombre_Producto', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Cantidad", field: 'cantidad', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, 
+                headerName: "Cantidad", field: 'cantidad', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
             },
             {
                 headerName: "Fecha", field: 'fecha', width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
@@ -3463,18 +3467,19 @@
         $scope.doc_classes_colors = ["#96bdc4", "#c2dbdf", "#fdd4c1", "#eaabbc", "#F1CBB5"];
         $scope.PorHoras = ["06:00 AM", "07:00 AM", "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 M",
             "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM",
-            "08:00 PM", "09:00 PM", "10:00 PM"];        
-        
+            "08:00 PM", "09:00 PM", "10:00 PM"];
+
         //Inicialización
-        $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.IdEmpresa = $rootScope.Id_Empresa;        
+        $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa});
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
         $scope.EstadoSeleccionado = -1;
         $scope.ServicioSeleccionado = -1;
         $scope.ClienteSeleccionado = '';
-        $scope.EmpleadoSeleccionado = '';        
+        $scope.EmpleadoSeleccionado = '';
         $scope.Filtros = { Desde: new Date(new Date().setHours(0, 0, 0, 0)), Hasta: new Date(new Date().setHours(0, 0, 0, 0)) };
         $scope.FechaActual = new Date();
-        $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes()); 
+        $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
 
         //Variables de Configuración
         $scope.fDisableHoraFin = false;
@@ -3490,25 +3495,9 @@
 
         //Api
         //GuardarNuevaCita
-        $scope.GuardarNuevaCita = function() {            
+        $scope.GuardarNuevaCita = function () {
             if ($scope.ValidarNuevaCita()) {
-
             }
-        }
-
-        //Consultar Empresa Propiedades
-        $scope.ConsultarEmpresaPropiedades = function () {
-            SPAService._consultarEmpresaPropiedades($scope.IdEmpresa)
-                .then(
-                    function (result) {
-                        if (result.data !== undefined && result.data !== null) {
-                            $scope.EmpresaPropiedades = [];
-                            $scope.EmpresaPropiedades = result.data;                            
-                        }
-                    }, function (err) {
-                        if (err.data !== null && err.status === 500)
-                            toastr.error(err.data, '', $scope.toastrOptions);
-                    })
         }
 
         //Consultar Clientes
@@ -3519,13 +3508,13 @@
                         if (result.data !== undefined && result.data !== null) {
                             $scope.Clientes = [];
                             $scope.Clientes = result.data;
-                            $scope.Clientes = $filter('orderBy')($scope.Clientes, 'id_Cliente', false);                            
+                            $scope.Clientes = $filter('orderBy')($scope.Clientes, 'id_Cliente', false);
                         }
                     }, function (err) {
                         toastr.remove();
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
-                    })            
+                    })
         }
 
         // Consultar Empleados
@@ -3535,14 +3524,14 @@
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
                             $scope.Empleados = [];
-                            $scope.Empleados = result.data;                            
+                            $scope.Empleados = result.data;
                             $scope.Empleados = $filter('orderBy')($scope.Empleados, 'id_Empleado', false);
                         }
                     }, function (err) {
                         toastr.remove();
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
-                    })            
+                    })
         }
 
         // Consultar Servicios
@@ -3566,7 +3555,6 @@
         //Funciones
         //Validar Datos
         $scope.ValidarNuevaCita = function () {
-            
             if ($scope.EmpleadoSeleccionado === '') {
                 toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
                 $('#acEmpleados').focus();
@@ -3619,10 +3607,10 @@
         }
 
         //Encontrar Cliente
-        $scope.EncontrarCliente = function(nombre) {
+        $scope.EncontrarCliente = function (nombre) {
             let busqueda = '';
-            busqueda = $filter('filter')($scope.Clientes, { 'nombres': nombre });            
-            return busqueda;            
+            busqueda = $filter('filter')($scope.Clientes, { 'nombres': nombre });
+            return busqueda;
         }
 
         //Encontrar Empleado
@@ -3631,13 +3619,12 @@
             busqueda = $filter('filter')($scope.Empleados, { 'nombres': nombre });
             return busqueda;
         }
-        
 
         //Modales Agendar Cita
         //Modal Agendar Cita General
         $scope.ModalAgendaGeneral = function () {
             $scope.AccionAgenda = 'Agendar Cita';
-            
+
             $scope.FechaHoraAgendaGeneral();
 
             $mdDialog.show({
@@ -3653,11 +3640,11 @@
         }
 
         //Modal Agendar Cita Detallada
-        $scope.ModalAgendaDetallada = function (horas, empleado, minutos) {            
-            $scope.AccionAgenda = 'Agendar Cita';           
+        $scope.ModalAgendaDetallada = function (horas, empleado, minutos) {
+            $scope.AccionAgenda = 'Agendar Cita';
             $scope.EmpleadoSeleccionado = empleado.nombres;
 
-            $scope.FechaHoraAgendaDetallada(horas, minutos);            
+            $scope.FechaHoraAgendaDetallada(horas, minutos);
 
             $mdDialog.show({
                 contentElement: '#dlgAgendaDetallada',
@@ -3666,14 +3653,13 @@
                 clickOutsideToClose: true,
                 multiple: true,
             })
-                .then(function () {                    
+                .then(function () {
                 }, function () {
                 });
         }
 
         //Fecha y Hora Agenda General
         $scope.FechaHoraAgendaGeneral = function () {
-            
             let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
             if (papts[0].valor_Propiedad.toUpperCase() === 'SI' || papts[0].valor_Propiedad.toUpperCase() === 'SÍ')
                 $scope.fDisableHoraFin = true;
@@ -3698,7 +3684,6 @@
                 else
                     setMinutos = '30';
             } else {
-
                 if (horas === '12:00 M')
                     horas = horas.replace('M', '');
                 else
@@ -3711,14 +3696,13 @@
                 else
                     setMinutos = 30;
             }
-            
+
             $scope.FechaInicio = angular.copy($scope.FechaActual);
             $scope.FechaInicio = new Date(($scope.FechaInicio).setHours(setHora, setMinutos, 0, 0));
             $scope.FechaFin = angular.copy($scope.FechaInicio);
             $scope.HoraInicio = new Date($scope.FechaInicio.getFullYear(), $scope.FechaInicio.getMonth(), $scope.FechaInicio.getDate(), $scope.FechaInicio.getHours(), $scope.FechaInicio.getMinutes());
             $scope.HoraFin = angular.copy($scope.HoraInicio);
         }
-
 
         //Eventos
         $scope.Cancelar = function () {
@@ -3727,16 +3711,15 @@
 
         $scope.$on("CompanyChange", function () {
             $scope.IdEmpresa = $rootScope.Id_Empresa;
+            $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
             $scope.ConsultarServicios();
             $scope.ConsultarEmpleados();
             $scope.ConsultarClientes();
-            $scope.ConsultarEmpresaPropiedades();
         });
 
         $scope.ConsultarServicios();
         $scope.ConsultarEmpleados();
         $scope.ConsultarClientes();
-        $scope.ConsultarEmpresaPropiedades();
     }
 
     function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {

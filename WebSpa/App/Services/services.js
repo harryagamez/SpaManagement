@@ -1,5 +1,4 @@
 ﻿(function () {
-
     angular.module('app.services', [])
         .service("serviceRest", serviceRest)
         .factory('AuthtenticantionIntecerptorService', AuthtenticantionIntecerptorService)
@@ -12,11 +11,9 @@
     SPAService.$inject = ['$http', '$rootScope', '$q', 'serviceRest', 'localStorageService'];
 
     function AuthtenticantionIntecerptorService($q, $location, localStorageService, $stateParams) {
-
         var authInterceptorServiceFactory = {};
 
         var _request = function (config) {
-
             config.headers = config.headers || {};
 
             var authData = localStorageService.get('authorizationData');
@@ -34,11 +31,9 @@
         authInterceptorServiceFactory.responseError = _responseError;
 
         return authInterceptorServiceFactory;
-
     }
 
     function AuthService($http, $q, $rootScope, $state, localStorageService, $timeout, $filter, serviceRest) {
-
         var authServiceFactory = {};
 
         var _authentication = {
@@ -48,10 +43,10 @@
         };
 
         var _login = function (userName, password, validatedIntegration, integrationCode) {
-
             localStorageService.remove('authorizationData');
             localStorageService.remove('masterdataMenu');
             localStorageService.remove('masterdataUserAvatar');
+            localStorageService.remove('masterdataEmpresaPropiedades');
             localStorageService.remove('masterDataTipoClientes');
             localStorageService.remove('masterdataClientes');
             localStorageService.remove('masterdataMunicipios');
@@ -91,7 +86,6 @@
                 }
             }).then(
                 function (response) {
-
                     $rootScope.Id_Empresa = '';
 
                     localStorageService.set('authorizationData',
@@ -110,7 +104,7 @@
                     $rootScope.Id_Empresa = response.data.CompanyId;
                     $rootScope.Perfil = response.data.userRole;
                     $rootScope.Nombre_Empresa = response.data.CompanyName;
-                    
+
                     _authentication.isAuth = true;
                     _authentication.userName = userName;
                     _authentication.userPassword = password;
@@ -122,14 +116,11 @@
                         _consultarEmpresas();
 
                     else {
-
                         _consultarUserAvatar($rootScope.userData.userId);
                         _consultarUsuarioEmpresas($rootScope.userData.userId);
-
                     }
 
                     deferred.resolve(response);
-
                 },
                 function (err) {
                     _logOut();
@@ -138,14 +129,13 @@
             )
 
             return deferred.promise;
-
         };
 
         var _logOut = function () {
-
             localStorageService.remove('authorizationData');
             localStorageService.remove('masterdataMenu');
             localStorageService.remove('masterdataUserAvatar');
+            localStorageService.remove('masterdataEmpresaPropiedades');
             localStorageService.remove('masterDataTipoClientes');
             localStorageService.remove('masterdataClientes');
             localStorageService.remove('masterdataMunicipios');
@@ -160,6 +150,7 @@
             $rootScope.Municipios = [];
             $rootScope.Barrios = [];
             $rootScope.Empresas = [];
+            $rootScope.EmpresaPropiedades = [];
             $rootScope.UserAvatar = '../../Images/default-perfil.png';
 
             _authentication.isAuth = false;
@@ -168,14 +159,11 @@
             $rootScope.userData = { userName: '', userId: '', userRole: '' }
 
             $timeout(function () { $state.go('login') }, 0);
-
         };
 
         var _fillAuthData = function () {
-
             var authData = localStorageService.get('authorizationData');
             if (authData) {
-                
                 _authentication.isAuth = true;
                 _authentication.userName = authData.userName;
 
@@ -193,7 +181,11 @@
                 var masterDataUserAvatar = localStorageService.get('masterdataUserAvatar');
                 if (masterDataUserAvatar)
                     $rootScope.UserAvatar = masterDataUserAvatar.useravatar;
-                
+
+                var masterDataEmpresaPropiedades = localStorageService.get('masterdataEmpresaPropiedades');
+                if (masterDataEmpresaPropiedades)
+                    $rootScope.EmpresaPropiedades = masterDataEmpresaPropiedades.empresapropiedades;
+
                 var masterDataTipoClientes = localStorageService.get('masterdataTipoClientes');
                 if (masterDataTipoClientes)
                     $rootScope.TipoClientes = masterDataTipoClientes.tipoClientes;
@@ -225,16 +217,13 @@
                 var masterdataEmpresas = localStorageService.get('masterdataEmpresas');
                 if (masterdataEmpresas)
                     $rootScope.Empresas = masterdataEmpresas.empresas;
-
             }
             else {
                 _logOut();
             }
-
         };
 
         var _consultarMenu = function () {
-
             var authorizationData = localStorageService.get('authorizationData');
 
             $http({
@@ -250,19 +239,16 @@
                         menu: result.data
                     });
             })
-
         }
 
         var _consultarUserAvatar = function () {
-
             var authorizationData = localStorageService.get('authorizationData');
-            
+
             $http({
                 headers: { 'Content-Type': 'application/json' },
                 method: 'GET',
                 url: $rootScope.config.data.API_URL + 'SPA/ConsultarUserAvatar?UserId=' + parseInt(authorizationData.userId) + '&IdEmpresa=' + authorizationData.companyId
-            }).then(function (result) {                
-                
+            }).then(function (result) {
                 if (result.data !== null)
                     $rootScope.UserAvatar = result.data.logo_Base64;
                 else
@@ -275,12 +261,28 @@
                         {
                             useravatar: result.data.logo_Base64
                         });
-                }                
+                }
             })
-        }        
+        }
+
+        var _consultarEmpresaPropiedades = function (idEmpresa) {
+            var authorizationData = localStorageService.get('authorizationData');
+
+            $http({
+                headers: { 'Content-Type': 'application/json' },
+                method: 'GET',
+                url: $rootScope.config.data.API_URL + 'SPA/ConsultarEmpresaPropiedades?IdEmpresa=' + idEmpresa
+            }).then(function (result) {
+                $rootScope.EmpresaPropiedades = result.data;
+                $rootScope.$broadcast('successfull.empresapropiedadesload');
+                localStorageService.set('masterdataEmpresaPropiedades',
+                    {
+                        empresapropiedades: result.data
+                    });
+            })
+        }
 
         var _consultarEmpresas = function () {
-
             $http({
                 headers: { 'Content-Type': 'application/json' },
                 method: 'GET',
@@ -289,16 +291,16 @@
                 localStorageService.set('empresas', result.data);
                 $rootScope.Empresas = result.data;
                 $rootScope.$broadcast('successfull.companiesLoaded');
+                let ids = '00000000-0000-0000-0000-000000000000';
+                _consultarEmpresaPropiedades(ids);
                 localStorageService.set('masterdataEmpresas',
                     {
                         empresas: result.data
                     });
             })
-
         }
 
         var _consultarUsuarioEmpresas = function () {
-
             var authData = localStorageService.get('authorizationData');
 
             $http({
@@ -309,12 +311,15 @@
                 localStorageService.set('empresas', result.data);
                 $rootScope.Empresas = result.data;
                 $rootScope.$broadcast('successfull.companiesLoaded');
+                let ids = Enumerable.From($rootScope.Empresas)
+                    .Select(function (x) { return x.id_Empresa })
+                    .ToArray().join(',');
+                _consultarEmpresaPropiedades(ids);
                 localStorageService.set('masterdataEmpresas',
                     {
                         empresas: result.data
                     });
             })
-
         }
 
         authServiceFactory.login = _login;
@@ -323,15 +328,13 @@
         authServiceFactory.authentication = _authentication;
         authServiceFactory.consultarMenu = _consultarMenu;
         authServiceFactory.consultarUserAvatar = _consultarUserAvatar;
+        authServiceFactory.consultarEmpresaPropiedades = _consultarEmpresaPropiedades;
 
         return authServiceFactory;
-
     }
 
     function SPAService($http, $rootScope, $q, serviceRest, localStorageService) {
-
         return {
-            
             _registrarActualizarCliente: RegistrarActualizarCliente,
             _consultarClientes: ConsultarClientes,
             _consultarBarrios: ConsultarBarrios,
@@ -366,7 +369,6 @@
             _consultarUsuario: ConsultarUsuario,
             _guardarUsuario: GuardarUsuario,
             _consultarEmpresaPropiedades: ConsultarEmpresaPropiedades
-
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -476,7 +478,6 @@
             serviceRest.Get('SPA', 'ConsultarServicios?IdEmpresa=' + id_empresa,
                 function (data) {
                     deferred.resolve(data);
-
                 },
                 function (err) {
                     deferred.reject(err);
@@ -659,7 +660,6 @@
             serviceRest.Get('SPA', 'ConsultarProductos?IdEmpresa=' + id_empresa,
                 function (data) {
                     deferred.resolve(data);
-
                 },
                 function (err) {
                     deferred.reject(err);
@@ -778,7 +778,6 @@
             serviceRest.Get('SPA', 'ConsultarUsuarios?IdEmpresa=' + id_empresa,
                 function (data) {
                     deferred.resolve(data);
-
                 },
                 function (err) {
                     deferred.reject(err);
@@ -823,7 +822,6 @@
                 });
             return deferred.promise;
         }
-
     }
 
     function serviceRest($http, $q, $rootScope) {
@@ -878,5 +876,4 @@
             }
         };
     }
-
 })();
