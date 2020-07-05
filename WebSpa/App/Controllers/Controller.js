@@ -143,7 +143,7 @@
             $scope.NombreEmpresa = $rootScope.Nombre_Empresa;
         });
 
-        $scope.$on('failed.propertiesload', function () {
+        $scope.$on('failed.empresapropiedadesload', function () {
             if ($rootScope.Errores !== undefined && $rootScope.Errores !== '') {
                 toastr.error($rootScope.Errores, '', $scope.toastrOptions);
             }

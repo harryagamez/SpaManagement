@@ -280,7 +280,7 @@
                     });
             }, function (error) {
                     $rootScope.Errores = error.data;
-                    $rootScope.$broadcast('failed.propertiesload');
+                    $rootScope.$broadcast('failed.empresapropiedadesload');
             })
         }
 
