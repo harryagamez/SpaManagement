@@ -13,7 +13,6 @@ namespace Spa.Infrastructure.SpaRepository
 {
     public class SpaRepository : ISpaRepository
     {
-
         protected readonly string _connectionString;
 
         public SpaRepository(string ConnectionString)
