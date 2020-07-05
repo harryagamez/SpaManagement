@@ -983,7 +983,7 @@ namespace Spa.Infrastructure.SpaRepository
                         return usuario;
                     })
                     .ToList();
-                    
+
                     return _usuarios;
                 }
             }
@@ -1095,9 +1095,9 @@ namespace Spa.Infrastructure.SpaRepository
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
-                    List<EmpresaPropiedades> _empresapropiedades = _datatable.DataTableToList<EmpresaPropiedades>();
+                    List<EmpresaPropiedades> _empresaPropiedades = _datatable.DataTableToList<EmpresaPropiedades>();
 
-                    return _empresapropiedades;
+                    return _empresaPropiedades;
                 }
             }
         }
@@ -1215,6 +1215,5 @@ namespace Spa.Infrastructure.SpaRepository
                 }
             }
         }
-
     }
 }

@@ -152,6 +152,7 @@
             $rootScope.Empresas = [];
             $rootScope.EmpresaPropiedades = [];
             $rootScope.UserAvatar = '../../Images/default-perfil.png';
+            $rootScope.Errores = '';
 
             _authentication.isAuth = false;
             _authentication.userName = "";
@@ -266,8 +267,6 @@
         }
 
         var _consultarEmpresaPropiedades = function (idEmpresa) {
-            var authorizationData = localStorageService.get('authorizationData');
-
             $http({
                 headers: { 'Content-Type': 'application/json' },
                 method: 'GET',
@@ -279,6 +278,9 @@
                     {
                         empresapropiedades: result.data
                     });
+            }, function (error) {
+                    $rootScope.Errores = error.data;
+                    $rootScope.$broadcast('failed.propertiesload');
             })
         }
 

@@ -143,6 +143,12 @@
             $scope.NombreEmpresa = $rootScope.Nombre_Empresa;
         });
 
+        $scope.$on('failed.propertiesload', function () {
+            if ($rootScope.Errores !== undefined && $rootScope.Errores !== '') {
+                toastr.error($rootScope.Errores, '', $scope.toastrOptions);
+            }
+        });
+
         $scope.FiltrarEmpresa = function (id_empresa) {
             $rootScope.Id_Empresa = id_empresa;
             $rootScope.$broadcast("CompanyChange");
@@ -3470,8 +3476,8 @@
             "08:00 PM", "09:00 PM", "10:00 PM"];
 
         //Inicialización
-        $scope.IdEmpresa = $rootScope.Id_Empresa;        
-        $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa});
+        $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
         $scope.EstadoSeleccionado = -1;
         $scope.ServicioSeleccionado = -1;
@@ -3660,11 +3666,15 @@
 
         //Fecha y Hora Agenda General
         $scope.FechaHoraAgendaGeneral = function () {
-            let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
-            if (papts[0].valor_Propiedad.toUpperCase() === 'SI' || papts[0].valor_Propiedad.toUpperCase() === 'SÍ')
-                $scope.fDisableHoraFin = true;
-            else
-                $scope.fDisableHoraFin = false;
+            if ($scope.EmpresaPropiedades.length > 0) {
+                let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
+                if (papts[0].valor_Propiedad.toUpperCase() === 'SI' || papts[0].valor_Propiedad.toUpperCase() === 'SÍ')
+                    $scope.fDisableHoraFin = true;
+                else
+                    $scope.fDisableHoraFin = false;
+            } else {
+                toastr.info('La empresa actual, no tiene propiedades definidas', '', $scope.toastrOptions);
+            }
 
             $scope.FechaInicio = angular.copy($scope.FechaActual);
             $scope.HoraInicio = new Date($scope.FechaInicio.getFullYear(), $scope.FechaInicio.getMonth(), $scope.FechaInicio.getDate(), $scope.FechaInicio.getHours(), $scope.FechaInicio.getMinutes());

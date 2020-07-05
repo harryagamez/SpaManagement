@@ -686,9 +686,8 @@ namespace WebApiSpa.Controllers
             }
             catch (Exception ex)
             {
-                return Content(HttpStatusCode.InternalServerError, "Error consultando las empresas: " + ex.Message);
+                return Content(HttpStatusCode.InternalServerError, "Error consultando las empresas asociadas al usuario: " + ex.Message);
             }
         }
-
     }
 }
