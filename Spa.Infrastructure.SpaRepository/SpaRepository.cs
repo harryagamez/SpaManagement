@@ -28,10 +28,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -59,10 +56,7 @@ namespace Spa.Infrastructure.SpaRepository
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -85,10 +79,7 @@ namespace Spa.Infrastructure.SpaRepository
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -112,10 +103,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -144,10 +132,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -171,10 +156,7 @@ namespace Spa.Infrastructure.SpaRepository
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -204,10 +186,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -230,10 +209,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -260,10 +236,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -289,10 +262,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -320,10 +290,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -351,10 +318,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -391,10 +355,7 @@ namespace Spa.Infrastructure.SpaRepository
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -415,10 +376,7 @@ namespace Spa.Infrastructure.SpaRepository
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -442,10 +400,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -472,10 +427,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -503,10 +455,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -533,10 +482,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -563,10 +509,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -592,10 +535,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -619,10 +559,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -642,10 +579,7 @@ namespace Spa.Infrastructure.SpaRepository
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -666,10 +600,7 @@ namespace Spa.Infrastructure.SpaRepository
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -690,10 +621,7 @@ namespace Spa.Infrastructure.SpaRepository
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -714,10 +642,7 @@ namespace Spa.Infrastructure.SpaRepository
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -738,10 +663,7 @@ namespace Spa.Infrastructure.SpaRepository
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -764,10 +686,7 @@ namespace Spa.Infrastructure.SpaRepository
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -791,10 +710,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -822,10 +738,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -852,10 +765,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -876,10 +786,7 @@ namespace Spa.Infrastructure.SpaRepository
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -901,10 +808,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -925,10 +829,7 @@ namespace Spa.Infrastructure.SpaRepository
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -953,10 +854,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -995,10 +893,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -1024,10 +919,7 @@ namespace Spa.Infrastructure.SpaRepository
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -1051,10 +943,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -1082,10 +971,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -1106,10 +992,7 @@ namespace Spa.Infrastructure.SpaRepository
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -1133,10 +1016,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -1164,10 +1044,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
@@ -1193,10 +1070,7 @@ namespace Spa.Infrastructure.SpaRepository
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
-                if (_connection.State == ConnectionState.Closed)
-                {
-                    _connection.Open();
-                }
+                _connection.Open();
 
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
