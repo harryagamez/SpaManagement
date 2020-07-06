@@ -3484,12 +3484,14 @@
         $scope.ClienteSeleccionado = '';
         $scope.EmpleadoSeleccionado = '';
         $scope.AgendaServicios = [];
+        $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
         $scope.Filtros = { Desde: new Date(new Date().setHours(0, 0, 0, 0)), Hasta: new Date(new Date().setHours(0, 0, 0, 0)) };
         $scope.FechaActual = new Date();
         $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
 
         //Variables de Configuración
         $scope.fDisableHoraFin = false;
+        $scope.fDisableGuardarAgenda = false;
         $scope.fDisableServicios = true;
 
         $scope.Agenda = {
@@ -3565,12 +3567,20 @@
             SPAService._consultarEmpleadoServicio(idEmpleado)
                 .then(
                     function (result) {
-                        if (result.data !== undefined && result.data !== null) {                            
+                        if (result.data !== undefined && result.data !== null) {
                             $scope.AgendaServicios = [];
                             $scope.AgendaServicios = result.data;
                             $scope.AgendaServicios = $scope.AgendaServicios.map(function (e) {
-                                return {id_Empleado: e.id_Empleado, id_Empleado_Servicio:e.id_Empleado_Servicio, id_Servicio: e.id_Servicio, nombre: e.servicio, tipoServicio: e.tipoServicio}
+                                return { id_Empleado: e.id_Empleado, id_Empleado_Servicio: e.id_Empleado_Servicio, id_Servicio: e.id_Servicio, nombre: e.servicio, tipoServicio: e.tipoServicio }
                             });
+                            $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
+                            $scope.AgendaServicios = $filter('orderBy')($scope.AgendaServicios, 'id_Servicio', false);
+                            $scope.fDisableServicios = false;
+                        }
+                        else {
+                            $scope.fDisableGuardarAgenda = true;
+                            $scope.fDisableServicios = true;
+                            toastr.info('Este empleado no tiene servicios asignados', '', $scope.toastrOptions);
                         }
                     }, function (err) {
                         toastr.remove();
@@ -3643,12 +3653,14 @@
             $scope.ClienteSeleccionado = '';
             $scope.EmpleadoSeleccionado = '';
             $scope.AgendaServicios = [];
+            $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
             $scope.Filtros = { Desde: new Date(new Date().setHours(0, 0, 0, 0)), Hasta: new Date(new Date().setHours(0, 0, 0, 0)) };
             $scope.FechaActual = new Date();
             $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
 
             //Variables de Configuración
             $scope.fDisableHoraFin = false;
+            $scope.fDisableGuardarAgenda = false;
             $scope.fDisableServicios = true;
 
             $scope.Agenda = {
@@ -3666,11 +3678,11 @@
             if (empleado !== null && empleado !== undefined && empleado !== '') {
                 
                 if (empleado.criterio === 'PAGO_PORCENTUAL') {
-                    $scope.ConsultarEmpleadoServicio(empleado.id_Empleado);                    
-                    $scope.fDisableServicios = false;
+                    $scope.ConsultarEmpleadoServicio(empleado.id_Empleado); 
                 }
                 else {
                     $scope.AgendaServicios = $scope.Servicios;
+                    $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
                     $scope.fDisableServicios = false;
                 }                    
             }
