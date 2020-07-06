@@ -47,6 +47,7 @@ namespace Spa.Infrastructure.SpaRepository
         bool GuardarUsuario(Usuario _Usuario);
         Usuario ConsultarUserAvatar(int UserId, string IdEmpresa);
         List<EmpresaPropiedades> ConsultarEmpresaPropiedades(string IdEmpresa);
+        List<Empleado> ConsultarEmpleadosAutoComplete(string IdEmpresa);
         Usuario ValidarUsuarioAdmin(string Nombre, string Password);
         List<Empresa> ConsultarEmpresas();
         List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario);

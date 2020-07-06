@@ -370,7 +370,8 @@
             _consultarUsuarios: ConsultarUsuarios,
             _consultarUsuario: ConsultarUsuario,
             _guardarUsuario: GuardarUsuario,
-            _consultarEmpresaPropiedades: ConsultarEmpresaPropiedades
+            _consultarEmpresaPropiedades: ConsultarEmpresaPropiedades,
+            _consultarEmpleadosAutoComplete: ConsultarEmpleadosAutoComplete
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -816,6 +817,18 @@
         function ConsultarEmpresaPropiedades(id_empresa) {
             var deferred = $q.defer();
             serviceRest.Get('SPA', 'ConsultarEmpresaPropiedades?IdEmpresa=' + id_empresa,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarEmpleadosAutoComplete(id_empresa) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarEmpleadosAutoComplete?IdEmpresa=' + id_empresa,
                 function (data) {
                     deferred.resolve(data);
                 },

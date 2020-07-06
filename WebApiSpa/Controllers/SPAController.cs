@@ -655,6 +655,23 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpGet]
+        [Route("api/SPA/ConsultarEmpleadosAutoComplete")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarEmpleadosAutoComplete(string IdEmpresa)
+        {
+            try
+            {
+                List<Empleado> _empleados = _spaService.ConsultarEmpleadosAutoComplete(IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _empleados);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando la lista de empleados: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Authorize(Roles = "Admin")]
         [Route("api/SPA/ConsultarEmpresas")]
         [HttpCache(DefaultExpirySeconds = 2)]

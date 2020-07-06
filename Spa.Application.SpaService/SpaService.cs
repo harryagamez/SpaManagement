@@ -294,6 +294,11 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarEmpresaPropiedades(IdEmpresa);
         }
 
+        public List<Empleado> ConsultarEmpleadosAutoComplete(string IdEmpresa)
+        {
+            return _spaRepository.ConsultarEmpleadosAutoComplete(IdEmpresa);
+        }
+
         public List<Empresa> ConsultarEmpresas()
         {
             return _spaRepository.ConsultarEmpresas();

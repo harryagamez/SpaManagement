@@ -3483,12 +3483,14 @@
         $scope.ServicioSeleccionado = -1;
         $scope.ClienteSeleccionado = '';
         $scope.EmpleadoSeleccionado = '';
+        $scope.AgendaServicios = [];
         $scope.Filtros = { Desde: new Date(new Date().setHours(0, 0, 0, 0)), Hasta: new Date(new Date().setHours(0, 0, 0, 0)) };
         $scope.FechaActual = new Date();
         $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
 
         //Variables de Configuración
         $scope.fDisableHoraFin = false;
+        $scope.fDisableServicios = true;
 
         $scope.Agenda = {
             Cliente: '',
@@ -3524,8 +3526,8 @@
         }
 
         // Consultar Empleados
-        $scope.ConsultarEmpleados = function () {
-            SPAService._consultarEmpleados($scope.IdEmpresa)
+        $scope.ConsultarEmpleadosAutoComplete = function () {
+            SPAService._consultarEmpleadosAutoComplete($scope.IdEmpresa)
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
@@ -3558,9 +3560,29 @@
                     })
         }
 
+        // Consultar EmpleadoServicios
+        $scope.ConsultarEmpleadoServicio = function (idEmpleado) {
+            SPAService._consultarEmpleadoServicio(idEmpleado)
+                .then(
+                    function (result) {
+                        if (result.data !== undefined && result.data !== null) {                            
+                            $scope.AgendaServicios = [];
+                            $scope.AgendaServicios = result.data;
+                            $scope.AgendaServicios = $scope.AgendaServicios.map(function (e) {
+                                return {id_Empleado: e.id_Empleado, id_Empleado_Servicio:e.id_Empleado_Servicio, id_Servicio: e.id_Servicio, nombre: e.servicio, tipoServicio: e.tipoServicio}
+                            });
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+        }        
+
         //Funciones
         //Validar Datos
         $scope.ValidarNuevaCita = function () {
+            debugger;
             if ($scope.EmpleadoSeleccionado === '') {
                 toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
                 $('#acEmpleados').focus();
@@ -3612,6 +3634,54 @@
             return true;
         }
 
+        $scope.LimpiarDatos = function () {
+            $scope.IdEmpresa = $rootScope.Id_Empresa;
+            $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
+            $scope.IdUsuario = parseInt($rootScope.userData.userId);
+            $scope.EstadoSeleccionado = -1;
+            $scope.ServicioSeleccionado = -1;
+            $scope.ClienteSeleccionado = '';
+            $scope.EmpleadoSeleccionado = '';
+            $scope.AgendaServicios = [];
+            $scope.Filtros = { Desde: new Date(new Date().setHours(0, 0, 0, 0)), Hasta: new Date(new Date().setHours(0, 0, 0, 0)) };
+            $scope.FechaActual = new Date();
+            $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
+
+            //Variables de Configuración
+            $scope.fDisableHoraFin = false;
+            $scope.fDisableServicios = true;
+
+            $scope.Agenda = {
+                Cliente: '',
+                Empleado: '',
+                Servicio: '',
+                FechaInicio: '',
+                FechaFin: '',
+                Observaciones: ''
+            };
+        }
+
+        //Filtrar Servicios Empleado Modal
+        $scope.FiltrarServicios = function (empleado) {            
+            if (empleado !== null && empleado !== undefined && empleado !== '') {
+                
+                if (empleado.criterio === 'PAGO_PORCENTUAL') {
+                    $scope.ConsultarEmpleadoServicio(empleado.id_Empleado);                    
+                    $scope.fDisableServicios = false;
+                }
+                else {
+                    $scope.AgendaServicios = $scope.Servicios;
+                    $scope.fDisableServicios = false;
+                }                    
+            }
+        }
+
+        //On Change
+        $scope.OnChange = function () {
+            $scope.AgendaServicios = [];
+            $scope.fDisableServicios = true;
+        }
+
         //Encontrar Cliente
         $scope.EncontrarCliente = function (nombre) {
             let busqueda = '';
@@ -3642,6 +3712,7 @@
             })
                 .then(function () {
                 }, function () {
+                        $scope.LimpiarDatos();
                 });
         }
 
@@ -3661,6 +3732,7 @@
             })
                 .then(function () {
                 }, function () {
+                        $scope.LimpiarDatos();
                 });
         }
 
@@ -3716,20 +3788,22 @@
 
         //Eventos
         $scope.Cancelar = function () {
+            $scope.LimpiarDatos();
             $mdDialog.cancel();
         };
 
         $scope.$on("CompanyChange", function () {
+            $scope.LimpiarDatos();
             $scope.IdEmpresa = $rootScope.Id_Empresa;
             $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
             $scope.ConsultarServicios();
-            $scope.ConsultarEmpleados();
-            $scope.ConsultarClientes();
+            $scope.ConsultarEmpleadosAutoComplete();
+            $scope.ConsultarClientes();            
         });
 
         $scope.ConsultarServicios();
-        $scope.ConsultarEmpleados();
-        $scope.ConsultarClientes();
+        $scope.ConsultarEmpleadosAutoComplete();
+        $scope.ConsultarClientes();       
     }
 
     function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {

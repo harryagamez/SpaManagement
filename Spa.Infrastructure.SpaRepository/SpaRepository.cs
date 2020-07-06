@@ -987,6 +987,33 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public List<Empleado> ConsultarEmpleadosAutoComplete(string IdEmpresa)
+        {
+            DataTable _datatable = new DataTable();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarEmpleadosAutoComplete";
+                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<Empleado> _empleados = _datatable.DataTableToList<Empleado>();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _empleados;
+                }
+            }
+        }
+
         public bool EliminarGastos(List<Gasto> _Gastos)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
