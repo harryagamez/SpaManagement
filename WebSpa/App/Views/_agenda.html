@@ -236,7 +236,7 @@
                                     <label class="label-form-empleados" style="">
                                         Hora Inicio Cita:
                                     </label>
-                                    <input ng-model="HoraInicio" type="time" class="" placeholder="Hora inicio cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="timeInicio" tabindex="11">
+                                    <input ng-model="HoraInicio" data-ng-change="CalcularHoraFin(ServicioSeleccionado)" type="time" class="" placeholder="Hora inicio cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="timeInicio" tabindex="11">
                                 </md-input-container>
                             </div>
 
@@ -245,7 +245,7 @@
                                     <label class="label-form-empleados" style="">
                                         Hora Fin Cita:
                                     </label>
-                                    <input ng-model="HoraFin" ng-disabled="fDisableHoraFin" type="time" class="" placeholder="Hora fin cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="timeFin" tabindex="11">
+                                    <input ng-model="HoraFin" data-ng-change="ValidarHoraFin()" ng-disabled="fDisableHoraFin" type="time" class="" placeholder="Hora fin cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="timeFin" tabindex="11">
                                 </md-input-container>
                             </div>
                         </div>

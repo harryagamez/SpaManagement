@@ -3618,9 +3618,7 @@
             $scope.EmpleadoSeleccionado = '';
             $scope.AgendaServicios = [];
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
-            $scope.Filtros = { Desde: new Date(new Date().setHours(0, 0, 0, 0)), Hasta: new Date(new Date().setHours(0, 0, 0, 0)) };
-            $scope.FechaActual = new Date();
-            $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
+            $scope.Filtros = { Desde: new Date(new Date().setHours(0, 0, 0, 0)), Hasta: new Date(new Date().setHours(0, 0, 0, 0)) };            
 
             //Variables de Configuración            
             $scope.fDisableGuardarAgenda = false;
@@ -3804,8 +3802,9 @@
         }
 
         //Fecha y Hora Agenda General
-        $scope.FechaHoraAgendaGeneral = function () {           
-
+        $scope.FechaHoraAgendaGeneral = function () {
+            $scope.FechaActual = new Date();
+            $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
             $scope.FechaInicio = angular.copy($scope.FechaActual);
             $scope.HoraInicio = new Date($scope.FechaInicio.getFullYear(), $scope.FechaInicio.getMonth(), $scope.FechaInicio.getDate(), $scope.FechaInicio.getHours(), $scope.FechaInicio.getMinutes());            
             $scope.HoraFin = angular.copy($scope.HoraInicio);            
@@ -3813,6 +3812,8 @@
 
         //Fecha y Hora Agenda Detallada
         $scope.FechaHoraAgendaDetallada = function (horas, minutos) {
+            $scope.FechaActual = new Date();
+            $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
             let setHora = 0;
             let setMinutos = 0;
 
@@ -3853,23 +3854,52 @@
             }
         }
 
+        //Validar Hora Fin
+        $scope.ValidarHoraFin = function () {
+            
+            if ($scope.HoraFin.getHours() < $scope.HoraInicio.getHours())
+                $scope.HoraInicio = $scope.HoraFin;
+
+            if ($scope.HoraFin.getHours() === $scope.HoraInicio.getHours() && $scope.HoraFin.getMinutes() < $scope.HoraInicio.getMinutes())
+                $scope.HoraInicio = $scope.HoraFin;
+        }
+
         //Calcular Hora Fin
         $scope.CalcularHoraFin = function (IdServicio) {
             
-            let tiemposervicio = Enumerable.From($scope.AgendaServicios)
-                .Where(function (x) { return x.id_Servicio === IdServicio })
-                .ToArray();
+            if ($scope.PAPTS) {
+                if (IdServicio !== -1) {
+                    let tiemposervicio = Enumerable.From($scope.AgendaServicios)
+                        .Where(function (x) { return x.id_Servicio === IdServicio })
+                        .ToArray();
 
-            if ($scope.PAPTS && tiemposervicio[0].tiempo === 0 || tiemposervicio[0].tiempo === null || tiemposervicio[0].tiempo === undefined) {
-                toastr.info('La CONFIGURACIÓN de esta EMPRESA requiere que los servicios tengan un tiempo definido y este SERVICIO no lo tiene ', '', $scope.toastrOptions);
-                $scope.ServicioSeleccionado = -1;
-                $scope.HoraFin = angular.copy($scope.HoraInicio);
-                return;
-            }
-            else {
-                $scope.HoraFin = angular.copy($scope.HoraInicio);
-                $scope.HoraFin.setMinutes($scope.HoraFin.getMinutes() + tiemposervicio[0].tiempo);
-            }
+                    if (tiemposervicio[0].tiempo === 0 || tiemposervicio[0].tiempo === null || tiemposervicio[0].tiempo === undefined) {
+                        toastr.info('La CONFIGURACIÓN de esta EMPRESA requiere que los servicios tengan un tiempo definido y este SERVICIO no lo tiene ', '', $scope.toastrOptions);
+                        $scope.ServicioSeleccionado = -1;
+                        $scope.HoraFin = angular.copy($scope.HoraInicio);
+                        return;
+                    }
+                    else {
+                        $scope.HoraFin = angular.copy($scope.HoraInicio);
+                        $scope.HoraFin.setMinutes($scope.HoraFin.getMinutes() + tiemposervicio[0].tiempo);
+                    }
+                }
+                else {
+                    $scope.FechaHoraAgendaGeneral();                    
+                }
+            } else if (!$scope.PAPTS) {
+                if (IdServicio !== -1) {                    
+
+                    if ($scope.HoraInicio.getHours() > $scope.HoraFin.getHours())
+                        $scope.HoraFin = $scope.HoraInicio;                    
+
+                    if ($scope.HoraInicio.getHours() === $scope.HoraFin.getHours() && $scope.HoraInicio.getMinutes() > $scope.HoraFin.getMinutes())
+                        $scope.HoraFin = $scope.HoraInicio;                    
+                }
+                else {
+                    $scope.FechaHoraAgendaGeneral();                    
+                }
+            }            
         }
 
         //Eventos
