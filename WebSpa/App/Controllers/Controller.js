@@ -3496,6 +3496,7 @@
         $scope.fDisableServicios = true;
 
         $scope.Agenda = {
+            Id_Empresa: $scope.IdEmpresa,
             Cliente: '',
             Empleado: '',
             Servicio: '',
@@ -3625,6 +3626,7 @@
             $scope.fDisableServicios = true;
 
             $scope.Agenda = {
+                Id_Empresa: $scope.IdEmpresa,
                 Cliente: '',
                 Empleado: '',
                 Servicio: '',
@@ -3691,9 +3693,9 @@
                 return false;
             }
 
-            $scope.Agenda.Servicio = $scope.ServicioSeleccionado;
+            $scope.Agenda.Servicio = $scope.ServicioSeleccionado;            
 
-            if ($scope.Agenda.Fecha === '' || $scope.Agenda.Fecha === null) {
+            if ($scope.FechaInicio === '' || $scope.FechaInicio === null) {
                 toastr.info('Debe seleccionar una fecha', '', $scope.toastrOptions);
                 $('#dpFecha').focus();
                 return false;
@@ -3710,6 +3712,17 @@
                 $('#timeFin').focus();
                 return false;
             }
+
+            if ($scope.HoraInicio === $scope.HoraFin) {
+                toastr.info('Debe especificar la duración de la cita seleccionando una hora fin', '', $scope.toastrOptions);
+                $('#timeFin').focus();
+                return false;
+            }            
+
+            $scope.Agenda.FechaInicio = angular.copy($scope.FechaInicio);
+            $scope.Agenda.FechaInicio.setHours($scope.HoraInicio.getHours(), $scope.HoraInicio.getMinutes(), 0, 0);
+            $scope.Agenda.FechaFin = angular.copy($scope.FechaInicio);
+            $scope.Agenda.FechaFin.setHours($scope.HoraFin.getHours(), $scope.HoraFin.getMinutes(), 0, 0);
 
             if ($scope.Agenda.Observaciones === '' || $scope.Agenda.Observaciones === null) {
                 toastr.info('El campo "Observaciones" no puede estar vacío', '', $scope.toastrOptions);
