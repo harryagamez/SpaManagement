@@ -176,7 +176,7 @@
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Empleados:
                                     </label>
-                                    <md-autocomplete id="acEmpleados" md-clear-button="false" md-selected-item="EmpleadoSeleccionado" md-search-text-change="OnChange()" md-selected-item-change="FiltrarServicios(EmpleadoSeleccionado)" md-search-text="buscarEmpleado" md-items="empleado in EncontrarEmpleado(buscarEmpleado)" md-item-text="empleado.nombres" tabindex="7">
+                                    <md-autocomplete id="acEmpleados" md-clear-button="false" md-no-cache="true" md-selected-item="EmpleadoSeleccionado" md-search-text-change="OnChange()" md-selected-item-change="FiltrarServicios(EmpleadoSeleccionado)" md-search-text="buscarEmpleado" md-items="empleado in EncontrarEmpleado(buscarEmpleado)" md-item-text="empleado.nombres" tabindex="7">
                                         <md-item-template>
                                             <span ng-bind="empleado.id_Empleado" md-highlight-text="buscarEmpleado">{{empleado.nombres + ' ' + empleado.apellidos}}</span>
                                         </md-item-template>
@@ -194,7 +194,7 @@
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Clientes:
                                     </label>
-                                    <md-autocomplete id="acClientes" md-clear-button="false" md-selected-item="ClienteSeleccionado" md-search-text="buscarCliente" md-items="cliente in EncontrarCliente(buscarCliente)" md-item-text="cliente.nombres" tabindex="8">
+                                    <md-autocomplete id="acClientes" md-clear-button="false" md-no-cache="true" md-selected-item="ClienteSeleccionado" md-search-text="buscarCliente" md-items="cliente in EncontrarCliente(buscarCliente)" md-item-text="cliente.nombres" tabindex="8">
                                         <md-item-template>
                                             <span md-highlight-text="buscarCliente" ng-bind="cliente.id_Cliente">{{cliente.nombres + ' ' + cliente.apellidos}}</span>
                                         </md-item-template>
@@ -212,7 +212,7 @@
                                     <label class="label-form-empleados">
                                         Servicios:
                                     </label>
-                                    <md-select ng-model="ServicioSeleccionado" ng-disabled="fDisableServicios" style="display:inline-flex; min-width: 99% !important; max-width: 99% !important; margin-top:5px; position: relative; z-index:99999;" id="slServicios" tabindex="9">
+                                    <md-select ng-model="ServicioSeleccionado" data-ng-change="CalcularHoraFin(ServicioSeleccionado)" ng-disabled="fDisableServicios" style="display:inline-flex; min-width: 99% !important; max-width: 99% !important; margin-top:5px; position: relative; z-index:99999;" id="slServicios" tabindex="9">
                                         <md-option ng-bind="item.nombre" ng-value="item.id_Servicio" ng-repeat="item in AgendaServicios track by item.id_Servicio">{{item.nombre}}</md-option>
                                     </md-select>
                                 </md-input-container>
@@ -225,7 +225,7 @@
                                     <label class="label-form-empleados" style="position: absolute; left: 43px; }">
                                         Fecha Cita:
                                     </label>
-                                    <md-datepicker ng-model="FechaInicio" md-placeholder="Enter date" class="dateClientes" id="dpFechaCita" tabindex="10"></md-datepicker>
+                                    <md-datepicker ng-model="FechaInicio" data-ng-change="ValidarFechaModal()" md-placeholder="Enter date" class="dateClientes" id="dpFechaCita" tabindex="10"></md-datepicker>
                                 </md-input-container>
                             </div>
                         </div>

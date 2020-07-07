@@ -3490,6 +3490,7 @@
         $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
 
         //Variables de Configuración
+        $scope.PAPTS = false;
         $scope.fDisableHoraFin = false;
         $scope.fDisableGuardarAgenda = false;
         $scope.fDisableServicios = true;
@@ -3551,9 +3552,7 @@
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
                             $scope.Servicios = [];
-                            $scope.Servicios = result.data;
-                            $scope.Servicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
-                            $scope.Servicios = $filter('orderBy')($scope.Servicios, 'id_Servicio', false);
+                            $scope.Servicios = result.data;                            
                         }
                     }, function (err) {
                         toastr.remove();
@@ -3566,13 +3565,11 @@
         $scope.ConsultarEmpleadoServicio = function (idEmpleado) {
             SPAService._consultarEmpleadoServicio(idEmpleado)
                 .then(
-                    function (result) {
-                        if (result.data !== undefined && result.data !== null) {
+                    function (result) {                        
+                        if (result.data !== undefined && result.data !== null && result.data.length > 0) {                            
                             $scope.AgendaServicios = [];
-                            $scope.AgendaServicios = result.data;
-                            $scope.AgendaServicios = $scope.AgendaServicios.map(function (e) {
-                                return { id_Empleado: e.id_Empleado, id_Empleado_Servicio: e.id_Empleado_Servicio, id_Servicio: e.id_Servicio, nombre: e.servicio, tipoServicio: e.tipoServicio }
-                            });
+                            let empleadoservicios = result.data;
+                            $scope.AgendaServicios = $scope.Servicios.filter(o1 => empleadoservicios.some(o2 => o1.id_Servicio === o2.id_Servicio));                            
                             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
                             $scope.AgendaServicios = $filter('orderBy')($scope.AgendaServicios, 'id_Servicio', false);
                             $scope.fDisableServicios = false;
@@ -3580,7 +3577,7 @@
                         else {
                             $scope.fDisableGuardarAgenda = true;
                             $scope.fDisableServicios = true;
-                            toastr.info('Este empleado no tiene servicios asignados', '', $scope.toastrOptions);
+                            toastr.info('La CONFIGURACIÓN actual de este EMPLEADO es por PRESTACIÓN DE SERVICIOS y actualmente no tiene ningún SERVICIO asignado', '', $scope.toastrOptions);
                         }
                     }, function (err) {
                         toastr.remove();
@@ -3590,60 +3587,27 @@
         }        
 
         //Funciones
-        //Validar Datos
-        $scope.ValidarNuevaCita = function () {
-            debugger;
-            if ($scope.EmpleadoSeleccionado === '') {
-                toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
-                $('#acEmpleados').focus();
-                return false;
+        //Set Datos Configuración Empresa
+        $scope.ConfiguracionEmpresaActual = function () {
+            if ($scope.EmpresaPropiedades.length > 0) {
+
+                let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
+                if (papts[0].valor_Propiedad.toUpperCase() === 'SI' || papts[0].valor_Propiedad.toUpperCase() === 'SÍ') {
+                    $scope.fDisableHoraFin = true;
+                    $scope.PAPTS = true;
+                }
+
+                else {
+                    $scope.fDisableHoraFin = false;
+                    $scope.PAPTS = false;
+                }
+
+            } else {
+                toastr.info('La empresa actual, no tiene propiedades definidas', '', $scope.toastrOptions);
             }
-
-            $scope.Agenda.Empleado = $scope.EmpleadoSeleccionado.id_Empleado;
-
-            if ($scope.ClienteSeleccionado === '') {
-                toastr.info('Debe seleccionar un cliente', '', $scope.toastrOptions);
-                $('#acClientes').focus();
-                return false;
-            }
-
-            $scope.Agenda.Cliente = $scope.ClienteSeleccionado.id_Cliente;
-
-            if ($scope.ServicioSeleccionado === -1) {
-                toastr.info('Debe seleccionar un servicio', '', $scope.toastrOptions);
-                $('#slServicios').focus();
-                return false;
-            }
-
-            $scope.Agenda.Servicio = $scope.ServicioSeleccionado;
-
-            if ($scope.Agenda.Fecha === '') {
-                toastr.info('Debe seleccionar una fecha', '', $scope.toastrOptions);
-                $('#dpFecha').focus();
-                return false;
-            }
-
-            if ($scope.HoraInicio === '') {
-                toastr.info('Debe seleccionar una hora de inicio', '', $scope.toastrOptions);
-                $('#timeInicio').focus();
-                return false;
-            }
-
-            if ($scope.HoraFin === '') {
-                toastr.info('Debe seleccionar una hora fin', '', $scope.toastrOptions);
-                $('#timeFin').focus();
-                return false;
-            }
-
-            if ($scope.Agenda.Observaciones === '') {
-                toastr.info('El campo "Observaciones" no puede estar vacío', '', $scope.toastrOptions);
-                $('#txtObservaciones').focus();
-                return false;
-            }
-
-            return true;
         }
-
+        
+        //Limpiar Datos
         $scope.LimpiarDatos = function () {
             $scope.IdEmpresa = $rootScope.Id_Empresa;
             $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
@@ -3658,8 +3622,7 @@
             $scope.FechaActual = new Date();
             $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
 
-            //Variables de Configuración
-            $scope.fDisableHoraFin = false;
+            //Variables de Configuración            
             $scope.fDisableGuardarAgenda = false;
             $scope.fDisableServicios = true;
 
@@ -3673,6 +3636,92 @@
             };
         }
 
+        //Validaciones
+        //Validar Datos Esenciales
+        $scope.ValidarEmpleadosClientesServicios = function () {
+            
+            let counter = 0;
+            if ($scope.Empleados !== null && $scope.Empleados !== undefined) {
+                if ($scope.Empleados.length === 0) {
+                    counter += 1;
+                    toastr.info('No tiene configurado ningún empleado', '', $scope.toastrOptions);                    
+                }                
+            }
+
+            if ($scope.Clientes !== null && $scope.Clientes !== undefined) {
+                if ($scope.Clientes.length === 0) {
+                    counter += 1;
+                    toastr.info('No tiene configurado ningún cliente', '', $scope.toastrOptions);                    
+                }
+            }
+
+            if ($scope.Servicios !== null && $scope.Servicios !== undefined) {
+                if ($scope.Servicios.length === 0) {
+                    counter += 1;
+                    toastr.info('No tiene configurado ningún servicio', '', $scope.toastrOptions);                    
+                }
+            }
+
+            if (counter === 0)
+                return true;
+            else
+                return false;
+        }
+
+        //Validar Nueva Agenda
+        $scope.ValidarNuevaCita = function () {            
+            
+            if ($scope.EmpleadoSeleccionado === '' || $scope.EmpleadoSeleccionado === null) {
+                toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
+                $('#acEmpleados').focus();
+                return false;
+            }
+
+            $scope.Agenda.Empleado = $scope.EmpleadoSeleccionado.id_Empleado;
+
+            if ($scope.ClienteSeleccionado === '' || $scope.ClienteSeleccionado === null) {
+                toastr.info('Debe seleccionar un cliente', '', $scope.toastrOptions);
+                $('#acClientes').focus();
+                return false;
+            }
+
+            $scope.Agenda.Cliente = $scope.ClienteSeleccionado.id_Cliente;
+
+            if ($scope.ServicioSeleccionado === -1 || $scope.ServicioSeleccionado === null) {
+                toastr.info('Debe seleccionar un servicio', '', $scope.toastrOptions);
+                $('#slServicios').focus();
+                return false;
+            }
+
+            $scope.Agenda.Servicio = $scope.ServicioSeleccionado;
+
+            if ($scope.Agenda.Fecha === '' || $scope.Agenda.Fecha === null) {
+                toastr.info('Debe seleccionar una fecha', '', $scope.toastrOptions);
+                $('#dpFecha').focus();
+                return false;
+            }
+
+            if ($scope.HoraInicio === '' || $scope.HoraInicio === null) {
+                toastr.info('Debe seleccionar una hora de inicio', '', $scope.toastrOptions);
+                $('#timeInicio').focus();
+                return false;
+            }
+
+            if ($scope.HoraFin === '' || $scope.HoraFin === null) {
+                toastr.info('Debe seleccionar una hora fin', '', $scope.toastrOptions);
+                $('#timeFin').focus();
+                return false;
+            }
+
+            if ($scope.Agenda.Observaciones === '' || $scope.Agenda.Observaciones === null) {
+                toastr.info('El campo "Observaciones" no puede estar vacío', '', $scope.toastrOptions);
+                $('#txtObservaciones').focus();
+                return false;
+            }
+
+            return true;
+        }
+
         //Filtrar Servicios Empleado Modal
         $scope.FiltrarServicios = function (empleado) {            
             if (empleado !== null && empleado !== undefined && empleado !== '') {
@@ -3681,8 +3730,9 @@
                     $scope.ConsultarEmpleadoServicio(empleado.id_Empleado); 
                 }
                 else {
-                    $scope.AgendaServicios = $scope.Servicios;
+                    $scope.AgendaServicios = angular.copy($scope.Servicios);
                     $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
+                    $scope.AgendaServicios = $filter('orderBy')($scope.AgendaServicios, 'id_Servicio', false);
                     $scope.fDisableServicios = false;
                 }                    
             }
@@ -3691,9 +3741,12 @@
         //On Change
         $scope.OnChange = function () {
             $scope.AgendaServicios = [];
+            $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
+            $scope.ServicioSeleccionado = -1;
             $scope.fDisableServicios = true;
         }
 
+        //Filtros Autocomplete
         //Encontrar Cliente
         $scope.EncontrarCliente = function (nombre) {
             let busqueda = '';
@@ -3711,21 +3764,23 @@
         //Modales Agendar Cita
         //Modal Agendar Cita General
         $scope.ModalAgendaGeneral = function () {
-            $scope.AccionAgenda = 'Agendar Cita';
+            if ($scope.ValidarEmpleadosClientesServicios()) {
+                $scope.AccionAgenda = 'Agendar Cita';
+                $scope.FechaHoraAgendaGeneral();
 
-            $scope.FechaHoraAgendaGeneral();
-
-            $mdDialog.show({
-                contentElement: '#dlgAgendaGeneral',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true,
-                multiple: true,
-            })
-                .then(function () {
-                }, function () {
+                $mdDialog.show({
+                    contentElement: '#dlgAgendaGeneral',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true,
+                    multiple: true,
+                })
+                    .then(function () {
+                        $('#acEmpleados').focus();
+                    }, function () {
                         $scope.LimpiarDatos();
-                });
+                    });
+            }
         }
 
         //Modal Agendar Cita Detallada
@@ -3749,20 +3804,11 @@
         }
 
         //Fecha y Hora Agenda General
-        $scope.FechaHoraAgendaGeneral = function () {
-            if ($scope.EmpresaPropiedades.length > 0) {
-                let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
-                if (papts[0].valor_Propiedad.toUpperCase() === 'SI' || papts[0].valor_Propiedad.toUpperCase() === 'SÍ')
-                    $scope.fDisableHoraFin = true;
-                else
-                    $scope.fDisableHoraFin = false;
-            } else {
-                toastr.info('La empresa actual, no tiene propiedades definidas', '', $scope.toastrOptions);
-            }
+        $scope.FechaHoraAgendaGeneral = function () {           
 
             $scope.FechaInicio = angular.copy($scope.FechaActual);
-            $scope.HoraInicio = new Date($scope.FechaInicio.getFullYear(), $scope.FechaInicio.getMonth(), $scope.FechaInicio.getDate(), $scope.FechaInicio.getHours(), $scope.FechaInicio.getMinutes());
-            $scope.HoraFin = angular.copy($scope.HoraInicio);
+            $scope.HoraInicio = new Date($scope.FechaInicio.getFullYear(), $scope.FechaInicio.getMonth(), $scope.FechaInicio.getDate(), $scope.FechaInicio.getHours(), $scope.FechaInicio.getMinutes());            
+            $scope.HoraFin = angular.copy($scope.HoraInicio);            
         }
 
         //Fecha y Hora Agenda Detallada
@@ -3798,6 +3844,34 @@
             $scope.HoraFin = angular.copy($scope.HoraInicio);
         }
 
+        //Validar Fecha Modal
+        $scope.ValidarFechaModal = function () {
+            
+            if (parseInt($filter('date')($scope.FechaInicio, 'yyyyMMdd')) < parseInt($filter('date')($scope.FechaActual, 'yyyyMMdd'))) {
+                $scope.FechaInicio = angular.copy($scope.FechaActual);
+                toastr.info('Solo puede programar agenda a partir de la fecha actual', '', $scope.toastrOptions);                
+            }
+        }
+
+        //Calcular Hora Fin
+        $scope.CalcularHoraFin = function (IdServicio) {
+            
+            let tiemposervicio = Enumerable.From($scope.AgendaServicios)
+                .Where(function (x) { return x.id_Servicio === IdServicio })
+                .ToArray();
+
+            if ($scope.PAPTS && tiemposervicio[0].tiempo === 0 || tiemposervicio[0].tiempo === null || tiemposervicio[0].tiempo === undefined) {
+                toastr.info('La CONFIGURACIÓN de esta EMPRESA requiere que los servicios tengan un tiempo definido y este SERVICIO no lo tiene ', '', $scope.toastrOptions);
+                $scope.ServicioSeleccionado = -1;
+                $scope.HoraFin = angular.copy($scope.HoraInicio);
+                return;
+            }
+            else {
+                $scope.HoraFin = angular.copy($scope.HoraInicio);
+                $scope.HoraFin.setMinutes($scope.HoraFin.getMinutes() + tiemposervicio[0].tiempo);
+            }
+        }
+
         //Eventos
         $scope.Cancelar = function () {
             $scope.LimpiarDatos();
@@ -3810,12 +3884,14 @@
             $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
             $scope.ConsultarServicios();
             $scope.ConsultarEmpleadosAutoComplete();
-            $scope.ConsultarClientes();            
+            $scope.ConsultarClientes();
+            $scope.ConfiguracionEmpresaActual();
         });
 
         $scope.ConsultarServicios();
         $scope.ConsultarEmpleadosAutoComplete();
-        $scope.ConsultarClientes();       
+        $scope.ConsultarClientes();
+        $scope.ConfiguracionEmpresaActual();
     }
 
     function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
@@ -3841,7 +3917,6 @@
         $scope.InformacionImagen = $rootScope.InformacionImagen;
 
         //API
-
         //  Eliminar Imagen Adjunta Servicio
         $scope.EliminarImagenAdjunta = function (data) {
             let IdImagenAdjunta = data.id_Servicio_Imagen;
