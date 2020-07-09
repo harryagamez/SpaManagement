@@ -2493,6 +2493,7 @@
         $scope.Gastos = [];
         $scope.AccionGasto = 'Registrar Gasto';
         $scope.TipoGastoSeleccionado = -1;
+        $scope.TipoGastoSeleccionadoModal = -1;
         $scope.TipoCajaSeleccionada = -1;
         $scope.DistribucionActual = -1;
         $scope.EmpleadoSeleccionado = -1;
@@ -2525,6 +2526,7 @@
             window.onresize();
             $scope.Filtros = { Desde: new Date(), Hasta: new Date() }
             $scope.TipoGastoSeleccionado = -1;
+            $scope.TipoGastoSeleccionadoModal = -1;
             $scope.LimpiarDatosCajaMenor();
             $scope.ConsultarCajaMenor();
         }
@@ -2566,7 +2568,7 @@
                             if (result.data === true) {
                                 $scope.ConsultarCajaMenor();
                                 toastr.success('Gasto registrado correctamente', '', $scope.toastrOptions);
-                                $scope.TipoGastoSeleccionado = -1;
+                                $scope.TipoGastoSeleccionadoModal = -1;
                                 $scope.ConsultarGastos();
 
                                 if ($scope.AccionGasto == 'Registrar Gasto') {
@@ -2809,17 +2811,17 @@
         $scope.ValidarNuevoGasto = function () {
             $scope.Gasto.Id_Empresa = $scope.IdEmpresa;
             $scope.Gasto.Fecha = new Date($scope.Gasto.Fecha + 'Z');
-            if ($scope.TipoGastoSeleccionado === -1) {
+            if ($scope.TipoGastoSeleccionadoModal === -1) {
                 toastr.info('Debe seleccionar un tipo de gasto', '', $scope.toastrOptions);
                 return false;
             }
 
-            if ($scope.TipoGastoSeleccionado === 2 && $scope.EmpleadoSeleccionado === -1) {
+            if ($scope.TipoGastoSeleccionadoModal === 2 && $scope.EmpleadoSeleccionado === -1) {
                 toastr.info('Para el tipo de gasto PRESTAMOS debe seleccionar un empleado', '', $scope.toastrOptions);
                 return false;
             }
 
-            if ($scope.TipoGastoSeleccionado !== -1 && $scope.TipoGastoSeleccionado !== 2) {
+            if ($scope.TipoGastoSeleccionadoModal !== -1 && $scope.TipoGastoSeleccionadoModal !== 2) {
                 $scope.Gasto.Id_Empleado = null;
                 $scope.Gasto.Estado = null;
             }
@@ -2852,7 +2854,7 @@
             }
 
             let filtrarTipoGasto = Enumerable.From($scope.TipoGastos)
-                .Where(function (x) { return x.id_TipoGasto === $scope.TipoGastoSeleccionado })
+                .Where(function (x) { return x.id_TipoGasto === $scope.TipoGastoSeleccionadoModal })
                 .ToArray();
 
             if (filtrarTipoGasto.length > 0)
@@ -2942,7 +2944,7 @@
         }
 
         $scope.LimpiarDatosGastos = function () {
-            $scope.TipoGastoSeleccionado = -1;
+            $scope.TipoGastoSeleccionadoModal = -1;
             $scope.EmpleadoSeleccionado = -1;
 
             $scope.Gasto = {
@@ -3480,7 +3482,7 @@
         $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
         $scope.EstadoSeleccionado = -1;
-        $scope.ServicioSeleccionado = -1;
+        $scope.ServicioSeleccionadoModal = -1;
         $scope.ClienteSeleccionado = '';
         $scope.EmpleadoSeleccionado = '';
         $scope.AgendaServicios = [];
@@ -3632,7 +3634,7 @@
             $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
             $scope.IdUsuario = parseInt($rootScope.userData.userId);
             $scope.EstadoSeleccionado = -1;
-            $scope.ServicioSeleccionado = -1;
+            $scope.ServicioSeleccionadoModal = -1;
             $scope.ClienteSeleccionado = '';
             $scope.EmpleadoSeleccionado = '';
             $scope.AgendaServicios = [];
@@ -3716,13 +3718,13 @@
 
             $scope.Agenda.Id_Cliente = $scope.ClienteSeleccionado.id_Cliente;
 
-            if ($scope.ServicioSeleccionado === -1 || $scope.ServicioSeleccionado === null) {
+            if ($scope.ServicioSeleccionadoModal === -1 || $scope.ServicioSeleccionadoModal === null) {
                 toastr.info('Debe seleccionar un servicio', '', $scope.toastrOptions);
                 $('#slServicios').focus();
                 return false;
             }
 
-            $scope.Agenda.Id_Servicio = $scope.ServicioSeleccionado;            
+            $scope.Agenda.Id_Servicio = $scope.ServicioSeleccionadoModal;            
 
             if ($scope.FechaInicio === '' || $scope.FechaInicio === null) {
                 toastr.info('Debe seleccionar una fecha', '', $scope.toastrOptions);
@@ -3785,7 +3787,7 @@
         $scope.OnChange = function () {
             $scope.AgendaServicios = [];
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
-            $scope.ServicioSeleccionado = -1;
+            $scope.ServicioSeleccionadoModal = -1;
             $scope.fDisableServicios = true;
         }
 
@@ -3920,7 +3922,7 @@
 
                     if (tiemposervicio[0].tiempo === 0 || tiemposervicio[0].tiempo === null || tiemposervicio[0].tiempo === undefined) {
                         toastr.info('La CONFIGURACIÓN de esta EMPRESA requiere que los servicios tengan un tiempo definido y este SERVICIO no lo tiene ', '', $scope.toastrOptions);
-                        $scope.ServicioSeleccionado = -1;
+                        $scope.ServicioSeleccionadoModal = -1;
                         $scope.HoraFin = angular.copy($scope.HoraInicio);
                         return;
                     }

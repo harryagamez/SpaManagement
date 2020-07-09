@@ -66,20 +66,12 @@
                             <div flex="20" style="margin-top:-3px;">
                                 <md-input-container style="margin-left: -40px; min-width: 90%;  z-index:99; margin-top:15px;">
                                     <label class="label-form-clientes" style="">
-                                        Fecha Desde:
+                                        Fecha
                                     </label>
                                     <md-datepicker ng-model="Filtros.Desde" data-ng-change="" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=5 style="margin-bottom:0;"></md-datepicker>
                                 </md-input-container>
                             </div>
-
-                            <div flex="20" style="margin-top:-3px;">
-                                <md-input-container style="margin-left: -40px; min-width: 90%; margin-top:15px;">
-                                    <label class="label-form-clientes" style="">
-                                        Fecha Hasta:
-                                    </label>
-                                    <md-datepicker ng-model="Filtros.Hasta" data-ng-change="" md-placeholder="Enter date" class="dateClientes" id="dpFechaHasta" tabindex=6 style="margin-bottom:0;"></md-datepicker>
-                                </md-input-container>
-                            </div>
+                            
                         </div>
 
                         <div id="divCardsCitas" layout="row" style="width:100%; height: calc(100vh - 280px); margin-top:-15px; overflow-y:auto; overflow-x:hidden;">
@@ -212,7 +204,7 @@
                                     <label class="label-form-empleados">
                                         Servicios:
                                     </label>
-                                    <md-select ng-model="ServicioSeleccionado" data-ng-change="CalcularHoraFin(ServicioSeleccionado)" ng-disabled="fDisableServicios" style="display:inline-flex; min-width: 99% !important; max-width: 99% !important; margin-top:5px; position: relative; z-index:99999;" id="slServicios" tabindex="9">
+                                    <md-select ng-model="ServicioSeleccionadoModal" data-ng-change="CalcularHoraFin(ServicioSeleccionadoModal)" ng-disabled="fDisableServicios" style="display:inline-flex; min-width: 99% !important; max-width: 99% !important; margin-top:5px; position: relative; z-index:99999;" id="slServicios" tabindex="9">
                                         <md-option ng-bind="item.nombre" ng-value="item.id_Servicio" ng-repeat="item in AgendaServicios track by item.id_Servicio">{{item.nombre}}</md-option>
                                     </md-select>
                                 </md-input-container>
