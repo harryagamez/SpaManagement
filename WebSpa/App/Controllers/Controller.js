@@ -3726,9 +3726,21 @@
 
             $scope.Agenda.Id_Servicio = $scope.ServicioSeleccionadoModal;            
 
+            if ($scope.FechaInicio === undefined) {
+                toastr.info('Formato de fecha inválido', '', $scope.toastrOptions);
+                $('#dpFecha').focus();
+                return false;
+            }
+
             if ($scope.FechaInicio === '' || $scope.FechaInicio === null) {
                 toastr.info('Debe seleccionar una fecha', '', $scope.toastrOptions);
                 $('#dpFecha').focus();
+                return false;
+            }
+
+            if ($scope.HoraInicio === undefined) {
+                toastr.info('Formato de hora inválido ', '', $scope.toastrOptions);
+                $('#timeInicio').focus();
                 return false;
             }
 
@@ -3738,11 +3750,17 @@
                 return false;
             }
 
+            if ($scope.HoraFin === undefined) {
+                toastr.info('Formato de hora inválido ', '', $scope.toastrOptions);
+                $('#timeFin').focus();
+                return false;
+            }
+
             if ($scope.HoraFin === '' || $scope.HoraFin === null) {
                 toastr.info('Debe seleccionar una hora fin', '', $scope.toastrOptions);
                 $('#timeFin').focus();
                 return false;
-            }                       
+            }            
 
             $scope.Agenda.Fecha_Inicio = angular.copy($scope.FechaInicio);
             $scope.Agenda.Fecha_Inicio.setHours($scope.HoraInicio.getHours(), $scope.HoraInicio.getMinutes(), 0, 0);
@@ -3912,10 +3930,17 @@
         }
 
         //Calcular Hora Fin
-        $scope.CalcularHoraFin = function (IdServicio) {
-            
+        $scope.CalcularHoraFin = function () {           
+
+            let IdServicio = $scope.ServicioSeleccionadoModal;            
+
+            if ($scope.HoraInicio === undefined) {
+                toastr.info('Formato de hora invalido ', '', $scope.toastrOptions);
+                return;
+            }        
+
             if ($scope.PAPTS) {
-                if (IdServicio !== -1) {
+                if ($scope.ServicioSeleccionadoModal !== -1 && IdServicio !== undefined && IdServicio !== null) {
                     let tiemposervicio = Enumerable.From($scope.AgendaServicios)
                         .Where(function (x) { return x.id_Servicio === IdServicio })
                         .ToArray();
@@ -3935,7 +3960,7 @@
                     $scope.FechaHoraAgendaGeneral();                    
                 }
             } else if (!$scope.PAPTS) {
-                if (IdServicio !== -1) {                    
+                if (IdServicio !== -1 && IdServicio !== undefined && IdServicio !== null) {
 
                     if ($scope.HoraInicio.getHours() > $scope.HoraFin.getHours())
                         $scope.HoraFin = $scope.HoraInicio;                    
