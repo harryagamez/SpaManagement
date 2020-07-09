@@ -782,11 +782,16 @@ md-list-item .md-list-item-inner {
     box-shadow: 0px 0px 21px 0px rgba(153,153,153,1);    
 }
 
+/*AUTO COMPLETE CONTAINER*/
+.md-virtual-repeat-container.md-autocomplete-suggestions-container.custom-autocomplete {
+    background-color: RGBA(249,249,249,0.89) !important;
+    box-shadow: 0px 7px 7px #999 !important;
+}
+
 
 /*TABLE SCHEDULE*/
-
 .table-schedule {
-    border:1px solid #ddd;
+    border: 1px solid #ddd;
 }
 
 .table-schedule tbody td {
