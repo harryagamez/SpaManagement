@@ -371,7 +371,8 @@
             _consultarUsuario: ConsultarUsuario,
             _guardarUsuario: GuardarUsuario,
             _consultarEmpresaPropiedades: ConsultarEmpresaPropiedades,
-            _consultarEmpleadosAutoComplete: ConsultarEmpleadosAutoComplete
+            _consultarEmpleadosAutoComplete: ConsultarEmpleadosAutoComplete,
+            _guardarNuevaAgenda: GuardarNuevaAgenda
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -835,6 +836,20 @@
                 function (err) {
                     deferred.reject(err);
                 });
+            return deferred.promise;
+        }
+
+        function GuardarNuevaAgenda(agenda) {
+            var deferred = $q.defer();
+
+            serviceRest.Post('SPA', 'GuardarNuevaAgenda', agenda,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
             return deferred.promise;
         }
     }

@@ -671,6 +671,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/SPA/GuardarNuevaAgenda")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarNuevaAgenda(Agenda agenda)
+        {
+            try
+            {
+                bool result = _spaService.GuardarNuevaAgenda(agenda);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando la agenda: " + ex.Message);
+            }
+        }
+
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [Route("api/SPA/ConsultarEmpresas")]

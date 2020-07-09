@@ -3496,20 +3496,38 @@
         $scope.fDisableServicios = true;
 
         $scope.Agenda = {
+            Id_Agenda: -1,
             Id_Empresa: $scope.IdEmpresa,
-            Cliente: '',
-            Empleado: '',
-            Servicio: '',
-            FechaInicio: '',
-            FechaFin: '',
+            Id_Cliente: '',
+            Id_Empleado: '',
+            Id_Servicio: '',
+            Fecha_Inicio: '',
+            Fecha_Fin: '',
+            Estado: 'PROGRAMADA',
             Observaciones: ''
         };
 
         //Api
         //GuardarNuevaCita
-        $scope.GuardarNuevaCita = function () {
-            if ($scope.ValidarNuevaCita()) {
-            }
+        $scope.GuardarNuevaAgenda = function () {            
+            if ($scope.ValidarNuevaAgenda()) {
+                SPAService._guardarNuevaAgenda($scope.Agenda)
+                    .then(
+                        function (result) {
+                            if (result.data === true) {       
+
+                                if ($scope.AccionAgenda == 'Agendar Cita') {
+                                    $scope.Cancelar();
+                                }
+                                $scope.LimpiarDatos();
+                                toastr.success('Agenda Registrada correctamente', '', $scope.toastrOptions); 
+                            }
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        })
+            }            
         }
 
         //Consultar Clientes
@@ -3626,12 +3644,14 @@
             $scope.fDisableServicios = true;
 
             $scope.Agenda = {
+                Id_Agenda: -1,
                 Id_Empresa: $scope.IdEmpresa,
-                Cliente: '',
-                Empleado: '',
-                Servicio: '',
-                FechaInicio: '',
-                FechaFin: '',
+                Id_Cliente: '',
+                Id_Empleado: '',
+                Id_Servicio: '',
+                Fecha_Inicio: '',
+                Fecha_Fin: '',
+                Estado: 'PROGRAMADA',
                 Observaciones: ''
             };
         }
@@ -3644,8 +3664,11 @@
             if ($scope.Empleados !== null && $scope.Empleados !== undefined) {
                 if ($scope.Empleados.length === 0) {
                     counter += 1;
-                    toastr.info('No tiene configurado ningún empleado', '', $scope.toastrOptions);                    
-                }                
+                    toastr.info('No tiene configurado ningún empleado', '', $scope.toastrOptions);
+                }
+            } else {
+                counter += 1;
+                toastr.info('No tiene configurado ningún empleado', '', $scope.toastrOptions);
             }
 
             if ($scope.Clientes !== null && $scope.Clientes !== undefined) {
@@ -3653,6 +3676,9 @@
                     counter += 1;
                     toastr.info('No tiene configurado ningún cliente', '', $scope.toastrOptions);                    
                 }
+            } else {
+                counter += 1;
+                toastr.info('No tiene configurado ningún cliente', '', $scope.toastrOptions);
             }
 
             if ($scope.Servicios !== null && $scope.Servicios !== undefined) {
@@ -3660,6 +3686,9 @@
                     counter += 1;
                     toastr.info('No tiene configurado ningún servicio', '', $scope.toastrOptions);                    
                 }
+            } else {
+                counter += 1;
+                toastr.info('o tiene configurado ningún servicio', '', $scope.toastrOptions);
             }
 
             if (counter === 0)
@@ -3669,7 +3698,7 @@
         }
 
         //Validar Nueva Agenda
-        $scope.ValidarNuevaCita = function () {            
+        $scope.ValidarNuevaAgenda = function () {            
             
             if ($scope.EmpleadoSeleccionado === '' || $scope.EmpleadoSeleccionado === null) {
                 toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
@@ -3677,7 +3706,7 @@
                 return false;
             }
 
-            $scope.Agenda.Empleado = $scope.EmpleadoSeleccionado.id_Empleado;
+            $scope.Agenda.Id_Empleado = $scope.EmpleadoSeleccionado.id_Empleado;
 
             if ($scope.ClienteSeleccionado === '' || $scope.ClienteSeleccionado === null) {
                 toastr.info('Debe seleccionar un cliente', '', $scope.toastrOptions);
@@ -3685,7 +3714,7 @@
                 return false;
             }
 
-            $scope.Agenda.Cliente = $scope.ClienteSeleccionado.id_Cliente;
+            $scope.Agenda.Id_Cliente = $scope.ClienteSeleccionado.id_Cliente;
 
             if ($scope.ServicioSeleccionado === -1 || $scope.ServicioSeleccionado === null) {
                 toastr.info('Debe seleccionar un servicio', '', $scope.toastrOptions);
@@ -3693,7 +3722,7 @@
                 return false;
             }
 
-            $scope.Agenda.Servicio = $scope.ServicioSeleccionado;            
+            $scope.Agenda.Id_Servicio = $scope.ServicioSeleccionado;            
 
             if ($scope.FechaInicio === '' || $scope.FechaInicio === null) {
                 toastr.info('Debe seleccionar una fecha', '', $scope.toastrOptions);
@@ -3713,12 +3742,15 @@
                 return false;
             }                       
 
-            $scope.Agenda.FechaInicio = angular.copy($scope.FechaInicio);
-            $scope.Agenda.FechaInicio.setHours($scope.HoraInicio.getHours(), $scope.HoraInicio.getMinutes(), 0, 0);
-            $scope.Agenda.FechaFin = angular.copy($scope.FechaInicio);
-            $scope.Agenda.FechaFin.setHours($scope.HoraFin.getHours(), $scope.HoraFin.getMinutes(), 0, 0);
+            $scope.Agenda.Fecha_Inicio = angular.copy($scope.FechaInicio);
+            $scope.Agenda.Fecha_Inicio.setHours($scope.HoraInicio.getHours(), $scope.HoraInicio.getMinutes(), 0, 0);
+            $scope.Agenda.Fecha_Fin = angular.copy($scope.FechaInicio);
+            $scope.Agenda.Fecha_Fin.setHours($scope.HoraFin.getHours(), $scope.HoraFin.getMinutes(), 0, 0);
 
-            if ($scope.Agenda.FechaInicio.getHours() === $scope.Agenda.FechaFin.getHours() && $scope.Agenda.FechaInicio.getMinutes() === $scope.Agenda.FechaFin.getMinutes()) {
+            $scope.Agenda.Fecha_Inicio = new Date($scope.Agenda.Fecha_Inicio + 'Z');
+            $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');
+
+            if ($scope.Agenda.Fecha_Inicio.getHours() === $scope.Agenda.Fecha_Fin.getHours() && $scope.Agenda.Fecha_Inicio.getMinutes() === $scope.Agenda.Fecha_Fin.getMinutes()) {
                 toastr.info('Debe especificar la duración de la cita seleccionando una hora fin', '', $scope.toastrOptions);
                 $('#timeFin').focus();
                 return false;

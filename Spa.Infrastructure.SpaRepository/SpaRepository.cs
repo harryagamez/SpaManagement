@@ -845,6 +845,27 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public bool EliminarGastos(List<Gasto> _Gastos)
+        {
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "EliminarGastos";
+                    _command.Parameters.AddWithValue("@JsonGastos", JsonConvert.SerializeObject(_Gastos));
+
+                    _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return true;
+                }
+            }
+        }
+
         public List<Usuario> ConsultarUsuarios(string IdEmpresa)
         {
             DataSet _dataset = new DataSet();
@@ -1014,7 +1035,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool EliminarGastos(List<Gasto> _Gastos)
+        public bool GuardarNuevaAgenda(Agenda _Agenda)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -1023,8 +1044,8 @@ namespace Spa.Infrastructure.SpaRepository
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
                     _command.CommandType = CommandType.StoredProcedure;
-                    _command.CommandText = "EliminarGastos";
-                    _command.Parameters.AddWithValue("@JsonGastos", JsonConvert.SerializeObject(_Gastos));
+                    _command.CommandText = "GuardarNuevaAgenda";
+                    _command.Parameters.AddWithValue("@JsonAgenda", JsonConvert.SerializeObject(_Agenda));
 
                     _command.ExecuteNonQuery();
 
