@@ -147,7 +147,7 @@
     <!-- Modal Agenda General-->
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgAgendaGeneral">
-            <md-dialog id="mdAgendarCita" aria-label="" style="min-width: 280px !important; max-width:280px; color: #666666 !important;" tabindex="-1">
+            <md-dialog id="mdAgendarCita" aria-label="" style="min-width: 320px !important; max-width:320px; min-height:540px; color: #666666 !important;" tabindex="-1">
                 <md-toolbar>
                     <div class="md-toolbar-tools">
                         <h2 style="font-size:16px;">{{AccionAgenda}}</h2>
@@ -212,7 +212,7 @@
                         </div>
 
                         <div layout="row" layout-sm="column" style="margin-bottom:-10px;" layout-align="start center">
-                            <div flex="">
+                            <div flex="60">
                                 <md-input-container style="margin-left: -40px; min-width: 100%;  z-index:9999; margin-bottom:0;">
                                     <label class="label-form-empleados" style="position: absolute; left: 43px; }">
                                         Fecha Cita:
@@ -242,7 +242,7 @@
                             </div>
                         </div>
 
-                        <div layout="row" layout-sm="column" style="margin-bottom:-10px;" layout-align="center center">
+                        <div layout="row" layout-sm="column" style="" layout-align="center center">
                             <div flex="">
                                 <md-input-container style="width:100%">
                                     <label class="label-form-empleados" style="">
@@ -256,7 +256,7 @@
                         <div layout="row" layout-sm="column" style="" layout-align="center center">
                             <div flex="">
                                 <md-input-container style="width:100%">
-                                    <md-button type="button" id="btnGuardarCita" ng-disabled="fDisableGuardarAgenda" style="position: fixed; right:7px; bottom:20px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarNuevaAgenda()" tabindex="13">
+                                    <md-button type="button" id="btnGuardarCita" ng-disabled="fDisableGuardarAgenda" style="position: fixed; right:7px; bottom:20px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarActualizarAgenda()" tabindex="13">
                                         <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                                     </md-button>
                                 </md-input-container>

@@ -672,13 +672,13 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpPost]
-        [Route("api/SPA/GuardarNuevaAgenda")]
+        [Route("api/SPA/GuardarActualizarAgenda")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult GuardarNuevaAgenda(Agenda agenda)
+        public IHttpActionResult GuardarActualizarAgenda(Agenda agenda)
         {
             try
             {
-                bool result = _spaService.GuardarNuevaAgenda(agenda);
+                bool result = _spaService.GuardarActualizarAgenda(agenda);
 
                 return Content(HttpStatusCode.OK, result);
             }

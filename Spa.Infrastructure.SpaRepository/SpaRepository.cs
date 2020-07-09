@@ -1035,7 +1035,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool GuardarNuevaAgenda(Agenda _Agenda)
+        public bool GuardarActualizarAgenda(Agenda _Agenda)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -1044,7 +1044,7 @@ namespace Spa.Infrastructure.SpaRepository
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
                     _command.CommandType = CommandType.StoredProcedure;
-                    _command.CommandText = "GuardarNuevaAgenda";
+                    _command.CommandText = "GuardarActualizarAgenda";
                     _command.Parameters.AddWithValue("@JsonAgenda", JsonConvert.SerializeObject(_Agenda));
 
                     _command.ExecuteNonQuery();

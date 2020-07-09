@@ -3511,9 +3511,9 @@
 
         //Api
         //GuardarNuevaCita
-        $scope.GuardarNuevaAgenda = function () {            
+        $scope.GuardarActualizarAgenda = function () {            
             if ($scope.ValidarNuevaAgenda()) {
-                SPAService._guardarNuevaAgenda($scope.Agenda)
+                SPAService._guardarActualizarAgenda($scope.Agenda)
                     .then(
                         function (result) {
                             if (result.data === true) {       
@@ -3912,7 +3912,12 @@
 
         //Validar Fecha Modal
         $scope.ValidarFechaModal = function () {
-            
+
+            if ($scope.FechaInicio === undefined) {
+                toastr.info('Formato de fecha invalido ', '', $scope.toastrOptions);
+                return;
+            }
+
             if (parseInt($filter('date')($scope.FechaInicio, 'yyyyMMdd')) < parseInt($filter('date')($scope.FechaActual, 'yyyyMMdd'))) {
                 $scope.FechaInicio = angular.copy($scope.FechaActual);
                 toastr.info('Solo puede programar agenda a partir de la fecha actual', '', $scope.toastrOptions);                
@@ -3922,6 +3927,11 @@
         //Validar Hora Fin
         $scope.ValidarHoraFin = function () {
             
+            if ($scope.HoraFin === undefined) {
+                toastr.info('Formato de hora invalido ', '', $scope.toastrOptions);
+                return;
+            }
+
             if ($scope.HoraFin.getHours() < $scope.HoraInicio.getHours())
                 $scope.HoraInicio = $scope.HoraFin;
 

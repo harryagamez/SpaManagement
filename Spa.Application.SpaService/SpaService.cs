@@ -299,9 +299,9 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarEmpleadosAutoComplete(IdEmpresa);
         }
 
-        public bool GuardarNuevaAgenda(Agenda _Agenda)
+        public bool GuardarActualizarAgenda(Agenda _Agenda)
         {
-            return _spaRepository.GuardarNuevaAgenda(_Agenda);
+            return _spaRepository.GuardarActualizarAgenda(_Agenda);
         }
 
         public List<Empresa> ConsultarEmpresas()

@@ -1,4 +1,4 @@
-CREATE PROCEDURE GuardarNuevaAgenda(@JsonAgenda NVARCHAR(MAX))
+CREATE PROCEDURE GuardarActualizarAgenda(@JsonAgenda NVARCHAR(MAX))
 AS
 BEGIN
 

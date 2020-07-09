@@ -372,7 +372,7 @@
             _guardarUsuario: GuardarUsuario,
             _consultarEmpresaPropiedades: ConsultarEmpresaPropiedades,
             _consultarEmpleadosAutoComplete: ConsultarEmpleadosAutoComplete,
-            _guardarNuevaAgenda: GuardarNuevaAgenda
+            _guardarActualizarAgenda: GuardarActualizarAgenda
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -839,10 +839,10 @@
             return deferred.promise;
         }
 
-        function GuardarNuevaAgenda(agenda) {
+        function GuardarActualizarAgenda(agenda) {
             var deferred = $q.defer();
 
-            serviceRest.Post('SPA', 'GuardarNuevaAgenda', agenda,
+            serviceRest.Post('SPA', 'GuardarActualizarAgenda', agenda,
                 function (data) {
                     deferred.resolve(data);
                 },
