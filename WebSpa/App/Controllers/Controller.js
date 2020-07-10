@@ -3807,6 +3807,7 @@
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
             $scope.ServicioSeleccionadoModal = -1;
             $scope.fDisableServicios = true;
+            $scope.fDisableGuardarAgenda = false;
         }
 
         //Filtros Autocomplete
