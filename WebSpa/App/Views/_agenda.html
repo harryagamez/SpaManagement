@@ -168,7 +168,7 @@
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Empleados:
                                     </label>
-                                    <md-autocomplete id="acEmpleados" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionado" md-search-text-change="OnChange()" md-selected-item-change="FiltrarServicios(EmpleadoSeleccionado)" md-search-text="buscarEmpleado" md-items="empleado in EncontrarEmpleado(buscarEmpleado)" md-item-text="empleado.nombres" tabindex="7">
+                                    <md-autocomplete md-input-id="acEmpleados" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionado" md-search-text-change="OnChange()" md-selected-item-change="FiltrarServicios(EmpleadoSeleccionado)" md-search-text="buscarEmpleado" md-items="empleado in EncontrarEmpleado(buscarEmpleado)" md-item-text="empleado.nombres" tabindex="7" md-autofocus>
                                         <md-item-template>
                                             <span ng-bind="empleado.id_Empleado" md-highlight-text="buscarEmpleado">{{empleado.nombres + ' ' + empleado.apellidos}}</span>
                                         </md-item-template>
