@@ -16,6 +16,7 @@ Positions, Display, Top, Bottom, left, rights ################*/
     padding: 0;
 }
 
+
 #section {
     padding-left: 200px;
 }
@@ -836,4 +837,9 @@ md-list-item .md-list-item-inner {
 .table-schedule tr {
     min-height:36px;
     max-height:36px;
+}
+
+/*AutoComplete*/
+md-input-container input[type=text] {
+    margin-top: -5px;
 }

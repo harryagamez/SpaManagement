@@ -3483,8 +3483,11 @@
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
         $scope.EstadoSeleccionado = -1;
         $scope.ServicioSeleccionadoModal = -1;
+        $scope.ServicioSeleccionado = -1;
         $scope.ClienteSeleccionadoModal = '';
+        $scope.ClienteSeleccionado = '';
         $scope.EmpleadoSeleccionadoModal = '';
+        $scope.EmpleadoSeleccionado = '';
         $scope.AgendaServicios = [];
         $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
         $scope.Filtros = { Desde: new Date(new Date().setHours(0, 0, 0, 0)), Hasta: new Date(new Date().setHours(0, 0, 0, 0)) };
@@ -3495,6 +3498,7 @@
         $scope.PAPTS = false;
         $scope.fDisableHoraFin = false;
         $scope.fDisableGuardarAgenda = false;
+        $scope.fDisableServiciosM = true;
         $scope.fDisableServicios = true;
 
         $scope.Agenda = {
@@ -3583,7 +3587,7 @@
         }
 
         // Consultar EmpleadoServicios
-        $scope.ConsultarEmpleadoServicio = function (idEmpleado) {
+        $scope.ConsultarEmpleadoServicio = function (idEmpleado) {            
             SPAService._consultarEmpleadoServicio(idEmpleado)
                 .then(
                     function (result) {                        
@@ -3593,10 +3597,12 @@
                             $scope.AgendaServicios = $scope.Servicios.filter(o1 => empleadoservicios.some(o2 => o1.id_Servicio === o2.id_Servicio));                            
                             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
                             $scope.AgendaServicios = $filter('orderBy')($scope.AgendaServicios, 'id_Servicio', false);
+                            $scope.fDisableServiciosM = false;
                             $scope.fDisableServicios = false;
                         }
                         else {
                             $scope.fDisableGuardarAgenda = true;
+                            $scope.fDisableServiciosM = true;
                             $scope.fDisableServicios = true;
                             toastr.info('La configuración actual de este empleado es por prestación de servicios y actualmente no tiene ningún servicio asignado', '', $scope.toastrOptions);
                         }
@@ -3608,6 +3614,33 @@
         }        
 
         //Funciones
+        //Filtrar Servicios Empleado Modal
+        $scope.FiltrarServicios = function (empleado) {           
+            if (empleado !== null && empleado !== undefined && empleado !== '') {
+                if (empleado.criterio === 'PAGO_PORCENTUAL') {
+                    $scope.ConsultarEmpleadoServicio(empleado.id_Empleado);
+                }
+                else {
+                    $scope.AgendaServicios = angular.copy($scope.Servicios);
+                    $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
+                    $scope.AgendaServicios = $filter('orderBy')($scope.AgendaServicios, 'id_Servicio', false);
+                    $scope.fDisableServiciosM = false;
+                    $scope.fDisableServicios = false;
+                }
+            }
+        }
+
+        //On Change
+        $scope.OnChange = function (empleado) {            
+            $scope.AgendaServicios = [];
+            $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
+            $scope.ServicioSeleccionadoModal = -1;
+            $scope.ServicioSeleccionado = -1;
+            $scope.fDisableServiciosM = true;
+            $scope.fDisableServicios = true;
+            $scope.fDisableGuardarAgenda = false;
+        }
+
         //Set Datos Configuración Empresa
         $scope.ConfiguracionEmpresaActual = function () {
             if ($scope.EmpresaPropiedades.length > 0) {
@@ -3635,14 +3668,18 @@
             $scope.IdUsuario = parseInt($rootScope.userData.userId);
             $scope.EstadoSeleccionado = -1;
             $scope.ServicioSeleccionadoModal = -1;
+            $scope.ServicioSeleccionado = -1;
             $scope.ClienteSeleccionadoModal = '';
+            $scope.ClienteSeleccionado = '';
             $scope.EmpleadoSeleccionadoModal = '';
+            $scope.EmpleadoSeleccionado = '';
             $scope.AgendaServicios = [];
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
             $scope.Filtros = { Desde: new Date(new Date().setHours(0, 0, 0, 0)), Hasta: new Date(new Date().setHours(0, 0, 0, 0)) };            
 
             //Variables de Configuración            
             $scope.fDisableGuardarAgenda = false;
+            $scope.fDisableServiciosM = true;
             $scope.fDisableServicios = true;
 
             $scope.Agenda = {
@@ -3783,32 +3820,7 @@
             }
             
             return true;
-        }
-
-        //Filtrar Servicios Empleado Modal
-        $scope.FiltrarServicios = function (empleado) {            
-            if (empleado !== null && empleado !== undefined && empleado !== '') {
-                
-                if (empleado.criterio === 'PAGO_PORCENTUAL') {
-                    $scope.ConsultarEmpleadoServicio(empleado.id_Empleado); 
-                }
-                else {
-                    $scope.AgendaServicios = angular.copy($scope.Servicios);
-                    $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
-                    $scope.AgendaServicios = $filter('orderBy')($scope.AgendaServicios, 'id_Servicio', false);
-                    $scope.fDisableServicios = false;
-                }                    
-            }
-        }
-
-        //On Change
-        $scope.OnChange = function () {
-            $scope.AgendaServicios = [];
-            $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
-            $scope.ServicioSeleccionadoModal = -1;
-            $scope.fDisableServicios = true;
-            $scope.fDisableGuardarAgenda = false;
-        }
+        }        
 
         //Filtros Autocomplete
         //Encontrar Cliente
@@ -3829,6 +3841,7 @@
         //Modal Agendar Cita General
         $scope.ModalAgendaGeneral = function () {
             if ($scope.ValidarEmpleadosClientesServicios()) {
+                $scope.LimpiarDatos();
                 $scope.AccionAgenda = 'Agendar Cita';
                 $scope.FechaHoraAgendaGeneral();
 
