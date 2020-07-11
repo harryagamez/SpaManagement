@@ -3483,8 +3483,8 @@
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
         $scope.EstadoSeleccionado = -1;
         $scope.ServicioSeleccionadoModal = -1;
-        $scope.ClienteSeleccionado = '';
-        $scope.EmpleadoSeleccionado = '';
+        $scope.ClienteSeleccionadoModal = '';
+        $scope.EmpleadoSeleccionadoModal = '';
         $scope.AgendaServicios = [];
         $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
         $scope.Filtros = { Desde: new Date(new Date().setHours(0, 0, 0, 0)), Hasta: new Date(new Date().setHours(0, 0, 0, 0)) };
@@ -3598,7 +3598,7 @@
                         else {
                             $scope.fDisableGuardarAgenda = true;
                             $scope.fDisableServicios = true;
-                            toastr.info('La CONFIGURACIÓN actual de este EMPLEADO es por PRESTACIÓN DE SERVICIOS y actualmente no tiene ningún SERVICIO asignado', '', $scope.toastrOptions);
+                            toastr.info('La configuración actual de este empleado es por prestación de servicios y actualmente no tiene ningún servicio asignado', '', $scope.toastrOptions);
                         }
                     }, function (err) {
                         toastr.remove();
@@ -3635,8 +3635,8 @@
             $scope.IdUsuario = parseInt($rootScope.userData.userId);
             $scope.EstadoSeleccionado = -1;
             $scope.ServicioSeleccionadoModal = -1;
-            $scope.ClienteSeleccionado = '';
-            $scope.EmpleadoSeleccionado = '';
+            $scope.ClienteSeleccionadoModal = '';
+            $scope.EmpleadoSeleccionadoModal = '';
             $scope.AgendaServicios = [];
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
             $scope.Filtros = { Desde: new Date(new Date().setHours(0, 0, 0, 0)), Hasta: new Date(new Date().setHours(0, 0, 0, 0)) };            
@@ -3690,7 +3690,7 @@
                 }
             } else {
                 counter += 1;
-                toastr.info('o tiene configurado ningún servicio', '', $scope.toastrOptions);
+                toastr.info('No tiene configurado ningún servicio', '', $scope.toastrOptions);
             }
 
             if (counter === 0)
@@ -3702,21 +3702,21 @@
         //Validar Nueva Agenda
         $scope.ValidarNuevaAgenda = function () {            
             
-            if ($scope.EmpleadoSeleccionado === '' || $scope.EmpleadoSeleccionado === null) {
+            if ($scope.EmpleadoSeleccionadoModal === '' || $scope.EmpleadoSeleccionadoModal === null) {
                 toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
                 $('#acEmpleados').focus();
                 return false;
             }
 
-            $scope.Agenda.Id_Empleado = $scope.EmpleadoSeleccionado.id_Empleado;
+            $scope.Agenda.Id_Empleado = $scope.EmpleadoSeleccionadoModal.id_Empleado;
 
-            if ($scope.ClienteSeleccionado === '' || $scope.ClienteSeleccionado === null) {
+            if ($scope.ClienteSeleccionadoModal === '' || $scope.ClienteSeleccionadoModal === null) {
                 toastr.info('Debe seleccionar un cliente', '', $scope.toastrOptions);
                 $('#acClientes').focus();
                 return false;
             }
 
-            $scope.Agenda.Id_Cliente = $scope.ClienteSeleccionado.id_Cliente;
+            $scope.Agenda.Id_Cliente = $scope.ClienteSeleccionadoModal.id_Cliente;
 
             if ($scope.ServicioSeleccionadoModal === -1 || $scope.ServicioSeleccionadoModal === null) {
                 toastr.info('Debe seleccionar un servicio', '', $scope.toastrOptions);
@@ -3957,7 +3957,7 @@
                         .ToArray();
 
                     if (tiemposervicio[0].tiempo === 0 || tiemposervicio[0].tiempo === null || tiemposervicio[0].tiempo === undefined) {
-                        toastr.info('La CONFIGURACIÓN de esta EMPRESA requiere que los servicios tengan un tiempo definido y este SERVICIO no lo tiene ', '', $scope.toastrOptions);
+                        toastr.info('La configuración de esta empresa requiere que los servicios tengan un tiempo definido y este servicio no lo tiene ', '', $scope.toastrOptions);
                         $scope.ServicioSeleccionadoModal = -1;
                         $scope.HoraFin = angular.copy($scope.HoraInicio);
                         return;
