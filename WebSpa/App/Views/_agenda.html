@@ -28,7 +28,7 @@
                                     <label class="label-form-clientes" style="">
                                         Fecha
                                     </label>
-                                    <md-datepicker ng-model="Filtros.Desde" data-ng-change="" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=1 style="margin-bottom:0;"></md-datepicker>
+                                    <md-datepicker ng-model="FechaBusqueda" data-ng-change="" md-placeholder="Enter date" class="dateClientes" id="dpFechaBusqueda" tabindex=1 style="margin-bottom:0;"></md-datepicker>
                                 </md-input-container>
                             </div>
 
@@ -37,7 +37,7 @@
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Empleados:
                                     </label>
-                                    <md-autocomplete aria-label="empleados view" md-input-id="acEmpleados" md-input-name="acEmpleados" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionado" md-search-text-change="OnChange(EmpleadoSeleccionado)" md-selected-item-change="FiltrarServicios(EmpleadoSeleccionado)" md-search-text="buscarEmpleado" md-items="empleado in EncontrarEmpleado(buscarEmpleado)" md-item-text="empleado.nombres" tabindex="2">
+                                    <md-autocomplete aria-label="empleados view" md-input-id="acEmpleados" id="acEmpleados" md-input-name="acEmpleados" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionado" md-search-text-change="OnChange(EmpleadoSeleccionado)" md-selected-item-change="FiltrarServicios(EmpleadoSeleccionado)" md-search-text="buscarEmpleado" md-items="empleado in EncontrarEmpleado(buscarEmpleado)" md-item-text="empleado.nombres" tabindex="2">
                                         <md-item-template>
                                             <span ng-bind="empleado.id_Empleado" md-highlight-text="buscarEmpleado">{{empleado.nombres + ' ' + empleado.apellidos}}</span>
                                         </md-item-template>
@@ -53,7 +53,7 @@
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Clientes:
                                     </label>
-                                    <md-autocomplete aria-label="clientes view" md-input-id="acClientes" md-input-name="acClientes" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionado" md-search-text="buscarCliente" md-items="cliente in EncontrarCliente(buscarCliente)" md-item-text="cliente.nombres" tabindex="3">
+                                    <md-autocomplete aria-label="clientes view" md-input-id="acClientes" id="acClientes" md-input-name="acClientes" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionado" md-search-text="buscarCliente" md-items="cliente in EncontrarCliente(buscarCliente)" md-item-text="cliente.nombres" tabindex="3">
                                         <md-item-template>
                                             <span md-highlight-text="buscarCliente" ng-bind="cliente.id_Cliente">{{cliente.nombres + ' ' + cliente.apellidos}}</span>
                                         </md-item-template>
@@ -90,7 +90,7 @@
 
                         <div id="divCardsCitas" layout="row" style="width:100%; height: calc(100vh - 280px); margin-top:-15px; overflow-y:auto; overflow-x:hidden;">
                             <div flex-xs class="md-padding" layout="row" style="margin-top:-20px; margin-left:0; margin-right:0; padding-left:0;padding-right:0;" layout-wrap>
-                                <md-card flex="21" ng-repeat="n in [1,2]" ng-style="{'background-color': doc_classes_colors[$index % doc_classes_colors.length]}" style="height:200px;">
+                                <md-card flex="21" ng-repeat="n in [1]" ng-style="{'background-color': doc_classes_colors[$index % doc_classes_colors.length]}" style="height:200px;">
                                     <md-card-title>
                                         <md-card-title-text>
                                             <span class="md-headline" style="border-bottom:1px dashed #212121; padding-bottom:3px;">Citas de hoy</span>
@@ -182,7 +182,7 @@
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Empleados:
                                     </label>
-                                    <md-autocomplete aria-label="empleado modal" md-input-id="acEmpleadosModal" md-select-on-match="true" md-input-name="acEmpleadosModal" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionadoModal" md-search-text-change="OnChange()" md-selected-item-change="FiltrarServicios(EmpleadoSeleccionadoModal)" md-search-text="buscarEmpleadoM" md-items="empleadom in EncontrarEmpleado(buscarEmpleadoM)" md-item-text="empleadom.nombres" tabindex="7" md-autofocus>
+                                    <md-autocomplete aria-label="empleado modal" md-input-id="acEmpleadosModal" id="acEmpleadosModal" md-select-on-match="true" md-input-name="acEmpleadosModal" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionadoModal" md-search-text-change="OnChange()" md-selected-item-change="FiltrarServicios(EmpleadoSeleccionadoModal)" md-search-text="buscarEmpleadoM" md-items="empleadom in EncontrarEmpleado(buscarEmpleadoM)" md-item-text="empleadom.nombres" tabindex="7" md-autofocus>
                                         <md-item-template>
                                             <span ng-bind="empleadom.id_Empleado" md-highlight-text="buscarEmpleado">{{empleadom.nombres + ' ' + empleadom.apellidos}}</span>
                                         </md-item-template>
@@ -200,7 +200,7 @@
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Clientes:
                                     </label>
-                                    <md-autocomplete aria-label="clientes modal" md-input-id="acClientesModal"  md-input-name="acClientesModal" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionadoModal" md-search-text="buscarClienteM" md-items="clientem in EncontrarCliente(buscarClienteM)" md-item-text="clientem.nombres" tabindex="8">
+                                    <md-autocomplete aria-label="clientes modal" md-input-id="acClientesModal" id="acClientesModal" md-input-name="acClientesModal" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionadoModal" md-search-text="buscarClienteM" md-items="clientem in EncontrarCliente(buscarClienteM)" md-item-text="clientem.nombres" tabindex="8">
                                         <md-item-template>
                                             <span md-highlight-text="buscarCliente" ng-bind="clientem.id_Cliente">{{clientem.nombres + ' ' + clientem.apellidos}}</span>
                                         </md-item-template>

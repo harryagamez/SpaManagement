@@ -1056,6 +1056,33 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public List<Agenda> ConsultarAgenda(Agenda _Agenda)
+        {
+            DataTable _datatable = new DataTable();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarAgenda";
+                    _command.Parameters.AddWithValue("@JsonAgenda", JsonConvert.SerializeObject(_Agenda));
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<Agenda> _agenda = _datatable.DataTableToList<Agenda>();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _agenda;
+                }
+            }
+        }
+
         public Usuario ValidarUsuarioAdmin(string Nombre, string Password)
         {
             DataTable _datatable = new DataTable();

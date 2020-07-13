@@ -689,6 +689,23 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpGet]
+        [Route("api/SPA/ConsultarAgenda")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarAgenda(Agenda agenda)
+        {
+            try
+            {
+                List<Agenda> _agenda = _spaService.ConsultarAgenda(agenda);
+
+                return Content(HttpStatusCode.OK, _agenda);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando la agenda: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Authorize(Roles = "Admin")]
         [Route("api/SPA/ConsultarEmpresas")]
         [HttpCache(DefaultExpirySeconds = 2)]

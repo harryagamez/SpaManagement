@@ -304,6 +304,11 @@ namespace Spa.Application.SpaService
             return _spaRepository.GuardarActualizarAgenda(_Agenda);
         }
 
+        public List<Agenda> ConsultarAgenda(Agenda _Agenda)
+        {
+            return _spaRepository.ConsultarAgenda(_Agenda);
+        }
+
         public List<Empresa> ConsultarEmpresas()
         {
             return _spaRepository.ConsultarEmpresas();

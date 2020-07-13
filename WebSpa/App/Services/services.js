@@ -372,7 +372,8 @@
             _guardarUsuario: GuardarUsuario,
             _consultarEmpresaPropiedades: ConsultarEmpresaPropiedades,
             _consultarEmpleadosAutoComplete: ConsultarEmpleadosAutoComplete,
-            _guardarActualizarAgenda: GuardarActualizarAgenda
+            _guardarActualizarAgenda: GuardarActualizarAgenda,
+            _consultarAgenda: ConsultarAgenda
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -843,6 +844,20 @@
             var deferred = $q.defer();
 
             serviceRest.Post('SPA', 'GuardarActualizarAgenda', agenda,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
+            return deferred.promise;
+        }
+
+        function ConsultarAgenda(agenda) {
+            var deferred = $q.defer();
+
+            serviceRest.Post('SPA', 'ConsultarAgenda', agenda,
                 function (data) {
                     deferred.resolve(data);
                 },
