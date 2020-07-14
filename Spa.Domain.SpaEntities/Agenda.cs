@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Spa.Domain.SpaEntities.Extensions;
+using System;
 
 namespace Spa.Domain.SpaEntities
 {
-    public class Agenda
+    public class Agenda : BusquedaAgenda
     {
         public int Id_Agenda { get; set; }
         public DateTime? Fecha_Inicio { get; set; }

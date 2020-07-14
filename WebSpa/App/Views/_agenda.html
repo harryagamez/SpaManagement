@@ -90,19 +90,19 @@
 
                         <div id="divCardsCitas" layout="row" style="width:100%; height: calc(100vh - 280px); margin-top:-15px; overflow-y:auto; overflow-x:hidden;">
                             <div flex-xs class="md-padding" layout="row" style="margin-top:-20px; margin-left:0; margin-right:0; padding-left:0;padding-right:0;" layout-wrap>
-                                <md-card flex="21" ng-repeat="n in [1]" ng-style="{'background-color': doc_classes_colors[$index % doc_classes_colors.length]}" style="height:200px;">
+                                <md-card flex="21" ng-repeat="item in Agendas" ng-style="{'background-color': doc_classes_colors[$index % doc_classes_colors.length]}" style="height:200px;">
                                     <md-card-title>
                                         <md-card-title-text>
-                                            <span class="md-headline" style="border-bottom:1px dashed #212121; padding-bottom:3px;">Citas de hoy</span>
+                                            <span class="md-headline" style="border-bottom:1px dashed #212121; padding-bottom:3px;">{{item.estado}}</span>
                                         </md-card-title-text>
                                     </md-card-title>
                                     <md-card-content>
                                         <div>
-                                            Empleado: Jay Hernandez<br />
-                                            Cliente: Mariana Rodriguez<br />
-                                            Servicio: Peluquería<br />
-                                            Hora: 12:00<br />
-                                            Estado: Programada<br />
+                                            Empleado: {{item.nombres_Empleado}}<br />
+                                            Cliente: {{item.nombres_Cliente}}<br />
+                                            Servicio: {{item.nombre_Servicio}}<br />
+                                            Hora Inicio: {{item.fechaInicio}}<br />
+                                            Hora Fin: {{item.fechaFin}}<br />
                                         </div>
                                     </md-card-content>
                                 </md-card>

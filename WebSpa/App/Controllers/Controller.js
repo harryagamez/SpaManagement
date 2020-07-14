@@ -3538,7 +3538,7 @@
 
         //Consultar Agenda
         $scope.ConsultarAgenda = function () {
-            if ($scope.ValidarDatosConsulta()) {
+            if ($scope.ValidarDatosConsulta()) {                
                 SPAService._consultarAgenda($scope.Agenda)
                     .then(
                         function (result) {
@@ -3546,6 +3546,10 @@
                                 $scope.Agendas = [];
                                 $scope.Agendas = result.data;                        
                             }
+
+                            if ($scope.Agendas.length === 0) 
+                                toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
+
                         }, function (err) {
                             toastr.remove();
                             if (err.data !== null && err.status === 500)
@@ -3846,23 +3850,25 @@
                 toastr.info('Formato de fecha inválido. Debe seleccionar una fecha', '', $scope.toastrOptions);
                 $('#dpFechaBusqueda').focus();
                 return false;
-            }
+            }            
 
             $scope.Agenda.Fecha_Inicio = angular.copy($scope.FechaBusqueda);
+            $scope.Agenda.Fecha_Inicio = new Date($scope.Agenda.Fecha_Inicio + 'Z');
             $scope.Agenda.Fecha_Fin = angular.copy($scope.FechaBusqueda);
+            $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');
 
             if ($scope.EmpleadoSeleccionado === '' || $scope.EmpleadoSeleccionado === null || $scope.EmpleadoSeleccionado === undefined)
-                $scope.Agenda.Id_Empleado = null;
+                $scope.Agenda.Id_Empleado = -1;
             else
                 $scope.Agenda.Id_Empleado = $scope.EmpleadoSeleccionado.id_Empleado;            
 
             if ($scope.ClienteSeleccionado === '' || $scope.ClienteSeleccionado === null || $scope.ClienteSeleccionado === undefined)
-                $scope.Agenda.Id_Cliente = null;
+                $scope.Agenda.Id_Cliente = -1;
             else
                 $scope.Agenda.Id_Cliente = $scope.ClienteSeleccionado.id_Cliente;
 
             if ($scope.ServicioSeleccionado === -1 || $scope.ServicioSeleccionado === null || $scope.ServicioSeleccionado === undefined)
-                $scope.Agenda.Id_Servicio = null;
+                $scope.Agenda.Id_Servicio = -1;
             else
                 $scope.Agenda.Id_Servicio = $scope.ServicioSeleccionado;
 

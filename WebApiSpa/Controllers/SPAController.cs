@@ -688,7 +688,7 @@ namespace WebApiSpa.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("api/SPA/ConsultarAgenda")]
         [HttpCache(DefaultExpirySeconds = 2)]
         public IHttpActionResult ConsultarAgenda(Agenda agenda)

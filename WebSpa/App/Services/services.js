@@ -856,7 +856,6 @@
 
         function ConsultarAgenda(agenda) {
             var deferred = $q.defer();
-
             serviceRest.Post('SPA', 'ConsultarAgenda', agenda,
                 function (data) {
                     deferred.resolve(data);
@@ -864,7 +863,6 @@
                 function (err) {
                     deferred.reject(err);
                 });
-
             return deferred.promise;
         }
     }
