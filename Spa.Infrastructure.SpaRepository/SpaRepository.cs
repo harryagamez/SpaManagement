@@ -1083,6 +1083,28 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public bool CancelarAgenda(int IdAgenda, string IdEmpresa)
+        {
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "CancelarAgenda";
+                    _command.Parameters.AddWithValue("@IdAgenda", IdAgenda);
+                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+
+                    _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return true;
+                }
+            }
+        }
+
         public Usuario ValidarUsuarioAdmin(string Nombre, string Password)
         {
             DataTable _datatable = new DataTable();

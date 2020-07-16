@@ -3496,6 +3496,7 @@
 
         //Variables de Configuración
         $scope.PAPTS = false;
+        $scope.fEditAgenda = false;
         $scope.fDisableHoraFin = false;
         $scope.fDisableGuardarAgenda = false;
         $scope.fDisableServiciosM = true;
@@ -3545,12 +3546,29 @@
                         function (result) {
                             if (result.data !== undefined && result.data !== null) {
                                 $scope.Agendas = [];
-                                $scope.Agendas = result.data;                        
+                                $scope.Agendas = result.data;                                
                             }
 
                             if ($scope.Agendas.length === 0) 
                                 toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
 
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        })
+            }
+        }
+
+        $scope.CancelarAgenda = function (data) {            
+            if (data !== null && data !== undefined) {
+                SPAService._cancelarAgenda(data.id_Agenda, data.id_Empresa)
+                    .then(
+                        function (result) {
+                            if (result.data === true) {
+                                toastr.success('Agenda cancelada correctamente', '', $scope.toastrOptions);
+                                $scope.ConsultarAgenda();
+                            }
                         }, function (err) {
                             toastr.remove();
                             if (err.data !== null && err.status === 500)
@@ -3683,6 +3701,23 @@
                 toastr.info('La empresa actual, no tiene propiedades definidas', '', $scope.toastrOptions);
             }
         }
+
+        //Editar Agenda
+        $scope.EditarAgenda = function (agenda) {            
+            let fechafin = new Date(agenda.fecha_Fin);
+            $scope.EmpleadoSeleccionadoModal = agenda;
+            $scope.ClienteSeleccionadoModal = agenda;
+            $scope.ServicioSeleccionadoModal = agenda.id_Servicio;
+            $scope.FechaInicio = new Date(agenda.fecha_Inicio);
+            $scope.HoraInicio = new Date($scope.FechaInicio.getFullYear(), $scope.FechaInicio.getMonth(), $scope.FechaInicio.getDate(), $scope.FechaInicio.getHours(), $scope.FechaInicio.getMinutes());
+            $scope.HoraFin = new Date(fechafin.getFullYear(), fechafin.getMonth(), fechafin.getDate(), fechafin.getHours(), fechafin.getMinutes());
+
+            $scope.Agenda.Observaciones = agenda.observaciones;
+            $scope.Agenda.Id_Agenda = agenda.id_Agenda;
+            $scope.Agenda.Estado = 'PROGRAMADA';
+            $scope.fEditAgenda = true;
+            $scope.ModalAgendaGeneral();
+        }
         
         //Limpiar Datos
         $scope.LimpiarDatos = function () {
@@ -3700,7 +3735,8 @@
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
             $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));            
 
-            //Variables de Configuración            
+            //Variables de Configuración
+            $scope.fEditAgenda = false;
             $scope.fDisableGuardarAgenda = false;
             $scope.fDisableServiciosM = true;
             $scope.fDisableServicios = true;
@@ -3904,9 +3940,16 @@
         //Modal Agendar Cita General
         $scope.ModalAgendaGeneral = function () {
             if ($scope.ValidarEmpleadosClientesServicios()) {
-                $scope.LimpiarDatos();
-                $scope.AccionAgenda = 'Agendar Cita';
-                $scope.FechaHoraAgendaGeneral();
+
+                if ($scope.fEditAgenda) {                    
+                    $scope.AccionAgenda = 'Modificar Cita';
+                }
+                else {
+                    $scope.LimpiarDatos();
+                    $scope.FechaHoraAgendaGeneral();
+                    $scope.AccionAgenda = 'Agendar Cita';
+                }
+                                    
 
                 $mdDialog.show({
                     contentElement: '#dlgAgendaGeneral',
@@ -3942,6 +3985,24 @@
                         $scope.LimpiarDatos();
                 });
         }
+
+        //Show Comfirm Cancelar Agenda
+        $scope.showConfirmCancelarAgenda = function (ev, data) {
+            let confirm = $mdDialog.confirm()
+                .title('Agenda')
+                .textContent('¿Desea cancelar la cita?')
+                .ariaLabel('Cancelar Agenda')
+                .targetEvent(ev, data)
+                .ok('Sí')
+                .cancel('No')
+                .multiple(true);
+
+            $mdDialog.show(confirm).then(function () {
+                $scope.CancelarAgenda(data);
+            }, function () {                
+                return;
+            });
+        };
 
         //Fecha y Hora Agenda General
         $scope.FechaHoraAgendaGeneral = function () {

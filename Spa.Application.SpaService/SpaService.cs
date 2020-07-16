@@ -309,6 +309,11 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarAgenda(_Agenda);
         }
 
+        public bool CancelarAgenda(int IdAgenda, string IdEmpresa)
+        {
+            return _spaRepository.CancelarAgenda(IdAgenda, IdEmpresa);
+        }
+
         public List<Empresa> ConsultarEmpresas()
         {
             return _spaRepository.ConsultarEmpresas();

@@ -883,10 +883,6 @@ md-input-container input[type=text] {
         text-overflow: ellipsis;
     }
 
-/*md-card md-card-title md-card-title-text .md-headline .cards-icons {
-    visibility: hidden;    
+md-card md-card-title {
+    padding-top:10px !important;
 }
-
-md-card:hover md-card-title md-card-title-text .md-headline .cards-icons {
-    visibility: visible;    
-}*/

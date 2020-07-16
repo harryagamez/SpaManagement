@@ -706,6 +706,23 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpGet]
+        [Route("api/SPA/CancelarAgenda")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult CancelarAgenda(int IdAgenda, string IdEmpresa)
+        {
+            try
+            {
+                bool result = _spaService.CancelarAgenda(IdAgenda, IdEmpresa);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error cancelando la agenda: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Authorize(Roles = "Admin")]
         [Route("api/SPA/ConsultarEmpresas")]
         [HttpCache(DefaultExpirySeconds = 2)]
