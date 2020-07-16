@@ -843,3 +843,50 @@ md-list-item .md-list-item-inner {
 md-input-container input[type=text] {
     margin-top: -5px;
 }
+
+/*TABLE CARDS*/
+.table-cards {
+    padding: 0;
+    margin: 0;
+    table-layout: fixed;
+    width: 100%;
+}
+
+     .table-cards th {
+        font-size: 14px;
+        font-weight:600;
+        width: 80px;        
+    }    
+
+    .table-cards td {
+        font-size: 14px;
+        width: 120px;
+        text-align:left;
+    }   
+
+.service-cards {    
+    position: relative;
+}
+
+    .service-cards:before {
+        content: '&nbsp;';
+        visibility: hidden;
+    }
+
+    .service-cards span {
+        position: absolute;
+        font-size: 14px;
+        left: 0;
+        right: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+/*md-card md-card-title md-card-title-text .md-headline .cards-icons {
+    visibility: hidden;    
+}
+
+md-card:hover md-card-title md-card-title-text .md-headline .cards-icons {
+    visibility: visible;    
+}*/

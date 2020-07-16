@@ -3526,7 +3526,8 @@
                                     $scope.Cancelar();
                                 }
                                 $scope.LimpiarDatos();
-                                toastr.success('Agenda Registrada correctamente', '', $scope.toastrOptions); 
+                                toastr.success('Agenda Registrada correctamente', '', $scope.toastrOptions);
+                                $scope.ConsultarAgenda();
                             }
                         }, function (err) {
                             toastr.remove();
@@ -4058,7 +4059,7 @@
                     $scope.FechaHoraAgendaGeneral();                    
                 }
             }            
-        }
+        }        
 
         //Eventos
         $scope.Cancelar = function () {
@@ -4073,13 +4074,13 @@
             $scope.ConsultarServicios();
             $scope.ConsultarEmpleadosAutoComplete();
             $scope.ConsultarClientes();
-            $scope.ConfiguracionEmpresaActual();
+            $scope.ConfiguracionEmpresaActual();            
         });
 
         $scope.ConsultarServicios();
         $scope.ConsultarEmpleadosAutoComplete();
         $scope.ConsultarClientes();
-        $scope.ConfiguracionEmpresaActual();
+        $scope.ConfiguracionEmpresaActual();        
     }
 
     function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {

@@ -28,7 +28,7 @@
                                     <label class="label-form-clientes" style="">
                                         Fecha
                                     </label>
-                                    <md-datepicker ng-model="FechaBusqueda" data-ng-change="" md-placeholder="Enter date" class="dateClientes" id="dpFechaBusqueda" tabindex=1 style="margin-bottom:0;"></md-datepicker>
+                                    <md-datepicker ng-model="FechaBusqueda" data-ng-change="ConsultarAgenda()" md-placeholder="Enter date" class="dateClientes" id="dpFechaBusqueda" tabindex=1 style="margin-bottom:0;"></md-datepicker>
                                 </md-input-container>
                             </div>
 
@@ -90,19 +90,39 @@
 
                         <div id="divCardsCitas" layout="row" style="width:100%; height: calc(100vh - 280px); margin-top:-15px; overflow-y:auto; overflow-x:hidden;">
                             <div flex-xs class="md-padding" layout="row" style="margin-top:-20px; margin-left:0; margin-right:0; padding-left:0;padding-right:0;" layout-wrap>
-                                <md-card flex="21" ng-repeat="item in Agendas" ng-style="{'background-color': doc_classes_colors[$index % doc_classes_colors.length]}" style="height:200px;">
-                                    <md-card-title>
+                                <md-card flex="21" ng-repeat="item in Agendas" ng-style="item.estado === 'PROGRAMADA' && {'background-color':'#99ddcc'} || item.estado === 'CANCELADA' && {'background-color':'#f67280'} || item.estado === 'FACTURADA' && {'background-color':'#ffffdd'} || item.estado === 'LIQUIDADA' && {'background-color':'#deecff'}" style="height:210px; width:250px; box-shadow: 0px 7px 12px #aaa;">
+                                    <md-card-title style="">
                                         <md-card-title-text>
-                                            <span class="md-headline" style="border-bottom:1px dashed #212121; padding-bottom:3px;">{{item.estado}}</span>
+                                            <div class="md-headline" style="border-bottom:1px dashed #212121; padding-bottom:3px;">
+                                                <span style="text-align: left; font-size: 20px; font-weight: 600;">{{item.estado}}</span>
+                                                <span style="float:right;" class="cards-icons"><i class="material-icons" style="transform: scaleX(-1); font-size:22px; display:inline;" ng-click="EditarAgenda()">edit</i><i class="material-icons" style="transform: scaleX(-1); font-size:22px; margin-left:10px;" ng-click="CancelarAgenda()">cancel</i></span>
+                                            </div>                                            
                                         </md-card-title-text>
                                     </md-card-title>
-                                    <md-card-content>
+                                    <md-card-content style="margin-top: -5px;">
                                         <div>
-                                            Empleado: {{item.nombres_Empleado}}<br />
-                                            Cliente: {{item.nombres_Cliente}}<br />
-                                            Servicio: {{item.nombre_Servicio}}<br />
-                                            Hora Inicio: {{item.fechaInicio}}<br />
-                                            Hora Fin: {{item.fechaFin}}<br />
+                                            <table class="table-cards" style="table-layout: fixed;">
+                                                <tr>
+                                                    <th>Empleado:</th>
+                                                    <td><span style="">{{item.nombres_Empleado}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Cliente:</th>
+                                                    <td><span style="">{{item.nombres_Cliente}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Servicio:</th>
+                                                    <td class="service-cards" data-toggle="tooltip" title="{{item.nombre_Servicio}}"><span>{{item.nombre_Servicio}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Hora Inicio:</th>
+                                                    <td><span>{{item.fechaInicio}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Hora Fin:</th>
+                                                    <td><span>{{item.fechaFin}}</span></td>
+                                                </tr>                                                
+                                            </table>
                                         </div>
                                     </md-card-content>
                                 </md-card>
