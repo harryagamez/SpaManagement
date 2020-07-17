@@ -4002,7 +4002,7 @@
 
         //Modal Filtrar Citas
         $scope.ModalFiltrarCitas = function () {
-            $scope.AccionAgenda = 'Filtrar Consulta'; 
+            $scope.AccionAgenda = 'Opciones de Consulta'; 
 
             $mdDialog.show({
                 contentElement: '#dlgFiltrarAgenda',
