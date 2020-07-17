@@ -3484,10 +3484,10 @@
         $scope.EstadoSeleccionado = -1;
         $scope.ServicioSeleccionadoModal = -1;
         $scope.ServicioSeleccionado = -1;
-        $scope.ClienteSeleccionadoModal = '';
-        $scope.ClienteSeleccionado = '';
-        $scope.EmpleadoSeleccionadoModal = '';
-        $scope.EmpleadoSeleccionado = '';
+        $scope.ClienteSeleccionadoModal = null;
+        $scope.ClienteSeleccionado = null;
+        $scope.EmpleadoSeleccionadoModal = null;
+        $scope.EmpleadoSeleccionado = null;
         $scope.AgendaServicios = [];
         $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
         $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
@@ -3496,6 +3496,8 @@
 
         //Variables de Configuración
         $scope.PAPTS = false;
+        $scope.fDisableCliente = false;
+        $scope.fDisableFechaCita = false;
         $scope.fEditAgenda = false;
         $scope.fDisableHoraFin = false;
         $scope.fDisableGuardarAgenda = false;
@@ -3515,9 +3517,9 @@
         };
 
         //Api
-        //Guardar Nueva Cita
+        //Guardar Actualizar Cita
         $scope.GuardarActualizarAgenda = function () {            
-            if($scope.ValidarNuevaAgenda()) {
+            if($scope.ValidarNuevaAgenda()) {                
                 SPAService._guardarActualizarAgenda($scope.Agenda)
                     .then(
                         function (result) {
@@ -3704,9 +3706,17 @@
 
         //Editar Agenda
         $scope.EditarAgenda = function (agenda) {            
-            let fechafin = new Date(agenda.fecha_Fin);
-            $scope.EmpleadoSeleccionadoModal = agenda;
-            $scope.ClienteSeleccionadoModal = agenda;
+            
+            let fechafin = new Date(agenda.fecha_Fin);            
+            $scope.EmpleadoSeleccionadoModal = {
+                id_Empleado: agenda.id_Empleado,
+                nombres: agenda.nombres_Empleado
+            };
+            $scope.ClienteSeleccionadoModal = {
+                id_Cliente: agenda.id_Cliente,
+                nombres: agenda.nombres_Cliente
+            };
+            
             $scope.ServicioSeleccionadoModal = agenda.id_Servicio;
             $scope.FechaInicio = new Date(agenda.fecha_Inicio);
             $scope.HoraInicio = new Date($scope.FechaInicio.getFullYear(), $scope.FechaInicio.getMonth(), $scope.FechaInicio.getDate(), $scope.FechaInicio.getHours(), $scope.FechaInicio.getMinutes());
@@ -3716,6 +3726,8 @@
             $scope.Agenda.Id_Agenda = agenda.id_Agenda;
             $scope.Agenda.Estado = 'PROGRAMADA';
             $scope.fEditAgenda = true;
+            $scope.fDisableCliente = true;
+            $scope.fDisableFechaCita = true;
             $scope.ModalAgendaGeneral();
         }
         
@@ -3727,16 +3739,18 @@
             $scope.EstadoSeleccionado = -1;
             $scope.ServicioSeleccionadoModal = -1;
             $scope.ServicioSeleccionado = -1;
-            $scope.ClienteSeleccionadoModal = '';
-            $scope.ClienteSeleccionado = '';
-            $scope.EmpleadoSeleccionadoModal = '';
-            $scope.EmpleadoSeleccionado = '';
-            $scope.AgendaServicios = [];
+            $scope.ClienteSeleccionadoModal = null;
+            $scope.ClienteSeleccionado = null;
+            $scope.EmpleadoSeleccionadoModal = null;
+            $scope.EmpleadoSeleccionado = null;
+            $scope.AgendaServicios = [];            
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
             $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));            
 
             //Variables de Configuración
             $scope.fEditAgenda = false;
+            $scope.fDisableCliente = false;
+            $scope.fDisableFechaCita = false;
             $scope.fDisableGuardarAgenda = false;
             $scope.fDisableServiciosM = true;
             $scope.fDisableServicios = true;
@@ -3798,7 +3812,7 @@
         //Validar Nueva Agenda
         $scope.ValidarNuevaAgenda = function () {            
             
-            if ($scope.EmpleadoSeleccionadoModal === '' || $scope.EmpleadoSeleccionadoModal === null) {
+            if ($scope.EmpleadoSeleccionadoModal === '' || $scope.EmpleadoSeleccionadoModal === null || $scope.EmpleadoSeleccionadoModal === undefined) {
                 toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
                 $('#acEmpleadosModal').focus();
                 return false;
@@ -3806,7 +3820,7 @@
 
             $scope.Agenda.Id_Empleado = $scope.EmpleadoSeleccionadoModal.id_Empleado;
 
-            if ($scope.ClienteSeleccionadoModal === '' || $scope.ClienteSeleccionadoModal === null) {
+            if ($scope.ClienteSeleccionadoModal === '' || $scope.ClienteSeleccionadoModal === null || $scope.ClienteSeleccionadoModal === undefined) {
                 toastr.info('Debe seleccionar un cliente', '', $scope.toastrOptions);
                 $('#acClientesModal').focus();
                 return false;
@@ -3986,6 +4000,23 @@
                 });
         }
 
+        //Modal Filtrar Citas
+        $scope.ModalFiltrarCitas = function () {
+            $scope.AccionAgenda = 'Filtrar Consulta'; 
+
+            $mdDialog.show({
+                contentElement: '#dlgFiltrarAgenda',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                multiple: true,
+            })
+                .then(function () {
+                }, function () {
+                    $scope.LimpiarDatos();
+                });
+        }
+
         //Show Comfirm Cancelar Agenda
         $scope.showConfirmCancelarAgenda = function (ev, data) {
             let confirm = $mdDialog.confirm()
@@ -4130,18 +4161,21 @@
 
         $scope.$on("CompanyChange", function () {
             $scope.LimpiarDatos();
+            $scope.Agendas = [];
             $scope.IdEmpresa = $rootScope.Id_Empresa;
             $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
             $scope.ConsultarServicios();
             $scope.ConsultarEmpleadosAutoComplete();
             $scope.ConsultarClientes();
-            $scope.ConfiguracionEmpresaActual();            
+            $scope.ConfiguracionEmpresaActual();
+            $scope.ModalFiltrarCitas();
         });
 
         $scope.ConsultarServicios();
         $scope.ConsultarEmpleadosAutoComplete();
         $scope.ConsultarClientes();
-        $scope.ConfiguracionEmpresaActual();        
+        $scope.ConfiguracionEmpresaActual();
+        $scope.ModalFiltrarCitas();
     }
 
     function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {

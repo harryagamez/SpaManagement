@@ -780,7 +780,22 @@ md-list-item .md-list-item-inner {
     border-radius: 50%;
     display: flex;
     z-index: 999999;
-    box-shadow: 0px 0px 21px 0px rgba(153,153,153,1);    
+    box-shadow: 0px 0px 21px 0px rgba(153,153,153,1);
+}
+
+#btnFiltrarCards {
+    max-width: 60px;
+    max-height: 60px;
+    min-height: 60px;
+    min-width: 60px;
+    padding-top: 10px;
+    position: absolute;
+    top: 200px;
+    right: 25px;
+    border-radius: 50%;
+    display: flex;
+    z-index: 999999;
+    box-shadow: 0px 0px 21px 0px rgba(153,153,153,1);
 }
 
 /*AUTO COMPLETE CONTAINER*/
@@ -855,7 +870,8 @@ md-input-container input[type=text] {
      .table-cards th {
         font-size: 14px;
         font-weight:600;
-        width: 80px;        
+        width: 80px;
+        padding-right:8px;
     }    
 
     .table-cards td {
