@@ -773,9 +773,9 @@ md-list-item .md-list-item-inner {
     max-height: 55px;
     min-height: 55px;
     min-width: 55px;
-    padding-top: 10px;
+    padding-top: 15px;
     position: absolute;
-    top: 130px;
+    top: 20px;
     right: 10px;
     border-radius: 50%;
     display: flex;
@@ -790,7 +790,7 @@ md-list-item .md-list-item-inner {
     min-width: 55px;
     padding-top: 10px;
     position: absolute;
-    top: 200px;
+    top: 85px;
     right: 10px;
     border-radius: 50%;
     display: flex;
