@@ -121,7 +121,7 @@
                         <label class="label-form-clientes" style="">
                             Fecha Nacimiento:
                         </label>
-                        <md-datepicker ng-model="Cliente.Fecha_Nacimiento" ng-change="ValidarFechaNacimiento()" md-placeholder="Enter date" style="" class="dateClientes"  id="dpFechaNacimiento" tabindex=8></md-datepicker>
+                        <md-datepicker ng-model="Cliente.Fecha_Nacimiento" md-placeholder="Enter date" class="dateClientes" id="dpFechaNacimiento" tabindex=8></md-datepicker>
                     </md-input-container>
                 </div>
 
@@ -176,7 +176,7 @@
 
             </div>
             
-            <div id="divGridClientes" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 360px); margin-top:22px; overflow-y:auto;">
+            <div id="divGridClientes" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 340px); margin-top:11px; overflow-y:auto;">
                 <div id="divClientesGridOptions" data-ag-grid="ClientesGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
             </div>
 

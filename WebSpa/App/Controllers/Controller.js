@@ -23,7 +23,6 @@
     AgendaController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
     function LoginController($scope, $state, $location, $mdDialog, $rootScope, $timeout, authService) {
-        // Variables
         $scope.ValidarDatos = ValidarDatos;
         $scope.Login = Login;
         $scope.ValidarIntegracion = false;
@@ -117,10 +116,6 @@
                 $scope.UserAvatar = $rootScope.UserAvatar;
         });
 
-        //$scope.$on('successfull.empresapropiedadesload', function () {
-        //    $rootScope.EmpresaPropiedades = $rootScope.sEmpresaPropiedades;
-        //});
-
         if ($rootScope.UserAvatar !== null && $rootScope.UserAvatar !== undefined)
             $scope.UserAvatar = $rootScope.UserAvatar;
 
@@ -165,7 +160,6 @@
     }
 
     function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-        // Variables
         $scope.Clientes = [];
         $scope.ObjetoCliente = [];
         $scope.Municipios = [];
@@ -185,7 +179,6 @@
         $scope.GeneralServicios = false;
         $scope.PermitirFiltrar = true;
 
-        // Inicialización
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
 
@@ -200,7 +193,7 @@
             Mail: '', Direccion: '',
             Id_Municipio: -1,
             Id_Barrio: -1,
-            Fecha_Nacimiento: $filter('date')(new Date(), 'dd-MM-yyyy'),
+            Fecha_Nacimiento: new Date(),
             Id_Tipo: -1,
             Estado: $scope.EstadoSeleccionado,
             Id_Empresa: $scope.IdEmpresa,
@@ -216,7 +209,6 @@
             $('#txtCedula').focus();
         }
 
-        // Invocaciones API
         $scope.GuardarCliente = function () {
             if ($scope.ValidarDatos()) {
                 $scope.ObjetoCliente = [];
@@ -384,7 +376,6 @@
                     })
         }
 
-        // Filtros
         $scope.FiltrarBarrios = function (id_Municipio) {
             $scope.ConsultarBarrios(id_Municipio);
         }
@@ -395,7 +386,6 @@
             }, 200);
         }
 
-        // Validaciones
         $scope.ValidarDatos = function () {
             let maiL_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
 
@@ -460,7 +450,6 @@
             return true;
         }
 
-        // Limpiar Datos
         $scope.LimpiarDatos = function () {
             $scope.EstadoSeleccionado = 'ACTIVO';
 
@@ -475,7 +464,7 @@
                 Mail: '', Direccion: '',
                 Id_Municipio: -1,
                 Id_Barrio: -1,
-                Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
+                Fecha_Nacimiento: new Date(),
                 Id_Tipo: -1,
                 Estado: $scope.EstadoSeleccionado,
                 Id_Empresa: $scope.IdEmpresa,
@@ -497,7 +486,6 @@
             $scope.CedulaReadOnly = false;
         }
 
-        // Agr-grid Options
         $scope.ClientesGridOptionsColumns = [
 
             {
@@ -558,7 +546,6 @@
             }
         }
 
-        //Filtrar por nombre
         $scope.onFilterTextBoxChanged = function () {
             if ($scope.PermitirFiltrar === true) {
                 $scope.ClientesGridOptions.api.setQuickFilter($('#txtNombres').val());
@@ -601,7 +588,6 @@
             $scope.Inicializacion();
         });
 
-        // Invocación Funciones
         $scope.ConsultarClientes();
         $scope.ConsultarMunicipios();
         $scope.ConsultarTipoClientes();
@@ -609,7 +595,6 @@
     }
 
     function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-        // VARIABLES
         $scope.TipoServicios = [];
         $scope.ObjetoServicio = [];
         $scope.Servicios = [];
@@ -620,7 +605,6 @@
         $scope.InformacionImagen = '';
         $rootScope.ImagenesxAdjuntar = 0;
 
-        // INICIALIZACIÓN
         $scope.Inicializacion = function () {
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
             window.onresize();
@@ -646,9 +630,6 @@
             Imagenes_Servicio: []
         }
 
-        // INVOCACIONES API
-
-        //Guardar Servicio
         $scope.GuardarServicio = function () {
             if ($scope.ValidarDatos()) {
                 $scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.concat($scope.TEMPServicio);
@@ -675,7 +656,6 @@
             }
         }
 
-        //Consultar Tipo Servicios
         $scope.ConsultarTipoServicios = function () {
             SPAService._consultarTipoServicios()
                 .then(
@@ -693,7 +673,6 @@
                     })
         }
 
-        //Consultar Servicios
         $scope.ConsultarServicios = function () {
             SPAService._consultarServicios($scope.IdEmpresa)
                 .then(
@@ -714,9 +693,6 @@
                     })
         }
 
-        // FUNCIONES
-
-        // Consultar Servicio
         $scope.ConsultarServicio = function (data) {
             $rootScope.ServicioImagenesAdjuntas = data.imagenes_Servicio;
 
@@ -742,7 +718,6 @@
             }
         }
 
-        // Visualizar Imagen
         $scope.VisualizarImagen = function (data) {
             $rootScope.ServicioNombre = data.nombre;
             $rootScope.ServicioListaImagenes = [];
@@ -754,7 +729,6 @@
                 $scope.showAlertSinImagenesAdjuntas();
         }
 
-        // Consultar Servicio Por Nombre
         $scope.ConsultarServicioNombre = function (e, nombre) {
             let row = $scope.ServiciosGridOptions.api.getRowNode(nombre);
             if (row === undefined) return;
@@ -778,7 +752,6 @@
             }
         }
 
-        // Limpiar Datos
         $scope.LimpiarDatos = function () {
             $scope.EstadoSeleccionado = 'ACTIVO';
             $scope.ImagenServicioBase64 = '';
@@ -807,7 +780,6 @@
             $('#txtNombreServicio').focus();
         }
 
-        // Validaciones Servicios
         $scope.ValidarDatos = function () {
             $scope.Servicio.Id_TipoServicio = $scope.TipoServicioSeleccionado;
             $scope.Servicio.Estado = $scope.EstadoSeleccionado;
@@ -845,7 +817,6 @@
             return true;
         }
 
-        // Modal Nuevo Servicio
         $scope.ModalNuevoServicio = function () {
             $scope.AccionServicio = 'Registrar Servicio';
             $rootScope.ImagenesAdjuntas = 0;
@@ -869,7 +840,6 @@
             $scope.OcultarbtnNuevo = false;
         }
 
-        // Modal Editar Servicio
         $scope.ModalEditarServicio = function () {
             $scope.AccionServicio = 'Editar Servicio';
             $rootScope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;
@@ -894,7 +864,6 @@
             $scope.OcultarbtnNuevo = true;
         }
 
-        //Modal Servicio Imagenes Slider
         $scope.ModalSliderServicio = function () {
             $mdDialog.show({
                 controller: SliderController,
@@ -909,7 +878,6 @@
                 });
         };
 
-        //Show Custom Imágenes Adjuntas
         $scope.showCustomImagenesAdjuntas = function (ev) {
             $mdDialog.show({
                 controller: ImgAttachedController,
@@ -925,7 +893,6 @@
                 });
         };
 
-        //Show Alert Sin Imágenes Adjuntas
         $scope.showAlertSinImagenesAdjuntas = function (ev) {
             $mdDialog.show(
                 $mdDialog.alert()
@@ -940,7 +907,6 @@
             );
         };
 
-        //Show Comfirm Reemplazar Imágenes Servicios
         $scope.showReemplazarImagenesServicio = function (ev, data) {
             if ($rootScope.ImagenesAdjuntas >= 5) {
                 toastr.info('El servicio ya tiene 5 imágenes adjuntas. Si desea subir más, debe borrar alguna imagen existente', '', $scope.toastrOptions);
@@ -967,7 +933,6 @@
                 $scope.ProcesarImagen();
         };
 
-        // Agr-grid Options
         $scope.ServiciosGridOptionsColumns = [
 
             {
@@ -1027,7 +992,6 @@
             getRowStyle: ChangeRowColor
         }
 
-        //Change Row Color Inactive Users
         function ChangeRowColor(params) {
             if (params.data.estado === 'INACTIVO') {
                 return { 'background-color': '#ecf0e0', 'color': '#999999', 'font-weight': '300' };
@@ -1042,13 +1006,11 @@
             $scope.ServiciosGridOptions.api.setQuickFilter($('#txtBuscarServicio').val());
         }
 
-        // Formatos
         function currencyFormatter(params) {
             let valueGrid = params.value;
             return $filter('currency')(valueGrid, '$', 0);
         }
 
-        // Eventos
         window.onresize = function () {
             $timeout(function () {
                 $scope.ServiciosGridOptions.api.sizeColumnsToFit();
@@ -1130,7 +1092,6 @@
             $scope.Inicializacion();
         });
 
-        // Invocación Funciones
         $scope.ConsultarTipoServicios();
         $scope.ConsultarServicios();
         $scope.Inicializacion();
@@ -3553,6 +3514,8 @@
 
                             if ($scope.Agendas.length === 0) 
                                 toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
+
+                            $scope.Cancelar();
 
                         }, function (err) {
                             toastr.remove();

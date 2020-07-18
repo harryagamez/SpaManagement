@@ -12,11 +12,11 @@
                 <md-tab label="General">
                     <md-content class="md-padding" style="background-color:transparent; padding:30px 0 0 0; margin: 0 0 0 -5px;">                        
 
-                        <div type="button" id="btnAgendarCita" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Agendar Cita" data-ng-click="ModalAgendaGeneral()">
+                        <div type="button" id="btnAgendarCita" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Agendar cita" data-ng-click="ModalAgendaGeneral()">
                             <i class="material-icons md-18" style="font-size:35px; font-weight:800; z-index:9999; width:110%; height:110%; text-align:center; display:block;">add</i>
                         </div>
 
-                        <div type="button" id="btnFiltrarCards" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Filtrar Citas" data-ng-click="ModalFiltrarCitas()">
+                        <div type="button" id="btnFiltrarCards" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Consultar citas" data-ng-click="ModalFiltrarCitas()">
                             <i class="material-icons md-18" style="font-size:35px; font-weight:800; z-index:9999; width:110%; height:110%; text-align:center; display:block;">search</i>
                         </div>                        
 
@@ -27,11 +27,11 @@
                                         <md-card-title-text>
                                             <div class="md-headline" style="border-bottom:1px dashed #212121; padding-bottom:3px;">
                                                 <span style="text-align: left; font-size: 20px; font-weight: 600;">{{item.estado}}</span>
-                                                <span ng-style="item.estado==='CANCELADA' && {'visibility':'hidden'} || item.estado === 'LIQUIDADA' && {'visibility':'hidden'} || item.estado === 'FACTURADA' && {'visibility':'hidden'} " style="float:right;" class="cards-icons"><i class="material-icons" style="transform: scaleX(-1); font-size:22px; display:inline; color: darkred;" data-ng-click="EditarAgenda(item)" data-toggle="tooltip" title="Editar Agenda">edit</i><i class="material-icons" style="transform: scaleX(-1); font-size:22px; margin-left:2px; color:darkred;" data-ng-click="showConfirmCancelarAgenda(ev,item)" data-toggle="tooltip" title="Cancelar Cita">cancel</i></span>
+                                                <span ng-style="item.estado==='CANCELADA' && {'visibility':'hidden'} || item.estado === 'LIQUIDADA' && {'visibility':'hidden'} || item.estado === 'FACTURADA' && {'visibility':'hidden'} " style="float:right;" class="cards-icons"><i class="material-icons" style="transform: scaleX(-1); font-size:22px; display:inline; color: darkred;" data-ng-click="EditarAgenda(item)" data-toggle="tooltip" title="Editar cita">edit</i><i class="material-icons" style="transform: scaleX(-1); font-size:22px; margin-left:2px; color:darkred;" data-ng-click="showConfirmCancelarAgenda(ev,item)" data-toggle="tooltip" title="Cancelar cita">cancel</i></span>
                                             </div>
                                         </md-card-title-text>
                                     </md-card-title>
-                                    <md-card-content style="margin-top: -5px;">
+                                    <md-card-content style="margin-top: -12px;">
                                         <div>
                                             <table class="table-cards" style="table-layout: fixed;">
                                                 <tr>
@@ -45,6 +45,10 @@
                                                 <tr>
                                                     <th>Servicio:</th>
                                                     <td class="service-cards" data-toggle="tooltip" title="{{item.nombre_Servicio}}"><span>{{item.nombre_Servicio}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Fecha:</th>
+                                                    <td><span>{{item.fecha_Inicio | date : "dd-MM-yyyy"}}</span></td>
                                                 </tr>
                                                 <tr>
                                                     <th>Hora Inicio:</th>
