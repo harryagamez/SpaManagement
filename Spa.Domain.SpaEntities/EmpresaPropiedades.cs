@@ -7,5 +7,6 @@
         public string Id_Sistema_Propiedad { get; set; }
         public string Valor_Propiedad { get; set; }
         public string Codigo { get; set; }
+        public string Descripcion { get; set; }
     }
 }

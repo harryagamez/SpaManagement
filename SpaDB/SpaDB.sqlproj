@@ -266,6 +266,8 @@
     <Build Include="dbo\Stored Procedures\GuardarActualizarAgenda.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarAgenda.sql" />
     <Build Include="dbo\Stored Procedures\CancelarAgenda.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarSistemaPropiedades.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarEmpresaPropiedades.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

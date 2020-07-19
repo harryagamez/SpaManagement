@@ -1185,5 +1185,49 @@ namespace Spa.Infrastructure.SpaRepository
                 }
             }
         }
+
+        public List<SistemaPropiedades> ConsultarSistemaPropiedades()
+        {
+            DataTable _datatable = new DataTable();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarSistemaPropiedades";
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<SistemaPropiedades> _sistemaPropiedades = _datatable.DataTableToList<SistemaPropiedades>();
+
+                    return _sistemaPropiedades;
+                }
+            }
+        }
+
+        public bool GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades)
+        {
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "GuardarEmpresaPropiedades";
+                    _command.Parameters.AddWithValue("@JsonPropiedades", JsonConvert.SerializeObject(empresaPropiedades));
+
+                    _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return true;
+                }
+            }
+        }
     }
 }

@@ -902,3 +902,13 @@ md-input-container input[type=text] {
 md-card md-card-title {
     padding-top:10px !important;
 }
+
+.table-custom tbody td {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.table-custom-th {
+    padding-left: 15px;
+    padding-right: 15px;
+}

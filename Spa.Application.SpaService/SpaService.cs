@@ -323,5 +323,15 @@ namespace Spa.Application.SpaService
         {
             return _spaRepository.ConsultarUsuarioEmpresas(IdUsuario);
         }
+
+        public List<SistemaPropiedades> ConsultarSistemaPropiedades()
+        {
+            return _spaRepository.ConsultarSistemaPropiedades();
+        }
+
+        public bool GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades)
+        {
+            return _spaRepository.GuardarEmpresaPropiedades(empresaPropiedades);
+        }
     }
 }

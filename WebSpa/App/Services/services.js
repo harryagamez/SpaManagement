@@ -47,6 +47,7 @@
             localStorageService.remove('masterdataMenu');
             localStorageService.remove('masterdataUserAvatar');
             localStorageService.remove('masterdataEmpresaPropiedades');
+            localStorageService.remove('masterdataSistemaPropiedades');
             localStorageService.remove('masterDataTipoClientes');
             localStorageService.remove('masterdataClientes');
             localStorageService.remove('masterdataMunicipios');
@@ -61,6 +62,8 @@
             $rootScope.Municipios = [];
             $rootScope.Barrios = [];
             $rootScope.Empresas = [];
+            $rootScope.EmpresaPropiedades = [];
+            $rootScope.SistemaPropiedades = [];
 
             $rootScope.Id_Empresa = '';
             $rootScope.Nombre_Empresa = '';
@@ -120,6 +123,8 @@
                         _consultarUsuarioEmpresas($rootScope.userData.userId);
                     }
 
+                    _consultarSistemaPropiedades();
+
                     deferred.resolve(response);
                 },
                 function (err) {
@@ -136,6 +141,7 @@
             localStorageService.remove('masterdataMenu');
             localStorageService.remove('masterdataUserAvatar');
             localStorageService.remove('masterdataEmpresaPropiedades');
+            localStorageService.remove('masterdataSistemaPropiedades');
             localStorageService.remove('masterDataTipoClientes');
             localStorageService.remove('masterdataClientes');
             localStorageService.remove('masterdataMunicipios');
@@ -151,6 +157,7 @@
             $rootScope.Barrios = [];
             $rootScope.Empresas = [];
             $rootScope.EmpresaPropiedades = [];
+            $rootScope.SistemaPropiedades = [];
             $rootScope.UserAvatar = '../../Images/default-perfil.png';
             $rootScope.Errores = '';
 
@@ -186,6 +193,10 @@
                 var masterDataEmpresaPropiedades = localStorageService.get('masterdataEmpresaPropiedades');
                 if (masterDataEmpresaPropiedades)
                     $rootScope.EmpresaPropiedades = masterDataEmpresaPropiedades.empresapropiedades;
+
+                var masterDataSistemaPropiedades = localStorageService.get('masterdataSistemaPropiedades');
+                if (masterDataSistemaPropiedades)
+                    $rootScope.SistemaPropiedades = masterDataSistemaPropiedades.sistemapropiedades;
 
                 var masterDataTipoClientes = localStorageService.get('masterdataTipoClientes');
                 if (masterDataTipoClientes)
@@ -263,6 +274,24 @@
                             useravatar: result.data.logo_Base64
                         });
                 }
+            })
+        }
+
+        var _consultarSistemaPropiedades = function () {
+            $http({
+                headers: { 'Content-Type': 'application/json' },
+                method: 'GET',
+                url: $rootScope.config.data.API_URL + 'SPA/ConsultarSistemaPropiedades'
+            }).then(function (result) {
+                $rootScope.SistemaPropiedades = result.data;
+                $rootScope.$broadcast('successfull.sistemapropiedadesload');
+                localStorageService.set('masterdataSistemaPropiedades',
+                    {
+                        sistemapropiedades: result.data
+                    });
+            }, function (error) {
+                $rootScope.Errores = error.data;
+                $rootScope.$broadcast('failed.sistemapropiedadesload');
             })
         }
 
@@ -374,7 +403,8 @@
             _consultarEmpleadosAutoComplete: ConsultarEmpleadosAutoComplete,
             _guardarActualizarAgenda: GuardarActualizarAgenda,
             _consultarAgenda: ConsultarAgenda,
-            _cancelarAgenda: CancelarAgenda
+            _cancelarAgenda: CancelarAgenda,
+            _guardarEmpresaPropiedades: GuardarEmpresaPropiedades
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -876,6 +906,20 @@
                 function (err) {
                     deferred.reject(err);
                 });
+            return deferred.promise;
+        }
+
+        function GuardarEmpresaPropiedades(propiedades) {
+            var deferred = $q.defer();
+
+            serviceRest.Post('SPA', 'GuardarEmpresaPropiedades', propiedades,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
             return deferred.promise;
         }
     }

@@ -644,9 +644,9 @@ namespace WebApiSpa.Controllers
         {
             try
             {
-                List<EmpresaPropiedades> _empresapropiedades = _spaService.ConsultarEmpresaPropiedades(IdEmpresa);
+                List<EmpresaPropiedades> _empresaPropiedades = _spaService.ConsultarEmpresaPropiedades(IdEmpresa);
 
-                return Content(HttpStatusCode.OK, _empresapropiedades);
+                return Content(HttpStatusCode.OK, _empresaPropiedades);
             }
             catch (Exception ex)
             {
@@ -755,6 +755,40 @@ namespace WebApiSpa.Controllers
             catch (Exception ex)
             {
                 return Content(HttpStatusCode.InternalServerError, "Error consultando las empresas asociadas al usuario: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarSistemaPropiedades")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarSistemaPropiedades()
+        {
+            try
+            {
+                List<SistemaPropiedades> _sistemaPropiedades = _spaService.ConsultarSistemaPropiedades();
+
+                return Content(HttpStatusCode.OK, _sistemaPropiedades);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando las propiedades del sistema: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/GuardarEmpresaPropiedades")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades)
+        {
+            try
+            {
+                bool result = _spaService.GuardarEmpresaPropiedades(empresaPropiedades);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error guardando las propiedades de la empresa: " + ex.Message);
             }
         }
     }

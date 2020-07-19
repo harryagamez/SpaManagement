@@ -52,6 +52,8 @@ namespace Spa.Application.SpaService
         Usuario ValidarUsuarioAdmin(string Nombre, string Password);
         List<Empresa> ConsultarEmpresas();
         List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario);
+        List<SistemaPropiedades> ConsultarSistemaPropiedades();
+        bool GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades);
 
     }
 }
