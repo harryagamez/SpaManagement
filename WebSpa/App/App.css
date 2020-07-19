@@ -445,7 +445,7 @@ label {
     margin: 0;
     padding: 0;
     position: absolute;
-    top: 65px;
+    top: 50px;
     right: 8px;
     box-shadow:0px 0px 9px 2px rgba(224,224,224,1);
 }
@@ -868,14 +868,14 @@ md-input-container input[type=text] {
 }
 
      .table-cards th {
-        font-size: 14px;
+        font-size: 13px;
         font-weight:600;
         width: 80px;
         padding-right:8px;
     }    
 
     .table-cards td {
-        font-size: 14px;
+        font-size: 13px;
         width: 120px;
         text-align:left;
     }   
@@ -891,7 +891,7 @@ md-input-container input[type=text] {
 
     .service-cards span {
         position: absolute;
-        font-size: 14px;
+        font-size: 13px;
         left: 0;
         right: 0;
         white-space: nowrap;
@@ -912,3 +912,20 @@ md-card md-card-title {
     padding-left: 15px;
     padding-right: 15px;
 }
+
+.select-multiempresa {
+    border: none;
+    text-align: left;
+    display: inline-flex;
+    max-width: 290px !important;
+    min-width: 290px !important;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight:800;
+    box-shadow:none;
+}
+
+    .select-multiempresa:hover {
+        box-shadow: 0 0px 5px rgba(0, 0, 0, 0.075);
+        background-color:#f1f1f1;
+    }

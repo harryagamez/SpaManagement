@@ -3191,7 +3191,7 @@
         $scope.ConfiguracionEmpresaActual = function () {
             try {
                 if ($scope.EmpresaPropiedades.length > 0) {
-                    let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
+                    let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });                    
                     if (papts[0].valor_Propiedad.toUpperCase() === 'SI' || papts[0].valor_Propiedad.toUpperCase() === 'SÍ')
                         $scope.PAPTS = true;
                     else
@@ -3527,6 +3527,7 @@
         $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
 
         //Variables de Configuración
+        $scope.fPropertiesSetted = false;
         $scope.PAPTS = false;
         $scope.fDisableCliente = false;
         $scope.fDisableFechaCita = false;
@@ -3723,19 +3724,21 @@
         //Set Datos Configuración Empresa
         $scope.ConfiguracionEmpresaActual = function () {
             if ($scope.EmpresaPropiedades.length > 0) {
-
                 let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
                 if (papts[0].valor_Propiedad.toUpperCase() === 'SI' || papts[0].valor_Propiedad.toUpperCase() === 'SÍ') {
                     $scope.fDisableHoraFin = true;
+                    $scope.fPropertiesSetted = true;
                     $scope.PAPTS = true;
                 }
 
                 else {
                     $scope.fDisableHoraFin = false;
+                    $scope.fPropertiesSetted = true;
                     $scope.PAPTS = false;
                 }
 
             } else {
+                $scope.fPropertiesSetted = false;
                 toastr.info('La empresa actual, no tiene propiedades definidas', '', $scope.toastrOptions);
             }
         }
@@ -3784,7 +3787,7 @@
             $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
 
             //Variables de Configuración
-            $scope.fEditAgenda = false;
+            $scope.fEditAgenda = false;            
             $scope.fDisableCliente = false;
             $scope.fDisableFechaCita = false;
             $scope.fDisableGuardarAgenda = false;
@@ -3989,31 +3992,34 @@
         //Modales Agendar Cita
         //Modal Agendar Cita General
         $scope.ModalAgendaGeneral = function () {
-            if ($scope.ValidarEmpleadosClientesServicios()) {
+            if ($scope.fPropertiesSetted) {
+                if ($scope.ValidarEmpleadosClientesServicios()) {
 
-                if ($scope.fEditAgenda) {
-                    $scope.AccionAgenda = 'Modificar Cita';
-                }
-                else {
-                    $scope.LimpiarDatos();
-                    $scope.FechaHoraAgendaGeneral();
-                    $scope.AccionAgenda = 'Agendar Cita';
-                }
-
-
-                $mdDialog.show({
-                    contentElement: '#dlgAgendaGeneral',
-                    parent: angular.element(document.body),
-                    targetEvent: event,
-                    clickOutsideToClose: true,
-                    multiple: true,
-                })
-                    .then(function () {
-                        $('#acEmpleados').focus();
-                    }, function () {
+                    if ($scope.fEditAgenda) {
+                        $scope.AccionAgenda = 'Modificar Cita';
+                    }
+                    else {
                         $scope.LimpiarDatos();
-                    });
+                        $scope.FechaHoraAgendaGeneral();
+                        $scope.AccionAgenda = 'Agendar Cita';
+                    }
+
+                    $mdDialog.show({
+                        contentElement: '#dlgAgendaGeneral',
+                        parent: angular.element(document.body),
+                        targetEvent: event,
+                        clickOutsideToClose: true,
+                        multiple: true,
+                    })
+                        .then(function () {
+                            $('#acEmpleados').focus();
+                        }, function () {
+                            $scope.LimpiarDatos();
+                        });
+                }
             }
+            else
+                toastr.info('Para poder crear una agenda debe configurar las propiedades de la empresa', '', $scope.toastrOptions);
         }
 
         //Modal Agendar Cita Detallada

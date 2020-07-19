@@ -12,22 +12,22 @@
                 <md-tab label="General">
                     <md-content class="md-padding" style="background-color:transparent; padding:30px 0 0 0; margin: 0 0 0 -5px;">                        
 
-                        <div type="button" id="btnAgendarCita" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Agendar cita" data-ng-click="ModalAgendaGeneral()">
+                        <div type="button" id="btnAgendarCita" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Agendar Cita" data-ng-click="ModalAgendaGeneral()">
                             <i class="material-icons md-18" style="font-size:35px; font-weight:800; z-index:9999; width:110%; height:110%; text-align:center; display:block; margin-top: -4px;">add</i>
                         </div>
 
-                        <div type="button" id="btnFiltrarCards" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Consultar citas" data-ng-click="ModalFiltrarCitas()">
+                        <div type="button" id="btnFiltrarCards" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Opciones de Consulta" data-ng-click="ModalFiltrarCitas()">
                             <i class="material-icons md-18" style="font-size:35px; font-weight:800; z-index:9999; width:110%; height:110%; text-align:center; display:block;">search</i>
                         </div>                        
 
-                        <div id="divCardsCitas" layout="row" style="width:100%; height: calc(100vh - 170px); margin-top:-15px; overflow-y:auto; overflow-x:hidden;">
+                        <div id="divCardsCitas" layout="row" style="width:100%; height: calc(100vh - 170px); margin-top:-20px; overflow-y:auto; overflow-x:hidden;">
                             <div flex-xs class="md-padding" layout="row" style="margin-top:-20px; margin-left:0; margin-right:0; padding-left:0;padding-right:0;" layout-wrap>
-                                <md-card flex="21" ng-repeat="item in Agendas" ng-style="item.estado === 'PROGRAMADA' && {'background-color':'#99ddcc'} || item.estado === 'CANCELADA' && {'background-color':'#f67280'} || item.estado === 'FACTURADA' && {'background-color':'#ffffdd'} || item.estado === 'LIQUIDADA' && {'background-color':'#c2dbdf'}" style="height:205px; width:245px; box-shadow: 0px 7px 12px #aaa;">
+                                <md-card flex="21" ng-repeat="item in Agendas" ng-style="item.estado === 'PROGRAMADA' && {'background-color':'#99ddcc'} || item.estado === 'CANCELADA' && {'background-color':'#f67280'} || item.estado === 'FACTURADA' && {'background-color':'#ffffdd'} || item.estado === 'LIQUIDADA' && {'background-color':'#c2dbdf'}" style="height:200px; width:230px; box-shadow: 0px 7px 12px #aaa;">
                                     <md-card-title style="">
                                         <md-card-title-text>
-                                            <div class="md-headline" style="border-bottom:1px dashed #212121; padding-bottom:3px;">
+                                            <div class="md-headline" style="border-bottom:1px dashed #212121; padding-bottom:3px; margin-top:-7px;">
                                                 <span style="text-align: left; font-size: 20px; font-weight: 600;">{{item.estado}}</span>
-                                                <span ng-style="item.estado==='CANCELADA' && {'visibility':'hidden'} || item.estado === 'LIQUIDADA' && {'visibility':'hidden'} || item.estado === 'FACTURADA' && {'visibility':'hidden'} " style="float:right;" class="cards-icons"><i class="material-icons" style="transform: scaleX(-1); font-size:22px; display:inline; color: darkred;" data-ng-click="EditarAgenda(item)" data-toggle="tooltip" title="Editar cita">edit</i><i class="material-icons" style="transform: scaleX(-1); font-size:22px; margin-left:2px; color:darkred;" data-ng-click="showConfirmCancelarAgenda(ev,item)" data-toggle="tooltip" title="Cancelar cita">cancel</i></span>
+                                                <span ng-style="item.estado==='CANCELADA' && {'visibility':'hidden'} || item.estado === 'LIQUIDADA' && {'visibility':'hidden'} || item.estado === 'FACTURADA' && {'visibility':'hidden'} " style="float:right;" class="cards-icons"><i class="material-icons" style="transform: scaleX(-1); font-size:22px; display:inline; color: #4caf50;" data-ng-click="EditarAgenda(item)" data-toggle="tooltip" title="Editar cita">edit</i><i class="material-icons" style="transform: scaleX(-1); font-size:22px; margin-left:2px; color:#4caf50;" data-ng-click="showConfirmCancelarAgenda(ev,item)" data-toggle="tooltip" title="Cancelar cita">cancel</i></span>
                                             </div>
                                         </md-card-title-text>
                                     </md-card-title>
