@@ -185,6 +185,9 @@
         $scope.GeneralServicios = false;
         $scope.PermitirFiltrar = true;
         $scope.ArchivoSeleccionado = null;
+        $scope.ExcelClientes = [];
+        $scope.Validaciones = [];
+        const maiL_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
 
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
@@ -388,7 +391,6 @@
         }
 
         $scope.ImportarArchivo = function () {
-
             $('#labelArchivo').trigger('click');
         }
 
@@ -398,15 +400,14 @@
         }
 
         $scope.ProcesarArchivo = function () {
-            debugger;
-            let dataObjects = [];
+            let ObjetoDatos = [];
             let file = $scope.ArchivoSeleccionado;
 
             if ((file.type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 && (file.type != "application/vnd.ms-excel")) {
 
                 toastr.info('La extensión del archivo debe ser: .xls, ó .xlsx', '', $scope.toastrOptions);
-                $("#labelArchivo").val("");
+                $("#labelArchivo").val('');
                 $scope.ArchivoSeleccionado = null;
                 $scope.$apply();
                 return;
@@ -417,7 +418,6 @@
                 var name = file.name;
                 $scope.fileName = file.name;
                 reader.onload = function (e) {
-
                     if (!e) {
                         var data = reader.content;
                     } else {
@@ -426,15 +426,16 @@
 
                     try {
 
-                        var workbook = XLSX.read(data, { type: 'binary' });
-                        var first_sheet_name = workbook.SheetNames[0];
+                        let workbook = XLSX.read(data, { type: 'binary', cellDates: true });
+                        let first_sheet_name = workbook.SheetNames[0];
 
-                        dataObjects = XLSX.utils.sheet_to_json(workbook.Sheets[first_sheet_name]);
-                        $scope.ExcelInvoiceCredit = [];
+                        ObjetoDatos = XLSX.utils.sheet_to_json(workbook.Sheets[first_sheet_name], { raw: false });
+                        $scope.ExcelClientes = [];
+                        $scope.Validaciones = [];
 
-                        if (!dataObjects[0].hasOwnProperty("CUSTOMER") || !dataObjects[0].hasOwnProperty("INVOICE") || !dataObjects[0].hasOwnProperty("CREDIT TYPE")
-                            || !dataObjects[0].hasOwnProperty("ITEM LINE") || !dataObjects[0].hasOwnProperty("CODE") || !dataObjects[0].hasOwnProperty("UNITS")
-                            || !dataObjects[0].hasOwnProperty("OTHER COST PER UNIT")) {
+                        if (!ObjetoDatos[0].hasOwnProperty("CEDULA") || !ObjetoDatos[0].hasOwnProperty("NOMBRE(S)") || !ObjetoDatos[0].hasOwnProperty("APELLIDO(S)")
+                            || !ObjetoDatos[0].hasOwnProperty("MAIL") || !ObjetoDatos[0].hasOwnProperty("DIRECCION") || !ObjetoDatos[0].hasOwnProperty("MUNICIPIO")
+                            || !ObjetoDatos[0].hasOwnProperty("CELULAR") || !ObjetoDatos[0].hasOwnProperty("FECHA_NACIMIENTO")) {
 
                             toastr.info('El formato del archivo no es correcto, por favor verifique si las columnas tienen valores vacios o los nombres de las columnas son incorrectos', '', $scope.toastrOptions);
                             $("#labelArchivo").val("");
@@ -443,88 +444,86 @@
                             return;
                         }
 
-                        if (dataObjects.length > 0) {
+                        if (ObjetoDatos.length > 0) {
+                            for (let objeto of ObjetoDatos) {
+                                if (objeto["CEDULA"] !== undefined && objeto["NOMBRE(S)"] !== undefined
+                                    && objeto["APELLIDO(S)"] !== undefined && objeto["MAIL"] !== undefined
+                                    && objeto["DIRECCION"] !== undefined && objeto["MUNICIPIO"] !== undefined
+                                    && objeto["CELULAR"] !== undefined && objeto["FECHA_NACIMIENTO"] !== undefined) {
+                 
+                                    if (objeto["CEDULA"] === undefined || objeto["CEDULA"] === '') {
+                                        let mensaje = {
+                                            Mensaje: "El campo cédula esta vacio. Cliente: " + objeto["NOMBRE(S)"]
+                                        }
+                                        $scope.Validaciones.push(mensaje);
+                                        continue;
+                                    }
 
-                            for (var row of dataObjects) {
-
-                                if (row["INVOICE"] !== undefined && row["CUSTOMER"] !== undefined
-                                    && row["ITEM LINE"] !== undefined && row["CREDIT TYPE"] !== undefined
-                                    && row["CODE"] !== undefined && row["CREDIT TYPE"] !== undefined
-                                    && row["UNITS"] !== undefined && row["OTHER COST PER UNIT"] !== undefined) {
-
-                                    var foundCreditLine = Enumerable.From($scope.ExcelInvoiceCredit)
+                                    let buscarCliente = Enumerable.From($scope.ExcelClientes)
                                         .Where(function (x) {
-                                            return x.InvoiceNumber === row["INVOICE"]
-                                                && x.ItemLine === row["ITEM LINE"]
-                                                && x.ComplaintCode == row["CODE"];
+                                            return x.Cedula === objeto["CEDULA"]
                                         }).ToArray();
 
-                                    if (foundCreditLine.length > 0) {
+                                    if (buscarCliente.length === 0) {
+                                        if (!maiL_expression.test(objeto["MAIL"])) {
+                                            let mensaje = {
+                                                Mensaje: "Mail inválido: " + objeto["MAIL"] + ". Cliente: " + objeto["NOMBRE(S)"] + ". Cédula: " + objeto["CEDULA"]
+                                            }
+                                            $scope.Validaciones.push(mensaje);
+                                            continue;
+                                        }
 
-                                        var invoiceLine = row["INVOICE"] + " - " + row["ITEM LINE"]
-                                        toaster.pop({
-                                            type: "info",
-                                            body: "The invoice line: " + invoiceLine + " has the same complaint code: " + row["CODE"],
-                                            timeout: 3000,
-                                            showCloseButton: true
-                                        });
-                                        $("#labelArchivo").val("");
-                                        $scope.ArchivoSeleccionado = null;
-                                        $scope.$apply();
-                                        return;
+                                        if (!moment(objeto["FECHA_NACIMIENTO"], 'D/M/YYYY', true).isValid()) {
+                                            let mensaje = {
+                                                Mensaje: "Fecha de nacimiento inválida: " + objeto["FECHA_NACIMIENTO"] + ". Cliente: " + objeto["NOMBRE(S)"] + ". Cédula: " + objeto["CEDULA"]
+                                            }
+                                            $scope.Validaciones.push(mensaje);
+                                            continue;
+                                        }
 
-                                    } else {
-
-                                        var creditLine = {
-                                            "CustomerAccountNumber": row["CUSTOMER"],
-                                            "InvoiceNumber": row["INVOICE"],
-                                            "CustomerPONumber": "",
-                                            "CompanyCode": $scope.CompanyCode,
-                                            "ItemLine": row["ITEM LINE"],
-                                            "Complaint": row["CREDIT TYPE"],
-                                            "ComplaintCode": !isNaN(row["CODE"]) && row["CODE"] !== undefined ? parseInt(row["CODE"]) : -1,
-                                            "Units": parseInt(row["UNITS"]),
-                                            "OtherCostPerUnit": row["OTHER COST PER UNIT"],
-                                            "PreparedBy": $scope.preparedBy,
-                                            "UserId": $scope.userId,
-                                            "Validation": "Invoice Not Found",
-                                            "Status": 0
+                                        let cliente = {
+                                            "Id_Cliente": -1,
+                                            "Cedula": objeto["CEDULA"],
+                                            "Nombres": objeto["NOMBRE(S)"],
+                                            "Apellidos": objeto["APELLIDO(S)"],
+                                            "Mail": objeto["MAIL"],
+                                            "Direccion": objeto["DIRECCION"],
+                                            "Telefono_Movil": objeto["CELULAR"],
+                                            "Fecha_Nacimiento": new Date(objeto["FECHA_NACIMIENTO"]),
+                                            "Id_Tipo": 1,
+                                            "Estado": "ACTIVO",
+                                            "Id_Empresa": $scope.IdEmpresa,
+                                            "Id_Usuario_Creacion": $scope.IdUsuario
                                         };
 
-                                        $scope.ExcelInvoiceCredit.push(creditLine)
-
+                                        $scope.ExcelClientes.push(cliente)
                                     }
                                 }
                             }
 
-                            //if ($scope.ExcelInvoiceCredit.length > 0)
-                            //    $scope.ProcessFileInvoiceCredits($scope.ExcelInvoiceCredit);
+                            if ($scope.ExcelClientes.length > 0)
+                                $scope.ProcesarExcelClientes($scope.ExcelClientes);
 
                         } else {
-
                             toastr.info('El archivo seleccionado no tiene datos', '', $scope.toastrOptions);
-                            $("#labelArchivo").val("");
+                            $("#labelArchivo").val('');
                             $scope.ArchivoSeleccionado = null;
                             return;
-
                         }
 
                     } catch (e) {
-
                         toastr.error(e.message, '', $scope.toastrOptions);
-                        $("#labelArchivo").val("");
+                        $("#labelArchivo").val('');
                         $scope.ArchivoSeleccionado = null;
                         return;
-
                     }
-
-                    $("#labelArchivo").val("");
+                    $("#labelArchivo").val('');
                     $scope.ArchivoSeleccionado = null;
                 };
 
                 if (!FileReader.prototype.readAsBinaryString) {
                     FileReader.prototype.readAsBinaryString = function (fileData) {
-                        var binary = "";
+                        var binary = '';
                         var pt = this;
                         var reader = new FileReader();
                         reader.onload = function (e) {
@@ -539,11 +538,35 @@
                         reader.readAsArrayBuffer(fileData);
                     }
                 }
-
                 reader.readAsBinaryString(file);
             }
         }
 
+        $scope.ProcesarExcelClientes = function () {
+            if ($scope.Validaciones.length > 0) {
+                let mensajes = Enumerable.From($scope.Validaciones)
+                    .Select(function (x) { return x.Mensaje })
+                    .ToArray().join('\n');
+
+                let confirm = $mdDialog.confirm()
+                    .title('Validar excel')
+                    .textContent('El archivo tiene las siguientes inconsistencias: \n' + mensajes + '.\nLos registros de clientes que presentaron inconsistencias no se procesarán. \n¿Desea continuar?')
+                    .ariaLabel('Validar excel')
+                    .ok('Sí')
+                    .cancel('No')
+                    .multiple(true);
+
+                $mdDialog.show(confirm).then(function () {
+                    $scope.GuardarExcelClientes();
+                }, function () {
+                    return;
+                });
+            }
+        }
+
+        $scope.GuardarExcelClientes = function () {
+
+        }
 
         window.onresize = function () {
             $timeout(function () {
@@ -552,8 +575,6 @@
         }
 
         $scope.ValidarDatos = function () {
-            let maiL_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
-
             $scope.Cliente.Id_Barrio = $scope.BarrioSeleccionado
             $scope.Cliente.Id_Tipo = $scope.TipoClienteSeleccionado;
             $scope.Cliente.Estado = $scope.EstadoSeleccionado;
@@ -4374,7 +4395,7 @@
             $scope.ConsultarEmpleadosAutoComplete();
             $scope.ConsultarClientes();
             $scope.ConfiguracionEmpresaActual();
-            if($scope.fActiveTab === 'General')
+            if ($scope.fActiveTab === 'General')
                 $scope.ModalFiltrarCitas();
         });
 

@@ -367,6 +367,7 @@
     function SPAService($http, $rootScope, $q, serviceRest, localStorageService) {
         return {
             _registrarActualizarCliente: RegistrarActualizarCliente,
+            _registrarExcelClientes: RegistrarExcelClientes,
             _consultarClientes: ConsultarClientes,
             _consultarBarrios: ConsultarBarrios,
             _consultarMunicipios: ConsultarMunicipios,
@@ -412,6 +413,21 @@
             var deferred = $q.defer();
 
             serviceRest.Post('SPA', 'RegistrarActualizarCliente', cliente,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
+            return deferred.promise;
+        }
+
+
+        function RegistrarExcelClientes(clientes) {
+            var deferred = $q.defer();
+
+            serviceRest.Post('SPA', 'RegistrarExcelClientes', cliente,
                 function (data) {
                     deferred.resolve(data);
                 },
