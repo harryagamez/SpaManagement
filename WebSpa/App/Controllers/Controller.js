@@ -19,7 +19,7 @@
     EmpleadosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     ProductosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     GastosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
-    GestionController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+    GestionController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$timeout', '$http', 'SPAService', 'AuthService'];
     AgendaController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
     function LoginController($scope, $state, $location, $mdDialog, $rootScope, $timeout, authService) {
@@ -184,6 +184,7 @@
         $scope.DetalladoServicios = false;
         $scope.GeneralServicios = false;
         $scope.PermitirFiltrar = true;
+        $scope.ArchivoSeleccionado = null;
 
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
@@ -385,6 +386,164 @@
         $scope.FiltrarBarrios = function (id_Municipio) {
             $scope.ConsultarBarrios(id_Municipio);
         }
+
+        $scope.ImportarArchivo = function () {
+
+            $('#labelArchivo').trigger('click');
+        }
+
+        $scope.CargarArchivo = function (archivo) {
+            $scope.ArchivoSeleccionado = archivo.target.files[0];
+            $scope.ProcesarArchivo();
+        }
+
+        $scope.ProcesarArchivo = function () {
+            debugger;
+            let dataObjects = [];
+            let file = $scope.ArchivoSeleccionado;
+
+            if ((file.type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                && (file.type != "application/vnd.ms-excel")) {
+
+                toastr.info('La extensión del archivo debe ser: .xls, ó .xlsx', '', $scope.toastrOptions);
+                $("#labelArchivo").val("");
+                $scope.ArchivoSeleccionado = null;
+                $scope.$apply();
+                return;
+            }
+
+            if (file) {
+                var reader = new FileReader();
+                var name = file.name;
+                $scope.fileName = file.name;
+                reader.onload = function (e) {
+
+                    if (!e) {
+                        var data = reader.content;
+                    } else {
+                        var data = e.target.result;
+                    }
+
+                    try {
+
+                        var workbook = XLSX.read(data, { type: 'binary' });
+                        var first_sheet_name = workbook.SheetNames[0];
+
+                        dataObjects = XLSX.utils.sheet_to_json(workbook.Sheets[first_sheet_name]);
+                        $scope.ExcelInvoiceCredit = [];
+
+                        if (!dataObjects[0].hasOwnProperty("CUSTOMER") || !dataObjects[0].hasOwnProperty("INVOICE") || !dataObjects[0].hasOwnProperty("CREDIT TYPE")
+                            || !dataObjects[0].hasOwnProperty("ITEM LINE") || !dataObjects[0].hasOwnProperty("CODE") || !dataObjects[0].hasOwnProperty("UNITS")
+                            || !dataObjects[0].hasOwnProperty("OTHER COST PER UNIT")) {
+
+                            toastr.info('El formato del archivo no es correcto, por favor verifique si las columnas tienen valores vacios o los nombres de las columnas son incorrectos', '', $scope.toastrOptions);
+                            $("#labelArchivo").val("");
+                            $scope.ArchivoSeleccionado = null;
+                            $scope.$apply();
+                            return;
+                        }
+
+                        if (dataObjects.length > 0) {
+
+                            for (var row of dataObjects) {
+
+                                if (row["INVOICE"] !== undefined && row["CUSTOMER"] !== undefined
+                                    && row["ITEM LINE"] !== undefined && row["CREDIT TYPE"] !== undefined
+                                    && row["CODE"] !== undefined && row["CREDIT TYPE"] !== undefined
+                                    && row["UNITS"] !== undefined && row["OTHER COST PER UNIT"] !== undefined) {
+
+                                    var foundCreditLine = Enumerable.From($scope.ExcelInvoiceCredit)
+                                        .Where(function (x) {
+                                            return x.InvoiceNumber === row["INVOICE"]
+                                                && x.ItemLine === row["ITEM LINE"]
+                                                && x.ComplaintCode == row["CODE"];
+                                        }).ToArray();
+
+                                    if (foundCreditLine.length > 0) {
+
+                                        var invoiceLine = row["INVOICE"] + " - " + row["ITEM LINE"]
+                                        toaster.pop({
+                                            type: "info",
+                                            body: "The invoice line: " + invoiceLine + " has the same complaint code: " + row["CODE"],
+                                            timeout: 3000,
+                                            showCloseButton: true
+                                        });
+                                        $("#labelArchivo").val("");
+                                        $scope.ArchivoSeleccionado = null;
+                                        $scope.$apply();
+                                        return;
+
+                                    } else {
+
+                                        var creditLine = {
+                                            "CustomerAccountNumber": row["CUSTOMER"],
+                                            "InvoiceNumber": row["INVOICE"],
+                                            "CustomerPONumber": "",
+                                            "CompanyCode": $scope.CompanyCode,
+                                            "ItemLine": row["ITEM LINE"],
+                                            "Complaint": row["CREDIT TYPE"],
+                                            "ComplaintCode": !isNaN(row["CODE"]) && row["CODE"] !== undefined ? parseInt(row["CODE"]) : -1,
+                                            "Units": parseInt(row["UNITS"]),
+                                            "OtherCostPerUnit": row["OTHER COST PER UNIT"],
+                                            "PreparedBy": $scope.preparedBy,
+                                            "UserId": $scope.userId,
+                                            "Validation": "Invoice Not Found",
+                                            "Status": 0
+                                        };
+
+                                        $scope.ExcelInvoiceCredit.push(creditLine)
+
+                                    }
+                                }
+                            }
+
+                            //if ($scope.ExcelInvoiceCredit.length > 0)
+                            //    $scope.ProcessFileInvoiceCredits($scope.ExcelInvoiceCredit);
+
+                        } else {
+
+                            toastr.info('El archivo seleccionado no tiene datos', '', $scope.toastrOptions);
+                            $("#labelArchivo").val("");
+                            $scope.ArchivoSeleccionado = null;
+                            return;
+
+                        }
+
+                    } catch (e) {
+
+                        toastr.error(e.message, '', $scope.toastrOptions);
+                        $("#labelArchivo").val("");
+                        $scope.ArchivoSeleccionado = null;
+                        return;
+
+                    }
+
+                    $("#labelArchivo").val("");
+                    $scope.ArchivoSeleccionado = null;
+                };
+
+                if (!FileReader.prototype.readAsBinaryString) {
+                    FileReader.prototype.readAsBinaryString = function (fileData) {
+                        var binary = "";
+                        var pt = this;
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var bytes = new Uint8Array(reader.result);
+                            var length = bytes.byteLength;
+                            for (var i = 0; i < length; i++) {
+                                binary += String.fromCharCode(bytes[i]);
+                            }
+                            pt.content = binary;
+                            $(pt).trigger('onload');
+                        }
+                        reader.readAsArrayBuffer(fileData);
+                    }
+                }
+
+                reader.readAsBinaryString(file);
+            }
+        }
+
 
         window.onresize = function () {
             $timeout(function () {
@@ -3054,7 +3213,7 @@
         $scope.Inicializacion();
     }
 
-    function GestionController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+    function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, $http, SPAService, AuthService) {
         $scope.TipoPerfilSeleccionado = -1;
         $scope.NombreReadOnly = false;
         $scope.Confirmacion = '';
@@ -3179,6 +3338,11 @@
                         function (result) {
                             if (result.data === true) {
                                 toastr.success('Propiedades registradas correctamente', '', $scope.toastrOptions);
+
+                                let ids = Enumerable.From($rootScope.Empresas)
+                                    .Select(function (x) { return x.id_Empresa })
+                                    .ToArray().join(',');
+                                $scope.ConsultarEmpresaPropiedades(ids);
                             }
                         }, function (err) {
                             toastr.remove();
@@ -3188,10 +3352,14 @@
             }
         }
 
+        $scope.ConsultarEmpresaPropiedades = function (id_empresas) {
+            AuthService.consultarEmpresaPropiedades(id_empresas);
+        }
+
         $scope.ConfiguracionEmpresaActual = function () {
             try {
                 if ($scope.EmpresaPropiedades.length > 0) {
-                    let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });                    
+                    let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
                     if (papts[0].valor_Propiedad.toUpperCase() === 'SI' || papts[0].valor_Propiedad.toUpperCase() === 'SÍ')
                         $scope.PAPTS = true;
                     else
@@ -3556,9 +3724,9 @@
                 SPAService._guardarActualizarAgenda($scope.Agenda)
                     .then(
                         function (result) {
-                            if (result.data === true) {                                
+                            if (result.data === true) {
                                 $scope.LimpiarDatos();
-                                toastr.success('Agenda Registrada correctamente', '', $scope.toastrOptions);
+                                toastr.success('Agenda actualizada correctamente', '', $scope.toastrOptions);
                                 $scope.ConsultarAgenda();
                             }
                         }, function (err) {
@@ -3783,7 +3951,7 @@
             $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
 
             //Variables de Configuración
-            $scope.fEditAgenda = false;            
+            $scope.fEditAgenda = false;
             $scope.fDisableCliente = false;
             $scope.fDisableFechaCita = false;
             $scope.fDisableGuardarAgenda = false;
@@ -3992,12 +4160,12 @@
                 if ($scope.ValidarEmpleadosClientesServicios()) {
 
                     if ($scope.fEditAgenda) {
-                        $scope.AccionAgenda = 'Modificar Cita';
+                        $scope.AccionAgenda = 'Modificar cita';
                     }
                     else {
                         $scope.LimpiarDatos();
                         $scope.FechaHoraAgendaGeneral();
-                        $scope.AccionAgenda = 'Agendar Cita';
+                        $scope.AccionAgenda = 'Agendar cita';
                     }
 
                     $mdDialog.show({
@@ -4020,7 +4188,7 @@
 
         //Modal Agendar Cita Detallada
         $scope.ModalAgendaDetallada = function (horas, empleado, minutos) {
-            $scope.AccionAgenda = 'Agendar Cita';
+            $scope.AccionAgenda = 'Agendar cita';
             $scope.EmpleadoSeleccionado = empleado.nombres;
 
             $scope.FechaHoraAgendaDetallada(horas, minutos);
@@ -4040,7 +4208,7 @@
 
         //Modal Filtrar Citas
         $scope.ModalFiltrarCitas = function () {
-            $scope.AccionAgenda = 'Opciones de Consulta';
+            $scope.AccionAgenda = 'Opciones de consulta';
 
             $mdDialog.show({
                 contentElement: '#dlgFiltrarAgenda',

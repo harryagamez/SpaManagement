@@ -169,7 +169,9 @@
     <Content Include="Scripts\Toaster\toastr.min.css" />
     <Content Include="Scripts\Toaster\v2.1.4\toastr.min.css" />
     <Content Include="Scripts\Toaster\v2.1.4\toastr.min.js" />
+    <Content Include="Scripts\Xlsx\FileSaver.js" />
     <Content Include="Scripts\Xlsx\xlsx.core.min.js" />
+    <Content Include="Scripts\Xlsx\xlsx.full.min.js" />
     <Content Include="Styles\Fonts\Glyphicons\glyphicons-codes.css" />
     <Content Include="Styles\Fonts\Glyphicons\glyphicons-halflings-regular.svg" />
     <Content Include="Styles\Fonts\Glyphicons\glyphicons.css" />
