@@ -18,6 +18,7 @@ namespace Spa.Application.SpaService
         Cliente ConsultarCliente(string Cedula, string IdEmpresa);
         List<TipoServicio> ConsultarTipoServicios();
         List<Servicio> ConsultarServicios(string IdEmpresa);
+        List<Servicio> ConsultarServiciosActivos(string IdEmpresa);
         bool GuardarServicio(List<Servicio> _Servicio);
         bool EliminarImagenAdjunta(string IdImagenAdjunta);
         List<Empleado> ConsultarEmpleados(string IdEmpresa);

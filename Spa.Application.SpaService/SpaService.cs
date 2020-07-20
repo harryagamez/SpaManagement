@@ -146,6 +146,11 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarServicios(IdEmpresa);
         }
 
+        public List<Servicio> ConsultarServiciosActivos(string IdEmpresa)
+        {
+            return _spaRepository.ConsultarServiciosActivos(IdEmpresa);
+        }
+
         public bool GuardarServicio(List<Servicio> _Servicio)
         {
             return _spaRepository.GuardarServicio(_Servicio);

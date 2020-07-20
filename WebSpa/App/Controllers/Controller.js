@@ -1508,7 +1508,7 @@
 
         // Consultar Servicios
         $scope.ConsultarServicios = function () {
-            SPAService._consultarServicios($scope.IdEmpresa)
+            SPAService._consultarServiciosActivos($scope.IdEmpresa)
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
@@ -3651,8 +3651,8 @@
         }
 
         // Consultar Servicios
-        $scope.ConsultarServicios = function () {
-            SPAService._consultarServicios($scope.IdEmpresa)
+        $scope.ConsultarServiciosActivos = function () {
+            SPAService._consultarServiciosActivos($scope.IdEmpresa)
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
@@ -4206,14 +4206,14 @@
             $scope.Agendas = [];
             $scope.IdEmpresa = $rootScope.Id_Empresa;
             $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
-            $scope.ConsultarServicios();
+            $scope.ConsultarServiciosActivos();
             $scope.ConsultarEmpleadosAutoComplete();
             $scope.ConsultarClientes();
             $scope.ConfiguracionEmpresaActual();
             $scope.ModalFiltrarCitas();
         });
 
-        $scope.ConsultarServicios();
+        $scope.ConsultarServiciosActivos();
         $scope.ConsultarEmpleadosAutoComplete();
         $scope.ConsultarClientes();
         $scope.ConfiguracionEmpresaActual();

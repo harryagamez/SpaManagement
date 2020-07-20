@@ -8,6 +8,51 @@
     <div layout="row" style="height: calc(100vh - 70px);">
         <form id="frmGestion" autocomplete="nope">
             <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
+                
+                <md-tab label="CONFIGURACIONES">
+                    <md-content style="background-color:transparent; overflow:hidden;">
+
+                        <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px; margin-top:2px;">
+                            <md-button type="button" id="btnGuardarPropiedades" class="btn-spa groupX left" style="margin-left: 0px;" ng-disabled="PerfilUsuario === 'Invitado'" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarEmpresaPropiedades()">
+                                <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                            </md-button>
+                        </section>
+
+                        <div layout="row" layout-xs="column" style="padding:0;" layout-align="start center">
+                            <div>
+                                <table class="table-propiedades" style="table-layout: fixed;">
+                                    <thead>
+                                        <tr>
+                                            <th style="min-width: 460px;max-width: 460px;">Propiedad</th>
+                                            <th style="min-width: 90px; max-width: 90px;">Código</th>
+                                            <th style="min-width: 145px; max-width: 145px;">Valor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr data-ng-repeat="propiedad in SistemaPropiedades">
+                                            <td>{{propiedad.descripcion}}</td>
+                                            <td style="text-align:center; font-weight:600;">{{propiedad.codigo}}</td>
+                                            <td data-ng-show="propiedad.tipo == 'ESCALAR'">
+                                                <md-input-container style="margin:0; padding:0;">
+                                                    <input type="text" class="form-control fix-display" style="width:145px; margin:-3px 0;padding:0;" numbers-only maxlength="15" data-ng-model="propiedad.valor_Propiedad">
+                                                </md-input-container>
+                                            </td>
+                                            <td data-ng-show="propiedad.tipo == 'CONDICIONAL'">
+                                                <md-input-container style="margin:0; padding:0;">                                                    
+                                                    <md-select style="min-width:145px; max-width:145px;" class="form-control fix-display select-propiedad" data-ng-model="propiedad.valor_Propiedad">
+                                                        <md-option ng-bind="item.descripcion" ng-value="item.valor_Propiedad" ng-repeat="item in PropiedadesCondicionales track by item.valor_Propiedad"></md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </md-content>
+                </md-tab>
+
                 <md-tab label="USUARIOS">
 
                     <input type="file" name="file" id="ImagenUsuario" style="visibility:hidden;" data-toggle="tooltip" title="Upload" data-file-model="SeleccionarImagen($event)" accept=".png, .jpg, .jpeg" />
@@ -90,39 +135,7 @@
                         </div>
                     </md-content>
                 </md-tab>
-                <md-tab label="CONFIGURACIONES">
-                    <md-content style="background-color:transparent; overflow:hidden;">
 
-                        <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px; margin-top:2px;">
-                            <md-button type="button" id="btnGuardarPropiedades" class="btn-spa groupX left" style="margin-left: 0px;" ng-disabled="PerfilUsuario === 'Invitado'" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarEmpresaPropiedades()">
-                                <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
-                            </md-button>
-                        </section>
-
-                        <div layout="row" layout-xs="column" style="padding:10px 0;" layout-align="center center">
-                            <div>
-                                <table class="table-custom" style="table-layout: fixed;">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 170px;">Propiedad</th>
-                                            <th style="width: 120px;">Código</th>
-                                            <th style="">Valor</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr data-ng-repeat="propiedad in SistemaPropiedades">
-                                            <td>{{propiedad.descripcion }}</td>
-                                            <td>{{propiedad.codigo}}</td>
-                                            <td><input type="text" class="form-control fix-display" numbers-only data-ng-show="propiedad.tipo == 'ESCALAR'" data-ng-model="propiedad.valor_Propiedad" /></td>
-                                            <td><select style="width:98%;" class="form-control fix-display" data-ng-show="propiedad.tipo == 'CONDICIONAL'" data-ng-model="propiedad.valor_Propiedad" data-ng-options="item.valor_Propiedad as item.descripcion for item in PropiedadesCondicionales"></select></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                    </md-content>
-                </md-tab>
             </md-tabs>
         </form>
     </div>

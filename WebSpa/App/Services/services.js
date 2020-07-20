@@ -374,6 +374,7 @@
             _consultarCliente: ConsultarCliente,
             _consultarTipoServicios: ConsultarTipoServicios,
             _consultarServicios: ConsultarServicios,
+            _consultarServiciosActivos: ConsultarServiciosActivos,
             _guardarServicio: GuardarServicio,
             _eliminarImagenAdjunta: EliminarImagenAdjunta,
             _consultarEmpleados: ConsultarEmpleados,
@@ -512,6 +513,18 @@
         function ConsultarServicios(id_empresa) {
             var deferred = $q.defer();
             serviceRest.Get('SPA', 'ConsultarServicios?IdEmpresa=' + id_empresa,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarServiciosActivos(id_empresa) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarServiciosActivos?IdEmpresa=' + id_empresa,
                 function (data) {
                     deferred.resolve(data);
                 },

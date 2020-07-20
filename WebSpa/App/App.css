@@ -903,14 +903,50 @@ md-card md-card-title {
     padding-top:10px !important;
 }
 
-.table-custom tbody td {
-    padding-top: 2px;
-    padding-bottom: 2px;
+.table-propiedades {
+    font-size:13px;
+    border:1px solid #e1e1e1;    
 }
 
-.table-custom-th {
-    padding-left: 15px;
-    padding-right: 15px;
+.table-propiedades thead tr, .table-propiedades tbody tr {
+    padding:10px;
+}
+
+    .table-propiedades thead tr th {
+        text-transform: uppercase;
+        text-align: center;
+        background-color: #385178;
+        color: white;
+        padding: 1px;
+        border-right: 1px dotted #e1e1e1;
+        height: 20px;
+        font-size: 15px;
+    }  
+
+
+.table-propiedades tbody td {    
+    padding:5px;
+    border-right:1px dotted #e1e1e1;
+    border-bottom:1px solid #e1e1e1;
+}
+    
+
+.table-propiedades tbody tr {
+    height:30px;
+    font-size:13px;
+}
+
+.table-propiedades tbody tr:nth-child(odd) {
+    background-color:#f9f9f9;
+}
+
+    .table-propiedades tbody tr:hover {
+        background-color: #a5c0ca;
+        color:white;
+    }    
+
+.select-propiedad .md-select-value {
+    margin-top: -6px;
 }
 
 .select-multiempresa {
@@ -921,11 +957,12 @@ md-card md-card-title {
     min-width: 290px !important;
     overflow: hidden;
     white-space: nowrap;
-    font-weight:800;
-    box-shadow:none;
+    font-weight: 800;
+    box-shadow: none;
 }
 
     .select-multiempresa:hover {
         box-shadow: 0 0px 5px rgba(0, 0, 0, 0.075);
         background-color:#f1f1f1;
     }
+

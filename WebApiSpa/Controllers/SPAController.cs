@@ -195,6 +195,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/SPA/ConsultarServiciosActivos")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarServiciosActivos(string IdEmpresa)
+        {
+            try
+            {
+                List<Servicio> _servicios = _spaService.ConsultarServiciosActivos(IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _servicios);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los servicios activos: " + ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("api/SPA/GuardarServicio")]
         [HttpCache(DefaultExpirySeconds = 2)]
