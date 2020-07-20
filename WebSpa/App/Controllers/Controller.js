@@ -4374,7 +4374,8 @@
             $scope.ConsultarEmpleadosAutoComplete();
             $scope.ConsultarClientes();
             $scope.ConfiguracionEmpresaActual();
-            $scope.ModalFiltrarCitas();
+            if($scope.fActiveTab === 'General')
+                $scope.ModalFiltrarCitas();
         });
 
         $scope.ConsultarServiciosActivos();

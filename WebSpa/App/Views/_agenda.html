@@ -9,7 +9,7 @@
         <form id="frmAgenda">
 
             <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
-                <md-tab label="General">
+                <md-tab label="General" data-ng-click="fActiveTab = 'General'">
                     <md-content class="md-padding" style="background-color:transparent; padding:30px 0 0 0; margin: 0 0 0 -5px;">                        
 
                         <div type="button" id="btnAgendarCita" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Agendar Cita" data-ng-click="ModalAgendaGeneral()">
@@ -67,7 +67,7 @@
                     </md-content>
                 </md-tab>
 
-                <md-tab label="Detallada">
+                <md-tab label="Detallada" data-ng-click="fActiveTab = 'Detallada'">
                     <md-content class="md-padding" style="background-color:transparent; margin-bottom:10px;">
                         <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
                             <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Buscar" data-ng-click="ConsultarAgenda()">
