@@ -3556,11 +3556,7 @@
                 SPAService._guardarActualizarAgenda($scope.Agenda)
                     .then(
                         function (result) {
-                            if (result.data === true) {
-
-                                if ($scope.AccionAgenda == 'Agendar Cita') {
-                                    $scope.Cancelar();
-                                }
+                            if (result.data === true) {                                
                                 $scope.LimpiarDatos();
                                 toastr.success('Agenda Registrada correctamente', '', $scope.toastrOptions);
                                 $scope.ConsultarAgenda();
