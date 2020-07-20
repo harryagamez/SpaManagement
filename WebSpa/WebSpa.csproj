@@ -163,13 +163,16 @@
     <Content Include="Scripts\JQuery\v3.5.0\jquery.js" />
     <Content Include="Scripts\Linq\linq3.js" />
     <Content Include="Scripts\Moment\Moment-Locales_2.20.0.js" />
+    <Content Include="Scripts\Moment\moment.min.js" />
     <Content Include="Scripts\SweetAlert\sweet-alert.css" />
     <Content Include="Scripts\SweetAlert\sweet-alert.min.js" />
     <Content Include="Scripts\Toaster\toastr.js" />
     <Content Include="Scripts\Toaster\toastr.min.css" />
     <Content Include="Scripts\Toaster\v2.1.4\toastr.min.css" />
     <Content Include="Scripts\Toaster\v2.1.4\toastr.min.js" />
+    <Content Include="Scripts\Xlsx\FileSaver.js" />
     <Content Include="Scripts\Xlsx\xlsx.core.min.js" />
+    <Content Include="Scripts\Xlsx\xlsx.full.min.js" />
     <Content Include="Styles\Fonts\Glyphicons\glyphicons-codes.css" />
     <Content Include="Styles\Fonts\Glyphicons\glyphicons-halflings-regular.svg" />
     <Content Include="Styles\Fonts\Glyphicons\glyphicons.css" />
@@ -223,6 +226,7 @@
     <Content Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </Content>
+    <Content Include="App\Documents\Plantilla_Clientes.xlsx" />
     <None Include="packages.config" />
     <Content Include="Styles\Fonts\Open_Sans\open-sans-v17-latin-300.eot" />
     <Content Include="Styles\Fonts\Open_Sans\open-sans-v17-latin-300.ttf" />

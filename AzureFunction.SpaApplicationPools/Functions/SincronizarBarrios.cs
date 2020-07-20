@@ -39,7 +39,7 @@ namespace AzureFunction.SpaApplicationPools.Functions
                 _connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
                 SpaService = new SpaService(_connectionString);
 
-                SincronizarBarriosMedellin(_endPointMed, _apiMed, "MEDELLÍN");
+                SincronizarBarriosMedellin(_endPointMed, _apiMed, "MEDELLIN");
                 SincronizarBarriosEnvigado(_endPoint, _apiEnv, "ENVIGADO");
                 SincronizarBarriosItagui(_endPoint, _apiIta, "ITAGUI");
 

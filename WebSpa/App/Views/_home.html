@@ -18,7 +18,7 @@
                     <md-select class="select-multiempresa" ng-model="EmpresaSeleccionada" style="" id="slEstado" ng-show="MultipleEmpresa" ng-change="FiltrarEmpresa(EmpresaSeleccionada)">
                         <md-option ng-bind="empresa.nombre" ng-value="empresa.id_Empresa" ng-repeat="empresa in Empresas track by empresa.id_Empresa"></md-option>
                     </md-select>
-                    <li><a href="" ng-click="Logout()"><img src="../../Images/cerrar-sesion.png" style="max-width: 25px; max-height: 25px; min-height: 25px; min-width: 25px; float: right;" data-toggle="tooltip" title="Cerrar Sesión"/></a></li>
+                    <li><a href="" ng-click="Logout()"><img src="../../Images/cerrar-sesion.png" style="max-width: 25px; max-height: 25px; min-height: 25px; min-width: 25px; float: right;" data-toggle="tooltip" title="Cerrar sesión"/></a></li>
                 </ul>
             </div>
         </div>
@@ -34,7 +34,6 @@
 <div class="background-image"></div>
 <div class="wrapper">
     <section id="section">
-        <!--<img src="../../Images/spa_.png" style="display:block; margin:auto; width: 75%; opacity: 0.15; padding-top:30px; position:fixed; z-index:0; filter:grayscale(80%)" />-->
         <ui-view>
             <div>
             </div>

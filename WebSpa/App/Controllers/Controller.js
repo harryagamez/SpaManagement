@@ -19,7 +19,7 @@
     EmpleadosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     ProductosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     GastosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
-    GestionController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+    GestionController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$timeout', '$http', 'SPAService', 'AuthService'];
     AgendaController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
     function LoginController($scope, $state, $location, $mdDialog, $rootScope, $timeout, authService) {
@@ -184,6 +184,10 @@
         $scope.DetalladoServicios = false;
         $scope.GeneralServicios = false;
         $scope.PermitirFiltrar = true;
+        $scope.ArchivoSeleccionado = null;
+        $scope.ExcelClientes = [];
+        $scope.Validaciones = [];
+        const maiL_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
 
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
@@ -386,6 +390,184 @@
             $scope.ConsultarBarrios(id_Municipio);
         }
 
+        $scope.ImportarArchivo = function () {
+            $('#labelArchivo').trigger('click');
+        }
+
+        $scope.CargarArchivo = function (archivo) {
+            $scope.ArchivoSeleccionado = archivo.target.files[0];
+            $scope.ProcesarArchivo();
+        }
+
+        $scope.ProcesarArchivo = function () {
+            let ObjetoDatos = [];
+            let file = $scope.ArchivoSeleccionado;
+
+            if ((file.type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                && (file.type != "application/vnd.ms-excel")) {
+
+                toastr.info('La extensión del archivo debe ser: .xls, ó .xlsx', '', $scope.toastrOptions);
+                $("#labelArchivo").val('');
+                $scope.ArchivoSeleccionado = null;
+                $scope.$apply();
+                return;
+            }
+
+            if (file) {
+                var reader = new FileReader();
+                var name = file.name;
+                $scope.fileName = file.name;
+                reader.onload = function (e) {
+                    if (!e) {
+                        var data = reader.content;
+                    } else {
+                        var data = e.target.result;
+                    }
+
+                    try {
+
+                        let workbook = XLSX.read(data, { type: 'binary', cellDates: true });
+                        let first_sheet_name = workbook.SheetNames[0];
+
+                        ObjetoDatos = XLSX.utils.sheet_to_json(workbook.Sheets[first_sheet_name], { raw: false });
+                        $scope.ExcelClientes = [];
+                        $scope.Validaciones = [];
+
+                        if (!ObjetoDatos[0].hasOwnProperty("CEDULA") || !ObjetoDatos[0].hasOwnProperty("NOMBRE(S)") || !ObjetoDatos[0].hasOwnProperty("APELLIDO(S)")
+                            || !ObjetoDatos[0].hasOwnProperty("MAIL") || !ObjetoDatos[0].hasOwnProperty("DIRECCION") || !ObjetoDatos[0].hasOwnProperty("MUNICIPIO")
+                            || !ObjetoDatos[0].hasOwnProperty("CELULAR") || !ObjetoDatos[0].hasOwnProperty("FECHA_NACIMIENTO")) {
+
+                            toastr.info('El formato del archivo no es correcto, por favor verifique si las columnas tienen valores vacios o los nombres de las columnas son incorrectos', '', $scope.toastrOptions);
+                            $("#labelArchivo").val("");
+                            $scope.ArchivoSeleccionado = null;
+                            $scope.$apply();
+                            return;
+                        }
+
+                        if (ObjetoDatos.length > 0) {
+                            for (let objeto of ObjetoDatos) {
+                                if (objeto["CEDULA"] !== undefined && objeto["NOMBRE(S)"] !== undefined
+                                    && objeto["APELLIDO(S)"] !== undefined && objeto["MAIL"] !== undefined
+                                    && objeto["DIRECCION"] !== undefined && objeto["MUNICIPIO"] !== undefined
+                                    && objeto["CELULAR"] !== undefined && objeto["FECHA_NACIMIENTO"] !== undefined) {
+                 
+                                    if (objeto["CEDULA"] === undefined || objeto["CEDULA"] === '') {
+                                        let mensaje = {
+                                            Mensaje: "El campo cédula esta vacio. Cliente: " + objeto["NOMBRE(S)"]
+                                        }
+                                        $scope.Validaciones.push(mensaje);
+                                        continue;
+                                    }
+
+                                    let buscarCliente = Enumerable.From($scope.ExcelClientes)
+                                        .Where(function (x) {
+                                            return x.Cedula === objeto["CEDULA"]
+                                        }).ToArray();
+
+                                    if (buscarCliente.length === 0) {
+                                        if (!maiL_expression.test(objeto["MAIL"])) {
+                                            let mensaje = {
+                                                Mensaje: "Mail inválido: " + objeto["MAIL"] + ". Cliente: " + objeto["NOMBRE(S)"] + ". Cédula: " + objeto["CEDULA"]
+                                            }
+                                            $scope.Validaciones.push(mensaje);
+                                            continue;
+                                        }
+
+                                        if (!moment(objeto["FECHA_NACIMIENTO"], 'D/M/YYYY', true).isValid()) {
+                                            let mensaje = {
+                                                Mensaje: "Fecha de nacimiento inválida: " + objeto["FECHA_NACIMIENTO"] + ". Cliente: " + objeto["NOMBRE(S)"] + ". Cédula: " + objeto["CEDULA"]
+                                            }
+                                            $scope.Validaciones.push(mensaje);
+                                            continue;
+                                        }
+
+                                        let cliente = {
+                                            "Id_Cliente": -1,
+                                            "Cedula": objeto["CEDULA"],
+                                            "Nombres": objeto["NOMBRE(S)"],
+                                            "Apellidos": objeto["APELLIDO(S)"],
+                                            "Mail": objeto["MAIL"],
+                                            "Direccion": objeto["DIRECCION"],
+                                            "Telefono_Movil": objeto["CELULAR"],
+                                            "Fecha_Nacimiento": new Date(objeto["FECHA_NACIMIENTO"]),
+                                            "Id_Tipo": 1,
+                                            "Estado": "ACTIVO",
+                                            "Id_Empresa": $scope.IdEmpresa,
+                                            "Id_Usuario_Creacion": $scope.IdUsuario
+                                        };
+
+                                        $scope.ExcelClientes.push(cliente)
+                                    }
+                                }
+                            }
+
+                            if ($scope.ExcelClientes.length > 0)
+                                $scope.ProcesarExcelClientes($scope.ExcelClientes);
+
+                        } else {
+                            toastr.info('El archivo seleccionado no tiene datos', '', $scope.toastrOptions);
+                            $("#labelArchivo").val('');
+                            $scope.ArchivoSeleccionado = null;
+                            return;
+                        }
+
+                    } catch (e) {
+                        toastr.error(e.message, '', $scope.toastrOptions);
+                        $("#labelArchivo").val('');
+                        $scope.ArchivoSeleccionado = null;
+                        return;
+                    }
+                    $("#labelArchivo").val('');
+                    $scope.ArchivoSeleccionado = null;
+                };
+
+                if (!FileReader.prototype.readAsBinaryString) {
+                    FileReader.prototype.readAsBinaryString = function (fileData) {
+                        var binary = '';
+                        var pt = this;
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var bytes = new Uint8Array(reader.result);
+                            var length = bytes.byteLength;
+                            for (var i = 0; i < length; i++) {
+                                binary += String.fromCharCode(bytes[i]);
+                            }
+                            pt.content = binary;
+                            $(pt).trigger('onload');
+                        }
+                        reader.readAsArrayBuffer(fileData);
+                    }
+                }
+                reader.readAsBinaryString(file);
+            }
+        }
+
+        $scope.ProcesarExcelClientes = function () {
+            if ($scope.Validaciones.length > 0) {
+                let mensajes = Enumerable.From($scope.Validaciones)
+                    .Select(function (x) { return x.Mensaje })
+                    .ToArray().join('\n');
+
+                let confirm = $mdDialog.confirm()
+                    .title('Validar excel')
+                    .textContent('El archivo tiene las siguientes inconsistencias: \n' + mensajes + '.\nLos registros de clientes que presentaron inconsistencias no se procesarán. \n¿Desea continuar?')
+                    .ariaLabel('Validar excel')
+                    .ok('Sí')
+                    .cancel('No')
+                    .multiple(true);
+
+                $mdDialog.show(confirm).then(function () {
+                    $scope.GuardarExcelClientes();
+                }, function () {
+                    return;
+                });
+            }
+        }
+
+        $scope.GuardarExcelClientes = function () {
+
+        }
+
         window.onresize = function () {
             $timeout(function () {
                 $scope.ClientesGridOptions.api.sizeColumnsToFit();
@@ -393,8 +575,6 @@
         }
 
         $scope.ValidarDatos = function () {
-            let maiL_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
-
             $scope.Cliente.Id_Barrio = $scope.BarrioSeleccionado
             $scope.Cliente.Id_Tipo = $scope.TipoClienteSeleccionado;
             $scope.Cliente.Estado = $scope.EstadoSeleccionado;
@@ -3054,7 +3234,7 @@
         $scope.Inicializacion();
     }
 
-    function GestionController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+    function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, $http, SPAService, AuthService) {
         $scope.TipoPerfilSeleccionado = -1;
         $scope.NombreReadOnly = false;
         $scope.Confirmacion = '';
@@ -3179,6 +3359,11 @@
                         function (result) {
                             if (result.data === true) {
                                 toastr.success('Propiedades registradas correctamente', '', $scope.toastrOptions);
+
+                                let ids = Enumerable.From($rootScope.Empresas)
+                                    .Select(function (x) { return x.id_Empresa })
+                                    .ToArray().join(',');
+                                $scope.ConsultarEmpresaPropiedades(ids);
                             }
                         }, function (err) {
                             toastr.remove();
@@ -3186,6 +3371,10 @@
                                 toastr.error(err.data, '', $scope.toastrOptions);
                         })
             }
+        }
+
+        $scope.ConsultarEmpresaPropiedades = function (id_empresas) {
+            AuthService.consultarEmpresaPropiedades(id_empresas);
         }
 
         $scope.ConfiguracionEmpresaActual = function () {
@@ -3558,7 +3747,7 @@
                         function (result) {
                             if (result.data === true) {
                                 $scope.LimpiarDatos();
-                                toastr.success('Agenda Registrada correctamente', '', $scope.toastrOptions);
+                                toastr.success('Agenda actualizada correctamente', '', $scope.toastrOptions);
                                 $scope.ConsultarAgenda();
                             }
                         }, function (err) {
@@ -3988,12 +4177,12 @@
             if ($scope.fPropertiesSetted) {
                 if ($scope.ValidarEmpleadosClientesServicios()) {
                     if ($scope.fEditAgenda) {
-                        $scope.AccionAgenda = 'Modificar Cita';
+                        $scope.AccionAgenda = 'Modificar cita';
                     }
                     else {
                         $scope.LimpiarDatos();
                         $scope.FechaHoraAgendaGeneral();
-                        $scope.AccionAgenda = 'Agendar Cita';
+                        $scope.AccionAgenda = 'Agendar cita';
                     }
 
                     $mdDialog.show({
@@ -4016,7 +4205,7 @@
 
         //Modal Agendar Cita Detallada
         $scope.ModalAgendaDetallada = function (horas, empleado, minutos) {
-            $scope.AccionAgenda = 'Agendar Cita';
+            $scope.AccionAgenda = 'Agendar cita';
             $scope.EmpleadoSeleccionado = empleado.nombres;
 
             $scope.FechaHoraAgendaDetallada(horas, minutos);
@@ -4036,7 +4225,7 @@
 
         //Modal Filtrar Citas
         $scope.ModalFiltrarCitas = function () {
-            $scope.AccionAgenda = 'Opciones de Consulta';
+            $scope.AccionAgenda = 'Opciones de consulta';
 
             $mdDialog.show({
                 contentElement: '#dlgFiltrarAgenda',
