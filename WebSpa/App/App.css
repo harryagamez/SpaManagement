@@ -964,10 +964,5 @@ md-card md-card-title {
     font-weight: 800;
     box-shadow: none;
     box-shadow: 0 0px 5px rgba(0, 0, 0, 0.075);
-    background-color: #f1f1f1;
-}
-
-    .select-multiempresa:focus {        
-        background-color: #f1f1f1;
-        border: none;
-    }
+    background-color: #f1f1f1;    
+}  

@@ -3738,14 +3738,14 @@
             Fecha_Inicio: '',
             Fecha_Fin: '',
             Estado: 'PROGRAMADA',
-            Observaciones: '',
-            HasChanged: false
+            Observaciones: ''
         };
 
         //Api
         //Guardar Actualizar Cita
         $scope.GuardarActualizarAgenda = function () {
             if ($scope.ValidarNuevaAgenda()) {
+                debugger;
                 SPAService._guardarActualizarAgenda($scope.Agenda)
                     .then(
                         function (result) {
@@ -3987,7 +3987,7 @@
             
 
             $scope.Agenda = {
-                Id_Agenda: -1,
+                Id_Agenda: -1,                
                 Id_Empresa: $scope.IdEmpresa,
                 Id_Cliente: '',
                 Id_Empleado: '',
@@ -3995,8 +3995,10 @@
                 Fecha_Inicio: '',
                 Fecha_Fin: '',
                 Estado: 'PROGRAMADA',
-                Observaciones: '',
-                HasChanged: false
+                Observaciones: '',                
+                Nombre_Empresa: $rootScope.Nombre_Empresa,
+                NombreApellido_Empleado: '',
+                NombreApellido_Cliente: ''
             };
         }
 
@@ -4045,6 +4047,8 @@
 
             if (!$scope.fEditAgenda) {
 
+                debugger;
+
                 if ($scope.EmpleadoSeleccionadoModal === '' || $scope.EmpleadoSeleccionadoModal === null || $scope.EmpleadoSeleccionadoModal === undefined) {
                     toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
                     $('#acEmpleadosModal').focus();
@@ -4052,6 +4056,7 @@
                 }
 
                 $scope.Agenda.Id_Empleado = $scope.EmpleadoSeleccionadoModal.id_Empleado;
+                $scope.Agenda.NombreApellido_Empleado = $scope.EmpleadoSeleccionadoModal.nombres + ' ' + $scope.EmpleadoSeleccionadoModal.apellidos;
 
                 if ($scope.ClienteSeleccionadoModal === '' || $scope.ClienteSeleccionadoModal === null || $scope.ClienteSeleccionadoModal === undefined) {
                     toastr.info('Debe seleccionar un cliente', '', $scope.toastrOptions);
@@ -4060,6 +4065,8 @@
                 }
 
                 $scope.Agenda.Id_Cliente = $scope.ClienteSeleccionadoModal.id_Cliente;
+                $scope.Agenda.NombreApellido_Cliente = $scope.ClienteSeleccionadoModal.nombres + ' ' + $scope.ClienteSeleccionadoModal.apellidos;
+                $scope.Agenda.Mail_Cliente = $scope.ClienteSeleccionadoModal.mail;
 
                 if ($scope.ServicioSeleccionadoModal === -1 || $scope.ServicioSeleccionadoModal === null) {
                     toastr.info('Debe seleccionar un servicio', '', $scope.toastrOptions);
@@ -4133,10 +4140,7 @@
                     toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
                     $('#acEmpleadosModal').focus();
                     return false;
-                }
-
-                if ($scope.EmpleadoSeleccionadoModal.id_Empleado !== $scope.TempAgenda.id_Empleado)
-                    $scope.Agenda.HasChanged = true;
+                }                
 
                 $scope.Agenda.Id_Empleado = $scope.EmpleadoSeleccionadoModal.id_Empleado;
 
@@ -4210,13 +4214,7 @@
                 }
 
                 $scope.TempAgenda.fecha_Inicio = new Date($scope.TempAgenda.fecha_Inicio);
-                $scope.TempAgenda.fecha_Fin = new Date($scope.TempAgenda.fecha_Fin);
-
-                if ($scope.TempAgenda.fecha_Inicio.getHours() !== $scope.Agenda.Fecha_Inicio.getHours() || $scope.TempAgenda.fecha_Inicio.getMinutes() !== $scope.Agenda.Fecha_Inicio.getMinutes())                    
-                    $scope.Agenda.HasChanged = true;                
-
-                if ($scope.TempAgenda.fecha_Fin.getHours() !== $scope.Agenda.Fecha_Fin.getHours() || $scope.TempAgenda.fecha_Fin.getMinutes() !== $scope.Agenda.Fecha_Fin.getMinutes())                  
-                    $scope.Agenda.HasChanged = true;                              
+                $scope.TempAgenda.fecha_Fin = new Date($scope.TempAgenda.fecha_Fin);                                             
 
                 $scope.Agenda.Fecha_Inicio = new Date($scope.Agenda.Fecha_Inicio + 'Z');
                 $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');
