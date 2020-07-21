@@ -3715,6 +3715,9 @@
         $scope.FechaActual = new Date();
         $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
 
+        //Variables Temporales
+        $scope.TempAgenda = null;
+
         //Variables de Configuración
         $scope.fPropertiesSetted = false;
         $scope.PAPTS = false;
@@ -3735,7 +3738,8 @@
             Fecha_Inicio: '',
             Fecha_Fin: '',
             Estado: 'PROGRAMADA',
-            Observaciones: ''
+            Observaciones: '',
+            HasChanged: false
         };
 
         //Api
@@ -3928,6 +3932,8 @@
 
         //Editar Agenda
         $scope.EditarAgenda = function (agenda) {
+            $scope.TempAgenda = null;
+            $scope.TempAgenda = agenda;            
             let fechafin = new Date(agenda.fecha_Fin);
             $scope.EmpleadoSeleccionadoModal = {
                 id_Empleado: agenda.id_Empleado,
@@ -3968,6 +3974,9 @@
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
             $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
 
+            //Variables Temporales
+            $scope.TempAgenda = null;
+
             //Variables de Configuración
             $scope.fEditAgenda = false;
             $scope.fDisableCliente = false;
@@ -3975,6 +3984,7 @@
             $scope.fDisableGuardarAgenda = false;
             $scope.fDisableServiciosM = true;
             $scope.fDisableServicios = true;
+            
 
             $scope.Agenda = {
                 Id_Agenda: -1,
@@ -3985,7 +3995,8 @@
                 Fecha_Inicio: '',
                 Fecha_Fin: '',
                 Estado: 'PROGRAMADA',
-                Observaciones: ''
+                Observaciones: '',
+                HasChanged: false
             };
         }
 
@@ -4031,89 +4042,189 @@
 
         //Validar Nueva Agenda
         $scope.ValidarNuevaAgenda = function () {
-            if ($scope.EmpleadoSeleccionadoModal === '' || $scope.EmpleadoSeleccionadoModal === null || $scope.EmpleadoSeleccionadoModal === undefined) {
-                toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
-                $('#acEmpleadosModal').focus();
-                return false;
+
+            if (!$scope.fEditAgenda) {
+
+                if ($scope.EmpleadoSeleccionadoModal === '' || $scope.EmpleadoSeleccionadoModal === null || $scope.EmpleadoSeleccionadoModal === undefined) {
+                    toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
+                    $('#acEmpleadosModal').focus();
+                    return false;
+                }
+
+                $scope.Agenda.Id_Empleado = $scope.EmpleadoSeleccionadoModal.id_Empleado;
+
+                if ($scope.ClienteSeleccionadoModal === '' || $scope.ClienteSeleccionadoModal === null || $scope.ClienteSeleccionadoModal === undefined) {
+                    toastr.info('Debe seleccionar un cliente', '', $scope.toastrOptions);
+                    $('#acClientesModal').focus();
+                    return false;
+                }
+
+                $scope.Agenda.Id_Cliente = $scope.ClienteSeleccionadoModal.id_Cliente;
+
+                if ($scope.ServicioSeleccionadoModal === -1 || $scope.ServicioSeleccionadoModal === null) {
+                    toastr.info('Debe seleccionar un servicio', '', $scope.toastrOptions);
+                    $('#slServiciosModal').focus();
+                    return false;
+                }
+
+                $scope.Agenda.Id_Servicio = $scope.ServicioSeleccionadoModal;
+
+                if ($scope.FechaInicio === undefined) {
+                    toastr.info('Formato de fecha inválido', '', $scope.toastrOptions);
+                    $('#dpFecha').focus();
+                    return false;
+                }
+
+                if ($scope.FechaInicio === '' || $scope.FechaInicio === null) {
+                    toastr.info('Debe seleccionar una fecha', '', $scope.toastrOptions);
+                    $('#dpFecha').focus();
+                    return false;
+                }
+
+                if ($scope.HoraInicio === undefined) {
+                    toastr.info('Formato de hora inválido ', '', $scope.toastrOptions);
+                    $('#timeInicio').focus();
+                    return false;
+                }
+
+                if ($scope.HoraInicio === '' || $scope.HoraInicio === null) {
+                    toastr.info('Debe seleccionar una hora de inicio', '', $scope.toastrOptions);
+                    $('#timeInicio').focus();
+                    return false;
+                }
+
+                if ($scope.HoraFin === undefined) {
+                    toastr.info('Formato de hora inválido ', '', $scope.toastrOptions);
+                    $('#timeFin').focus();
+                    return false;
+                }
+
+                if ($scope.HoraFin === '' || $scope.HoraFin === null) {
+                    toastr.info('Debe seleccionar una hora fin', '', $scope.toastrOptions);
+                    $('#timeFin').focus();
+                    return false;
+                }                
+
+                $scope.Agenda.Fecha_Inicio = angular.copy($scope.FechaInicio);
+                $scope.Agenda.Fecha_Inicio.setHours($scope.HoraInicio.getHours(), $scope.HoraInicio.getMinutes(), 0, 0);
+                $scope.Agenda.Fecha_Fin = angular.copy($scope.FechaInicio);
+                $scope.Agenda.Fecha_Fin.setHours($scope.HoraFin.getHours(), $scope.HoraFin.getMinutes(), 0, 0);
+                
+                $scope.Agenda.Fecha_Inicio = new Date($scope.Agenda.Fecha_Inicio + 'Z');
+                $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z'); 
+
+                if ($scope.Agenda.Fecha_Inicio.getHours() === $scope.Agenda.Fecha_Fin.getHours() && $scope.Agenda.Fecha_Inicio.getMinutes() === $scope.Agenda.Fecha_Fin.getMinutes()) {
+                    toastr.info('Debe especificar la duración de la cita seleccionando una hora fin', '', $scope.toastrOptions);
+                    $('#timeFin').focus();
+                    return false;
+                }
+
+                if ($scope.Agenda.Observaciones === '' || $scope.Agenda.Observaciones === null) {
+                    toastr.info('El campo "Observaciones" no puede estar vacío', '', $scope.toastrOptions);
+                    $('#txtObservaciones').focus();
+                    return false;
+                }               
+
+                return true;
+
+            } else if ($scope.fEditAgenda) {                
+
+                if ($scope.EmpleadoSeleccionadoModal === '' || $scope.EmpleadoSeleccionadoModal === null || $scope.EmpleadoSeleccionadoModal === undefined) {
+                    toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
+                    $('#acEmpleadosModal').focus();
+                    return false;
+                }
+
+                if ($scope.EmpleadoSeleccionadoModal.id_Empleado !== $scope.TempAgenda.id_Empleado)
+                    $scope.Agenda.HasChanged = true;
+
+                $scope.Agenda.Id_Empleado = $scope.EmpleadoSeleccionadoModal.id_Empleado;
+
+                if ($scope.ClienteSeleccionadoModal === '' || $scope.ClienteSeleccionadoModal === null || $scope.ClienteSeleccionadoModal === undefined) {
+                    toastr.info('Debe seleccionar un cliente', '', $scope.toastrOptions);
+                    $('#acClientesModal').focus();
+                    return false;
+                }
+
+                $scope.Agenda.Id_Cliente = $scope.ClienteSeleccionadoModal.id_Cliente;
+
+                if ($scope.ServicioSeleccionadoModal === -1 || $scope.ServicioSeleccionadoModal === null) {
+                    toastr.info('Debe seleccionar un servicio', '', $scope.toastrOptions);
+                    $('#slServiciosModal').focus();
+                    return false;
+                }
+
+                $scope.Agenda.Id_Servicio = $scope.ServicioSeleccionadoModal;
+
+                if ($scope.FechaInicio === undefined) {
+                    toastr.info('Formato de fecha inválido', '', $scope.toastrOptions);
+                    $('#dpFecha').focus();
+                    return false;
+                }
+
+                if ($scope.FechaInicio === '' || $scope.FechaInicio === null) {
+                    toastr.info('Debe seleccionar una fecha', '', $scope.toastrOptions);
+                    $('#dpFecha').focus();
+                    return false;
+                }
+
+                if ($scope.HoraInicio === undefined) {
+                    toastr.info('Formato de hora inválido ', '', $scope.toastrOptions);
+                    $('#timeInicio').focus();
+                    return false;
+                }
+
+                if ($scope.HoraInicio === '' || $scope.HoraInicio === null) {
+                    toastr.info('Debe seleccionar una hora de inicio', '', $scope.toastrOptions);
+                    $('#timeInicio').focus();
+                    return false;
+                }
+
+                if ($scope.HoraFin === undefined) {
+                    toastr.info('Formato de hora inválido ', '', $scope.toastrOptions);
+                    $('#timeFin').focus();
+                    return false;
+                }
+
+                if ($scope.HoraFin === '' || $scope.HoraFin === null) {
+                    toastr.info('Debe seleccionar una hora fin', '', $scope.toastrOptions);
+                    $('#timeFin').focus();
+                    return false;
+                }                
+
+                $scope.Agenda.Fecha_Inicio = angular.copy($scope.FechaInicio);
+                $scope.Agenda.Fecha_Inicio.setHours($scope.HoraInicio.getHours(), $scope.HoraInicio.getMinutes(), 0, 0);
+                $scope.Agenda.Fecha_Fin = angular.copy($scope.FechaInicio);
+                $scope.Agenda.Fecha_Fin.setHours($scope.HoraFin.getHours(), $scope.HoraFin.getMinutes(), 0, 0);
+
+                if ($scope.Agenda.Fecha_Inicio.getHours() === $scope.Agenda.Fecha_Fin.getHours() && $scope.Agenda.Fecha_Inicio.getMinutes() === $scope.Agenda.Fecha_Fin.getMinutes()) {
+                    toastr.info('Debe especificar la duración de la cita seleccionando una hora fin', '', $scope.toastrOptions);
+                    $('#timeFin').focus();
+                    return false;
+                }
+
+                if ($scope.Agenda.Observaciones === '' || $scope.Agenda.Observaciones === null) {
+                    toastr.info('El campo "Observaciones" no puede estar vacío', '', $scope.toastrOptions);
+                    $('#txtObservaciones').focus();
+                    return false;
+                }
+
+                $scope.TempAgenda.fecha_Inicio = new Date($scope.TempAgenda.fecha_Inicio);
+                $scope.TempAgenda.fecha_Fin = new Date($scope.TempAgenda.fecha_Fin);
+
+                if ($scope.TempAgenda.fecha_Inicio.getHours() !== $scope.Agenda.Fecha_Inicio.getHours() || $scope.TempAgenda.fecha_Inicio.getMinutes() !== $scope.Agenda.Fecha_Inicio.getMinutes())                    
+                    $scope.Agenda.HasChanged = true;                
+
+                if ($scope.TempAgenda.fecha_Fin.getHours() !== $scope.Agenda.Fecha_Fin.getHours() || $scope.TempAgenda.fecha_Fin.getMinutes() !== $scope.Agenda.Fecha_Fin.getMinutes())                  
+                    $scope.Agenda.HasChanged = true;                              
+
+                $scope.Agenda.Fecha_Inicio = new Date($scope.Agenda.Fecha_Inicio + 'Z');
+                $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');
+
+                return true;
             }
 
-            $scope.Agenda.Id_Empleado = $scope.EmpleadoSeleccionadoModal.id_Empleado;
-
-            if ($scope.ClienteSeleccionadoModal === '' || $scope.ClienteSeleccionadoModal === null || $scope.ClienteSeleccionadoModal === undefined) {
-                toastr.info('Debe seleccionar un cliente', '', $scope.toastrOptions);
-                $('#acClientesModal').focus();
-                return false;
-            }
-
-            $scope.Agenda.Id_Cliente = $scope.ClienteSeleccionadoModal.id_Cliente;
-
-            if ($scope.ServicioSeleccionadoModal === -1 || $scope.ServicioSeleccionadoModal === null) {
-                toastr.info('Debe seleccionar un servicio', '', $scope.toastrOptions);
-                $('#slServiciosModal').focus();
-                return false;
-            }
-
-            $scope.Agenda.Id_Servicio = $scope.ServicioSeleccionadoModal;
-
-            if ($scope.FechaInicio === undefined) {
-                toastr.info('Formato de fecha inválido', '', $scope.toastrOptions);
-                $('#dpFecha').focus();
-                return false;
-            }
-
-            if ($scope.FechaInicio === '' || $scope.FechaInicio === null) {
-                toastr.info('Debe seleccionar una fecha', '', $scope.toastrOptions);
-                $('#dpFecha').focus();
-                return false;
-            }
-
-            if ($scope.HoraInicio === undefined) {
-                toastr.info('Formato de hora inválido ', '', $scope.toastrOptions);
-                $('#timeInicio').focus();
-                return false;
-            }
-
-            if ($scope.HoraInicio === '' || $scope.HoraInicio === null) {
-                toastr.info('Debe seleccionar una hora de inicio', '', $scope.toastrOptions);
-                $('#timeInicio').focus();
-                return false;
-            }
-
-            if ($scope.HoraFin === undefined) {
-                toastr.info('Formato de hora inválido ', '', $scope.toastrOptions);
-                $('#timeFin').focus();
-                return false;
-            }
-
-            if ($scope.HoraFin === '' || $scope.HoraFin === null) {
-                toastr.info('Debe seleccionar una hora fin', '', $scope.toastrOptions);
-                $('#timeFin').focus();
-                return false;
-            }
-
-            $scope.Agenda.Fecha_Inicio = angular.copy($scope.FechaInicio);
-            $scope.Agenda.Fecha_Inicio.setHours($scope.HoraInicio.getHours(), $scope.HoraInicio.getMinutes(), 0, 0);
-            $scope.Agenda.Fecha_Fin = angular.copy($scope.FechaInicio);
-            $scope.Agenda.Fecha_Fin.setHours($scope.HoraFin.getHours(), $scope.HoraFin.getMinutes(), 0, 0);
-
-            $scope.Agenda.Fecha_Inicio = new Date($scope.Agenda.Fecha_Inicio + 'Z');
-            $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');
-
-            if ($scope.Agenda.Fecha_Inicio.getHours() === $scope.Agenda.Fecha_Fin.getHours() && $scope.Agenda.Fecha_Inicio.getMinutes() === $scope.Agenda.Fecha_Fin.getMinutes()) {
-                toastr.info('Debe especificar la duración de la cita seleccionando una hora fin', '', $scope.toastrOptions);
-                $('#timeFin').focus();
-                return false;
-            }
-
-            if ($scope.Agenda.Observaciones === '' || $scope.Agenda.Observaciones === null) {
-                toastr.info('El campo "Observaciones" no puede estar vacío', '', $scope.toastrOptions);
-                $('#txtObservaciones').focus();
-                return false;
-            }
-
-            $scope.Agenda.fEditAgenda = $scope.fEditAgenda;
-
-            return true;
+            
         }
 
         //Validar Datos Consulta

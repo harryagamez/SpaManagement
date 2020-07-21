@@ -11,8 +11,7 @@
         public string Nombre_Servicio { get; set; }
         public string FechaInicio { get; set; }
         public string FechaFin { get; set; }
-
-        public bool fEditAgenda { get; set; }
+        public bool HasChanged { get; set; }
         
     }
 }

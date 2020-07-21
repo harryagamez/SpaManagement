@@ -1078,7 +1078,7 @@ namespace Spa.Infrastructure.SpaRepository
         }
 
         public bool GuardarActualizarAgenda(Agenda _Agenda)
-        {
+         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
                 _connection.Open();
