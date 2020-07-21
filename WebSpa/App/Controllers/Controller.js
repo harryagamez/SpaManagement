@@ -3715,9 +3715,7 @@
         $scope.FechaActual = new Date();
         $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
 
-        //Variables Temporales
-        $scope.TempAgenda = null;
-
+        
         //Variables de Configuración
         $scope.fPropertiesSetted = false;
         $scope.PAPTS = false;
@@ -3745,7 +3743,7 @@
         //Guardar Actualizar Cita
         $scope.GuardarActualizarAgenda = function () {
             if ($scope.ValidarNuevaAgenda()) {
-                debugger;
+                
                 SPAService._guardarActualizarAgenda($scope.Agenda)
                     .then(
                         function (result) {
@@ -3932,8 +3930,7 @@
 
         //Editar Agenda
         $scope.EditarAgenda = function (agenda) {
-            $scope.TempAgenda = null;
-            $scope.TempAgenda = agenda;            
+                       
             let fechafin = new Date(agenda.fecha_Fin);
             $scope.EmpleadoSeleccionadoModal = {
                 id_Empleado: agenda.id_Empleado,
@@ -3972,10 +3969,7 @@
             $scope.EmpleadoSeleccionado = null;
             $scope.AgendaServicios = [];
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
-            $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
-
-            //Variables Temporales
-            $scope.TempAgenda = null;
+            $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));            
 
             //Variables de Configuración
             $scope.fEditAgenda = false;
@@ -4045,9 +4039,7 @@
         //Validar Nueva Agenda
         $scope.ValidarNuevaAgenda = function () {
 
-            if (!$scope.fEditAgenda) {
-
-                debugger;
+            if (!$scope.fEditAgenda) {                
 
                 if ($scope.EmpleadoSeleccionadoModal === '' || $scope.EmpleadoSeleccionadoModal === null || $scope.EmpleadoSeleccionadoModal === undefined) {
                     toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
@@ -4211,10 +4203,7 @@
                     toastr.info('El campo "Observaciones" no puede estar vacío', '', $scope.toastrOptions);
                     $('#txtObservaciones').focus();
                     return false;
-                }
-
-                $scope.TempAgenda.fecha_Inicio = new Date($scope.TempAgenda.fecha_Inicio);
-                $scope.TempAgenda.fecha_Fin = new Date($scope.TempAgenda.fecha_Fin);                                             
+                }                                                           
 
                 $scope.Agenda.Fecha_Inicio = new Date($scope.Agenda.Fecha_Inicio + 'Z');
                 $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');
