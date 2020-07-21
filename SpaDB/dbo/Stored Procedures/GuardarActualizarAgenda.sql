@@ -8,14 +8,15 @@ BEGIN
 	DECLARE @HoraInicio VARCHAR(8)
 	DECLARE @HoraFin VARCHAR(8)
 	DECLARE @Mensaje VARCHAR(200)
+	DECLARE @HasChanged BIT
 
 	CREATE TABLE #TempAgendaCita (Id_Agenda INT, Fecha_Inicio DATETIME, Fecha_Fin DATETIME, Id_Cliente INT,
-		Id_Servicio INT, Id_Empleado INT, Estado VARCHAR(12), Id_Empresa UNIQUEIDENTIFIER, Observaciones CHAR(200))
+		Id_Servicio INT, Id_Empleado INT, Estado VARCHAR(12), Id_Empresa UNIQUEIDENTIFIER, Observaciones CHAR(200), HasChanged BIT)
 
-	INSERT INTO #TempAgendaCita(Id_Agenda, Fecha_Inicio, Fecha_Fin, Id_Cliente, Id_Servicio, Id_Empleado, Estado, Id_Empresa, Observaciones)
+	INSERT INTO #TempAgendaCita(Id_Agenda, Fecha_Inicio, Fecha_Fin, Id_Cliente, Id_Servicio, Id_Empleado, Estado, Id_Empresa, Observaciones, HasChanged)
 	SELECT 
 		Id_Agenda, Fecha_Inicio, Fecha_Fin, Id_Cliente,
-		Id_Servicio, Id_Empleado, Estado, Id_Empresa, Observaciones
+		Id_Servicio, Id_Empleado, Estado, Id_Empresa, Observaciones,HasChanged
 	FROM 
 		OPENJSON(@JsonAgenda)
 	WITH (
@@ -23,7 +24,8 @@ BEGIN
 		Fecha_Fin DATETIME '$.Fecha_Fin', Id_Cliente INT '$.Id_Cliente',
 		Id_Servicio INT '$.Id_Servicio', Id_Empleado INT '$.Id_Empleado',
 		Estado VARCHAR(12) '$.Estado', Id_Empresa UNIQUEIDENTIFIER '$.Id_Empresa',
-		Observaciones CHAR(200) '$.Observaciones'
+		Observaciones CHAR(200) '$.Observaciones',
+		HasChanged BIT '$.HasChanged'
 	)
 
 	SET @IdEmpleado = (SELECT TOP 1 Id_Empleado FROM #TempAgendaCita)
@@ -31,6 +33,7 @@ BEGIN
 	SET @FechaAgendaCita = (SELECT TOP 1 CAST(Fecha_Inicio AS DATE) FROM #TempAgendaCita)
 	SET @HoraInicio = (SELECT TOP 1 SUBSTRING(CONVERT(CHAR(38),Fecha_Inicio,121),12,8) FROM #TempAgendaCita)
 	SET @HoraFin = (SELECT TOP 1 SUBSTRING(CONVERT(CHAR(38),Fecha_Fin,121),12,8) FROM #TempAgendaCita)
+	SET @HasChanged = (SELECT TOP 1 HasChanged FROM #TempAgendaCita)
 
 	;WITH EmpleadoCitas AS (
 		SELECT 
@@ -50,7 +53,7 @@ BEGIN
 	WHERE (@HoraInicio > Hora_Inicio AND @HoraFin < Hora_Fin)
 	OR (@HoraInicio < Hora_Fin AND @HoraFin > Hora_Inicio)
 
-	IF (SELECT COUNT(ID_AGENDA) FROM #TempCitasEmpleados) > 0 BEGIN
+	IF (SELECT COUNT(ID_AGENDA) FROM #TempCitasEmpleados) > 0 AND @HasChanged = 1 BEGIN
 		SET @Mensaje = 'Empleado no disponible entre las ' + @HoraInicio + ' y las ' + @HoraFin + '. Debe seleccionar otra hora'
 		RAISERROR (@Mensaje, 16, 1)
 		IF OBJECT_ID('tempdb..#TempAgendaCita') IS NOT NULL DROP TABLE #TempAgendaCita
@@ -76,7 +79,7 @@ BEGIN
 	WHERE (@HoraInicio > Hora_Inicio AND @HoraFin < Hora_Fin)
 	OR (@HoraInicio < Hora_Fin AND @HoraFin > Hora_Inicio) 
 
-	IF (SELECT COUNT(ID_AGENDA) FROM #TempCitasClientes) > 0 BEGIN
+	IF (SELECT COUNT(ID_AGENDA) FROM #TempCitasClientes) > 0 AND @HasChanged = 1 BEGIN
 		SET @Mensaje = 'El cliente ya tiene un servicio programado para la hora seleccionada'
 		RAISERROR (@Mensaje, 16, 1)
 		IF OBJECT_ID('tempdb..#TempAgendaCita') IS NOT NULL DROP TABLE #TempAgendaCita
