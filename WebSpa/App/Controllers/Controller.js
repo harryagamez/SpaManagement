@@ -3793,7 +3793,7 @@
 
         $scope.Agenda = {
             Id_Agenda: -1,
-            Id_Empresa: $scope.IdEmpresa,
+            Id_Empresa: $scope.IdEmpresa,             
             Id_Cliente: '',
             Id_Empleado: '',
             Id_Servicio: '',
@@ -4053,8 +4053,7 @@
                 Fecha_Inicio: '',
                 Fecha_Fin: '',
                 Estado: 'PROGRAMADA',
-                Observaciones: '',
-                Nombre_Empresa: $rootScope.Nombre_Empresa,
+                Observaciones: '',                
                 NombreApellido_Empleado: '',
                 NombreApellido_Cliente: ''
             };
@@ -4192,6 +4191,11 @@
                 }
 
                 $scope.Agenda.Estado = 'PROGRAMADA';
+                let nombreempresa = Enumerable.From(angular.copy($rootScope.Empresas))
+                    .Where(x => { return x.id_Empresa === $scope.IdEmpresa })
+                    .ToArray();
+
+                $scope.Agenda.Nombre_Empresa = nombreempresa[0].nombre;
 
                 return true;
             } else if ($scope.fEditAgenda) {
@@ -4275,8 +4279,7 @@
                 $scope.Agenda.Estado = 'PROGRAMADA';
 
                 $scope.Agenda.Fecha_Inicio = new Date($scope.Agenda.Fecha_Inicio + 'Z');
-                $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');
-                $scope.Agenda.HasChanged = true;
+                $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');                
                 return true;
             }
         }
