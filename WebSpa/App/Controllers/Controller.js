@@ -76,7 +76,6 @@
 
     function HomeController($scope, $state, $rootScope, $element, $location, localStorageService, authService, SPAService) {
         $scope.UserAvatar = '../../Images/default-perfil.png';
-
         if ($rootScope.Empresas !== undefined) {
             if ($rootScope.Empresas.length === 0) {
                 $scope.Empresas = [];

@@ -5,7 +5,6 @@ using Spa.InfraCommon.SpaCommon.Models;
 using Spa.Infrastructure.SpaRepository;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 using System.Globalization;
 
 namespace Spa.Application.SpaService
