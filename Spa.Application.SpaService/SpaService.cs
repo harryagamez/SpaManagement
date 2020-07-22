@@ -396,5 +396,10 @@ namespace Spa.Application.SpaService
         {
             return _spaRepository.GuardarEmpresaPropiedades(empresaPropiedades);
         }
+
+        public bool RegistrarExcelClientes(List<Cliente> clientes)
+        {
+            return _spaRepository.RegistrarExcelClientes(clientes);
+        }
     }
 }
