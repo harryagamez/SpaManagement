@@ -4032,6 +4032,7 @@
             $scope.AgendaServicios = [];
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
             $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
+            $scope.FechaHoraAgendaGeneral();
 
             //Variables de Configuración
             $scope.fEditAgenda = false;
