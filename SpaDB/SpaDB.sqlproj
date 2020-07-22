@@ -269,6 +269,7 @@
     <Build Include="dbo\Stored Procedures\ConsultarSistemaPropiedades.sql" />
     <Build Include="dbo\Stored Procedures\GuardarEmpresaPropiedades.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarServiciosActivos.sql" />
+    <Build Include="dbo\Stored Procedures\ConfirmarAgenda.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

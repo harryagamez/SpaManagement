@@ -406,6 +406,7 @@
             _guardarActualizarAgenda: GuardarActualizarAgenda,
             _consultarAgenda: ConsultarAgenda,
             _cancelarAgenda: CancelarAgenda,
+            _confirmarAgenda: ConfirmarAgenda,
             _guardarEmpresaPropiedades: GuardarEmpresaPropiedades
         }
 
@@ -929,6 +930,18 @@
         function CancelarAgenda(IdAgenda, IdEmpresa) {
             var deferred = $q.defer();
             serviceRest.Get('SPA', 'CancelarAgenda?IdAgenda=' + IdAgenda + '&IdEmpresa=' + IdEmpresa,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConfirmarAgenda(IdAgenda, IdEmpresa) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConfirmarAgenda?IdAgenda=' + IdAgenda + '&IdEmpresa=' + IdEmpresa,
                 function (data) {
                     deferred.resolve(data);
                 },

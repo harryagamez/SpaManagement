@@ -738,7 +738,24 @@ namespace WebApiSpa.Controllers
             }
             catch (Exception ex)
             {
-                return Content(HttpStatusCode.InternalServerError, "Error cancelando la agenda: " + ex.Message);
+                return Content(HttpStatusCode.InternalServerError, "Error cancelando la cita: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConfirmarAgenda")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConfirmarAgenda(int IdAgenda, string IdEmpresa)
+        {
+            try
+            {
+                bool result = _spaService.ConfirmarAgenda(IdAgenda, IdEmpresa);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error confirmando la cita: " + ex.Message);
             }
         }
 

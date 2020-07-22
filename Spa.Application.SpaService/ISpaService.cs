@@ -50,6 +50,7 @@ namespace Spa.Application.SpaService
         bool GuardarActualizarAgenda(Agenda _Agenda);
         List<Agenda> ConsultarAgenda(Agenda _Agenda);
         bool CancelarAgenda(int IdAgenda, string IdEmpresa);
+        bool ConfirmarAgenda(int IdAgenda, string IdEmpresa);
         Usuario ValidarUsuarioAdmin(string Nombre, string Password);
         List<Empresa> ConsultarEmpresas();
         List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario);

@@ -3753,6 +3753,7 @@
                 { id_Estado: 2, Nombre: "FACTURADA" },
                 { id_Estado: 4, Nombre: "LIQUIDADA" },
                 { id_Estado: 5, Nombre: "CANCELADA" },
+                {id_Estado: 6, Nombre: "CONFIRMADA"}
             ];
         $scope.Estado = $filter('orderBy')($scope.Estado, 'Nombre', false);
 
@@ -3853,7 +3854,24 @@
                     .then(
                         function (result) {
                             if (result.data === true) {
-                                toastr.success('Agenda cancelada correctamente', '', $scope.toastrOptions);
+                                toastr.success('Cita cancelada correctamente', '', $scope.toastrOptions);
+                                $scope.ConsultarAgenda();
+                            }
+                        }, function (err) {
+                            toastr.remove();
+                            if (err.data !== null && err.status === 500)
+                                toastr.error(err.data, '', $scope.toastrOptions);
+                        })
+            }
+        }
+
+        $scope.ConfirmarAgenda = function (data) {
+            if (data !== null && data !== undefined) {
+                SPAService._confirmarAgenda(data.id_Agenda, data.id_Empresa)
+                    .then(
+                        function (result) {
+                            if (result.data === true) {
+                                toastr.success('Cita confirmada correctamente', '', $scope.toastrOptions);
                                 $scope.ConsultarAgenda();
                             }
                         }, function (err) {
@@ -4412,7 +4430,7 @@
             let confirm = $mdDialog.confirm()
                 .title('Agenda')
                 .textContent('¿Desea cancelar la cita?')
-                .ariaLabel('Cancelar Agenda')
+                .ariaLabel('Cancelar Cita')
                 .targetEvent(ev, data)
                 .ok('Sí')
                 .cancel('No')
@@ -4420,6 +4438,24 @@
 
             $mdDialog.show(confirm).then(function () {
                 $scope.CancelarAgenda(data);
+            }, function () {
+                return;
+            });
+        };
+
+        //Show Comfirm Cancelar Agenda
+        $scope.showConfirmConfirmarAgenda = function (ev, data) {
+            let confirm = $mdDialog.confirm()
+                .title('Agenda')
+                .textContent('¿Desea confirmar la cita?')
+                .ariaLabel('Confirmar Cita')
+                .targetEvent(ev, data)
+                .ok('Sí')
+                .cancel('No')
+                .multiple(true);
+
+            $mdDialog.show(confirm).then(function () {
+                $scope.ConfirmarAgenda(data);
             }, function () {
                 return;
             });

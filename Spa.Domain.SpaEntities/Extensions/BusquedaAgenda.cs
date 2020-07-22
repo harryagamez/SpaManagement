@@ -13,8 +13,7 @@
         public string Nombre_Servicio { get; set; }
         public string FechaInicio { get; set; }
         public string FechaFin { get; set; }
-        public string Mail_Cliente { get; set; }
-        public bool HasChanged { get; set; }
+        public string Mail_Cliente { get; set; }       
         
     }
 }

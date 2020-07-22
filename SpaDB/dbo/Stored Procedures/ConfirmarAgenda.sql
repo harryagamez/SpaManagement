@@ -1,0 +1,12 @@
+CREATE PROCEDURE ConfirmarAgenda(@IdAgenda INT, @IdEmpresa VARCHAR(36))
+AS
+BEGIN
+
+	UPDATE AGENDA 
+		SET ESTADO = 'CONFIRMADA' 
+	WHERE ID_AGENDA = @IdAgenda 
+	AND ID_EMPRESA = @IdEmpresa
+
+END
+
+GO
