@@ -55,6 +55,7 @@ namespace Spa.Application.SpaService
         List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario);
         List<SistemaPropiedades> ConsultarSistemaPropiedades();
         bool GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades);
+        void EmailConfirmacionAgenda(Agenda _Agenda);
 
     }
 }

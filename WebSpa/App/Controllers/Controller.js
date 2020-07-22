@@ -405,7 +405,6 @@
 
             if ((file.type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 && (file.type != "application/vnd.ms-excel")) {
-
                 toastr.info('La extensión del archivo debe ser: .xls, ó .xlsx', '', $scope.toastrOptions);
                 $("#labelArchivo").val('');
                 $scope.ArchivoSeleccionado = null;
@@ -425,7 +424,6 @@
                     }
 
                     try {
-
                         let workbook = XLSX.read(data, { type: 'binary', cellDates: true });
                         let first_sheet_name = workbook.SheetNames[0];
 
@@ -436,7 +434,6 @@
                         if (!ObjetoDatos[0].hasOwnProperty("CEDULA") || !ObjetoDatos[0].hasOwnProperty("NOMBRE(S)") || !ObjetoDatos[0].hasOwnProperty("APELLIDO(S)")
                             || !ObjetoDatos[0].hasOwnProperty("MAIL") || !ObjetoDatos[0].hasOwnProperty("DIRECCION") || !ObjetoDatos[0].hasOwnProperty("MUNICIPIO")
                             || !ObjetoDatos[0].hasOwnProperty("CELULAR") || !ObjetoDatos[0].hasOwnProperty("FECHA_NACIMIENTO")) {
-
                             toastr.info('El formato del archivo no es correcto, por favor verifique si las columnas tienen valores vacios o los nombres de las columnas son incorrectos', '', $scope.toastrOptions);
                             $("#labelArchivo").val("");
                             $scope.ArchivoSeleccionado = null;
@@ -450,7 +447,6 @@
                                     && objeto["APELLIDO(S)"] !== undefined && objeto["MAIL"] !== undefined
                                     && objeto["DIRECCION"] !== undefined && objeto["MUNICIPIO"] !== undefined
                                     && objeto["CELULAR"] !== undefined && objeto["FECHA_NACIMIENTO"] !== undefined) {
-                 
                                     if (objeto["CEDULA"] === undefined || objeto["CEDULA"] === '') {
                                         let mensaje = {
                                             Mensaje: "El campo cédula esta vacio. Cliente: " + objeto["NOMBRE(S)"]
@@ -503,14 +499,12 @@
 
                             if ($scope.ExcelClientes.length > 0)
                                 $scope.ProcesarExcelClientes($scope.ExcelClientes);
-
                         } else {
                             toastr.info('El archivo seleccionado no tiene datos', '', $scope.toastrOptions);
                             $("#labelArchivo").val('');
                             $scope.ArchivoSeleccionado = null;
                             return;
                         }
-
                     } catch (e) {
                         toastr.error(e.message, '', $scope.toastrOptions);
                         $("#labelArchivo").val('');
@@ -565,7 +559,6 @@
         }
 
         $scope.GuardarExcelClientes = function () {
-
         }
 
         window.onresize = function () {
@@ -3715,7 +3708,6 @@
         $scope.FechaActual = new Date();
         $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
 
-        
         //Variables de Configuración
         $scope.fPropertiesSetted = false;
         $scope.PAPTS = false;
@@ -3743,7 +3735,6 @@
         //Guardar Actualizar Cita
         $scope.GuardarActualizarAgenda = function () {
             if ($scope.ValidarNuevaAgenda()) {
-                
                 SPAService._guardarActualizarAgenda($scope.Agenda)
                     .then(
                         function (result) {
@@ -3775,8 +3766,7 @@
                                 toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
                                 return;
                             }
-
-                            $scope.Cancelar();
+                            //$scope.Cancelar();
                         }, function (err) {
                             toastr.remove();
                             if (err.data !== null && err.status === 500)
@@ -3930,7 +3920,6 @@
 
         //Editar Agenda
         $scope.EditarAgenda = function (agenda) {
-                       
             let fechafin = new Date(agenda.fecha_Fin);
             $scope.EmpleadoSeleccionadoModal = {
                 id_Empleado: agenda.id_Empleado,
@@ -3969,7 +3958,7 @@
             $scope.EmpleadoSeleccionado = null;
             $scope.AgendaServicios = [];
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
-            $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));            
+            $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
 
             //Variables de Configuración
             $scope.fEditAgenda = false;
@@ -3978,10 +3967,9 @@
             $scope.fDisableGuardarAgenda = false;
             $scope.fDisableServiciosM = true;
             $scope.fDisableServicios = true;
-            
 
             $scope.Agenda = {
-                Id_Agenda: -1,                
+                Id_Agenda: -1,
                 Id_Empresa: $scope.IdEmpresa,
                 Id_Cliente: '',
                 Id_Empleado: '',
@@ -3989,7 +3977,7 @@
                 Fecha_Inicio: '',
                 Fecha_Fin: '',
                 Estado: 'PROGRAMADA',
-                Observaciones: '',                
+                Observaciones: '',
                 Nombre_Empresa: $rootScope.Nombre_Empresa,
                 NombreApellido_Empleado: '',
                 NombreApellido_Cliente: ''
@@ -4038,9 +4026,7 @@
 
         //Validar Nueva Agenda
         $scope.ValidarNuevaAgenda = function () {
-
-            if (!$scope.fEditAgenda) {                
-
+            if (!$scope.fEditAgenda) {
                 if ($scope.EmpleadoSeleccionadoModal === '' || $scope.EmpleadoSeleccionadoModal === null || $scope.EmpleadoSeleccionadoModal === undefined) {
                     toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
                     $('#acEmpleadosModal').focus();
@@ -4067,6 +4053,11 @@
                 }
 
                 $scope.Agenda.Id_Servicio = $scope.ServicioSeleccionadoModal;
+                let servicionombre = Enumerable.From(angular.copy($scope.Servicios))
+                    .Where(function (x) { return x.id_Servicio = $scope.ServicioSeleccionadoModal })
+                    .ToArray();
+
+                $scope.Agenda.Nombre_Servicio = servicionombre[0].nombre;
 
                 if ($scope.FechaInicio === undefined) {
                     toastr.info('Formato de fecha inválido', '', $scope.toastrOptions);
@@ -4102,15 +4093,15 @@
                     toastr.info('Debe seleccionar una hora fin', '', $scope.toastrOptions);
                     $('#timeFin').focus();
                     return false;
-                }                
+                }
 
                 $scope.Agenda.Fecha_Inicio = angular.copy($scope.FechaInicio);
                 $scope.Agenda.Fecha_Inicio.setHours($scope.HoraInicio.getHours(), $scope.HoraInicio.getMinutes(), 0, 0);
                 $scope.Agenda.Fecha_Fin = angular.copy($scope.FechaInicio);
                 $scope.Agenda.Fecha_Fin.setHours($scope.HoraFin.getHours(), $scope.HoraFin.getMinutes(), 0, 0);
-                
+
                 $scope.Agenda.Fecha_Inicio = new Date($scope.Agenda.Fecha_Inicio + 'Z');
-                $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z'); 
+                $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');
 
                 if ($scope.Agenda.Fecha_Inicio.getHours() === $scope.Agenda.Fecha_Fin.getHours() && $scope.Agenda.Fecha_Inicio.getMinutes() === $scope.Agenda.Fecha_Fin.getMinutes()) {
                     toastr.info('Debe especificar la duración de la cita seleccionando una hora fin', '', $scope.toastrOptions);
@@ -4122,17 +4113,17 @@
                     toastr.info('El campo "Observaciones" no puede estar vacío', '', $scope.toastrOptions);
                     $('#txtObservaciones').focus();
                     return false;
-                }               
+                }
+
+                $scope.Agenda.Estado = 'PROGRAMADA';
 
                 return true;
-
-            } else if ($scope.fEditAgenda) {                
-
+            } else if ($scope.fEditAgenda) {
                 if ($scope.EmpleadoSeleccionadoModal === '' || $scope.EmpleadoSeleccionadoModal === null || $scope.EmpleadoSeleccionadoModal === undefined) {
                     toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
                     $('#acEmpleadosModal').focus();
                     return false;
-                }                
+                }
 
                 $scope.Agenda.Id_Empleado = $scope.EmpleadoSeleccionadoModal.id_Empleado;
 
@@ -4186,7 +4177,7 @@
                     toastr.info('Debe seleccionar una hora fin', '', $scope.toastrOptions);
                     $('#timeFin').focus();
                     return false;
-                }                
+                }
 
                 $scope.Agenda.Fecha_Inicio = angular.copy($scope.FechaInicio);
                 $scope.Agenda.Fecha_Inicio.setHours($scope.HoraInicio.getHours(), $scope.HoraInicio.getMinutes(), 0, 0);
@@ -4203,15 +4194,15 @@
                     toastr.info('El campo "Observaciones" no puede estar vacío', '', $scope.toastrOptions);
                     $('#txtObservaciones').focus();
                     return false;
-                }                                                           
+                }
+
+                $scope.Agenda.Estado = 'PROGRAMADA';
 
                 $scope.Agenda.Fecha_Inicio = new Date($scope.Agenda.Fecha_Inicio + 'Z');
                 $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');
-
+                $scope.Agenda.HasChanged = true;
                 return true;
             }
-
-            
         }
 
         //Validar Datos Consulta

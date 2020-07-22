@@ -697,6 +697,9 @@ namespace WebApiSpa.Controllers
             {
                 bool result = _spaService.GuardarActualizarAgenda(agenda);
 
+                if(agenda.Id_Agenda == -1)
+                    _spaService.EmailConfirmacionAgenda(agenda);
+                
                 return Content(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
