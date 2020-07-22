@@ -5,6 +5,8 @@ using Spa.InfraCommon.SpaCommon.Models;
 using Spa.Infrastructure.SpaRepository;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
+using System.Globalization;
 
 namespace Spa.Application.SpaService
 {
@@ -306,64 +308,6 @@ namespace Spa.Application.SpaService
 
         public bool GuardarActualizarAgenda(Agenda _Agenda)
         {
-
-            //if (_Agenda != null)
-            //{
-            //    string htmlString = @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">
-            //        <html xmlns=""http://www.w3.org/1999/xhtml"">
-            //        <head>
-            //            <meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8""/>
-            //            <meta name = ""viewport"" content = ""width=device-width, initial-scale=1.0""/>
-            //        </head>
-            //        <body style=""margin: 0; padding: 0;"">
-            //               <table align=""center"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""900"">
-            //               <tr>
-            //               <td align=""center"" bgcolor=""#ffffff"" style=""padding: 30px 0 30px 0;"">
-            //                   <img src=""https://i.imgur.com/JsBabEb.jpg"" alt=""SPA MANAGEMENT"" style=""display: block; max-width:900px;""/>
-            //               </td>
-            //               </tr>
-            //               <tr>
-            //               <td bgcolor=""#ffffff"" style=""padding: 20px 30px 20px 30px; color: #1360a7; font-size:20px; text-align:center;"">
-            //                    <h2>¡Hola!, " + _Agenda.NombreApellido_Cliente + @"</h2>
-            //               </td>                           
-            //               </tr>
-            //                <tr>
-            //               <td bgcolor=""#ffffff"" style=""padding: 20px 30px 20px 30px; color: grey; font-size:18px;"">
-            //                    <b>Gracias por crear una cuenta en SPA MANAGEMENT. Pero antes de poder acceder al sistema, deberá activar su cuenta. El siguiente es su código de activación:</b>                                
-            //               </td>                           
-            //               </tr>
-            //               <tr>
-            //               <td bgcolor=""#ffffff"" style=""padding: 5px 30px 5px 30px; color: grey; font-size:16px; text-align:center;"">
-            //                    <p>" + _Agenda.NombreApellido_Empleado + @"</p>
-            //               </td>                           
-            //               </tr>
-            //               <tr>
-            //               <td bgcolor=""#212121"" style=""padding: 10px 30px 10px 30px; text-align:center; color: white;"" >
-            //                <p>SPA MANAGEMENT © Todos los derechos reservados</p>
-            //               </td>                           
-            //               </tr>
-            //               </table>                            
-            //        </body>                    
-            //        </html>
-            //        ";
-
-            //    if (!_Agenda.HasChanged)
-            //    {
-            //        EmailModel _emailModel = new EmailModel
-            //        {
-            //            MailTo = _Agenda.Mail_Cliente,
-            //            Subject = "Notificación de cita programada",
-            //            Body = htmlString
-            //        };
-
-            //        if (MailHelper.SendMail(_emailModel))
-            //        {
-            //            _spaRepository.ActualizarCodigoIntegracion(_Agenda., _usuario.Id_Empresa.ToString(), _usuario.HashKey);
-            //        }
-            //    }
-            //}
-
-
             return _spaRepository.GuardarActualizarAgenda(_Agenda);
         }
 
@@ -395,6 +339,61 @@ namespace Spa.Application.SpaService
         public bool GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades)
         {
             return _spaRepository.GuardarEmpresaPropiedades(empresaPropiedades);
+        }
+
+        public void EmailConfirmacionAgenda(Agenda _Agenda)
+        {
+            if (_Agenda != null)
+            {
+                var fecha = _Agenda.Fecha_Inicio.Value.ToString("dd-MM-yyyy");
+                var hora = _Agenda.Fecha_Inicio.Value.ToString("h:mm tt", CultureInfo.InvariantCulture);
+                string htmlString = @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">
+                    <html xmlns=""http://www.w3.org/1999/xhtml"">
+                    <head>
+                        <meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8""/>
+                        <meta name = ""viewport"" content = ""width=device-width, initial-scale=1.0""/>
+                    </head>
+                    <body style=""margin: 0; padding: 0;"">
+                           <table align=""center"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""900"">
+                           <tr>
+                           <td align=""center"" bgcolor=""#ffffff"" style=""padding: 5px 0 5px 0;"">
+                               <img src=""https://i.imgur.com/JsBabEb.jpg"" alt=""SPA MANAGEMENT"" style=""display: block; min-width:900px; max-width:900px; max-height:250px;""/>
+                           </td>
+                           </tr>
+                           <tr>
+                           <td bgcolor=""#ffffff"" style=""padding: 5px 30px 5px 30px; color: #1360a7; font-size:20px; text-align:center;"">
+                                <h2>¡Hola!, " + _Agenda.NombreApellido_Cliente + @"</h2>
+                           </td>                           
+                           </tr>
+                            <tr>
+                           <td bgcolor=""#ffffff"" style=""padding: 5px 30px 2px 30px; color: grey; font-size:18px; text-align:justify;"">
+                                <b>Su cita en " + _Agenda.Nombre_Empresa+ @", para el servicio: " + _Agenda.Nombre_Servicio + @", ha sido programada para el día: " + fecha + @" a las: " + hora + @".</b>                                
+                           </td>                           
+                           </tr>
+                           <tr>
+                           <td bgcolor=""#ffffff"" style=""padding: 5px 30px 5px 30px; color: grey; font-size:16px; text-align:justify;"">
+                                <p>Recuerde llegar con 20 minutos de anticipación. Si desea cancelar su cita, comuníquese con " + _Agenda.Nombre_Empresa + @" con 6 horas de anticipación.</p>
+                           </td>                           
+                           </tr>
+                           <tr>
+                           <td bgcolor=""#212121"" style=""padding: 10px 30px 10px 30px; text-align:center; color: white;"" >
+                            <p>SPA MANAGEMENT © Todos los derechos reservados</p>
+                           </td>                           
+                           </tr>
+                           </table>                            
+                    </body>                    
+                    </html>
+                    ";                
+                    EmailModel _emailModel = new EmailModel
+                    {
+                        MailTo = _Agenda.Mail_Cliente,
+                        Subject = "Notificación de cita programada",
+                        Body = htmlString
+                    };
+
+                MailHelper.SendMail(_emailModel);
+                     
+            }
         }
 
         public bool RegistrarExcelClientes(List<Cliente> clientes)

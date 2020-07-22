@@ -405,7 +405,6 @@
 
             if ((file.type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 && (file.type != "application/vnd.ms-excel")) {
-
                 toastr.info('La extensión del archivo debe ser: .xls, ó .xlsx', '', $scope.toastrOptions);
                 $("#labelArchivo").val('');
                 $scope.ArchivoSeleccionado = null;
@@ -436,7 +435,6 @@
                         if (!ObjetoDatos[0].hasOwnProperty("CEDULA") || !ObjetoDatos[0].hasOwnProperty("NOMBRE(S)") || !ObjetoDatos[0].hasOwnProperty("APELLIDO(S)")
                             || !ObjetoDatos[0].hasOwnProperty("MAIL") || !ObjetoDatos[0].hasOwnProperty("DIRECCION") || !ObjetoDatos[0].hasOwnProperty("MUNICIPIO")
                             || !ObjetoDatos[0].hasOwnProperty("CELULAR") || !ObjetoDatos[0].hasOwnProperty("FECHA_NACIMIENTO")) {
-
                             toastr.info('El formato del archivo no es correcto, por favor verifique si las columnas tienen valores vacios o los nombres de las columnas son incorrectos', '', $scope.toastrOptions);
                             $("#labelArchivo").val('');
                             $scope.ArchivoSeleccionado = null;
@@ -564,6 +562,7 @@
                             $scope.ArchivoSeleccionado = null;
                             return;
                         }
+
                     } catch (e) {
                         toastr.error(e.message, '', $scope.toastrOptions);
                         $("#labelArchivo").val('');
@@ -3840,8 +3839,7 @@
                                 toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
                                 return;
                             }
-
-                            $scope.Cancelar();
+                            //$scope.Cancelar();
                         }, function (err) {
                             toastr.remove();
                             if (err.data !== null && err.status === 500)
@@ -4103,9 +4101,7 @@
 
         //Validar Nueva Agenda
         $scope.ValidarNuevaAgenda = function () {
-
             if (!$scope.fEditAgenda) {
-
                 if ($scope.EmpleadoSeleccionadoModal === '' || $scope.EmpleadoSeleccionadoModal === null || $scope.EmpleadoSeleccionadoModal === undefined) {
                     toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
                     $('#acEmpleadosModal').focus();
@@ -4132,6 +4128,11 @@
                 }
 
                 $scope.Agenda.Id_Servicio = $scope.ServicioSeleccionadoModal;
+                let servicionombre = Enumerable.From(angular.copy($scope.Servicios))
+                    .Where(function (x) { return x.id_Servicio = $scope.ServicioSeleccionadoModal })
+                    .ToArray();
+
+                $scope.Agenda.Nombre_Servicio = servicionombre[0].nombre;
 
                 if ($scope.FechaInicio === undefined) {
                     toastr.info('Formato de fecha inválido', '', $scope.toastrOptions);
@@ -4189,10 +4190,10 @@
                     return false;
                 }
 
+                $scope.Agenda.Estado = 'PROGRAMADA';
+
                 return true;
-
             } else if ($scope.fEditAgenda) {
-
                 if ($scope.EmpleadoSeleccionadoModal === '' || $scope.EmpleadoSeleccionadoModal === null || $scope.EmpleadoSeleccionadoModal === undefined) {
                     toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
                     $('#acEmpleadosModal').focus();
@@ -4270,13 +4271,13 @@
                     return false;
                 }
 
+                $scope.Agenda.Estado = 'PROGRAMADA';
+
                 $scope.Agenda.Fecha_Inicio = new Date($scope.Agenda.Fecha_Inicio + 'Z');
                 $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');
-
+                $scope.Agenda.HasChanged = true;
                 return true;
             }
-
-
         }
 
         //Validar Datos Consulta
