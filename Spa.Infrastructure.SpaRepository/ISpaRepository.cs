@@ -57,6 +57,7 @@ namespace Spa.Infrastructure.SpaRepository
         List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario);
         List<SistemaPropiedades> ConsultarSistemaPropiedades();
         bool GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades);
+        bool RegistrarExcelClientes(List<Cliente> clientes);
 
     }
 }

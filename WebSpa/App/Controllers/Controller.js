@@ -417,6 +417,7 @@
                 var name = file.name;
                 $scope.fileName = file.name;
                 reader.onload = function (e) {
+
                     if (!e) {
                         var data = reader.content;
                     } else {
@@ -424,7 +425,7 @@
                     }
 
                     try {
-                        let workbook = XLSX.read(data, { type: 'binary', cellDates: true });
+                        let workbook = XLSX.read(data, { type: 'binary' });
                         let first_sheet_name = workbook.SheetNames[0];
 
                         ObjetoDatos = XLSX.utils.sheet_to_json(workbook.Sheets[first_sheet_name], { raw: false });
@@ -435,76 +436,133 @@
                             || !ObjetoDatos[0].hasOwnProperty("MAIL") || !ObjetoDatos[0].hasOwnProperty("DIRECCION") || !ObjetoDatos[0].hasOwnProperty("MUNICIPIO")
                             || !ObjetoDatos[0].hasOwnProperty("CELULAR") || !ObjetoDatos[0].hasOwnProperty("FECHA_NACIMIENTO")) {
                             toastr.info('El formato del archivo no es correcto, por favor verifique si las columnas tienen valores vacios o los nombres de las columnas son incorrectos', '', $scope.toastrOptions);
-                            $("#labelArchivo").val("");
+                            $("#labelArchivo").val('');
                             $scope.ArchivoSeleccionado = null;
                             $scope.$apply();
                             return;
                         }
 
                         if (ObjetoDatos.length > 0) {
+                            if (ObjetoDatos.length > 400) {
+                                toastr.info('El archivo de excel, debe tener máximo 400 registros', '', $scope.toastrOptions);
+                                $("#labelArchivo").val('');
+                                $scope.ArchivoSeleccionado = null;
+                                $scope.$apply();
+                                return;
+                            }
+
+                            let numeroFila = 0;
                             for (let objeto of ObjetoDatos) {
-                                if (objeto["CEDULA"] !== undefined && objeto["NOMBRE(S)"] !== undefined
-                                    && objeto["APELLIDO(S)"] !== undefined && objeto["MAIL"] !== undefined
-                                    && objeto["DIRECCION"] !== undefined && objeto["MUNICIPIO"] !== undefined
-                                    && objeto["CELULAR"] !== undefined && objeto["FECHA_NACIMIENTO"] !== undefined) {
-                                    if (objeto["CEDULA"] === undefined || objeto["CEDULA"] === '') {
+                                numeroFila += 1;
+
+                                if (objeto["CEDULA"] === undefined || objeto["CEDULA"] === '') {
+                                    let mensaje = {
+                                        Mensaje: "El campo CEDULA está vacio. - Fila número " + numeroFila
+                                    }
+                                    $scope.Validaciones.push(mensaje);
+                                    continue;
+                                }
+
+                                if (objeto["NOMBRE(S)"] === undefined || objeto["NOMBRE(S)"] === '') {
+                                    let mensaje = {
+                                        Mensaje: "El campo NOMBRES(S) está vacio. - Fila número " + numeroFila
+                                    }
+                                    $scope.Validaciones.push(mensaje);
+                                    continue;
+                                }
+
+                                if (objeto["APELLIDO(S)"] === undefined || objeto["APELLIDO(S)"] === '') {
+                                    let mensaje = {
+                                        Mensaje: "El campo APELLIDO(S) está vacio. - Fila número " + numeroFila
+                                    }
+                                    $scope.Validaciones.push(mensaje);
+                                    continue;
+                                }
+
+                                if (objeto["MAIL"] === undefined || objeto["MAIL"] === '') {
+                                    let mensaje = {
+                                        Mensaje: "El campo MAIL está vacio. - Fila número " + numeroFila
+                                    }
+                                    $scope.Validaciones.push(mensaje);
+                                    continue;
+                                }
+
+                                if (objeto["DIRECCION"] === undefined || objeto["DIRECCION"] === '') {
+                                    let mensaje = {
+                                        Mensaje: "El campo DIRECCION está vacio. - Fila número " + numeroFila
+                                    }
+                                    $scope.Validaciones.push(mensaje);
+                                    continue;
+                                }
+
+                                if (objeto["CELULAR"] === undefined || objeto["CELULAR"] === '') {
+                                    let mensaje = {
+                                        Mensaje: "El campo CELULAR está vacio. - Fila número " + numeroFila
+                                    }
+                                    $scope.Validaciones.push(mensaje);
+                                    continue;
+                                }
+
+                                if (objeto["FECHA_NACIMIENTO"] === undefined || objeto["FECHA_NACIMIENTO"] === '') {
+                                    let mensaje = {
+                                        Mensaje: "El campo FECHA_NACIMIENTO está vacio. - Fila número " + numeroFila
+                                    }
+                                    $scope.Validaciones.push(mensaje);
+                                    continue;
+                                }
+
+                                let buscarCliente = Enumerable.From($scope.ExcelClientes)
+                                    .Where(function (x) {
+                                        return x.Cedula === objeto["CEDULA"]
+                                    }).ToArray();
+
+                                if (buscarCliente.length === 0) {
+                                    if (!maiL_expression.test(objeto["MAIL"])) {
                                         let mensaje = {
-                                            Mensaje: "El campo cédula esta vacio. Cliente: " + objeto["NOMBRE(S)"]
+                                            Mensaje: "Mail inválido. - Fila número " + numeroFila
                                         }
                                         $scope.Validaciones.push(mensaje);
                                         continue;
                                     }
 
-                                    let buscarCliente = Enumerable.From($scope.ExcelClientes)
-                                        .Where(function (x) {
-                                            return x.Cedula === objeto["CEDULA"]
-                                        }).ToArray();
-
-                                    if (buscarCliente.length === 0) {
-                                        if (!maiL_expression.test(objeto["MAIL"])) {
-                                            let mensaje = {
-                                                Mensaje: "Mail inválido: " + objeto["MAIL"] + ". Cliente: " + objeto["NOMBRE(S)"] + ". Cédula: " + objeto["CEDULA"]
-                                            }
-                                            $scope.Validaciones.push(mensaje);
-                                            continue;
+                                    if (!moment(objeto["FECHA_NACIMIENTO"], 'D/M/YYYY', true).isValid()) {
+                                        let mensaje = {
+                                            Mensaje: "Fecha de nacimiento inválida. - Fila número " + numeroFila
                                         }
-
-                                        if (!moment(objeto["FECHA_NACIMIENTO"], 'D/M/YYYY', true).isValid()) {
-                                            let mensaje = {
-                                                Mensaje: "Fecha de nacimiento inválida: " + objeto["FECHA_NACIMIENTO"] + ". Cliente: " + objeto["NOMBRE(S)"] + ". Cédula: " + objeto["CEDULA"]
-                                            }
-                                            $scope.Validaciones.push(mensaje);
-                                            continue;
-                                        }
-
-                                        let cliente = {
-                                            "Id_Cliente": -1,
-                                            "Cedula": objeto["CEDULA"],
-                                            "Nombres": objeto["NOMBRE(S)"],
-                                            "Apellidos": objeto["APELLIDO(S)"],
-                                            "Mail": objeto["MAIL"],
-                                            "Direccion": objeto["DIRECCION"],
-                                            "Telefono_Movil": objeto["CELULAR"],
-                                            "Fecha_Nacimiento": new Date(objeto["FECHA_NACIMIENTO"]),
-                                            "Id_Tipo": 1,
-                                            "Estado": "ACTIVO",
-                                            "Id_Empresa": $scope.IdEmpresa,
-                                            "Id_Usuario_Creacion": $scope.IdUsuario
-                                        };
-
-                                        $scope.ExcelClientes.push(cliente)
+                                        $scope.Validaciones.push(mensaje);
+                                        continue;
                                     }
+
+                                    let cliente = {
+                                        "Id_Cliente": -1,
+                                        "Cedula": objeto["CEDULA"],
+                                        "Nombres": objeto["NOMBRE(S)"],
+                                        "Apellidos": objeto["APELLIDO(S)"],
+                                        "Mail": objeto["MAIL"],
+                                        "Direccion": objeto["DIRECCION"],
+                                        "Telefono_Movil": objeto["CELULAR"],
+                                        "Fecha_Nacimiento": new Date(objeto["FECHA_NACIMIENTO"]),
+                                        "Id_Tipo": 1,
+                                        "Estado": "ACTIVO",
+                                        "Id_Empresa": $scope.IdEmpresa,
+                                        "Id_Usuario_Creacion": $scope.IdUsuario
+                                    };
+
+                                    $scope.ExcelClientes.push(cliente)
                                 }
+
                             }
 
                             if ($scope.ExcelClientes.length > 0)
                                 $scope.ProcesarExcelClientes($scope.ExcelClientes);
+
                         } else {
                             toastr.info('El archivo seleccionado no tiene datos', '', $scope.toastrOptions);
                             $("#labelArchivo").val('');
                             $scope.ArchivoSeleccionado = null;
                             return;
                         }
+
                     } catch (e) {
                         toastr.error(e.message, '', $scope.toastrOptions);
                         $("#labelArchivo").val('');
@@ -536,29 +594,42 @@
             }
         }
 
-        $scope.ProcesarExcelClientes = function () {
+        $scope.ProcesarExcelClientes = function (clientes) {
             if ($scope.Validaciones.length > 0) {
                 let mensajes = Enumerable.From($scope.Validaciones)
                     .Select(function (x) { return x.Mensaje })
                     .ToArray().join('\n');
 
                 let confirm = $mdDialog.confirm()
-                    .title('Validar excel')
-                    .textContent('El archivo tiene las siguientes inconsistencias: \n' + mensajes + '.\nLos registros de clientes que presentaron inconsistencias no se procesarán. \n¿Desea continuar?')
+                    .title('Validación excel')
+                    .textContent('El archivo tiene las siguientes inconsistencias: \n' + mensajes + '.\n\nLos registros de clientes que presentaron inconsistencias no se procesarán. \n¿Desea continuar?')
                     .ariaLabel('Validar excel')
                     .ok('Sí')
                     .cancel('No')
                     .multiple(true);
 
                 $mdDialog.show(confirm).then(function () {
-                    $scope.GuardarExcelClientes();
+                    $scope.GuardarExcelClientes(clientes);
                 }, function () {
                     return;
                 });
-            }
+            } else $scope.GuardarExcelClientes(clientes);
         }
 
-        $scope.GuardarExcelClientes = function () {
+        $scope.GuardarExcelClientes = function (clientes) {
+            SPAService._registrarExcelClientes(JSON.stringify(clientes))
+                .then(
+                    function (result) {
+                        if (result.data === true) {
+                            toastr.success('Clientes registrados correctamente', '', $scope.toastrOptions);
+                            $scope.ConsultarClientes();
+                            $('#txtCedula').focus();
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
         }
 
         window.onresize = function () {
@@ -3708,6 +3779,7 @@
         $scope.FechaActual = new Date();
         $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
 
+
         //Variables de Configuración
         $scope.fPropertiesSetted = false;
         $scope.PAPTS = false;
@@ -3735,6 +3807,7 @@
         //Guardar Actualizar Cita
         $scope.GuardarActualizarAgenda = function () {
             if ($scope.ValidarNuevaAgenda()) {
+
                 SPAService._guardarActualizarAgenda($scope.Agenda)
                     .then(
                         function (result) {
@@ -3920,6 +3993,7 @@
 
         //Editar Agenda
         $scope.EditarAgenda = function (agenda) {
+
             let fechafin = new Date(agenda.fecha_Fin);
             $scope.EmpleadoSeleccionadoModal = {
                 id_Empleado: agenda.id_Empleado,
@@ -3968,6 +4042,7 @@
             $scope.fDisableGuardarAgenda = false;
             $scope.fDisableServiciosM = true;
             $scope.fDisableServicios = true;
+
 
             $scope.Agenda = {
                 Id_Agenda: -1,

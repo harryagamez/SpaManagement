@@ -811,5 +811,22 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error guardando las propiedades de la empresa: " + ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("api/SPA/RegistrarExcelClientes")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult RegistrarExcelClientes(List<Cliente> clientes)
+        {
+            try
+            {
+                bool result = _spaService.RegistrarExcelClientes(clientes);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error procesando el archivo de clientes: " + ex.Message);
+            }
+        }
     }
 }

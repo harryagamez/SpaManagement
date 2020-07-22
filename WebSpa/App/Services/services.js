@@ -427,7 +427,7 @@
         function RegistrarExcelClientes(clientes) {
             var deferred = $q.defer();
 
-            serviceRest.Post('SPA', 'RegistrarExcelClientes', cliente,
+            serviceRest.Post('SPA', 'RegistrarExcelClientes', clientes,
                 function (data) {
                     deferred.resolve(data);
                 },

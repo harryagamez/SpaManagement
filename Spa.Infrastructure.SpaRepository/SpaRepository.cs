@@ -1271,5 +1271,26 @@ namespace Spa.Infrastructure.SpaRepository
                 }
             }
         }
+
+        public bool RegistrarExcelClientes(List<Cliente> clientes)
+        {
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "RegistrarExcelClientes";
+                    _command.Parameters.AddWithValue("@JsonClientes", JsonConvert.SerializeObject(clientes));
+
+                    _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return true;
+                }
+            }
+        }
     }
 }
