@@ -1,7 +1,10 @@
-CREATE PROCEDURE GuardarActualizarAgenda(@JsonAgenda NVARCHAR(MAX))
+CREATE PROCEDURE GuardarActualizarAgenda(
+	@JsonAgenda NVARCHAR(MAX)
+)
 AS
 BEGIN
 
+	DECLARE @IdAgenda INT
 	DECLARE @IdEmpleado INT
 	DECLARE @IdCliente INT
 	DECLARE @FechaAgendaCita DATE
@@ -26,6 +29,7 @@ BEGIN
 		Observaciones CHAR(200) '$.Observaciones'		
 	)
 
+	SET @IdAgenda = (SELECT TOP 1 Id_Agenda FROM #TempAgendaCita)
 	SET @IdEmpleado = (SELECT TOP 1 Id_Empleado FROM #TempAgendaCita)
 	SET @IdCliente = (SELECT TOP 1 Id_Cliente FROM #TempAgendaCita)
 	SET @FechaAgendaCita = (SELECT TOP 1 CAST(Fecha_Inicio AS DATE) FROM #TempAgendaCita)
@@ -39,7 +43,7 @@ BEGIN
 			SUBSTRING(CONVERT(CHAR(38),FECHA_FIN,121),12,8) AS Hora_Fin  
 		FROM AGENDA 
 		WHERE CONVERT(CHAR(10),FECHA_INICIO,120) = @FechaAgendaCita 
-		AND ID_EMPLEADO = @IdEmpleado AND ESTADO = 'PROGRAMADA' AND ID_AGENDA <> (SELECT TOP 1 Id_Agenda FROM #TempAgendaCita)
+		AND ID_EMPLEADO = @IdEmpleado AND ESTADO = 'PROGRAMADA' AND ID_AGENDA <> @IdAgenda
 	)
 
 	SELECT
@@ -65,7 +69,7 @@ BEGIN
 			SUBSTRING(CONVERT(CHAR(38),FECHA_FIN,121),12,8) AS Hora_Fin  
 		FROM AGENDA 
 		WHERE CONVERT(CHAR(10),FECHA_INICIO,120) = @FechaAgendaCita 
-		AND ID_CLIENTE = @IdCliente AND ESTADO = 'PROGRAMADA' AND ID_AGENDA <> (SELECT TOP 1 Id_Agenda FROM #TempAgendaCita)
+		AND ID_CLIENTE = @IdCliente AND ESTADO = 'PROGRAMADA' AND ID_AGENDA <> @IdAgenda
 	)
 
 	SELECT
@@ -75,8 +79,7 @@ BEGIN
 	FROM ClienteCitas
 	WHERE (@HoraInicio > Hora_Inicio AND @HoraFin < Hora_Fin)
 	OR (@HoraInicio < Hora_Fin AND @HoraFin > Hora_Inicio) 
-	
-	
+		
 	IF (SELECT COUNT(ID_AGENDA) FROM #TempCitasClientes) > 0 BEGIN
 		SET @Mensaje = 'El cliente ya tiene un servicio programado para la hora seleccionada'
 		RAISERROR (@Mensaje, 16, 1)
@@ -86,7 +89,6 @@ BEGIN
 		RETURN
 	END
 	
-
 	BEGIN TRY
 
 		MERGE AGENDA AS TARGET
