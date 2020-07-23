@@ -187,7 +187,7 @@
                                     <label class="label-form-empleados" style="position: absolute; left: 43px; }">
                                         Fecha Cita:
                                     </label>
-                                    <md-datepicker ng-disabled="fDisableFechaCita" ng-model="FechaInicio" data-ng-change="ValidarFechaModal()" md-placeholder="Enter date" class="dateClientes" id="dpFechaCitaModal" tabindex="10"></md-datepicker>
+                                    <md-datepicker ng-disabled="fDisableFechaCita" ng-model="FechaInicio" data-ng-change="ValidarFechaModal(); ConsultarNumeroCitasDia()" md-placeholder="Enter date" class="dateClientes" id="dpFechaCitaModal" tabindex="10"></md-datepicker>
                                 </md-input-container>
                             </div>
                         </div>
@@ -224,6 +224,16 @@
                         </div>
 
                         <div layout="row" layout-sm="column" style="" layout-align="center center">
+                            <div flex="" data-ng-show="MNCD > 0 || MNCD == null || MNCD == undefined">
+                                <md-input-container style="width:100%; margin-top: -45px;">
+                                    <label class="label-form-empleados" style="font-size:10px; color: orangered;">
+                                        Número citas disponibles:
+                                    </label>
+                                    <br />
+                                    <div style="font-size:22px; color: orangered; font-weight:600; padding-top:5px;">{{NumCitasDisponibles}}</div>
+                                </md-input-container>
+                            </div>
+                            
                             <div flex="">
                                 <md-input-container style="width:100%">
                                     <md-button type="button" id="btnGuardarCita" ng-disabled="fDisableGuardarAgenda" style="position: fixed; right:7px; bottom:20px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarActualizarAgenda()" tabindex="13">

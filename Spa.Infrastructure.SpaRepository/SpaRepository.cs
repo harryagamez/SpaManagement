@@ -1169,7 +1169,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public int ConsultarNumeroCitasDia(DateTime FechaConsulta, string IdEmpresa)
+        public int ConsultarNumeroCitasDia(string fechaConsulta, string idEmpresa)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -1179,14 +1179,14 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarNumeroCitasDia";
-                    _command.Parameters.AddWithValue("@FechaConsulta", FechaConsulta);
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@FechaConsulta", fechaConsulta);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
 
-                    int numerocitas= _command.ExecuteNonQuery();
+                    int numeroCitas = Convert.ToInt32(_command.ExecuteScalar());
 
                     _command.Dispose();
 
-                    return numerocitas;
+                    return numeroCitas;
                 }
             }
         }

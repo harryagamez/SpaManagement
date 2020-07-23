@@ -759,14 +759,14 @@ namespace WebApiSpa.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("api/SPA/ConsultarNumeroCitasDia")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult ConsultarNumeroCitasDia(DateTime FechaConsulta, string IdEmpresa)
+        public IHttpActionResult ConsultarNumeroCitasDia(string fechaConsulta, string idEmpresa)
         {
             try
             {
-                int result = _spaService.ConsultarNumeroCitasDia(FechaConsulta, IdEmpresa);
+                int result = _spaService.ConsultarNumeroCitasDia(fechaConsulta, idEmpresa);
 
                 return Content(HttpStatusCode.OK, result);
             }

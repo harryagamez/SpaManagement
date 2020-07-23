@@ -3830,6 +3830,7 @@
                                 $scope.LimpiarDatos();
                                 toastr.success('Agenda actualizada correctamente', '', $scope.toastrOptions);
                                 $scope.ConsultarAgenda();
+                                $scope.ConsultarNumeroCitasDia();
                             }
                         }, function (err) {
                             toastr.remove();
@@ -3975,13 +3976,23 @@
         }
 
         //Consultar Citas del Día
-        $scope.ConsultarNumeroCitasDia = function () {
-            let fechaconsulta = angular.copy($scope.FechaInicio);
-            SPAService._consultarNumeroCitasDia(fechaconsulta, $scope.IdEmpresa)
-                .then(
-                    function (result) {
-                        let numerocitasdia = result;
-                    })
+        $scope.ConsultarNumeroCitasDia = function () {            
+            if ($scope.MNCD !== '0' && $scope.MNCD !== null && $scope.MNCD !== undefined) {
+                if (($scope.FechaInicio !== null && $scope.FechaInicio !== undefined && $scope.FechaInicio !== '')
+                    && ($scope.IdEmpresa !== null && $scope.IdEmpresa !== undefined)) {
+                    let fechaConsulta = $filter('date')(angular.copy($scope.FechaInicio), 'dd/MM/yyyy');
+                    SPAService._consultarNumeroCitasDia(fechaConsulta, $scope.IdEmpresa)
+                        .then(
+                            function (result) {
+                                let numeroCitasDia = result.data;
+                                $scope.NumCitasDisponibles = ($scope.MNCD - numeroCitasDia);
+                                $scope.fDisableGuardarAgenda = false;
+                                if ($scope.NumCitasDisponibles === 0) {
+                                    $scope.fDisableGuardarAgenda = true;
+                                }
+                            })
+                }          
+            }              
         }
 
         //Funciones
@@ -4399,7 +4410,7 @@
                         $scope.FechaHoraAgendaGeneral();
                         $scope.AccionAgenda = 'Agendar cita';
                     }
-
+                    
                     $scope.ConsultarNumeroCitasDia();
 
                     $mdDialog.show({

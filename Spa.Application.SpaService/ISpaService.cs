@@ -52,7 +52,7 @@ namespace Spa.Application.SpaService
         List<Agenda> ConsultarAgenda(Agenda _Agenda);
         bool CancelarAgenda(int IdAgenda, string IdEmpresa);
         bool ConfirmarAgenda(int IdAgenda, string IdEmpresa);
-        int ConsultarNumeroCitasDia(DateTime FechaConsulta, string IdEmpresa);
+        int ConsultarNumeroCitasDia(string fechaConsulta, string idEmpresa);
         Usuario ValidarUsuarioAdmin(string Nombre, string Password);
         List<Empresa> ConsultarEmpresas();
         List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario);

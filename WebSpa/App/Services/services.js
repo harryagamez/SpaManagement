@@ -968,7 +968,7 @@
 
         function ConsultarNumeroCitasDia(fechaConsulta, idEmpresa) {
             var deferred = $q.defer();
-            serviceRest.Get('SPA', 'ConsultarNumeroCitasDia?FechaConsulta=' + fechaConsulta + '&IdEmpresa=' + idEmpresa,
+            serviceRest.Get('SPA', 'ConsultarNumeroCitasDia?fechaConsulta=' + fechaConsulta + '&idEmpresa=' + idEmpresa,
                 function (data) {
                     deferred.resolve(data);
                 },
