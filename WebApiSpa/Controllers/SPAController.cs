@@ -847,13 +847,13 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpPost]
-        [Route("api/SPA/RegistrarExcelClientes")]
+        [Route("api/SPA/RegistrarClientes")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult RegistrarExcelClientes(List<Cliente> clientes)
+        public IHttpActionResult RegistrarClientes(List<Cliente> clientes)
         {
             try
             {
-                bool result = _spaService.RegistrarExcelClientes(clientes);
+                bool result = _spaService.RegistrarClientes(clientes);
 
                 return Content(HttpStatusCode.OK, result);
             }
