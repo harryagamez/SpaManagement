@@ -456,7 +456,7 @@
 
                                 if (objeto["CEDULA"] === undefined || objeto["CEDULA"] === '') {
                                     let mensaje = {
-                                        Mensaje: "El campo CEDULA está vacio. - Fila número " + numeroFila
+                                        Mensaje: "Campo cédula vacio. - Registro número " + numeroFila
                                     }
                                     $scope.Validaciones.push(mensaje);
                                     continue;
@@ -464,7 +464,7 @@
 
                                 if (objeto["NOMBRE(S)"] === undefined || objeto["NOMBRE(S)"] === '') {
                                     let mensaje = {
-                                        Mensaje: "El campo NOMBRES(S) está vacio. - Fila número " + numeroFila
+                                        Mensaje: "Campo nombres(s) vacio. - Registro número " + numeroFila
                                     }
                                     $scope.Validaciones.push(mensaje);
                                     continue;
@@ -472,7 +472,7 @@
 
                                 if (objeto["APELLIDO(S)"] === undefined || objeto["APELLIDO(S)"] === '') {
                                     let mensaje = {
-                                        Mensaje: "El campo APELLIDO(S) está vacio. - Fila número " + numeroFila
+                                        Mensaje: "Campo apellido(s) vacio. - Registro número " + numeroFila
                                     }
                                     $scope.Validaciones.push(mensaje);
                                     continue;
@@ -480,7 +480,7 @@
 
                                 if (objeto["MAIL"] === undefined || objeto["MAIL"] === '') {
                                     let mensaje = {
-                                        Mensaje: "El campo MAIL está vacio. - Fila número " + numeroFila
+                                        Mensaje: "Campo mail vacio. - Registro número " + numeroFila
                                     }
                                     $scope.Validaciones.push(mensaje);
                                     continue;
@@ -488,7 +488,7 @@
 
                                 if (objeto["DIRECCION"] === undefined || objeto["DIRECCION"] === '') {
                                     let mensaje = {
-                                        Mensaje: "El campo DIRECCION está vacio. - Fila número " + numeroFila
+                                        Mensaje: "Campo dirección vacio. - Registro número " + numeroFila
                                     }
                                     $scope.Validaciones.push(mensaje);
                                     continue;
@@ -496,7 +496,7 @@
 
                                 if (objeto["CELULAR"] === undefined || objeto["CELULAR"] === '') {
                                     let mensaje = {
-                                        Mensaje: "El campo CELULAR está vacio. - Fila número " + numeroFila
+                                        Mensaje: "Campo celular vacio. - Registro número " + numeroFila
                                     }
                                     $scope.Validaciones.push(mensaje);
                                     continue;
@@ -504,7 +504,7 @@
 
                                 if (objeto["FECHA_NACIMIENTO"] === undefined || objeto["FECHA_NACIMIENTO"] === '') {
                                     let mensaje = {
-                                        Mensaje: "El campo FECHA_NACIMIENTO está vacio. - Fila número " + numeroFila
+                                        Mensaje: "Campo fecha_nacimiento vacio. - Registro número " + numeroFila
                                     }
                                     $scope.Validaciones.push(mensaje);
                                     continue;
@@ -518,15 +518,14 @@
                                 if (buscarCliente.length === 0) {
                                     if (!maiL_expression.test(objeto["MAIL"])) {
                                         let mensaje = {
-                                            Mensaje: "Mail inválido. - Fila número " + numeroFila
+                                            Mensaje: "Mail inválido. - Registro número " + numeroFila
                                         }
                                         $scope.Validaciones.push(mensaje);
                                         continue;
                                     }
-
-                                    if (!moment(objeto["FECHA_NACIMIENTO"], 'D/M/YYYY', true).isValid()) {
+                                    if (!moment(objeto["FECHA_NACIMIENTO"], 'YYYY-MM-DD', true).isValid()) {
                                         let mensaje = {
-                                            Mensaje: "Fecha de nacimiento inválida. - Fila número " + numeroFila
+                                            Mensaje: "Fecha de nacimiento inválida. - Registro número " + numeroFila
                                         }
                                         $scope.Validaciones.push(mensaje);
                                         continue;
@@ -540,7 +539,7 @@
                                         "Mail": objeto["MAIL"],
                                         "Direccion": objeto["DIRECCION"],
                                         "Telefono_Movil": objeto["CELULAR"],
-                                        "Fecha_Nacimiento": new Date(objeto["FECHA_NACIMIENTO"]),
+                                        "Fecha_Nacimiento": objeto["FECHA_NACIMIENTO"],
                                         "Id_Tipo": 1,
                                         "Estado": "ACTIVO",
                                         "Id_Empresa": $scope.IdEmpresa,
@@ -549,12 +548,25 @@
 
                                     $scope.ExcelClientes.push(cliente)
                                 }
-
                             }
 
                             if ($scope.ExcelClientes.length > 0)
                                 $scope.ProcesarExcelClientes($scope.ExcelClientes);
+                            else if ($scope.Validaciones.length > 0) {
+                                let mensajes = Enumerable.From($scope.Validaciones)
+                                    .Select(function (x) { return x.Mensaje })
+                                    .ToArray().join('\n');
 
+                                let information = $mdDialog.alert()
+                                    .clickOutsideToClose(true)
+                                    .title('Validación excel')
+                                    .textContent('El archivo tiene las siguientes inconsistencias: \n' + mensajes + '.\n\nNo se puede procesar ningún registro del archivo')
+                                    .ariaLabel('Validación excel')
+                                    .ok('Aceptar')
+                                    .multiple(true);
+
+                                $mdDialog.show(information);
+                            }
                         } else {
                             toastr.info('El archivo seleccionado no tiene datos', '', $scope.toastrOptions);
                             $("#labelArchivo").val('');
@@ -616,11 +628,11 @@
         }
 
         $scope.GuardarExcelClientes = function (clientes) {
-            SPAService._registrarExcelClientes(JSON.stringify(clientes))
+            SPAService._registrarClientes(JSON.stringify(clientes))
                 .then(
                     function (result) {
                         if (result.data === true) {
-                            toastr.success('Clientes registrados correctamente', '', $scope.toastrOptions);
+                            toastr.success('Clientes actualizados correctamente', '', $scope.toastrOptions);
                             $scope.ConsultarClientes();
                             $('#txtCedula').focus();
                         }
@@ -3753,7 +3765,7 @@
                 { id_Estado: 2, Nombre: "FACTURADA" },
                 { id_Estado: 4, Nombre: "LIQUIDADA" },
                 { id_Estado: 5, Nombre: "CANCELADA" },
-                {id_Estado: 6, Nombre: "CONFIRMADA"}
+                { id_Estado: 6, Nombre: "CONFIRMADA" }
             ];
         $scope.Estado = $filter('orderBy')($scope.Estado, 'Nombre', false);
 
@@ -3793,7 +3805,7 @@
 
         $scope.Agenda = {
             Id_Agenda: -1,
-            Id_Empresa: $scope.IdEmpresa,             
+            Id_Empresa: $scope.IdEmpresa,
             Id_Cliente: '',
             Id_Empleado: '',
             Id_Servicio: '',
@@ -4070,7 +4082,7 @@
                 Fecha_Inicio: '',
                 Fecha_Fin: '',
                 Estado: 'PROGRAMADA',
-                Observaciones: '',                
+                Observaciones: '',
                 NombreApellido_Empleado: '',
                 NombreApellido_Cliente: ''
             };
@@ -4296,7 +4308,7 @@
                 $scope.Agenda.Estado = 'PROGRAMADA';
 
                 $scope.Agenda.Fecha_Inicio = new Date($scope.Agenda.Fecha_Inicio + 'Z');
-                $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');                
+                $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');
                 return true;
             }
         }

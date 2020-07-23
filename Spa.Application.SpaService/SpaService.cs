@@ -400,9 +400,9 @@ namespace Spa.Application.SpaService
             }
         }
 
-        public bool RegistrarExcelClientes(List<Cliente> clientes)
+        public bool RegistrarClientes(List<Cliente> clientes)
         {
-            return _spaRepository.RegistrarExcelClientes(clientes);
+            return _spaRepository.RegistrarClientes(clientes);
         }
     }
 }
