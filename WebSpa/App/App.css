@@ -965,15 +965,4 @@ md-card md-card-title {
     box-shadow: none;
     box-shadow: 0 0px 5px rgba(0, 0, 0, 0.075);
     background-color: #f1f1f1;    
-}
-
-.agenda-cards {
-    transition: 0.3s ease;
-}
-
-    .agenda-cards:hover {
-        -webkit-transform: scale(1.05);
-        -ms-transform: scale(1.05);
-        transform: scale(1.05);
-        transition: 0.3s ease;
-    }
+}    

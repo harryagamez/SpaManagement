@@ -1169,6 +1169,28 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public int ConsultarNumeroCitasDia(DateTime FechaConsulta, string IdEmpresa)
+        {
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarNumeroCitasDia";
+                    _command.Parameters.AddWithValue("@FechaConsulta", FechaConsulta);
+                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+
+                    int numerocitas= _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return numerocitas;
+                }
+            }
+        }
+
         public Usuario ValidarUsuarioAdmin(string Nombre, string Password)
         {
             DataTable _datatable = new DataTable();

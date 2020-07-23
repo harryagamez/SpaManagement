@@ -3778,11 +3778,14 @@
         $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
         $scope.FechaActual = new Date();
         $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
+        
 
-
-        //Variables de Configuración
+        //Variables de Configuración        
         $scope.fPropertiesSetted = false;
         $scope.PAPTS = false;
+        $scope.MNCD = null;
+
+        //Flags        
         $scope.fDisableCliente = false;
         $scope.fDisableFechaCita = false;
         $scope.fEditAgenda = false;
@@ -3959,6 +3962,16 @@
                     })
         }
 
+        //Consultar Citas del Día
+        $scope.ConsultarNumeroCitasDia = function () {
+            let fechaconsulta = angular.copy($scope.FechaInicio);
+            SPAService._consultarNumeroCitasDia(fechaconsulta, $scope.IdEmpresa)
+                .then(
+                    function (result) {
+                        let numerocitasdia = result;
+                    })
+        }
+
         //Funciones
         //Filtrar Servicios Empleado Modal
         $scope.FiltrarServicios = function (empleado) {
@@ -3989,19 +4002,24 @@
 
         //Set Datos Configuración Empresa
         $scope.ConfiguracionEmpresaActual = function () {
+            
             if ($scope.EmpresaPropiedades.length > 0) {
                 let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
+                let mncd = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'MNCD' });
+
+                $scope.MNCD = mncd[0].valor_Propiedad;
+
                 if (papts[0].valor_Propiedad.toUpperCase() === 'SI' || papts[0].valor_Propiedad.toUpperCase() === 'SÍ') {
                     $scope.fDisableHoraFin = true;
                     $scope.fPropertiesSetted = true;
                     $scope.PAPTS = true;
                 }
-
                 else {
                     $scope.fDisableHoraFin = false;
                     $scope.fPropertiesSetted = true;
                     $scope.PAPTS = false;
                 }
+
             } else {
                 $scope.fPropertiesSetted = false;
                 toastr.info('La empresa actual, no tiene propiedades definidas', '', $scope.toastrOptions);
@@ -4369,6 +4387,8 @@
                         $scope.FechaHoraAgendaGeneral();
                         $scope.AccionAgenda = 'Agendar cita';
                     }
+
+                    $scope.ConsultarNumeroCitasDia();
 
                     $mdDialog.show({
                         contentElement: '#dlgAgendaGeneral',

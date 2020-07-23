@@ -407,6 +407,7 @@
             _consultarAgenda: ConsultarAgenda,
             _cancelarAgenda: CancelarAgenda,
             _confirmarAgenda: ConfirmarAgenda,
+            _consultarNumeroCitasDia: ConsultarNumeroCitasDia,
             _guardarEmpresaPropiedades: GuardarEmpresaPropiedades
         }
 
@@ -962,6 +963,18 @@
                     deferred.reject(err);
                 });
 
+            return deferred.promise;
+        }
+
+        function ConsultarNumeroCitasDia(fechaConsulta, idEmpresa) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarNumeroCitasDia?FechaConsulta=' + fechaConsulta + '&IdEmpresa=' + idEmpresa,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
             return deferred.promise;
         }
     }

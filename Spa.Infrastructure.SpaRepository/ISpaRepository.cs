@@ -2,6 +2,7 @@
 using Spa.Domain.SpaEntities.Extensions;
 using Spa.InfraCommon.SpaCommon.Models;
 using System.Collections.Generic;
+using System;
 
 namespace Spa.Infrastructure.SpaRepository
 {
@@ -53,6 +54,7 @@ namespace Spa.Infrastructure.SpaRepository
         List<Agenda> ConsultarAgenda(Agenda _Agenda);
         bool CancelarAgenda(int IdAgenda, string IdEmpresa);
         bool ConfirmarAgenda(int IdAgenda, string IdEmpresa);
+        int ConsultarNumeroCitasDia(DateTime FechaConsulta, string IdEmpresa);
         Usuario ValidarUsuarioAdmin(string Nombre, string Password);
         List<Empresa> ConsultarEmpresas();
         List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario);

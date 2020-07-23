@@ -759,6 +759,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/SPA/ConsultarNumeroCitasDia")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarNumeroCitasDia(DateTime FechaConsulta, string IdEmpresa)
+        {
+            try
+            {
+                int result = _spaService.ConsultarNumeroCitasDia(FechaConsulta, IdEmpresa);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando el número de citas del día: " + ex.Message);
+            }
+        }
+
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [Route("api/SPA/ConsultarEmpresas")]

@@ -325,6 +325,11 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConfirmarAgenda(IdAgenda, IdEmpresa);
         }
 
+        public int ConsultarNumeroCitasDia(DateTime FechaConsulta, string IdEmpresa)
+        {
+            return _spaRepository.ConsultarNumeroCitasDia(FechaConsulta, IdEmpresa);
+        }
+
         public List<Empresa> ConsultarEmpresas()
         {
             return _spaRepository.ConsultarEmpresas();
