@@ -684,7 +684,7 @@
                 return false;
             }
 
-            if ($filter('date')(new Date($scope.Cliente.Fecha_Nacimiento), 'MM/dd/yyyy') > $filter('date')(new Date(), 'MM/dd/yyyy')) {
+            if (parseInt($filter('date')(new Date($scope.Cliente.Fecha_Nacimiento), 'yyyyMMdd')) > parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
                 toastr.info('La fecha de nacimiento, debe ser menor que la fecha actual', '', $scope.toastrOptions);
                 $('#dpFechaNacimiento').focus();
                 return false;
