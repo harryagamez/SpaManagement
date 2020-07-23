@@ -13,7 +13,7 @@ BEGIN
 	DECLARE @Mensaje VARCHAR(200)	
 
 	CREATE TABLE #TempAgendaCita (Id_Agenda INT, Fecha_Inicio DATETIME, Fecha_Fin DATETIME, Id_Cliente INT,
-		Id_Servicio INT, Id_Empleado INT, Estado VARCHAR(12), Id_Empresa UNIQUEIDENTIFIER, Observaciones CHAR(200))
+	Id_Servicio INT, Id_Empleado INT, Estado VARCHAR(12), Id_Empresa UNIQUEIDENTIFIER, Observaciones CHAR(200))
 
 	INSERT INTO #TempAgendaCita(Id_Agenda, Fecha_Inicio, Fecha_Fin, Id_Cliente, Id_Servicio, Id_Empleado, Estado, Id_Empresa, Observaciones)
 	SELECT 
