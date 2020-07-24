@@ -1,9 +1,12 @@
-CREATE PROCEDURE ConsultarUsuario(@Nombre CHAR(25))
+CREATE PROCEDURE ConsultarUsuario(
+	@Nombre CHAR(25)
+)
 AS
 
 BEGIN
 	
-	SELECT NOMBRE
+	SELECT 
+		NOMBRE
 	FROM USUARIOS 
 	WHERE NOMBRE = @Nombre
 

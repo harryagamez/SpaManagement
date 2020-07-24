@@ -1,4 +1,6 @@
-CREATE PROCEDURE EliminarGastos(@JsonGastos NVARCHAR(MAX))
+CREATE PROCEDURE EliminarGastos(
+	@JsonGastos NVARCHAR(MAX)
+)
 AS
 BEGIN
 
@@ -41,8 +43,8 @@ BEGIN
 	END TRY
 	BEGIN CATCH
 
-		IF OBJECT_ID('tempdb..#TempGastos') IS NOT NULL DROP TABLE #TempGastos
 		IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION Tn_EliminarGastos
+		IF OBJECT_ID('tempdb..#TempGastos') IS NOT NULL DROP TABLE #TempGastos
         DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE()
         RAISERROR (@ErrorMessage, 16, 1)
 

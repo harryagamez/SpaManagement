@@ -1,4 +1,6 @@
-CREATE PROCEDURE ConsultarEmpleadoServicio(@IdEmpleado VARCHAR(36))
+CREATE PROCEDURE ConsultarEmpleadoServicio(
+	@IdEmpleado VARCHAR(36)
+)
 AS
 BEGIN
 

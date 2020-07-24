@@ -1,4 +1,6 @@
-﻿CREATE PROCEDURE ConsultarGastos(@JsonBusqueda NVARCHAR(MAX))
+﻿CREATE PROCEDURE ConsultarGastos(
+	@JsonBusqueda NVARCHAR(MAX)
+)
 AS
 BEGIN
 	

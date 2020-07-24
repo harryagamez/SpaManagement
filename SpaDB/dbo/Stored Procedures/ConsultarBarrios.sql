@@ -1,10 +1,10 @@
-﻿CREATE PROCEDURE ConsultarBarrios(@IdMunicipio INT)
+﻿CREATE PROCEDURE ConsultarBarrios(
+	@IdMunicipio INT
+)
 AS
-
 BEGIN
 	
-	SELECT 
-		* 
+	SELECT * 
 	FROM BARRIOS 
 	WHERE ID_MUNICIPIO = @IdMunicipio
 

@@ -1,6 +1,8 @@
-﻿CREATE PROCEDURE ConsultarCliente(@CedulaCliente VARCHAR(15), @IdEmpresa VARCHAR(36))
+﻿CREATE PROCEDURE ConsultarCliente(
+	@CedulaCliente VARCHAR(15), 
+	@IdEmpresa VARCHAR(36)
+)
 AS
-
 BEGIN
 
 	SELECT

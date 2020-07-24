@@ -1,4 +1,6 @@
-CREATE PROCEDURE GuardarCajaMenor(@JsonCajaMenor NVARCHAR(MAX))
+CREATE PROCEDURE GuardarCajaMenor(
+	@JsonCajaMenor NVARCHAR(MAX)
+)
 AS
 BEGIN
 

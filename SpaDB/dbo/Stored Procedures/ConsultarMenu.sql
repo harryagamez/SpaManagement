@@ -1,4 +1,8 @@
-﻿CREATE PROCEDURE ConsultarMenu(@IdUsuario INT, @IdEmpresa VARCHAR(36), @Perfil VARCHAR(25))
+﻿CREATE PROCEDURE ConsultarMenu(
+	@IdUsuario INT, 
+	@IdEmpresa VARCHAR(36), 
+	@Perfil VARCHAR(25)
+)
 AS
 BEGIN
 

@@ -1,6 +1,9 @@
-CREATE PROCEDURE EliminarEmpleadoInsumo(@IdTransaccion INT, @Cantidad INT, @IdProducto INT)
+CREATE PROCEDURE EliminarEmpleadoInsumo(
+	@IdTransaccion INT, 
+	@Cantidad INT, 
+	@IdProducto INT
+)
 AS
-
 BEGIN	
 
 	BEGIN TRY
@@ -15,7 +18,7 @@ BEGIN
 		SET INVENTARIO = INVENTARIO + @Cantidad
 		WHERE ID_PRODUCTO = @IdProducto
 
-		COMMIT TRANSACTION
+		COMMIT TRANSACTION Tn_EliminarInsumo
 
 	END TRY
 	BEGIN CATCH

@@ -1,4 +1,6 @@
-﻿CREATE PROCEDURE ConsultarUsuarioEmpresas(@IdUsuario INT)
+﻿CREATE PROCEDURE ConsultarUsuarioEmpresas(
+	@IdUsuario INT
+)
 AS
 BEGIN
 	

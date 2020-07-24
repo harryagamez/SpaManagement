@@ -1,4 +1,6 @@
-CREATE PROCEDURE AsignarEmpleadoServicio(@JsonEmpleadoServicio NVARCHAR(MAX))
+CREATE PROCEDURE AsignarEmpleadoServicio(
+	@JsonEmpleadoServicio NVARCHAR(MAX)
+)
 AS
 BEGIN
 	

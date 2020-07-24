@@ -1,4 +1,7 @@
-CREATE PROCEDURE CancelarAgenda(@IdAgenda INT, @IdEmpresa VARCHAR(36))
+CREATE PROCEDURE CancelarAgenda(
+	@IdAgenda INT, 
+	@IdEmpresa VARCHAR(36)
+)
 AS
 BEGIN
 

@@ -1,4 +1,7 @@
-﻿CREATE PROCEDURE ConsultarProductoTransacciones(@IdProducto INT, @IdEmpresa VARCHAR(36))
+﻿CREATE PROCEDURE ConsultarProductoTransacciones(
+	@IdProducto INT, 
+	@IdEmpresa VARCHAR(36)
+)
 AS
 BEGIN
 	

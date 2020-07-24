@@ -1,4 +1,6 @@
-﻿CREATE PROCEDURE GuardarEmpresaPropiedades(@JsonPropiedades NVARCHAR(MAX))
+﻿CREATE PROCEDURE GuardarEmpresaPropiedades(
+	@JsonPropiedades NVARCHAR(MAX)
+)
 AS
 BEGIN
 
