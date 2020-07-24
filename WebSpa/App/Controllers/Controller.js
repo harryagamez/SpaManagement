@@ -3773,7 +3773,8 @@
             Fecha_Inicio: '',
             Fecha_Fin: '',
             Estado: 'PROGRAMADA',
-            Observaciones: ''
+            Observaciones: '',
+            fShowCanceladas: false
         };
 
         //Api
@@ -4104,7 +4105,8 @@
                     Estado: 'PROGRAMADA',
                     Observaciones: '',
                     NombreApellido_Empleado: '',
-                    NombreApellido_Cliente: ''
+                    NombreApellido_Cliente: '',
+                    fShowCanceladas: false
                 };
 
             } catch (e) {

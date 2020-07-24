@@ -278,7 +278,7 @@
                                     </label>
                                     <md-datepicker ng-model="FechaBusqueda" md-placeholder="Enter date" class="dateClientes" id="dpFechaBusqueda" tabindex=1 style="margin-bottom:0;"></md-datepicker>
                                 </md-input-container>
-                            </div>
+                            </div>                            
                         </div>
 
                         <div layout="row" layout-sm="column" style="margin-top:-25px;" layout-align="start center">
@@ -344,6 +344,12 @@
                         </div>
 
                         <div layout="row" layout-sm="column" style="margin-top:-15px;" layout-align="end center">
+                            <div flex="" style="">
+                                <span style="font-size:11px;">Mostrar Canceladas:</span>
+                                <md-checkbox ng-model="Agenda.fShowCanceladas" aria-label="Checkbox Filtro Canceladas">
+                                </md-checkbox>
+                            </div>
+                            
                             <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Buscar" data-ng-click="ConsultarAgenda()">
                                 <i class="material-icons md-18" style="transform: scaleX(-1)">search</i>Buscar
                             </md-button>
