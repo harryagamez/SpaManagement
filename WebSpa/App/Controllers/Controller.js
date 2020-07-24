@@ -186,7 +186,7 @@
         $scope.ArchivoSeleccionado = null;
         $scope.ExcelClientes = [];
         $scope.Validaciones = [];
-        const maiL_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
+        const mail_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
 
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
@@ -516,7 +516,7 @@
                                     }).ToArray();
 
                                 if (buscarCliente.length === 0) {
-                                    if (!maiL_expression.test(objeto["MAIL"])) {
+                                    if (!mail_expression.test(objeto["MAIL"])) {
                                         let mensaje = {
                                             Mensaje: "Mail inválido. - Registro número " + numeroFila
                                         }
@@ -678,7 +678,7 @@
                 return false;
             }
 
-            if (!maiL_expression.test($scope.Cliente.Mail)) {
+            if (!mail_expression.test($scope.Cliente.Mail)) {
                 toastr.info('La dirección de correo electrónico no es válida.', '', $scope.toastrOptions);
                 $('#txtMail').focus();
                 return false;
@@ -1359,7 +1359,6 @@
     }
 
     function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-        // VARIABLES
         $scope.Empleados = [];
         $scope.Municipios = [];
         $scope.TipoPagos = [];
@@ -1375,7 +1374,6 @@
         $scope.InventarioProducto = 0;
         $scope.PermitirFiltrar = true;
 
-        //INICIALIZACIÓN
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
 
@@ -1409,8 +1407,6 @@
             $('#txtCedula').focus();
         }
 
-        // INVOCACIONES API
-        //Asignar Insumos Empleado
         $scope.AsignarEmpleadoInsumo = function () {
             if ($scope.ProductoSeleccionado != -1) {
                 if ($scope.CantidadInsumo > 0) {
@@ -1450,7 +1446,6 @@
             } else toastr.info('Debe seleccionar al menos 1 producto', '', $scope.toastrOptions);
         }
 
-        // Asignar Servicios Empleados
         $scope.AsignarEmpleadoServicio = function () {
             if ($scope.ServiciosAsignados.length > 0) {
                 $scope.ListaServiciosAsignados = [];
@@ -1475,7 +1470,6 @@
             } else toastr.info('Debe seleccionar al menos 1 servicio', '', $scope.toastrOptions);
         }
 
-        // Desasignar Servicios Empleados
         $scope.DesasignarEmpleadoServicio = function (data) {
             let IdEmpleadoServicio = data.id_Empleado_Servicio;
 
@@ -1493,7 +1487,6 @@
                     })
         }
 
-        //Eliminar Insumo Empleados
         $scope.EliminarEmpleadoInsumo = function (data) {
             let IdTransaccion = data.id_Transaccion;
             let Cantidad = data.cantidad;
@@ -1518,7 +1511,6 @@
                     })
         }
 
-        // Guardar Empleado
         $scope.GuardarEmpleado = function () {
             if ($scope.ValidarDatos()) {
                 $scope.ObjetoEmpleado = [];
@@ -1542,7 +1534,6 @@
             }
         }
 
-        // Consultar Empleados
         $scope.ConsultarEmpleados = function () {
             SPAService._consultarEmpleados($scope.IdEmpresa)
                 .then(
@@ -1565,7 +1556,6 @@
             $('#txtCedula').focus();
         }
 
-        //Consultar Empleado
         $scope.ConsultarEmpleado = function (e, cedula_empleado) {
             $scope.Accion = '';
 
@@ -1625,7 +1615,6 @@
             }
         }
 
-        // Consultar EmpleadoServicios
         $scope.ConsultarEmpleadoServicio = function () {
             SPAService._consultarEmpleadoServicio($scope.IdEmpleado)
                 .then(
@@ -1654,7 +1643,6 @@
                     })
         }
 
-        //Consultar EmpleadoInsumos
         $scope.ConsultarEmpleadoInsumos = function () {
             SPAService._consultarEmpleadoInsumos($scope.IdEmpleado)
                 .then(
@@ -1675,7 +1663,6 @@
                     })
         }
 
-        // Consultar Barrios
         $scope.ConsultarBarrios = function (id_Municipio) {
             SPAService._consultarBarrios(id_Municipio)
                 .then(
@@ -1708,7 +1695,6 @@
                     })
         }
 
-        // Consultar Municipios
         $scope.ConsultarMunicipios = function () {
             SPAService._consultarMunicipios()
                 .then(
@@ -1727,7 +1713,6 @@
                     })
         }
 
-        // Consultar Tipo Pagos
         $scope.ConsultarTipoPagos = function () {
             SPAService._consultarTipoPagos()
                 .then(
@@ -1745,7 +1730,6 @@
                     })
         }
 
-        //Consultar Tipo Servicios
         $scope.ConsultarTipoServicios = function () {
             SPAService._consultarTipoServicios()
                 .then(
@@ -1761,7 +1745,6 @@
                     })
         }
 
-        // Consultar Servicios
         $scope.ConsultarServicios = function () {
             SPAService._consultarServiciosActivos($scope.IdEmpresa)
                 .then(
@@ -1778,7 +1761,6 @@
                     })
         }
 
-        //Consultar Tipo Transacciones
         $scope.ConsultarTipoTransacciones = function () {
             SPAService._consultarTipoTransacciones()
                 .then(
@@ -1803,7 +1785,6 @@
                     })
         }
 
-        //Consultar Productos
         $scope.ConsultarProductos = function () {
             SPAService._consultarProductos($scope.IdEmpresa)
                 .then(
@@ -1820,7 +1801,6 @@
                     })
         }
 
-        // Limpiar Datos
         $scope.LimpiarDatos = function () {
             $scope.CedulaReadOnly = false;
             $scope.EstadoSeleccionado = 'ACTIVO';
@@ -1852,8 +1832,6 @@
             $scope.PermitirFiltrar = true;
         }
 
-        // FUNCIONES
-        //Consultar Inventario Producto
         $scope.ConsultarInventario = function (inventario) {
             $scope.InventarioProducto = 0;
             let filtrarEntrada = Enumerable.From($scope.Productos)
@@ -1863,12 +1841,10 @@
             $scope.$broadcast('productChanged');
         }
 
-        //Foco Monto
         $scope.FocoMonto = function () {
             $scope.$broadcast('selectChanged');
         }
 
-        //Asignar Remover Elementos Lista Servicios
         $scope.AsignarRemover = function (ServiciosSeleccionados) {
             if (ServiciosSeleccionados.length > 0)
                 $scope.ServiciosAsignados = ServiciosSeleccionados;
@@ -1876,7 +1852,6 @@
                 $scope.ServiciosAsignados.splice($scope.ServiciosAsignados.indexOf(ServiciosSeleccionados), 1);
         }
 
-        // Validar Datos
         $scope.ValidarDatos = function () {
             $scope.Empleado.Id_Barrio = $scope.BarrioSeleccionado
             $scope.Empleado.Id_TipoPago = $scope.TipoPagoSeleccionado;
@@ -1978,12 +1953,10 @@
             return true;
         }
 
-        // Filtros Barrios
         $scope.FiltrarBarrios = function (id_Municipio) {
             $scope.ConsultarBarrios(id_Municipio);
         }
 
-        //Show Comfirm Desasignar Servicios
         $scope.showConfirmServicio = function (ev, data) {
             let confirm = $mdDialog.confirm()
                 .title('Desasignar Servicio')
@@ -2001,7 +1974,6 @@
             });
         };
 
-        //Modal Asignar Servicio
         $scope.ModalAsignarServicios = function () {
             $scope.AccionEmpleado = 'Asignar Servicios';
             $mdDialog.show({
@@ -2025,7 +1997,6 @@
             $scope.ModalAsignarServicios();
         }
 
-        //Show Comfirm Eliminar Insumo
         $scope.showConfirmInsumo = function (ev, data) {
             let confirm = $mdDialog.confirm()
                 .title('Eliminar Insumo')
@@ -2043,7 +2014,6 @@
             });
         };
 
-        // Modal Asignar Insumos
         $scope.ModalAsignarInsumos = function () {
             $scope.AccionEmpleado = 'Asignar Insumos';
 
@@ -2068,7 +2038,6 @@
             $scope.ModalAsignarInsumos();
         }
 
-        //SelectedRow
         function OnRowClicked(event) {
             $scope.LimpiarDatos();
 
@@ -2103,21 +2072,18 @@
             }
         }
 
-        //Filtrar por nombre
         $scope.onFilterTextBoxChanged = function () {
             if ($scope.PermitirFiltrar === true) {
                 $scope.EmpleadosGridOptions.api.setQuickFilter($('#txtNombres').val());
             }
         }
 
-        //Change Row Color
         function ChangeRowColor(params) {
             if (params.data.estado === 'INACTIVO') {
                 return { 'background-color': '#ecf0e0', 'color': '#999999', 'font-weight': '300' };
             }
         }
 
-        //API GRID EMPLEADOS OPTIONS
         $scope.EmpleadosGridOptionsColumns = [
 
             {
@@ -2182,7 +2148,6 @@
             suppressRowClickSelection: true
         }
 
-        //API GRID ASIGNAR SERVICIOS OPTIONS
         $scope.EmpleadoServicioGridOptionsColumns = [
 
             {
@@ -2218,7 +2183,6 @@
             rowSelection: 'multiple'
         }
 
-        //API GRID ASIGNAR INSUMOS OPTIONS
         $scope.EmpleadoInsumosGridOptionsColumns = [
 
             {
@@ -2259,7 +2223,6 @@
             rowSelection: 'multiple'
         }
 
-        //Eventos
         $scope.Cancelar = function () {
             $mdDialog.cancel();
             $('#txtBuscarServicio').focus();
@@ -2288,7 +2251,6 @@
             $scope.Inicializacion();
         });
 
-        //INVOCACIÓN FUNCIONES
         $scope.ConsultarServicios();
         $scope.ConsultarTipoServicios();
         $scope.ConsultarEmpleados();
@@ -3039,7 +3001,7 @@
             }
 
             if ($scope.TipoGastoSeleccionadoModal === 2 && $scope.EmpleadoSeleccionado === -1) {
-                toastr.info('Para el tipo de gasto PRESTAMOS debe seleccionar un empleado', '', $scope.toastrOptions);
+                toastr.info('Para el tipo de gasto prestamos debe seleccionar un empleado', '', $scope.toastrOptions);
                 return false;
             }
 
@@ -3064,13 +3026,13 @@
             }
 
             if ($scope.Gasto.Valor === 0) {
-                toastr.info('El valor del gasto no puede cero', '', $scope.toastrOptions);
+                toastr.info('El valor del gasto no puede ser cero', '', $scope.toastrOptions);
                 $('#txtValorGasto').focus();
                 return false;
             }
 
             if ($scope.Gasto.Valor > $scope.Acumulado) {
-                toastr.info('Solo dispone de un acumulado de ' + $filter('currency')($scope.Acumulado, '$', 2), '', $scope.toastrOptions);
+                toastr.info('No puede registrar el gasto, el saldo en caja es: ' + $filter('currency')($scope.Acumulado, '$', 2), '', $scope.toastrOptions);
                 $('#txtValorGasto').focus();
                 return false;
             }
@@ -3254,8 +3216,7 @@
                     return;
                 });
             }
-            else
-                toastr.info('Debe seleccionar al menos un registro de gastos', '', $scope.toastrOptions);
+            else toastr.info('Debe seleccionar un registro de gasto', '', $scope.toastrOptions);
         };
 
         //OnRowSelected
@@ -3790,7 +3751,7 @@
         $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
         $scope.FechaActual = new Date();
         $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
-        
+
 
         //Variables de Configuración        
         $scope.fPropertiesSetted = false;
@@ -3855,7 +3816,8 @@
                                 toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
                                 return;
                             }
-                            //$scope.Cancelar();
+                            $mdDialog.cancel();
+
                         }, function (err) {
                             toastr.remove();
                             if (err.data !== null && err.status === 500)
@@ -3976,7 +3938,7 @@
         }
 
         //Consultar Citas del Día
-        $scope.ConsultarNumeroCitasDia = function () {            
+        $scope.ConsultarNumeroCitasDia = function () {
             if ($scope.MNCD !== '0' && $scope.MNCD !== null && $scope.MNCD !== undefined) {
                 if (($scope.FechaInicio !== null && $scope.FechaInicio !== undefined && $scope.FechaInicio !== '')
                     && ($scope.IdEmpresa !== null && $scope.IdEmpresa !== undefined)) {
@@ -3991,8 +3953,8 @@
                                     $scope.fDisableGuardarAgenda = true;
                                 }
                             })
-                }          
-            }              
+                }
+            }
         }
 
         //Funciones
@@ -4025,7 +3987,7 @@
 
         //Set Datos Configuración Empresa
         $scope.ConfiguracionEmpresaActual = function () {
-            
+
             if ($scope.EmpresaPropiedades.length > 0) {
                 let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
                 let mncd = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'MNCD' });
@@ -4124,37 +4086,35 @@
             if ($scope.Empleados !== null && $scope.Empleados !== undefined) {
                 if ($scope.Empleados.length === 0) {
                     counter += 1;
-                    toastr.info('No tiene configurado ningún empleado', '', $scope.toastrOptions);
+                    toastr.info('La empresa seleccionada, no tiene empleados configurados', '', $scope.toastrOptions);
                 }
             } else {
                 counter += 1;
-                toastr.info('No tiene configurado ningún empleado', '', $scope.toastrOptions);
+                toastr.info('La empresa seleccionada, no tiene empleados configurados', '', $scope.toastrOptions);
             }
 
             if ($scope.Clientes !== null && $scope.Clientes !== undefined) {
                 if ($scope.Clientes.length === 0) {
                     counter += 1;
-                    toastr.info('No tiene configurado ningún cliente', '', $scope.toastrOptions);
+                    toastr.info('La empresa seleccionada, no tiene clientes configurados', '', $scope.toastrOptions);
                 }
             } else {
                 counter += 1;
-                toastr.info('No tiene configurado ningún cliente', '', $scope.toastrOptions);
+                toastr.info('La empresa seleccionada, no tiene clientes configurados', '', $scope.toastrOptions);
             }
 
             if ($scope.Servicios !== null && $scope.Servicios !== undefined) {
                 if ($scope.Servicios.length === 0) {
                     counter += 1;
-                    toastr.info('No tiene configurado ningún servicio', '', $scope.toastrOptions);
+                    toastr.info('La empresa seleccionada, no tiene servicios configurados', '', $scope.toastrOptions);
                 }
             } else {
                 counter += 1;
-                toastr.info('No tiene configurado ningún servicio', '', $scope.toastrOptions);
+                toastr.info('La empresa seleccionada, no tiene servicios configurados', '', $scope.toastrOptions);
             }
 
-            if (counter === 0)
-                return true;
-            else
-                return false;
+            if (counter === 0) return true;
+            else return false;
         }
 
         //Validar Nueva Agenda
@@ -4410,7 +4370,7 @@
                         $scope.FechaHoraAgendaGeneral();
                         $scope.AccionAgenda = 'Agendar cita';
                     }
-                    
+
                     $scope.ConsultarNumeroCitasDia();
 
                     $mdDialog.show({
@@ -4428,7 +4388,7 @@
                 }
             }
             else
-                toastr.info('Para poder crear una agenda debe configurar las propiedades de la empresa', '', $scope.toastrOptions);
+                toastr.info('Para utilizar el módulo agenda, debe configurar las propiedades de la empresa', '', $scope.toastrOptions);
         }
 
         //Modal Agendar Cita Detallada

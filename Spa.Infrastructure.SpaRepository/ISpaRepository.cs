@@ -2,7 +2,6 @@
 using Spa.Domain.SpaEntities.Extensions;
 using Spa.InfraCommon.SpaCommon.Models;
 using System.Collections.Generic;
-using System;
 
 namespace Spa.Infrastructure.SpaRepository
 {

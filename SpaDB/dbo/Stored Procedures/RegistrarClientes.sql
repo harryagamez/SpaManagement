@@ -1,7 +1,6 @@
 ﻿CREATE PROCEDURE RegistrarClientes(
 	@JsonClientes NVARCHAR(MAX)
 )
-
 AS
 BEGIN
 

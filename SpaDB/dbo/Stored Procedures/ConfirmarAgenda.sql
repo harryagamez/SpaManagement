@@ -1,4 +1,7 @@
-CREATE PROCEDURE ConfirmarAgenda(@IdAgenda INT, @IdEmpresa VARCHAR(36))
+CREATE PROCEDURE ConfirmarAgenda(
+	@IdAgenda INT, 
+	@IdEmpresa VARCHAR(36)
+)
 AS
 BEGIN
 
