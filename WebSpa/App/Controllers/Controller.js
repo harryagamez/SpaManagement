@@ -4578,6 +4578,20 @@
             }
         }
 
+        //NgClass estilos cards
+        $scope.BackgroundCards = function (estado) {
+            if (estado === 'CONFIRMADA')
+                return 'confirmada-cards';
+            if (estado === 'CANCELADA')
+                return 'cancelada-cards';
+            if (estado === 'PROGRAMADA')
+                return 'programada-cards';
+            if (estado === 'LIQUIDADA')
+                return 'liquidada-cards';
+            if (estado === 'FACTURADA')
+                return 'facturada-cards';
+        }        
+
         //Eventos
         $scope.Cancelar = function () {
             $scope.LimpiarDatos();
