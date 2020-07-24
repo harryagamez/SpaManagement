@@ -110,6 +110,8 @@
     <Content Include="App\Views\_servicios.html" />
     <Content Include="Images\agenda\agenda-cancelada.png" />
     <Content Include="Images\agenda\agenda-confirmada.png" />
+    <Content Include="Images\agenda\agenda-facturada.png" />
+    <Content Include="Images\agenda\agenda-liquidada.png" />
     <Content Include="Images\agenda\agenda-programada.png" />
     <Content Include="Images\cerrar-sesion.png" />
     <Content Include="Images\config.png" />
