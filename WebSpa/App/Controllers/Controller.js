@@ -953,27 +953,31 @@
         }
 
         $scope.ConsultarServicio = function (data) {
-            $rootScope.ServicioImagenesAdjuntas = data.imagenes_Servicio;
+            try {
+                $rootScope.ServicioImagenesAdjuntas = data.imagenes_Servicio;
 
-            $scope.TipoServicioSeleccionado = -1;
+                $scope.TipoServicioSeleccionado = -1;
 
-            if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
-                $scope.Servicio.Nombre = data.nombre;
-                $scope.Servicio.Descripcion = data.descripcion;
-                $scope.Servicio.Estado = data.estado;
-                $scope.Servicio.Fecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
-                $scope.Servicio.Id_Empresa = $scope.IdEmpresa;
-                $scope.Servicio.Id_TipoServicio = data.id_TipoServicio;
-                $scope.Servicio.Id_Servicio = data.id_Servicio;
-                $scope.Servicio.Tiempo = data.tiempo;
-                $scope.Servicio.Valor = data.valor;
-                $scope.Servicio.Id_Servicio = data.id_Servicio;
-                $scope.Servicio.Imagenes_Servicio = data.imagenes_Servicio;
-                $scope.TipoServicioSeleccionado = data.id_TipoServicio;
-                $scope.ModalEditarServicio();
-                $scope.NombreServicioReadOnly = true;
+                if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
+                    $scope.Servicio.Nombre = data.nombre;
+                    $scope.Servicio.Descripcion = data.descripcion;
+                    $scope.Servicio.Estado = data.estado;
+                    $scope.Servicio.Fecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
+                    $scope.Servicio.Id_Empresa = $scope.IdEmpresa;
+                    $scope.Servicio.Id_TipoServicio = data.id_TipoServicio;
+                    $scope.Servicio.Id_Servicio = data.id_Servicio;
+                    $scope.Servicio.Tiempo = data.tiempo;
+                    $scope.Servicio.Valor = data.valor;
+                    $scope.Servicio.Id_Servicio = data.id_Servicio;
+                    $scope.Servicio.Imagenes_Servicio = data.imagenes_Servicio;
+                    $scope.TipoServicioSeleccionado = data.id_TipoServicio;
+                    $scope.ModalEditarServicio();
+                    $scope.NombreServicioReadOnly = true;
 
-                $scope.EstadoSeleccionado = $scope.Servicio.Estado;
+                    $scope.EstadoSeleccionado = $scope.Servicio.Estado;
+                }
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
             }
         }
 
@@ -1989,10 +1993,14 @@
         }
 
         $scope.AsignarServicios = function (data) {
-            $scope.IdEmpleado = data.id_Empleado;
-            $scope.NombreEmpleado = data.nombres + ' ' + data.apellidos;
-            $scope.ConsultarEmpleadoServicio();
-            $scope.ModalAsignarServicios();
+            try {
+                $scope.IdEmpleado = data.id_Empleado;
+                $scope.NombreEmpleado = data.nombres + ' ' + data.apellidos;
+                $scope.ConsultarEmpleadoServicio();
+                $scope.ModalAsignarServicios();
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+            }
         }
 
         $scope.showConfirmInsumo = function (ev, data) {
@@ -2030,10 +2038,14 @@
         }
 
         $scope.AsignarInsumos = function (data) {
-            $scope.IdEmpleado = data.id_Empleado;
-            $scope.NombreEmpleado = data.nombres + ' ' + data.apellidos;
-            $scope.ConsultarEmpleadoInsumos();
-            $scope.ModalAsignarInsumos();
+            try {
+                $scope.IdEmpleado = data.id_Empleado;
+                $scope.NombreEmpleado = data.nombres + ' ' + data.apellidos;
+                $scope.ConsultarEmpleadoInsumos();
+                $scope.ModalAsignarInsumos();
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+            }
         }
 
         function OnRowClicked(event) {
@@ -2260,7 +2272,6 @@
     }
 
     function ProductosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-        // VARIABLES
         $scope.TipoTransacciones = [];
         $scope.ObjetoProducto = [];
         $scope.Productos = [];
@@ -2270,7 +2281,6 @@
         $scope.ProductoTransacciones = [];
         $scope.DescripcionProductoTransacciones = '';
 
-        // INICIALIZACIÓN
         $scope.Inicializacion = function () {
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
             window.onresize();
@@ -2295,7 +2305,6 @@
             Id_Tipo_Transaccion: $scope.TipoTransaccionSeleccionada
         }
 
-        // INVOCACIONES API
         $scope.ConsultarTipoTransacciones = function () {
             SPAService._consultarTipoTransacciones()
                 .then(
@@ -2367,18 +2376,21 @@
             }
         }
 
-        // Consultar Producto
         $scope.ConsultarProducto = function (data) {
-            if (data.id_Producto !== undefined && data.id_Producto !== null) {
-                $scope.Producto.Id_Producto = data.id_Producto;
-                $scope.Producto.Nombre = data.nombre;
-                $scope.Producto.Descripcion = data.descripcion;
-                $scope.Producto.Precio = data.precio;
-                $scope.Producto.Inventario = data.inventario;
-                $scope.Producto.Id_Tipo_Transaccion = $scope.TipoTransaccionSeleccionada;
+            try {
+                if (data.id_Producto !== undefined && data.id_Producto !== null) {
+                    $scope.Producto.Id_Producto = data.id_Producto;
+                    $scope.Producto.Nombre = data.nombre;
+                    $scope.Producto.Descripcion = data.descripcion;
+                    $scope.Producto.Precio = data.precio;
+                    $scope.Producto.Inventario = data.inventario;
+                    $scope.Producto.Id_Tipo_Transaccion = $scope.TipoTransaccionSeleccionada;
 
-                $scope.ModalEditarProducto();
-                $scope.NombreProductoReadOnly = true;
+                    $scope.ModalEditarProducto();
+                    $scope.NombreProductoReadOnly = true;
+                }
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
             }
         }
 
@@ -2456,7 +2468,6 @@
             $('#txtNombreProducto').focus();
         }
 
-        // Validaciones Productos
         $scope.ValidarDatos = function () {
             $scope.Producto.Id_Tipo_Transaccion = $scope.TipoTransaccionSeleccionada;
 
@@ -2523,7 +2534,6 @@
             $scope.OcultarbtnNuevo = true;
         }
 
-        // Agr-grid Options
         $scope.ProductosGridOptionsColumns = [
 
             {
@@ -2633,13 +2643,11 @@
             $scope.ProductosGridOptions.api.setQuickFilter($('#txtBuscarProducto').val());
         }
 
-        // Formatos
         function currencyFormatter(params) {
             let valueGrid = params.value;
             return $filter('currency')(valueGrid, '$', 0);
         }
 
-        // Eventos
         window.onresize = function () {
             $timeout(function () {
                 $scope.ProductosGridOptions.api.sizeColumnsToFit();
@@ -2662,7 +2670,6 @@
             $scope.Inicializacion();
         });
 
-        // Invocación Funciones
         $scope.ConsultarTipoTransacciones();
         $scope.ConsultarProductos();
         $scope.Inicializacion();
@@ -3976,7 +3983,7 @@
                 return;
             }
 
-            
+
         }
 
         //On Change
@@ -3997,7 +4004,7 @@
                 return;
             }
 
-            
+
         }
 
         //Set Datos Configuración Empresa
@@ -4029,7 +4036,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }    
+            }
         }
 
         //Editar Agenda
@@ -4063,7 +4070,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         //Limpiar Datos
@@ -4112,7 +4119,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         //Validaciones
@@ -4157,7 +4164,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         //Validar Nueva Agenda
@@ -4350,7 +4357,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         //Validar Datos Consulta
@@ -4413,7 +4420,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         //Encontrar Empleado
@@ -4428,7 +4435,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         //Modales Agendar Cita
@@ -4523,7 +4530,7 @@
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
-            
+
         }
 
         //Show Comfirm Cancelar Agenda
@@ -4549,7 +4556,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         };
 
         //Show Comfirm Cancelar Agenda
@@ -4657,7 +4664,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }                        
+            }
         }
 
         //Validar Hora Fin
