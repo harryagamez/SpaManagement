@@ -416,7 +416,6 @@
                 var name = file.name;
                 $scope.fileName = file.name;
                 reader.onload = function (e) {
-
                     if (!e) {
                         var data = reader.content;
                     } else {
@@ -573,7 +572,6 @@
                             $scope.ArchivoSeleccionado = null;
                             return;
                         }
-
                     } catch (e) {
                         toastr.error(e.message, '', $scope.toastrOptions);
                         $("#labelArchivo").val('');
@@ -3752,13 +3750,12 @@
         $scope.FechaActual = new Date();
         $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
 
-
-        //Variables de Configuración        
+        //Variables de Configuración
         $scope.fPropertiesSetted = false;
         $scope.PAPTS = false;
         $scope.MNCD = null;
 
-        //Flags        
+        //Flags
         $scope.fDisableCliente = false;
         $scope.fDisableFechaCita = false;
         $scope.fEditAgenda = false;
@@ -3783,7 +3780,6 @@
         //Guardar Actualizar Cita
         $scope.GuardarActualizarAgenda = function () {
             if ($scope.ValidarNuevaAgenda()) {
-
                 SPAService._guardarActualizarAgenda($scope.Agenda)
                     .then(
                         function (result) {
@@ -3817,7 +3813,6 @@
                                 return;
                             }
                             $mdDialog.cancel();
-
                         }, function (err) {
                             toastr.remove();
                             if (err.data !== null && err.status === 500)
@@ -3987,7 +3982,6 @@
 
         //Set Datos Configuración Empresa
         $scope.ConfiguracionEmpresaActual = function () {
-
             if ($scope.EmpresaPropiedades.length > 0) {
                 let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
                 let mncd = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'MNCD' });
@@ -4004,7 +3998,6 @@
                     $scope.fPropertiesSetted = true;
                     $scope.PAPTS = false;
                 }
-
             } else {
                 $scope.fPropertiesSetted = false;
                 toastr.info('La empresa actual, no tiene propiedades definidas', '', $scope.toastrOptions);
@@ -4013,7 +4006,6 @@
 
         //Editar Agenda
         $scope.EditarAgenda = function (agenda) {
-
             let fechafin = new Date(agenda.fecha_Fin);
             $scope.EmpleadoSeleccionadoModal = {
                 id_Empleado: agenda.id_Empleado,
@@ -4062,7 +4054,6 @@
             $scope.fDisableGuardarAgenda = false;
             $scope.fDisableServiciosM = true;
             $scope.fDisableServicios = true;
-
 
             $scope.Agenda = {
                 Id_Agenda: -1,
@@ -4590,7 +4581,7 @@
                 return 'liquidada-cards';
             if (estado === 'FACTURADA')
                 return 'facturada-cards';
-        }        
+        }
 
         //Eventos
         $scope.Cancelar = function () {
