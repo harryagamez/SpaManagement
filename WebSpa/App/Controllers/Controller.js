@@ -644,7 +644,7 @@
         window.onresize = function () {
             $timeout(function () {
                 $scope.ClientesGridOptions.api.sizeColumnsToFit();
-            }, 200);
+            }, 300);
         }
 
         $scope.ValidarDatos = function () {
@@ -760,13 +760,13 @@
                 headerName: "Apellido(s)", field: 'apellidos', width: 155, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Celular", field: 'telefono_Movil', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' },
+                headerName: "Celular", field: 'telefono_Movil', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' },
             },
             {
                 headerName: "Mail", field: 'mail', width: 250, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Dirección", field: 'direccion', width: 240, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+                headerName: "Dirección", field: 'direccion', width: 230, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
                 headerName: "Barrio", field: 'barrio', width: 175, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -3760,6 +3760,7 @@
         $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
         $scope.FechaActual = new Date();
         $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
+        $scope.fActiveTab = 'General';
 
         //Variables de Configuración
         $scope.fPropertiesSetted = false;
@@ -4812,6 +4813,7 @@
             $scope.ConsultarEmpleadosAutoComplete();
             $scope.ConsultarClientes();
             $scope.ConfiguracionEmpresaActual();
+            debugger;
             if ($scope.fActiveTab === 'General')
                 $scope.ModalFiltrarCitas();
         });

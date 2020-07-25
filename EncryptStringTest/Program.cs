@@ -32,6 +32,16 @@ namespace EncryptStringTest
             Console.WriteLine(decryptedstring);
             Console.WriteLine("");
 
+            Console.WriteLine("Your encrypted string is:");
+            string encryptedstring3 = SecurityHelper.EncryptPassword(plaintext, password);
+            Console.WriteLine(encryptedstring3);
+            Console.WriteLine("");
+
+            Console.WriteLine("Your decrypted string is:");
+            string decryptedstring2 = SecurityHelper.DecryptPassword(encryptedstring3, password);
+            Console.WriteLine(decryptedstring2);
+            Console.WriteLine("");
+
             Console.WriteLine("Press any key to exit...");
             Console.ReadLine();
         }
