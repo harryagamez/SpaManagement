@@ -4662,6 +4662,14 @@
                     toastr.info('Solo puede programar agenda a partir de la fecha actual', '', $scope.toastrOptions);
                 }
 
+                if (parseInt($filter('date')(new Date($scope.FechaInicio), 'yyyyMMdd')) === parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
+                    if (parseInt($filter('date')(new Date($scope.HoraFin), 'HHmm')) < parseInt($filter('date')(new Date(), 'HHmm'))) {
+                        toastr.info('Solo puede agendar citas a partir de la hora actual ', '', $scope.toastrOptions);
+                        $scope.FechaHoraAgendaGeneral();
+                        return;
+                    }
+                }
+
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
@@ -4676,6 +4684,14 @@
                 if ($scope.HoraFin === undefined) {
                     toastr.info('Formato de hora invalido ', '', $scope.toastrOptions);
                     return;
+                }
+
+                if (parseInt($filter('date')(new Date($scope.FechaInicio), 'yyyyMMdd')) === parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
+                    if (parseInt($filter('date')(new Date($scope.HoraFin), 'HHmm')) < parseInt($filter('date')(new Date(), 'HHmm'))) {
+                        toastr.info('Solo puede agendar citas a partir de la hora actual ', '', $scope.toastrOptions);
+                        $scope.FechaHoraAgendaGeneral();
+                        return;
+                    }
                 }
 
                 if ($scope.HoraFin.getHours() < $scope.HoraInicio.getHours())
@@ -4700,10 +4716,20 @@
                 if ($scope.HoraInicio === undefined) {
                     toastr.info('Formato de hora invalido ', '', $scope.toastrOptions);
                     return;
-                }
+                }        
+                
 
                 if ($scope.PAPTS) {
                     if ($scope.ServicioSeleccionadoModal !== -1 && IdServicio !== undefined && IdServicio !== null) {
+
+                        if (parseInt($filter('date')(new Date($scope.FechaInicio), 'yyyyMMdd')) === parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
+                            if (parseInt($filter('date')(new Date($scope.HoraInicio), 'HHmm')) < parseInt($filter('date')(new Date(), 'HHmm'))) {
+                                toastr.info('Solo puede agendar citas a partir de la hora actual ', '', $scope.toastrOptions);
+                                $scope.FechaHoraAgendaGeneral();
+                                return;
+                            }                            
+                        }
+
                         let tiemposervicio = Enumerable.From($scope.AgendaServicios)
                             .Where(function (x) { return x.id_Servicio === IdServicio })
                             .ToArray();
@@ -4724,6 +4750,15 @@
                     }
                 } else if (!$scope.PAPTS) {
                     if (IdServicio !== -1 && IdServicio !== undefined && IdServicio !== null) {
+
+                        if (parseInt($filter('date')(new Date($scope.FechaInicio), 'yyyyMMdd')) === parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
+                            if (parseInt($filter('date')(new Date($scope.HoraInicio), 'HHmm')) < parseInt($filter('date')(new Date(), 'HHmm'))) {
+                                toastr.info('Solo puede agendar citas a partir de la hora actual ', '', $scope.toastrOptions);
+                                $scope.FechaHoraAgendaGeneral();
+                                return;
+                            }
+                        }
+
                         if ($scope.HoraInicio.getHours() > $scope.HoraFin.getHours())
                             $scope.HoraFin = $scope.HoraInicio;
 
