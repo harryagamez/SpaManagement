@@ -1,6 +1,7 @@
-CREATE PROCEDURE ConsultarEmpleadosAutoComplete(@IdEmpresa VARCHAR(36))
+CREATE PROCEDURE ConsultarEmpleadosAutoComplete(
+	@IdEmpresa VARCHAR(36)
+)
 AS
-
 BEGIN
 
 	SELECT 

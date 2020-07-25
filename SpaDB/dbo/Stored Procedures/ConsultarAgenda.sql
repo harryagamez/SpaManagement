@@ -20,7 +20,7 @@ BEGIN
 	INSERT INTO #TempBusquedaAgenda (Id_Agenda, Fecha_Inicio, Fecha_Fin, Id_Cliente, Id_Servicio, Id_Empleado, Estado, Id_Empresa, Mostrar_Canceladas)
 	SELECT
 		Id_Agenda, Fecha_Inicio, Fecha_Fin, Id_Cliente, 
-		Id_Servicio, Id_Empleado, Estado, Id_Empresa, fShowCanceladas
+		Id_Servicio, Id_Empleado, Estado, Id_Empresa, Traer_Canceladas
 	FROM
 		OPENJSON(@JsonAgenda)
 	WITH (
@@ -28,7 +28,7 @@ BEGIN
 		Fecha_Fin DATETIME '$.Fecha_Fin', Id_Cliente INT '$.Id_Cliente',
 		Id_Servicio INT '$.Id_Servicio', Id_Empleado INT '$.Id_Empleado',
 		Estado CHAR(12) '$.Estado', Id_Empresa UNIQUEIDENTIFIER '$.Id_Empresa',
-		fShowCanceladas BIT '$.fShowCanceladas'
+		Traer_Canceladas BIT '$.Traer_Canceladas'
 	)
 		
 	SET @IdEmpleado = (SELECT TOP 1 Id_Empleado FROM #TempBusquedaAgenda)	

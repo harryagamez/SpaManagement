@@ -2,7 +2,6 @@ CREATE PROCEDURE ConsultarEmpleados(
 	@IdEmpresa VARCHAR(36)
 )
 AS
-
 BEGIN
 
 	SELECT 

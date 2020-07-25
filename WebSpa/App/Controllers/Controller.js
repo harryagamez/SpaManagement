@@ -751,7 +751,7 @@
                 headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
             },
             {
-                headerName: "Cédula", field: 'cedula', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
+                headerName: "Cédula", field: 'cedula', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
             },
             {
                 headerName: "Nombres(s)", field: 'nombres', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -760,7 +760,7 @@
                 headerName: "Apellido(s)", field: 'apellidos', width: 155, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
             },
             {
-                headerName: "Celular", field: 'telefono_Movil', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' },
+                headerName: "Celular", field: 'telefono_Movil', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' },
             },
             {
                 headerName: "Mail", field: 'mail', width: 250, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -1939,7 +1939,7 @@
                     }
 
                     if ($scope.Empleado.Monto > 1) {
-                        toastr.info('El monto no puede ser mayor a "1" si el tipo de pago es "POR SERVICIOS"', '', $scope.toastrOptions);
+                        toastr.info('El monto no puede ser mayor a 1 si el tipo de pago es [POR SERVICIOS]', '', $scope.toastrOptions);
                         $('#txtMonto').focus();
                         return false;
                     }
@@ -3781,7 +3781,7 @@
             Fecha_Fin: '',
             Estado: 'PROGRAMADA',
             Observaciones: '',
-            fShowCanceladas: false
+            Traer_Canceladas: false
         };
 
         //Api
@@ -4113,7 +4113,7 @@
                     Observaciones: '',
                     NombreApellido_Empleado: '',
                     NombreApellido_Cliente: '',
-                    fShowCanceladas: false
+                    Traer_Canceladas: false
                 };
 
             } catch (e) {

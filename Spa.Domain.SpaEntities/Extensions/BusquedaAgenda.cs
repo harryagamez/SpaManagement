@@ -13,7 +13,6 @@
         public string FechaInicio { get; set; }
         public string FechaFin { get; set; }
         public string Mail_Cliente { get; set; } 
-        public bool fShowCanceladas { get; set; }
-
+        public bool Traer_Canceladas { get; set; }
     }
 }
