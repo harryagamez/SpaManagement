@@ -17,7 +17,7 @@
     ClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     ServiciosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     EmpleadosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
-    ProductosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+    ProductosController.$inject = ['$scope', '$rootScope', '$templateCache', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     GastosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
     GestionController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$timeout', '$http', 'SPAService', 'AuthService'];
     AgendaController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
@@ -2000,6 +2000,7 @@
                 $scope.ModalAsignarServicios();
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
+                return;
             }
         }
 
@@ -2045,6 +2046,7 @@
                 $scope.ModalAsignarInsumos();
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
+                return;
             }
         }
 
@@ -2271,7 +2273,7 @@
         $scope.Inicializacion();
     }
 
-    function ProductosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+    function ProductosController($scope, $rootScope, $templateCache, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
         $scope.TipoTransacciones = [];
         $scope.ObjetoProducto = [];
         $scope.Productos = [];
@@ -2391,6 +2393,7 @@
                 }
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
+                return;
             }
         }
 
@@ -2668,6 +2671,7 @@
             $scope.LimpiarDatos();
             $scope.ConsultarProductos();
             $scope.Inicializacion();
+            $templateCache.removeAll();
         });
 
         $scope.ConsultarTipoTransacciones();
@@ -4482,7 +4486,6 @@
 
         //Modal Agendar Cita Detallada
         $scope.ModalAgendaDetallada = function (horas, empleado, minutos) {
-
             try {
 
                 $scope.AccionAgenda = 'Agendar cita';
@@ -4491,7 +4494,7 @@
                 $scope.FechaHoraAgendaDetallada(horas, minutos);
 
                 $mdDialog.show({
-                    contentElement: '#dlgAgendaDetallada',
+                    contentElement: '#dlgAgendaGeneral',
                     parent: angular.element(document.body),
                     targetEvent: event,
                     clickOutsideToClose: true,
@@ -4510,7 +4513,6 @@
 
         //Modal Filtrar Citas
         $scope.ModalFiltrarCitas = function () {
-
             try {
 
                 $scope.AccionAgenda = 'Opciones de consulta';
@@ -4530,7 +4532,6 @@
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
-
         }
 
         //Show Comfirm Cancelar Agenda
