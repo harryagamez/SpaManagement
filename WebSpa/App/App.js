@@ -18,7 +18,7 @@
         .filter('sumInventory', sumInventory)
         .filter('sumShrink', sumShrink)
     Configuration.$inject = ['$stateProvider', '$urlRouterProvider', '$routeProvider', '$httpProvider', '$locationProvider', '$mdDateLocaleProvider', '$mdThemingProvider', 'ADMdtpProvider'];
-    Initialize.$inject = ['$rootScope', '$http', '$window', 'localStorageService', 'AuthService'];
+    Initialize.$inject = ['$rootScope', '$state', '$http', '$window', '$location', 'localStorageService', 'AuthService'];
 
     function Configuration($stateProvider, $urlRouterProvider, $routeProvider, $httpProvider, $locationProvider, $mdDateLocaleProvider, $mdThemingProvider) {
         $httpProvider.interceptors.push('AuthtenticantionIntecerptorService');
@@ -76,10 +76,10 @@
                 url: '/agenda',
                 templateUrl: 'Views/_agenda.html',
                 controller: 'AgendaController'
-            })        
+            })
     }
 
-    function Initialize($rootScope, $http, $window, localStorageService, authService) {
+    function Initialize($rootScope, $state, $http, $window, $location, localStorageService, authService) {
         $http.get('app-config-dev.json').then(function (data, status, headers, config) {
             $rootScope.config = data;
         },
@@ -88,6 +88,21 @@
             });
 
         authService.fillAuthData();
+
+        $rootScope.$on('$stateChangeStart', function (e, route) {
+            if (route.controller !== "LoginController") {
+                let _authentication = authService.authentication;
+                if (_authentication && !_authentication.isAuth) {
+                    e.preventDefault();
+                    $location.replace();
+                    $state.go('login');
+                }
+            }
+        });
+
+        $rootScope.$on('$viewContentLoaded', function () {
+            $location.replace();
+        });
     }
 
     function sumInventory() {

@@ -100,6 +100,7 @@
 
         $scope.Logout = function () {
             authService.logOut();
+            $('body>.tooltip').remove();
         }
 
         $scope.UsuarioSistema = $rootScope.userData.userName;
