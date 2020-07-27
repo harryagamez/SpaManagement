@@ -605,25 +605,30 @@
         }
 
         $scope.ProcesarExcelClientes = function (clientes) {
-            if ($scope.Validaciones.length > 0) {
-                let mensajes = Enumerable.From($scope.Validaciones)
-                    .Select(function (x) { return x.Mensaje })
-                    .ToArray().join('\n');
+            try {
+                if ($scope.Validaciones.length > 0) {
+                    let mensajes = Enumerable.From($scope.Validaciones)
+                        .Select(function (x) { return x.Mensaje })
+                        .ToArray().join('\n');
 
-                let confirm = $mdDialog.confirm()
-                    .title('Validación excel')
-                    .textContent('El archivo tiene las siguientes inconsistencias: \n' + mensajes + '.\n\nLos registros de clientes que presentaron inconsistencias no se procesarán. \n¿Desea continuar?')
-                    .ariaLabel('Validar excel')
-                    .ok('Sí')
-                    .cancel('No')
-                    .multiple(true);
+                    let confirm = $mdDialog.confirm()
+                        .title('Validación excel')
+                        .textContent('El archivo tiene las siguientes inconsistencias: \n' + mensajes + '.\n\nLos registros de clientes que presentaron inconsistencias no se procesarán. \n¿Desea continuar?')
+                        .ariaLabel('Validar excel')
+                        .ok('Sí')
+                        .cancel('No')
+                        .multiple(true);
 
-                $mdDialog.show(confirm).then(function () {
-                    $scope.GuardarExcelClientes(clientes);
-                }, function () {
-                    return;
-                });
-            } else $scope.GuardarExcelClientes(clientes);
+                    $mdDialog.show(confirm).then(function () {
+                        $scope.GuardarExcelClientes(clientes);
+                    }, function () {
+                        return;
+                    });
+                } else $scope.GuardarExcelClientes(clientes);
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.GuardarExcelClientes = function (clientes) {
@@ -649,101 +654,111 @@
         }
 
         $scope.ValidarDatos = function () {
-            $scope.Cliente.Id_Barrio = $scope.BarrioSeleccionado
-            $scope.Cliente.Id_Tipo = $scope.TipoClienteSeleccionado;
-            $scope.Cliente.Estado = $scope.EstadoSeleccionado;
+            try {
+                $scope.Cliente.Id_Barrio = $scope.BarrioSeleccionado
+                $scope.Cliente.Id_Tipo = $scope.TipoClienteSeleccionado;
+                $scope.Cliente.Estado = $scope.EstadoSeleccionado;
 
-            if ($scope.Cliente.Cedula === '') {
-                toastr.info('Identificación del cliente es requerida', '', $scope.toastrOptions);
-                $('#txtCedula').focus();
-                return false;
-            }
+                if ($scope.Cliente.Cedula === '') {
+                    toastr.info('Identificación del cliente es requerida', '', $scope.toastrOptions);
+                    $('#txtCedula').focus();
+                    return false;
+                }
 
-            if ($scope.Cliente.Nombres === '') {
-                toastr.info('Nombre del cliente es requerido', '', $scope.toastrOptions);
-                $('#txtNombres').focus();
-                return false;
-            }
+                if ($scope.Cliente.Nombres === '') {
+                    toastr.info('Nombre del cliente es requerido', '', $scope.toastrOptions);
+                    $('#txtNombres').focus();
+                    return false;
+                }
 
-            if ($scope.Cliente.Apellidos === '') {
-                toastr.info('Apellido del cliente es requerido', '', $scope.toastrOptions);
-                $('#txtApellido').focus();
-                return false;
-            }
+                if ($scope.Cliente.Apellidos === '') {
+                    toastr.info('Apellido del cliente es requerido', '', $scope.toastrOptions);
+                    $('#txtApellido').focus();
+                    return false;
+                }
 
-            if ($scope.Cliente.Mail === '') {
-                toastr.info('Correo electrónico del clientes es requerido', '', $scope.toastrOptions);
-                $('#txtMail').focus();
-                return false;
-            }
+                if ($scope.Cliente.Mail === '') {
+                    toastr.info('Correo electrónico del clientes es requerido', '', $scope.toastrOptions);
+                    $('#txtMail').focus();
+                    return false;
+                }
 
-            if (!mail_expression.test($scope.Cliente.Mail)) {
-                toastr.info('La dirección de correo electrónico no es válida.', '', $scope.toastrOptions);
-                $('#txtMail').focus();
-                return false;
-            }
+                if (!mail_expression.test($scope.Cliente.Mail)) {
+                    toastr.info('La dirección de correo electrónico no es válida.', '', $scope.toastrOptions);
+                    $('#txtMail').focus();
+                    return false;
+                }
 
-            if ($scope.Cliente.Telefono_Movil === '') {
-                toastr.info('Celular del cliente es requerido', '', $scope.toastrOptions);
-                $('#txtMovil').focus();
-                return false;
-            }
+                if ($scope.Cliente.Telefono_Movil === '') {
+                    toastr.info('Celular del cliente es requerido', '', $scope.toastrOptions);
+                    $('#txtMovil').focus();
+                    return false;
+                }
 
-            if ($scope.Cliente.Id_Tipo === -1) {
-                toastr.info('Tipo de cliente es requerido', '', $scope.toastrOptions);
-                $('#slTipoCliente').focus();
-                return false;
-            }
+                if ($scope.Cliente.Id_Tipo === -1) {
+                    toastr.info('Tipo de cliente es requerido', '', $scope.toastrOptions);
+                    $('#slTipoCliente').focus();
+                    return false;
+                }
 
-            if (parseInt($filter('date')(new Date($scope.Cliente.Fecha_Nacimiento), 'yyyyMMdd')) > parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
-                toastr.info('La fecha de nacimiento, debe ser menor que la fecha actual', '', $scope.toastrOptions);
-                $('#dpFechaNacimiento').focus();
-                return false;
-            }
+                if (parseInt($filter('date')(new Date($scope.Cliente.Fecha_Nacimiento), 'yyyyMMdd')) > parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
+                    toastr.info('La fecha de nacimiento, debe ser menor que la fecha actual', '', $scope.toastrOptions);
+                    $('#dpFechaNacimiento').focus();
+                    return false;
+                }
 
-            if ($scope.Cliente.Id_Barrio === -1) {
-                toastr.info('Debe seleccionar un barrio', '', $scope.toastrOptions);
-                $('#slBarrio').focus();
-                return false;
-            }
+                if ($scope.Cliente.Id_Barrio === -1) {
+                    toastr.info('Debe seleccionar un barrio', '', $scope.toastrOptions);
+                    $('#slBarrio').focus();
+                    return false;
+                }
 
-            return true;
+                return true;
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.LimpiarDatos = function () {
-            $scope.EstadoSeleccionado = 'ACTIVO';
+            try {
+                $scope.EstadoSeleccionado = 'ACTIVO';
 
-            $scope.Cliente =
-            {
-                Id_Cliente: -1,
-                Cedula: '',
-                Nombres: '',
-                Apellidos: '',
-                Telefono_Fijo: '',
-                Telefono_Movil: '',
-                Mail: '', Direccion: '',
-                Id_Municipio: -1,
-                Id_Barrio: -1,
-                Fecha_Nacimiento: new Date(),
-                Id_Tipo: -1,
-                Estado: $scope.EstadoSeleccionado,
-                Id_Empresa: $scope.IdEmpresa,
-                Id_Usuario_Creacion: $scope.IdUsuario
-            }
+                $scope.Cliente =
+                {
+                    Id_Cliente: -1,
+                    Cedula: '',
+                    Nombres: '',
+                    Apellidos: '',
+                    Telefono_Fijo: '',
+                    Telefono_Movil: '',
+                    Mail: '', Direccion: '',
+                    Id_Municipio: -1,
+                    Id_Barrio: -1,
+                    Fecha_Nacimiento: new Date(),
+                    Id_Tipo: -1,
+                    Estado: $scope.EstadoSeleccionado,
+                    Id_Empresa: $scope.IdEmpresa,
+                    Id_Usuario_Creacion: $scope.IdUsuario
+                }
 
-            $scope.MunicipioSeleccionado = -1;
-            $scope.BarrioSeleccionado = -1;
-            $scope.TipoClienteSeleccionado = -1;
+                $scope.MunicipioSeleccionado = -1;
+                $scope.BarrioSeleccionado = -1;
+                $scope.TipoClienteSeleccionado = -1;
 
-            $scope.ListadoClientes = false;
-            $scope.PermitirFiltrar = true;
-            $scope.DetalladoServicios = false;
-            $scope.GeneralServicios = false;
-            $scope.Accion = '';
-            $scope.ObjetoCliente = [];
+                $scope.ListadoClientes = false;
+                $scope.PermitirFiltrar = true;
+                $scope.DetalladoServicios = false;
+                $scope.GeneralServicios = false;
+                $scope.Accion = '';
+                $scope.ObjetoCliente = [];
 
-            $('#txtCedula').focus();
-            $scope.CedulaReadOnly = false;
+                $('#txtCedula').focus();
+                $scope.CedulaReadOnly = false;
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.ClientesGridOptionsColumns = [
@@ -813,32 +828,37 @@
         }
 
         function OnRowClicked(event) {
-            if (event.node.data !== undefined && event.node.data !== null) {
-                $scope.Accion = 'BUSQUEDA_CLIENTE';
-                $scope.Cliente.Id_Cliente = event.node.data.id_Cliente;
-                $scope.Cliente.Cedula = event.node.data.cedula;
-                $scope.Cliente.Nombres = event.node.data.nombres;
-                $scope.Cliente.Apellidos = event.node.data.apellidos;
-                $scope.Cliente.Telefono_Fijo = event.node.data.telefono_Fijo;
-                $scope.Cliente.Telefono_Movil = event.node.data.telefono_Movil;
-                $scope.Cliente.Mail = event.node.data.mail;
-                $scope.Cliente.Direccion = event.node.data.direccion;
-                $scope.Cliente.Id_Municipio = event.node.data.id_Municipio;
-                $scope.Cliente.Id_Barrio = event.node.data.id_Barrio;
-                $scope.Cliente.Fecha_Nacimiento = $filter('date')(new Date(event.node.data.fecha_Nacimiento), 'MM/dd/yyyy');
-                $scope.Cliente.Id_Tipo = event.node.data.id_Tipo;
-                $scope.TipoClienteSeleccionado = event.node.data.id_Tipo;
-                $scope.Cliente.Estado = event.node.data.estado;
+            try {
+                if (event.node.data !== undefined && event.node.data !== null) {
+                    $scope.Accion = 'BUSQUEDA_CLIENTE';
+                    $scope.Cliente.Id_Cliente = event.node.data.id_Cliente;
+                    $scope.Cliente.Cedula = event.node.data.cedula;
+                    $scope.Cliente.Nombres = event.node.data.nombres;
+                    $scope.Cliente.Apellidos = event.node.data.apellidos;
+                    $scope.Cliente.Telefono_Fijo = event.node.data.telefono_Fijo;
+                    $scope.Cliente.Telefono_Movil = event.node.data.telefono_Movil;
+                    $scope.Cliente.Mail = event.node.data.mail;
+                    $scope.Cliente.Direccion = event.node.data.direccion;
+                    $scope.Cliente.Id_Municipio = event.node.data.id_Municipio;
+                    $scope.Cliente.Id_Barrio = event.node.data.id_Barrio;
+                    $scope.Cliente.Fecha_Nacimiento = $filter('date')(new Date(event.node.data.fecha_Nacimiento), 'MM/dd/yyyy');
+                    $scope.Cliente.Id_Tipo = event.node.data.id_Tipo;
+                    $scope.TipoClienteSeleccionado = event.node.data.id_Tipo;
+                    $scope.Cliente.Estado = event.node.data.estado;
 
-                $scope.MunicipioSeleccionado = $scope.Cliente.Id_Municipio;
-                $scope.BarrioSeleccionado = $scope.Cliente.Id_Barrio;
-                $scope.EstadoSeleccionado = $scope.Cliente.Estado;
-                $scope.ConsultarBarrios($scope.MunicipioSeleccionado);
+                    $scope.MunicipioSeleccionado = $scope.Cliente.Id_Municipio;
+                    $scope.BarrioSeleccionado = $scope.Cliente.Id_Barrio;
+                    $scope.EstadoSeleccionado = $scope.Cliente.Estado;
+                    $scope.ConsultarBarrios($scope.MunicipioSeleccionado);
 
-                $scope.CedulaReadOnly = true;
-                $('#txtNombre').focus();
-                $scope.PermitirFiltrar = false;
-            }
+                    $scope.CedulaReadOnly = true;
+                    $('#txtNombre').focus();
+                    $scope.PermitirFiltrar = false;
+                }
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.$on("CompanyChange", function () {
@@ -956,7 +976,6 @@
         $scope.ConsultarServicio = function (data) {
             try {
                 $rootScope.ServicioImagenesAdjuntas = data.imagenes_Servicio;
-
                 $scope.TipoServicioSeleccionado = -1;
 
                 if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
@@ -983,218 +1002,268 @@
         }
 
         $scope.VisualizarImagen = function (data) {
-            $rootScope.ServicioNombre = data.nombre;
-            $rootScope.ServicioListaImagenes = [];
-            $rootScope.ServicioListaImagenes = data.imagenes_Servicio;
+            try {
+                $rootScope.ServicioNombre = data.nombre;
+                $rootScope.ServicioListaImagenes = [];
+                $rootScope.ServicioListaImagenes = data.imagenes_Servicio;
 
-            if ($rootScope.ServicioListaImagenes.length > 0)
-                $scope.ModalSliderServicio();
-            else
-                $scope.showAlertSinImagenesAdjuntas();
+                if ($rootScope.ServicioListaImagenes.length > 0)
+                    $scope.ModalSliderServicio();
+                else
+                    $scope.showAlertSinImagenesAdjuntas();
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.ConsultarServicioNombre = function (e, nombre) {
-            let row = $scope.ServiciosGridOptions.api.getRowNode(nombre);
-            if (row === undefined) return;
+            try {
+                let row = $scope.ServiciosGridOptions.api.getRowNode(nombre);
+                if (row === undefined) return;
 
-            if (row.data.nombre !== undefined && row.data.nombre !== null) {
-                $scope.AccionServicio = 'Editar Servicio';
-                $scope.Servicio.Nombre = row.data.nombre;
-                $scope.Servicio.Descripcion = row.data.descripcion;
-                $scope.Servicio.Estado = row.data.estado;
-                $scope.Servicio.Fecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
-                $scope.Servicio.Id_Empresa = $scope.IdEmpresa;
-                $scope.Servicio.Id_TipoServicio = row.data.id_TipoServicio;
-                $scope.Servicio.Id_Servicio = row.data.id_Servicio;
-                $scope.Servicio.Tiempo = row.data.tiempo;
-                $scope.Servicio.Valor = row.data.valor;
-                $scope.Servicio.Id_Servicio = row.data.id_Servicio;
-                $scope.TipoServicioSeleccionado = row.data.id_TipoServicio;
+                if (row.data.nombre !== undefined && row.data.nombre !== null) {
+                    $scope.AccionServicio = 'Editar Servicio';
+                    $scope.Servicio.Nombre = row.data.nombre;
+                    $scope.Servicio.Descripcion = row.data.descripcion;
+                    $scope.Servicio.Estado = row.data.estado;
+                    $scope.Servicio.Fecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
+                    $scope.Servicio.Id_Empresa = $scope.IdEmpresa;
+                    $scope.Servicio.Id_TipoServicio = row.data.id_TipoServicio;
+                    $scope.Servicio.Id_Servicio = row.data.id_Servicio;
+                    $scope.Servicio.Tiempo = row.data.tiempo;
+                    $scope.Servicio.Valor = row.data.valor;
+                    $scope.Servicio.Id_Servicio = row.data.id_Servicio;
+                    $scope.TipoServicioSeleccionado = row.data.id_TipoServicio;
 
-                $scope.NombreServicioReadOnly = true;
-                $scope.OcultarbtnNuevo = true;
-            }
+                    $scope.NombreServicioReadOnly = true;
+                    $scope.OcultarbtnNuevo = true;
+                }
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.LimpiarDatos = function () {
-            $scope.EstadoSeleccionado = 'ACTIVO';
-            $scope.ImagenServicioBase64 = '';
-            $rootScope.ImagenesAdjuntas = 0;
-            $rootScope.InformacionImagen = '';
-            $rootScope.ImagenesxAdjuntar = 0;
-            $scope.TEMPServicio = [];
+            try {
+                $scope.EstadoSeleccionado = 'ACTIVO';
+                $scope.ImagenServicioBase64 = '';
+                $rootScope.ImagenesAdjuntas = 0;
+                $rootScope.InformacionImagen = '';
+                $rootScope.ImagenesxAdjuntar = 0;
+                $scope.TEMPServicio = [];
 
-            $scope.Servicio =
-            {
-                Nombre: '',
-                Descripcion: '',
-                Estado: $scope.EstadoSeleccionado,
-                Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
-                Id_Empresa: $scope.IdEmpresa,
-                Id_TipoServicio: -1,
-                Id_Servicio: -1,
-                Nombre_Tipo_Servicio: '',
-                Tiempo: 0,
-                Valor: 0,
-                Imagenes_Servicio: []
-            }
+                $scope.Servicio =
+                {
+                    Nombre: '',
+                    Descripcion: '',
+                    Estado: $scope.EstadoSeleccionado,
+                    Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
+                    Id_Empresa: $scope.IdEmpresa,
+                    Id_TipoServicio: -1,
+                    Id_Servicio: -1,
+                    Nombre_Tipo_Servicio: '',
+                    Tiempo: 0,
+                    Valor: 0,
+                    Imagenes_Servicio: []
+                }
 
-            $scope.TipoServicioSeleccionado = -1;
+                $scope.TipoServicioSeleccionado = -1;
 
-            $('#txtNombreServicio').focus();
+                $('#txtNombreServicio').focus();
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.ValidarDatos = function () {
-            $scope.Servicio.Id_TipoServicio = $scope.TipoServicioSeleccionado;
-            $scope.Servicio.Estado = $scope.EstadoSeleccionado;
+            try {
+                $scope.Servicio.Id_TipoServicio = $scope.TipoServicioSeleccionado;
+                $scope.Servicio.Estado = $scope.EstadoSeleccionado;
 
-            if ($scope.Servicio.Nombre === '') {
-                toastr.info('Nombre del servicio es requerido', '', $scope.toastrOptions);
-                $('#txtNombreServicio').focus();
-                return false;
-            }
+                if ($scope.Servicio.Nombre === '') {
+                    toastr.info('Nombre del servicio es requerido', '', $scope.toastrOptions);
+                    $('#txtNombreServicio').focus();
+                    return false;
+                }
 
-            if ($scope.Servicio.Descripcion === '') {
-                toastr.info('Descripción del servicio es requerida', '', $scope.toastrOptions);
-                $('#txtDescripcionServicio').focus();
-                return false;
-            }
+                if ($scope.Servicio.Descripcion === '') {
+                    toastr.info('Descripción del servicio es requerida', '', $scope.toastrOptions);
+                    $('#txtDescripcionServicio').focus();
+                    return false;
+                }
 
-            if (parseInt($scope.Servicio.Tiempo) === 0) {
-                toastr.info('Tiempo del servicio es requerido', '', $scope.toastrOptions);
-                $('#txtTiempoServicio').focus();
-                return false;
-            }
+                if (parseInt($scope.Servicio.Tiempo) === 0) {
+                    toastr.info('Tiempo del servicio es requerido', '', $scope.toastrOptions);
+                    $('#txtTiempoServicio').focus();
+                    return false;
+                }
 
-            if ($scope.Servicio.Id_TipoServicio === -1) {
-                toastr.info('Tipo de servicio es requerido', '', $scope.toastrOptions);
-                $('#slTipoServicio').focus();
-                return false;
-            }
+                if ($scope.Servicio.Id_TipoServicio === -1) {
+                    toastr.info('Tipo de servicio es requerido', '', $scope.toastrOptions);
+                    $('#slTipoServicio').focus();
+                    return false;
+                }
 
-            if (parseInt($scope.Servicio.Valor) === 0) {
-                toastr.info('Valor del servicio es requerido', '', $scope.toastrOptions);
-                $('#txtValorServicio').focus();
-                return false;
-            }
+                if (parseInt($scope.Servicio.Valor) === 0) {
+                    toastr.info('Valor del servicio es requerido', '', $scope.toastrOptions);
+                    $('#txtValorServicio').focus();
+                    return false;
+                }
 
-            return true;
+                return true;
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.ModalNuevoServicio = function () {
-            $scope.AccionServicio = 'Registrar Servicio';
-            $rootScope.ImagenesAdjuntas = 0;
-            $rootScope.ImagenesxAdjuntar = 0;
-            $scope.Servicio.Imagenes_Servicio.length = 0;
-            $mdDialog.show({
-                contentElement: '#dlgNuevoServicio',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true,
-                multiple: true
-            })
-                .then(function () {
-                }, function () {
-                    $('#txtBuscarServicio').focus();
-                    $scope.LimpiarDatos();
-                });
+            try {
+                $scope.AccionServicio = 'Registrar Servicio';
+                $rootScope.ImagenesAdjuntas = 0;
+                $rootScope.ImagenesxAdjuntar = 0;
+                $scope.Servicio.Imagenes_Servicio.length = 0;
+                $mdDialog.show({
+                    contentElement: '#dlgNuevoServicio',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true,
+                    multiple: true
+                })
+                    .then(function () {
+                    }, function () {
+                        $('#txtBuscarServicio').focus();
+                        $scope.LimpiarDatos();
+                    });
 
-            $scope.LimpiarDatos();
-            $scope.NombreServicioReadOnly = false;
-            $scope.OcultarbtnNuevo = false;
+                $scope.LimpiarDatos();
+                $scope.NombreServicioReadOnly = false;
+                $scope.OcultarbtnNuevo = false;
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.ModalEditarServicio = function () {
-            $scope.AccionServicio = 'Editar Servicio';
-            $rootScope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;
-            $rootScope.ImagenesxAdjuntar = 0;
-            $mdDialog.show({
-                contentElement: '#dlgNuevoServicio',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true,
-                multiple: true
-            })
-                .then(function () {
-                }, function () {
-                    $scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.filter(function (item) {
-                        return item.Id_Servicio !== -1;
-                    }); //removemos las imágenes x adjuntar seleccionadas en caso de cancelar el modal
-                    $('#txtBuscarServicio').focus();
-                    $scope.LimpiarDatos();
-                });
+            try {
+                $scope.AccionServicio = 'Editar Servicio';
+                $rootScope.ImagenesAdjuntas = $scope.Servicio.Imagenes_Servicio.length;
+                $rootScope.ImagenesxAdjuntar = 0;
+                $mdDialog.show({
+                    contentElement: '#dlgNuevoServicio',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true,
+                    multiple: true
+                })
+                    .then(function () {
+                    }, function () {
+                        $scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.filter(function (item) {
+                            return item.Id_Servicio !== -1;
+                        });
+                        $('#txtBuscarServicio').focus();
+                        $scope.LimpiarDatos();
+                    });
 
-            $scope.NombreServicioReadOnly = true
-            $scope.OcultarbtnNuevo = true;
+                $scope.NombreServicioReadOnly = true
+                $scope.OcultarbtnNuevo = true;
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.ModalSliderServicio = function () {
-            $mdDialog.show({
-                controller: SliderController,
-                templateUrl: 'Views/Templates/_slider.tmpl.html',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true,
-                fullscreen: $scope.customFullscreen
-            })
-                .then(function () {
-                }, function () {
-                });
+            try {
+                $mdDialog.show({
+                    controller: SliderController,
+                    templateUrl: 'Views/Templates/_slider.tmpl.html',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true,
+                    fullscreen: $scope.customFullscreen
+                })
+                    .then(function () {
+                    }, function () {
+                    });
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         };
 
         $scope.showCustomImagenesAdjuntas = function (ev) {
-            $mdDialog.show({
-                controller: ImgAttachedController,
-                templateUrl: 'Views/Templates/_imgattached.tmpl.html',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true,
-                fullscreen: $scope.customFullscreen,
-                multiple: true
-            })
+            try {
+                $mdDialog.show({
+                    controller: ImgAttachedController,
+                    templateUrl: 'Views/Templates/_imgattached.tmpl.html',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true,
+                    fullscreen: $scope.customFullscreen,
+                    multiple: true
+                })
                 .then(function () {
                 }, function () {
                 });
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         };
 
         $scope.showAlertSinImagenesAdjuntas = function (ev) {
-            $mdDialog.show(
-                $mdDialog.alert()
-                    .parent(angular.element(document.querySelector('#popupContainer')))
-                    .clickOutsideToClose(true)
-                    .title('Imágenes Adjuntas')
-                    .textContent('El servicio ' + $rootScope.ServicioNombre + ' no tiene imagenes adjuntas.')
-                    .ariaLabel('Alert Dialog Demo')
-                    .ok('Aceptar')
-                    .targetEvent(ev)
-                    .multiple(true)
-            );
+            try {
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .parent(angular.element(document.querySelector('#popupContainer')))
+                        .clickOutsideToClose(true)
+                        .title('Imágenes Adjuntas')
+                        .textContent('El servicio ' + $rootScope.ServicioNombre + ' no tiene imagenes adjuntas.')
+                        .ariaLabel('Alert Dialog Demo')
+                        .ok('Aceptar')
+                        .targetEvent(ev)
+                        .multiple(true)
+                );
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         };
 
         $scope.showReemplazarImagenesServicio = function (ev, data) {
-            if ($rootScope.ImagenesAdjuntas >= 5) {
-                toastr.info('El servicio ya tiene 5 imágenes adjuntas. Si desea subir más, debe borrar alguna imagen existente', '', $scope.toastrOptions);
-                return;
-            }
-
-            if ($rootScope.ImagenesAdjuntas > 0 && $rootScope.ImagenesAdjuntas <= 5) {
-                let confirm = $mdDialog.confirm()
-                    .title('Sobreescribir Imágenes')
-                    .textContent('Ya existen ' + $scope.Servicio.Imagenes_Servicio.length + ' imágenes adjuntas. ¿Desea agregar más?')
-                    .ariaLabel('Sobreescribir Imágenes')
-                    .targetEvent(ev, data)
-                    .ok('Sí')
-                    .cancel('No')
-                    .multiple(true);
-
-                $mdDialog.show(confirm).then(function () {
-                    $scope.ProcesarImagen();
-                }, function () {
+            try {
+                if ($rootScope.ImagenesAdjuntas >= 5) {
+                    toastr.info('El servicio ya tiene 5 imágenes adjuntas. Si desea subir más, debe borrar alguna imagen existente', '', $scope.toastrOptions);
                     return;
-                });
-            }
-            else
-                $scope.ProcesarImagen();
+                }
+
+                if ($rootScope.ImagenesAdjuntas > 0 && $rootScope.ImagenesAdjuntas <= 5) {
+                    let confirm = $mdDialog.confirm()
+                        .title('Sobreescribir Imágenes')
+                        .textContent('Ya existen ' + $scope.Servicio.Imagenes_Servicio.length + ' imágenes adjuntas. ¿Desea agregar más?')
+                        .ariaLabel('Sobreescribir Imágenes')
+                        .targetEvent(ev, data)
+                        .ok('Sí')
+                        .cancel('No')
+                        .multiple(true);
+
+                    $mdDialog.show(confirm).then(function () {
+                        $scope.ProcesarImagen();
+                    }, function () {
+                        return;
+                    });
+                }
+                else
+                    $scope.ProcesarImagen();
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         };
 
         $scope.ServiciosGridOptionsColumns = [
@@ -1287,44 +1356,49 @@
         };
 
         $scope.SeleccionarImagen = function (event) {
-            $scope.ImagenServicioBase64 = '';
-            $rootScope.InformacionImagen = '';
+            try {
+                $scope.ImagenServicioBase64 = '';
+                $rootScope.InformacionImagen = '';
 
-            if ($scope.Servicio.Imagenes_Servicio == null) { $scope.Servicio.Imagenes_Servicio = []; }
+                if ($scope.Servicio.Imagenes_Servicio == null) { $scope.Servicio.Imagenes_Servicio = []; }
 
-            let mayorDosMB = false;
-            let files = event.target.files;
+                let mayorDosMB = false;
+                let files = event.target.files;
 
-            if (files.length > 5) {
-                toastr.info('Solo puede seleccionar un máximo de 5 imágenes', '', $scope.toastrOptions);
-                files = [];
+                if (files.length > 5) {
+                    toastr.info('Solo puede seleccionar un máximo de 5 imágenes', '', $scope.toastrOptions);
+                    files = [];
+                    return;
+                }
+
+                if (files.length + $scope.Servicio.Imagenes_Servicio.length > 5) {
+                    toastr.info('El servicio solo puede tener un máximo de 5 imágenes. Ya tiene ' + $scope.Servicio.Imagenes_Servicio.length + ' imágenes adjuntas', '', $scope.toastrOptions);
+                    files = [];
+                    return;
+                }
+
+                for (i = 0; i < files.length; i++) {
+                    let fileSize = (files[i].size / 1024 / 1024)
+                    if (fileSize > 2)
+                        mayorDosMB = true;
+                }
+
+                if (mayorDosMB) {
+                    toastr.info('El tamaño de las imágenes debe ser de máximo 2MB', '', $scope.toastrOptions);
+                    files = [];
+                    return;
+                }
+
+                for (i = 0; i < files.length; i++) {
+                    let fileSize = (files[i].size / 1024 / 1024);
+                    $rootScope.InformacionImagen += 'Nombre: ' + files[i].name + ' - Tamaño: ' + fileSize.toFixed(3) + ' MB';
+                    $rootScope.ImagenesxAdjuntar = files.length;
+                    $scope.getBase64(files[i]);
+                }
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }
-
-            if (files.length + $scope.Servicio.Imagenes_Servicio.length > 5) {
-                toastr.info('El servicio solo puede tener un máximo de 5 imágenes. Ya tiene ' + $scope.Servicio.Imagenes_Servicio.length + ' imágenes adjuntas', '', $scope.toastrOptions);
-                files = [];
-                return;
-            }
-
-            for (i = 0; i < files.length; i++) {
-                let fileSize = (files[i].size / 1024 / 1024)
-                if (fileSize > 2)
-                    mayorDosMB = true;
-            }
-
-            if (mayorDosMB) {
-                toastr.info('El tamaño de las imágenes debe ser de máximo 2MB', '', $scope.toastrOptions);
-                files = [];
-                return;
-            }
-
-            for (i = 0; i < files.length; i++) {
-                let fileSize = (files[i].size / 1024 / 1024);
-                $rootScope.InformacionImagen += 'Nombre: ' + files[i].name + ' - Tamaño: ' + fileSize.toFixed(3) + ' MB';
-                $rootScope.ImagenesxAdjuntar = files.length;
-                $scope.getBase64(files[i]);
-            }
+            }            
         }
 
         $scope.ProcesarImagen = function () {
@@ -1332,21 +1406,26 @@
         }
 
         $scope.getBase64 = function (file) {
-            $scope.TEMPServicio = [];
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function () {
-                $scope.ImagenServicioBase64 = reader.result;
-                $scope.TEMPServicio.push({
-                    Id_Servicio: -1, Imagen_Base64: $scope.ImagenServicioBase64, TuvoCambios: true
-                });
-                $("#ImagenServicio").val('');
-                $('#txtNombreServicio').focus();
-            };
-            reader.onerror = function (error) {
-                console.log('Error: ', error);
-                $("#ImagenServicio").val('');
-            };
+            try {
+                $scope.TEMPServicio = [];
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    $scope.ImagenServicioBase64 = reader.result;
+                    $scope.TEMPServicio.push({
+                        Id_Servicio: -1, Imagen_Base64: $scope.ImagenServicioBase64, TuvoCambios: true
+                    });
+                    $("#ImagenServicio").val('');
+                    $('#txtNombreServicio').focus();
+                };
+                reader.onerror = function (error) {
+                    console.log('Error: ', error);
+                    $("#ImagenServicio").val('');
+                };
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.$on("CompanyChange", function () {
@@ -1805,43 +1884,53 @@
         }
 
         $scope.LimpiarDatos = function () {
-            $scope.CedulaReadOnly = false;
-            $scope.EstadoSeleccionado = 'ACTIVO';
+            try {
+                $scope.CedulaReadOnly = false;
+                $scope.EstadoSeleccionado = 'ACTIVO';
 
-            $scope.Empleado =
-            {
-                Id_Empleado: -1,
-                Cedula: '',
-                Nombres: '',
-                Apellidos: '',
-                Telefono_Fijo: '',
-                Telefono_Movil: '',
-                Estado_Civil: $scope.EstadoCivilSeleccionado, Direccion: '',
-                Id_Municipio: -1,
-                Id_Barrio: -1,
-                Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
-                Numero_Hijos: '',
-                Id_TipoPago: $scope.TipoPagoSeleccionado,
-                Monto: '',
-                Estado: $scope.EstadoSeleccionado,
-                Id_Empresa: $scope.IdEmpresa
-            }
+                $scope.Empleado =
+                {
+                    Id_Empleado: -1,
+                    Cedula: '',
+                    Nombres: '',
+                    Apellidos: '',
+                    Telefono_Fijo: '',
+                    Telefono_Movil: '',
+                    Estado_Civil: $scope.EstadoCivilSeleccionado, Direccion: '',
+                    Id_Municipio: -1,
+                    Id_Barrio: -1,
+                    Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
+                    Numero_Hijos: '',
+                    Id_TipoPago: $scope.TipoPagoSeleccionado,
+                    Monto: '',
+                    Estado: $scope.EstadoSeleccionado,
+                    Id_Empresa: $scope.IdEmpresa
+                }
 
-            $scope.MunicipioSeleccionado = -1;
-            $scope.BarrioSeleccionado = -1;
-            $scope.TipoPagoSeleccionado = '00000000-000-000-000000000000';
-            $scope.EstadoCivilSeleccionado = 'SOLTERA';
-            $('#txtCedula').focus();
-            $scope.PermitirFiltrar = true;
+                $scope.MunicipioSeleccionado = -1;
+                $scope.BarrioSeleccionado = -1;
+                $scope.TipoPagoSeleccionado = '00000000-000-000-000000000000';
+                $scope.EstadoCivilSeleccionado = 'SOLTERA';
+                $('#txtCedula').focus();
+                $scope.PermitirFiltrar = true;
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.ConsultarInventario = function (inventario) {
-            $scope.InventarioProducto = 0;
-            let filtrarEntrada = Enumerable.From($scope.Productos)
-                .Where(function (x) { return x.id_Producto === inventario })
-                .ToArray();
-            $scope.InventarioProducto = filtrarEntrada[0].inventario;
-            $scope.$broadcast('productChanged');
+            try {
+                $scope.InventarioProducto = 0;
+                let filtrarEntrada = Enumerable.From($scope.Productos)
+                    .Where(function (x) { return x.id_Producto === inventario })
+                    .ToArray();
+                $scope.InventarioProducto = filtrarEntrada[0].inventario;
+                $scope.$broadcast('productChanged');
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.FocoMonto = function () {
@@ -1849,148 +1938,173 @@
         }
 
         $scope.AsignarRemover = function (ServiciosSeleccionados) {
-            if (ServiciosSeleccionados.length > 0)
-                $scope.ServiciosAsignados = ServiciosSeleccionados;
-            else
-                $scope.ServiciosAsignados.splice($scope.ServiciosAsignados.indexOf(ServiciosSeleccionados), 1);
+            try {
+                if (ServiciosSeleccionados.length > 0)
+                    $scope.ServiciosAsignados = ServiciosSeleccionados;
+                else
+                    $scope.ServiciosAsignados.splice($scope.ServiciosAsignados.indexOf(ServiciosSeleccionados), 1);
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.ValidarDatos = function () {
-            $scope.Empleado.Id_Barrio = $scope.BarrioSeleccionado
-            $scope.Empleado.Id_TipoPago = $scope.TipoPagoSeleccionado;
-            $scope.Empleado.Estado = $scope.EstadoSeleccionado;
-            $scope.Empleado.Estado_Civil = $scope.EstadoCivilSeleccionado;
+            try {
+                $scope.Empleado.Id_Barrio = $scope.BarrioSeleccionado
+                $scope.Empleado.Id_TipoPago = $scope.TipoPagoSeleccionado;
+                $scope.Empleado.Estado = $scope.EstadoSeleccionado;
+                $scope.Empleado.Estado_Civil = $scope.EstadoCivilSeleccionado;
 
-            if ($scope.Empleado.Cedula === '') {
-                toastr.info('Identificación del empleado es requerida', '', $scope.toastrOptions);
-                $('#txtCedula').focus();
-                return false;
-            }
+                if ($scope.Empleado.Cedula === '') {
+                    toastr.info('Identificación del empleado es requerida', '', $scope.toastrOptions);
+                    $('#txtCedula').focus();
+                    return false;
+                }
 
-            if ($scope.Empleado.Nombres === '') {
-                toastr.info('Nombre del empleado es requerido', '', $scope.toastrOptions);
-                $('#txtNombres').focus();
-                return false;
-            }
+                if ($scope.Empleado.Nombres === '') {
+                    toastr.info('Nombre del empleado es requerido', '', $scope.toastrOptions);
+                    $('#txtNombres').focus();
+                    return false;
+                }
 
-            if ($scope.Empleado.Apellidos === '') {
-                toastr.info('Apellido del empleado es requerido', '', $scope.toastrOptions);
-                $('#txtApellido').focus();
-                return false;
-            }
+                if ($scope.Empleado.Apellidos === '') {
+                    toastr.info('Apellido del empleado es requerido', '', $scope.toastrOptions);
+                    $('#txtApellido').focus();
+                    return false;
+                }
 
-            if ($scope.Empleado.Direccion === '') {
-                toastr.info('Dirección del empleado es requerida', '', $scope.toastrOptions);
-                $('#txtDireccion').focus();
-                return false;
-            }
+                if ($scope.Empleado.Direccion === '') {
+                    toastr.info('Dirección del empleado es requerida', '', $scope.toastrOptions);
+                    $('#txtDireccion').focus();
+                    return false;
+                }
 
-            if ($scope.Empleado.Telefono_Fijo === '') {
-                toastr.info('Número fijo del empleado es requerido', '', $scope.toastrOptions);
-                $('#txtFijo').focus();
-                return false;
-            }
+                if ($scope.Empleado.Telefono_Fijo === '') {
+                    toastr.info('Número fijo del empleado es requerido', '', $scope.toastrOptions);
+                    $('#txtFijo').focus();
+                    return false;
+                }
 
-            if ($scope.Empleado.Telefono_Movil === '') {
-                toastr.info('Celular del empleado es requerido', '', $scope.toastrOptions);
-                $('#txtMovil').focus();
-                return false;
-            }
+                if ($scope.Empleado.Telefono_Movil === '') {
+                    toastr.info('Celular del empleado es requerido', '', $scope.toastrOptions);
+                    $('#txtMovil').focus();
+                    return false;
+                }
 
-            if ($scope.Empleado.Numero_Hijos === '') {
-                toastr.info('Número de hijos del empleado es requerido', '', $scope.toastrOptions);
-                $('#txtHijos').focus();
-                return false;
-            }
+                if ($scope.Empleado.Numero_Hijos === '') {
+                    toastr.info('Número de hijos del empleado es requerido', '', $scope.toastrOptions);
+                    $('#txtHijos').focus();
+                    return false;
+                }
 
-            if ($scope.Empleado.Numero_Hijos < 0) {
-                toastr.info('Número de hijos no puede ser menor que cero', '', $scope.toastrOptions);
-                $('#txtHijos').focus();
-                return false;
-            }
+                if ($scope.Empleado.Numero_Hijos < 0) {
+                    toastr.info('Número de hijos no puede ser menor que cero', '', $scope.toastrOptions);
+                    $('#txtHijos').focus();
+                    return false;
+                }
 
-            if (parseInt($filter('date')(new Date($scope.Empleado.Fecha_Nacimiento), 'yyyyMMdd')) > parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
-                toastr.info('La fecha de nacimiento debe ser menor que la fecha actual', '', $scope.toastrOptions);
-                $('#dpFechaNacimiento').focus();
-                return false;
-            }
+                if (parseInt($filter('date')(new Date($scope.Empleado.Fecha_Nacimiento), 'yyyyMMdd')) > parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
+                    toastr.info('La fecha de nacimiento debe ser menor que la fecha actual', '', $scope.toastrOptions);
+                    $('#dpFechaNacimiento').focus();
+                    return false;
+                }
 
-            if ($scope.Empleado.Id_Barrio === -1) {
-                toastr.info('Debe seleccionar un barrio', '', $scope.toastrOptions);
-                $('#slBarrio').focus();
-                return false;
-            }
+                if ($scope.Empleado.Id_Barrio === -1) {
+                    toastr.info('Debe seleccionar un barrio', '', $scope.toastrOptions);
+                    $('#slBarrio').focus();
+                    return false;
+                }
 
-            if ($scope.Empleado.Id_TipoPago === '00000000-000-000-000000000000') {
-                toastr.info('Debe seleccionar un tipo de pago', '', $scope.toastrOptions);
-                $('#slTipoPago').focus();
-                return false;
-            }
+                if ($scope.Empleado.Id_TipoPago === '00000000-000-000-000000000000') {
+                    toastr.info('Debe seleccionar un tipo de pago', '', $scope.toastrOptions);
+                    $('#slTipoPago').focus();
+                    return false;
+                }
 
-            let filtrarCriterio = Enumerable.From($scope.TipoPagos)
-                .Where(function (x) { return x.id_TipoPago === $scope.Empleado.Id_TipoPago })
-                .ToArray();
+                let filtrarCriterio = Enumerable.From($scope.TipoPagos)
+                    .Where(function (x) { return x.id_TipoPago === $scope.Empleado.Id_TipoPago })
+                    .ToArray();
 
-            if (filtrarCriterio.length > 0) {
-                if (filtrarCriterio[0].criterio === 'PAGO_PORCENTUAL') {
-                    if ($scope.Empleado.Monto === '') {
-                        toastr.info('Monto del empleado es requerido', '', $scope.toastrOptions);
-                        $('#txtMonto').focus();
-                        return false;
-                    }
+                if (filtrarCriterio.length > 0) {
+                    if (filtrarCriterio[0].criterio === 'PAGO_PORCENTUAL') {
+                        if ($scope.Empleado.Monto === '') {
+                            toastr.info('Monto del empleado es requerido', '', $scope.toastrOptions);
+                            $('#txtMonto').focus();
+                            return false;
+                        }
 
-                    if ($scope.Empleado.Monto > 1) {
-                        toastr.info('El monto no puede ser mayor a 1 si el tipo de pago es [POR SERVICIOS]', '', $scope.toastrOptions);
-                        $('#txtMonto').focus();
-                        return false;
+                        if ($scope.Empleado.Monto > 1) {
+                            toastr.info('El monto no puede ser mayor a 1 si el tipo de pago es [POR SERVICIOS]', '', $scope.toastrOptions);
+                            $('#txtMonto').focus();
+                            return false;
+                        }
                     }
                 }
-            }
 
-            if ($scope.Empleado.Monto === '') {
-                toastr.info('Monto del empleado es requerido', '', $scope.toastrOptions);
-                $('#txtMonto').focus();
-                return false;
-            }
+                if ($scope.Empleado.Monto === '') {
+                    toastr.info('Monto del empleado es requerido', '', $scope.toastrOptions);
+                    $('#txtMonto').focus();
+                    return false;
+                }
 
-            return true;
+                return true;
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.FiltrarBarrios = function (id_Municipio) {
-            $scope.ConsultarBarrios(id_Municipio);
+            try {
+                $scope.ConsultarBarrios(id_Municipio);
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.showConfirmServicio = function (ev, data) {
-            let confirm = $mdDialog.confirm()
-                .title('Desasignar Servicio')
-                .textContent('¿Seguro que deseas desasignar el servicio ' + data.servicio + ' ?')
-                .ariaLabel('Desasignar Servicio')
-                .targetEvent(ev, data)
-                .ok('Sí')
-                .cancel('No')
-                .multiple(true);
+            try {
+                let confirm = $mdDialog.confirm()
+                    .title('Desasignar Servicio')
+                    .textContent('¿Seguro que deseas desasignar el servicio ' + data.servicio + ' ?')
+                    .ariaLabel('Desasignar Servicio')
+                    .targetEvent(ev, data)
+                    .ok('Sí')
+                    .cancel('No')
+                    .multiple(true);
 
-            $mdDialog.show(confirm).then(function () {
-                $scope.DesasignarEmpleadoServicio(data);
-            }, function () {
+                $mdDialog.show(confirm).then(function () {
+                    $scope.DesasignarEmpleadoServicio(data);
+                }, function () {
+                    return;
+                });
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            });
-        };
+            }            
+        }
 
         $scope.ModalAsignarServicios = function () {
-            $scope.AccionEmpleado = 'Asignar Servicios';
-            $mdDialog.show({
-                contentElement: '#dlgAsignarServicios',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true,
-                multiple: true,
-            })
-                .then(function () {
-                }, function () {
-                    $scope.ServiciosSeleccionados = [];
-                    $scope.ServiciosAsignados = [];
-                });
+            try {
+                $scope.AccionEmpleado = 'Asignar Servicios';
+                $mdDialog.show({
+                    contentElement: '#dlgAsignarServicios',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true,
+                    multiple: true,
+                })
+                    .then(function () {
+                    }, function () {
+                        $scope.ServiciosSeleccionados = [];
+                        $scope.ServiciosAsignados = [];
+                    });
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.AsignarServicios = function (data) {
@@ -2006,37 +2120,47 @@
         }
 
         $scope.showConfirmInsumo = function (ev, data) {
-            let confirm = $mdDialog.confirm()
-                .title('Eliminar Insumo')
-                .textContent('¿Seguro que deseas eliminar el insumo ' + data.nombre_Producto + ' ?')
-                .ariaLabel('Eliminar Insumo')
-                .targetEvent(ev, data)
-                .ok('Sí')
-                .cancel('No')
-                .multiple(true);
+            try {
+                let confirm = $mdDialog.confirm()
+                    .title('Eliminar Insumo')
+                    .textContent('¿Seguro que deseas eliminar el insumo ' + data.nombre_Producto + ' ?')
+                    .ariaLabel('Eliminar Insumo')
+                    .targetEvent(ev, data)
+                    .ok('Sí')
+                    .cancel('No')
+                    .multiple(true);
 
-            $mdDialog.show(confirm).then(function () {
-                $scope.EliminarEmpleadoInsumo(data);
-            }, function () {
+                $mdDialog.show(confirm).then(function () {
+                    $scope.EliminarEmpleadoInsumo(data);
+                }, function () {
+                    return;
+                });
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            });
-        };
+            }            
+        }
 
         $scope.ModalAsignarInsumos = function () {
-            $scope.AccionEmpleado = 'Asignar Insumos';
+            try {
+                $scope.AccionEmpleado = 'Asignar Insumos';
 
-            $mdDialog.show({
-                contentElement: '#dlgAsignarInsumos',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true
-            })
-                .then(function () {
-                }, function () {
-                    $scope.ProductoSeleccionado = -1;
-                    $scope.CantidadInsumo = '';
-                    $scope.InventarioProducto = 0;
-                });
+                $mdDialog.show({
+                    contentElement: '#dlgAsignarInsumos',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true
+                })
+                    .then(function () {
+                    }, function () {
+                        $scope.ProductoSeleccionado = -1;
+                        $scope.CantidadInsumo = '';
+                        $scope.InventarioProducto = 0;
+                    });
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.AsignarInsumos = function (data) {
@@ -2052,43 +2176,53 @@
         }
 
         function OnRowClicked(event) {
-            $scope.LimpiarDatos();
+            try {
+                $scope.LimpiarDatos();
 
-            $scope.Accion = 'BUSQUEDA_EMPLEADO';
+                $scope.Accion = 'BUSQUEDA_EMPLEADO';
 
-            if (event.node.data !== undefined && event.node.data !== null) {
-                $scope.Empleado.Id_Empleado = event.node.data.id_Empleado;
-                $scope.Empleado.Cedula = event.node.data.cedula;
-                $scope.Empleado.Nombres = event.node.data.nombres;
-                $scope.Empleado.Apellidos = event.node.data.apellidos;
-                $scope.Empleado.Telefono_Fijo = event.node.data.telefono_Fijo;
-                $scope.Empleado.Telefono_Movil = event.node.data.telefono_Movil;
-                $scope.Empleado.Monto = event.node.data.monto;
-                $scope.Empleado.Numero_Hijos = event.node.data.numero_Hijos;
-                $scope.Empleado.Direccion = event.node.data.direccion;
-                $scope.Empleado.Id_Municipio = event.node.data.id_Municipio;
-                $scope.Empleado.Id_Barrio = event.node.data.id_Barrio;
-                $scope.Empleado.Fecha_Nacimiento = $filter('date')(new Date(event.node.data.fecha_Nacimiento), 'MM/dd/yyyy');
-                $scope.Empleado.Id_TipoPago = event.node.data.id_TipoPago;
-                $scope.TipoPagoSeleccionado = event.node.data.id_TipoPago;
-                $scope.Empleado.Estado = event.node.data.estado;
+                if (event.node.data !== undefined && event.node.data !== null) {
+                    $scope.Empleado.Id_Empleado = event.node.data.id_Empleado;
+                    $scope.Empleado.Cedula = event.node.data.cedula;
+                    $scope.Empleado.Nombres = event.node.data.nombres;
+                    $scope.Empleado.Apellidos = event.node.data.apellidos;
+                    $scope.Empleado.Telefono_Fijo = event.node.data.telefono_Fijo;
+                    $scope.Empleado.Telefono_Movil = event.node.data.telefono_Movil;
+                    $scope.Empleado.Monto = event.node.data.monto;
+                    $scope.Empleado.Numero_Hijos = event.node.data.numero_Hijos;
+                    $scope.Empleado.Direccion = event.node.data.direccion;
+                    $scope.Empleado.Id_Municipio = event.node.data.id_Municipio;
+                    $scope.Empleado.Id_Barrio = event.node.data.id_Barrio;
+                    $scope.Empleado.Fecha_Nacimiento = $filter('date')(new Date(event.node.data.fecha_Nacimiento), 'MM/dd/yyyy');
+                    $scope.Empleado.Id_TipoPago = event.node.data.id_TipoPago;
+                    $scope.TipoPagoSeleccionado = event.node.data.id_TipoPago;
+                    $scope.Empleado.Estado = event.node.data.estado;
 
-                $scope.EstadoCivilSeleccionado = event.node.data.estado_Civil;
-                $scope.MunicipioSeleccionado = $scope.Empleado.Id_Municipio;
-                $scope.BarrioSeleccionado = $scope.Empleado.Id_Barrio;
-                $scope.EstadoSeleccionado = $scope.Empleado.Estado;
-                $scope.ConsultarBarrios($scope.MunicipioSeleccionado);
+                    $scope.EstadoCivilSeleccionado = event.node.data.estado_Civil;
+                    $scope.MunicipioSeleccionado = $scope.Empleado.Id_Municipio;
+                    $scope.BarrioSeleccionado = $scope.Empleado.Id_Barrio;
+                    $scope.EstadoSeleccionado = $scope.Empleado.Estado;
+                    $scope.ConsultarBarrios($scope.MunicipioSeleccionado);
 
-                $scope.PermitirFiltrar = false;
-                $scope.CedulaReadOnly = true;
-                $('#txtNombre').focus();
-            }
+                    $scope.PermitirFiltrar = false;
+                    $scope.CedulaReadOnly = true;
+                    $('#txtNombre').focus();
+                }
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.onFilterTextBoxChanged = function () {
-            if ($scope.PermitirFiltrar === true) {
-                $scope.EmpleadosGridOptions.api.setQuickFilter($('#txtNombres').val());
-            }
+            try {
+                if ($scope.PermitirFiltrar === true) {
+                    $scope.EmpleadosGridOptions.api.setQuickFilter($('#txtNombres').val());
+                }
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         function ChangeRowColor(params) {
@@ -2399,21 +2533,26 @@
         }
 
         $scope.ConsultarProductoNombre = function (e, nombre) {
-            var row = $scope.ProductosGridOptions.api.getRowNode(nombre);
-            if (row === undefined) return;
+            try {
+                var row = $scope.ProductosGridOptions.api.getRowNode(nombre);
+                if (row === undefined) return;
 
-            if (row.data.nombre !== undefined && row.data.nombre !== null) {
-                $scope.AccionProducto = 'Editar Producto';
-                $scope.Producto.Id_Producto = row.data.id_Producto;
-                $scope.Producto.Nombre = row.data.nombre;
-                $scope.Producto.Descripcion = row.data.descripcion;
-                $scope.Producto.Precio = row.data.precio;
-                $scope.Producto.Inventario = row.data.inventario;
-                $scope.Producto.Id_Tipo_Transaccion = $scope.TipoTransaccionSeleccionada;
+                if (row.data.nombre !== undefined && row.data.nombre !== null) {
+                    $scope.AccionProducto = 'Editar Producto';
+                    $scope.Producto.Id_Producto = row.data.id_Producto;
+                    $scope.Producto.Nombre = row.data.nombre;
+                    $scope.Producto.Descripcion = row.data.descripcion;
+                    $scope.Producto.Precio = row.data.precio;
+                    $scope.Producto.Inventario = row.data.inventario;
+                    $scope.Producto.Id_Tipo_Transaccion = $scope.TipoTransaccionSeleccionada;
 
-                $scope.NombreProductoReadOnly = true;
-                $scope.OcultarbtnNuevo = true;
-            }
+                    $scope.NombreProductoReadOnly = true;
+                    $scope.OcultarbtnNuevo = true;
+                }
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.ConsultarProductoTransacciones = function (data) {
@@ -2452,90 +2591,109 @@
         }
 
         $scope.LimpiarDatos = function () {
-            $scope.AccionProducto = 'Registrar Producto';
+            try {
+                $scope.AccionProducto = 'Registrar Producto';
 
-            $scope.Producto =
-            {
-                Id_Producto: -1,
-                Nombre: '',
-                Descripcion: '',
-                Precio: 0.00,
-                Inventario: 0,
-                Cantidad_Transaccion: 0,
-                Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
-                Fecha_Modificacion: $filter('date')(new Date(), 'MM-dd-yyyy'),
-                Id_Empresa: $scope.IdEmpresa,
-                Id_Tipo_Transaccion: $scope.TipoTransaccionSeleccionada
-            }
+                $scope.Producto =
+                {
+                    Id_Producto: -1,
+                    Nombre: '',
+                    Descripcion: '',
+                    Precio: 0.00,
+                    Inventario: 0,
+                    Cantidad_Transaccion: 0,
+                    Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
+                    Fecha_Modificacion: $filter('date')(new Date(), 'MM-dd-yyyy'),
+                    Id_Empresa: $scope.IdEmpresa,
+                    Id_Tipo_Transaccion: $scope.TipoTransaccionSeleccionada
+                }
 
-            $scope.NombreProductoReadOnly = false;
-            $('#txtNombreProducto').focus();
+                $scope.NombreProductoReadOnly = false;
+                $('#txtNombreProducto').focus();
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.ValidarDatos = function () {
-            $scope.Producto.Id_Tipo_Transaccion = $scope.TipoTransaccionSeleccionada;
+            try {
+                $scope.Producto.Id_Tipo_Transaccion = $scope.TipoTransaccionSeleccionada;
 
-            if ($scope.Producto.Nombre === '') {
-                toastr.info('Nombre del producto es requerido', '', $scope.toastrOptions);
-                $('#txtNombreProducto').focus();
-                return false;
-            }
+                if ($scope.Producto.Nombre === '') {
+                    toastr.info('Nombre del producto es requerido', '', $scope.toastrOptions);
+                    $('#txtNombreProducto').focus();
+                    return false;
+                }
 
-            if ($scope.Producto.Descripcion === '') {
-                toastr.info('Descripción del producto es requerida', '', $scope.toastrOptions);
-                $('#txtDescripcionProducto').focus();
-                return false;
-            }
+                if ($scope.Producto.Descripcion === '') {
+                    toastr.info('Descripción del producto es requerida', '', $scope.toastrOptions);
+                    $('#txtDescripcionProducto').focus();
+                    return false;
+                }
 
-            if ($scope.Producto.Precio === 0.00) {
-                toastr.info('Precio del producto es requerido', '', $scope.toastrOptions);
-                $('#txtValorProducto').focus();
-                return false;
-            }
+                if ($scope.Producto.Precio === 0.00) {
+                    toastr.info('Precio del producto es requerido', '', $scope.toastrOptions);
+                    $('#txtValorProducto').focus();
+                    return false;
+                }
 
-            if ($scope.Producto.Id_Tipo_Transaccion === -1) {
-                toastr.info('Tipo transacción es requerido', '', $scope.toastrOptions);
-                $('#txtValorServicio').focus();
-                return false;
-            }
-
-            return true;
+                if ($scope.Producto.Id_Tipo_Transaccion === -1) {
+                    toastr.info('Tipo transacción es requerido', '', $scope.toastrOptions);
+                    $('#txtValorServicio').focus();
+                    return false;
+                }
+                return true;
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.ModalNuevoProducto = function () {
-            $scope.AccionProducto = 'Registrar Producto';
+            try {
+                $scope.AccionProducto = 'Registrar Producto';
 
-            $mdDialog.show({
-                contentElement: '#dlgNuevoProducto',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true
-            })
-                .then(function () {
-                }, function () {
-                    $('#txtBuscarProducto').focus();
-                });
+                $mdDialog.show({
+                    contentElement: '#dlgNuevoProducto',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true
+                })
+                    .then(function () {
+                    }, function () {
+                        $('#txtBuscarProducto').focus();
+                    });
 
-            $scope.LimpiarDatos();
-            $scope.OcultarbtnNuevo = false;
+                $scope.LimpiarDatos();
+                $scope.OcultarbtnNuevo = false;
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.ModalEditarProducto = function () {
-            $scope.AccionProducto = 'Editar Producto';
+            try {
+                $scope.AccionProducto = 'Editar Producto';
 
-            $mdDialog.show({
-                contentElement: '#dlgNuevoProducto',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true
-            })
-                .then(function () {
-                }, function () {
-                    $('#txtBuscarProducto').focus();
-                });
+                $mdDialog.show({
+                    contentElement: '#dlgNuevoProducto',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true
+                })
+                    .then(function () {
+                    }, function () {
+                        $('#txtBuscarProducto').focus();
+                    });
 
-            $scope.NombreProductoReadOnly = true
-            $scope.OcultarbtnNuevo = true;
+                $scope.NombreProductoReadOnly = true
+                $scope.OcultarbtnNuevo = true;
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }           
         }
 
         $scope.ProductosGridOptionsColumns = [
@@ -2681,7 +2839,7 @@
     }
 
     function GastosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-        // VARIABLES
+        
         $scope.ObjetoGasto = [];
         $scope.ObjetoBorrarGasto = [];
         $scope.Gastos = [];
@@ -2713,8 +2871,7 @@
                 { id_TipoCaja: 2, Nombre: "MENSUAL" }
             ];
         $scope.TipoCaja = $filter('orderBy')($scope.TipoCaja, 'Nombre', false);
-
-        // INICIALIZACIÓN
+        
         $scope.Inicializacion = function () {
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
             window.onresize();
@@ -2749,8 +2906,7 @@
             Valor: 0,
             Estado: null
         }
-
-        //Registrar Nuevo Gasto
+        
         $scope.GuardarNuevoGasto = function () {
             if ($scope.ValidarNuevoGasto()) {
                 $scope.ObjetoGasto = [];
@@ -2777,8 +2933,7 @@
                         })
             }
         }
-
-        //Eliminar Gastos
+        
         $scope.EliminarGastos = function () {
             if ($scope.ObjetoBorrarGasto.length > 0) {
                 SPAService._eliminarGastos(JSON.stringify($scope.ObjetoBorrarGasto))
@@ -2801,8 +2956,7 @@
                 toastr.info('Debe seleccionar al menos un registro de gastos', '', $scope.toastrOptions);
             }
         }
-
-        //Guardar Caja Menor
+        
         $scope.GuardarCajaMenor = function () {
             if ($scope.ValidarCajaMenor()) {
                 $scope.ObjetoCajaMenor = [];
@@ -2847,8 +3001,7 @@
                 }
             }
         }
-
-        //Consultar Caja Menor
+        
         $scope.ConsultarCajaMenor = function () {
             SPAService._consultarCajaMenor($scope.IdEmpresa)
                 .then(
@@ -2875,8 +3028,7 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         }
-
-        //Consultar Gastos
+        
         $scope.ConsultarGastos = function () {
             $scope.BusquedaGasto.Tipo_Gasto = null;
 
@@ -2918,8 +3070,7 @@
                         })
             }
         }
-
-        // Consultar Empleados
+        
         $scope.ConsultarEmpleados = function () {
             SPAService._consultarEmpleados($scope.IdEmpresa)
                 .then(
@@ -2936,128 +3087,137 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         }
-
-        //Validar Datos
+        
         $scope.ValidarDatos = function () {
-            if ($scope.IdEmpresa === null || $scope.IdEmpresa === undefined) {
-                toastr.info('Código de empresa inválido', '', $scope.toastrOptions);
-                return false;
-            }
+            try {
+                if ($scope.IdEmpresa === null || $scope.IdEmpresa === undefined) {
+                    toastr.info('Código de empresa inválido', '', $scope.toastrOptions);
+                    return false;
+                }
 
-            if ($scope.Filtros.Desde === null || $scope.Filtros.Desde === undefined) {
-                toastr.info('Fecha [Desde] inválida', '', $scope.toastrOptions);
-                return false;
-            }
+                if ($scope.Filtros.Desde === null || $scope.Filtros.Desde === undefined) {
+                    toastr.info('Fecha [Desde] inválida', '', $scope.toastrOptions);
+                    return false;
+                }
 
-            if ($scope.Filtros.Hasta === null || $scope.Filtros.Hasta === undefined) {
-                toastr.info('Fecha [Hasta] inválida', '', $scope.toastrOptions);
-                return false;
-            }
+                if ($scope.Filtros.Hasta === null || $scope.Filtros.Hasta === undefined) {
+                    toastr.info('Fecha [Hasta] inválida', '', $scope.toastrOptions);
+                    return false;
+                }
 
-            let DateLimit = new Date($scope.Filtros.Hasta);
-            DateLimit.setDate(DateLimit.getDate() - 15);
+                let DateLimit = new Date($scope.Filtros.Hasta);
+                DateLimit.setDate(DateLimit.getDate() - 15);
 
-            if ($filter('date')($scope.Filtros.Desde, 'MM/dd/yyyy') < $filter('date')(DateLimit, 'MM/dd/yyyy')) {
-                if ($scope.TipoGastoSeleccionado === -1) {
+                if ($filter('date')($scope.Filtros.Desde, 'MM/dd/yyyy') < $filter('date')(DateLimit, 'MM/dd/yyyy')) {
+                    if ($scope.TipoGastoSeleccionado === -1) {
+                        toastr.info('Debe seleccionar un tipo de gasto', '', $scope.toastrOptions);
+                        return false;
+                    }
+                }
+                return true;
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
+        }
+        
+        $scope.ValidarCajaMenor = function () {
+            try {
+                $scope.CajaMenor.Acumulado = $scope.Acumulado;
+                $scope.CajaMenor.Id_Empresa = $scope.IdEmpresa;
+
+                if ($scope.Caja_Menor !== null && $scope.Caja_Menor !== undefined) {
+                    $scope.CajaMenor.Id_Registro = $scope.Caja_Menor.id_Registro;
+                }
+
+                if ($scope.IdEmpresa === null || $scope.IdEmpresa === undefined) {
+                    toastr.info('Código de empresa inválido', '', $scope.toastrOptions);
+                    return false;
+                }
+
+                if ($scope.TipoCajaSeleccionada === -1) {
+                    toastr.info('Debe seleccionar una distribución DIARIA o MENSUAL', '', $scope.toastrOptions);
+                    return false;
+                }
+                else if ($scope.TipoCajaSeleccionada === 1) {
+                    $scope.CajaMenor.Distribucion = 'DIARIA';
+                }
+                else if ($scope.TipoCajaSeleccionada === 2) {
+                    $scope.CajaMenor.Distribucion = 'MENSUAL';
+                }
+
+                if ($scope.CajaMenor.Saldo_Inicial === 0 || $scope.CajaMenor.Saldo_Inicial == '') {
+                    toastr.info('Debe debe ingresar un saldo inicial', '', $scope.toastrOptions);
+                    $('#txtSaldoInicial').focus();
+                    return false;
+                }
+                return true;
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
+        }
+        
+        $scope.ValidarNuevoGasto = function () {
+            try {
+                $scope.Gasto.Id_Empresa = $scope.IdEmpresa;
+                $scope.Gasto.Fecha = new Date($scope.Gasto.Fecha + 'Z');
+                if ($scope.TipoGastoSeleccionadoModal === -1) {
                     toastr.info('Debe seleccionar un tipo de gasto', '', $scope.toastrOptions);
                     return false;
                 }
-            }
 
-            return true;
+                if ($scope.TipoGastoSeleccionadoModal === 2 && $scope.EmpleadoSeleccionado === -1) {
+                    toastr.info('Para el tipo de gasto prestamos debe seleccionar un empleado', '', $scope.toastrOptions);
+                    return false;
+                }
+
+                if ($scope.TipoGastoSeleccionadoModal !== -1 && $scope.TipoGastoSeleccionadoModal !== 2) {
+                    $scope.Gasto.Id_Empleado = null;
+                    $scope.Gasto.Estado = null;
+                }
+                else {
+                    $scope.Gasto.Id_Empleado = $scope.EmpleadoSeleccionado;
+                    $scope.Gasto.Estado = 'ASIGNADO';
+                }
+
+                if ($scope.Gasto.Descripcion == '') {
+                    toastr.info('Debe ingresar un descripción', '', $scope.toastrOptions);
+                    $('#txtDescripcion').focus();
+                    return false;
+                }
+
+                if (parseInt($filter('date')($scope.Gasto.Fecha, 'yyyyMMdd')) > parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
+                    toastr.info('La fecha del gasto no puede ser mayor a la fecha actual', '', $scope.toastrOptions);
+                    return false;
+                }
+
+                if ($scope.Gasto.Valor === 0) {
+                    toastr.info('El valor del gasto no puede ser cero', '', $scope.toastrOptions);
+                    $('#txtValorGasto').focus();
+                    return false;
+                }
+
+                if ($scope.Gasto.Valor > $scope.Acumulado) {
+                    toastr.info('No puede registrar el gasto, el saldo en caja es: ' + $filter('currency')($scope.Acumulado, '$', 2), '', $scope.toastrOptions);
+                    $('#txtValorGasto').focus();
+                    return false;
+                }
+
+                let filtrarTipoGasto = Enumerable.From($scope.TipoGastos)
+                    .Where(function (x) { return x.id_TipoGasto === $scope.TipoGastoSeleccionadoModal })
+                    .ToArray();
+
+                if (filtrarTipoGasto.length > 0)
+                    $scope.Gasto.Tipo_Gasto = filtrarTipoGasto[0].Nombre;
+
+                return true;
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
-
-        //Validar Caja Menor
-        $scope.ValidarCajaMenor = function () {
-            $scope.CajaMenor.Acumulado = $scope.Acumulado;
-            $scope.CajaMenor.Id_Empresa = $scope.IdEmpresa;
-
-            if ($scope.Caja_Menor !== null && $scope.Caja_Menor !== undefined) {
-                $scope.CajaMenor.Id_Registro = $scope.Caja_Menor.id_Registro;
-            }
-
-            if ($scope.IdEmpresa === null || $scope.IdEmpresa === undefined) {
-                toastr.info('Código de empresa inválido', '', $scope.toastrOptions);
-                return false;
-            }
-
-            if ($scope.TipoCajaSeleccionada === -1) {
-                toastr.info('Debe seleccionar una distribución DIARIA o MENSUAL', '', $scope.toastrOptions);
-                return false;
-            }
-            else if ($scope.TipoCajaSeleccionada === 1) {
-                $scope.CajaMenor.Distribucion = 'DIARIA';
-            }
-            else if ($scope.TipoCajaSeleccionada === 2) {
-                $scope.CajaMenor.Distribucion = 'MENSUAL';
-            }
-
-            if ($scope.CajaMenor.Saldo_Inicial === 0 || $scope.CajaMenor.Saldo_Inicial == '') {
-                toastr.info('Debe debe ingresar un saldo inicial', '', $scope.toastrOptions);
-                $('#txtSaldoInicial').focus();
-                return false;
-            }
-
-            return true;
-        }
-
-        //Validar Nuevo Gasto
-        $scope.ValidarNuevoGasto = function () {
-            $scope.Gasto.Id_Empresa = $scope.IdEmpresa;
-            $scope.Gasto.Fecha = new Date($scope.Gasto.Fecha + 'Z');
-            if ($scope.TipoGastoSeleccionadoModal === -1) {
-                toastr.info('Debe seleccionar un tipo de gasto', '', $scope.toastrOptions);
-                return false;
-            }
-
-            if ($scope.TipoGastoSeleccionadoModal === 2 && $scope.EmpleadoSeleccionado === -1) {
-                toastr.info('Para el tipo de gasto prestamos debe seleccionar un empleado', '', $scope.toastrOptions);
-                return false;
-            }
-
-            if ($scope.TipoGastoSeleccionadoModal !== -1 && $scope.TipoGastoSeleccionadoModal !== 2) {
-                $scope.Gasto.Id_Empleado = null;
-                $scope.Gasto.Estado = null;
-            }
-            else {
-                $scope.Gasto.Id_Empleado = $scope.EmpleadoSeleccionado;
-                $scope.Gasto.Estado = 'ASIGNADO';
-            }
-
-            if ($scope.Gasto.Descripcion == '') {
-                toastr.info('Debe ingresar un descripción', '', $scope.toastrOptions);
-                $('#txtDescripcion').focus();
-                return false;
-            }
-
-            if (parseInt($filter('date')($scope.Gasto.Fecha, 'yyyyMMdd')) > parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
-                toastr.info('La fecha del gasto no puede ser mayor a la fecha actual', '', $scope.toastrOptions);
-                return false;
-            }
-
-            if ($scope.Gasto.Valor === 0) {
-                toastr.info('El valor del gasto no puede ser cero', '', $scope.toastrOptions);
-                $('#txtValorGasto').focus();
-                return false;
-            }
-
-            if ($scope.Gasto.Valor > $scope.Acumulado) {
-                toastr.info('No puede registrar el gasto, el saldo en caja es: ' + $filter('currency')($scope.Acumulado, '$', 2), '', $scope.toastrOptions);
-                $('#txtValorGasto').focus();
-                return false;
-            }
-
-            let filtrarTipoGasto = Enumerable.From($scope.TipoGastos)
-                .Where(function (x) { return x.id_TipoGasto === $scope.TipoGastoSeleccionadoModal })
-                .ToArray();
-
-            if (filtrarTipoGasto.length > 0)
-                $scope.Gasto.Tipo_Gasto = filtrarTipoGasto[0].Nombre;
-
-            return true;
-        }
-
-        //API GRID GASTOS OPTIONS
+        
         $scope.GastosGridOptionsColumns = [
 
             {
@@ -3106,136 +3266,161 @@
             rowSelection: 'multiple',
             onRowSelected: OnRowSelected
         }
-
-        //Funciones
-
-        //Cambiar Distribución Caja Menor
+        
         $scope.CambiarDistribucion = function () {
-            if ($scope.TipoCajaSeleccionada === -1) {
-                toastr.info('Debe seleccionar una distribución DIARIA o MENSUAL', '', $scope.toastrOptions);
-                $scope.TipoCajaSeleccionada = $scope.DistribucionActual;
+            try {
+                if ($scope.TipoCajaSeleccionada === -1) {
+                    toastr.info('Debe seleccionar una distribución DIARIA o MENSUAL', '', $scope.toastrOptions);
+                    $scope.TipoCajaSeleccionada = $scope.DistribucionActual;
+                    return;
+                }
+
+                if ($scope.DistribucionActual !== -1) {
+                    $scope.showConfirmCambiarDistribucion();
+                }
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }
-
-            if ($scope.DistribucionActual !== -1) {
-                $scope.showConfirmCambiarDistribucion();
-            }
+            }            
         }
-
-        //Limpiar Datos
+        
         $scope.LimpiarDatosCajaMenor = function () {
-            $scope.DistribucionActual = -1;
-            $scope.TipoCajaSeleccionada = -1;
-            $scope.Acumulado = 0;
-            $scope.CambiarDistribucionCajaMenor = false;
+            try {
+                $scope.DistribucionActual = -1;
+                $scope.TipoCajaSeleccionada = -1;
+                $scope.Acumulado = 0;
+                $scope.CambiarDistribucionCajaMenor = false;
 
-            $scope.CajaMenor = {
-                Saldo_Inicial: 0,
-                Acumulado: $scope.Acumulado,
-                Distribucion: $scope.TipoCajaSeleccionada,
-                Id_Empresa: $scope.IdEmpresa
-            }
+                $scope.CajaMenor = {
+                    Saldo_Inicial: 0,
+                    Acumulado: $scope.Acumulado,
+                    Distribucion: $scope.TipoCajaSeleccionada,
+                    Id_Empresa: $scope.IdEmpresa
+                }
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.LimpiarDatosGastos = function () {
-            $scope.TipoGastoSeleccionadoModal = -1;
-            $scope.EmpleadoSeleccionado = -1;
+            try {
+                $scope.TipoGastoSeleccionadoModal = -1;
+                $scope.EmpleadoSeleccionado = -1;
 
-            $scope.Gasto = {
-                Id_Registro: -1,
-                Descripcion: '',
-                Id_Empleado: -1,
-                Tipo_Gasto: '',
-                Fecha: new Date(),
-                Valor: 0,
-                Estado: null,
-                Id_Empresa: $scope.IdEmpresa
-            }
+                $scope.Gasto = {
+                    Id_Registro: -1,
+                    Descripcion: '',
+                    Id_Empleado: -1,
+                    Tipo_Gasto: '',
+                    Fecha: new Date(),
+                    Valor: 0,
+                    Estado: null,
+                    Id_Empresa: $scope.IdEmpresa
+                }
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
-
-        //Modal Caja Menor
+        
         $scope.ModalCajaMenor = function () {
-            $scope.AccionGasto = 'Caja Menor';
+            try {
+                $scope.AccionGasto = 'Caja Menor';
 
-            $mdDialog.show({
-                contentElement: '#dlgCajaMenor',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true,
-                multiple: true,
-            })
-                .then(function () {
-                }, function () {
-                    $scope.CajaMenor.Saldo_Inicial = 0;
-                    $scope.TipoCajaSeleccionada = $scope.DistribucionActual;
-                });
+                $mdDialog.show({
+                    contentElement: '#dlgCajaMenor',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true,
+                    multiple: true,
+                })
+                    .then(function () {
+                    }, function () {
+                        $scope.CajaMenor.Saldo_Inicial = 0;
+                        $scope.TipoCajaSeleccionada = $scope.DistribucionActual;
+                    });
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
-
-        //Modal Nuevo Gasto
+        
         $scope.ModalNuevoGasto = function () {
-            $scope.ConsultarEmpleados();
-            $scope.AccionGasto = 'Registrar Gasto';
+            try {
+                $scope.ConsultarEmpleados();
+                $scope.AccionGasto = 'Registrar Gasto';
 
-            $mdDialog.show({
-                contentElement: '#dlgNuevoGasto',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true,
-                multiple: true,
-            })
+                $mdDialog.show({
+                    contentElement: '#dlgNuevoGasto',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true,
+                    multiple: true,
+                })
                 .then(function () {
                 }, function () {
                     $scope.LimpiarDatosGastos();
                 });
-        }
-
-        //Show Comfirm Cambiar Distribucion
-        $scope.showConfirmCambiarDistribucion = function (ev, data) {
-            let confirm = $mdDialog.confirm()
-                .title('Distribución Caja Menor')
-                .textContent('¿Ya existe una distribución de caja menor asignada. Desea cambiarla?')
-                .ariaLabel('Cambiar Distribución')
-                .targetEvent(ev, data)
-                .ok('Sí')
-                .cancel('No')
-                .multiple(true);
-
-            $mdDialog.show(confirm).then(function () {
-                $scope.CambiarDistribucionCajaMenor = true;
-            }, function () {
-                $scope.TipoCajaSeleccionada = $scope.DistribucionActual;
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            });
-        };
-
-        //Show Comfirm Eliminar Gastos
-        $scope.showConfirmEliminarGastos = function (ev) {
-            if ($scope.ObjetoBorrarGasto.length > 0) {
+            }            
+        }
+        
+        $scope.showConfirmCambiarDistribucion = function (ev, data) {
+            try {
                 let confirm = $mdDialog.confirm()
-                    .title('Eliminar Gastos')
-                    .textContent('¿Seguro que deseas eliminar los gastos seleccionados?')
-                    .ariaLabel('Eliminar Gastos')
-                    .targetEvent(ev)
+                    .title('Distribución Caja Menor')
+                    .textContent('¿Ya existe una distribución de caja menor asignada. Desea cambiarla?')
+                    .ariaLabel('Cambiar Distribución')
+                    .targetEvent(ev, data)
                     .ok('Sí')
                     .cancel('No')
                     .multiple(true);
 
                 $mdDialog.show(confirm).then(function () {
-                    $scope.EliminarGastos();
+                    $scope.CambiarDistribucionCajaMenor = true;
                 }, function () {
+                    $scope.TipoCajaSeleccionada = $scope.DistribucionActual;
                     return;
                 });
-            }
-            else toastr.info('Debe seleccionar un registro de gasto', '', $scope.toastrOptions);
-        };
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
+        }
+        
+        $scope.showConfirmEliminarGastos = function (ev) {
+            try {
+                if ($scope.ObjetoBorrarGasto.length > 0) {
+                    let confirm = $mdDialog.confirm()
+                        .title('Eliminar Gastos')
+                        .textContent('¿Seguro que deseas eliminar los gastos seleccionados?')
+                        .ariaLabel('Eliminar Gastos')
+                        .targetEvent(ev)
+                        .ok('Sí')
+                        .cancel('No')
+                        .multiple(true);
 
-        //OnRowSelected
+                    $mdDialog.show(confirm).then(function () {
+                        $scope.EliminarGastos();
+                    }, function () {
+                        return;
+                    });
+                }
+                else toastr.info('Debe seleccionar un registro de gasto', '', $scope.toastrOptions);
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
+        }
+        
         function OnRowSelected(event) {
             $scope.ObjetoBorrarGasto = [];
             $scope.ObjetoBorrarGasto = $scope.GastosGridOptions.api.getSelectedRows();
         }
-
-        // Eventos
+        
         window.onresize = function () {
             $timeout(function () {
                 $scope.GastosGridOptions.api.sizeColumnsToFit();
@@ -3247,26 +3432,35 @@
         };
 
         $scope.ValidarFechaDesde = function () {
-            if ($scope.Filtros.Desde == undefined) {
-                $scope.Filtros.Desde = new Date();
-            }
+            try {
+                if ($scope.Filtros.Desde == undefined) {
+                    $scope.Filtros.Desde = new Date();
+                }
 
-            if ($filter('date')(new Date($scope.Filtros.Desde), 'yyyy-MM-dd') > $filter('date')(new Date($scope.Filtros.Hasta), 'yyyy-MM-dd')) {
-                $scope.Filtros.Desde = angular.copy($scope.Filtros.Hasta);
-            }
+                if ($filter('date')(new Date($scope.Filtros.Desde), 'yyyy-MM-dd') > $filter('date')(new Date($scope.Filtros.Hasta), 'yyyy-MM-dd')) {
+                    $scope.Filtros.Desde = angular.copy($scope.Filtros.Hasta);
+                }
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.ValidarFechaHasta = function () {
-            if ($scope.Filtros.Hasta == undefined) {
-                $scope.Filtros.Hasta = new Date();
-            }
+            try {
+                if ($scope.Filtros.Hasta == undefined) {
+                    $scope.Filtros.Hasta = new Date();
+                }
 
-            if ($filter("date")(new Date($scope.Filtros.Hasta), 'yyyy-MM-dd') < $filter("date")(new Date($scope.Filtros.Desde), 'yyyy-MM-dd')) {
-                $scope.Filtros.Hasta = angular.copy($scope.Filtros.Desde);
-            }
+                if ($filter("date")(new Date($scope.Filtros.Hasta), 'yyyy-MM-dd') < $filter("date")(new Date($scope.Filtros.Desde), 'yyyy-MM-dd')) {
+                    $scope.Filtros.Hasta = angular.copy($scope.Filtros.Desde);
+                }
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
-
-        // Formatos
+        
         function currencyFormatter(params) {
             let valueGrid = params.value;
             return $filter('currency')(valueGrid, '$', 0);
@@ -3504,182 +3698,205 @@
         }
 
         $scope.ValidarUsuario = function () {
-            let mail_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
-            $scope.Usuario.Id_Empresa = $scope.IdEmpresa;
-            if ($scope.ImagenUsuario !== '../Images/default-perfil.png')
-                $scope.Usuario.Logo_Base64 = $scope.ImagenUsuario;
-            else
-                $scope.Usuario.Logo_Base64 = null;
-
-            if ($scope.PerfilUsuario !== 'Administrador' && $scope.PerfilUsuario !== '[MANAGER]') {
-                toastr.info('Solo los Administradores pueden registrar/actualizar usuarios', '', $scope.toastrOptions);
-                $scope.LimpiarDatos();
-                return false;
-            }
-
-            if ($scope.Usuario.Nombre === '') {
-                toastr.info('Debe ingresar un nombre de usuario', '', $scope.toastrOptions);
-                $('#txtUsuario').focus();
-                return false;
-            }
-
-            if ($scope.Usuario.Contrasenia === '') {
-                toastr.info('Debe ingresar una contraseña', '', $scope.toastrOptions);
-                $('#txtContrasenia').focus();
-                return false;
-            }
-
-            if ($scope.Confirmacion === '') {
-                toastr.info('Debe confirmar la contraseña', '', $scope.toastrOptions);
-                $('#txtConfirmacion').focus();
-                return false;
-            }
-
-            if ($scope.Usuario.Contrasenia !== $scope.Confirmacion) {
-                toastr.info('La confirmación de la contraseña no coincide con la contraseña', '', $scope.toastrOptions);
-                $('#txtConfirmacion').focus();
-                return false;
-            }
-
-            if (($scope.Usuario.Contrasenia !== $scope.PasswordBackup && $scope.Usuario.Id_Usuario !== -1) || ($scope.Usuario.Id_Usuario === -1)) {
-                $scope.PasswordHasChanged = true;
-                $scope.Usuario.PasswordHasChanged = $scope.PasswordHasChanged;
-            }
-
-            if ($scope.Usuario.Mail === '') {
-                toastr.info('Debe ingresar una dirección de correo electrónico', '', $scope.toastrOptions);
-                $('#txtMail').focus();
-                return false;
-            }
-
-            if (!mail_expression.test($scope.Usuario.Mail)) {
-                toastr.info('La dirección de correo electrónico no es válida.', '', $scope.toastrOptions);
-                $('#txtMail').focus();
-                return false;
-            }
-
-            if ($scope.TipoPerfilSeleccionado === -1) {
-                toastr.info('Debe seleccionar un perfil', '', $scope.toastrOptions);
-                $('#slTipoPerfil').focus();
-                return false;
-            }
-
-            let filtrarTipoPerfil = Enumerable.From($scope.TipoPerfil)
-                .Where(function (x) { return x.id_TipoPerfil === $scope.TipoPerfilSeleccionado })
-                .ToArray();
-
-            if (filtrarTipoPerfil.length > 0)
-                $scope.Usuario.Perfil = filtrarTipoPerfil[0].Nombre;
-
-            let menuUnchecked = 0;
-            for (let i = 0; i < $scope.Usuario.Menu_Usuario.length; i++) {
-                if ($scope.Usuario.Menu_Usuario[i].Estado === false)
-                    menuUnchecked += 1;
-            }
-
-            if (menuUnchecked === $scope.Usuario.Menu_Usuario.length) {
-                toastr.info('Debe asignar almenos un elemento del menú', '', $scope.toastrOptions);
-                $scope.ModalMenu();
-                return false;
-            }
-
-            return true;
-        }
-
-        $scope.LimpiarDatos = function () {
-            $scope.EditarUsuario = false;
-            $scope.ImagenUsuario = '../Images/default-perfil.png';
-            $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
-            $scope.Menu = $rootScope.Menu;
-            $scope.PasswordHasChanged = false;
-            $scope.PasswordBackup = '';
-            $scope.Menu = $scope.Menu.map(function (e) {
-                return { Id_Menu_Usuario: '', Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
-            });
-            $('#txtUsuario').focus();
-            $scope.TipoPerfilSeleccionado = -1;
-            $scope.Confirmacion = '';
-            $scope.NombreReadOnly = false;
-            $scope.Usuario = {
-                Id_Usuario: -1,
-                Nombre: '',
-                Contrasenia: '',
-                Mail: '',
-                Perfil: '',
-                Id_Empresa: $scope.IdEmpresa,
-                Logo_Base64: null,
-                Menu_Usuario: $scope.Menu,
-                PasswordHasChanged: $scope.PasswordHasChanged
-            }
-        }
-
-        function OnRowClicked(event) {
-            $scope.LimpiarDatos();
-            if (event.node.data !== undefined && event.node.data !== null) {
-                $scope.EditarUsuario = true;
-                $scope.Usuario.Id_Usuario = event.node.data.id_Usuario;
-                $scope.Usuario.Nombre = event.node.data.nombre;
-                $scope.Usuario.Contrasenia = event.node.data.contrasenia;
-                $scope.Usuario.Mail = event.node.data.mail;
-                $scope.Usuario.Id_Empresa = event.node.data.id_Empresa;
-                $scope.PasswordBackup = angular.copy(event.node.data.contrasenia);
-
-                if (event.node.data.logo_Base64 !== null)
-                    $scope.ImagenUsuario = event.node.data.logo_Base64;
+            try {
+                let mail_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
+                $scope.Usuario.Id_Empresa = $scope.IdEmpresa;
+                if ($scope.ImagenUsuario !== '../Images/default-perfil.png')
+                    $scope.Usuario.Logo_Base64 = $scope.ImagenUsuario;
                 else
-                    $scope.ImagenUsuario = '../Images/default-perfil.png';
+                    $scope.Usuario.Logo_Base64 = null;
 
-                $scope.Usuario.Logo_Base64 = $scope.ImagenUsuario;
-                $scope.Menu = event.node.data.menu_Usuario;
-                $scope.Menu = $scope.Menu.map(function (e) {
-                    return { Id_Menu_Usuario: e.id_Menu_Usuario, Id_Usuario: e.id_Usuario, Id_Menu: e.id_Menu, Estado: e.estado, Descripcion: e.descripcion }
-                });
+                if ($scope.PerfilUsuario !== 'Administrador' && $scope.PerfilUsuario !== '[MANAGER]') {
+                    toastr.info('Solo los Administradores pueden registrar/actualizar usuarios', '', $scope.toastrOptions);
+                    $scope.LimpiarDatos();
+                    return false;
+                }
 
-                $scope.Usuario.Menu_Usuario = $scope.Menu;
-                $scope.Confirmacion = $scope.Usuario.Contrasenia;
+                if ($scope.Usuario.Nombre === '') {
+                    toastr.info('Debe ingresar un nombre de usuario', '', $scope.toastrOptions);
+                    $('#txtUsuario').focus();
+                    return false;
+                }
+
+                if ($scope.Usuario.Contrasenia === '') {
+                    toastr.info('Debe ingresar una contraseña', '', $scope.toastrOptions);
+                    $('#txtContrasenia').focus();
+                    return false;
+                }
+
+                if ($scope.Confirmacion === '') {
+                    toastr.info('Debe confirmar la contraseña', '', $scope.toastrOptions);
+                    $('#txtConfirmacion').focus();
+                    return false;
+                }
+
+                if ($scope.Usuario.Contrasenia !== $scope.Confirmacion) {
+                    toastr.info('La confirmación de la contraseña no coincide con la contraseña', '', $scope.toastrOptions);
+                    $('#txtConfirmacion').focus();
+                    return false;
+                }
+
+                if (($scope.Usuario.Contrasenia !== $scope.PasswordBackup && $scope.Usuario.Id_Usuario !== -1) || ($scope.Usuario.Id_Usuario === -1)) {
+                    $scope.PasswordHasChanged = true;
+                    $scope.Usuario.PasswordHasChanged = $scope.PasswordHasChanged;
+                }
+
+                if ($scope.Usuario.Mail === '') {
+                    toastr.info('Debe ingresar una dirección de correo electrónico', '', $scope.toastrOptions);
+                    $('#txtMail').focus();
+                    return false;
+                }
+
+                if (!mail_expression.test($scope.Usuario.Mail)) {
+                    toastr.info('La dirección de correo electrónico no es válida.', '', $scope.toastrOptions);
+                    $('#txtMail').focus();
+                    return false;
+                }
+
+                if ($scope.TipoPerfilSeleccionado === -1) {
+                    toastr.info('Debe seleccionar un perfil', '', $scope.toastrOptions);
+                    $('#slTipoPerfil').focus();
+                    return false;
+                }
 
                 let filtrarTipoPerfil = Enumerable.From($scope.TipoPerfil)
-                    .Where(function (x) { return x.Nombre === event.node.data.perfil })
+                    .Where(function (x) { return x.id_TipoPerfil === $scope.TipoPerfilSeleccionado })
                     .ToArray();
 
                 if (filtrarTipoPerfil.length > 0)
-                    $scope.TipoPerfilSeleccionado = filtrarTipoPerfil[0].id_TipoPerfil;
+                    $scope.Usuario.Perfil = filtrarTipoPerfil[0].Nombre;
 
-                $scope.NombreReadOnly = true;
-                $('#txtContrasenia').focus();
-            }
+                let menuUnchecked = 0;
+                for (let i = 0; i < $scope.Usuario.Menu_Usuario.length; i++) {
+                    if ($scope.Usuario.Menu_Usuario[i].Estado === false)
+                        menuUnchecked += 1;
+                }
+
+                if (menuUnchecked === $scope.Usuario.Menu_Usuario.length) {
+                    toastr.info('Debe asignar almenos un elemento del menú', '', $scope.toastrOptions);
+                    $scope.ModalMenu();
+                    return false;
+                }
+                return true;
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
+        }
+
+        $scope.LimpiarDatos = function () {
+            try {
+                $scope.EditarUsuario = false;
+                $scope.ImagenUsuario = '../Images/default-perfil.png';
+                $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
+                $scope.Menu = $rootScope.Menu;
+                $scope.PasswordHasChanged = false;
+                $scope.PasswordBackup = '';
+                $scope.Menu = $scope.Menu.map(function (e) {
+                    return { Id_Menu_Usuario: '', Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
+                });
+                $('#txtUsuario').focus();
+                $scope.TipoPerfilSeleccionado = -1;
+                $scope.Confirmacion = '';
+                $scope.NombreReadOnly = false;
+                $scope.Usuario = {
+                    Id_Usuario: -1,
+                    Nombre: '',
+                    Contrasenia: '',
+                    Mail: '',
+                    Perfil: '',
+                    Id_Empresa: $scope.IdEmpresa,
+                    Logo_Base64: null,
+                    Menu_Usuario: $scope.Menu,
+                    PasswordHasChanged: $scope.PasswordHasChanged
+                }
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
+        }
+
+        function OnRowClicked(event) {
+            try {
+                $scope.LimpiarDatos();
+                if (event.node.data !== undefined && event.node.data !== null) {
+                    $scope.EditarUsuario = true;
+                    $scope.Usuario.Id_Usuario = event.node.data.id_Usuario;
+                    $scope.Usuario.Nombre = event.node.data.nombre;
+                    $scope.Usuario.Contrasenia = event.node.data.contrasenia;
+                    $scope.Usuario.Mail = event.node.data.mail;
+                    $scope.Usuario.Id_Empresa = event.node.data.id_Empresa;
+                    $scope.PasswordBackup = angular.copy(event.node.data.contrasenia);
+
+                    if (event.node.data.logo_Base64 !== null)
+                        $scope.ImagenUsuario = event.node.data.logo_Base64;
+                    else
+                        $scope.ImagenUsuario = '../Images/default-perfil.png';
+
+                    $scope.Usuario.Logo_Base64 = $scope.ImagenUsuario;
+                    $scope.Menu = event.node.data.menu_Usuario;
+                    $scope.Menu = $scope.Menu.map(function (e) {
+                        return { Id_Menu_Usuario: e.id_Menu_Usuario, Id_Usuario: e.id_Usuario, Id_Menu: e.id_Menu, Estado: e.estado, Descripcion: e.descripcion }
+                    });
+
+                    $scope.Usuario.Menu_Usuario = $scope.Menu;
+                    $scope.Confirmacion = $scope.Usuario.Contrasenia;
+
+                    let filtrarTipoPerfil = Enumerable.From($scope.TipoPerfil)
+                        .Where(function (x) { return x.Nombre === event.node.data.perfil })
+                        .ToArray();
+
+                    if (filtrarTipoPerfil.length > 0)
+                        $scope.TipoPerfilSeleccionado = filtrarTipoPerfil[0].id_TipoPerfil;
+
+                    $scope.NombreReadOnly = true;
+                    $('#txtContrasenia').focus();
+                }
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.ModalMenu = function () {
-            $scope.AccionGasto = 'MENU';
+            try {
+                $scope.AccionGasto = 'MENU';
 
-            $mdDialog.show({
-                contentElement: '#dlgMenu',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true,
-                multiple: true,
-            })
-                .then(function () {
-                }, function () {
-                });
+                $mdDialog.show({
+                    contentElement: '#dlgMenu',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true,
+                    multiple: true,
+                })
+                    .then(function () {
+                    }, function () {
+                    });
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }            
         }
 
         $scope.SeleccionarImagen = function (event) {
-            let mayorDosMB = false;
-            let files = event.target.files[0];
+            try {
+                let mayorDosMB = false;
+                let files = event.target.files[0];
 
-            let fileSize = (files.size / 1024 / 1024)
-            if (fileSize > 2)
-                mayorDosMB = true;
+                let fileSize = (files.size / 1024 / 1024)
+                if (fileSize > 2)
+                    mayorDosMB = true;
 
-            if (mayorDosMB) {
-                toastr.info('El tamaño de las imágenes debe ser de máximo 2MB', '', $scope.toastrOptions);
-                files = '';
+                if (mayorDosMB) {
+                    toastr.info('El tamaño de las imágenes debe ser de máximo 2MB', '', $scope.toastrOptions);
+                    files = '';
+                    return;
+                }
+                $scope.getBase64(files);
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }
-
-            $scope.getBase64(files);
+            }            
         }
 
         $scope.ProcesarImagen = function () {
@@ -3687,18 +3904,23 @@
         }
 
         $scope.getBase64 = function (file) {
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function () {
-                $scope.$apply(function () {
-                    $scope.ImagenUsuario = reader.result;
-                });
-                $("#ImagenServicio").val('');
-            };
-            reader.onerror = function (error) {
-                console.log('Error: ', error);
-                $("#ImagenServicio").val('');
-            };
+            try {
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    $scope.$apply(function () {
+                        $scope.ImagenUsuario = reader.result;
+                    });
+                    $("#ImagenServicio").val('');
+                };
+                reader.onerror = function (error) {
+                    console.log('Error: ', error);
+                    $("#ImagenServicio").val('');
+                };
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }           
         }
 
         window.onresize = function () {
@@ -3728,7 +3950,7 @@
     }
 
     function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-        //Variables
+        
         $scope.Estado =
             [
                 { id_Estado: -1, Nombre: "[Seleccione]" },
@@ -3744,8 +3966,7 @@
         $scope.PorHoras = ["06:00 AM", "07:00 AM", "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 M",
             "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM",
             "08:00 PM", "09:00 PM", "10:00 PM"];
-
-        //Inicialización
+        
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
@@ -3762,13 +3983,11 @@
         $scope.FechaActual = new Date();
         $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
         $scope.fActiveTab = 'General';
-
-        //Variables de Configuración
+        
         $scope.fPropertiesSetted = false;
         $scope.PAPTS = false;
         $scope.MNCD = null;
-
-        //Flags
+        
         $scope.fDisableCliente = false;
         $scope.fDisableFechaCita = false;
         $scope.fEditAgenda = false;
@@ -3789,9 +4008,7 @@
             Observaciones: '',
             Traer_Canceladas: false
         };
-
-        //Api
-        //Guardar Actualizar Cita
+        
         $scope.GuardarActualizarAgenda = function () {
             if ($scope.ValidarNuevaAgenda()) {
                 SPAService._guardarActualizarAgenda($scope.Agenda)
@@ -3810,8 +4027,7 @@
                         })
             }
         }
-
-        //Consultar Agenda
+        
         $scope.ConsultarAgenda = function () {
             if ($scope.ValidarDatosConsulta()) {
                 SPAService._consultarAgenda($scope.Agenda)
@@ -3868,8 +4084,7 @@
                         })
             }
         }
-
-        //Consultar Clientes
+        
         $scope.ConsultarClientes = function () {
             SPAService._consultarClientes($scope.IdEmpresa)
                 .then(
@@ -3885,8 +4100,7 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         }
-
-        // Consultar Empleados
+        
         $scope.ConsultarEmpleadosAutoComplete = function () {
             SPAService._consultarEmpleadosAutoComplete($scope.IdEmpresa)
                 .then(
@@ -3902,8 +4116,7 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         }
-
-        // Consultar Servicios
+        
         $scope.ConsultarServiciosActivos = function () {
             SPAService._consultarServiciosActivos($scope.IdEmpresa)
                 .then(
@@ -3918,8 +4131,7 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         }
-
-        // Consultar EmpleadoServicios
+        
         $scope.ConsultarEmpleadoServicio = function (idEmpleado) {
             SPAService._consultarEmpleadoServicio(idEmpleado)
                 .then(
@@ -3945,8 +4157,7 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         }
-
-        //Consultar Citas del Día
+        
         $scope.ConsultarNumeroCitasDia = function () {
             if ($scope.MNCD !== '0' && $scope.MNCD !== null && $scope.MNCD !== undefined) {
                 if (($scope.FechaInicio !== null && $scope.FechaInicio !== undefined && $scope.FechaInicio !== '')
@@ -3965,9 +4176,7 @@
                 }
             }
         }
-
-        //Funciones
-        //Filtrar Servicios Empleado Modal
+        
         $scope.FiltrarServicios = function (empleado) {
             try {
 
@@ -3988,15 +4197,10 @@
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
-
-
         }
-
-        //On Change
+        
         $scope.OnChange = function (empleado) {
-
             try {
-
                 $scope.AgendaServicios = [];
                 $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
                 $scope.ServicioSeleccionadoModal = -1;
@@ -4009,15 +4213,10 @@
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
-
-
         }
-
-        //Set Datos Configuración Empresa
+        
         $scope.ConfiguracionEmpresaActual = function () {
-
             try {
-
                 if ($scope.EmpresaPropiedades.length > 0) {
                     let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
                     let mncd = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'MNCD' });
@@ -4044,12 +4243,9 @@
                 return;
             }
         }
-
-        //Editar Agenda
+        
         $scope.EditarAgenda = function (agenda) {
-
             try {
-
                 let fechafin = new Date(agenda.fecha_Fin);
                 $scope.EmpleadoSeleccionadoModal = {
                     id_Empleado: agenda.id_Empleado,
@@ -4072,18 +4268,14 @@
                 $scope.fDisableCliente = true;
                 $scope.fDisableFechaCita = true;
                 $scope.ModalAgendaGeneral();
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-
-        //Limpiar Datos
+        
         $scope.LimpiarDatos = function () {
-
             try {
-
                 $scope.IdEmpresa = $rootScope.Id_Empresa;
                 $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
                 $scope.IdUsuario = parseInt($rootScope.userData.userId);
@@ -4098,8 +4290,7 @@
                 $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
                 $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
                 $scope.FechaHoraAgendaGeneral();
-
-                //Variables de Configuración
+                
                 $scope.fEditAgenda = false;
                 $scope.fDisableCliente = false;
                 $scope.fDisableFechaCita = false;
@@ -4127,11 +4318,8 @@
                 return;
             }
         }
-
-        //Validaciones
-        //Validar Datos Esenciales
+        
         $scope.ValidarEmpleadosClientesServicios = function () {
-
             try {
                 let counter = 0;
                 if ($scope.Empleados !== null && $scope.Empleados !== undefined) {
@@ -4172,12 +4360,9 @@
                 return;
             }
         }
-
-        //Validar Nueva Agenda
+        
         $scope.ValidarNuevaAgenda = function () {
-
             try {
-
                 if (!$scope.fEditAgenda) {
                     if ($scope.EmpleadoSeleccionadoModal === '' || $scope.EmpleadoSeleccionadoModal === null || $scope.EmpleadoSeleccionadoModal === undefined) {
                         toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
@@ -4365,18 +4550,14 @@
                 return;
             }
         }
-
-        //Validar Datos Consulta
+        
         $scope.ValidarDatosConsulta = function () {
-
             try {
-
                 if ($scope.FechaBusqueda === '' || $scope.FechaBusqueda === null || $scope.FechaBusqueda === undefined) {
                     toastr.info('Formato de fecha inválido. Debe seleccionar una fecha', '', $scope.toastrOptions);
                     $('#dpFechaBusqueda').focus();
                     return false;
                 }
-
                 $scope.Agenda.Fecha_Inicio = angular.copy($scope.FechaBusqueda);
                 $scope.Agenda.Fecha_Inicio = new Date($scope.Agenda.Fecha_Inicio + 'Z');
                 $scope.Agenda.Fecha_Fin = angular.copy($scope.FechaBusqueda);
@@ -4412,13 +4593,9 @@
                 return;
             }
         }
-
-        //Filtros Autocomplete
-        //Encontrar Cliente
+        
         $scope.BuscarCliente = function (nombre) {
-
             try {
-
                 let busqueda = '';
                 busqueda = $filter('filter')($scope.Clientes, { 'nombres': nombre });
                 return busqueda;
@@ -4428,12 +4605,9 @@
                 return;
             }
         }
-
-        //Encontrar Empleado
+        
         $scope.BuscarEmpleado = function (nombre) {
-
             try {
-
                 let busqueda = '';
                 busqueda = $filter('filter')($scope.Empleados, { 'nombres': nombre });
                 return busqueda;
@@ -4443,13 +4617,9 @@
                 return;
             }
         }
-
-        //Modales Agendar Cita
-        //Modal Agendar Cita General
+        
         $scope.ModalAgendaGeneral = function () {
-
             try {
-
                 if ($scope.fPropertiesSetted) {
                     if ($scope.ValidarEmpleadosClientesServicios()) {
                         if ($scope.fEditAgenda) {
@@ -4485,11 +4655,9 @@
                 return;
             }
         }
-
-        //Modal Agendar Cita Detallada
+        
         $scope.ModalAgendaDetallada = function (horas, empleado, minutos) {
             try {
-
                 $scope.AccionAgenda = 'Agendar cita';
                 $scope.EmpleadoSeleccionado = empleado.nombres;
 
@@ -4512,11 +4680,9 @@
                 return;
             }
         }
-
-        //Modal Filtrar Citas
+        
         $scope.ModalFiltrarCitas = function () {
             try {
-
                 $scope.AccionAgenda = 'Opciones de consulta';
 
                 $mdDialog.show({
@@ -4535,12 +4701,9 @@
                 return;
             }
         }
-
-        //Show Comfirm Cancelar Agenda
+        
         $scope.showConfirmCancelarAgenda = function (ev, data) {
-
             try {
-
                 let confirm = $mdDialog.confirm()
                     .title('Agenda')
                     .textContent('¿Desea cancelar la cita?')
@@ -4561,12 +4724,9 @@
                 return;
             }
         };
-
-        //Show Comfirm Cancelar Agenda
+        
         $scope.showConfirmConfirmarAgenda = function (ev, data) {
-
             try {
-
                 let confirm = $mdDialog.confirm()
                     .title('Agenda')
                     .textContent('¿Desea confirmar la cita?')
@@ -4586,14 +4746,10 @@
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
-
         };
-
-        //Fecha y Hora Agenda General
+        
         $scope.FechaHoraAgendaGeneral = function () {
-
             try {
-
                 $scope.FechaActual = new Date();
                 $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
                 $scope.FechaInicio = angular.copy($scope.FechaActual);
@@ -4605,12 +4761,9 @@
                 return;
             }
         }
-
-        //Fecha y Hora Agenda Detallada
+        
         $scope.FechaHoraAgendaDetallada = function (horas, minutos) {
-
             try {
-
                 $scope.FechaActual = new Date();
                 $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
                 let setHora = 0;
@@ -4648,12 +4801,9 @@
                 return;
             }
         }
-
-        //Validar Fecha Modal
+        
         $scope.ValidarFechaModal = function () {
-
             try {
-
                 if ($scope.FechaInicio === undefined) {
                     toastr.info('Formato de fecha invalido ', '', $scope.toastrOptions);
                     return;
@@ -4677,12 +4827,9 @@
                 return;
             }
         }
-
-        //Validar Hora Fin
+        
         $scope.ValidarHoraFin = function () {
-
             try {
-
                 if ($scope.HoraFin === undefined) {
                     toastr.info('Formato de hora invalido ', '', $scope.toastrOptions);
                     return;
@@ -4707,19 +4854,15 @@
                 return;
             }
         }
-
-        //Calcular Hora Fin
+        
         $scope.CalcularHoraFin = function () {
-
             try {
-
                 let IdServicio = $scope.ServicioSeleccionadoModal;
 
                 if ($scope.HoraInicio === undefined) {
                     toastr.info('Formato de hora invalido ', '', $scope.toastrOptions);
                     return;
-                }        
-                
+                }
 
                 if ($scope.PAPTS) {
                     if ($scope.ServicioSeleccionadoModal !== -1 && IdServicio !== undefined && IdServicio !== null) {
@@ -4771,18 +4914,14 @@
                         $scope.FechaHoraAgendaGeneral();
                     }
                 }
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-
-        //NgClass estilos cards
+        
         $scope.BackgroundCards = function (estado) {
-
             try {
-
                 if (estado === 'CONFIRMADA')
                     return 'confirmada-cards';
                 if (estado === 'CANCELADA')
@@ -4798,8 +4937,7 @@
                 return;
             }
         }
-
-        //Eventos
+        
         $scope.Cancelar = function () {
             $scope.LimpiarDatos();
             $mdDialog.cancel();
@@ -4813,8 +4951,7 @@
             $scope.ConsultarServiciosActivos();
             $scope.ConsultarEmpleadosAutoComplete();
             $scope.ConsultarClientes();
-            $scope.ConfiguracionEmpresaActual();
-            debugger;
+            $scope.ConfiguracionEmpresaActual();            
             if ($scope.fActiveTab === 'General')
                 $scope.ModalFiltrarCitas();
         });
@@ -4827,14 +4964,11 @@
     }
 
     function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-        //  Inicialización de Objetos
+        
         $scope.ServicioNombre = $rootScope.ServicioNombre;
-
         $scope.SliderServicios = $rootScope.ServicioListaImagenes;
-
         $scope.SliderClass = 'container' + $scope.SliderServicios.length;
-
-        // Eventos
+        
         $scope.Cancelar = function () {
             $mdDialog.cancel();
             $('#txtBuscarServicio').focus();
@@ -4842,17 +4976,14 @@
     }
 
     function ImgAttachedController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-        //INICIALIZACIÓN
+        
         $scope.ServicioImagenesAdjuntas = $rootScope.ServicioImagenesAdjuntas;
         $scope.ImagenesAdjuntas = $rootScope.ImagenesAdjuntas;
         $scope.ImagenesxAdjuntar = $rootScope.ImagenesxAdjuntar;
         $scope.InformacionImagen = $rootScope.InformacionImagen;
-
-        //API
-        //  Eliminar Imagen Adjunta Servicio
+        
         $scope.EliminarImagenAdjunta = function (data) {
             let IdImagenAdjunta = data.id_Servicio_Imagen;
-
             SPAService._eliminarImagenAdjunta(IdImagenAdjunta)
                 .then(
                     function (result) {
@@ -4871,9 +5002,6 @@
                     })
         }
 
-        //FUNCIONES
-
-        //Modal Show Confirm Borrar Servicio Imagen
         $scope.showConfirmBorrarServicioImagen = function (ev, data) {
             let confirm = $mdDialog.confirm()
                 .title('Eliminar Imagen')
@@ -4891,15 +5019,13 @@
             });
         }
 
-        //EVENTOS
         $scope.Cancelar = function () {
             $mdDialog.cancel();
             $('#txtBuscarServicio').focus();
         };
     }
 
-    angular.element(document).ready(function () {
-        // Eventos
+    angular.element(document).ready(function () {        
         $("body").tooltip({
             selector: '[data-toggle="tooltip"]',
             trigger: 'hover'
