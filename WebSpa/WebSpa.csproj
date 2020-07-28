@@ -113,6 +113,7 @@
     <Content Include="Images\agenda\agenda-facturada.png" />
     <Content Include="Images\agenda\agenda-liquidada.png" />
     <Content Include="Images\agenda\agenda-programada.png" />
+    <Content Include="Images\agenda\whatsapp-icon.png" />
     <Content Include="Images\cerrar-sesion.png" />
     <Content Include="Images\config.png" />
     <Content Include="Images\default-perfil.png" />

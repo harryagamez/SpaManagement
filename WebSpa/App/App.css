@@ -775,7 +775,7 @@ md-list-item .md-list-item-inner {
     min-width: 55px;
     padding-top: 15px;
     position: absolute;
-    top: 20px;
+    top: 3px;
     right: 10px;
     border-radius: 50%;
     display: flex;
@@ -790,8 +790,8 @@ md-list-item .md-list-item-inner {
     min-width: 55px;
     padding-top: 10px;
     position: absolute;
-    top: 85px;
-    right: 10px;
+    top: 3px;
+    right: 70px;
     border-radius: 50%;
     display: flex;
     z-index: 999999;
@@ -1011,4 +1011,59 @@ md-card md-card-title {
     box-shadow: none;
     box-shadow: 0 0px 5px rgba(0, 0, 0, 0.075);
     background-color: #f1f1f1;    
-}    
+}
+
+.agenda-cards:focus {
+    outline: none;
+}
+
+.moreinfo-card {
+    position: absolute;
+    top: 10px;
+    width: 230px;
+    height: 115px;
+    z-index: 99;
+    margin-left: 10px;
+    background-color: white;
+    box-shadow: 0px 0px 7px #999;
+    overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+    .moreinfo-card h3 {        
+        width:100%;
+        height:25px;        
+        padding:3px 0;
+        font-size:18px;
+        font-weight:600;
+        text-align:center;
+        color:#333;
+    }
+
+    .moreinfo-card p {
+        padding:0 20px;
+        margin: 0;
+        font-size:13px;
+    }
+
+.confirmada-moreinfo {
+    background-color: #99ddcc;    
+}
+
+.cancelada-moreinfo {
+    background-color: #f67280;    
+}
+
+.facturada-moreinfo {
+    background-color: #ffffdd;    
+}
+
+.programada-moreinfo {
+    background-color: #e9e1cc;    
+}
+
+.liquidada-moreinfo {
+    background-color: #c2dbdf;    
+}

@@ -3965,7 +3965,7 @@
         $scope.doc_classes_colors = ["#96bdc4", "#c2dbdf", "#fdd4c1", "#eaabbc", "#F1CBB5"];
         $scope.PorHoras = ["06:00 AM", "07:00 AM", "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 M",
             "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM",
-            "08:00 PM", "09:00 PM", "10:00 PM"];
+            "08:00 PM", "09:00 PM", "10:00 PM"];        
         
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
@@ -3994,7 +3994,7 @@
         $scope.fDisableHoraFin = false;
         $scope.fDisableGuardarAgenda = false;
         $scope.fDisableServiciosM = true;
-        $scope.fDisableServicios = true;
+        $scope.fDisableServicios = true;        
 
         $scope.Agenda = {
             Id_Agenda: -1,
@@ -4296,7 +4296,7 @@
                 $scope.fDisableFechaCita = false;
                 $scope.fDisableGuardarAgenda = false;
                 $scope.fDisableServiciosM = true;
-                $scope.fDisableServicios = true;
+                $scope.fDisableServicios = true;                
 
                 $scope.Agenda = {
                     Id_Agenda: -1,
@@ -4937,11 +4937,29 @@
                 return;
             }
         }
+
+        $scope.BackgroundShowMore = function (estado) {
+            try {
+                if (estado === 'CONFIRMADA')
+                    return 'confirmada-moreinfo';
+                if (estado === 'CANCELADA')
+                    return 'cancelada-moreinfo';
+                if (estado === 'PROGRAMADA')
+                    return 'programada-moreinfo';
+                if (estado === 'LIQUIDADA')
+                    return 'liquidada-moreinfo';
+                if (estado === 'FACTURADA')
+                    return 'facturada-moreinfo';
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }
+        }        
         
         $scope.Cancelar = function () {
             $scope.LimpiarDatos();
             $mdDialog.cancel();
-        };
+        };        
 
         $scope.$on("CompanyChange", function () {
             $scope.LimpiarDatos();

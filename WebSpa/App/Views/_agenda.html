@@ -10,7 +10,7 @@
 
             <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
                 <md-tab label="General" data-ng-click="fActiveTab = 'General'">
-                    <md-content class="md-padding" style="background-color:transparent; padding:30px 0 0 0; margin: 0 0 0 -5px;">                        
+                    <md-content class="md-padding" style="background-color:transparent; padding:30px 0 0 0; margin: 0 0 0 -5px; overflow-x:hidden; ">                        
 
                         <div type="button" id="btnAgendarCita" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Agendar Cita" data-ng-click="ModalAgendaGeneral()">
                             <i class="material-icons md-18" style="font-size:35px; font-weight:800; z-index:9999; width:110%; height:110%; text-align:center; display:block; margin-top: -4px;">add</i>
@@ -21,50 +21,58 @@
                         </div>                        
 
                         <div id="divCardsCitas" layout="row" style="width:100%; height: calc(100vh - 170px); margin-top:-20px; overflow-y:auto; overflow-x:hidden;">
-                            <div flex-xs class="md-padding" layout="row" style="margin-top:-20px; margin-left:0; margin-right:0; padding-left:0;padding-right:0;" layout-wrap>
-                                <md-card flex="21" ng-repeat="item in Agendas" ng-class="BackgroundCards(item.estado)" class="agenda-cards">
-                                    <md-card-title style="">
-                                        <md-card-title-text>
-                                            <div class="md-headline" style="border-bottom:1px dashed #212121; padding-bottom:3px; margin-top:-7px;">
-                                                <span style="text-align: left; font-size: 17px; font-weight: 600;">{{item.estado}}</span>
-                                                <span data-ng-show="item.estado === 'PROGRAMADA'" style="padding:0; padding-top:8px; margin:0; float:right; display:inline-flex;" class="cards-icons">
-                                                    <i class="material-icons" style="font-size:23px; font-weight:600; color: #4caf50;" data-ng-click="showConfirmConfirmarAgenda(ev,item)" data-toggle="tooltip" title="Confirmar cita">check</i>
-                                                    <i class="material-icons" style="font-size:22px; color: #4caf50;" data-ng-click="EditarAgenda(item)" data-toggle="tooltip" title="Editar cita">edit</i><i class="material-icons" style="font-size:22px; margin-left:2px; color:#4caf50;" data-ng-click="showConfirmCancelarAgenda(ev,item)" data-toggle="tooltip" title="Cancelar cita">cancel</i>
-                                                </span>
+                            <div flex-xs  class="md-padding" layout="row" style="margin-top:-20px; margin-left:0; margin-right:0; padding-left:0;padding-right:0;" layout-wrap>
+                                <md-card flex="21" ng-repeat="item in Agendas" ng-class="BackgroundCards(item.estado)" class="agenda-cards" ng-click="fShowMoreInfo = true" ng-mouseleave="fShowMoreInfo = false">
+                                    <div>
+                                        <md-card-title style="">
+                                            <md-card-title-text>
+                                                <div class="md-headline" style="border-bottom:1px dashed #212121; padding-bottom:3px; margin-top:-7px;">
+                                                    <span style="text-align: left; font-size: 17px; font-weight: 600;">{{item.estado}}</span>
+                                                    <span data-ng-show="item.estado === 'PROGRAMADA'" style="padding:0; padding-top:8px; margin:0; float:right; display:inline-flex;" class="cards-icons">
+                                                        <i class="material-icons" style="font-size:23px; font-weight:600; color: #4caf50;" data-ng-click="showConfirmConfirmarAgenda(ev,item)" data-toggle="tooltip" title="Confirmar cita">check</i>
+                                                        <i class="material-icons" style="font-size:22px; color: #4caf50;" data-ng-click="EditarAgenda(item)" data-toggle="tooltip" title="Editar cita">edit</i><i class="material-icons" style="font-size:22px; margin-left:2px; color:#4caf50;" data-ng-click="showConfirmCancelarAgenda(ev,item)" data-toggle="tooltip" title="Cancelar cita">cancel</i>
+                                                    </span>
+                                                </div>
+                                            </md-card-title-text>
+                                        </md-card-title>
+                                        <md-card-content style="margin-top: -12px;">
+                                            <div>
+                                                <table class="table-cards" style="table-layout: fixed;">
+                                                    <tr>
+                                                        <th>Empleado:</th>
+                                                        <td data-toggle="tooltip" title="{{item.nombres_Empleado + ' ' + item.apellidos_Empleado}}"><span style="">{{item.nombreApellido_Empleado}}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Cliente:</th>
+                                                        <td><span style="">{{item.nombreApellido_Cliente}}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Servicio:</th>
+                                                        <td class="service-cards" data-toggle="tooltip" title="{{item.nombre_Servicio}}"><span>{{item.nombre_Servicio}}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Fecha:</th>
+                                                        <td><span>{{item.fecha_Inicio | date : "dd-MM-yyyy"}}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Hora Inicio:</th>
+                                                        <td><span>{{item.fechaInicio}}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Hora Fin:</th>
+                                                        <td><span>{{item.fechaFin}}</span></td>
+                                                    </tr>
+                                                </table>
                                             </div>
-                                        </md-card-title-text>
-                                    </md-card-title>
-                                    <md-card-content style="margin-top: -12px;">
-                                        <div>
-                                            <table class="table-cards" style="table-layout: fixed;">
-                                                <tr>
-                                                    <th>Empleado:</th>
-                                                    <td data-toggle="tooltip" title="{{item.nombres_Empleado + ' ' + item.apellidos_Empleado}}"><span style="">{{item.nombreApellido_Empleado}}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Cliente:</th>
-                                                    <td data-toggle="tooltip" title="{{item.nombres_Cliente + ' ' + item.apellidos_Cliente}}"><span style="">{{item.nombreApellido_Cliente}}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Servicio:</th>
-                                                    <td class="service-cards" data-toggle="tooltip" title="{{item.nombre_Servicio}}"><span>{{item.nombre_Servicio}}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Fecha:</th>
-                                                    <td><span>{{item.fecha_Inicio | date : "dd-MM-yyyy"}}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Hora Inicio:</th>
-                                                    <td><span>{{item.fechaInicio}}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Hora Fin:</th>
-                                                    <td><span>{{item.fechaFin}}</span></td>
-                                                </tr>
-                                            </table>
+                                        </md-card-content>
+                                        <div class="moreinfo-card" data-ng-show="item.estado === 'PROGRAMADA' && fShowMoreInfo || item.estado === 'CONFIRMADA' && fShowMoreInfo ">
+                                            <div><h3 ng-class="BackgroundShowMore(item.estado)">{{item.estado}}</h3></div>
+                                            <div><p><i class="material-icons" style="font-size:18px; font-weight:600; color: grey; padding-right:5px; margin-top:-3px;">person</i>{{item.nombres_Cliente + ' ' + item.apellidos_Cliente}}</p></div>
+                                            <div><p><i class="material-icons" style="font-size:18px; font-weight:600; color: grey; padding-right:5px; margin-top:-3px;">email</i>{{item.mail_Cliente}}</p></div>
+                                            <div><p><i class="material-icons" style="font-size:18px; font-weight:600; color: grey; padding-right:5px; margin-top:-3px;">phone</i>{{item.telefono_Fijo_Cliente}}</p></div>
+                                            <div><p><a ng-href="https://wa.me/57{{item.telefono_Movil_Cliente}}?text=Hola,%20{{item.nombres_Cliente}},%20le%20escribimos%20desde%20{{item.nombre_Empresa}}%20para%20confirmar%20su%20cita%20para%20el%20servicio%20de%20{{item.nombre_Servicio}}%20a%20las%20{{item.fechaInicio}}" target="_blank"><img src="../../Images/agenda/whatsapp-icon.png" style="padding-right:5px; margin-top:-3px; min-width:22px; max-width:22px;"/>{{item.telefono_Movil_Cliente}}</a></p></div>
                                         </div>
-                                    </md-card-content>
-                                </md-card>
+                                    </div>
                             </div>
                         </div>
                     </md-content>
