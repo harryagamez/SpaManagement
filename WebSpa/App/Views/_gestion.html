@@ -34,14 +34,22 @@
                                             <td style="text-align:center; font-weight:600;">{{propiedad.codigo}}</td>
                                             <td data-ng-show="propiedad.tipo == 'ESCALAR'">
                                                 <md-input-container style="margin:0; padding:0;">
-                                                    <input type="text" class="form-control fix-display" style="width:145px; margin:-3px 0;padding:0;" numbers-only maxlength="15" data-ng-model="propiedad.valor_Propiedad">
+                                                    <input type="text" class="form-control fix-display" style="width:160px; margin:-3px 0;padding:0;" numbers-only maxlength="15" data-ng-model="propiedad.valor_Propiedad">
                                                 </md-input-container>
                                             </td>
                                             <td data-ng-show="propiedad.tipo == 'CONDICIONAL'">
                                                 <md-input-container style="margin:0; padding:0;">                                                    
-                                                    <md-select style="min-width:145px; max-width:145px;" class="form-control fix-display select-propiedad" data-ng-model="propiedad.valor_Propiedad">
+                                                    <md-select style="min-width:160px; max-width:160px;" class="form-control fix-display select-propiedad" data-ng-model="propiedad.valor_Propiedad">
                                                         <md-option ng-bind="item.descripcion" ng-value="item.valor_Propiedad" ng-repeat="item in PropiedadesCondicionales track by item.valor_Propiedad"></md-option>
                                                     </md-select>
+                                                </md-input-container>
+                                            </td>
+                                            <td data-ng-show="propiedad.tipo == 'RANGO_HORA'">
+                                                <md-input-container style="margin:0; padding:0;">
+                                                    <input type="time" class="form-control fix-display" style="width:80px; margin:-3px 0; padding:0;" ng-model="Rango.Desde"/>
+                                                </md-input-container>
+                                                <md-input-container style="margin:0; padding:0;">
+                                                    <input type="time" class="form-control fix-display" style="width:80px; margin:-3px 0; padding:0;" ng-model="Rango.Hasta" />
                                                 </md-input-container>
                                             </td>
                                         </tr>

@@ -3484,6 +3484,13 @@
         $scope.PasswordBackup = '';
         $scope.EmpresaPropiedades = [];
         $scope.SistemaPropiedades = [];
+
+        let fechaactual = new Date();
+        $scope.Rango = {
+            Desde: new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), 7, 0, 0),
+            Hasta: new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), 21, 0, 0)
+        }
+
         $scope.TipoPerfil =
             [
                 { id_TipoPerfil: -1, Nombre: "[Seleccione]" },
@@ -3584,14 +3591,23 @@
         }
 
         $scope.GuardarEmpresaPropiedades = function () {
-            if ($scope.SistemaPropiedades.length > 0) {
-                let empresaPropiedades = [];
+            if ($scope.SistemaPropiedades.length > 0) {                
+                let rangoagenda = '';
+                if (($scope.Rango.Desde !== null && $scope.Rango.Desde !== undefined) && ($scope.Rango.Hasta !== null && $scope.Rango.Hasta !== undefined)) {
+                    let horainicio = ($filter('date')($scope.Rango.Desde, 'H'));
+                    let horafin = ($filter('date')($scope.Rango.Hasta, 'H'));
+                    rangoagenda = horainicio + ' - ' + horafin;
+                }
+                
+                let empresaPropiedades = [];                 
                 $scope.SistemaPropiedades.map(function (propiedad) {
                     let object = {
                         Id_Empresa: $scope.IdEmpresa,
                         Id_Sistema_Propiedad: propiedad.id_Sistema_Propiedad,
                         Valor_Propiedad: propiedad.valor_Propiedad
                     };
+                    if (propiedad.tipo === 'RANGO_HORA')
+                        object.Valor_Propiedad = rangoagenda;
                     empresaPropiedades.push(object);
                 });
                 SPAService._guardarEmpresaPropiedades(empresaPropiedades)
@@ -3809,6 +3825,11 @@
                     Logo_Base64: null,
                     Menu_Usuario: $scope.Menu,
                     PasswordHasChanged: $scope.PasswordHasChanged
+                }
+                let fechaactual = new Date();
+                $scope.Rango = {
+                    Desde: new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), 7, 0, 0),
+                    Hasta: new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), 21, 0, 0)
                 }
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
