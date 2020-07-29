@@ -1019,7 +1019,7 @@ md-card md-card-title {
 
 .moreinfo-card {
     position: absolute;
-    top: 10px;
+    top: 20px;
     width: 230px;
     height: 115px;
     z-index: 99;
