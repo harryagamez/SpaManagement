@@ -628,7 +628,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.GuardarExcelClientes = function (clientes) {
@@ -717,7 +717,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.LimpiarDatos = function () {
@@ -758,7 +758,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ClientesGridOptionsColumns = [
@@ -858,7 +858,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.$on("CompanyChange", function () {
@@ -1014,7 +1014,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ConsultarServicioNombre = function (e, nombre) {
@@ -1042,7 +1042,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.LimpiarDatos = function () {
@@ -1075,7 +1075,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ValidarDatos = function () {
@@ -1117,7 +1117,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ModalNuevoServicio = function () {
@@ -1145,7 +1145,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ModalEditarServicio = function () {
@@ -1174,7 +1174,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ModalSliderServicio = function () {
@@ -1193,7 +1193,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         };
 
         $scope.showCustomImagenesAdjuntas = function (ev) {
@@ -1207,13 +1207,13 @@
                     fullscreen: $scope.customFullscreen,
                     multiple: true
                 })
-                .then(function () {
-                }, function () {
-                });
+                    .then(function () {
+                    }, function () {
+                    });
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         };
 
         $scope.showAlertSinImagenesAdjuntas = function (ev) {
@@ -1232,7 +1232,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         };
 
         $scope.showReemplazarImagenesServicio = function (ev, data) {
@@ -1263,7 +1263,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         };
 
         $scope.ServiciosGridOptionsColumns = [
@@ -1398,7 +1398,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ProcesarImagen = function () {
@@ -1425,7 +1425,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.$on("CompanyChange", function () {
@@ -1916,7 +1916,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ConsultarInventario = function (inventario) {
@@ -1930,7 +1930,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.FocoMonto = function () {
@@ -1946,7 +1946,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ValidarDatos = function () {
@@ -2052,7 +2052,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.FiltrarBarrios = function (id_Municipio) {
@@ -2061,7 +2061,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.showConfirmServicio = function (ev, data) {
@@ -2083,7 +2083,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ModalAsignarServicios = function () {
@@ -2104,7 +2104,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.AsignarServicios = function (data) {
@@ -2138,7 +2138,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ModalAsignarInsumos = function () {
@@ -2160,7 +2160,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.AsignarInsumos = function (data) {
@@ -2211,7 +2211,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.onFilterTextBoxChanged = function () {
@@ -2222,7 +2222,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         function ChangeRowColor(params) {
@@ -2552,7 +2552,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ConsultarProductoTransacciones = function (data) {
@@ -2613,7 +2613,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ValidarDatos = function () {
@@ -2647,7 +2647,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ModalNuevoProducto = function () {
@@ -2670,7 +2670,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ModalEditarProducto = function () {
@@ -2693,7 +2693,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }           
+            }
         }
 
         $scope.ProductosGridOptionsColumns = [
@@ -2839,7 +2839,6 @@
     }
 
     function GastosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-        
         $scope.ObjetoGasto = [];
         $scope.ObjetoBorrarGasto = [];
         $scope.Gastos = [];
@@ -2871,7 +2870,7 @@
                 { id_TipoCaja: 2, Nombre: "MENSUAL" }
             ];
         $scope.TipoCaja = $filter('orderBy')($scope.TipoCaja, 'Nombre', false);
-        
+
         $scope.Inicializacion = function () {
             $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
             window.onresize();
@@ -2906,7 +2905,7 @@
             Valor: 0,
             Estado: null
         }
-        
+
         $scope.GuardarNuevoGasto = function () {
             if ($scope.ValidarNuevoGasto()) {
                 $scope.ObjetoGasto = [];
@@ -2933,7 +2932,7 @@
                         })
             }
         }
-        
+
         $scope.EliminarGastos = function () {
             if ($scope.ObjetoBorrarGasto.length > 0) {
                 SPAService._eliminarGastos(JSON.stringify($scope.ObjetoBorrarGasto))
@@ -2956,7 +2955,7 @@
                 toastr.info('Debe seleccionar al menos un registro de gastos', '', $scope.toastrOptions);
             }
         }
-        
+
         $scope.GuardarCajaMenor = function () {
             if ($scope.ValidarCajaMenor()) {
                 $scope.ObjetoCajaMenor = [];
@@ -3001,7 +3000,7 @@
                 }
             }
         }
-        
+
         $scope.ConsultarCajaMenor = function () {
             SPAService._consultarCajaMenor($scope.IdEmpresa)
                 .then(
@@ -3028,7 +3027,7 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         }
-        
+
         $scope.ConsultarGastos = function () {
             $scope.BusquedaGasto.Tipo_Gasto = null;
 
@@ -3070,7 +3069,7 @@
                         })
             }
         }
-        
+
         $scope.ConsultarEmpleados = function () {
             SPAService._consultarEmpleados($scope.IdEmpresa)
                 .then(
@@ -3087,7 +3086,7 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         }
-        
+
         $scope.ValidarDatos = function () {
             try {
                 if ($scope.IdEmpresa === null || $scope.IdEmpresa === undefined) {
@@ -3118,9 +3117,9 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
-        
+
         $scope.ValidarCajaMenor = function () {
             try {
                 $scope.CajaMenor.Acumulado = $scope.Acumulado;
@@ -3155,9 +3154,9 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
-        
+
         $scope.ValidarNuevoGasto = function () {
             try {
                 $scope.Gasto.Id_Empresa = $scope.IdEmpresa;
@@ -3215,9 +3214,9 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
-        
+
         $scope.GastosGridOptionsColumns = [
 
             {
@@ -3266,7 +3265,7 @@
             rowSelection: 'multiple',
             onRowSelected: OnRowSelected
         }
-        
+
         $scope.CambiarDistribucion = function () {
             try {
                 if ($scope.TipoCajaSeleccionada === -1) {
@@ -3281,9 +3280,9 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
-        
+
         $scope.LimpiarDatosCajaMenor = function () {
             try {
                 $scope.DistribucionActual = -1;
@@ -3300,7 +3299,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.LimpiarDatosGastos = function () {
@@ -3321,9 +3320,9 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
-        
+
         $scope.ModalCajaMenor = function () {
             try {
                 $scope.AccionGasto = 'Caja Menor';
@@ -3343,9 +3342,9 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
-        
+
         $scope.ModalNuevoGasto = function () {
             try {
                 $scope.ConsultarEmpleados();
@@ -3358,16 +3357,16 @@
                     clickOutsideToClose: true,
                     multiple: true,
                 })
-                .then(function () {
-                }, function () {
-                    $scope.LimpiarDatosGastos();
-                });
+                    .then(function () {
+                    }, function () {
+                        $scope.LimpiarDatosGastos();
+                    });
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
-        
+
         $scope.showConfirmCambiarDistribucion = function (ev, data) {
             try {
                 let confirm = $mdDialog.confirm()
@@ -3388,9 +3387,9 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
-        
+
         $scope.showConfirmEliminarGastos = function (ev) {
             try {
                 if ($scope.ObjetoBorrarGasto.length > 0) {
@@ -3413,14 +3412,14 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
-        
+
         function OnRowSelected(event) {
             $scope.ObjetoBorrarGasto = [];
             $scope.ObjetoBorrarGasto = $scope.GastosGridOptions.api.getSelectedRows();
         }
-        
+
         window.onresize = function () {
             $timeout(function () {
                 $scope.GastosGridOptions.api.sizeColumnsToFit();
@@ -3443,7 +3442,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ValidarFechaHasta = function () {
@@ -3458,9 +3457,9 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
-        
+
         function currencyFormatter(params) {
             let valueGrid = params.value;
             return $filter('currency')(valueGrid, '$', 0);
@@ -3591,15 +3590,21 @@
         }
 
         $scope.GuardarEmpresaPropiedades = function () {
-            if ($scope.SistemaPropiedades.length > 0) {                
+            if ($scope.SistemaPropiedades.length > 0) {
                 let rangoagenda = '';
                 if (($scope.Rango.Desde !== null && $scope.Rango.Desde !== undefined) && ($scope.Rango.Hasta !== null && $scope.Rango.Hasta !== undefined)) {
                     let horainicio = ($filter('date')($scope.Rango.Desde, 'H'));
                     let horafin = ($filter('date')($scope.Rango.Hasta, 'H'));
-                    rangoagenda = horainicio + ' - ' + horafin;
+                    if (parseInt(horainicio) < parseInt(horafin))
+                        rangoagenda = horainicio + ' - ' + horafin;
+                    else {
+                        toastr.info('La hora inicial debe ser menor a la hora final', '', $scope.toastrOptions);
+                        $('#txtRangoDesde').focus();
+                        return;
+                    }
                 }
-                
-                let empresaPropiedades = [];                 
+
+                let empresaPropiedades = [];
                 $scope.SistemaPropiedades.map(function (propiedad) {
                     let object = {
                         Id_Empresa: $scope.IdEmpresa,
@@ -3664,8 +3669,15 @@
                         else {
                             if (propiedad.tipo === 'ESCALAR')
                                 propiedad.valor_Propiedad = '';
-                            else
+                            else if (propiedad.tipo === 'CONDICIONAL')
                                 propiedad.valor_Propiedad = 'SI';
+                            else if (propiedad.tipo === 'RANGO_HORA') {
+                                let fechaactual = new Date();
+                                $scope.Rango = {
+                                    Desde: new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), 7, 0, 0),
+                                    Hasta: new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), 21, 0, 0)
+                                }
+                            }
                         }
                     })
                 }
@@ -3797,7 +3809,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.LimpiarDatos = function () {
@@ -3834,7 +3846,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         function OnRowClicked(event) {
@@ -3876,7 +3888,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ModalMenu = function () {
@@ -3896,7 +3908,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.SeleccionarImagen = function (event) {
@@ -3917,7 +3929,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }            
+            }
         }
 
         $scope.ProcesarImagen = function () {
@@ -3941,7 +3953,7 @@
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
-            }           
+            }
         }
 
         window.onresize = function () {
@@ -3971,7 +3983,6 @@
     }
 
     function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-        
         $scope.Estado =
             [
                 { id_Estado: -1, Nombre: "[Seleccione]" },
@@ -3986,8 +3997,8 @@
         $scope.doc_classes_colors = ["#96bdc4", "#c2dbdf", "#fdd4c1", "#eaabbc", "#F1CBB5"];
         $scope.PorHoras = ["06:00 AM", "07:00 AM", "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 M",
             "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM",
-            "08:00 PM", "09:00 PM", "10:00 PM"];        
-        
+            "08:00 PM", "09:00 PM", "10:00 PM"];
+
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
@@ -4004,18 +4015,18 @@
         $scope.FechaActual = new Date();
         $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
         $scope.fActiveTab = 'General';
-        
+
         $scope.fPropertiesSetted = false;
         $scope.PAPTS = false;
         $scope.MNCD = null;
-        
+
         $scope.fDisableCliente = false;
         $scope.fDisableFechaCita = false;
         $scope.fEditAgenda = false;
         $scope.fDisableHoraFin = false;
         $scope.fDisableGuardarAgenda = false;
         $scope.fDisableServiciosM = true;
-        $scope.fDisableServicios = true;        
+        $scope.fDisableServicios = true;
 
         $scope.Agenda = {
             Id_Agenda: -1,
@@ -4029,7 +4040,7 @@
             Observaciones: '',
             Traer_Canceladas: false
         };
-        
+
         $scope.GuardarActualizarAgenda = function () {
             if ($scope.ValidarNuevaAgenda()) {
                 SPAService._guardarActualizarAgenda($scope.Agenda)
@@ -4048,7 +4059,7 @@
                         })
             }
         }
-        
+
         $scope.ConsultarAgenda = function () {
             if ($scope.ValidarDatosConsulta()) {
                 SPAService._consultarAgenda($scope.Agenda)
@@ -4105,7 +4116,7 @@
                         })
             }
         }
-        
+
         $scope.ConsultarClientes = function () {
             SPAService._consultarClientes($scope.IdEmpresa)
                 .then(
@@ -4121,7 +4132,7 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         }
-        
+
         $scope.ConsultarEmpleadosAutoComplete = function () {
             SPAService._consultarEmpleadosAutoComplete($scope.IdEmpresa)
                 .then(
@@ -4137,7 +4148,7 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         }
-        
+
         $scope.ConsultarServiciosActivos = function () {
             SPAService._consultarServiciosActivos($scope.IdEmpresa)
                 .then(
@@ -4152,7 +4163,7 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         }
-        
+
         $scope.ConsultarEmpleadoServicio = function (idEmpleado) {
             SPAService._consultarEmpleadoServicio(idEmpleado)
                 .then(
@@ -4178,7 +4189,7 @@
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         }
-        
+
         $scope.ConsultarNumeroCitasDia = function () {
             if ($scope.MNCD !== '0' && $scope.MNCD !== null && $scope.MNCD !== undefined) {
                 if (($scope.FechaInicio !== null && $scope.FechaInicio !== undefined && $scope.FechaInicio !== '')
@@ -4197,10 +4208,9 @@
                 }
             }
         }
-        
+
         $scope.FiltrarServicios = function (empleado) {
             try {
-
                 if (empleado !== null && empleado !== undefined && empleado !== '') {
                     if (empleado.criterio === 'PAGO_PORCENTUAL') {
                         $scope.ConsultarEmpleadoServicio(empleado.id_Empleado);
@@ -4213,13 +4223,12 @@
                         $scope.fDisableServicios = false;
                     }
                 }
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-        
+
         $scope.OnChange = function (empleado) {
             try {
                 $scope.AgendaServicios = [];
@@ -4229,13 +4238,12 @@
                 $scope.fDisableServiciosM = true;
                 $scope.fDisableServicios = true;
                 $scope.fDisableGuardarAgenda = false;
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-        
+
         $scope.ConfiguracionEmpresaActual = function () {
             try {
                 if ($scope.EmpresaPropiedades.length > 0) {
@@ -4258,13 +4266,12 @@
                     $scope.fPropertiesSetted = false;
                     toastr.info('La empresa actual, no tiene propiedades definidas', '', $scope.toastrOptions);
                 }
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-        
+
         $scope.EditarAgenda = function (agenda) {
             try {
                 let fechafin = new Date(agenda.fecha_Fin);
@@ -4294,7 +4301,7 @@
                 return;
             }
         }
-        
+
         $scope.LimpiarDatos = function () {
             try {
                 $scope.IdEmpresa = $rootScope.Id_Empresa;
@@ -4311,13 +4318,13 @@
                 $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
                 $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
                 $scope.FechaHoraAgendaGeneral();
-                
+
                 $scope.fEditAgenda = false;
                 $scope.fDisableCliente = false;
                 $scope.fDisableFechaCita = false;
                 $scope.fDisableGuardarAgenda = false;
                 $scope.fDisableServiciosM = true;
-                $scope.fDisableServicios = true;                
+                $scope.fDisableServicios = true;
 
                 $scope.Agenda = {
                     Id_Agenda: -1,
@@ -4333,13 +4340,12 @@
                     NombreApellido_Cliente: '',
                     Traer_Canceladas: false
                 };
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-        
+
         $scope.ValidarEmpleadosClientesServicios = function () {
             try {
                 let counter = 0;
@@ -4375,13 +4381,12 @@
 
                 if (counter === 0) return true;
                 else return false;
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-        
+
         $scope.ValidarNuevaAgenda = function () {
             try {
                 if (!$scope.fEditAgenda) {
@@ -4565,13 +4570,12 @@
                     $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');
                     return true;
                 }
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-        
+
         $scope.ValidarDatosConsulta = function () {
             try {
                 if ($scope.FechaBusqueda === '' || $scope.FechaBusqueda === null || $scope.FechaBusqueda === undefined) {
@@ -4608,37 +4612,34 @@
                     $scope.Agenda.Estado = estado[0].Nombre;
                 }
                 return true;
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-        
+
         $scope.BuscarCliente = function (nombre) {
             try {
                 let busqueda = '';
                 busqueda = $filter('filter')($scope.Clientes, { 'nombres': nombre });
                 return busqueda;
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-        
+
         $scope.BuscarEmpleado = function (nombre) {
             try {
                 let busqueda = '';
                 busqueda = $filter('filter')($scope.Empleados, { 'nombres': nombre });
                 return busqueda;
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-        
+
         $scope.ModalAgendaGeneral = function () {
             try {
                 if ($scope.fPropertiesSetted) {
@@ -4670,13 +4671,12 @@
                 }
                 else
                     toastr.info('Para utilizar el módulo agenda, debe configurar las propiedades de la empresa', '', $scope.toastrOptions);
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-        
+
         $scope.ModalAgendaDetallada = function (horas, empleado, minutos) {
             try {
                 $scope.AccionAgenda = 'Agendar cita';
@@ -4695,13 +4695,12 @@
                     }, function () {
                         $scope.LimpiarDatos();
                     });
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-        
+
         $scope.ModalFiltrarCitas = function () {
             try {
                 $scope.AccionAgenda = 'Opciones de consulta';
@@ -4722,7 +4721,7 @@
                 return;
             }
         }
-        
+
         $scope.showConfirmCancelarAgenda = function (ev, data) {
             try {
                 let confirm = $mdDialog.confirm()
@@ -4739,13 +4738,12 @@
                 }, function () {
                     return;
                 });
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         };
-        
+
         $scope.showConfirmConfirmarAgenda = function (ev, data) {
             try {
                 let confirm = $mdDialog.confirm()
@@ -4762,13 +4760,12 @@
                 }, function () {
                     return;
                 });
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         };
-        
+
         $scope.FechaHoraAgendaGeneral = function () {
             try {
                 $scope.FechaActual = new Date();
@@ -4776,13 +4773,12 @@
                 $scope.FechaInicio = angular.copy($scope.FechaActual);
                 $scope.HoraInicio = new Date($scope.FechaInicio.getFullYear(), $scope.FechaInicio.getMonth(), $scope.FechaInicio.getDate(), $scope.FechaInicio.getHours(), $scope.FechaInicio.getMinutes());
                 $scope.HoraFin = angular.copy($scope.HoraInicio);
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-        
+
         $scope.FechaHoraAgendaDetallada = function (horas, minutos) {
             try {
                 $scope.FechaActual = new Date();
@@ -4816,13 +4812,12 @@
                 $scope.FechaFin = angular.copy($scope.FechaInicio);
                 $scope.HoraInicio = new Date($scope.FechaInicio.getFullYear(), $scope.FechaInicio.getMonth(), $scope.FechaInicio.getDate(), $scope.FechaInicio.getHours(), $scope.FechaInicio.getMinutes());
                 $scope.HoraFin = angular.copy($scope.HoraInicio);
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-        
+
         $scope.ValidarFechaModal = function () {
             try {
                 if ($scope.FechaInicio === undefined) {
@@ -4842,13 +4837,12 @@
                         return;
                     }
                 }
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-        
+
         $scope.ValidarHoraFin = function () {
             try {
                 if ($scope.HoraFin === undefined) {
@@ -4869,13 +4863,12 @@
 
                 if ($scope.HoraFin.getHours() === $scope.HoraInicio.getHours() && $scope.HoraFin.getMinutes() < $scope.HoraInicio.getMinutes())
                     $scope.HoraInicio = $scope.HoraFin;
-
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
         }
-        
+
         $scope.CalcularHoraFin = function () {
             try {
                 let IdServicio = $scope.ServicioSeleccionadoModal;
@@ -4887,13 +4880,12 @@
 
                 if ($scope.PAPTS) {
                     if ($scope.ServicioSeleccionadoModal !== -1 && IdServicio !== undefined && IdServicio !== null) {
-
                         if (parseInt($filter('date')(new Date($scope.FechaInicio), 'yyyyMMdd')) === parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
                             if (parseInt($filter('date')(new Date($scope.HoraInicio), 'HHmm')) < parseInt($filter('date')(new Date(), 'HHmm'))) {
                                 toastr.info('Solo puede agendar citas a partir de la hora actual ', '', $scope.toastrOptions);
                                 $scope.FechaHoraAgendaGeneral();
                                 return;
-                            }                            
+                            }
                         }
 
                         let tiemposervicio = Enumerable.From($scope.AgendaServicios)
@@ -4916,7 +4908,6 @@
                     }
                 } else if (!$scope.PAPTS) {
                     if (IdServicio !== -1 && IdServicio !== undefined && IdServicio !== null) {
-
                         if (parseInt($filter('date')(new Date($scope.FechaInicio), 'yyyyMMdd')) === parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
                             if (parseInt($filter('date')(new Date($scope.HoraInicio), 'HHmm')) < parseInt($filter('date')(new Date(), 'HHmm'))) {
                                 toastr.info('Solo puede agendar citas a partir de la hora actual ', '', $scope.toastrOptions);
@@ -4940,7 +4931,7 @@
                 return;
             }
         }
-        
+
         $scope.BackgroundCards = function (estado) {
             try {
                 if (estado === 'CONFIRMADA')
@@ -4975,12 +4966,12 @@
                 toastr.error(e.message, '', $scope.toastrOptions);
                 return;
             }
-        }        
-        
+        }
+
         $scope.Cancelar = function () {
             $scope.LimpiarDatos();
             $mdDialog.cancel();
-        };        
+        };
 
         $scope.$on("CompanyChange", function () {
             $scope.LimpiarDatos();
@@ -4990,7 +4981,7 @@
             $scope.ConsultarServiciosActivos();
             $scope.ConsultarEmpleadosAutoComplete();
             $scope.ConsultarClientes();
-            $scope.ConfiguracionEmpresaActual();            
+            $scope.ConfiguracionEmpresaActual();
             if ($scope.fActiveTab === 'General')
                 $scope.ModalFiltrarCitas();
         });
@@ -5003,11 +4994,10 @@
     }
 
     function SliderController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-        
         $scope.ServicioNombre = $rootScope.ServicioNombre;
         $scope.SliderServicios = $rootScope.ServicioListaImagenes;
         $scope.SliderClass = 'container' + $scope.SliderServicios.length;
-        
+
         $scope.Cancelar = function () {
             $mdDialog.cancel();
             $('#txtBuscarServicio').focus();
@@ -5015,12 +5005,11 @@
     }
 
     function ImgAttachedController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-        
         $scope.ServicioImagenesAdjuntas = $rootScope.ServicioImagenesAdjuntas;
         $scope.ImagenesAdjuntas = $rootScope.ImagenesAdjuntas;
         $scope.ImagenesxAdjuntar = $rootScope.ImagenesxAdjuntar;
         $scope.InformacionImagen = $rootScope.InformacionImagen;
-        
+
         $scope.EliminarImagenAdjunta = function (data) {
             let IdImagenAdjunta = data.id_Servicio_Imagen;
             SPAService._eliminarImagenAdjunta(IdImagenAdjunta)
@@ -5064,7 +5053,7 @@
         };
     }
 
-    angular.element(document).ready(function () {        
+    angular.element(document).ready(function () {
         $("body").tooltip({
             selector: '[data-toggle="tooltip"]',
             trigger: 'hover'
