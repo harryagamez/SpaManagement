@@ -3662,10 +3662,17 @@
                                 return x.id_Sistema_Propiedad === propiedad.id_Sistema_Propiedad
                                     && x.id_Empresa === $scope.IdEmpresa;
                             })
-                            .ToArray();;
-
-                        if (empresaPropiedadSistema.length > 0)
-                            propiedad.valor_Propiedad = empresaPropiedadSistema[0].valor_Propiedad;
+                            .ToArray();
+                        if (empresaPropiedadSistema.length > 0) {
+                            propiedad.valor_Propiedad = empresaPropiedadSistema[0].valor_Propiedad;                            
+                            if (propiedad.tipo === 'RANGO_HORA') {
+                                let rangoinicial = propiedad.valor_Propiedad.charAt(0);
+                                let rangofinal = propiedad.valor_Propiedad.substring(propiedad.valor_Propiedad.length - 2);
+                                let fechaactual = new Date();
+                                $scope.Rango.Desde = new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), rangoinicial, 0, 0);
+                                $scope.Rango.Hasta = new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), rangofinal, 0, 0);
+                            }
+                        }                        
                         else {
                             if (propiedad.tipo === 'ESCALAR')
                                 propiedad.valor_Propiedad = '';
@@ -3967,13 +3974,13 @@
         };
 
         $scope.$on("CompanyChange", function () {
-            $scope.IdEmpresa = $rootScope.Id_Empresa;
-            $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
-            $scope.ConfiguracionEmpresaActual();
-            $scope.ConfiguracionSistemaPropiedades();
             $scope.LimpiarDatos();
+            $scope.IdEmpresa = $rootScope.Id_Empresa;            
+            $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });            
+            $scope.ConfiguracionEmpresaActual();            
+            $scope.ConfiguracionSistemaPropiedades(); 
             $scope.ConsultarUsuarios();
-            $scope.Inicializacion();
+            $scope.Inicializacion();            
         });
 
         $scope.Inicializacion();
