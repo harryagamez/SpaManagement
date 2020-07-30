@@ -67,7 +67,7 @@
                                         </md-card-content>
                                         <div class="moreinfo-card" data-ng-show="item.estado === 'PROGRAMADA' && fShowMoreInfo || item.estado === 'CONFIRMADA' && fShowMoreInfo ">
                                             <div><h3 ng-class="BackgroundShowMore(item.estado)">{{item.estado}}</h3></div>
-                                            <div><p><i class="material-icons" style="font-size:18px; font-weight:600; color: grey; padding-right:5px; margin-top:-3px;">person</i>{{item.nombres_Cliente + ' ' + item.apellidos_Cliente}}</p></div>
+                                            <div><p><i class="material-icons" style="font-size:18px; font-weight:600; color: grey; padding-right:5px; margin-top:-3px;">person</i>{{item.nombreApellido_Cliente}}</p></div>
                                             <div><p><i class="material-icons" style="font-size:18px; font-weight:600; color: grey; padding-right:5px; margin-top:-3px;">email</i>{{item.mail_Cliente}}</p></div>
                                             <div><p><i class="material-icons" style="font-size:18px; font-weight:600; color: grey; padding-right:5px; margin-top:-3px;">phone</i>{{item.telefono_Fijo_Cliente}}</p></div>
                                             <div><p><a ng-href="https://wa.me/57{{item.telefono_Movil_Cliente}}?text={{item.mensaje_Whatsapp}}" target="_blank"><img src="../../Images/agenda/whatsapp-icon.png" style="padding-right:5px; margin-top:-3px; min-width:22px; max-width:22px;"/>{{item.telefono_Movil_Cliente}}</a></p></div>
