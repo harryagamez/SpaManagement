@@ -4116,8 +4116,7 @@
                 SPAService._consultarAgenda($scope.Agenda)
                     .then(
                         function (result) {
-                            if (result.data !== undefined && result.data !== null) {
-                                debugger;
+                            if (result.data !== undefined && result.data !== null) {                                
                                 $scope.Agendas = [];
                                 $scope.Agendas = result.data;
                                 $scope.Agendas = $scope.Agendas.map(function (e) {
