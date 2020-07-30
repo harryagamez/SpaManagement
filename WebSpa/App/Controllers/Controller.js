@@ -1455,6 +1455,7 @@
         $scope.TipoPagoSeleccionado = '00000000-000-000-000000000000';
         $scope.InventarioProducto = 0;
         $scope.PermitirFiltrar = true;
+        $scope.GridAccion = '';
 
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.IdUsuario = parseInt($rootScope.userData.userId);
@@ -2100,6 +2101,7 @@
                     }, function () {
                         $scope.ServiciosSeleccionados = [];
                         $scope.ServiciosAsignados = [];
+                        $scope.GridAccion = '';
                     });
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
@@ -2109,12 +2111,14 @@
 
         $scope.AsignarServicios = function (data) {
             try {
+                $scope.GridAccion = 'LLAMAR_MODALES';
                 $scope.IdEmpleado = data.id_Empleado;
                 $scope.NombreEmpleado = data.nombres + ' ' + data.apellidos;
                 $scope.ConsultarEmpleadoServicio();
                 $scope.ModalAsignarServicios();
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
+                $scope.GridAccion = '';
                 return;
             }
         }
@@ -2156,6 +2160,7 @@
                         $scope.ProductoSeleccionado = -1;
                         $scope.CantidadInsumo = '';
                         $scope.InventarioProducto = 0;
+                        $scope.GridAccion = '';
                     });
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
@@ -2165,18 +2170,21 @@
 
         $scope.AsignarInsumos = function (data) {
             try {
+                $scope.GridAccion = 'LLAMAR_MODALES';
                 $scope.IdEmpleado = data.id_Empleado;
                 $scope.NombreEmpleado = data.nombres + ' ' + data.apellidos;
                 $scope.ConsultarEmpleadoInsumos();
                 $scope.ModalAsignarInsumos();
             } catch (e) {
                 toastr.error(e.message, '', $scope.toastrOptions);
+                $scope.GridAccion = '';
                 return;
             }
         }
 
         function OnRowClicked(event) {
             try {
+                if ($scope.GridAccion === 'LLAMAR_MODALES') return;
                 $scope.LimpiarDatos();
 
                 $scope.Accion = 'BUSQUEDA_EMPLEADO';
@@ -3664,7 +3672,7 @@
                             })
                             .ToArray();
                         if (empresaPropiedadSistema.length > 0) {
-                            propiedad.valor_Propiedad = empresaPropiedadSistema[0].valor_Propiedad;                            
+                            propiedad.valor_Propiedad = empresaPropiedadSistema[0].valor_Propiedad;
                             if (propiedad.tipo === 'RANGO_HORA') {
                                 let rangoinicial = propiedad.valor_Propiedad.charAt(0);
                                 let rangofinal = propiedad.valor_Propiedad.substring(propiedad.valor_Propiedad.length - 2);
@@ -3672,7 +3680,7 @@
                                 $scope.Rango.Desde = new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), rangoinicial, 0, 0);
                                 $scope.Rango.Hasta = new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), rangofinal, 0, 0);
                             }
-                        }                        
+                        }
                         else {
                             if (propiedad.tipo === 'ESCALAR')
                                 propiedad.valor_Propiedad = '';
@@ -3689,7 +3697,7 @@
                     })
                 }
             } catch (e) {
-                toastr.error('Error consultando las propiedades del sistema: ' + e.message, '', $scope.toastrOptions);
+                toastr.error(e.message, '', $scope.toastrOptions);
             }
         }
 
@@ -3975,12 +3983,12 @@
 
         $scope.$on("CompanyChange", function () {
             $scope.LimpiarDatos();
-            $scope.IdEmpresa = $rootScope.Id_Empresa;            
-            $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });            
-            $scope.ConfiguracionEmpresaActual();            
-            $scope.ConfiguracionSistemaPropiedades(); 
+            $scope.IdEmpresa = $rootScope.Id_Empresa;
+            $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
+            $scope.ConfiguracionEmpresaActual();
+            $scope.ConfiguracionSistemaPropiedades();
             $scope.ConsultarUsuarios();
-            $scope.Inicializacion();            
+            $scope.Inicializacion();
         });
 
         $scope.Inicializacion();
