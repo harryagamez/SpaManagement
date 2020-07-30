@@ -3674,8 +3674,8 @@
                         if (empresaPropiedadSistema.length > 0) {
                             propiedad.valor_Propiedad = empresaPropiedadSistema[0].valor_Propiedad;
                             if (propiedad.tipo === 'RANGO_HORA') {
-                                let rangoinicial = propiedad.valor_Propiedad.charAt(0);
-                                let rangofinal = propiedad.valor_Propiedad.substring(propiedad.valor_Propiedad.length - 2);
+                                let rangoinicial = parseInt(propiedad.valor_Propiedad.substring(0,2));
+                                let rangofinal = parseInt(propiedad.valor_Propiedad.substring(propiedad.valor_Propiedad.length - 2));
                                 let fechaactual = new Date();
                                 $scope.Rango.Desde = new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), rangoinicial, 0, 0);
                                 $scope.Rango.Hasta = new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), rangofinal, 0, 0);
@@ -3971,6 +3971,42 @@
             }
         }
 
+        $scope.ValidarHora = function () {
+            try {
+                let fechaactual = new Date();
+                if ($scope.Rango.Desde === undefined) {
+                    toastr.info('Formato de hora invalido ', '', $scope.toastrOptions);
+                    $scope.Rango = {
+                        Desde: new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), 7, 0, 0),
+                        Hasta: new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), 21, 0, 0)
+                    }
+                    return;
+                }
+
+                if ($scope.Rango.Hasta === undefined) {
+                    toastr.info('Formato de hora invalido ', '', $scope.toastrOptions);
+                    $scope.Rango = {
+                        Desde: new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), 7, 0, 0),
+                        Hasta: new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), 21, 0, 0)
+                    }
+                    return;
+                }
+
+                if (parseInt($filter('date')(new Date($scope.Rango.Desde), 'HHmm')) >= parseInt($filter('date')(new Date($scope.Rango.Hasta), 'HHmm'))) {
+                    toastr.info('La hora inicial debe ser menor a la hora final ', '', $scope.toastrOptions);
+                    $scope.Rango = {
+                        Desde: new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), 7, 0, 0),
+                        Hasta: new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), 21, 0, 0)
+                    }
+                    return;                    
+                }
+                
+            } catch (e) {
+                toastr.error(e.message, '', $scope.toastrOptions);
+                return;
+            }
+        }
+
         window.onresize = function () {
             $timeout(function () {
                 $scope.UsuariosGridOptions.api.sizeColumnsToFit();
@@ -4081,8 +4117,13 @@
                     .then(
                         function (result) {
                             if (result.data !== undefined && result.data !== null) {
+                                debugger;
                                 $scope.Agendas = [];
                                 $scope.Agendas = result.data;
+                                $scope.Agendas = $scope.Agendas.map(function (e) {
+                                    e.mensaje_Whatsapp = 'Hola ' + e.nombres_Cliente + ', le escribimos desde ' + e.nombre_Empresa + ' para confirmar su cita para el servicio de ' + e.nombre_Servicio + ' a las ' + e.fechaInicio;
+                                    return e;
+                                });
                             }
 
                             if ($scope.Agendas.length === 0) {

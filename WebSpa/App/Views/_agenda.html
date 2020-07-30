@@ -70,7 +70,7 @@
                                             <div><p><i class="material-icons" style="font-size:18px; font-weight:600; color: grey; padding-right:5px; margin-top:-3px;">person</i>{{item.nombres_Cliente + ' ' + item.apellidos_Cliente}}</p></div>
                                             <div><p><i class="material-icons" style="font-size:18px; font-weight:600; color: grey; padding-right:5px; margin-top:-3px;">email</i>{{item.mail_Cliente}}</p></div>
                                             <div><p><i class="material-icons" style="font-size:18px; font-weight:600; color: grey; padding-right:5px; margin-top:-3px;">phone</i>{{item.telefono_Fijo_Cliente}}</p></div>
-                                            <div><p><a ng-href="https://wa.me/57{{item.telefono_Movil_Cliente}}?text=Hola,%20{{item.nombres_Cliente}},%20le%20escribimos%20desde%20{{item.nombre_Empresa}}%20para%20confirmar%20su%20cita%20para%20el%20servicio%20de%20{{item.nombre_Servicio}}%20a%20las%20{{item.fechaInicio}}" target="_blank"><img src="../../Images/agenda/whatsapp-icon.png" style="padding-right:5px; margin-top:-3px; min-width:22px; max-width:22px;"/>{{item.telefono_Movil_Cliente}}</a></p></div>
+                                            <div><p><a ng-href="https://wa.me/57{{item.telefono_Movil_Cliente}}?text={{item.mensaje_Whatsapp}}" target="_blank"><img src="../../Images/agenda/whatsapp-icon.png" style="padding-right:5px; margin-top:-3px; min-width:22px; max-width:22px;"/>{{item.telefono_Movil_Cliente}}</a></p></div>
                                         </div>
                                     </div>
                             </div>

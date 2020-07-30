@@ -1018,10 +1018,10 @@ md-card md-card-title {
 }
 
 .moreinfo-card {
-    position: absolute;
-    top: 20px;
+    position: absolute;    
     width: 230px;
     height: 115px;
+    margin-top:-210px;
     z-index: 99;
     margin-left: 10px;
     background-color: white;
