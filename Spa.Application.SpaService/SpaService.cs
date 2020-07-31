@@ -6,6 +6,7 @@ using Spa.Infrastructure.SpaRepository;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace Spa.Application.SpaService
 {
@@ -350,13 +351,15 @@ namespace Spa.Application.SpaService
             return _spaRepository.GuardarEmpresaPropiedades(empresaPropiedades);
         }
 
-        public void EmailConfirmacionAgenda(Agenda _Agenda)
+        public async Task EmailConfirmacionAgenda(Agenda _Agenda)
         {
-            if (_Agenda != null)
+            await Task.Run(() =>
             {
-                var fecha = _Agenda.Fecha_Inicio.Value.ToString("dd-MM-yyyy");
-                var hora = _Agenda.Fecha_Inicio.Value.ToString("h:mm tt", CultureInfo.InvariantCulture);
-                string htmlString = @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">
+                if (_Agenda != null)
+                {
+                    var fecha = _Agenda.Fecha_Inicio.Value.ToString("dd-MM-yyyy");
+                    var hora = _Agenda.Fecha_Inicio.Value.ToString("h:mm tt", CultureInfo.InvariantCulture);
+                    string htmlString = @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">
                     <html xmlns=""http://www.w3.org/1999/xhtml"">
                     <head>
                         <meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8""/>
@@ -376,7 +379,7 @@ namespace Spa.Application.SpaService
                            </tr>
                             <tr>
                            <td bgcolor=""#ffffff"" style=""padding: 5px 30px 2px 30px; color: grey; font-size:18px; text-align:justify;"">
-                                <b>Su cita en " + _Agenda.Nombre_Empresa+ @", para el servicio: " + _Agenda.Nombre_Servicio + @", ha sido programada para el día: " + fecha + @" a las: " + hora + @".</b>                                
+                                <b>Su cita en " + _Agenda.Nombre_Empresa + @", para el servicio: " + _Agenda.Nombre_Servicio + @", ha sido programada para el día: " + fecha + @" a las: " + hora + @".</b>                                
                            </td>                           
                            </tr>
                            <tr>
@@ -392,7 +395,7 @@ namespace Spa.Application.SpaService
                            </table>                            
                     </body>                    
                     </html>
-                    ";                
+                    ";
                     EmailModel _emailModel = new EmailModel
                     {
                         MailTo = _Agenda.Mail_Cliente,
@@ -400,9 +403,10 @@ namespace Spa.Application.SpaService
                         Body = htmlString
                     };
 
-                MailHelper.SendMail(_emailModel);
-                     
-            }
+                    MailHelper.SendMail(_emailModel);
+
+                }
+            });            
         }
 
         public bool RegistrarClientes(List<Cliente> clientes)

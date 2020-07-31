@@ -2,6 +2,7 @@
 using Spa.Domain.SpaEntities.Extensions;
 using Spa.InfraCommon.SpaCommon.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Spa.Application.SpaService
 {
@@ -57,7 +58,7 @@ namespace Spa.Application.SpaService
         List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario);
         List<SistemaPropiedades> ConsultarSistemaPropiedades();
         bool GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades);
-        void EmailConfirmacionAgenda(Agenda _Agenda);
+        Task EmailConfirmacionAgenda(Agenda _Agenda);
         bool RegistrarClientes(List<Cliente> clientes);
 
     }
