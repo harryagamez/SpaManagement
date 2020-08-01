@@ -4223,6 +4223,7 @@
             SPAService._consultarEmpleadoServicio(idEmpleado)
                 .then(
                     function (result) {
+                        debugger;
                         if (result.data !== undefined && result.data !== null && result.data.length > 0) {
                             $scope.AgendaServicios = [];
                             let empleadoservicios = result.data;
@@ -4246,13 +4247,13 @@
         }
 
         $scope.ConsultarNumeroCitasDia = function () {
-            if ($scope.MNCD !== '0' && $scope.MNCD !== null && $scope.MNCD !== undefined) {
+            if ($scope.MNCD !== '0' && $scope.MNCD !== null && $scope.MNCD !== undefined && $scope.MNCD !== '') {
                 if (($scope.FechaInicio !== null && $scope.FechaInicio !== undefined && $scope.FechaInicio !== '')
                     && ($scope.IdEmpresa !== null && $scope.IdEmpresa !== undefined)) {
                     let fechaConsulta = $filter('date')(angular.copy($scope.FechaInicio), 'dd/MM/yyyy');
                     SPAService._consultarNumeroCitasDia(fechaConsulta, $scope.IdEmpresa)
                         .then(
-                            function (result) {
+                            function (result) {                                
                                 let numeroCitasDia = result.data;
                                 $scope.NumCitasDisponibles = ($scope.MNCD - numeroCitasDia);
                                 $scope.fDisableGuardarAgenda = false;
