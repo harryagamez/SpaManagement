@@ -94,7 +94,18 @@
   <ItemGroup>
     <Content Include="App\app.css" />
     <Content Include="App\app.js" />
-    <Content Include="App\Controllers\controller.js" />
+    <Content Include="App\Controllers\AgendaController.js" />
+    <Content Include="App\Controllers\ClientesController.js" />
+    <Content Include="App\Controllers\MainController.js" />
+    <Content Include="App\Controllers\EmpleadosController.js" />
+    <Content Include="App\Controllers\GastosController.js" />
+    <Content Include="App\Controllers\GestionController.js" />
+    <Content Include="App\Controllers\HomeController.js" />
+    <Content Include="App\Controllers\ImgAttachedController.js" />
+    <Content Include="App\Controllers\LoginController.js" />
+    <Content Include="App\Controllers\ProductosController.js" />
+    <Content Include="App\Controllers\ServiciosController.js" />
+    <Content Include="App\Controllers\SliderController.js" />
     <Content Include="App\Directives\directives.js" />
     <Content Include="App\index.html" />
     <Content Include="App\Services\services.js" />
