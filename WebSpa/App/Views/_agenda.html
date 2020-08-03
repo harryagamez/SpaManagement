@@ -80,17 +80,17 @@
 
                 <md-tab label="Detallada" data-ng-click="fActiveTab = 'Detallada'">
                     <md-content class="md-padding" style="background-color:transparent; margin-bottom:10px;">
-                        <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
-                            <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Buscar" data-ng-click="ConsultarAgenda()">
-                                <i class="material-icons md-18" style="transform: scaleX(-1)">search</i>Buscar
-                            </md-button>
-                        </section>
-
-                        <div layout="row" layout-xs="column" style="margin-bottom:-5px;" layout-align="start center">
-
-                            <div flex="" style="margin-top:-3px;">
+                        <div layout="row" layout-xs="column" style="margin-bottom:-5px;" layout-align="start start">
+                            <div flex=""  style="flex:none; padding-right:10px;">
+                                <section id="divButtons"  style="">
+                                    <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Buscar" data-ng-click="ConsultarAgenda()">
+                                        <i class="material-icons md-18" style="transform: scaleX(-1)">search</i>Buscar
+                                    </md-button>
+                                </section>
+                            </div>
+                            <div flex="" style="margin-top:-12px">
                                 <md-input-container style="margin-left: -40px; max-width:300px;z-index:99; margin-top:15px;">
-                                    <label class="label-form-clientes">
+                                    <label class="label-form-clientes" style="margin-bottom:-4px;">
                                         Fecha:
                                     </label>
                                     <md-datepicker ng-model="FechaActual" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=5 style="margin-bottom:0;"></md-datepicker>
@@ -98,13 +98,13 @@
                             </div>
                         </div>
 
-                        <div id="divScheduleCitas" layout="row" style="width:100%; height: calc(100vh - 280px); margin-top:-15px; overflow-y:auto; overflow-x:auto;">
+                        <div id="divScheduleCitas" layout="row" style="width:100%; height: calc(100vh - 215px); margin-top:-30px; overflow-y:auto; overflow-x:auto;">
                             <table class="table-schedule">
                                 <tr>
                                     <td style="border-left:none;"></td>
                                     <th scope="col" ng-repeat="empleado in Empleados" style="font-size:13px; font-weight:600; text-transform:uppercase; padding:10px;">{{empleado.nombres}}</th>
                                 </tr>
-                                <tbody ng-repeat="hora in PorHoras track by $index">
+                                <tbody ng-repeat="hora in RangoHoras track by $index">
                                     <tr>
                                         <th scope="rowgroup" rowspan="2" style="font-size:14px; font-weight:300;">{{hora}}</th>
                                         <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado, 'enpunto')"></td>

@@ -14,11 +14,8 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
             { id_Estado: 6, Nombre: "CONFIRMADA" }
         ];
     $scope.Estado = $filter('orderBy')($scope.Estado, 'Nombre', false);
-
-    $scope.doc_classes_colors = ["#96bdc4", "#c2dbdf", "#fdd4c1", "#eaabbc", "#F1CBB5"];
-    $scope.PorHoras = ["06:00 AM", "07:00 AM", "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 M",
-        "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM",
-        "08:00 PM", "09:00 PM", "10:00 PM"];
+    
+    $scope.RangoHoras = [];
 
     $scope.IdEmpresa = $rootScope.Id_Empresa;
     $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
@@ -275,8 +272,10 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
             if ($scope.EmpresaPropiedades.length > 0) {
                 let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
                 let mncd = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'MNCD' });
+                let rha = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'RHA' });
 
                 $scope.MNCD = mncd[0].valor_Propiedad;
+                $scope.RHA = rha[0].valor_Propiedad;
 
                 if (papts[0].valor_Propiedad.toUpperCase() === 'SI' || papts[0].valor_Propiedad.toUpperCase() === 'SÍ') {
                     $scope.fDisableHoraFin = true;
@@ -958,6 +957,21 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
         }
     }
 
+    $scope.GenerarArregloRangoHoras = function () {
+        let cont = 0;
+        let rangoinicial = $scope.RHA.substring(0, 2);
+        let rangofinal = $scope.RHA.substring($scope.RHA.length - 2);
+        for (i = parseInt(rangoinicial); i <= parseInt(rangofinal); i++) {
+            if (i < 12)
+                $scope.RangoHoras[cont] = i + ' AM';
+            if (i === 12)
+                $scope.RangoHoras[cont] = i + ' M';
+            if (i > 12)
+                $scope.RangoHoras[cont] = (i - 12) + ' PM';
+            cont++;
+        }
+    }
+
     $scope.BackgroundCards = function (estado) {
         try {
             if (estado === 'CONFIRMADA')
@@ -1008,6 +1022,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
         $scope.ConsultarEmpleadosAutoComplete();
         $scope.ConsultarClientes();
         $scope.ConfiguracionEmpresaActual();
+        $scope.GenerarArregloRangoHoras();
         if ($scope.fActiveTab === 'General')
             $scope.ModalFiltrarCitas();
     });
@@ -1016,5 +1031,6 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
     $scope.ConsultarEmpleadosAutoComplete();
     $scope.ConsultarClientes();
     $scope.ConfiguracionEmpresaActual();
+    $scope.GenerarArregloRangoHoras();
     $scope.ModalFiltrarCitas();
 }
