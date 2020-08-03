@@ -101,16 +101,19 @@
                         <div id="divScheduleCitas" layout="row" style="width:100%; height: calc(100vh - 215px); margin-top:-30px; overflow-y:auto; overflow-x:auto;">
                             <table class="table-schedule">
                                 <tr>
-                                    <td style="border-left:none;"></td>
-                                    <th scope="col" ng-repeat="empleado in Empleados" style="font-size:13px; font-weight:600; text-transform:uppercase; padding:10px;">{{empleado.nombres}}</th>
+                                    <td class="table-schedule-nullpoint"></td>
+                                    <th scope="col" ng-repeat="empleado in Empleados" style="font-size:13px; font-weight:600; color:white; text-transform:uppercase; padding:10px; background-color:#385178;">{{empleado.nombres}}</th>
+                                    <td class="table-schedule-empty" ng-repeat="x in BlankCells" style="background-color: #385178 !important;"></td>
                                 </tr>
                                 <tbody ng-repeat="hora in RangoHoras track by $index">
                                     <tr>
-                                        <th scope="rowgroup" rowspan="2" style="font-size:14px; font-weight:300;">{{hora}}</th>
+                                        <th scope="rowgroup" rowspan="2" style="font-size:14px; font-weight:600; color:white; background-color:#385178;">{{hora}}</th>
                                         <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado, 'enpunto')"></td>
+                                        <td class="table-schedule-empty" ng-repeat="x in BlankCells"></td>
                                     </tr>
                                     <tr>
                                         <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado, 'media')"></td>
+                                        <td class="table-schedule-empty" ng-repeat="x in BlankCells"></td>
                                     </tr>
                                 </tbody>
                             </table>

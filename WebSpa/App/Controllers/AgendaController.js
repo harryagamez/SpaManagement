@@ -163,6 +163,15 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                         $scope.Empleados = [];
                         $scope.Empleados = result.data;
                         $scope.Empleados = $filter('orderBy')($scope.Empleados, 'id_Empleado', false);
+
+                        if ($scope.Empleados.length < 9) {
+                            for (i = 0; i < 10 - $scope.Empleados.length; i++) {
+                                $scope.BlankCells[i] = i + 1;
+                            }
+                        }
+                        else
+                            $scope.BlankCells[0] = 0;
+                        
                     }
                 }, function (err) {
                     toastr.remove();
@@ -959,6 +968,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
 
     $scope.GenerarArregloRangoHoras = function () {
         let cont = 0;
+        $scope.BlankCells = [];
         let rangoinicial = $scope.RHA.substring(0, 2);
         let rangofinal = $scope.RHA.substring($scope.RHA.length - 2);
         for (i = parseInt(rangoinicial); i <= parseInt(rangofinal); i++) {
@@ -969,7 +979,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
             if (i > 12)
                 $scope.RangoHoras[cont] = (i - 12) + ' PM';
             cont++;
-        }
+        }        
     }
 
     $scope.BackgroundCards = function (estado) {

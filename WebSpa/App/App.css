@@ -807,7 +807,7 @@ md-list-item .md-list-item-inner {
 
 /*TABLE SCHEDULE*/
 .table-schedule {
-    border: 1px solid #ddd;
+    border: none;
 }
 
 .table-schedule tbody td {
@@ -852,6 +852,16 @@ md-list-item .md-list-item-inner {
 .table-schedule tr {
     min-height:36px;
     max-height:36px;
+}
+
+.table-schedule-empty, .table-schedule-empty:hover {
+    background-color: #fafafa !important;
+    border:1px dashed #ccc !important;
+}
+
+.table-schedule-nullpoint,  .table-schedule-nullpoint:hover{
+    background:white !important;
+    border:none !important;
 }
 
 /*AutoComplete*/
