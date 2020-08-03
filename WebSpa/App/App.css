@@ -824,6 +824,8 @@ md-list-item .md-list-item-inner {
     text-align:center;
     vertical-align:top;
     border-left: 1px solid #ddd;
+    position:sticky;
+    top:0;
 }
 
 .table-schedule td, .table-schedule th {
