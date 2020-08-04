@@ -198,8 +198,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
     $scope.ConsultarEmpleadoServicio = function (idEmpleado) {
         SPAService._consultarEmpleadoServicio(idEmpleado)
             .then(
-                function (result) {
-                    debugger;
+                function (result) {                    
                     if (result.data !== undefined && result.data !== null && result.data.length > 0) {
                         $scope.AgendaServicios = [];
                         let empleadoservicios = result.data;
@@ -713,10 +712,24 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
 
     $scope.ModalAgendaDetallada = function (horas, empleado, minutos) {
         try {
+            if ($scope.FechaActual === null || $scope.FechaActual === undefined || $scope.FechaActual === '') {
+                $scope.FechaActual = new Date();
+            }
+
             $scope.AccionAgenda = 'Agendar cita';
             $scope.EmpleadoSeleccionado = empleado.nombres;
 
-            $scope.FechaHoraAgendaDetallada(horas, minutos);
+            $scope.FechaHoraAgendaDetallada(horas, minutos);            
+            $scope.EmpleadoSeleccionadoModal = {
+                id_Empleado: empleado.id_Empleado,
+                nombres: empleado.nombres
+            };
+
+            if (empleado.criterio === 'PAGO_PORCENTUAL') {
+                $scope.ConsultarEmpleadoServicio(empleado.id_Empleado);
+            }
+
+            $scope.ConsultarNumeroCitasDia();
 
             $mdDialog.show({
                 contentElement: '#dlgAgendaGeneral',
@@ -815,7 +828,6 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
 
     $scope.FechaHoraAgendaDetallada = function (horas, minutos) {
         try {
-            $scope.FechaActual = new Date();
             $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
             let setHora = 0;
             let setMinutos = 0;
