@@ -212,7 +212,7 @@
                                     <label class="label-form-empleados" style="">
                                         Hora Inicio Cita:
                                     </label>
-                                    <input ng-model="HoraInicio" data-ng-change="CalcularHoraFin(ServicioSeleccionado)" type="time" class="" placeholder="Hora inicio cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="timeInicio" tabindex="11">
+                                    <input ng-model="HoraInicio" ng-disabled="fDisableHoraInicio" data-ng-change="CalcularHoraFin(ServicioSeleccionado)" type="time" name="appt" step="1800" class="" placeholder="Hora inicio cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="timeInicio" tabindex="11">
                                 </md-input-container>
                             </div>
 

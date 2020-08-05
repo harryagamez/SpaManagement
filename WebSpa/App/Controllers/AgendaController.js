@@ -276,14 +276,22 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
     }
 
     $scope.ConfiguracionEmpresaActual = function () {
-        try {
+        try {            
             if ($scope.EmpresaPropiedades.length > 0) {
+
                 let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
                 let mncd = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'MNCD' });
                 let rha = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'RHA' });
 
-                $scope.MNCD = mncd[0].valor_Propiedad;
-                $scope.RHA = rha[0].valor_Propiedad;
+                if (mncd.length > 0)
+                    $scope.MNCD = mncd[0].valor_Propiedad;
+                else
+                    $scope.MNCD = 0;
+
+                if (rha.length > 0)
+                    $scope.RHA = rha[0].valor_Propiedad;
+                else
+                    $scope.RHA = '7 - 21';
 
                 if (papts[0].valor_Propiedad.toUpperCase() === 'SI' || papts[0].valor_Propiedad.toUpperCase() === 'SÍ') {
                     $scope.fDisableHoraFin = true;
@@ -357,7 +365,8 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
             $scope.fDisableFechaCita = false;
             $scope.fDisableGuardarAgenda = false;
             $scope.fDisableServiciosM = true;
-            $scope.fDisableServicios = true;
+            $scope.fDisableServicios = true;            
+            $scope.fDisableHoraInicio = false;
 
             $scope.Agenda = {
                 Id_Agenda: -1,
@@ -712,36 +721,59 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
 
     $scope.ModalAgendaDetallada = function (horas, empleado, minutos) {
         try {
-            if ($scope.FechaActual === null || $scope.FechaActual === undefined || $scope.FechaActual === '') {
-                $scope.FechaActual = new Date();
+            if ($scope.fPropertiesSetted) {
+                if ($scope.FechaActual === null || $scope.FechaActual === undefined || $scope.FechaActual === '') {
+                    toastr.info('Formato de fecha inválido', '', $scope.toastrOptions);
+                    return;
+                }
+
+                if (parseInt($filter('date')($scope.FechaActual, 'yyyyMMdd')) < parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
+                    toastr.info('Solo puede programar agenda a partir de la fecha actual', '', $scope.toastrOptions);
+                    $scope.FechaActual = new Date();
+                    return;
+                }
+
+                $scope.LimpiarDatos();
+                $scope.FechaHoraAgendaDetallada(horas, minutos);
+
+                if (parseInt($filter('date')(new Date($scope.FechaActual), 'yyyyMMdd')) === parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
+                    if (parseInt($filter('date')(new Date($scope.HoraFin), 'HHmm')) < parseInt($filter('date')(new Date(), 'HHmm'))) {
+                        toastr.info('Solo puede agendar citas a partir de la hora actual ', '', $scope.toastrOptions);
+                        $scope.FechaHoraAgendaGeneral();
+                        return;
+                    }
+                }
+
+                $scope.EmpleadoSeleccionadoModal = {
+                    id_Empleado: empleado.id_Empleado,
+                    nombres: empleado.nombres
+                };
+
+                if (empleado.criterio === 'PAGO_PORCENTUAL') {
+                    $scope.ConsultarEmpleadoServicio(empleado.id_Empleado);
+                }
+
+                $scope.ConsultarNumeroCitasDia();
+
+                $scope.AccionAgenda = 'Agendar cita';
+                $scope.fDisableFechaCita = true;
+                $scope.fDisableHoraInicio = true;
+
+                $mdDialog.show({
+                    contentElement: '#dlgAgendaGeneral',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true,
+                    multiple: true,
+                })
+                    .then(function () {
+                    }, function () {
+                        $scope.LimpiarDatos();
+                    });
             }
-
-            $scope.AccionAgenda = 'Agendar cita';
-            $scope.EmpleadoSeleccionado = empleado.nombres;
-
-            $scope.FechaHoraAgendaDetallada(horas, minutos);            
-            $scope.EmpleadoSeleccionadoModal = {
-                id_Empleado: empleado.id_Empleado,
-                nombres: empleado.nombres
-            };
-
-            if (empleado.criterio === 'PAGO_PORCENTUAL') {
-                $scope.ConsultarEmpleadoServicio(empleado.id_Empleado);
-            }
-
-            $scope.ConsultarNumeroCitasDia();
-
-            $mdDialog.show({
-                contentElement: '#dlgAgendaGeneral',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true,
-                multiple: true,
-            })
-                .then(function () {
-                }, function () {
-                    $scope.LimpiarDatos();
-                });
+            else
+                toastr.info('Para utilizar el módulo agenda, debe configurar las propiedades de la empresa', '', $scope.toastrOptions);
+            
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -979,18 +1011,31 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
     }
 
     $scope.GenerarArregloRangoHoras = function () {
-        let cont = 0;
-        $scope.BlankCells = [];
-        let rangoinicial = $scope.RHA.substring(0, 2);
-        let rangofinal = $scope.RHA.substring($scope.RHA.length - 2);
-        for (i = parseInt(rangoinicial); i <= parseInt(rangofinal); i++) {
-            if (i < 12)
-                $scope.RangoHoras[cont] = i + ' AM';
-            if (i === 12)
-                $scope.RangoHoras[cont] = i + ' M';
-            if (i > 12)
-                $scope.RangoHoras[cont] = (i - 12) + ' PM';
-            cont++;
+        try {            
+            let cont = 0;
+            let rangoinicial = '';
+            let rangofinal = '';
+            $scope.BlankCells = [];
+            if ($scope.RHA !== null && $scope.RHA !== undefined && $scope.RHA !== '') {
+                rangoinicial = $scope.RHA.substring(0, 2);
+                rangofinal = $scope.RHA.substring($scope.RHA.length - 2);
+            } else {
+                rangoinicial = '7';
+                rangofinal = '21';
+            }
+            
+            for (i = parseInt(rangoinicial); i <= parseInt(rangofinal); i++) {
+                if (i < 12)
+                    $scope.RangoHoras[cont] = i + ' AM';
+                if (i === 12)
+                    $scope.RangoHoras[cont] = i + ' M';
+                if (i > 12)
+                    $scope.RangoHoras[cont] = (i - 12) + ' PM';
+                cont++;
+            }        
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
         }        
     }
 
