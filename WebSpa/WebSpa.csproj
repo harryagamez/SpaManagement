@@ -166,6 +166,10 @@
     <Content Include="Scripts\Angular\angular-route.min.js" />
     <Content Include="Scripts\Angular\angular-ui-router.min.js" />
     <Content Include="Scripts\Angular\angular.min.js" />
+    <Content Include="Scripts\Angular\font-awesome.css" />
+    <Content Include="Scripts\Angular\glyphicons.css" />
+    <Content Include="Scripts\Angular\ui-bootstrap-2.5.0.min.js" />
+    <Content Include="Scripts\Angular\ui-bootstrap-tpls-2.5.0.min.js" />
     <Content Include="Scripts\Angular\ui-bootstrap.min.js" />
     <Content Include="Scripts\Bootstrap\v4.0.0\bootstrap-reboot.min.css" />
     <Content Include="Scripts\Bootstrap\v4.0.0\bootstrap.min.css" />

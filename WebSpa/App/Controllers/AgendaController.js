@@ -850,6 +850,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
             $scope.FechaActual = new Date();
             $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
             $scope.FechaInicio = angular.copy($scope.FechaActual);
+            $scope.FechaInicio = new Date($scope.FechaInicio.setHours(($scope.FechaInicio.getHours() + 1), 0, 0));
             $scope.HoraInicio = new Date($scope.FechaInicio.getFullYear(), $scope.FechaInicio.getMonth(), $scope.FechaInicio.getDate(), $scope.FechaInicio.getHours(), $scope.FechaInicio.getMinutes());
             $scope.HoraFin = angular.copy($scope.HoraInicio);
         } catch (e) {
@@ -923,7 +924,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
 
     $scope.ValidarHoraFin = function () {
         try {
-            if ($scope.HoraFin === undefined) {
+            if ($scope.HoraFin === undefined || $scope.HoraFin === null ) {
                 toastr.info('Formato de hora invalido ', '', $scope.toastrOptions);
                 return;
             }
@@ -949,9 +950,8 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
 
     $scope.CalcularHoraFin = function () {
         try {
-            let IdServicio = $scope.ServicioSeleccionadoModal;
-
-            if ($scope.HoraInicio === undefined) {
+            let IdServicio = $scope.ServicioSeleccionadoModal;            
+            if ($scope.HoraInicio === undefined || $scope.HoraInicio === null ) {
                 toastr.info('Formato de hora invalido ', '', $scope.toastrOptions);
                 return;
             }
@@ -959,7 +959,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
             if ($scope.PAPTS) {
                 if ($scope.ServicioSeleccionadoModal !== -1 && IdServicio !== undefined && IdServicio !== null) {
                     if (parseInt($filter('date')(new Date($scope.FechaInicio), 'yyyyMMdd')) === parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
-                        if (parseInt($filter('date')(new Date($scope.HoraInicio), 'HHmm')) < parseInt($filter('date')(new Date(), 'HHmm'))) {
+                        if (parseInt($filter('date')(new Date($scope.HoraInicio), 'HHmm')) < (parseInt($filter('date')(new Date(), 'HHmm'))+ 60)) {
                             toastr.info('Solo puede agendar citas a partir de la hora actual ', '', $scope.toastrOptions);
                             $scope.FechaHoraAgendaGeneral();
                             return;

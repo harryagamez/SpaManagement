@@ -1079,3 +1079,53 @@ md-card md-card-title {
 .liquidada-moreinfo {
     background-color: #c2dbdf;    
 }
+
+.agenda-timepicker {
+    padding-bottom:5px;
+}
+
+.agenda-timepicker .btn .glyphicon {
+    color:#ccc !important;
+}
+
+.agenda-timepicker .btn {
+    padding-top:0 !important;
+    padding-bottom:0 !important;
+    padding-right:2px !important;
+    padding-left:2px !important;
+}
+
+.agenda-timepicker .btn-default {
+    background:white !important;
+    font-size:14px;
+    font-weight:600;
+    color:orange;
+}
+
+    .agenda-timepicker .form-control {
+        border-left: none !important;
+        border-right: none !important;
+        border-top: none !important;
+        border-radius: 0px;
+        transition: border-width 0.1s ease-in-out;
+    }
+
+.agenda-timepicker .uib-time input {
+    width: 45px !important;
+}
+
+    .agenda-timepicker .form-control:focus {
+        border-color: #003d78 !important;
+    }
+
+    .agenda-timepicker label:focus {
+        color: #003d78 !important;
+    }
+
+input:focus, input.form-control:focus {
+    outline: none !important;
+    outline-width: 0 !important;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}

@@ -131,7 +131,7 @@
     <!-- Modal Agenda General-->
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgAgendaGeneral">
-            <md-dialog id="mdAgendarCita" aria-label="fecha busqueda" style="min-width: 320px !important; max-width:320px; min-height:540px; color: #666666 !important;" tabindex="-1">
+            <md-dialog id="mdAgendarCita" aria-label="fecha busqueda" style="min-width: 320px !important; max-width:320px; min-height:580px; color: #666666 !important;" tabindex="-1">
                 <md-toolbar>
                     <div class="md-toolbar-tools">
                         <h2 style="font-size:16px;">{{AccionAgenda}}</h2>
@@ -206,24 +206,20 @@
                             </div>
                         </div>
 
-                        <div layout="row" layout-sm="column" style="margin-bottom:-10px;" layout-align="center center">
-                            <div flex="">
-                                <md-input-container style="margin-top: 20px; min-width: 98%; margin-bottom:0;">
-                                    <label class="label-form-empleados" style="">
-                                        Hora Inicio Cita:
-                                    </label>
-                                    <input ng-model="HoraInicio" ng-disabled="fDisableHoraInicio" data-ng-change="CalcularHoraFin(ServicioSeleccionado)" type="time" name="appt" step="1800" class="" placeholder="Hora inicio cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="timeInicio" tabindex="11">
-                                </md-input-container>
+                        <div layout="row" layout-sm="column" style="margin-bottom:-10px; padding-left:7px;" layout-align="center center"> 
+                            <div flex="">                                
+                                <label class="label-form-empleados agenda-timepicker" style="font-size:10px;">
+                                    Hora Inicio Cita:
+                                </label>
+                                <div uib-timepicker mousewheel="true" arrowkeys="true" minute-step="30" ng-model="HoraInicio" ng-disabled="fDisableHoraInicio" data-ng-change="CalcularHoraFin(ServicioSeleccionado)" class="agenda-timepicker" id="timeInicio" tabindex="11"></div>                                
                             </div>
 
-                            <div flex="" >
-                                <md-input-container style="margin-top: 20px; min-width: 98%; margin-bottom:0;">
-                                    <label class="label-form-empleados" style="">
-                                        Hora Fin Cita:
-                                    </label>
-                                    <input ng-model="HoraFin" data-ng-change="ValidarHoraFin()" ng-disabled="fDisableHoraFin" type="time" class="" placeholder="Hora fin cita ..." autocorrect="off" autocapitalize="off" spellcheck="false" id="timeFin" tabindex="11">
-                                </md-input-container>
-                            </div>
+                            <div flex="">
+                                <label class="label-form-empleados agenda-timepicker" style="font-size: 10px;">
+                                    Hora Fin Cita:
+                                </label>
+                                <div uib-timepicker mousewheel="true" arrowkeys="true" minute-step="30" ng-model="HoraFin" data-ng-change="ValidarHoraFin()" ng-disabled="fDisableHoraFin" class="agenda-timepicker" id="timeFin" tabindex="12"></div>
+                            </div>                            
                         </div>
 
                         <div layout="row" layout-sm="column" style="" layout-align="center center">
@@ -241,7 +237,7 @@
                             <div flex="" data-ng-show="MNCD > 0 || MNCD == null || MNCD == undefined">
                                 <md-input-container style="width:100%; margin-top: -45px;">
                                     <label class="label-form-empleados" style="font-size:10px; color: orangered;">
-                                        Número citas disponibles:
+                                        Citas disponibles:
                                     </label>
                                     <br />
                                     <div style="font-size:22px; color: orangered; font-weight:600; padding-top:5px;">{{NumCitasDisponibles}}</div>
