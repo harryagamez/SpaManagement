@@ -212,7 +212,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                         $scope.fDisableGuardarAgenda = true;
                         $scope.fDisableServiciosM = true;
                         $scope.fDisableServicios = true;
-                        toastr.info('La configuración actual de este empleado es por prestación de servicios y actualmente no tiene ningún servicio asignado', '', $scope.toastrOptions);
+                        toastr.warning('La configuración actual de este empleado es por prestación de servicios y actualmente no tiene ningún servicio asignado', '', $scope.toastrOptions);
                     }
                 }, function (err) {
                     toastr.remove();
@@ -305,7 +305,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                 }
             } else {
                 $scope.fPropertiesSetted = false;
-                toastr.info('La empresa actual, no tiene propiedades definidas', '', $scope.toastrOptions);
+                toastr.warning('La empresa actual, no tiene propiedades definidas', '', $scope.toastrOptions);
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -358,7 +358,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
             $scope.AgendaServicios = [];
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
             $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
-            $scope.FechaHoraAgendaGeneral();
+            //$scope.FechaHoraAgendaGeneral();
 
             $scope.fEditAgenda = false;
             $scope.fDisableCliente = false;
@@ -394,31 +394,31 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
             if ($scope.Empleados !== null && $scope.Empleados !== undefined) {
                 if ($scope.Empleados.length === 0) {
                     counter += 1;
-                    toastr.info('La empresa seleccionada, no tiene empleados configurados', '', $scope.toastrOptions);
+                    toastr.warning('La empresa seleccionada no tiene empleados configurados', '', $scope.toastrOptions);
                 }
             } else {
                 counter += 1;
-                toastr.info('La empresa seleccionada, no tiene empleados configurados', '', $scope.toastrOptions);
+                toastr.warning('La empresa seleccionada no tiene empleados configurados', '', $scope.toastrOptions);
             }
 
             if ($scope.Clientes !== null && $scope.Clientes !== undefined) {
                 if ($scope.Clientes.length === 0) {
                     counter += 1;
-                    toastr.info('La empresa seleccionada, no tiene clientes configurados', '', $scope.toastrOptions);
+                    toastr.warning('La empresa seleccionada no tiene clientes configurados', '', $scope.toastrOptions);
                 }
             } else {
                 counter += 1;
-                toastr.info('La empresa seleccionada, no tiene clientes configurados', '', $scope.toastrOptions);
+                toastr.warning('La empresa seleccionada no tiene clientes configurados', '', $scope.toastrOptions);
             }
 
             if ($scope.Servicios !== null && $scope.Servicios !== undefined) {
                 if ($scope.Servicios.length === 0) {
                     counter += 1;
-                    toastr.info('La empresa seleccionada, no tiene servicios configurados', '', $scope.toastrOptions);
+                    toastr.warning('La empresa seleccionada no tiene servicios configurados', '', $scope.toastrOptions);
                 }
             } else {
                 counter += 1;
-                toastr.info('La empresa seleccionada, no tiene servicios configurados', '', $scope.toastrOptions);
+                toastr.warning('La empresa seleccionada no tiene servicios configurados', '', $scope.toastrOptions);
             }
 
             if (counter === 0) return true;
@@ -465,7 +465,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                 $scope.Agenda.Nombre_Servicio = servicionombre[0].nombre;
 
                 if ($scope.FechaInicio === undefined) {
-                    toastr.info('Formato de fecha inválido', '', $scope.toastrOptions);
+                    toastr.warning('Formato de fecha inválido', '', $scope.toastrOptions);
                     $('#dpFecha').focus();
                     return false;
                 }
@@ -477,7 +477,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                 }
 
                 if ($scope.HoraInicio === undefined) {
-                    toastr.info('Formato de hora inválido ', '', $scope.toastrOptions);
+                    toastr.warning('Formato de hora inválido ', '', $scope.toastrOptions);
                     $('#timeInicio').focus();
                     return false;
                 }
@@ -489,7 +489,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                 }
 
                 if ($scope.HoraFin === undefined) {
-                    toastr.info('Formato de hora inválido ', '', $scope.toastrOptions);
+                    toastr.warning('Formato de hora inválido ', '', $scope.toastrOptions);
                     $('#timeFin').focus();
                     return false;
                 }
@@ -554,7 +554,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                 $scope.Agenda.Id_Servicio = $scope.ServicioSeleccionadoModal;
 
                 if ($scope.FechaInicio === undefined) {
-                    toastr.info('Formato de fecha inválido', '', $scope.toastrOptions);
+                    toastr.warning('Formato de fecha inválido', '', $scope.toastrOptions);
                     $('#dpFecha').focus();
                     return false;
                 }
@@ -566,7 +566,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                 }
 
                 if ($scope.HoraInicio === undefined) {
-                    toastr.info('Formato de hora inválido ', '', $scope.toastrOptions);
+                    toastr.warning('Formato de hora inválido ', '', $scope.toastrOptions);
                     $('#timeInicio').focus();
                     return false;
                 }
@@ -578,7 +578,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                 }
 
                 if ($scope.HoraFin === undefined) {
-                    toastr.info('Formato de hora inválido ', '', $scope.toastrOptions);
+                    toastr.warning('Formato de hora inválido ', '', $scope.toastrOptions);
                     $('#timeFin').focus();
                     return false;
                 }
@@ -621,7 +621,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
     $scope.ValidarDatosConsulta = function () {
         try {
             if ($scope.FechaBusqueda === '' || $scope.FechaBusqueda === null || $scope.FechaBusqueda === undefined) {
-                toastr.info('Formato de fecha inválido. Debe seleccionar una fecha', '', $scope.toastrOptions);
+                toastr.warning('Formato de fecha inválido. Debe seleccionar una fecha', '', $scope.toastrOptions);
                 $('#dpFechaBusqueda').focus();
                 return false;
             }
@@ -712,7 +712,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                 }
             }
             else
-                toastr.info('Para utilizar el módulo agenda, debe configurar las propiedades de la empresa', '', $scope.toastrOptions);
+                toastr.warning('Para utilizar el módulo agenda, debe configurar las propiedades de la empresa', '', $scope.toastrOptions);
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -720,7 +720,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
     }
 
     $scope.ModalAgendaDetallada = function (horas, empleado, minutos) {
-        try {
+        try {            
             if ($scope.fPropertiesSetted) {
                 if ($scope.FechaActual === null || $scope.FechaActual === undefined || $scope.FechaActual === '') {
                     toastr.info('Formato de fecha inválido', '', $scope.toastrOptions);
@@ -772,7 +772,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                     });
             }
             else
-                toastr.info('Para utilizar el módulo agenda, debe configurar las propiedades de la empresa', '', $scope.toastrOptions);
+                toastr.warning('Para utilizar el módulo agenda, debe configurar las propiedades de la empresa', '', $scope.toastrOptions);
             
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -900,7 +900,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
     $scope.ValidarFechaModal = function () {
         try {
             if ($scope.FechaInicio === undefined) {
-                toastr.info('Formato de fecha invalido ', '', $scope.toastrOptions);
+                toastr.warning('Formato de fecha invalido ', '', $scope.toastrOptions);
                 return;
             }
 
@@ -925,7 +925,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
     $scope.ValidarHoraFin = function () {
         try {
             if ($scope.HoraFin === undefined || $scope.HoraFin === null ) {
-                toastr.info('Formato de hora invalido ', '', $scope.toastrOptions);
+                toastr.warning('Formato de hora invalido ', '', $scope.toastrOptions);
                 return;
             }
 
@@ -952,7 +952,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
         try {
             let IdServicio = $scope.ServicioSeleccionadoModal;            
             if ($scope.HoraInicio === undefined || $scope.HoraInicio === null ) {
-                toastr.info('Formato de hora invalido ', '', $scope.toastrOptions);
+                toastr.warning('Formato de hora invalido ', '', $scope.toastrOptions);
                 return;
             }
 
@@ -971,7 +971,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                         .ToArray();
 
                     if (tiemposervicio[0].tiempo === 0 || tiemposervicio[0].tiempo === null || tiemposervicio[0].tiempo === undefined) {
-                        toastr.info('La configuración de esta empresa requiere que los servicios tengan un tiempo definido', '', $scope.toastrOptions);
+                        toastr.warning('La configuración de esta empresa requiere que los servicios tengan un tiempo definido', '', $scope.toastrOptions);
                         $scope.ServicioSeleccionadoModal = -1;
                         $scope.HoraFin = angular.copy($scope.HoraInicio);
                         return;
@@ -999,6 +999,19 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
 
                     if ($scope.HoraInicio.getHours() === $scope.HoraFin.getHours() && $scope.HoraInicio.getMinutes() > $scope.HoraFin.getMinutes())
                         $scope.HoraFin = $scope.HoraInicio;
+
+                    let tiemposervicio = Enumerable.From($scope.AgendaServicios)
+                        .Where(function (x) { return x.id_Servicio === IdServicio })
+                        .ToArray();
+
+                    if (tiemposervicio[0].tiempo === 0 || tiemposervicio[0].tiempo === null || tiemposervicio[0].tiempo === undefined) {                        
+                        $scope.HoraFin = angular.copy($scope.HoraInicio);
+                        return;
+                    }
+                    else {
+                        $scope.HoraFin = angular.copy($scope.HoraInicio);
+                        $scope.HoraFin.setMinutes($scope.HoraFin.getMinutes() + tiemposervicio[0].tiempo);
+                    }
                 }
                 else {
                     $scope.FechaHoraAgendaGeneral();
