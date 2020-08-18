@@ -14,7 +14,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
             { id_Estado: 6, Nombre: "CONFIRMADA" }
         ];
     $scope.Estado = $filter('orderBy')($scope.Estado, 'Nombre', false);
-    
+
     $scope.RangoHoras = [];
 
     $scope.IdEmpresa = $rootScope.Id_Empresa;
@@ -171,7 +171,6 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                         }
                         else
                             $scope.BlankCells[0] = 0;
-                        
                     }
                 }, function (err) {
                     toastr.remove();
@@ -198,7 +197,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
     $scope.ConsultarEmpleadoServicio = function (idEmpleado) {
         SPAService._consultarEmpleadoServicio(idEmpleado)
             .then(
-                function (result) {                    
+                function (result) {
                     if (result.data !== undefined && result.data !== null && result.data.length > 0) {
                         $scope.AgendaServicios = [];
                         let empleadoservicios = result.data;
@@ -276,9 +275,8 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
     }
 
     $scope.ConfiguracionEmpresaActual = function () {
-        try {            
+        try {
             if ($scope.EmpresaPropiedades.length > 0) {
-
                 let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
                 let mncd = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'MNCD' });
                 let rha = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'RHA' });
@@ -365,7 +363,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
             $scope.fDisableFechaCita = false;
             $scope.fDisableGuardarAgenda = false;
             $scope.fDisableServiciosM = true;
-            $scope.fDisableServicios = true;            
+            $scope.fDisableServicios = true;
             $scope.fDisableHoraInicio = false;
 
             $scope.Agenda = {
@@ -620,40 +618,57 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
 
     $scope.ValidarDatosConsulta = function () {
         try {
-            if ($scope.FechaBusqueda === '' || $scope.FechaBusqueda === null || $scope.FechaBusqueda === undefined) {
-                toastr.warning('Formato de fecha inválido. Debe seleccionar una fecha', '', $scope.toastrOptions);
-                $('#dpFechaBusqueda').focus();
-                return false;
-            }
-            $scope.Agenda.Fecha_Inicio = angular.copy($scope.FechaBusqueda);
-            $scope.Agenda.Fecha_Inicio = new Date($scope.Agenda.Fecha_Inicio + 'Z');
-            $scope.Agenda.Fecha_Fin = angular.copy($scope.FechaBusqueda);
-            $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');
+            if ($scope.fActiveTab === 'General') {
+                if ($scope.FechaBusqueda === '' || $scope.FechaBusqueda === null || $scope.FechaBusqueda === undefined) {
+                    toastr.warning('Formato de fecha inválido. Debe seleccionar una fecha', '', $scope.toastrOptions);
+                    $('#dpFechaBusqueda').focus();
+                    return false;
+                }
+                $scope.Agenda.Fecha_Inicio = angular.copy($scope.FechaBusqueda);
+                $scope.Agenda.Fecha_Inicio = new Date($scope.Agenda.Fecha_Inicio + 'Z');
+                $scope.Agenda.Fecha_Fin = angular.copy($scope.FechaBusqueda);
+                $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');
 
-            if ($scope.EmpleadoSeleccionado === '' || $scope.EmpleadoSeleccionado === null || $scope.EmpleadoSeleccionado === undefined)
+                if ($scope.EmpleadoSeleccionado === '' || $scope.EmpleadoSeleccionado === null || $scope.EmpleadoSeleccionado === undefined)
+                    $scope.Agenda.Id_Empleado = -1;
+                else
+                    $scope.Agenda.Id_Empleado = $scope.EmpleadoSeleccionado.id_Empleado;
+
+                if ($scope.ClienteSeleccionado === '' || $scope.ClienteSeleccionado === null || $scope.ClienteSeleccionado === undefined)
+                    $scope.Agenda.Id_Cliente = -1;
+                else
+                    $scope.Agenda.Id_Cliente = $scope.ClienteSeleccionado.id_Cliente;
+
+                if ($scope.ServicioSeleccionado === -1 || $scope.ServicioSeleccionado === null || $scope.ServicioSeleccionado === undefined)
+                    $scope.Agenda.Id_Servicio = -1;
+                else
+                    $scope.Agenda.Id_Servicio = $scope.ServicioSeleccionado;
+
+                if ($scope.EstadoSeleccionado === -1 || $scope.EstadoSeleccionado === null || $scope.EstadoSeleccionado === undefined)
+                    $scope.Agenda.Estado = null;
+                else {
+                    let estado = Enumerable.From($scope.Estado)
+                        .Where(function (x) { return x.id_Estado === $scope.EstadoSeleccionado })
+                        .ToArray();
+                    $scope.Agenda.Estado = estado[0].Nombre;
+                }
+                return true;
+            } else if ($scope.fActiveTab === 'Detallada') {
+                if ($scope.FechaActual === '' || $scope.FechaActual === null || $scope.FechaActual === undefined) {
+                    toastr.warning('Formato de fecha inválido. Debe seleccionar una fecha', '', $scope.toastrOptions);
+                    $('#dpFechaActual').focus();
+                    return false;
+                }
+                $scope.Agenda.Fecha_Inicio = angular.copy($scope.FechaActual);
+                $scope.Agenda.Fecha_Inicio = new Date($scope.Agenda.Fecha_Inicio + 'Z');
+                $scope.Agenda.Fecha_Fin = angular.copy($scope.FechaActual);
+                $scope.Agenda.Fecha_Fin = new Date($scope.Agenda.Fecha_Fin + 'Z');
+
                 $scope.Agenda.Id_Empleado = -1;
-            else
-                $scope.Agenda.Id_Empleado = $scope.EmpleadoSeleccionado.id_Empleado;
-
-            if ($scope.ClienteSeleccionado === '' || $scope.ClienteSeleccionado === null || $scope.ClienteSeleccionado === undefined)
                 $scope.Agenda.Id_Cliente = -1;
-            else
-                $scope.Agenda.Id_Cliente = $scope.ClienteSeleccionado.id_Cliente;
-
-            if ($scope.ServicioSeleccionado === -1 || $scope.ServicioSeleccionado === null || $scope.ServicioSeleccionado === undefined)
                 $scope.Agenda.Id_Servicio = -1;
-            else
-                $scope.Agenda.Id_Servicio = $scope.ServicioSeleccionado;
-
-            if ($scope.EstadoSeleccionado === -1 || $scope.EstadoSeleccionado === null || $scope.EstadoSeleccionado === undefined)
-                $scope.Agenda.Estado = null;
-            else {
-                let estado = Enumerable.From($scope.Estado)
-                    .Where(function (x) { return x.id_Estado === $scope.EstadoSeleccionado })
-                    .ToArray();
-                $scope.Agenda.Estado = estado[0].Nombre;
+                return true;
             }
-            return true;
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -720,7 +735,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
     }
 
     $scope.ModalAgendaDetallada = function (horas, empleado, minutos) {
-        try {            
+        try {
             if ($scope.fPropertiesSetted) {
                 if ($scope.FechaActual === null || $scope.FechaActual === undefined || $scope.FechaActual === '') {
                     toastr.info('Formato de fecha inválido', '', $scope.toastrOptions);
@@ -773,7 +788,6 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
             }
             else
                 toastr.warning('Para utilizar el módulo agenda, debe configurar las propiedades de la empresa', '', $scope.toastrOptions);
-            
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -859,28 +873,31 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
         }
     }
 
-    $scope.FechaHoraAgendaDetallada = function (horas, minutos) {
+    $scope.FechaHoraAgendaDetallada = function (horas) {
         try {
             $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
             let setHora = 0;
             let setMinutos = 0;
-
+            let minutos = horas.substring(
+                horas.lastIndexOf(":") + 1,
+                horas.lastIndexOf(" ")
+            );
             if (horas.indexOf('PM') !== -1) {
                 horas = horas.replace('PM', '');
                 setHora = parseInt(horas) + 12;
-                if (minutos === 'enpunto')
+                if (minutos === '00')
                     setMinutos = '0';
                 else
                     setMinutos = '30';
             } else {
-                if (horas === '12:00 M')
-                    horas = horas.replace('M', '');
+                if (horas === '12:00 PM')
+                    horas = horas.replace('PM', '');
                 else
-                    horas = horas.replace('AM', '');
+                    horas = horas.replace('PM', '');
 
                 setHora = parseInt(horas);
 
-                if (minutos === 'enpunto')
+                if (minutos === '00')
                     setMinutos = 0;
                 else
                     setMinutos = 30;
@@ -924,7 +941,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
 
     $scope.ValidarHoraFin = function () {
         try {
-            if ($scope.HoraFin === undefined || $scope.HoraFin === null ) {
+            if ($scope.HoraFin === undefined || $scope.HoraFin === null) {
                 toastr.warning('Formato de hora invalido ', '', $scope.toastrOptions);
                 return;
             }
@@ -950,8 +967,8 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
 
     $scope.CalcularHoraFin = function () {
         try {
-            let IdServicio = $scope.ServicioSeleccionadoModal;            
-            if ($scope.HoraInicio === undefined || $scope.HoraInicio === null ) {
+            let IdServicio = $scope.ServicioSeleccionadoModal;
+            if ($scope.HoraInicio === undefined || $scope.HoraInicio === null) {
                 toastr.warning('Formato de hora invalido ', '', $scope.toastrOptions);
                 return;
             }
@@ -959,7 +976,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
             if ($scope.PAPTS) {
                 if ($scope.ServicioSeleccionadoModal !== -1 && IdServicio !== undefined && IdServicio !== null) {
                     if (parseInt($filter('date')(new Date($scope.FechaInicio), 'yyyyMMdd')) === parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
-                        if (parseInt($filter('date')(new Date($scope.HoraInicio), 'HHmm')) < (parseInt($filter('date')(new Date(), 'HHmm'))+ 60)) {
+                        if (parseInt($filter('date')(new Date($scope.HoraInicio), 'HHmm')) < (parseInt($filter('date')(new Date(), 'HHmm')) + 60)) {
                             toastr.info('Solo puede agendar citas a partir de la hora actual ', '', $scope.toastrOptions);
                             $scope.FechaHoraAgendaGeneral();
                             return;
@@ -1004,7 +1021,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                         .Where(function (x) { return x.id_Servicio === IdServicio })
                         .ToArray();
 
-                    if (tiemposervicio[0].tiempo === 0 || tiemposervicio[0].tiempo === null || tiemposervicio[0].tiempo === undefined) {                        
+                    if (tiemposervicio[0].tiempo === 0 || tiemposervicio[0].tiempo === null || tiemposervicio[0].tiempo === undefined) {
                         $scope.HoraFin = angular.copy($scope.HoraInicio);
                         return;
                     }
@@ -1024,7 +1041,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
     }
 
     $scope.GenerarArregloRangoHoras = function () {
-        try {            
+        try {
             let cont = 0;
             let rangoinicial = '';
             let rangofinal = '';
@@ -1036,20 +1053,59 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                 rangoinicial = '7';
                 rangofinal = '21';
             }
-            
+
             for (i = parseInt(rangoinicial); i <= parseInt(rangofinal); i++) {
-                if (i < 12)
-                    $scope.RangoHoras[cont] = i + ' AM';
-                if (i === 12)
-                    $scope.RangoHoras[cont] = i + ' M';
-                if (i > 12)
-                    $scope.RangoHoras[cont] = (i - 12) + ' PM';
+                if (i < 12) {
+                    $scope.RangoHoras[cont] = i + ':00 AM';
+                    cont++;
+                    $scope.RangoHoras[cont] = i + ':30 AM';
+                }
+                if (i === 12) {
+                    $scope.RangoHoras[cont] = i + ':00 PM';
+                    cont++;
+                    $scope.RangoHoras[cont] = i + ':30 PM';
+                }
+                if (i > 12) {
+                    $scope.RangoHoras[cont] = (i - 12) + ':00 PM';
+                    cont++;
+                    $scope.RangoHoras[cont] = (i - 12) + ':30 PM';
+                }
                 cont++;
-            }        
+            }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
-        }        
+        }
+    }
+
+    $scope.MostrarCitasDetallada = function () {
+        let agendas = angular.copy($scope.Agendas);
+        let fechaactual = $filter('date')(new Date($scope.FechaActual), 'dd-MM-yyyy');
+        let empleado, hora, cita;
+        let table = document.getElementById("tabledetallada");
+        let totalRows = document.getElementById("tabledetallada").rows.length;
+        let totalCol = document.getElementById("tabledetallada").rows[0].cells.length;
+        agendas = $filter('filter')(angular.copy($scope.Agendas), { 'fechaCita': fechaactual });
+        
+
+        for (let y = 1; y < totalCol; y++) {
+            empleado = document.getElementById("tabledetallada").rows[0].cells[y].innerHTML;
+            cita = $filter('filter')(agendas, { 'nombres_Empleado': empleado });
+            for (let x = 1; x < totalRows; x++) {
+                hora = document.getElementById("tabledetallada").rows[x].cells[0].innerHTML;
+                cita = $filter('filter')(agendas, { 'fechaInicio': hora });
+                $scope.ObjetoCita = cita;
+                if ($scope.ObjetoCita.length !== 0) {
+                    toastr.info('Existe cita', '', $scope.toastrOptions);
+                }
+            }
+        }
+
+        $scope.ObjetoCita = {
+            Empleado: 'test',
+            Hora: 'test',
+            Existe: true
+        }
     }
 
     $scope.BackgroundCards = function (estado) {

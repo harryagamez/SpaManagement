@@ -12,6 +12,7 @@
         public string Nombre_Servicio { get; set; }
         public string FechaInicio { get; set; }
         public string FechaFin { get; set; }
+        public string FechaCita { get; set; }
         public string Mail_Cliente { get; set; } 
         public string Telefono_Fijo_Cliente { get; set; }
         public string Telefono_Movil_Cliente { get; set; }

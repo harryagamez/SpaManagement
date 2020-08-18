@@ -10,7 +10,7 @@
 
             <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
                 <md-tab label="General" data-ng-click="fActiveTab = 'General'">
-                    <md-content class="md-padding" style="background-color:transparent; padding:30px 0 0 0; margin: 0 0 0 -5px; overflow-x:hidden; ">                        
+                    <md-content class="md-padding" style="background-color:transparent; padding:30px 0 0 0; margin: 0 0 0 -5px; overflow-x:hidden; ">
 
                         <div type="button" id="btnAgendarCita" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Agendar Cita" data-ng-click="ModalAgendaGeneral()">
                             <i class="material-icons md-18" style="font-size:35px; font-weight:800; z-index:9999; width:110%; height:110%; text-align:center; display:block; margin-top: -4px;">add</i>
@@ -18,10 +18,10 @@
 
                         <div type="button" id="btnFiltrarCards" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Opciones de consulta" data-ng-click="ModalFiltrarCitas()">
                             <i class="material-icons md-18" style="font-size:35px; font-weight:800; z-index:9999; width:110%; height:110%; text-align:center; display:block;">search</i>
-                        </div>                        
+                        </div>
 
                         <div id="divCardsCitas" layout="row" style="width:100%; height: calc(100vh - 170px); margin-top:-20px; overflow-y:auto; overflow-x:hidden;">
-                            <div flex-xs  class="md-padding" layout="row" style="margin-top:-20px; margin-left:0; margin-right:0; padding-left:0;padding-right:0;" layout-wrap>
+                            <div flex-xs class="md-padding" layout="row" style="margin-top:-20px; margin-left:0; margin-right:0; padding-left:0;padding-right:0;" layout-wrap>
                                 <md-card flex="21" ng-repeat="item in Agendas" ng-class="BackgroundCards(item.estado)" class="agenda-cards" ng-click="fShowMoreInfo = true" ng-mouseleave="fShowMoreInfo = false">
                                     <div>
                                         <md-card-title style="">
@@ -70,7 +70,7 @@
                                             <div><p><i class="material-icons" style="font-size:18px; font-weight:600; color: grey; padding-right:5px; margin-top:-3px;">person</i>{{item.nombreApellido_Cliente}}</p></div>
                                             <div><p><i class="material-icons" style="font-size:18px; font-weight:600; color: grey; padding-right:5px; margin-top:-3px;">email</i>{{item.mail_Cliente}}</p></div>
                                             <div><p><i class="material-icons" style="font-size:18px; font-weight:600; color: grey; padding-right:5px; margin-top:-3px;">phone</i>{{item.telefono_Fijo_Cliente}}</p></div>
-                                            <div><p><a ng-href="https://wa.me/57{{item.telefono_Movil_Cliente}}?text={{item.mensaje_Whatsapp}}" target="_blank"><img src="../../Images/agenda/whatsapp-icon.png" style="padding-right:5px; margin-top:-3px; min-width:22px; max-width:22px;"/>{{item.telefono_Movil_Cliente}}</a></p></div>
+                                            <div><p><a ng-href="https://wa.me/57{{item.telefono_Movil_Cliente}}?text={{item.mensaje_Whatsapp}}" target="_blank"><img src="../../Images/agenda/whatsapp-icon.png" style="padding-right:5px; margin-top:-3px; min-width:22px; max-width:22px;" />{{item.telefono_Movil_Cliente}}</a></p></div>
                                         </div>
                                     </div>
                             </div>
@@ -78,12 +78,12 @@
                     </md-content>
                 </md-tab>
 
-                <md-tab label="Detallada" data-ng-click="fActiveTab = 'Detallada'">
+                <md-tab label="Detallada" data-ng-click="fActiveTab = 'Detallada'; ConsultarAgenda()">
                     <md-content class="md-padding" style="background-color:transparent; margin-bottom:10px;">
                         <div layout="row" layout-xs="column" style="margin-bottom:-5px;" layout-align="start start">
-                            <div flex=""  style="flex:none; padding-right:10px;">
-                                <section id="divButtons"  style="">
-                                    <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Buscar" data-ng-click="ConsultarAgenda()">
+                            <div flex="" style="flex:none; padding-right:10px;">
+                                <section id="divButtons" style="">
+                                    <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Buscar" data-ng-click="MostrarCitasDetallada()">
                                         <i class="material-icons md-18" style="transform: scaleX(-1)">search</i>Buscar
                                     </md-button>
                                 </section>
@@ -93,13 +93,13 @@
                                     <label class="label-form-clientes" style="margin-bottom:-4px;">
                                         Fecha:
                                     </label>
-                                    <md-datepicker id="dpFechaAgenda" ng-model="FechaActual" md-placeholder="mm/dd/yyyy" class="dateClientes" tabindex=5 style="margin-bottom:0;"></md-datepicker>
+                                    <md-datepicker id="dpFechaActual" ng-model="FechaActual" md-placeholder="mm/dd/yyyy" class="dateClientes" tabindex=5 style="margin-bottom:0;"></md-datepicker>
                                 </md-input-container>
                             </div>
                         </div>
 
                         <div id="divScheduleCitas" layout="row" style="width:100%; height: calc(100vh - 215px); margin-top:-30px; overflow-y:auto; overflow-x:auto;">
-                            <table class="table-schedule">
+                            <table class="table-schedule" id="tabledetallada">
                                 <tr>
                                     <td class="table-schedule-nullpoint"></td>
                                     <th scope="col" ng-repeat="empleado in Empleados" style="font-size:13px; font-weight:300; color:white; padding:10px; background-color:#385178;">{{empleado.nombres}}</th>
@@ -107,12 +107,9 @@
                                 </tr>
                                 <tbody ng-repeat="hora in RangoHoras track by $index">
                                     <tr>
-                                        <th scope="rowgroup" rowspan="2" style="font-size:13px; font-weight:300; color:white; background-color:#385178;">{{hora}}</th>
-                                        <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado, 'enpunto')"></td>
-                                        <td class="table-schedule-empty" ng-repeat="x in BlankCells"></td>
-                                    </tr>
-                                    <tr>
-                                        <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado, 'media')"></td>
+                                        <th scope="rowgroup" rowspan="1" style="font-size:13px; font-weight:300; color:white; background-color:#385178;">{{hora}}</th>
+                                        <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado)">
+                                        </td>
                                         <td class="table-schedule-empty" ng-repeat="x in BlankCells"></td>
                                     </tr>
                                 </tbody>
@@ -120,9 +117,6 @@
                         </div>
                     </md-content>
                 </md-tab>
-
-
-
             </md-tabs>
         </form>
     </div>
@@ -163,7 +157,7 @@
                                 </md-input-container>
                             </div>
                         </div>
-                        
+
                         <div layout="row" layout-sm="column" style="margin-top:-5px; margin-bottom:-15px;" layout-align="center center">
                             <div flex="">
                                 <md-input-container style="min-width:100%; max-width:100%;">
@@ -180,7 +174,7 @@
                                     </md-autocomplete>
                                 </md-input-container>
                             </div>
-                        </div>                        
+                        </div>
 
                         <div layout="row" layout-sm="column" style="" layout-align="center center">
                             <div flex="" style="">
@@ -206,12 +200,12 @@
                             </div>
                         </div>
 
-                        <div layout="row" layout-sm="column" style="margin-bottom:-10px; padding-left:7px;" layout-align="center center"> 
-                            <div flex="">                                
+                        <div layout="row" layout-sm="column" style="margin-bottom:-10px; padding-left:7px;" layout-align="center center">
+                            <div flex="">
                                 <label class="label-form-empleados agenda-timepicker" style="font-size:10px;">
                                     Hora Inicio Cita:
                                 </label>
-                                <div uib-timepicker mousewheel="true" arrowkeys="true" minute-step="30" ng-model="HoraInicio" ng-disabled="fDisableHoraInicio" data-ng-change="CalcularHoraFin(ServicioSeleccionado)" class="agenda-timepicker" id="timeInicio" tabindex="11"></div>                                
+                                <div uib-timepicker mousewheel="true" arrowkeys="true" minute-step="30" ng-model="HoraInicio" ng-disabled="fDisableHoraInicio" data-ng-change="CalcularHoraFin(ServicioSeleccionado)" class="agenda-timepicker" id="timeInicio" tabindex="11"></div>
                             </div>
 
                             <div flex="">
@@ -219,7 +213,7 @@
                                     Hora Fin Cita:
                                 </label>
                                 <div uib-timepicker mousewheel="true" arrowkeys="true" minute-step="30" ng-model="HoraFin" data-ng-change="ValidarHoraFin()" ng-disabled="fDisableHoraFin" class="agenda-timepicker" id="timeFin" tabindex="12"></div>
-                            </div>                            
+                            </div>
                         </div>
 
                         <div layout="row" layout-sm="column" style="" layout-align="center center">
@@ -243,7 +237,7 @@
                                     <div style="font-size:22px; color: orangered; font-weight:600; padding-top:5px;">{{NumCitasDisponibles}}</div>
                                 </md-input-container>
                             </div>
-                            
+
                             <div flex="">
                                 <md-input-container style="width:100%">
                                     <md-button type="button" id="btnGuardarCita" ng-disabled="fDisableGuardarAgenda" style="position: fixed; right:7px; bottom:20px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarActualizarAgenda()" tabindex="13">
@@ -252,10 +246,8 @@
                                 </md-input-container>
                             </div>
                         </div>
-
                     </md-dialog-content>
                 </form>
-
             </md-dialog>
         </div>
     </div>
@@ -285,7 +277,7 @@
                                     </label>
                                     <md-datepicker ng-model="FechaBusqueda" md-placeholder="Enter date" class="dateClientes" id="dpFechaBusqueda" tabindex=1 style="margin-bottom:0;"></md-datepicker>
                                 </md-input-container>
-                            </div>                            
+                            </div>
                         </div>
 
                         <div layout="row" layout-sm="column" style="margin-top:-25px;" layout-align="start center">
@@ -356,14 +348,13 @@
                                 </md-checkbox>
                                 <span style="font-size:11px; margin-left:-10px;">Mostrar Canceladas</span>
                             </div>
-                            
+
                             <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Buscar" data-ng-click="ConsultarAgenda()">
                                 <i class="material-icons md-18" style="transform: scaleX(-1)">search</i>Buscar
                             </md-button>
                         </div>
                     </md-dialog-content>
                 </form>
-
             </md-dialog>
         </div>
     </div>
