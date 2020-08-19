@@ -52,7 +52,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
         Id_Cliente: '',
         Id_Empleado: '',
         Id_Servicio: '',
-        Fecha_Inicio: '',
+        Fecha_Inicio: new Date(),
         Fecha_Fin: '',
         Estado: 'PROGRAMADA',
         Observaciones: '',
@@ -93,7 +93,9 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                         }
 
                         if ($scope.Agendas.length === 0) {
-                            toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
+                            if ($scope.fActiveTab === 'General') {
+                                toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
+                            }                            
                             return;
                         }
                         $mdDialog.cancel();
@@ -372,7 +374,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                 Id_Cliente: '',
                 Id_Empleado: '',
                 Id_Servicio: '',
-                Fecha_Inicio: '',
+                Fecha_Inicio: new Date(),
                 Fecha_Fin: '',
                 Estado: 'PROGRAMADA',
                 Observaciones: '',
@@ -667,6 +669,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                 $scope.Agenda.Id_Empleado = -1;
                 $scope.Agenda.Id_Cliente = -1;
                 $scope.Agenda.Id_Servicio = -1;
+                $scope.Agenda.Estado = null;
                 return true;
             }
         } catch (e) {
@@ -1079,33 +1082,45 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
     }
 
     $scope.MostrarCitasDetallada = function () {
-        let agendas = angular.copy($scope.Agendas);
-        let fechaactual = $filter('date')(new Date($scope.FechaActual), 'dd-MM-yyyy');
-        let empleado, hora, cita;
-        let table = document.getElementById("tabledetallada");
-        let totalRows = document.getElementById("tabledetallada").rows.length;
-        let totalCol = document.getElementById("tabledetallada").rows[0].cells.length;
-        agendas = $filter('filter')(angular.copy($scope.Agendas), { 'fechaCita': fechaactual });
+        if ($scope.Agendas.length > 0) {
+            let agendas = angular.copy($scope.Agendas);
+            let fechaactual = $filter('date')(new Date($scope.FechaActual), 'dd-MM-yyyy');
+            let empleado, hora, cita, citas;
+            let table = document.getElementById("tabledetallada");
+            let totalRows = document.getElementById("tabledetallada").rows.length;
+            let totalCol = document.getElementById("tabledetallada").rows[0].cells.length;                        
+
+            for (let y = 1; y < totalCol; y++) {
+                empleado = document.getElementById("tabledetallada").rows[0].cells[y].innerHTML;
+
+                if (empleado === "")
+                    return;
+
+                citas = $filter('filter')(agendas, { 'nombres_Empleado': empleado}, true);                
+
+                if (citas.length > 0) {
+                    for (let x = 1; x < totalRows; x++) {
+                        hora = document.getElementById("tabledetallada").rows[x].cells[0].innerHTML;
+                        cita = $filter('filter')(citas, { 'fechaInicio': hora }, true);
+                        $scope.ObjetoCita = cita;
+                        if ($scope.ObjetoCita.length > 0) {                            
+                            table.rows[x].cells[y].innerHTML = '<div class="agenda-detallada">'
+                                + $scope.ObjetoCita[0].nombres_Cliente
+                                + '<br/>'
+                                + $scope.ObjetoCita[0].nombre_Servicio
+                                + '<br/>'
+                                + $scope.ObjetoCita[0].estado                                
+                                + '</div>';
+                        }
+                    }
+                }               
+            }            
+        }
+        else {
+            toastr.info('No hay citas programadas para la fecha seleccionada', '', $scope.toastrOptions);
+            return;
+        }
         
-
-        for (let y = 1; y < totalCol; y++) {
-            empleado = document.getElementById("tabledetallada").rows[0].cells[y].innerHTML;
-            cita = $filter('filter')(agendas, { 'nombres_Empleado': empleado });
-            for (let x = 1; x < totalRows; x++) {
-                hora = document.getElementById("tabledetallada").rows[x].cells[0].innerHTML;
-                cita = $filter('filter')(agendas, { 'fechaInicio': hora });
-                $scope.ObjetoCita = cita;
-                if ($scope.ObjetoCita.length !== 0) {
-                    toastr.info('Existe cita', '', $scope.toastrOptions);
-                }
-            }
-        }
-
-        $scope.ObjetoCita = {
-            Empleado: 'test',
-            Hora: 'test',
-            Existe: true
-        }
     }
 
     $scope.BackgroundCards = function (estado) {

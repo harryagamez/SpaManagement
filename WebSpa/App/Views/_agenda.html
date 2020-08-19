@@ -93,7 +93,7 @@
                                     <label class="label-form-clientes" style="margin-bottom:-4px;">
                                         Fecha:
                                     </label>
-                                    <md-datepicker id="dpFechaActual" ng-model="FechaActual" md-placeholder="mm/dd/yyyy" class="dateClientes" tabindex=5 style="margin-bottom:0;"></md-datepicker>
+                                    <md-datepicker id="dpFechaActual" ng-model="FechaActual" ng-change="ConsultarAgenda()" md-placeholder="mm/dd/yyyy" class="dateClientes" tabindex=5 style="margin-bottom:0;"></md-datepicker>
                                 </md-input-container>
                             </div>
                         </div>
@@ -108,7 +108,7 @@
                                 <tbody ng-repeat="hora in RangoHoras track by $index">
                                     <tr>
                                         <th scope="rowgroup" rowspan="1" style="font-size:13px; font-weight:300; color:white; background-color:#385178;">{{hora}}</th>
-                                        <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado)">
+                                        <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado)" layout-wrap>
                                         </td>
                                         <td class="table-schedule-empty" ng-repeat="x in BlankCells"></td>
                                     </tr>
