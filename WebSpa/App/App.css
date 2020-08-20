@@ -847,9 +847,11 @@ md-list-item .md-list-item-inner {
     outline: none;
 }
 
-.table-schedule td:hover {
-    background:#e1e1e1;    
-}
+    .table-schedule td:hover {
+        background: #e1e1e1;
+        position: relative;
+        z-index: 1;
+    }
 
 .table-schedule td:last-child {
     border-right: 1px solid #ddd;

@@ -119,10 +119,15 @@
     <Content Include="App\Views\_home.html" />
     <Content Include="App\Views\_productos.html" />
     <Content Include="App\Views\_servicios.html" />
+    <Content Include="Images\agenda\agenda-cancelada-28px.png" />
     <Content Include="Images\agenda\agenda-cancelada.png" />
+    <Content Include="Images\agenda\agenda-confirmada-28px.png" />
     <Content Include="Images\agenda\agenda-confirmada.png" />
+    <Content Include="Images\agenda\agenda-facturada-28px.png" />
     <Content Include="Images\agenda\agenda-facturada.png" />
+    <Content Include="Images\agenda\agenda-liquidada-28px.png" />
     <Content Include="Images\agenda\agenda-liquidada.png" />
+    <Content Include="Images\agenda\agenda-programada-28px.png" />
     <Content Include="Images\agenda\agenda-programada.png" />
     <Content Include="Images\agenda\whatsapp-icon.png" />
     <Content Include="Images\cerrar-sesion.png" />
