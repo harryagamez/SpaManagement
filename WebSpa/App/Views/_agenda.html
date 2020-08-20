@@ -78,7 +78,7 @@
                     </md-content>
                 </md-tab>
 
-                <md-tab label="Detallada" data-ng-click="fActiveTab = 'Detallada'; ConsultarAgenda()">
+                <md-tab label="Detallada" data-ng-click="fActiveTab = 'Detallada'; LimpiarTablaDetallada(); ConsultarAgenda()">
                     <md-content class="md-padding" style="background-color:transparent; margin-bottom:10px;">
                         <div layout="row" layout-xs="column" style="margin-bottom:-5px;" layout-align="start start">
                             <div flex="" style="flex:none; padding-right:10px;">
@@ -93,7 +93,7 @@
                                     <label class="label-form-clientes" style="margin-bottom:-4px;">
                                         Fecha:
                                     </label>
-                                    <md-datepicker id="dpFechaActual" ng-model="FechaActual" ng-change="ConsultarAgenda()" md-placeholder="mm/dd/yyyy" class="dateClientes" tabindex=5 style="margin-bottom:0;"></md-datepicker>
+                                    <md-datepicker id="dpFechaActual" ng-model="FechaActual" ng-change="LimpiarTablaDetallada(); ConsultarAgenda()" md-placeholder="mm/dd/yyyy" class="dateClientes" tabindex=5 style="margin-bottom:0;"></md-datepicker>
                                 </md-input-container>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                                 <tr>
                                     <td class="table-schedule-nullpoint"></td>
                                     <th scope="col" ng-repeat="empleado in Empleados" style="font-size:13px; font-weight:300; color:white; padding:10px; background-color:#385178;">{{empleado.nombres}}</th>
-                                    <td class="table-schedule-empty" ng-repeat="x in BlankCells" style="background-color: #385178 !important; position:sticky; top:0;"></td>
+                                    <th class="table-schedule-empty" ng-repeat="x in BlankCells" style="background-color: #385178 !important; position:sticky; top:0;"></th>
                                 </tr>
                                 <tbody ng-repeat="hora in RangoHoras track by $index">
                                     <tr>

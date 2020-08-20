@@ -69,6 +69,8 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                             toastr.success('Agenda actualizada correctamente', '', $scope.toastrOptions);
                             $scope.ConsultarAgenda();
                             $scope.ConsultarNumeroCitasDia();
+                            if ($scope.fActiveTab === 'Detallada')
+                                $scope.MostrarCitasDetallada();
                         }
                     }, function (err) {
                         toastr.remove();
@@ -95,7 +97,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                         if ($scope.Agendas.length === 0) {
                             if ($scope.fActiveTab === 'General') {
                                 toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
-                            }                            
+                            }
                             return;
                         }
                         $mdDialog.cancel();
@@ -670,6 +672,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                 $scope.Agenda.Id_Cliente = -1;
                 $scope.Agenda.Id_Servicio = -1;
                 $scope.Agenda.Estado = null;
+                $scope.Agenda.Traer_Canceladas = true;
                 return true;
             }
         } catch (e) {
@@ -1082,13 +1085,79 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
     }
 
     $scope.MostrarCitasDetallada = function () {
-        if ($scope.Agendas.length > 0) {
-            let agendas = angular.copy($scope.Agendas);
-            let fechaactual = $filter('date')(new Date($scope.FechaActual), 'dd-MM-yyyy');
-            let empleado, hora, cita, citas;
+        try {
+            if ($scope.Agendas.length > 0) {
+                let agendas = angular.copy($scope.Agendas);
+                let fechaactual = $filter('date')(new Date($scope.FechaActual), 'dd-MM-yyyy');
+                let empleado, hora, cita, citas, alturadivcita, colorDiv, imagenDiv;
+                let table = document.getElementById("tabledetallada");
+                let totalRows = document.getElementById("tabledetallada").rows.length;
+                let totalCol = document.getElementById("tabledetallada").rows[0].cells.length;
+
+                for (let y = 1; y < totalCol; y++) {
+                    empleado = document.getElementById("tabledetallada").rows[0].cells[y].innerHTML;
+
+                    if (empleado === "")
+                        return;
+
+                    citas = $filter('filter')(agendas, { 'nombres_Empleado': empleado }, true);
+
+                    if (citas.length > 0) {
+                        for (let x = 1; x < totalRows; x++) {
+                            hora = document.getElementById("tabledetallada").rows[x].cells[0].innerHTML;
+                            cita = $filter('filter')(citas, { 'fechaInicio': hora }, true);                            
+                            $scope.ObjetoCita = cita;
+                            if ($scope.ObjetoCita.length > 0) {
+                                alturadivcita = 0;
+                                alturadivcita = Math.abs(new Date($scope.ObjetoCita[0].fecha_Fin) - new Date($scope.ObjetoCita[0].fecha_Inicio));
+                                alturadivcita = Math.floor((alturadivcita / 1000) / 60);
+                                alturadivcita = (alturadivcita * 72) / 60;
+
+                                if ($scope.ObjetoCita[0].estado === 'PROGRAMADA') {
+                                    colorDiv = "#e9e1cc";
+                                    imagenDiv = "linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-programada-28px.png);";
+                                } else if ($scope.ObjetoCita[0].estado === 'CONFIRMADA') {
+                                    colorDiv = "#99ddcc";
+                                    imagenDiv = "linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-confirmada-28px.png);";
+                                } else if ($scope.ObjetoCita[0].estado === 'CANCELADA') {
+                                    colorDiv = "#f67280";
+                                    imagenDiv = "linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-cancelada-28px.png);";
+                                } else if ($scope.ObjetoCita[0].estado === 'FACTURADA') {
+                                    colorDiv = "#ffffdd";
+                                    imagenDiv = "linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-facturada-28px.png);";
+                                } else if ($scope.ObjetoCita[0].estado === 'LIQUIDADA') {
+                                    colorDiv = "#c2dbdf";
+                                    imagenDiv = "linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-liquidada-28px.png);";
+                                }
+
+                                table.rows[x].cells[y].innerHTML = '<div class="agenda-detallada" style="height: ' + alturadivcita + 'px; width:100%; background-color:' + colorDiv + '; background-image: ' + imagenDiv +'; background-position: right bottom; background-repeat: no-repeat;">'
+                                    //+'<span>'+ $scope.ObjetoCita[0].id_Agenda + '</span>'
+                                    //+ '<br/>'
+                                    + '<span><b>Cliente:</b> ' + $scope.ObjetoCita[0].nombreApellido_Cliente + '</span>'
+                                    + '<br/>'
+                                    + '<span>' + $scope.ObjetoCita[0].fechaInicio + ' - ' + $scope.ObjetoCita[0].fechaFin + '</span>'
+                                    + '<br/>'
+                                    + '</div>';
+                            }
+                        }
+                    }
+                }                
+            }
+            else {
+                toastr.info('No hay citas programadas para la fecha seleccionada', '', $scope.toastrOptions);
+                return;
+            }            
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.LimpiarTablaDetallada = function () {
+        try {
             let table = document.getElementById("tabledetallada");
             let totalRows = document.getElementById("tabledetallada").rows.length;
-            let totalCol = document.getElementById("tabledetallada").rows[0].cells.length;                        
+            let totalCol = document.getElementById("tabledetallada").rows[0].cells.length;
 
             for (let y = 1; y < totalCol; y++) {
                 empleado = document.getElementById("tabledetallada").rows[0].cells[y].innerHTML;
@@ -1096,31 +1165,14 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                 if (empleado === "")
                     return;
 
-                citas = $filter('filter')(agendas, { 'nombres_Empleado': empleado}, true);                
-
-                if (citas.length > 0) {
-                    for (let x = 1; x < totalRows; x++) {
-                        hora = document.getElementById("tabledetallada").rows[x].cells[0].innerHTML;
-                        cita = $filter('filter')(citas, { 'fechaInicio': hora }, true);
-                        $scope.ObjetoCita = cita;
-                        if ($scope.ObjetoCita.length > 0) {                            
-                            table.rows[x].cells[y].innerHTML = '<div class="agenda-detallada">'
-                                + $scope.ObjetoCita[0].nombres_Cliente
-                                + '<br/>'
-                                + $scope.ObjetoCita[0].nombre_Servicio
-                                + '<br/>'
-                                + $scope.ObjetoCita[0].estado                                
-                                + '</div>';
-                        }
-                    }
-                }               
-            }            
-        }
-        else {
-            toastr.info('No hay citas programadas para la fecha seleccionada', '', $scope.toastrOptions);
+                for (let x = 1; x < totalRows; x++) {
+                    table.rows[x].cells[y].innerHTML = '';
+                }
+            }
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
             return;
         }
-        
     }
 
     $scope.BackgroundCards = function (estado) {

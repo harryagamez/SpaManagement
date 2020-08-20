@@ -808,6 +808,7 @@ md-list-item .md-list-item-inner {
 /*TABLE SCHEDULE*/
 .table-schedule {
     border: none;
+    table-layout: fixed;
 }
 
 .table-schedule tbody td {
@@ -826,6 +827,7 @@ md-list-item .md-list-item-inner {
     border-left: 1px solid #ddd;
     position:sticky;
     top:0;
+    z-index:999999999;
 }
 
 .table-schedule td, .table-schedule th {
@@ -837,6 +839,8 @@ md-list-item .md-list-item-inner {
 .table-schedule td {
     border-left: 1px solid #ddd;
     height:36px !important;
+    position:relative;
+    z-index:1;
 }
 
 .table-schedule td:focus {
@@ -864,6 +868,20 @@ md-list-item .md-list-item-inner {
 .table-schedule-nullpoint,  .table-schedule-nullpoint:hover{
     background:white !important;
     border:none !important;
+}
+
+.agenda-detallada {
+    color: black;
+    font-size: 11px;
+    font-weight:600;
+    position: absolute;
+    padding:0 5px;
+    top: 0;
+    left: 0;
+    -webkit-box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.75);
+    z-index: 99999;
 }
 
 /*AutoComplete*/
@@ -1027,13 +1045,6 @@ md-card md-card-title {
 
 .agenda-cards:focus {
     outline: none;
-}
-
-.agenda-detallada {
-    background-color:cornflowerblue;
-    color: black;
-    font-size:11px;
-    border:1px solid #003d78;    
 }
 
 .moreinfo-card {
