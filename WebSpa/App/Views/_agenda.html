@@ -78,23 +78,37 @@
                     </md-content>
                 </md-tab>
 
-                <md-tab label="Detallada" data-ng-click="fActiveTab = 'Detallada'; LimpiarTablaDetallada(); ConsultarAgenda()">
+                <md-tab label="Detallada" data-ng-click="fActiveTab = 'Detallada'; LimpiarTablaDetallada();">
                     <md-content class="md-padding" style="background-color:transparent; margin-bottom:10px;">
                         <div layout="row" layout-xs="column" style="margin-bottom:-5px;" layout-align="start start">
-                            <div flex="" style="flex:none; padding-right:10px;">
+                            <div flex="20" style="flex:none; padding-right:10px;">
                                 <section id="divButtons" style="">
-                                    <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Buscar" data-ng-click="MostrarCitasDetallada()">
+                                    <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Buscar" data-ng-click="ConsultarAgenda()">
                                         <i class="material-icons md-18" style="transform: scaleX(-1)">search</i>Buscar
                                     </md-button>
                                 </section>
                             </div>
-                            <div flex="" style="margin-top:-12px">
+                            <div flex="20" style="margin-top:-12px">
                                 <md-input-container style="margin-left: -40px; max-width:300px;z-index:99; margin-top:15px;">
                                     <label class="label-form-clientes" style="margin-bottom:-4px;">
                                         Fecha:
                                     </label>
-                                    <md-datepicker id="dpFechaActual" ng-model="FechaActual" ng-change="LimpiarTablaDetallada(); ConsultarAgenda()" md-placeholder="mm/dd/yyyy" class="dateClientes" tabindex=5 style="margin-bottom:0;"></md-datepicker>
+                                    <md-datepicker id="dpFechaActual" ng-model="FechaActual" ng-change="LimpiarTablaDetallada();" md-placeholder="mm/dd/yyyy" class="dateClientes" tabindex=5 style="margin-bottom:0;"></md-datepicker>
                                 </md-input-container>
+                            </div>
+                            <div flex="20" style="margin-left:-40px; margin-top:10px;">
+                                <md-checkbox ng-model="MostrarCanceladasDetallada" aria-label="Checkbox Filtro Canceladas" style="margin-left: 2px;">
+                                </md-checkbox>
+                                <span style="font-size:11px; margin-left:-10px;">Mostrar Canceladas</span>
+                            </div>
+                            <div flex="40">
+                                <div style="position: absolute; right:20px; margin-top:16px; font-size:11px;">
+                                    <span style="padding-left:5px;"><img src="../../Images/agenda/agenda-confirmada-28px.png" width="18" height="18" />Confirmada</span>
+                                    <span style="padding-left:5px;"><img src="../../Images/agenda/agenda-programada-28px.png" width="18" height="18"  />Programada</span>
+                                    <span style="padding-left:5px;"><img src="../../Images/agenda/agenda-cancelada-28px.png" width="18" height="18"  />Cancelada</span>
+                                    <span style="padding-left:5px;"><img src="../../Images/agenda/agenda-facturada-28px.png" width="18" height="18"  />Facturada</span>
+                                    <span style="padding-left:5px;"><img src="../../Images/agenda/agenda-liquidada-28px.png" width="18" height="18"  />Liquidada</span>
+                                </div>                                
                             </div>
                         </div>
 

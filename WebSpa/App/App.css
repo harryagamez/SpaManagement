@@ -886,6 +886,13 @@ md-list-item .md-list-item-inner {
     z-index: 99999;
 }
 
+.agenda-leyenda {
+    min-height:28px;
+    min-width:28px;
+    border-radius:50%;
+    background-color:red;
+}
+
 /*AutoComplete*/
 md-input-container input[type=text] {
     margin-top: -5px;

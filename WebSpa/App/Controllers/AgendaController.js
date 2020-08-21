@@ -1,9 +1,9 @@
 ﻿angular.module('app.controllers')
     .controller("AgendaController", AgendaController);
 
-AgendaController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+AgendaController.$inject = ['$scope', '$rootScope', '$q', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
-function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
     $scope.Estado =
         [
             { id_Estado: -1, Nombre: "[Seleccione]" },
@@ -66,11 +66,14 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                     function (result) {
                         if (result.data === true) {
                             $scope.LimpiarDatos();
-                            toastr.success('Agenda actualizada correctamente', '', $scope.toastrOptions);
-                            $scope.ConsultarAgenda();
+                            toastr.success('Agenda actualizada correctamente', '', $scope.toastrOptions);                            
+                            if ($scope.fActiveTab === 'General') {
+                                $scope.ConsultarAgenda();  
+                            } else if ($scope.fActiveTab === 'Detallada') {
+                                $scope.LimpiarTablaDetallada();
+                                $scope.ConsultarAgenda();                                
+                            } 
                             $scope.ConsultarNumeroCitasDia();
-                            if ($scope.fActiveTab === 'Detallada')
-                                $scope.MostrarCitasDetallada();
                         }
                     }, function (err) {
                         toastr.remove();
@@ -84,7 +87,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
         if ($scope.ValidarDatosConsulta()) {
             SPAService._consultarAgenda($scope.Agenda)
                 .then(
-                    function (result) {
+                    function (result) {                        
                         if (result.data !== undefined && result.data !== null) {
                             $scope.Agendas = [];
                             $scope.Agendas = result.data;
@@ -100,7 +103,12 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                             }
                             return;
                         }
+                        if ($scope.fActiveTab === 'Detallada') {
+                            $scope.MostrarCitasDetallada();
+                        }
+                        
                         $mdDialog.cancel();
+
                     }, function (err) {
                         toastr.remove();
                         if (err.data !== null && err.status === 500)
@@ -1086,13 +1094,19 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
 
     $scope.MostrarCitasDetallada = function () {
         try {
+            $scope.LimpiarTablaDetallada();
             if ($scope.Agendas.length > 0) {
                 let agendas = angular.copy($scope.Agendas);
-                let fechaactual = $filter('date')(new Date($scope.FechaActual), 'dd-MM-yyyy');
                 let empleado, hora, cita, citas, alturadivcita, colorDiv, imagenDiv;
                 let table = document.getElementById("tabledetallada");
                 let totalRows = document.getElementById("tabledetallada").rows.length;
                 let totalCol = document.getElementById("tabledetallada").rows[0].cells.length;
+
+                if (!$scope.MostrarCanceladasDetallada) {
+                    agendas = agendas.filter(function (e) {
+                        return e.estado !== 'CANCELADA';
+                    });
+                }
 
                 for (let y = 1; y < totalCol; y++) {
                     empleado = document.getElementById("tabledetallada").rows[0].cells[y].innerHTML;
@@ -1130,9 +1144,7 @@ function AgendaController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
                                     imagenDiv = "linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-liquidada-28px.png);";
                                 }
 
-                                table.rows[x].cells[y].innerHTML = '<div class="agenda-detallada" style="height: ' + alturadivcita + 'px; width:100%; background-color:' + colorDiv + '; background-image: ' + imagenDiv +'; background-position: right bottom; background-repeat: no-repeat;">'
-                                    //+'<span>'+ $scope.ObjetoCita[0].id_Agenda + '</span>'
-                                    //+ '<br/>'
+                                table.rows[x].cells[y].innerHTML = '<div class="agenda-detallada" style="height: ' + alturadivcita + 'px; width:100%; background-color:' + colorDiv + '; background-image: ' + imagenDiv +'; background-position: right bottom; background-repeat: no-repeat;">'                                    
                                     + '<span><b>Cliente:</b> ' + $scope.ObjetoCita[0].nombreApellido_Cliente + '</span>'
                                     + '<br/>'
                                     + '<span>' + $scope.ObjetoCita[0].fechaInicio + ' - ' + $scope.ObjetoCita[0].fechaFin + '</span>'
