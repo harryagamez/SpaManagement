@@ -680,7 +680,10 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                 $scope.Agenda.Id_Cliente = -1;
                 $scope.Agenda.Id_Servicio = -1;
                 $scope.Agenda.Estado = null;
-                $scope.Agenda.Traer_Canceladas = true;
+                if (!$scope.MostrarCanceladasDetallada)
+                    $scope.Agenda.Traer_Canceladas = false;
+                else
+                    $scope.Agenda.Traer_Canceladas = true;
                 return true;
             }
         } catch (e) {
@@ -1102,11 +1105,11 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                 let totalRows = document.getElementById("tabledetallada").rows.length;
                 let totalCol = document.getElementById("tabledetallada").rows[0].cells.length;
 
-                if (!$scope.MostrarCanceladasDetallada) {
-                    agendas = agendas.filter(function (e) {
-                        return e.estado !== 'CANCELADA';
-                    });
-                }
+                //if (!$scope.MostrarCanceladasDetallada) {
+                //    agendas = agendas.filter(function (e) {
+                //        return e.estado !== 'CANCELADA';
+                //    });
+                //}
 
                 for (let y = 1; y < totalCol; y++) {
                     empleado = document.getElementById("tabledetallada").rows[0].cells[y].innerHTML;
