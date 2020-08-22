@@ -867,17 +867,24 @@ md-list-item .md-list-item-inner {
     border:1px dashed #ccc !important;
 }
 
-.table-schedule-nullpoint,  .table-schedule-nullpoint:hover{
-    background:white !important;
-    border:none !important;
+.table-schedule-nullpoint, .table-schedule-nullpoint:hover {
+    background: white !important;
+    border: none !important;
+    min-width: 90px !important;
+    max-width: 90px !important;
+}
+
+.table-schedule .table-schedule-horas {
+    min-width: 90px !important;
+    max-width: 90px !important;
 }
 
 .agenda-detallada {
     color: black;
     font-size: 11px;
-    font-weight:600;
+    font-weight: 600;
     position: absolute;
-    padding:0 5px;
+    padding: 0 5px;
     top: 0;
     left: 0;
     -webkit-box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.75);
@@ -1061,8 +1068,7 @@ md-card md-card-title {
     width: 230px;
     height: 115px;
     margin-top:-210px;
-    z-index: 99;
-    margin-left: 10px;
+    z-index: 99;    
     background-color: white;
     box-shadow: 0px 0px 7px #999;
     overflow: hidden;

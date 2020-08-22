@@ -98,11 +98,10 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                         }
 
                         if ($scope.Agendas.length === 0) {
-                            if ($scope.fActiveTab === 'General') {
-                                toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
-                            }
+                            toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);                            
                             return;
                         }
+
                         if ($scope.fActiveTab === 'Detallada') {
                             $scope.MostrarCitasDetallada();
                         }
@@ -680,6 +679,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                 $scope.Agenda.Id_Cliente = -1;
                 $scope.Agenda.Id_Servicio = -1;
                 $scope.Agenda.Estado = null;
+
                 if (!$scope.MostrarCanceladasDetallada)
                     $scope.Agenda.Traer_Canceladas = false;
                 else
@@ -1103,13 +1103,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                 let empleado, hora, cita, citas, alturadivcita, colorDiv, imagenDiv;
                 let table = document.getElementById("tabledetallada");
                 let totalRows = document.getElementById("tabledetallada").rows.length;
-                let totalCol = document.getElementById("tabledetallada").rows[0].cells.length;
-
-                //if (!$scope.MostrarCanceladasDetallada) {
-                //    agendas = agendas.filter(function (e) {
-                //        return e.estado !== 'CANCELADA';
-                //    });
-                //}
+                let totalCol = document.getElementById("tabledetallada").rows[0].cells.length;                
 
                 for (let y = 1; y < totalCol; y++) {
                     empleado = document.getElementById("tabledetallada").rows[0].cells[y].innerHTML;

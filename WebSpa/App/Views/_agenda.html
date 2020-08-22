@@ -121,7 +121,7 @@
                                 </tr>
                                 <tbody ng-repeat="hora in RangoHoras track by $index">
                                     <tr>
-                                        <th scope="rowgroup" rowspan="1" style="font-size:13px; font-weight:300; color:white; background-color:#385178;">{{hora}}</th>
+                                        <th scope="rowgroup" rowspan="1" class="table-schedule-horas" style="font-size:13px; font-weight:300; color:white; background-color:#385178;">{{hora}}</th>
                                         <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado)" layout-wrap>
                                         </td>
                                         <td class="table-schedule-empty" ng-repeat="x in BlankCells"></td>
