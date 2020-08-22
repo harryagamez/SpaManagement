@@ -907,10 +907,10 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                 else
                     setMinutos = '30';
             } else {
-                if (horas === '12:00 PM')
-                    horas = horas.replace('PM', '');
+                if (horas === '12:00 M')
+                    horas = horas.replace('M', '');
                 else
-                    horas = horas.replace('PM', '');
+                    horas = horas.replace('AM', '');
 
                 setHora = parseInt(horas);
 
@@ -1078,9 +1078,9 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     $scope.RangoHoras[cont] = i + ':30 AM';
                 }
                 if (i === 12) {
-                    $scope.RangoHoras[cont] = i + ':00 PM';
+                    $scope.RangoHoras[cont] = i + ':00 M';
                     cont++;
-                    $scope.RangoHoras[cont] = i + ':30 PM';
+                    $scope.RangoHoras[cont] = i + ':30 M';
                 }
                 if (i > 12) {
                     $scope.RangoHoras[cont] = (i - 12) + ':00 PM';
@@ -1116,6 +1116,10 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     if (citas.length > 0) {
                         for (let x = 1; x < totalRows; x++) {
                             hora = document.getElementById("tabledetallada").rows[x].cells[0].innerHTML;
+                            if (hora === '12:00 M')
+                                hora = '12:00 PM';
+                            if (hora === '12:30 M')
+                                hora = '12:30 PM';
                             cita = $filter('filter')(citas, { 'fechaInicio': hora }, true);                            
                             $scope.ObjetoCita = cita;
                             if ($scope.ObjetoCita.length > 0) {
