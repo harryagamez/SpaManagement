@@ -66,13 +66,8 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     function (result) {
                         if (result.data === true) {
                             $scope.LimpiarDatos();
-                            toastr.success('Agenda actualizada correctamente', '', $scope.toastrOptions);                            
-                            if ($scope.fActiveTab === 'General') {
-                                $scope.ConsultarAgenda();  
-                            } else if ($scope.fActiveTab === 'Detallada') {
-                                $scope.LimpiarTablaDetallada();
-                                $scope.ConsultarAgenda();                                
-                            } 
+                            toastr.success('Agenda actualizada correctamente', '', $scope.toastrOptions);
+                            $scope.ConsultarAgenda();
                             $scope.ConsultarNumeroCitasDia();
                         }
                     }, function (err) {
@@ -100,11 +95,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                         if ($scope.Agendas.length === 0) {
                             toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);                            
                             return;
-                        }
-
-                        if ($scope.fActiveTab === 'Detallada') {
-                            $scope.MostrarCitasDetallada();
-                        }
+                        }                       
                         
                         $mdDialog.cancel();
 
@@ -1095,97 +1086,42 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
         }
     }
 
-    $scope.MostrarCitasDetallada = function () {
+    $scope.CardsDetalladaStyle=  function(agenda) {
         try {
-            $scope.LimpiarTablaDetallada();
-            if ($scope.Agendas.length > 0) {
-                let agendas = angular.copy($scope.Agendas);
-                let empleado, hora, cita, citas, alturadivcita, colorDiv, imagenDiv;
-                let table = document.getElementById("tabledetallada");
-                let totalRows = document.getElementById("tabledetallada").rows.length;
-                let totalCol = document.getElementById("tabledetallada").rows[0].cells.length;                
+            let estado = agenda.estado;
+            if (estado === 'PROGRAMADA') {
+                return 'detallada-programada';
+            } else if (estado === 'CONFIRMADA') {
+                return 'detallada-confirmada';
+            } else if (estado === 'CANCELADA') {
+                return 'detallada-cancelada';
+            } else if (estado === 'FACTURADA') {
+                return 'detallada-facturada';
+            } else if (estado === 'LIQUIDADA') {
+                return 'detallada-liquidada';
+            } 
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
 
-                for (let y = 1; y < totalCol; y++) {
-                    empleado = document.getElementById("tabledetallada").rows[0].cells[y].innerHTML;
+    }
 
-                    if (empleado === "")
-                        return;
-
-                    citas = $filter('filter')(agendas, { 'nombres_Empleado': empleado }, true);
-
-                    if (citas.length > 0) {
-                        for (let x = 1; x < totalRows; x++) {
-                            hora = document.getElementById("tabledetallada").rows[x].cells[0].innerHTML;
-                            if (hora === '12:00 M')
-                                hora = '12:00 PM';
-                            if (hora === '12:30 M')
-                                hora = '12:30 PM';
-                            cita = $filter('filter')(citas, { 'fechaInicio': hora }, true);                            
-                            $scope.ObjetoCita = cita;
-                            if ($scope.ObjetoCita.length > 0) {
-                                alturadivcita = 0;
-                                alturadivcita = Math.abs(new Date($scope.ObjetoCita[0].fecha_Fin) - new Date($scope.ObjetoCita[0].fecha_Inicio));
-                                alturadivcita = Math.floor((alturadivcita / 1000) / 60);
-                                alturadivcita = (alturadivcita * 72) / 60;
-
-                                if ($scope.ObjetoCita[0].estado === 'PROGRAMADA') {
-                                    colorDiv = "#e9e1cc";
-                                    imagenDiv = "linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-programada-28px.png);";
-                                } else if ($scope.ObjetoCita[0].estado === 'CONFIRMADA') {
-                                    colorDiv = "#99ddcc";
-                                    imagenDiv = "linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-confirmada-28px.png);";
-                                } else if ($scope.ObjetoCita[0].estado === 'CANCELADA') {
-                                    colorDiv = "#f67280";
-                                    imagenDiv = "linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-cancelada-28px.png);";
-                                } else if ($scope.ObjetoCita[0].estado === 'FACTURADA') {
-                                    colorDiv = "#ffffdd";
-                                    imagenDiv = "linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-facturada-28px.png);";
-                                } else if ($scope.ObjetoCita[0].estado === 'LIQUIDADA') {
-                                    colorDiv = "#c2dbdf";
-                                    imagenDiv = "linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-liquidada-28px.png);";
-                                }
-
-                                table.rows[x].cells[y].innerHTML = '<div class="agenda-detallada" style="height: ' + alturadivcita + 'px; width:100%; background-color:' + colorDiv + '; background-image: ' + imagenDiv +'; background-position: right bottom; background-repeat: no-repeat;">'                                    
-                                    + '<span><b>Cliente:</b> ' + $scope.ObjetoCita[0].nombreApellido_Cliente + '</span>'
-                                    + '<br/>'
-                                    + '<span>' + $scope.ObjetoCita[0].fechaInicio + ' - ' + $scope.ObjetoCita[0].fechaFin + '</span>'
-                                    + '<br/>'
-                                    + '</div>';
-                            }
-                        }
-                    }
-                }                
-            }
-            else {
-                toastr.info('No hay citas programadas para la fecha seleccionada', '', $scope.toastrOptions);
-                return;
-            }            
+    $scope.CalcularAlturaDiv = function (agenda) {
+        try {
+            let alturadivcita = 0;
+            alturadivcita = Math.abs(new Date(agenda.fecha_Fin) - new Date(agenda.fecha_Inicio));
+            alturadivcita = Math.floor((alturadivcita / 1000) / 60);
+            alturadivcita = (alturadivcita * 72) / 60;
+            return alturadivcita;
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
         }
     }
 
-    $scope.LimpiarTablaDetallada = function () {
-        try {
-            let table = document.getElementById("tabledetallada");
-            let totalRows = document.getElementById("tabledetallada").rows.length;
-            let totalCol = document.getElementById("tabledetallada").rows[0].cells.length;
-
-            for (let y = 1; y < totalCol; y++) {
-                empleado = document.getElementById("tabledetallada").rows[0].cells[y].innerHTML;
-
-                if (empleado === "")
-                    return;
-
-                for (let x = 1; x < totalRows; x++) {
-                    table.rows[x].cells[y].innerHTML = '';
-                }
-            }
-        } catch (e) {
-            toastr.error(e.message, '', $scope.toastrOptions);
-            return;
-        }
+    $scope.LimpiarAgenda = function () {
+        $scope.Agendas = [];
     }
 
     $scope.BackgroundCards = function (estado) {

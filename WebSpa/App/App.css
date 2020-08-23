@@ -900,6 +900,47 @@ md-list-item .md-list-item-inner {
     background-color:red;
 }
 
+.detallada-programada {
+    background-color: #e9e1cc;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-programada-28px.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    width:100%;
+}
+
+.detallada-confirmada {
+    background-color: #99ddcc;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-confirmada-28px.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+
+.detallada-cancelada {
+    background-color: #f67280;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-cancelada-28px.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+
+.detallada-facturada {
+    background-color: #ffffdd;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-facturada-28px.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+
+.detallada-liquidada {
+    background-color: #c2dbdf;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-liquidada-28px.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+
+
 /*AutoComplete*/
 md-input-container input[type=text] {
     margin-top: -5px;

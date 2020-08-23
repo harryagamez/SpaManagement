@@ -9,7 +9,7 @@
         <form id="frmAgenda">
 
             <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
-                <md-tab label="General" data-ng-click="fActiveTab = 'General'">
+                <md-tab label="General" data-ng-click="fActiveTab = 'General'; LimpiarAgenda()">
                     <md-content class="md-padding" style="background-color:transparent; padding:30px 0 0 0; margin: 0 0 0 -5px; overflow-x:hidden; ">
 
                         <div type="button" id="btnAgendarCita" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Agendar Cita" data-ng-click="ModalAgendaGeneral()">
@@ -78,7 +78,7 @@
                     </md-content>
                 </md-tab>
 
-                <md-tab label="Detallada" data-ng-click="fActiveTab = 'Detallada'; LimpiarTablaDetallada();">
+                <md-tab label="Detallada" data-ng-click="fActiveTab = 'Detallada'; LimpiarAgenda()">
                     <md-content class="md-padding" style="background-color:transparent; margin-bottom:10px;">
                         <div layout="row" layout-xs="column" style="margin-bottom:-5px;" layout-align="start start">
                             <div flex="20" style="flex:none; padding-right:10px;">
@@ -93,7 +93,7 @@
                                     <label class="label-form-clientes" style="margin-bottom:-4px;">
                                         Fecha:
                                     </label>
-                                    <md-datepicker id="dpFechaActual" ng-model="FechaActual" ng-change="LimpiarTablaDetallada();" md-placeholder="mm/dd/yyyy" class="dateClientes" tabindex=5 style="margin-bottom:0;"></md-datepicker>
+                                    <md-datepicker id="dpFechaActual" ng-model="FechaActual" ng-change="LimpiarAgenda()" md-placeholder="mm/dd/yyyy" class="dateClientes" tabindex=5 style="margin-bottom:0;"></md-datepicker>
                                 </md-input-container>
                             </div>
                             <div flex="20" style="margin-left:-40px; margin-top:10px;">
@@ -123,6 +123,11 @@
                                     <tr>
                                         <th scope="rowgroup" rowspan="1" class="table-schedule-horas" style="font-size:13px; font-weight:300; color:white; background-color:#385178;">{{hora}}</th>
                                         <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado)" layout-wrap>
+                                            <div class="agenda-detallada" ng-style="{'height':CalcularAlturaDiv(agenda)}" ng-repeat="agenda in Agendas | filter: {id_Empleado: empleado.id_Empleado} | filter:{fechaInicio: hora}" ng-class="CardsDetalladaStyle(agenda)">
+                                                <span>Cliente: {{agenda.nombres_Cliente}}</span>
+                                                <br />
+                                                <span> {{agenda.fechaInicio}} - {{agenda.fechaFin}}</span>                                                
+                                            </div>
                                         </td>
                                         <td class="table-schedule-empty" ng-repeat="x in BlankCells"></td>
                                     </tr>
