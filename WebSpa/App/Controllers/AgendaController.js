@@ -758,7 +758,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
 
                 $scope.LimpiarDatos();
                 $scope.FechaHoraAgendaDetallada(horas, minutos);
-
+                
                 if (parseInt($filter('date')(new Date($scope.FechaActual), 'yyyyMMdd')) === parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
                     if (parseInt($filter('date')(new Date($scope.HoraFin), 'HHmm')) < parseInt($filter('date')(new Date(), 'HHmm'))) {
                         toastr.info('Solo puede agendar citas a partir de la hora actual ', '', $scope.toastrOptions);
@@ -890,7 +890,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                 horas.lastIndexOf(":") + 1,
                 horas.lastIndexOf(" ")
             );
-            if (horas.indexOf('PM') !== -1) {
+            if (horas.indexOf('PM') !== -1 && horas !== '12:00 PM' && horas !== '12:30 PM') {
                 horas = horas.replace('PM', '');
                 setHora = parseInt(horas) + 12;
                 if (minutos === '00')
@@ -898,8 +898,8 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                 else
                     setMinutos = '30';
             } else {
-                if (horas === '12:00 M')
-                    horas = horas.replace('M', '');
+                if (horas === '12:00 PM')
+                    horas = horas.replace('PM', '');
                 else
                     horas = horas.replace('AM', '');
 
@@ -1069,9 +1069,9 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     $scope.RangoHoras[cont] = i + ':30 AM';
                 }
                 if (i === 12) {
-                    $scope.RangoHoras[cont] = i + ':00 M';
+                    $scope.RangoHoras[cont] = i + ':00 PM';
                     cont++;
-                    $scope.RangoHoras[cont] = i + ':30 M';
+                    $scope.RangoHoras[cont] = i + ':30 PM';
                 }
                 if (i > 12) {
                     $scope.RangoHoras[cont] = (i - 12) + ':00 PM';

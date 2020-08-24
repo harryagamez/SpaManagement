@@ -123,7 +123,7 @@
                                     <tr>
                                         <th scope="rowgroup" rowspan="1" class="table-schedule-horas" style="font-size:13px; font-weight:300; color:white; background-color:#385178;">{{hora}}</th>
                                         <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado)" layout-wrap>
-                                            <div class="agenda-detallada" ng-style="{'height':CalcularAlturaDiv(agenda)}" ng-repeat="agenda in Agendas | filter: {id_Empleado: empleado.id_Empleado} | filter:{fechaInicio: hora}" ng-class="CardsDetalladaStyle(agenda)">
+                                            <div class="agenda-detallada" ng-style="{'height':CalcularAlturaDiv(agenda)}" ng-repeat="agenda in Agendas | filter: {'id_Empleado': empleado.id_Empleado} : true| filter:{'fechaInicio': hora} : true" ng-class="CardsDetalladaStyle(agenda)">
                                                 <span>Cliente: {{agenda.nombres_Cliente}}</span>
                                                 <br />
                                                 <span> {{agenda.fechaInicio}} - {{agenda.fechaFin}}</span>                                                
