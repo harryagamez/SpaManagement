@@ -13,6 +13,17 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
     $scope.ImagenServicioBase64 = '';
     $scope.InformacionImagen = '';
     $rootScope.ImagenesxAdjuntar = 0;
+    $scope.DuracionServicio = [
+        { Id_DuracionServicio: -1, Valor: '[Seleccione]' },
+        { Id_DuracionServicio: 30, Valor: 'MEDIA HORA' },
+        { Id_DuracionServicio: 60, Valor: 'UNA HORA' },
+        { Id_DuracionServicio: 90, Valor: 'HORA Y MEDIA' },
+        { Id_DuracionServicio: 120, Valor: 'DOS HORAS' },
+        { Id_DuracionServicio: 150, Valor: 'DOS HORAS Y MEDIA' },
+        { Id_DuracionServicio: 180, Valor: 'TRES HORAS' },
+        { Id_DuracionServicio: 180, Valor: 'TRES HORAS Y MEDIA' },
+        { Id_DuracionServicio: 210, Valor: 'CUATRO HORAS' }
+    ];
 
     $scope.Inicializacion = function () {
         $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
@@ -34,7 +45,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
         Id_Servicio: -1,
         Nombre: '',
         Nombre_Tipo_Servicio: '',
-        Tiempo: 0,
+        Tiempo: -1,
         Valor: 0,
         Imagenes_Servicio: []
     }
@@ -115,7 +126,12 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 $scope.Servicio.Id_Empresa = $scope.IdEmpresa;
                 $scope.Servicio.Id_TipoServicio = data.id_TipoServicio;
                 $scope.Servicio.Id_Servicio = data.id_Servicio;
-                $scope.Servicio.Tiempo = data.tiempo;
+
+                if (data.tiempo !== 30 && data.tiempo !== 60 && data.tiempo !== 90 && data.tiempo !== 120 && data.tiempo !== 150 && data.tiempo !== 180 && data.tiempo !== 210 && data.tiempo !== 240)
+                    $scope.Servicio.Tiempo = -1;
+                else
+                    $scope.Servicio.Tiempo = data.tiempo;
+
                 $scope.Servicio.Valor = data.valor;
                 $scope.Servicio.Id_Servicio = data.id_Servicio;
                 $scope.Servicio.Imagenes_Servicio = data.imagenes_Servicio;
@@ -193,7 +209,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 Id_TipoServicio: -1,
                 Id_Servicio: -1,
                 Nombre_Tipo_Servicio: '',
-                Tiempo: 0,
+                Tiempo: -1,
                 Valor: 0,
                 Imagenes_Servicio: []
             }
@@ -224,17 +240,17 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 return false;
             }
 
-            if (parseInt($scope.Servicio.Tiempo) === 0) {
-                toastr.info('Tiempo del servicio es requerido', '', $scope.toastrOptions);
-                $('#txtTiempoServicio').focus();
-                return false;
-            }
-
             if ($scope.Servicio.Id_TipoServicio === -1) {
                 toastr.info('Tipo de servicio es requerido', '', $scope.toastrOptions);
                 $('#slTipoServicio').focus();
                 return false;
             }
+
+            if (parseInt($scope.Servicio.Tiempo) === -1) {
+                toastr.info('Tiempo del servicio es requerido', '', $scope.toastrOptions);
+                $('#txtTiempoServicio').focus();
+                return false;
+            }            
 
             if (parseInt($scope.Servicio.Valor) === 0) {
                 toastr.info('Valor del servicio es requerido', '', $scope.toastrOptions);

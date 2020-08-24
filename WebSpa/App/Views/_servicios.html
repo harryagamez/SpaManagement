@@ -106,30 +106,31 @@
                                     <md-input-container style="margin: 5px 0;">
                                         <label class="label-form-servicios" style="">
                                             Tipo Servicio
-                                        </label>
-                                        <select ng-model="TipoServicioSeleccionado" ng-options="item.id_tiposervicio as item.nombre for item in TipoServicios | orderBy:'nombre'" style="display:none; width:auto;" tabindex=3>
-                                        </select>
-                                        <md-select ng-model="TipoServicioSeleccionado" ng-readonly="TipoServicioReadOnly" style="min-width:200px; margin-top: 6px;" id="slTipoServicio" tabindex=4>
+                                        </label>                                        
+                                        <md-select ng-model="TipoServicioSeleccionado" ng-readonly="TipoServicioReadOnly" style="min-width:200px; margin-top: 5px;" id="slTipoServicio" tabindex=3>
                                             <md-option ng-bind="item.nombre" ng-value="item.id_TipoServicio" ng-repeat="item in TipoServicios track by item.id_TipoServicio"></md-option>
                                         </md-select>
                                     </md-input-container>
                                 </div>
 
-                                <div flex="25">
-                                    <md-input-container style="margin: 5px 0;">
+                                <div flex="30">
+                                    <md-input-container style="margin: 5px 0; margin-left:-45px; min-width:165px; max-width:165px;">
                                         <label class="label-form-servicios" style="">
                                             Tiempo (MIN):
                                         </label>
-                                        <input ng-model="Servicio.Tiempo" id="txtTiempoServicio" numbers-only type="text" style="" class="" placeholder="Digite el tiempo del servicio en minutos ..." value="" tabindex=4>
+                                        
+                                        <md-select ng-model="Servicio.Tiempo" id="txtTiempoServicio" style="font-size:12px; margin-top:5px;" tabindex="4">
+                                            <md-option ng-bind="item.Valor" ng-value="item.Id_DuracionServicio" ng-repeat="item in DuracionServicio track by $index"></md-option>
+                                        </md-select>
                                     </md-input-container>
                                 </div>
 
-                                <div flex="25">
+                                <div flex="20">
                                     <md-input-container style="margin: 5px 0;">
                                         <label class="label-form-servicios" style="">
                                             Valor Servicio
                                         </label>
-                                        <input ng-model="Servicio.Valor" id="txtValorServicio" numbers-only type="text" placeholder="Digite el valor del servicio ..." tabindex=5>
+                                        <input ng-model="Servicio.Valor" id="txtValorServicio" numbers-only type="text" style="margin-top:-1px;" placeholder="Digite el valor del servicio ..." tabindex=5>
                                     </md-input-container>
                                 </div>
 
