@@ -32,7 +32,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
     $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
     $scope.FechaActual = new Date();
     $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
-    $scope.fActiveTab = 'General';
+    $scope.fActiveTab = 'Detallada';
 
     $scope.fPropertiesSetted = false;
     $scope.PAPTS = false;
@@ -313,8 +313,12 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
         }
     }
 
-    $scope.EditarAgenda = function (agenda) {
+    $scope.EditarAgenda = function ($event, agenda) {
         try {
+            
+            if ($scope.fActiveTab === 'Detallada')
+                $event.stopPropagation();
+
             let fechafin = new Date(agenda.fecha_Fin);
             $scope.EmpleadoSeleccionadoModal = {
                 id_Empleado: agenda.id_Empleado,
@@ -357,8 +361,8 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
             $scope.EmpleadoSeleccionado = null;
             $scope.AgendaServicios = [];
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
-            $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
-            //$scope.FechaHoraAgendaGeneral();
+            $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));  
+            $scope.FechaActual = new Date(new Date().setHours(0, 0, 0, 0));
 
             $scope.fEditAgenda = false;
             $scope.fDisableCliente = false;
@@ -673,8 +677,11 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
 
                 if (!$scope.MostrarCanceladasDetallada)
                     $scope.Agenda.Traer_Canceladas = false;
-                else
+                else {
                     $scope.Agenda.Traer_Canceladas = true;
+                    $scope.Agenda.Estado = 'CANCELADA';
+                }
+                                    
                 return true;
             }
         } catch (e) {
@@ -752,7 +759,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
 
                 if (parseInt($filter('date')($scope.FechaActual, 'yyyyMMdd')) < parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
                     toastr.info('Solo puede programar agenda a partir de la fecha actual', '', $scope.toastrOptions);
-                    $scope.FechaActual = new Date();
+                    //$scope.FechaActual = new Date();
                     return;
                 }
 
@@ -823,8 +830,12 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
         }
     }
 
-    $scope.showConfirmCancelarAgenda = function (ev, data) {
+    $scope.showConfirmCancelarAgenda = function ($event, ev, data) {
         try {
+
+            if ($scope.fActiveTab === 'Detallada')
+                $event.stopPropagation();
+
             let confirm = $mdDialog.confirm()
                 .title('Agenda')
                 .textContent('¿Desea cancelar la cita?')
@@ -845,8 +856,12 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
         }
     };
 
-    $scope.showConfirmConfirmarAgenda = function (ev, data) {
+    $scope.showConfirmConfirmarAgenda = function ($event, ev, data) {
         try {
+
+            if ($scope.fActiveTab === 'Detallada')
+                $event.stopPropagation();
+
             let confirm = $mdDialog.confirm()
                 .title('Agenda')
                 .textContent('¿Desea confirmar la cita?')
@@ -1124,6 +1139,11 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
         $scope.Agendas = [];
     }
 
+    $scope.MostrarMoreInfoDetallada = function ($event, estado) {
+        $scope.fShowMoreInfoDetallada = true;
+        $event.stopPropagation();        
+    }
+
     $scope.BackgroundCards = function (estado) {
         try {
             if (estado === 'CONFIRMADA')
@@ -1165,6 +1185,10 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
         $mdDialog.cancel();
     };
 
+    $scope.DetalladaEventoClick = function ($event) {
+        $event.stopPropagation();
+    }
+
     $scope.$on("CompanyChange", function () {
         $scope.LimpiarDatos();
         $scope.Agendas = [];
@@ -1177,12 +1201,11 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
         $scope.GenerarArregloRangoHoras();
         if ($scope.fActiveTab === 'General')
             $scope.ModalFiltrarCitas();
-    });
+    });    
 
     $scope.ConsultarServiciosActivos();
     $scope.ConsultarEmpleadosAutoComplete();
     $scope.ConsultarClientes();
     $scope.ConfiguracionEmpresaActual();
-    $scope.GenerarArregloRangoHoras();
-    $scope.ModalFiltrarCitas();
+    $scope.GenerarArregloRangoHoras();    
 }

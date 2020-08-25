@@ -814,6 +814,8 @@ md-list-item .md-list-item-inner {
 .table-schedule tbody td {
     min-height:36px !important;
     max-height:36px !important;
+    position:relative;
+    z-index:1;
 }
 
 .table-schedule, .table-schedule td, .table-schedule th, .table.table-schedule tr {
@@ -831,8 +833,8 @@ md-list-item .md-list-item-inner {
 }
 
 .table-schedule td, .table-schedule th {
-    min-width: 150px;
-    max-width: 150px;
+    min-width: 175px;
+    max-width: 175px;
     border-bottom: 1px solid #ddd;
 }
 
@@ -843,14 +845,15 @@ md-list-item .md-list-item-inner {
     z-index:1;
 }
 
-.table-schedule td:focus {
-    outline: none;
-}
+    .table-schedule td:focus {
+        z-index: 0;
+        outline: none;
+    }
 
     .table-schedule td:hover {
         background: #e1e1e1;
         position: relative;
-        z-index: 1;
+        z-index: 0;
     }
 
 .table-schedule td:last-child {
@@ -860,18 +863,24 @@ md-list-item .md-list-item-inner {
 .table-schedule tr {
     min-height:36px;
     max-height:36px;
+    position:relative;
+    z-index: 1;
 }
 
 .table-schedule-empty, .table-schedule-empty:hover {
     background-color: #fafafa !important;
-    border:1px dashed #ccc !important;
+    border: 1px dashed #ccc !important;
+    z-index: 1;
+    position:relative;
 }
 
 .table-schedule-nullpoint, .table-schedule-nullpoint:hover {
     background: white !important;
-    border: none !important;
+    border-left: none !important;
+    border-top:none;
     min-width: 90px !important;
     max-width: 90px !important;
+    border-bottom:1px solid #ddd;
 }
 
 .table-schedule .table-schedule-horas {
@@ -879,7 +888,7 @@ md-list-item .md-list-item-inner {
     max-width: 90px !important;
 }
 
-.agenda-detallada {
+.table-schedule tr div .agenda-detallada {
     color: black;
     font-size: 11px;
     font-weight: 600;
@@ -890,14 +899,28 @@ md-list-item .md-list-item-inner {
     -webkit-box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.75);
-    z-index: 99999;
+    z-index: 99;
+    cursor:default;
 }
 
+    .table-schedule tr div .agenda-detallada:hover {
+        z-index: 999;
+        cursor: default;
+    }
+
+    .table-schedule tr div .agenda-detallada:focus, .table-schedule tr div .agenda-detallada:active {
+        z-index: 9999;
+        cursor: default;
+        outline:none;
+    }
+
+
+
 .agenda-leyenda {
-    min-height:28px;
-    min-width:28px;
-    border-radius:50%;
-    background-color:red;
+    min-height: 28px;
+    min-width: 28px;
+    border-radius: 50%;
+    background-color: red;
 }
 
 .detallada-programada {
