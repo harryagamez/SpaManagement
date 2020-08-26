@@ -10,10 +10,12 @@ BEGIN
 	DECLARE @FechaAgendaCita DATE
 	DECLARE @HoraInicio VARCHAR(8)
 	DECLARE @HoraFin VARCHAR(8)
-	DECLARE @Mensaje VARCHAR(200)	
+	DECLARE @Mensaje VARCHAR(200)
+	DECLARE @HoraInicioFormat VARCHAR(30)
+	DECLARE @HoraFinFormat VARCHAR(30)
 
 	CREATE TABLE #TempAgendaCita (Id_Agenda INT, Fecha_Inicio DATETIME, Fecha_Fin DATETIME, Id_Cliente INT,
-	Id_Servicio INT, Id_Empleado INT, Estado VARCHAR(12), Id_Empresa UNIQUEIDENTIFIER, Observaciones CHAR(200))
+		Id_Servicio INT, Id_Empleado INT, Estado VARCHAR(12), Id_Empresa UNIQUEIDENTIFIER, Observaciones CHAR(200))
 
 	INSERT INTO #TempAgendaCita(Id_Agenda, Fecha_Inicio, Fecha_Fin, Id_Cliente, Id_Servicio, Id_Empleado, Estado, Id_Empresa, Observaciones)
 	SELECT 
@@ -34,7 +36,9 @@ BEGIN
 	SET @IdCliente = (SELECT TOP 1 Id_Cliente FROM #TempAgendaCita)
 	SET @FechaAgendaCita = (SELECT TOP 1 CAST(Fecha_Inicio AS DATE) FROM #TempAgendaCita)
 	SET @HoraInicio = (SELECT TOP 1 SUBSTRING(CONVERT(CHAR(38),Fecha_Inicio,121),12,8) FROM #TempAgendaCita)
-	SET @HoraFin = (SELECT TOP 1 SUBSTRING(CONVERT(CHAR(38),Fecha_Fin,121),12,8) FROM #TempAgendaCita)	
+	SET @HoraFin = (SELECT TOP 1 SUBSTRING(CONVERT(CHAR(38),Fecha_Fin,121),12,8) FROM #TempAgendaCita)
+	SET @HoraInicioFormat = (SELECT TOP 1 LEFT(RIGHT(CONVERT(VARCHAR(20), Fecha_Inicio, 100), 7),5) + ' ' + RIGHT(CONVERT(VARCHAR(20), Fecha_Inicio, 100), 2) FROM #TempAgendaCita)
+	SET @HoraFinFormat = (SELECT TOP 1 LEFT(RIGHT(CONVERT(VARCHAR(20), Fecha_Fin, 100), 7),5) + ' ' + RIGHT(CONVERT(VARCHAR(20), Fecha_Fin, 100), 2) FROM #TempAgendaCita)
 
 	;WITH EmpleadoCitas AS (
 		SELECT 
@@ -55,7 +59,7 @@ BEGIN
 	OR (@HoraInicio < Hora_Fin AND @HoraFin > Hora_Inicio)
 
 	IF (SELECT COUNT(ID_AGENDA) FROM #TempCitasEmpleados) > 0 BEGIN
-		SET @Mensaje = 'Empleado no disponible entre las ' + @HoraInicio + ' y las ' + @HoraFin + '. Debe seleccionar otra hora'
+		SET @Mensaje = 'Empleado no disponible entre las ' + @HoraInicioFormat + ' y las ' + @HoraFinFormat + '. Debe seleccionar otra hora'
 		RAISERROR (@Mensaje, 16, 1)
 		IF OBJECT_ID('tempdb..#TempAgendaCita') IS NOT NULL DROP TABLE #TempAgendaCita
 		IF OBJECT_ID('tempdb..#TempCitasEmpleados') IS NOT NULL DROP TABLE #TempCitasEmpleados
