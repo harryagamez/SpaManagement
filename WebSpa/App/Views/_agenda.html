@@ -31,10 +31,10 @@
                             <div flex="20" style="margin-left:-40px; margin-top:10px;">
                                 <md-checkbox ng-model="MostrarCanceladasDetallada" aria-label="Checkbox Filtro Canceladas" style="margin-left: 2px;">
                                 </md-checkbox>
-                                <span style="font-size:11px; margin-left:-10px;">Mostrar Canceladas</span>
+                                <span style="font-size:13px; margin-left:-10px;">Mostrar Canceladas</span>
                             </div>
                             <div flex="40">
-                                <div style="position: absolute; right:20px; margin-top:16px; font-size:11px;">
+                                <div style="position: absolute; right:20px; margin-top:16px; font-size:13px;">
                                     <span style="padding-left:5px;"><img src="../../Images/agenda/agenda-confirmada-28px.png" width="18" height="18" />Confirmada</span>
                                     <span style="padding-left:5px;"><img src="../../Images/agenda/agenda-programada-28px.png" width="18" height="18" />Programada</span>
                                     <span style="padding-left:5px;"><img src="../../Images/agenda/agenda-cancelada-28px.png" width="18" height="18" />Cancelada</span>
@@ -60,7 +60,11 @@
                                                     <span data-toggle="tooltip" title="{{agenda.nombres_Cliente + ' ' + agenda.apellidos_Cliente}}"><b>Cliente</b>: {{agenda.nombres_Cliente}}</span>
                                                     <span data-ng-show="agenda.estado === 'PROGRAMADA'" style="padding:0; padding-top: 1px; margin:0; float:right; display:inline-flex;" class="cards-icons">
                                                         <i class="material-icons" style="font-size:15px; font-weight:600; color: #4caf50;" data-ng-click="showConfirmConfirmarAgenda($event, ev, agenda)" data-toggle="tooltip" title="Confirmar cita">check</i>
-                                                        <i class="material-icons" style="font-size:15px; color: #4caf50;" data-ng-click="EditarAgenda($event, agenda)" data-toggle="tooltip" title="Editar cita">edit</i><i class="material-icons" style="font-size:15px; margin-left:2px; color:#4caf50;" data-ng-click="showConfirmCancelarAgenda($event, ev, agenda)" data-toggle="tooltip" title="Cancelar cita">cancel</i>
+                                                        <i class="material-icons" style="font-size:15px; color: #4caf50;" data-ng-click="EditarAgenda($event, agenda)" data-toggle="tooltip" title="Editar cita">edit</i>
+                                                        <i class="material-icons" style="font-size:15px; margin-left:2px; color:#4caf50;" data-ng-click="showConfirmCancelarAgenda($event, ev, agenda)" data-toggle="tooltip" title="Cancelar cita">cancel</i>                                                        
+                                                    </span>
+                                                    <span data-ng-show="agenda.estado !== 'PROGRAMADA'">
+                                                        <i class="material-icons" style="font-size:15px; font-weight:600; float: right; color: #4caf50;" data-ng-click="MostrarDatosCita($event,agenda);" data-toggle="tooltip" title="Ver cita">remove_red_eye</i>
                                                     </span>
                                                     <br />
                                                     <span><b>Hora</b>: {{agenda.fechaInicio}} - {{agenda.fechaFin}}</span>
@@ -150,7 +154,7 @@
     </div>
 
     <!-- Modales-->
-    <!-- Modal Agenda General-->
+    <!-- Modal Agenda-->
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgAgendaGeneral">
             <md-dialog id="mdAgendarCita" aria-label="fecha busqueda" style="min-width: 320px !important; max-width:320px; min-height:580px; color: #666666 !important;" tabindex="-1">
@@ -174,7 +178,7 @@
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Empleados:
                                     </label>
-                                    <md-autocomplete aria-label="empleado modal" md-input-id="acEmpleadosModal" id="acEmpleadosModal" md-select-on-match="true" md-input-name="acEmpleadosModal" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionadoModal" md-search-text-change="OnChange()" md-selected-item-change="FiltrarServicios(EmpleadoSeleccionadoModal)" md-search-text="buscarEmpleadoM" md-items="empleadom in BuscarEmpleado(buscarEmpleadoM)" md-item-text="empleadom.nombres" tabindex="7" md-autofocus>
+                                    <md-autocomplete ng-readonly="fDisableEmpleado" aria-label="empleado modal" md-input-id="acEmpleadosModal" id="acEmpleadosModal" md-select-on-match="true" md-input-name="acEmpleadosModal" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionadoModal" md-search-text-change="OnChange()" md-selected-item-change="FiltrarServicios(EmpleadoSeleccionadoModal)" md-search-text="buscarEmpleadoM" md-items="empleadom in BuscarEmpleado(buscarEmpleadoM)" md-item-text="empleadom.nombres" tabindex="7" md-autofocus>
                                         <md-item-template>
                                             <span ng-bind="empleadom.id_Empleado" md-highlight-text="buscarEmpleado">{{empleadom.nombres + ' ' + empleadom.apellidos}}</span>
                                         </md-item-template>
@@ -192,7 +196,7 @@
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Clientes:
                                     </label>
-                                    <md-autocomplete ng-disabled="fDisableCliente" aria-label="clientes modal" md-input-id="acClientesModal" id="acClientesModal" md-input-name="acClientesModal" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionadoModal" md-search-text="buscarClienteM" md-items="clientem in BuscarCliente(buscarClienteM)" md-item-text="clientem.nombres" tabindex="8">
+                                    <md-autocomplete ng-readonly="fDisableCliente" aria-label="clientes modal" md-input-id="acClientesModal" id="acClientesModal" md-input-name="acClientesModal" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionadoModal" md-search-text="buscarClienteM" md-items="clientem in BuscarCliente(buscarClienteM)" md-item-text="clientem.nombres" tabindex="8">
                                         <md-item-template>
                                             <span md-highlight-text="buscarCliente" ng-bind="clientem.id_Cliente">{{clientem.nombres + ' ' + clientem.apellidos}}</span>
                                         </md-item-template>
@@ -250,7 +254,7 @@
                                     <label class="label-form-empleados" style="">
                                         Observaciones:
                                     </label>
-                                    <textarea ng-model="Agenda.Observaciones" id="txtObservaciones" rows="2" md-maxlength="200" placeholder="" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="12"></textarea>
+                                    <textarea ng-readonly="fDisableObservaciones" ng-model="Agenda.Observaciones" id="txtObservaciones" rows="2" md-maxlength="200" placeholder="" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="12"></textarea>
                                 </md-input-container>
                             </div>
                         </div>

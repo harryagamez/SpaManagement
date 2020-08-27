@@ -41,10 +41,12 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
     $scope.fDisableCliente = false;
     $scope.fDisableFechaCita = false;
     $scope.fEditAgenda = false;
+    $scope.fDisableEmpleado = false;
     $scope.fDisableHoraFin = false;
     $scope.fDisableGuardarAgenda = false;
     $scope.fDisableServiciosM = true;
     $scope.fDisableServicios = true;
+    $scope.fMostrarDatosCita = false;
 
     $scope.Agenda = {
         Id_Agenda: -1,
@@ -206,7 +208,10 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                         $scope.AgendaServicios = $scope.Servicios.filter(o1 => empleadoservicios.some(o2 => o1.id_Servicio === o2.id_Servicio));
                         $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
                         $scope.AgendaServicios = $filter('orderBy')($scope.AgendaServicios, 'id_Servicio', false);
-                        $scope.fDisableServiciosM = false;
+
+                        if ($scope.fMostrarDatosCita)
+                            $scope.fDisableServiciosM = true;
+
                         $scope.fDisableServicios = false;
                     }
                     else {
@@ -253,6 +258,8 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     $scope.AgendaServicios = $filter('orderBy')($scope.AgendaServicios, 'id_Servicio', false);
                     $scope.fDisableServiciosM = false;
                     $scope.fDisableServicios = false;
+                    if ($scope.fMostrarDatosCita)
+                        $scope.fDisableServiciosM = true;
                 }
             }
         } catch (e) {
@@ -314,16 +321,17 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
     }
 
     $scope.EditarAgenda = function ($event, agenda) {
-        try {
-            
+        try {            
             if ($scope.fActiveTab === 'Detallada')
                 $event.stopPropagation();
 
             let fechafin = new Date(agenda.fecha_Fin);
+
             $scope.EmpleadoSeleccionadoModal = {
                 id_Empleado: agenda.id_Empleado,
                 nombres: agenda.nombres_Empleado
             };
+
             $scope.ClienteSeleccionadoModal = {
                 id_Cliente: agenda.id_Cliente,
                 nombres: agenda.nombres_Cliente
@@ -339,12 +347,19 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
             $scope.Agenda.Estado = 'PROGRAMADA';
             $scope.fEditAgenda = true;
             $scope.fDisableCliente = true;
-            $scope.fDisableFechaCita = true;
+            $scope.fDisableFechaCita = true;           
+
             $scope.ModalAgendaGeneral();
+
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
         }
+    }
+
+    $scope.MostrarDatosCita = function ($event, agenda) {
+        $scope.fMostrarDatosCita = true;
+        $scope.EditarAgenda($event, agenda);
     }
 
     $scope.LimpiarDatos = function () {
@@ -362,15 +377,18 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
             $scope.AgendaServicios = [];
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
             $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));  
-            $scope.FechaActual = new Date(new Date().setHours(0, 0, 0, 0));
+            //$scope.FechaActual = new Date(new Date().setHours(0, 0, 0, 0));
 
             $scope.fEditAgenda = false;
+            $scope.fDisableEmpleado = false;
             $scope.fDisableCliente = false;
             $scope.fDisableFechaCita = false;
             $scope.fDisableGuardarAgenda = false;
             $scope.fDisableServiciosM = true;
             $scope.fDisableServicios = true;
             $scope.fDisableHoraInicio = false;
+            $scope.fDisableObservaciones = false;
+            $scope.fMostrarDatosCita = false;
 
             $scope.Agenda = {
                 Id_Agenda: -1,
@@ -727,6 +745,18 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
 
                     $scope.ConsultarNumeroCitasDia();
 
+                    if ($scope.fMostrarDatosCita) {                        
+                        $scope.fDisableEmpleado = true;
+                        $scope.fDisableCliente = true;                        
+                        $scope.fDisableFechaCita = true;
+                        $scope.fDisableHoraInicio = true;
+                        $scope.fDisableHoraFin = true;
+                        $scope.fDisableObservaciones = true;
+                        $scope.fDisableGuardarAgenda = true;
+                        $scope.fDisableServiciosM = true;
+                        $scope.AccionAgenda = 'Información Cita'
+                    }
+
                     $mdDialog.show({
                         contentElement: '#dlgAgendaGeneral',
                         parent: angular.element(document.body),
@@ -756,10 +786,9 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     toastr.info('Formato de fecha inválido', '', $scope.toastrOptions);
                     return;
                 }
-
+                
                 if (parseInt($filter('date')($scope.FechaActual, 'yyyyMMdd')) < parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
-                    toastr.info('Solo puede programar agenda a partir de la fecha actual', '', $scope.toastrOptions);
-                    //$scope.FechaActual = new Date();
+                    toastr.info('Solo puede programar agenda a partir de la fecha actual', '', $scope.toastrOptions);                    
                     return;
                 }
 
@@ -786,6 +815,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                 $scope.ConsultarNumeroCitasDia();
 
                 $scope.AccionAgenda = 'Agendar cita';
+                $scope.fDisableEmpleado = true;
                 $scope.fDisableFechaCita = true;
                 $scope.fDisableHoraInicio = true;
 
@@ -1127,7 +1157,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
             let alturadivcita = 0;
             alturadivcita = Math.abs(new Date(agenda.fecha_Fin) - new Date(agenda.fecha_Inicio));
             alturadivcita = Math.floor((alturadivcita / 1000) / 60);
-            alturadivcita = (alturadivcita * 72) / 60;
+            alturadivcita = (alturadivcita * 80) / 60;
             return alturadivcita;
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);

@@ -832,15 +832,15 @@ md-list-item .md-list-item-inner {
     z-index:999999999;
 }
 
-.table-schedule td, .table-schedule th {
-    min-width: 175px;
-    max-width: 175px;
-    border-bottom: 1px solid #ddd;
-}
+    .table-schedule td, .table-schedule th {
+        min-width: 200px;
+        max-width: 200px;
+        border-bottom: 1px solid #ddd;
+    }
 
 .table-schedule td {
     border-left: 1px solid #ddd;
-    height:36px !important;
+    height:40px !important;
     position:relative;
     z-index:1;
 }
@@ -861,8 +861,8 @@ md-list-item .md-list-item-inner {
 }
 
 .table-schedule tr {
-    min-height:36px;
-    max-height:36px;
+    min-height:40px;
+    max-height:40px;
     position:relative;
     z-index: 1;
 }

@@ -21,8 +21,8 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
         { Id_DuracionServicio: 120, Valor: 'DOS HORAS' },
         { Id_DuracionServicio: 150, Valor: 'DOS HORAS Y MEDIA' },
         { Id_DuracionServicio: 180, Valor: 'TRES HORAS' },
-        { Id_DuracionServicio: 180, Valor: 'TRES HORAS Y MEDIA' },
-        { Id_DuracionServicio: 210, Valor: 'CUATRO HORAS' }
+        { Id_DuracionServicio: 210, Valor: 'TRES HORAS Y MEDIA' },
+        { Id_DuracionServicio: 240, Valor: 'CUATRO HORAS' }
     ];
 
     $scope.Inicializacion = function () {
