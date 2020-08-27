@@ -48,8 +48,8 @@
                             <table class="table-schedule" id="tabledetallada">
                                 <tr>
                                     <td class="table-schedule-nullpoint"></td>
-                                    <th scope="col" ng-repeat="empleado in Empleados" style="font-size:13px; font-weight:300; color:white; padding:10px; background-color:#385178;">{{empleado.nombres}}</th>
-                                    <th class="table-schedule-empty" ng-repeat="x in BlankCells" style="background-color: #385178 !important; position:sticky; top:0;"></th>
+                                    <th scope="col" ng-repeat="empleado in Empleados" style="font-size:14px; font-weight:600; color:white; padding:10px; background-color:#385178; box-shadow: 2px 2px 4px 0px rgba(102,102,102,1);">{{empleado.nombres}}</th>
+                                    <th class="table-schedule-empty" ng-repeat="x in BlankCells" style="background-color: #385178 !important; box-shadow: 2px 2px 4px 0px rgba(102,102,102,1); position:sticky; top:0;"></th>
                                 </tr>
                                 <tbody ng-repeat="hora in RangoHoras track by $index">
                                     <tr>
@@ -59,12 +59,12 @@
                                                 <div class="agenda-detallada" ng-style="{'height':CalcularAlturaDiv(agenda)}" ng-class="CardsDetalladaStyle(agenda)" ng-click="DetalladaEventoClick($event)">
                                                     <span data-toggle="tooltip" title="{{agenda.nombres_Cliente + ' ' + agenda.apellidos_Cliente}}"><b>Cliente</b>: {{agenda.nombres_Cliente}}</span>
                                                     <span data-ng-show="agenda.estado === 'PROGRAMADA'" style="padding:0; padding-top: 1px; margin:0; float:right; display:inline-flex;" class="cards-icons">
-                                                        <i class="material-icons" style="font-size:15px; font-weight:600; color: #4caf50;" data-ng-click="showConfirmConfirmarAgenda($event, ev, agenda)" data-toggle="tooltip" title="Confirmar cita">check</i>
-                                                        <i class="material-icons" style="font-size:15px; color: #4caf50;" data-ng-click="EditarAgenda($event, agenda)" data-toggle="tooltip" title="Editar cita">edit</i>
-                                                        <i class="material-icons" style="font-size:15px; margin-left:2px; color:#4caf50;" data-ng-click="showConfirmCancelarAgenda($event, ev, agenda)" data-toggle="tooltip" title="Cancelar cita">cancel</i>                                                        
+                                                        <i class="material-icons" style="font-size:15px; font-weight:600; color: lightslategrey;" data-ng-click="showConfirmConfirmarAgenda($event, ev, agenda)" data-toggle="tooltip" title="Confirmar cita">check</i>
+                                                        <i class="material-icons" style="font-size:15px; color: lightslategrey;" data-ng-click="EditarAgenda($event, agenda)" data-toggle="tooltip" title="Editar cita">edit</i>
+                                                        <i class="material-icons" style="font-size:15px; margin-left:2px; color:lightslategrey;" data-ng-click="showConfirmCancelarAgenda($event, ev, agenda)" data-toggle="tooltip" title="Cancelar cita">cancel</i>                                                        
                                                     </span>
                                                     <span data-ng-show="agenda.estado !== 'PROGRAMADA'">
-                                                        <i class="material-icons" style="font-size:15px; font-weight:600; float: right; color: #4caf50;" data-ng-click="MostrarDatosCita($event,agenda);" data-toggle="tooltip" title="Ver cita">remove_red_eye</i>
+                                                        <i class="material-icons" style="font-size:15px; font-weight:600; float: right; color: lightslategrey;" data-ng-click="MostrarDatosCita($event,agenda);" data-toggle="tooltip" title="Ver cita">remove_red_eye</i>
                                                     </span>
                                                     <br />
                                                     <span><b>Hora</b>: {{agenda.fechaInicio}} - {{agenda.fechaFin}}</span>
@@ -99,8 +99,9 @@
                                                 <div class="md-headline" style="border-bottom:1px dashed #212121; padding-bottom:3px; margin-top:-7px;">
                                                     <span style="text-align: left; font-size: 17px; font-weight: 600;">{{item.estado}}</span>
                                                     <span data-ng-show="item.estado === 'PROGRAMADA'" style="padding:0; padding-top:8px; margin:0; float:right; display:inline-flex;" class="cards-icons">
-                                                        <i class="material-icons" style="font-size:23px; font-weight:600; color: #4caf50;" data-ng-click="showConfirmConfirmarAgenda($event, ev, item)" data-toggle="tooltip" title="Confirmar cita">check</i>
-                                                        <i class="material-icons" style="font-size:22px; color: #4caf50;" data-ng-click="EditarAgenda($event, item)" data-toggle="tooltip" title="Editar cita">edit</i><i class="material-icons" style="font-size:22px; margin-left:2px; color:#4caf50;" data-ng-click="showConfirmCancelarAgenda($event, ev, item)" data-toggle="tooltip" title="Cancelar cita">cancel</i>
+                                                        <i class="material-icons" style="font-size:23px; font-weight:600; color: lightslategrey;" data-ng-click="showConfirmConfirmarAgenda($event, ev, item)" data-toggle="tooltip" title="Confirmar cita">check</i>
+                                                        <i class="material-icons" style="font-size:22px; color: lightslategrey;" data-ng-click="EditarAgenda($event, item)" data-toggle="tooltip" title="Editar cita">edit</i>
+                                                        <i class="material-icons" style="font-size:22px; margin-left:2px; color:lightslategrey;" data-ng-click="showConfirmCancelarAgenda($event, ev, item)" data-toggle="tooltip" title="Cancelar cita">cancel</i>
                                                     </span>
                                                 </div>
                                             </md-card-title-text>

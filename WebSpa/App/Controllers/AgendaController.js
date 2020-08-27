@@ -735,12 +735,12 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
             if ($scope.fPropertiesSetted) {
                 if ($scope.ValidarEmpleadosClientesServicios()) {
                     if ($scope.fEditAgenda) {
-                        $scope.AccionAgenda = 'Modificar cita';
+                        $scope.AccionAgenda = 'Modificar Cita';
                     }
                     else {
                         $scope.LimpiarDatos();
                         $scope.FechaHoraAgendaGeneral();
-                        $scope.AccionAgenda = 'Agendar cita';
+                        $scope.AccionAgenda = 'Agendar Cita';
                     }
 
                     $scope.ConsultarNumeroCitasDia();
