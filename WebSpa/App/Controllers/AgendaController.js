@@ -241,6 +241,9 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                             if ($scope.NumCitasDisponibles === 0) {
                                 $scope.fDisableGuardarAgenda = true;
                             }
+                            if ($scope.fMostrarDatosCita) {                                
+                                $scope.fDisableGuardarAgenda = true;                                
+                            }
                         })
             }
         }
