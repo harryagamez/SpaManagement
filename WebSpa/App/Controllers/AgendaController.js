@@ -524,6 +524,22 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     $('#timeFin').focus();
                     return false;
                 }
+                
+                let horafin = angular.copy($scope.RangoHoras[$scope.RangoHoras.length - 1]);
+                let ampm = horafin.substring(horafin.length - 2);
+                if (ampm === 'AM') {
+                    horafin = horafin.substring(0, 6);
+                    horafin = parseInt(horafin) + 1;
+                } else if (ampm === 'PM') {
+                    horafin = horafin.substring(0, 6);
+                    horafin = (parseInt(horafin) + 13) * 100;
+                }
+
+                if (parseInt($filter('date')(new Date($scope.HoraFin), 'HHmm')) > horafin) {
+                    toastr.info('La hora fin de la cita excede el rango establecido en las propiedades', '', $scope.toastrOptions);
+                    return false;
+                }
+                
 
                 $scope.Agenda.Fecha_Inicio = angular.copy($scope.FechaInicio);
                 $scope.Agenda.Fecha_Inicio.setHours($scope.HoraInicio.getHours(), $scope.HoraInicio.getMinutes(), 0, 0);
@@ -611,6 +627,22 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                 if ($scope.HoraFin === '' || $scope.HoraFin === null) {
                     toastr.info('Debe seleccionar una hora fin', '', $scope.toastrOptions);
                     $('#timeFin').focus();
+                    return false;
+                }
+
+                
+                let horafin = angular.copy($scope.RangoHoras[$scope.RangoHoras.length - 1]);
+                let ampm = horafin.substring(horafin.length - 2);
+                if (ampm === 'AM') {
+                    horafin = horafin.substring(0, 6);
+                    horafin = parseInt(horafin) + 1;
+                } else if (ampm === 'PM') {
+                    horafin = horafin.substring(0, 6);
+                    horafin = (parseInt(horafin) + 13) * 100;
+                }                
+
+                if (parseInt($filter('date')(new Date($scope.HoraFin), 'HHmm')) > horafin) {
+                    toastr.info('La hora fin de la cita excede el rango establecido en las propiedades', '', $scope.toastrOptions);
                     return false;
                 }
 
