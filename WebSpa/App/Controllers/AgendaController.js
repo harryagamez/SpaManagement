@@ -747,7 +747,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     }
 
                     $scope.ConsultarNumeroCitasDia();
-
+                    
                     if ($scope.fMostrarDatosCita) {                        
                         $scope.fDisableEmpleado = true;
                         $scope.fDisableCliente = true;                        
