@@ -77,6 +77,16 @@
                 templateUrl: 'Views/_agenda.html',
                 controller: 'AgendaController'
             })
+            .state('administrator', {
+                url: '/administrator',
+                templateUrl: 'Views/_administrator.html',
+                controller: 'AdministratorController'
+            })
+            .state('apanel', {
+                url: '/apanel',
+                templateUrl: 'Views/_apanel.html',
+                controller: 'AdministratorPanelController'
+            })
     }
 
     function Initialize($rootScope, $state, $http, $window, $location, localStorageService, authService) {
@@ -90,7 +100,7 @@
         authService.fillAuthData();
 
         $rootScope.$on('$stateChangeStart', function (e, route) {
-            if (route.controller !== "LoginController") {
+            if (route.controller !== "LoginController" && route.controller !== "AdministratorController" ) {
                 let _authentication = authService.authentication;
                 if (_authentication && !_authentication.isAuth) {
                     e.preventDefault();

@@ -94,6 +94,8 @@
   <ItemGroup>
     <Content Include="App\app.css" />
     <Content Include="App\app.js" />
+    <Content Include="App\Controllers\AdministratorController.js" />
+    <Content Include="App\Controllers\AdministratorPanelController.js" />
     <Content Include="App\Controllers\AgendaController.js" />
     <Content Include="App\Controllers\ClientesController.js" />
     <Content Include="App\Controllers\MainController.js" />
@@ -109,9 +111,11 @@
     <Content Include="App\Directives\directives.js" />
     <Content Include="App\index.html" />
     <Content Include="App\Services\services.js" />
+    <Content Include="App\Views\_administrator.html" />
     <Content Include="App\Views\Templates\_imgattached.tmpl.html" />
     <Content Include="App\Views\Templates\_slider.tmpl.html" />
     <Content Include="App\Views\_agenda.html" />
+    <Content Include="App\Views\_apanel.html" />
     <Content Include="App\Views\_clientes.html" />
     <Content Include="App\Views\_empleados.html" />
     <Content Include="App\Views\_gastos.html" />
@@ -130,6 +134,7 @@
     <Content Include="Images\agenda\agenda-programada-28px.png" />
     <Content Include="Images\agenda\agenda-programada.png" />
     <Content Include="Images\agenda\whatsapp-icon.png" />
+    <Content Include="Images\background-img.jpg" />
     <Content Include="Images\cerrar-sesion.png" />
     <Content Include="Images\config.png" />
     <Content Include="Images\default-perfil.png" />

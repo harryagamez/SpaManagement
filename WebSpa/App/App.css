@@ -22,9 +22,9 @@ Positions, Display, Top, Bottom, left, rights ################*/
 }
 
 #header {
-    min-width:820px;
+    min-width: 820px;
     height: 50px;
-    margin-bottom:10px;
+    margin-bottom: 10px;
     z-index: 10;
 }
 
@@ -133,7 +133,7 @@ li.active {
     margin-left: 12px;
 }
 
-#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos, #frmGestion, #frmAgenda {
+#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos, #frmGestion, #frmAgenda, #frmAPanel {
     padding: 13px;
     height: auto;
     margin-top: 3px;
@@ -162,7 +162,7 @@ li.active {
     min-width: 100%
 }
 
-.btn-login {
+.btn-login, .btn-administrator {
     min-width: 100%;
     margin: 0;
 }
@@ -244,13 +244,13 @@ select,
     color: darkgray;
 }
 
-#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos, #frmGestion, #frmAgenda {
+#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos, #frmGestion, #frmAgenda, #frmAPanel {
     font-size: 13px;
 }
 
     #frmClientes .material-icons, #frmServicios .material-icons,
     #frmEmpleados .material-icons, #frmProductos .material-icons, #frmGastos .material-icons,
-    #frmGestion .material-icons, #frmAgenda .material-icons {
+    #frmGestion .material-icons, #frmAgenda .material-icons, #frmAPanel .material-icons {
         font-size: 16px;
     }
 
@@ -284,7 +284,7 @@ body {
 }
 
 .background-image {
-    background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('../Images/img_spa.jpg');
+    background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('../Images/background-img.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -301,6 +301,16 @@ body {
 .btn-login:active {
     background: #239c28 !important;
 }
+
+.btn-administrator, .btn-apanel {
+    background: #8d93ab;
+    color: #fff;
+    text-transform:capitalize;
+}
+
+    .btn-administrator:hover, .btn-apanel:hover {
+        color: #333;
+    }
 
 .btn-spa {
     background: var(--accent-color) !important;
@@ -357,7 +367,7 @@ li.active {
     background-color: #3A6EA5 !important;
 }
 
-#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos, #frmGestion, #frmAgenda {
+#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos, #frmGestion, #frmAgenda, #frmAPanel {
     background-color: white !important;
     border-radius: 10px;
 }
@@ -1257,4 +1267,35 @@ input:focus, input.form-control:focus {
 
 #toast-container > .toast-success:before {
     content: "\f058";
+}
+
+/*MATERIAL APANEL*/
+
+.material-apanel md-input-container:not(.md-input-invalid).md-input-focused .md-input {
+    border-color: #8d93ab;
+}
+
+.material-apanel md-input-container:not(.md-input-invalid).md-input-focused label {
+    color: #8d93ab;
+}
+
+.material-apanel md-input-container:not(.md-input-invalid).md-input-focused .login-icons {
+    color: #8d93ab !important;
+}
+
+.material-apanel md-tabs.md-primary > md-tabs-wrapper {
+    background-color: white;
+    border-bottom: 2px solid #8d93ab !important;
+    color: grey;
+}
+
+
+.material-apanel md-tabs md-ink-bar {
+    background: transparent !important;    
+}
+
+.material-apanel .md-tab.md-active {
+    background: #8d93ab;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 5px 5px 10px #999;
 }

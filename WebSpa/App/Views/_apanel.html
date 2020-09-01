@@ -1,0 +1,119 @@
+﻿<header id="header">
+    <div layout="row">
+        <div flex="44" flex-gt-sm="40">
+            <div class="site-title" style="margin-top: 2px;">
+                <a ui-sref="apanel"><span style="font-size:30px; font-weight:800; color:#393b44;">aPanel</span><i class="material-icons" style="font-size:18px; font-weight:600; color:#8d93ab; margin-top:-25px;">settings</i></a>
+            </div>
+        </div>
+        <div flex="56" flex-gt-sm="60">
+            <div class="site-widgets">
+                <ul style=" white-space: nowrap;">
+                    <li><span><img ng-src="{{UserAvatar}}" style="max-width:27px; max-height:27px; min-height:27px; min-width:27px; object-fit: cover; margin-right:7px; border-radius:50%; margin-top: -3px;cursor:pointer;" data-toggle="tooltip" title="Usuario activo en el sistema" />{{ UsuarioSistema }}</span></li>
+                    <li ng-show="!MultipleEmpresa"><span><img src="../../Images/empresa.png" style="max-width:30px; margin-top: -5px;cursor:pointer;" data-toggle="tooltip" title="Empresa activa en el sistema" />{{ NombreEmpresa }}</span></li>
+                    <li ng-show="MultipleEmpresa">
+                        <span>
+                            <img src="../../Images/empresa.png" style="max-width: 27px; max-height: 27px; min-height: 27px; min-width: 27px; margin-top: -5px; cursor: pointer; margin-right: -13px; z-index: 999; position: relative;" data-toggle="tooltip" title="Empresa activa en el sistema" />
+                        </span>
+                    </li>
+                    <md-select class="select-multiempresa" ng-model="EmpresaSeleccionada" style="" id="slEstado" ng-show="MultipleEmpresa" ng-change="FiltrarEmpresa(EmpresaSeleccionada)">
+                        <md-option ng-bind="empresa.nombre" ng-value="empresa.id_Empresa" ng-repeat="empresa in Empresas track by empresa.id_Empresa"></md-option>
+                    </md-select>
+                    <li><a href="" ng-click="Logout()"><img src="../../Images/cerrar-sesion.png" style="max-width: 25px; max-height: 25px; min-height: 25px; min-width: 25px; float: right;" data-toggle="tooltip" title="Cerrar sesión" /></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="background-image"></div>
+<div class="wrapper">
+    <section id="section-apanel">
+        <div layout="row" style="height: calc(100vh - 70px);">
+            <form id="frmAPanel" class="material-apanel">
+                <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
+                    <md-tab label="Empresas">
+
+                        <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
+
+                            <md-button type="button" id="btnGuardar" class="groupX left btn-apanel" style="margin-left: 0px;" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarEmpleado()">
+                                <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                            </md-button>
+
+                            <md-button type="button" id="btnNuevo" class="groupX middle btn-apanel" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
+                                <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                            </md-button>
+
+                        </section>
+
+                        <div layout="row" layout-sm="column" style="" layout-align="space-around center">
+
+                            <div flex="">
+                                <md-input-container style="width:90%">
+                                    <label class="label-form-empleados" style="">
+                                        Nombre:
+                                    </label>
+                                    <input ng-model="Empresa.Nombre" id="txtNombreEmpresa" maxlength="100" type="text" placeholder="Nombre de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=1>
+                                </md-input-container>
+                            </div>
+
+                            <div flex="">
+                                <md-input-container style="width:90%">
+                                    <label class="label-form-empleados" style="">
+                                        Dirección:
+                                    </label>
+                                    <input ng-model="Empresa.Direccion" id="txtDireccionEmpresa" maxlength="60" type="text" placeholder="Dirección de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
+                                </md-input-container>
+                            </div>
+
+                            <div flex="">
+                                <md-input-container style="width:90%">
+                                    <label class="label-form-empleados" style="">
+                                        Teléfono Fijo:
+                                    </label>
+                                    <input ng-model="Empresa.Telefono_Fijo" id="txtTelFijoEmpresa" numbers-only maxlength="10" type="text" placeholder="Telefono fijo de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
+                                </md-input-container>
+                            </div>
+
+                            <div flex="">
+                                <md-input-container style="width:90%">
+                                    <label class="label-form-empleados" style="">
+                                        Celular:
+                                    </label>
+                                    <input ng-model="Empresa.Telefono_Movil" id="txtCelularEmpresa" numbers-only maxlength="12" type="text" placeholder="Celular de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
+                                </md-input-container>
+                            </div>
+
+                            <div flex="">
+                                <md-input-container style="width:90%">
+                                    <label class="label-form-empleados" style="">
+                                        Mail:
+                                    </label>
+                                    <input ng-model="Empresa.Mail" id="txtMailEmpresa" maxlength="60" type="text" placeholder="Email de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
+                                </md-input-container>
+                            </div>
+
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="" layout-align="space-around center">
+                            
+                        </div>
+
+                    </md-tab>
+
+                    <md-tab label="Datos Maestros">
+                        <md-content class="md-padding" style="background-color:transparent; margin-bottom:10px;">
+
+                        </md-content>
+                    </md-tab>
+
+                    <md-tab label="Usuarios">
+                        <md-content class="md-padding" style="background-color:transparent; margin-bottom:10px;">
+
+                        </md-content>
+                    </md-tab>
+
+
+                </md-tabs>
+            </form>
+        </div>
+    </section>
+</div>
