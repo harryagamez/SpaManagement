@@ -189,6 +189,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SPAController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -284,6 +285,10 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Admin.Application.AdminService\Admin.Application.AdminService.csproj">
+      <Project>{6e01fab0-64a7-468d-91d1-0652b9ee724e}</Project>
+      <Name>Admin.Application.AdminService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Spa.Application.SpaService\Spa.Application.SpaService.csproj">
       <Project>{505ee7b7-48e9-4108-8621-7d02efda1465}</Project>
       <Name>Spa.Application.SpaService</Name>
