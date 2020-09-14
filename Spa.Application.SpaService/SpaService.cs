@@ -27,8 +27,8 @@ namespace Spa.Application.SpaService
             {
                 string encryptedPassword = SecurityHelper.EncryptPasswordHash(Password);
 
-                Usuario _usuario = _spaRepository.ValidarUsuario(Nombre, encryptedPassword, ValidarIntegracion, CodigoIntegracion);                
-
+                Usuario _usuario = _spaRepository.ValidarUsuario(Nombre, encryptedPassword, ValidarIntegracion, CodigoIntegracion);
+                
                 if (_usuario != null)
                 {
                     string htmlString = @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">
@@ -142,6 +142,10 @@ namespace Spa.Application.SpaService
         {
             return _spaRepository.ConsultarTipoServicios();
         }
+        public List<ServicioMaestro> ConsultarServiciosMaestro(string CategoriaEmpresa)
+        {
+            return _spaRepository.ConsultarServiciosMaestro(CategoriaEmpresa);
+        }
 
         public List<Servicio> ConsultarServicios(string IdEmpresa)
         {
@@ -213,9 +217,9 @@ namespace Spa.Application.SpaService
             return _spaRepository.AsignarEmpleadoInsumo(_EmpleadoInsumo);
         }
 
-        public List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado)
+        public List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado, string IdEmpresa)
         {
-            return _spaRepository.ConsultarEmpleadoServicio(IdEmpleado);
+            return _spaRepository.ConsultarEmpleadoServicio(IdEmpleado, IdEmpresa);
         }
 
         public List<Transaccion> ConsultarEmpleadoInsumos(int IdEmpleado)

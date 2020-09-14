@@ -7,12 +7,16 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
     $scope.TipoServicios = [];
     $scope.ObjetoServicio = [];
     $scope.Servicios = [];
+    $scope.ServiciosMaestro = [];
+    $scope.ServiciosSinAsignar = [];
     $scope.TipoServicioSeleccionado = -1;
+    $scope.ServicioSeleccionadoM = -1;
     $scope.EstadoSeleccionado = 'ACTIVO';
     $scope.AccionServicio = 'Registrar Servicio';
     $scope.ImagenServicioBase64 = '';
     $scope.InformacionImagen = '';
     $rootScope.ImagenesxAdjuntar = 0;
+
     $scope.DuracionServicio = [
         { Id_DuracionServicio: -1, Valor: '[Seleccione]' },
         { Id_DuracionServicio: 30, Valor: 'MEDIA HORA' },
@@ -25,6 +29,9 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
         { Id_DuracionServicio: 240, Valor: 'CUATRO HORAS' }
     ];
 
+    $scope.ServiciosSinAsignar.push({ id_Servicio: -1, nombre: '[Seleccione]' });
+    $scope.ServiciosSinAsignar = $filter('orderBy')($scope.ServiciosSinAsignar, 'nombre', false);
+
     $scope.Inicializacion = function () {
         $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
         window.onresize();
@@ -33,22 +40,21 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
     }
 
     $scope.IdEmpresa = $rootScope.Id_Empresa;
+    $scope.CategoriaEmpresa = $rootScope.Categoria_Empresa;
     $scope.IdUsuario = parseInt($rootScope.userData.userId);
 
     $scope.Servicio =
     {
-        Descripcion: '',
         Estado: $scope.EstadoSeleccionado,
-        Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
         Id_Empresa: $scope.IdEmpresa,
-        Id_TipoServicio: -1,
         Id_Servicio: -1,
-        Nombre: '',
-        Nombre_Tipo_Servicio: '',
+        Id_Empresa_Servicio: '00000000-0000-0000-0000-000000000000',
         Tiempo: -1,
         Valor: 0,
         Imagenes_Servicio: []
     }
+
+    $scope.ServicioDescripcion = "";
 
     $scope.GuardarServicio = function () {
         if ($scope.ValidarDatos()) {
@@ -56,7 +62,6 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
 
             $scope.ObjetoServicio = [];
             $scope.ObjetoServicio.push($scope.Servicio);
-
             SPAService._guardarServicio(JSON.stringify($scope.ObjetoServicio))
                 .then(
                     function (result) {
@@ -93,13 +98,47 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 })
     }
 
+    $scope.ConsultarServiciosMaestro = function () {
+        SPAService._consultarServiciosMaestro($scope.CategoriaEmpresa)
+            .then(
+                function (result) {
+                    if (result.data !== undefined && result.data !== null) {
+                        $scope.ServiciosMaestro = [];
+                        $scope.ServiciosMaestro = result.data;
+                        $scope.ConsultarServicios();
+                    }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
+    }
+
     $scope.ConsultarServicios = function () {
         SPAService._consultarServicios($scope.IdEmpresa)
             .then(
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
                         $scope.Servicios = [];
+                        $scope.ServiciosSinAsignar = [];
                         $scope.Servicios = result.data;
+                        if ($scope.ServiciosMaestro !== undefined && $scope.ServiciosMaestro !== null && $scope.ServiciosMaestro.length > 0) {
+                            $scope.ServiciosSinAsignar = $scope.ServiciosMaestro.filter(function (sm) {
+                                return !$scope.Servicios.some(function (se) {
+                                    return sm.id_Servicio === se.id_Servicio;
+                                });
+                            });
+                            $scope.ServiciosSinAsignar.push({ id_Servicio: -1, nombre: '[Seleccione]' });
+                            $scope.ServiciosSinAsignar = $filter('orderBy')($scope.ServiciosSinAsignar, 'nombre', false);
+                            $scope.ServicioReadOnly = false;
+                        }
+                        else if ($scope.ServiciosMaestro.length === 0) {
+                            $scope.ServiciosSinAsignar.push({ id_Servicio: -1, nombre: '[Seleccione]' });
+                            $scope.ServiciosSinAsignar = $filter('orderBy')($scope.ServiciosSinAsignar, 'nombre', false);
+                            $scope.ServicioReadOnly = true;
+                            toastr.info('No existen servicios en la tabla maestra. Contacte con el administrador.', '', $scope.toastrOptions);
+                        }
+
                         $scope.ServiciosGridOptions.api.setRowData($scope.Servicios);
 
                         $timeout(function () {
@@ -113,14 +152,33 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 })
     }
 
+    $scope.OnChangeServicioMaestro = function () {
+        if ($scope.ServicioSeleccionadoM === -1) {
+            $scope.Servicio.Descripcion = "";
+            $scope.TipoServicioSeleccionado = -1;
+            return;
+        }
+
+        if ($scope.ServicioSeleccionadoM !== -1) {
+            let service = $scope.ServiciosSinAsignar.filter(function (e) {
+                return e.id_Servicio === $scope.ServicioSeleccionadoM;
+            });
+            $scope.ServicioDescripcion = service[0].descripcion;
+            $scope.TipoServicioSeleccionado = service[0].id_TipoServicio;
+        }
+    }
+
     $scope.ConsultarServicio = function (data) {
         try {
             $rootScope.ServicioImagenesAdjuntas = data.imagenes_Servicio;
             $scope.TipoServicioSeleccionado = -1;
 
             if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
-                $scope.Servicio.Nombre = data.nombre;
-                $scope.Servicio.Descripcion = data.descripcion;
+                $scope.ServicioReadOnly = true;
+                $scope.ServiciosSinAsignar = angular.copy($scope.ServiciosMaestro);
+                $scope.Servicio.Id_Empresa_Servicio = data.id_Empresa_Servicio
+                $scope.ServicioSeleccionadoM = data.id_Servicio;
+                $scope.ServicioDescripcion = data.descripcion;
                 $scope.Servicio.Estado = data.estado;
                 $scope.Servicio.Fecha_Modificacion = $filter('date')(new Date(), 'MM-dd-yyyy');
                 $scope.Servicio.Id_Empresa = $scope.IdEmpresa;
@@ -137,7 +195,6 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 $scope.Servicio.Imagenes_Servicio = data.imagenes_Servicio;
                 $scope.TipoServicioSeleccionado = data.id_TipoServicio;
                 $scope.ModalEditarServicio();
-                $scope.NombreServicioReadOnly = true;
 
                 $scope.EstadoSeleccionado = $scope.Servicio.Estado;
             }
@@ -181,7 +238,6 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 $scope.Servicio.Id_Servicio = row.data.id_Servicio;
                 $scope.TipoServicioSeleccionado = row.data.id_TipoServicio;
 
-                $scope.NombreServicioReadOnly = true;
                 $scope.OcultarbtnNuevo = true;
             }
         } catch (e) {
@@ -201,20 +257,21 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
 
             $scope.Servicio =
             {
-                Nombre: '',
-                Descripcion: '',
                 Estado: $scope.EstadoSeleccionado,
-                Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
                 Id_Empresa: $scope.IdEmpresa,
-                Id_TipoServicio: -1,
                 Id_Servicio: -1,
-                Nombre_Tipo_Servicio: '',
+                Id_Empresa_Servicio: '00000000-0000-0000-0000-000000000000',
                 Tiempo: -1,
                 Valor: 0,
                 Imagenes_Servicio: []
             }
 
+            $rootScope.ServicioImagenesAdjuntas = [];
+
+            $scope.ServicioDescripcion = "";
+
             $scope.TipoServicioSeleccionado = -1;
+            $scope.ServicioSeleccionadoM = -1;
 
             $('#txtNombreServicio').focus();
         } catch (e) {
@@ -225,34 +282,23 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
 
     $scope.ValidarDatos = function () {
         try {
-            $scope.Servicio.Id_TipoServicio = $scope.TipoServicioSeleccionado;
             $scope.Servicio.Estado = $scope.EstadoSeleccionado;
 
-            if ($scope.Servicio.Nombre === '') {
-                toastr.info('Nombre del servicio es requerido', '', $scope.toastrOptions);
-                $('#txtNombreServicio').focus();
+            if ($scope.ServicioSeleccionadoM === - 1) {
+                toastr.info('Debe seleccionar un servicio', '', $scope.toastrOptions);
+                $('#slServicioMaestro').focus();
                 return false;
             }
 
-            if ($scope.Servicio.Descripcion === '') {
-                toastr.info('Descripción del servicio es requerida', '', $scope.toastrOptions);
-                $('#txtDescripcionServicio').focus();
-                return false;
-            }
-
-            if ($scope.Servicio.Id_TipoServicio === -1) {
-                toastr.info('Tipo de servicio es requerido', '', $scope.toastrOptions);
-                $('#slTipoServicio').focus();
-                return false;
-            }
+            $scope.Servicio.Id_Servicio = $scope.ServicioSeleccionadoM;
 
             if (parseInt($scope.Servicio.Tiempo) === -1) {
                 toastr.info('Tiempo del servicio es requerido', '', $scope.toastrOptions);
-                $('#txtTiempoServicio').focus();
+                $('#slTiempoServicio').focus();
                 return false;
-            }            
+            }
 
-            if (parseInt($scope.Servicio.Valor) === 0) {
+            if (parseInt($scope.Servicio.Valor) <= 0) {
                 toastr.info('Valor del servicio es requerido', '', $scope.toastrOptions);
                 $('#txtValorServicio').focus();
                 return false;
@@ -267,6 +313,11 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
 
     $scope.ModalNuevoServicio = function () {
         try {
+            if ($scope.ServicioReadOnly) {
+                toastr.info('No existen servicios en la tabla maestra. Contacte con el administrador.', '', $scope.toastrOptions);
+                return;
+            }
+
             $scope.AccionServicio = 'Registrar Servicio';
             $rootScope.ImagenesAdjuntas = 0;
             $rootScope.ImagenesxAdjuntar = 0;
@@ -285,7 +336,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 });
 
             $scope.LimpiarDatos();
-            $scope.NombreServicioReadOnly = false;
+
             $scope.OcultarbtnNuevo = false;
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -312,10 +363,12 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                     });
                     $('#txtBuscarServicio').focus();
                     $scope.LimpiarDatos();
+                    $scope.ConsultarServicios();
                 });
 
             $scope.NombreServicioReadOnly = true
             $scope.OcultarbtnNuevo = true;
+            $('#slTiempoServicio').focus();
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -432,7 +485,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
             headerName: "Nombre", field: 'nombre', width: 150, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Descripcion", field: 'descripcion', width: 150, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function (params) {
+            headerName: "Descripción", field: 'descripcion', width: 150, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function (params) {
                 return "<span  data-toggle='tooltip' data-placement='left' title='{{data.descripcion}}'>{{data.descripcion}}</span>"
             },
         },
@@ -558,7 +611,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
             reader.onload = function () {
                 $scope.ImagenServicioBase64 = reader.result;
                 $scope.TEMPServicio.push({
-                    Id_Servicio: -1, Imagen_Base64: $scope.ImagenServicioBase64, TuvoCambios: true
+                    Id_Servicio: $scope.ServicioSeleccionadoM, Imagen_Base64: $scope.ImagenServicioBase64, TuvoCambios: true
                 });
                 $("#ImagenServicio").val('');
                 $('#txtNombreServicio').focus();
@@ -575,12 +628,27 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
 
     $scope.$on("CompanyChange", function () {
         $scope.IdEmpresa = $rootScope.Id_Empresa;
+
+        let empresa = $rootScope.Empresas.filter(function (e) {
+            return e.id_Empresa == $scope.IdEmpresa;
+        });
+
+        $rootScope.Categoria_Empresa = empresa[0].id_Categoria_Servicio;
+        $scope.CategoriaEmpresa = $rootScope.Categoria_Empresa;
+
         $scope.LimpiarDatos();
-        $scope.ConsultarServicios();
+        $scope.ConsultarServiciosMaestro();
         $scope.Inicializacion();
     });
 
+    let empresa = $rootScope.Empresas.filter(function (e) {
+        return e.id_Empresa == $scope.IdEmpresa;
+    });
+
+    $rootScope.Categoria_Empresa = empresa[0].id_Categoria_Servicio;
+    $scope.CategoriaEmpresa = $rootScope.Categoria_Empresa;
+
     $scope.ConsultarTipoServicios();
-    $scope.ConsultarServicios();
+    $scope.ConsultarServiciosMaestro();
     $scope.Inicializacion();
 }

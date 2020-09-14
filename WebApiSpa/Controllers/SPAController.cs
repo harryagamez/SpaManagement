@@ -179,6 +179,23 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpGet]
+        [Route("api/SPA/ConsultarServiciosMaestro")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarServiciosMaestro(string CategoriaEmpresa)
+        {
+            try
+            {
+                List<ServicioMaestro> _servicios = _spaService.ConsultarServiciosMaestro(CategoriaEmpresa);
+
+                return Content(HttpStatusCode.OK, _servicios);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los servicios: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("api/SPA/ConsultarServicios")]
         [HttpCache(DefaultExpirySeconds = 2)]
         public IHttpActionResult ConsultarServicios(string IdEmpresa)
@@ -368,11 +385,11 @@ namespace WebApiSpa.Controllers
         [HttpGet]
         [Route("api/SPA/ConsultarEmpleadoServicio")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult ConsultarEmpleadoServicio(int IdEmpleado)
+        public IHttpActionResult ConsultarEmpleadoServicio(int IdEmpleado, string IdEmpresa)
         {
             try
             {
-                List<EmpleadoServicio> _listEmpleadoServicio = _spaService.ConsultarEmpleadoServicio(IdEmpleado);
+                List<EmpleadoServicio> _listEmpleadoServicio = _spaService.ConsultarEmpleadoServicio(IdEmpleado, IdEmpresa);
 
                 return Content(HttpStatusCode.OK, _listEmpleadoServicio);
             }

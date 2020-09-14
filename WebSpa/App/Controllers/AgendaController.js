@@ -84,7 +84,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
         if ($scope.ValidarDatosConsulta()) {
             SPAService._consultarAgenda($scope.Agenda)
                 .then(
-                    function (result) {                        
+                    function (result) {
                         if (result.data !== undefined && result.data !== null) {
                             $scope.Agendas = [];
                             $scope.Agendas = result.data;
@@ -95,12 +95,11 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                         }
 
                         if ($scope.Agendas.length === 0) {
-                            toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);                            
+                            toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
                             return;
-                        }                       
-                        
-                        $mdDialog.cancel();
+                        }
 
+                        $mdDialog.cancel();
                     }, function (err) {
                         toastr.remove();
                         if (err.data !== null && err.status === 500)
@@ -199,7 +198,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
     }
 
     $scope.ConsultarEmpleadoServicio = function (idEmpleado) {
-        SPAService._consultarEmpleadoServicio(idEmpleado)
+        SPAService._consultarEmpleadoServicio(idEmpleado, $scope.IdEmpresa)
             .then(
                 function (result) {
                     if (result.data !== undefined && result.data !== null && result.data.length > 0) {
@@ -241,8 +240,8 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                             if ($scope.NumCitasDisponibles === 0) {
                                 $scope.fDisableGuardarAgenda = true;
                             }
-                            if ($scope.fMostrarDatosCita) {                                
-                                $scope.fDisableGuardarAgenda = true;                                
+                            if ($scope.fMostrarDatosCita) {
+                                $scope.fDisableGuardarAgenda = true;
                             }
                         })
             }
@@ -288,6 +287,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
 
     $scope.ConfiguracionEmpresaActual = function () {
         try {
+            $scope.RHA = '';
             if ($scope.EmpresaPropiedades.length > 0) {
                 let papts = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'PAPTS' });
                 let mncd = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'MNCD' });
@@ -317,6 +317,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                 $scope.fPropertiesSetted = false;
                 toastr.warning('La empresa actual, no tiene propiedades definidas', '', $scope.toastrOptions);
             }
+            $scope.GenerarArregloRangoHoras();
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -324,7 +325,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
     }
 
     $scope.EditarAgenda = function ($event, agenda) {
-        try {            
+        try {
             if ($scope.fActiveTab === 'Detallada')
                 $event.stopPropagation();
 
@@ -350,10 +351,9 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
             $scope.Agenda.Estado = 'PROGRAMADA';
             $scope.fEditAgenda = true;
             $scope.fDisableCliente = true;
-            $scope.fDisableFechaCita = true;           
+            $scope.fDisableFechaCita = true;
 
             $scope.ModalAgendaGeneral();
-
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -379,7 +379,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
             $scope.EmpleadoSeleccionado = null;
             $scope.AgendaServicios = [];
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
-            $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));  
+            $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
             //$scope.FechaActual = new Date(new Date().setHours(0, 0, 0, 0));
 
             $scope.fEditAgenda = false;
@@ -524,7 +524,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     $('#timeFin').focus();
                     return false;
                 }
-                
+
                 let horafin = angular.copy($scope.RangoHoras[$scope.RangoHoras.length - 1]);
                 let ampm = horafin.substring(horafin.length - 2);
                 if (ampm === 'AM') {
@@ -539,7 +539,6 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     toastr.info('La hora fin de la cita excede el rango establecido en las propiedades', '', $scope.toastrOptions);
                     return false;
                 }
-                
 
                 $scope.Agenda.Fecha_Inicio = angular.copy($scope.FechaInicio);
                 $scope.Agenda.Fecha_Inicio.setHours($scope.HoraInicio.getHours(), $scope.HoraInicio.getMinutes(), 0, 0);
@@ -630,7 +629,6 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     return false;
                 }
 
-                
                 let horafin = angular.copy($scope.RangoHoras[$scope.RangoHoras.length - 1]);
                 let ampm = horafin.substring(horafin.length - 2);
                 if (ampm === 'AM') {
@@ -639,7 +637,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                 } else if (ampm === 'PM') {
                     horafin = horafin.substring(0, 6);
                     horafin = (parseInt(horafin) + 13) * 100;
-                }                
+                }
 
                 if (parseInt($filter('date')(new Date($scope.HoraFin), 'HHmm')) > horafin) {
                     toastr.info('La hora fin de la cita excede el rango establecido en las propiedades', '', $scope.toastrOptions);
@@ -734,7 +732,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     $scope.Agenda.Traer_Canceladas = true;
                     $scope.Agenda.Estado = 'CANCELADA';
                 }
-                                    
+
                 return true;
             }
         } catch (e) {
@@ -779,10 +777,10 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     }
 
                     $scope.ConsultarNumeroCitasDia();
-                    
-                    if ($scope.fMostrarDatosCita) {                        
+
+                    if ($scope.fMostrarDatosCita) {
                         $scope.fDisableEmpleado = true;
-                        $scope.fDisableCliente = true;                        
+                        $scope.fDisableCliente = true;
                         $scope.fDisableFechaCita = true;
                         $scope.fDisableHoraInicio = true;
                         $scope.fDisableHoraFin = true;
@@ -817,19 +815,24 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
     $scope.ModalAgendaDetallada = function (horas, empleado, minutos) {
         try {
             if ($scope.fPropertiesSetted) {
+                if ($scope.Servicios.length == 0 || $scope.Servicios === undefined || $scope.Servicios === null) {
+                    toastr.warning('Para poder utilizar el módulo de agenda debe asignar al menos un servicio a su empresa', '', $scope.toastrOptions);
+                    return;
+                }
+
                 if ($scope.FechaActual === null || $scope.FechaActual === undefined || $scope.FechaActual === '') {
                     toastr.info('Formato de fecha inválido', '', $scope.toastrOptions);
                     return;
                 }
-                
+
                 if (parseInt($filter('date')($scope.FechaActual, 'yyyyMMdd')) < parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
-                    toastr.info('Solo puede programar agenda a partir de la fecha actual', '', $scope.toastrOptions);                    
+                    toastr.info('Solo puede programar agenda a partir de la fecha actual', '', $scope.toastrOptions);
                     return;
                 }
 
                 $scope.LimpiarDatos();
                 $scope.FechaHoraAgendaDetallada(horas, minutos);
-                
+
                 if (parseInt($filter('date')(new Date($scope.FechaActual), 'yyyyMMdd')) === parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
                     if (parseInt($filter('date')(new Date($scope.HoraFin), 'HHmm')) < parseInt($filter('date')(new Date(), 'HHmm'))) {
                         toastr.info('Solo puede agendar citas a partir de la hora actual ', '', $scope.toastrOptions);
@@ -897,7 +900,6 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
 
     $scope.showConfirmCancelarAgenda = function ($event, ev, data) {
         try {
-
             if ($scope.fActiveTab === 'Detallada')
                 $event.stopPropagation();
 
@@ -923,7 +925,6 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
 
     $scope.showConfirmConfirmarAgenda = function ($event, ev, data) {
         try {
-
             if ($scope.fActiveTab === 'Detallada')
                 $event.stopPropagation();
 
@@ -1134,6 +1135,8 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
             let rangoinicial = '';
             let rangofinal = '';
             $scope.BlankCells = [];
+            $scope.RangoHoras = [];
+
             if ($scope.RHA !== null && $scope.RHA !== undefined && $scope.RHA !== '') {
                 rangoinicial = $scope.RHA.substring(0, 2);
                 rangofinal = $scope.RHA.substring($scope.RHA.length - 2);
@@ -1166,7 +1169,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
         }
     }
 
-    $scope.CardsDetalladaStyle=  function(agenda) {
+    $scope.CardsDetalladaStyle = function (agenda) {
         try {
             let estado = agenda.estado;
             if (estado === 'PROGRAMADA') {
@@ -1179,12 +1182,11 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                 return 'detallada-facturada';
             } else if (estado === 'LIQUIDADA') {
                 return 'detallada-liquidada';
-            } 
+            }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
         }
-
     }
 
     $scope.CalcularAlturaDiv = function (agenda) {
@@ -1206,7 +1208,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
 
     $scope.MostrarMoreInfoDetallada = function ($event, estado) {
         $scope.fShowMoreInfoDetallada = true;
-        $event.stopPropagation();        
+        $event.stopPropagation();
     }
 
     $scope.BackgroundCards = function (estado) {
@@ -1263,14 +1265,12 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
         $scope.ConsultarEmpleadosAutoComplete();
         $scope.ConsultarClientes();
         $scope.ConfiguracionEmpresaActual();
-        $scope.GenerarArregloRangoHoras();
         if ($scope.fActiveTab === 'General')
             $scope.ModalFiltrarCitas();
-    });    
+    });
 
     $scope.ConsultarServiciosActivos();
     $scope.ConsultarEmpleadosAutoComplete();
     $scope.ConsultarClientes();
     $scope.ConfiguracionEmpresaActual();
-    $scope.GenerarArregloRangoHoras();    
 }

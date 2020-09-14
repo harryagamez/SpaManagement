@@ -2,6 +2,9 @@
 {
     public class BusquedaServicio
     {
+        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public int Id_TipoServicio { get; set; }
         public string Nombre_Tipo_Servicio { get; set; }
     }
 }

@@ -34,6 +34,7 @@ function AdministratorController($scope, $state, $location, $mdDialog, $rootScop
                                 else {
                                     $scope.DatosUsuario = { Usuario: '', Clave: '', CodigoIntegracion: '' };
                                     toastr.info('Credenciales de Super Usuario no válidas', '', $scope.toastrOptions);
+                                    authService.logOut();
                                 }
                             }
                         }

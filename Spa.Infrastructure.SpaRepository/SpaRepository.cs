@@ -308,6 +308,32 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public List<ServicioMaestro> ConsultarServiciosMaestro(string CategoriaEmpresa)
+        {
+
+            DataTable _datatable = new DataTable();
+            List<ServicioMaestro> _serviciosMaestro = new List<ServicioMaestro>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarServiciosMaestro";
+                    _command.Parameters.AddWithValue("@CategoriaEmpresa", CategoriaEmpresa);
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+
+                    _serviciosMaestro = _datatable.DataTableToList<ServicioMaestro>();
+                    return _serviciosMaestro;
+                }
+            }
+        }
+
         public List<Servicio> ConsultarServicios(string IdEmpresa)
         {
 
@@ -374,8 +400,8 @@ namespace Spa.Infrastructure.SpaRepository
                     _dataset.Tables[1].TableName = "Servicio_Imagenes";
 
                     _dataset.Relations.Add("ServicioImagenes",
-                   _dataset.Tables["Servicios"].Columns["Id_Servicio"],
-                   _dataset.Tables["Servicio_Imagenes"].Columns["Id_Servicio"]);
+                   _dataset.Tables["Servicios"].Columns["Id_Empresa_Servicio"],
+                   _dataset.Tables["Servicio_Imagenes"].Columns["Id_Empresa_Servicio"]);
 
                     _servicios = _dataset.Tables["Servicios"]
                     .AsEnumerable()
@@ -489,7 +515,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado)
+        public List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado, string IdEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -503,6 +529,7 @@ namespace Spa.Infrastructure.SpaRepository
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarEmpleadoServicio";
                     _command.Parameters.AddWithValue("@IdEmpleado", IdEmpleado);
+                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);

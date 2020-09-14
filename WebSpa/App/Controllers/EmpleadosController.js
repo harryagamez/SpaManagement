@@ -94,11 +94,13 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
 
     $scope.AsignarEmpleadoServicio = function () {
         if ($scope.ServiciosAsignados.length > 0) {
-            $scope.ListaServiciosAsignados = [];
+            $scope.ListaServiciosAsignados = [];            
             $scope.ListaServiciosAsignados = $scope.ServiciosAsignados.map(function (e) {
-                return { Id_Empleado_Servicio: -1, Id_Servicio: e, Id_Empleado: $scope.IdEmpleado }
-            });
-
+                let servicio = $scope.Servicios.filter(function (s) {
+                    return s.id_Servicio === e;
+                });                
+                return { Id_Empleado_Servicio: -1, Id_Empresa_Servicio: servicio[0].id_Empresa_Servicio, Id_Servicio: e, Id_Empleado: $scope.IdEmpleado }
+            });            
             SPAService._asignarEmpleadoServicio(JSON.stringify($scope.ListaServiciosAsignados))
                 .then(
                     function (result) {
@@ -262,9 +264,9 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
     }
 
     $scope.ConsultarEmpleadoServicio = function () {
-        SPAService._consultarEmpleadoServicio($scope.IdEmpleado)
+        SPAService._consultarEmpleadoServicio($scope.IdEmpleado, $scope.IdEmpresa)
             .then(
-                function (result) {
+                function (result) {                    
                     if (result.data !== undefined && result.data !== null) {
                         $scope.EmpleadoServicio = [];
                         $scope.EmpleadoServicio = result.data;
@@ -276,7 +278,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                                 return s.id_Servicio === es.id_Servicio;
                             });
                         });
-
+                        
                         $scope.TempListadoServicios = $filter('orderBy')($scope.TempListadoServicios, 'nombre', false);
                         $timeout(function () {
                             $scope.EmpleadoServicioGridOptions.api.sizeColumnsToFit();
@@ -397,7 +399,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
                         $scope.Servicios = [];
-                        $scope.Servicios = result.data;
+                        $scope.Servicios = result.data;                        
                         $scope.Servicios = $filter('orderBy')($scope.Servicios, 'id_Servicio', false);
                     }
                 }, function (err) {

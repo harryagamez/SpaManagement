@@ -19,6 +19,7 @@ namespace Spa.Infrastructure.SpaRepository
         List<TipoCliente> ConsultarTipoClientes();
         Cliente ConsultarCliente(string Cedula, string IdEmpresa);
         List<TipoServicio> ConsultarTipoServicios();
+        List<ServicioMaestro> ConsultarServiciosMaestro(string CategoriaEmpresa);
         List<Servicio> ConsultarServicios(string IdEmpresa);
         List<Servicio> ConsultarServiciosActivos(string IdEmpresa);
         bool GuardarServicio(List<Servicio> _Servicio);
@@ -33,7 +34,7 @@ namespace Spa.Infrastructure.SpaRepository
         bool DesasignarEmpleadoServicio(int IdEmpleadoServicio);
         bool AsignarEmpleadoInsumo(List<Transaccion> _EmpleadoInsumo);
         bool EliminarEmpleadoInsumo(int IdTransaccion, int Cantidad, int IdProducto);
-        List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado);
+        List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado, string IdEmpresa);
         List<Transaccion> ConsultarEmpleadoInsumos(int IdEmpleado);
         bool GuardarProducto(List<Producto> _Producto);
         List<Transaccion> ConsultarProductoTransacciones(int IdProducto, string IdEmpresa);

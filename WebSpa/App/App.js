@@ -100,8 +100,15 @@
         authService.fillAuthData();
 
         $rootScope.$on('$stateChangeStart', function (e, route) {
-            if (route.controller !== "LoginController" && route.controller !== "AdministratorController" ) {
+            if (route.controller !== "LoginController" && route.controller !== "AdministratorController") {
                 let _authentication = authService.authentication;
+                if (route.controller === "AdministratorPanelController" && _authentication
+                    && _authentication.isAuth && _authentication.userRole !== "[MANAGER]") {
+                    e.preventDefault();
+                    $location.replace();
+                    $state.go('home');
+                }
+
                 if (_authentication && !_authentication.isAuth) {
                     e.preventDefault();
                     $location.replace();

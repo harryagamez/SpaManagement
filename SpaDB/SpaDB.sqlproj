@@ -272,6 +272,9 @@
     <Build Include="dbo\Stored Procedures\ConfirmarAgenda.sql" />
     <Build Include="dbo\Stored Procedures\RegistrarClientes.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarNumeroCitasDia.sql" />
+    <Build Include="dbo\Tables\CATEGORIA_SERVICIOS.sql" />
+    <Build Include="dbo\Tables\EMPRESA_SERVICIOS.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarServiciosMaestro.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

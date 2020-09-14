@@ -39,7 +39,8 @@
         var _authentication = {
             isAuth: false,
             userName: "",
-            userPassword: ""
+            userPassword: "",
+            userRole: ""
         };
 
         var _login = function (userName, password, validatedIntegration, integrationCode) {
@@ -67,6 +68,7 @@
 
             $rootScope.Id_Empresa = '';
             $rootScope.Nombre_Empresa = '';
+            $rootScope.Categoria_Empresa = '';
 
             var deferred = $q.defer();
 
@@ -90,7 +92,7 @@
             }).then(
                 function (response) {
                     $rootScope.Id_Empresa = '';
-
+                    $rootScope.Categoria_Empresa = '';                    
                     localStorageService.set('authorizationData',
                         {
                             token: response.data.access_token,
@@ -99,18 +101,21 @@
                             userRole: response.data.Role,
                             integrationCode: response.data.IntegrationCode,
                             companyId: response.data.CompanyId,
-                            companyName: response.data.CompanyName
+                            companyName: response.data.CompanyName,
+                            companyCategory: response.data.CompanyCategory
                         });
 
-                    $rootScope.userData = { userName: response.data.UserName, userId: response.data.UserId, userRole: response.data.Role, companyName: response.data.CompanyName }
+                    $rootScope.userData = { userName: response.data.UserName, userId: response.data.UserId, userRole: response.data.Role, companyName: response.data.CompanyName, companyCategory: response.data.companyCategory }
 
                     $rootScope.Id_Empresa = response.data.CompanyId;
                     $rootScope.Perfil = response.data.userRole;
                     $rootScope.Nombre_Empresa = response.data.CompanyName;
+                    $rootScope.Categoria_Empresa = response.data.CompanyCategory;
 
                     _authentication.isAuth = true;
                     _authentication.userName = userName;
                     _authentication.userPassword = password;
+                    _authentication.userRole = $rootScope.userData.userRole;
                     _consultarMenu($rootScope.userData.userId);
 
                     if (($rootScope.userData.companyName === '[MULTIPLE]')
@@ -164,6 +169,7 @@
             _authentication.isAuth = false;
             _authentication.userName = "";
             _authentication.useRefreshTokens = false;
+            _authentication.userRole = "";
             $rootScope.userData = { userName: '', userId: '', userRole: '' }
 
             $timeout(function () { $state.go('login') }, 0);
@@ -174,12 +180,14 @@
             if (authData) {
                 _authentication.isAuth = true;
                 _authentication.userName = authData.userName;
+                _authentication.userRole = authData.userRole;
 
-                $rootScope.userData = { userName: authData.userName, userId: authData.userId, userRole: authData.userRole, companyName: authData.companyName }
+                $rootScope.userData = { userName: authData.userName, userId: authData.userId, userRole: authData.userRole, companyName: authData.companyName, companyCategory: authData.companyCategory }
 
                 if (authData.companyId !== '00000000-0000-0000-0000-000000000000' && authData.companyName !== '[MULTIPLE]') {
                     $rootScope.Id_Empresa = authData.companyId;
                     $rootScope.Nombre_Empresa = authData.companyName;
+                    $rootScope.Categoria_Empresa = authData.companyCategory;
                 }
 
                 var masterDataMenu = localStorageService.get('masterdataMenu');
@@ -319,8 +327,8 @@
                 method: 'GET',
                 url: $rootScope.config.data.API_URL + 'SPA/ConsultarEmpresas'
             }).then(function (result) {
-                localStorageService.set('empresas', result.data);
-                $rootScope.Empresas = result.data;
+                localStorageService.set('empresas', result.data);                
+                $rootScope.Empresas = result.data;                
                 $rootScope.$broadcast('successfull.companiesLoaded');
                 let ids = '00000000-0000-0000-0000-000000000000';
                 _consultarEmpresaPropiedades(ids);
@@ -340,7 +348,7 @@
                 url: $rootScope.config.data.API_URL + 'SPA/ConsultarUsuarioEmpresas?IdUsuario=' + parseInt(authData.userId)
             }).then(function (result) {
                 localStorageService.set('empresas', result.data);
-                $rootScope.Empresas = result.data;
+                $rootScope.Empresas = result.data;                
                 $rootScope.$broadcast('successfull.companiesLoaded');
                 let ids = Enumerable.From($rootScope.Empresas)
                     .Select(function (x) { return x.id_Empresa })
@@ -375,6 +383,7 @@
             _consultarCliente: ConsultarCliente,
             _consultarTipoServicios: ConsultarTipoServicios,
             _consultarServicios: ConsultarServicios,
+            _consultarServiciosMaestro: ConsultarServiciosMaestro,
             _consultarServiciosActivos: ConsultarServiciosActivos,
             _guardarServicio: GuardarServicio,
             _eliminarImagenAdjunta: EliminarImagenAdjunta,
@@ -520,6 +529,18 @@
                         {
                             tipoServicios: data
                         });
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarServiciosMaestro(CategoriaEmpresa) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarServiciosMaestro?CategoriaEmpresa=' + CategoriaEmpresa,
+                function (data) {
                     deferred.resolve(data);
                 },
                 function (err) {
@@ -698,9 +719,9 @@
             return deferred.promise;
         }
 
-        function ConsultarEmpleadoServicio(IdEmpleado) {
+        function ConsultarEmpleadoServicio(IdEmpleado, IdEmpresa) {
             var deferred = $q.defer();
-            serviceRest.Get('SPA', 'ConsultarEmpleadoServicio?IdEmpleado=' + IdEmpleado,
+            serviceRest.Get('SPA', 'ConsultarEmpleadoServicio?IdEmpleado=' + IdEmpleado + '&IdEmpresa=' +IdEmpresa,
                 function (data) {
                     deferred.resolve(data);
                 },

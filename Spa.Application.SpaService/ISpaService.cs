@@ -18,6 +18,7 @@ namespace Spa.Application.SpaService
         List<TipoCliente> ConsultarTipoClientes();
         Cliente ConsultarCliente(string Cedula, string IdEmpresa);
         List<TipoServicio> ConsultarTipoServicios();
+        List<ServicioMaestro> ConsultarServiciosMaestro(string CategoriaEmpresa);
         List<Servicio> ConsultarServicios(string IdEmpresa);
         List<Servicio> ConsultarServiciosActivos(string IdEmpresa);
         bool GuardarServicio(List<Servicio> _Servicio);
@@ -30,7 +31,7 @@ namespace Spa.Application.SpaService
         bool DesasignarEmpleadoServicio(int IdEmpleadoServicio);
         bool AsignarEmpleadoInsumo(List<Transaccion> _EmpleadoInsumo);
         bool EliminarEmpleadoInsumo(int IdTransaccion, int Cantidad, int IdProducto);
-        List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado);
+        List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado, string IdEmpresa);
         List<Transaccion> ConsultarEmpleadoInsumos(int IdEmpleado);
         List<TipoTransaccion> ConsultarTipoTransacciones();
         List<Producto> ConsultarProductos(string IdEmpresa);

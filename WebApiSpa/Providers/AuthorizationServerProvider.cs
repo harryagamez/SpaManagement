@@ -70,7 +70,8 @@ namespace WebApiSpa.Providers
                     { "Validated", (usuario.Nombre_Empresa.Contains("[MULTIPLE]") && usuario.Id_Empresa.ToString().Contains("00000000-0000-0000-0000-000000000000")) ? "True" : usuario.Verificado.ToString() },
                     { "CompanyId", usuario.Id_Empresa.ToString() },
                     { "CompanyName", usuario.Nombre_Empresa.Trim() },
-                    { "Role", usuario.Perfil }
+                    { "Role", usuario.Perfil },
+                    { "CompanyCategory", usuario.Id_Categoria_Servicio.ToString()}
                 });
 
             AuthenticationTicket ticket = new AuthenticationTicket(identity, props);

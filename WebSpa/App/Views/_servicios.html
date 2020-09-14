@@ -80,11 +80,13 @@
                         <md-dialog-content style="">
                             <div layout="row" layout-align="">
                                 <div flex="">
-                                    <md-input-container class="md-block" style="margin: 13px 0 0 0;">
+                                    <md-input-container class="md-block" style="margin: 13px 0 20px 0;">
                                         <label class="label-form-servicios" style="">
                                             Nombre Servicio:
-                                        </label>
-                                        <input ng-model="Servicio.Nombre" ng-blur="ConsultarServicioNombre($event, Servicio.Nombre)" data-ng-enter="ConsultarServicioNombre($event, Servicio.Nombre)" ng-readonly="NombreServicioReadOnly" id="txtNombreServicio" type="text" maxlength="30" placeholder="Digite el nombre del servicio ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=1 md-autofocus>
+                                        </label>                                        
+                                        <md-select ng-model="ServicioSeleccionadoM" data-ng-change="OnChangeServicioMaestro(ServicioSeleccionadoM)" ng-disabled="ServicioReadOnly" style="min-width:200px; margin-top: 5px;" id="slServicioMaestro" tabindex=1>
+                                            <md-option ng-bind="item.nombre" ng-value="item.id_Servicio" ng-repeat="item in ServiciosSinAsignar track by item.id_Servicio"></md-option>
+                                        </md-select>
                                     </md-input-container>
                                 </div>
                             </div>
@@ -94,7 +96,7 @@
                                         <label class="label-form-servicios" style="">
                                             Descripción Servicio:
                                         </label>
-                                        <textarea ng-model="Servicio.Descripcion" id="txtDescripcionServicio" type="text" placeholder="Digite la descripción del servicio ..." md-maxlength="300" rows="2" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2 md-autofocus="AccionServicio == 'Editar Servicio'"></textarea>
+                                        <textarea ng-model="ServicioDescripcion" ng-readonly="true" id="txtDescripcionServicio" type="text" placeholder="Descripción del servicio ..." md-maxlength="300" rows="2" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2></textarea>
                                     </md-input-container>
 
                                 </div>
@@ -107,7 +109,7 @@
                                         <label class="label-form-servicios" style="">
                                             Tipo Servicio
                                         </label>                                        
-                                        <md-select ng-model="TipoServicioSeleccionado" ng-readonly="TipoServicioReadOnly" style="min-width:200px; margin-top: 5px;" id="slTipoServicio" tabindex=3>
+                                        <md-select ng-model="TipoServicioSeleccionado" ng-disabled="true" style="min-width:200px; margin-top: 5px;" id="slTipoServicio" tabindex=3>
                                             <md-option ng-bind="item.nombre" ng-value="item.id_TipoServicio" ng-repeat="item in TipoServicios track by item.id_TipoServicio"></md-option>
                                         </md-select>
                                     </md-input-container>
@@ -117,9 +119,8 @@
                                     <md-input-container style="margin: 5px 0; margin-left:-40px; min-width:180px; max-width:180px;">
                                         <label class="label-form-servicios" style="">
                                             Tiempo (MIN):
-                                        </label>
-                                        
-                                        <md-select ng-model="Servicio.Tiempo" id="txtTiempoServicio" style="font-size:12px; margin-top:5px;" tabindex="4">
+                                        </label>                                        
+                                        <md-select ng-model="Servicio.Tiempo" id="slTiempoServicio" md-autofocus="AccionServicio == 'Editar Servicio'" style="font-size:12px; margin-top:5px;" tabindex="4">
                                             <md-option ng-bind="item.Valor" ng-value="item.Id_DuracionServicio" ng-repeat="item in DuracionServicio track by $index"></md-option>
                                         </md-select>
                                     </md-input-container>
