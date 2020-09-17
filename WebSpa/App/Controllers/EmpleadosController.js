@@ -466,7 +466,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 Id_Municipio: -1,
                 Id_Barrio: -1,
                 Fecha_Nacimiento: $filter('date')(new Date(), 'MM-dd-yyyy'),
-                Numero_Hijos: '',
+                Numero_Hijos: '0',
                 Id_TipoPago: $scope.TipoPagoSeleccionado,
                 Monto: '',
                 Estado: $scope.EstadoSeleccionado,

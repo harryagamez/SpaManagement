@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Spa.Domain.SpaEntities\Spa.Domain.SpaEntities.csproj" />
+    <ProjectReference Include="..\Spa.InfraCommon.SpaCommon\Spa.InfraCommon.SpaCommon.csproj" />
   </ItemGroup>
 
 </Project>

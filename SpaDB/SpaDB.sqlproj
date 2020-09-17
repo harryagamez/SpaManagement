@@ -275,6 +275,9 @@
     <Build Include="dbo\Tables\CATEGORIA_SERVICIOS.sql" />
     <Build Include="dbo\Tables\EMPRESA_SERVICIOS.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarServiciosMaestro.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarCategoriaServicios.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarSedesPrincipales.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarEmpresa.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

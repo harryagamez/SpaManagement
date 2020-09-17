@@ -3,12 +3,12 @@
         .service("serviceRest", serviceRest)
         .factory('AuthtenticantionIntecerptorService', AuthtenticantionIntecerptorService)
         .factory("AuthService", AuthService)
-        .factory("SPAService", SPAService)
+        .factory("SPAService", SPAService)        
 
     serviceRest.$inject = ['$http', '$q', '$rootScope'];
     AuthtenticantionIntecerptorService.$inject = ['$q', '$location', 'localStorageService', '$stateParams'];
     AuthService.$inject = ['$http', '$q', '$rootScope', '$state', 'localStorageService', '$timeout', '$filter', 'serviceRest'];
-    SPAService.$inject = ['$http', '$rootScope', '$q', 'serviceRest', 'localStorageService'];
+    SPAService.$inject = ['$http', '$rootScope', '$q', 'serviceRest', 'localStorageService'];    
 
     function AuthtenticantionIntecerptorService($q, $location, localStorageService, $stateParams) {
         var authInterceptorServiceFactory = {};
@@ -56,6 +56,7 @@
             localStorageService.remove('masterdataTipoServicio');
             localStorageService.remove('masterdataTipoTransacciones');
             localStorageService.remove('masterdataEmpresas');
+            localStorageService.remove('masterdataCategoriaServicios');
 
             $rootScope.Menu = [];
             $rootScope.TipoClientes = [];
@@ -154,6 +155,7 @@
             localStorageService.remove('masterdataTipoServicio');
             localStorageService.remove('masterdataTipoTransacciones');
             localStorageService.remove('masterdataEmpresas');
+            localStorageService.remove('masterdataCategoriaServicios');
 
             $rootScope.Menu = [];
             $rootScope.TipoClientes = [];
@@ -237,6 +239,10 @@
                 var masterdataEmpresas = localStorageService.get('masterdataEmpresas');
                 if (masterdataEmpresas)
                     $rootScope.Empresas = masterdataEmpresas.empresas;
+
+                var masterdataCategoriaServicios = localStorageService.get('masterdataCategoriaServicios');
+                if (masterdataCategoriaServicios)
+                    $rootScope.CategoriaServicios = masterdataCategoriaServicios.categoriaServicios;
             }
             else {
                 _logOut();
@@ -371,6 +377,7 @@
 
         return authServiceFactory;
     }
+    
 
     function SPAService($http, $rootScope, $q, serviceRest, localStorageService) {
         return {
@@ -417,7 +424,10 @@
             _cancelarAgenda: CancelarAgenda,
             _confirmarAgenda: ConfirmarAgenda,
             _consultarNumeroCitasDia: ConsultarNumeroCitasDia,
-            _guardarEmpresaPropiedades: GuardarEmpresaPropiedades
+            _guardarEmpresaPropiedades: GuardarEmpresaPropiedades,
+            _consultarCategoriaServicios: ConsultarCategoriaServicios,
+            _consultarSedesPrincipales: ConsultarSedesPrincipales,
+            _guardarEmpresa: GuardarEmpresa
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -998,11 +1008,52 @@
                 });
             return deferred.promise;
         }
+
+        function ConsultarCategoriaServicios() {
+            var deferred = $q.defer();            
+            serviceRest.Get('Admin', 'ConsultarCategoriaServicios',
+                function (data) {                    
+                    debugger;
+                    deferred.resolve(data);
+                },
+                function (err) {                    
+                    debugger;
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarSedesPrincipales() {
+            var deferred = $q.defer();            
+            serviceRest.Get('Admin', 'ConsultarSedesPrincipales',
+                function (data) {                    
+                    debugger;
+                    deferred.resolve(data);
+                },
+                function (err) {                    
+                    debugger;
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function GuardarEmpresa(empresa) {
+            var deferred = $q.defer();
+            serviceRest.Post('Admin', 'GuardarEmpresa', empresa,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
+            return deferred.promise;
+        }
     }
 
     function serviceRest($http, $q, $rootScope) {
         return {
-            Get: function (controller, action, callback, errorCallback) {
+            Get: function (controller, action, callback, errorCallback) {                
                 var _Uri = $rootScope.config.data.API_URL + controller + (action.trim() != '' ? '/' + action : '');
                 return $http(
                     {

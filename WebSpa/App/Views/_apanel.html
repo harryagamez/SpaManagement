@@ -19,74 +19,136 @@
 <div class="wrapper">
     <section id="section-apanel">
         <div layout="row" style="height: calc(100vh - 70px);">
+            
             <form id="frmAPanel" class="material-apanel">
+                
                 <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
+                    
                     <md-tab label="Empresas">
 
-                        <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
+                        <md-content style="background-color:transparent; overflow:hidden; margin-top:-25px;">
 
-                            <md-button type="button" id="btnGuardar" class="groupX left btn-apanel" style="margin-left: 0px;" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarEmpleado()">
-                                <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
-                            </md-button>
+                            <input type="file" name="file" id="LogoEmpresa" style="visibility:hidden;" data-toggle="tooltip" title="Upload" data-file-model="SeleccionarImagen($event)" accept=".png, .jpg, .jpeg" />
 
-                            <md-button type="button" id="btnNuevo" class="groupX middle btn-apanel" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
-                                <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                            </md-button>
+                            <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px; margin-top:2px;">
 
-                        </section>
+                                <md-button type="button" id="btnGuardar" class="groupX left btn-apanel" style="margin-left: 0px;" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarEmpresa()">
+                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                                </md-button>
 
-                        <div layout="row" layout-sm="column" style="" layout-align="space-around center">
+                                <md-button type="button" id="btnNuevo" class="groupX middle btn-apanel" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
+                                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                                </md-button>
 
-                            <div flex="">
-                                <md-input-container style="width:90%">
-                                    <label class="label-form-empleados" style="">
-                                        Nombre:
-                                    </label>
-                                    <input ng-model="Empresa.Nombre" id="txtNombreEmpresa" maxlength="100" type="text" placeholder="Nombre de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=1>
-                                </md-input-container>
+                            </section>
+
+                            <div layout="row" layout-xs="column" style="" layout-align="start center">
+
+                                <div style="width:200px;">
+                                    <md-input-container style="width: 190px; margin-bottom: 0">
+                                        <label class="label-form-empleados" style="">
+                                            Nombre
+                                        </label>
+                                        <input ng-model="Empresa.Nombre" id="txtNombreEmpresa" maxlength="100" type="text" placeholder="Nombre de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=1>
+                                    </md-input-container>
+                                </div>
+
+                                <div style="width:200px;">
+                                    <md-input-container style="width: 190px; margin-bottom: 0">
+                                        <label class="label-form-empleados" style="">
+                                            Dirección:
+                                        </label>
+                                        <input ng-model="Empresa.Direccion" id="txtDireccionEmpresa" maxlength="60" type="text" placeholder="Dirección de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
+                                    </md-input-container>
+                                </div>
+
+                                <div style="width:200px;">
+                                    <md-input-container style="width: 190px; margin-bottom: 0">
+                                        <label class="label-form-empleados" style="">
+                                            Teléfono Fijo:
+                                        </label>
+                                        <input ng-model="Empresa.Telefono_Fijo" id="txtTelFijoEmpresa" numbers-only maxlength="10" type="text" placeholder="Telefono fijo de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=3>
+                                    </md-input-container>
+                                </div>
+
+                                <div style="width:200px;">
+                                    <md-input-container style="width: 190px; margin-bottom: 0">
+                                        <label class="label-form-empleados" style="">
+                                            Celular:
+                                        </label>
+                                        <input ng-model="Empresa.Telefono_Movil" id="txtCelularEmpresa" numbers-only maxlength="12" type="text" placeholder="Celular de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=4>
+                                    </md-input-container>
+                                </div>
+
+                                <div style="width:200px;">
+                                    <md-input-container style="width: 190px; margin-bottom: 0">
+                                        <label class="label-form-clientes" style="">
+                                            Mail:
+                                        </label>
+                                        <input ng-model="Empresa.Mail" id="txtMailEmpresa" type="email" maxlength="50" placeholder="Email de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=5>
+                                    </md-input-container>
+                                </div>
+
+                                <div style="width:200px;">
+                                    <div class="empresa-logo" style="top:80px;">
+                                        <label class="label-imagen-usuario" ng-click="ProcesarImagen()"><i class="material-icons md-18" style="transform: scaleX(-1);">camera_alt</i> Cargar Avatar</label>
+                                        <img ng-src="{{LogoEmpresa}}" />
+                                    </div>
+                                </div>
+
                             </div>
 
-                            <div flex="">
-                                <md-input-container style="width:90%">
-                                    <label class="label-form-empleados" style="">
-                                        Dirección:
-                                    </label>
-                                    <input ng-model="Empresa.Direccion" id="txtDireccionEmpresa" maxlength="60" type="text" placeholder="Dirección de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
-                                </md-input-container>
+                            <div layout="row" layout-xs="column" style="padding:10px 0; margin-top: -25px;" layout-align="start ">
+
+                                <div style="width:200px;">
+                                    <md-input-container style="width: 190px; margin-top: 13px; margin-bottom: 0;">
+                                        <label class="label-form-clientes" style="">
+                                            Descripcion:
+                                        </label>
+                                        <input ng-model="Empresa.Descripcion" id="txtDescripcionEmpresa" style="margin-top:1px;" maxlength="100" type="text" placeholder="Descripción de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=5>
+                                    </md-input-container>
+                                </div>                                
+
+                                <div style="width:200px;">
+                                    <md-input-container style="width: 190px; margin-top: 13px; margin-bottom: 0; ">
+                                        <label class="label-form-clientes" style="">
+                                            Categoría Servicios:
+                                        </label>
+                                        <md-select ng-model="CategoriaSeleccionada" style="display:inline-flex; min-width: 100% !important; margin-top:7px;" id="slCategoriaServicio" tabindex=6>
+                                            <md-option ng-bind="item.nombre" ng-value="item.id_Categoria_Servicio" ng-repeat="item in CategoriaServicios track by item.id_Categoria_Servicio"></md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+
+                                <div style="width:200px;">
+                                    <md-input-container style="width: 190px; margin-top: 13px; margin-bottom: 0; ">
+                                        <label class="label-form-clientes" style="">
+                                            Sede Principal:
+                                        </label>
+                                        <md-select ng-model="SedePrincipalSeleccionada" style="display:inline-flex; min-width: 190px !important; max-width:190px; margin-top:7px;" id="slSedesPrincipales" tabindex=7>
+                                            <md-option ng-bind="item.nombre" ng-value="item.id_Empresa" ng-repeat="item in SedesPrincipales track by item.id_Empresa"></md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+
+                                <div style="width:200px;">                                    
+                                    <md-input-container style="width: 190px; margin-top: 13px; margin-bottom: 0;">
+                                        <label class="label-form-clientes" style="">
+                                            Estado
+                                        </label>
+                                        <md-select ng-model="EstadoSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin-top:7px;" id="slEstado" tabindex=7>
+                                            <md-option value="ACTIVA" selected>ACTIVA</md-option>
+                                            <md-option value="INACTIVA">INACTIVA</md-option>
+                                        </md-select>
+                                    </md-input-container>                             
+                                </div>
+
                             </div>
 
-                            <div flex="">
-                                <md-input-container style="width:90%">
-                                    <label class="label-form-empleados" style="">
-                                        Teléfono Fijo:
-                                    </label>
-                                    <input ng-model="Empresa.Telefono_Fijo" id="txtTelFijoEmpresa" numbers-only maxlength="10" type="text" placeholder="Telefono fijo de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
-                                </md-input-container>
+                            <div id="divGridEmpresas" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 314px); margin-top:-15px; overflow-y:auto;">
+                                <div id="divEmpresasGridOptions" data-ag-grid="EmpresasGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                             </div>
-
-                            <div flex="">
-                                <md-input-container style="width:90%">
-                                    <label class="label-form-empleados" style="">
-                                        Celular:
-                                    </label>
-                                    <input ng-model="Empresa.Telefono_Movil" id="txtCelularEmpresa" numbers-only maxlength="12" type="text" placeholder="Celular de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
-                                </md-input-container>
-                            </div>
-
-                            <div flex="">
-                                <md-input-container style="width:90%">
-                                    <label class="label-form-empleados" style="">
-                                        Mail:
-                                    </label>
-                                    <input ng-model="Empresa.Mail" id="txtMailEmpresa" maxlength="60" type="text" placeholder="Email de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
-                                </md-input-container>
-                            </div>
-
-                        </div>
-
-                        <div layout="row" layout-sm="column" style="" layout-align="space-around center">
-                            
-                        </div>
+                        </md-content>
 
                     </md-tab>
 
@@ -101,8 +163,6 @@
 
                         </md-content>
                     </md-tab>
-
-
                 </md-tabs>
             </form>
         </div>
