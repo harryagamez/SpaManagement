@@ -54,6 +54,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/Admin/ConsultarTodasLasEmpresas")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarTodasLasEmpreas()
+        {
+            try
+            {
+                List<Empresa> _listEmpresas = _adminService.ConsultarTodasLasEmpresas();
+
+                return Content(HttpStatusCode.OK, _listEmpresas);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando las sedes principales: " + ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("api/Admin/GuardarEmpresa")]
         [HttpCache(DefaultExpirySeconds = 2)]

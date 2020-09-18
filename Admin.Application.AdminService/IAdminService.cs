@@ -7,6 +7,7 @@ namespace Admin.Application.AdminService
     {
         List<CategoriaServicio> ConsultarCategoriaServicios();
         List<Empresa> ConsultarSedesPrincipales();
+        List<Empresa> ConsultarTodasLasEmpresas();
         bool GuardarEmpresa(Empresa empresa);
     }
 }

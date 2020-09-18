@@ -81,15 +81,15 @@
                                 </div>
 
                                 <div style="width:200px;">
-                                    <md-input-container style="width: 190px; margin-bottom: 0">
+                                    <md-input-container style="width: 190px; margin-top: 13px; margin-bottom: 0;">
                                         <label class="label-form-clientes" style="">
-                                            Mail:
+                                            Descripción:
                                         </label>
-                                        <input ng-model="Empresa.Mail" id="txtMailEmpresa" type="email" maxlength="50" placeholder="Email de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=5>
+                                        <input ng-model="Empresa.Descripcion" id="txtDescripcionEmpresa" style="margin-top:1px;" maxlength="100" type="text" placeholder="Descripción de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=5>
                                     </md-input-container>
                                 </div>
 
-                                <div style="width:200px;">
+                                <div style="width:120px;">
                                     <div class="empresa-logo" style="top:80px;">
                                         <label class="label-imagen-usuario" ng-click="ProcesarImagen()"><i class="material-icons md-18" style="transform: scaleX(-1);">camera_alt</i> Cargar Avatar</label>
                                         <img ng-src="{{LogoEmpresa}}" />
@@ -101,20 +101,20 @@
                             <div layout="row" layout-xs="column" style="padding:10px 0; margin-top: -25px;" layout-align="start ">
 
                                 <div style="width:200px;">
-                                    <md-input-container style="width: 190px; margin-top: 13px; margin-bottom: 0;">
-                                        <label class="label-form-clientes" style="">
-                                            Descripcion:
+                                    <md-input-container style="width: 190px; margin-top: 13px;margin-bottom: 0">
+                                        <label class="label-form-empleados" style="">
+                                            Mail:
                                         </label>
-                                        <input ng-model="Empresa.Descripcion" id="txtDescripcionEmpresa" style="margin-top:1px;" maxlength="100" type="text" placeholder="Descripción de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=5>
+                                        <input ng-model="Empresa.Mail" id="txtMailEmpresa" style="" type="email" maxlength="50" placeholder="Email de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=6>
                                     </md-input-container>
-                                </div>                                
+                                </div>                    
 
                                 <div style="width:200px;">
                                     <md-input-container style="width: 190px; margin-top: 13px; margin-bottom: 0; ">
                                         <label class="label-form-clientes" style="">
                                             Categoría Servicios:
                                         </label>
-                                        <md-select ng-model="CategoriaSeleccionada" style="display:inline-flex; min-width: 100% !important; margin-top:7px;" id="slCategoriaServicio" tabindex=6>
+                                        <md-select ng-model="CategoriaSeleccionada" style="display:inline-flex; min-width: 100% !important; margin-top:7px;" id="slCategoriaServicio" tabindex=7>
                                             <md-option ng-bind="item.nombre" ng-value="item.id_Categoria_Servicio" ng-repeat="item in CategoriaServicios track by item.id_Categoria_Servicio"></md-option>
                                         </md-select>
                                     </md-input-container>
@@ -125,7 +125,7 @@
                                         <label class="label-form-clientes" style="">
                                             Sede Principal:
                                         </label>
-                                        <md-select ng-model="SedePrincipalSeleccionada" style="display:inline-flex; min-width: 190px !important; max-width:190px; margin-top:7px;" id="slSedesPrincipales" tabindex=7>
+                                        <md-select ng-model="SedePrincipalSeleccionada" style="display:inline-flex; min-width: 190px !important; max-width:190px; margin-top:7px;" id="slSedesPrincipales" tabindex=8>
                                             <md-option ng-bind="item.nombre" ng-value="item.id_Empresa" ng-repeat="item in SedesPrincipales track by item.id_Empresa"></md-option>
                                         </md-select>
                                     </md-input-container>
@@ -136,7 +136,7 @@
                                         <label class="label-form-clientes" style="">
                                             Estado
                                         </label>
-                                        <md-select ng-model="EstadoSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin-top:7px;" id="slEstado" tabindex=7>
+                                        <md-select ng-model="EstadoSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin-top:7px;" id="slEstado" tabindex=9>
                                             <md-option value="ACTIVA" selected>ACTIVA</md-option>
                                             <md-option value="INACTIVA">INACTIVA</md-option>
                                         </md-select>

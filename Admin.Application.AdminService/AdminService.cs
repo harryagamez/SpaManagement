@@ -30,6 +30,11 @@ namespace Admin.Application.AdminService
             return _adminRepository.ConsultarSedesPrincipales();
         }
 
+        public List<Empresa> ConsultarTodasLasEmpresas()
+        {
+            return _adminRepository.ConsultarTodasLasEmpresas();
+        }
+
         public bool GuardarEmpresa(Empresa empresa)
         {
             return _adminRepository.GuardarEmpresa(empresa);

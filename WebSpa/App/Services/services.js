@@ -427,7 +427,8 @@
             _guardarEmpresaPropiedades: GuardarEmpresaPropiedades,
             _consultarCategoriaServicios: ConsultarCategoriaServicios,
             _consultarSedesPrincipales: ConsultarSedesPrincipales,
-            _guardarEmpresa: GuardarEmpresa
+            _guardarEmpresa: GuardarEmpresa,
+            _consultarTodasLasEmpresas: ConsultarTodasLasEmpresas
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1012,12 +1013,10 @@
         function ConsultarCategoriaServicios() {
             var deferred = $q.defer();            
             serviceRest.Get('Admin', 'ConsultarCategoriaServicios',
-                function (data) {                    
-                    debugger;
+                function (data) {
                     deferred.resolve(data);
                 },
-                function (err) {                    
-                    debugger;
+                function (err) {
                     deferred.reject(err);
                 });
             return deferred.promise;
@@ -1026,12 +1025,22 @@
         function ConsultarSedesPrincipales() {
             var deferred = $q.defer();            
             serviceRest.Get('Admin', 'ConsultarSedesPrincipales',
-                function (data) {                    
-                    debugger;
+                function (data) {
                     deferred.resolve(data);
                 },
-                function (err) {                    
-                    debugger;
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarTodasLasEmpresas() {
+            var deferred = $q.defer();
+            serviceRest.Get('Admin', 'ConsultarTodasLasEmpresas',
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
                     deferred.reject(err);
                 });
             return deferred.promise;
