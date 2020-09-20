@@ -428,7 +428,7 @@
             _consultarCategoriaServicios: ConsultarCategoriaServicios,
             _consultarSedesPrincipales: ConsultarSedesPrincipales,
             _guardarEmpresa: GuardarEmpresa,
-            _consultarTodasLasEmpresas: ConsultarTodasLasEmpresas
+            _consultarEmpresasAdmin: ConsultarEmpresasAdmin
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1034,9 +1034,9 @@
             return deferred.promise;
         }
 
-        function ConsultarTodasLasEmpresas() {
+        function ConsultarEmpresasAdmin() {
             var deferred = $q.defer();
-            serviceRest.Get('Admin', 'ConsultarTodasLasEmpresas',
+            serviceRest.Get('Admin', 'ConsultarEmpresasAdmin',
                 function (data) {
                     deferred.resolve(data);
                 },

@@ -55,13 +55,13 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpGet]
-        [Route("api/Admin/ConsultarTodasLasEmpresas")]
+        [Route("api/Admin/ConsultarEmpresasAdmin")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult ConsultarTodasLasEmpreas()
+        public IHttpActionResult ConsultarEmpresasAdmin()
         {
             try
             {
-                List<Empresa> _listEmpresas = _adminService.ConsultarTodasLasEmpresas();
+                List<Empresa> _listEmpresas = _adminService.ConsultarEmpresasAdmin();
 
                 return Content(HttpStatusCode.OK, _listEmpresas);
             }

@@ -6,6 +6,8 @@
     [TELEFONO_FIJO]    CHAR (10)        NULL,
     [TELEFONO_MOVIL]   CHAR (12)        NULL,
     [MAIL]             VARCHAR (50)     NULL,
+    [CONTACTO]         CHAR(50) NULL,
+    [ID_BARRIO]        INT      NOT NULL,
     [ESTADO]           CHAR(10)         NOT NULL,
     [LOGO]             NVARCHAR (MAX)   NULL,
     [ID_SEDEPRINCIPAL] UNIQUEIDENTIFIER NULL,

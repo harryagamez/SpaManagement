@@ -52,9 +52,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncryptStringTest", "Encryp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.5.2-Data", "1.5.2-Data", "{E86CC959-0E6C-4EBB-9099-FCA7B1B84BD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin.Infrastructure.AdminRepository", "Admin.Infrastructure.AdminRepository\Admin.Infrastructure.AdminRepository.csproj", "{84CC7B94-755E-450B-A349-3674899597B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin.Infrastructure.AdminRepository", "Admin.Infrastructure.AdminRepository\Admin.Infrastructure.AdminRepository.csproj", "{84CC7B94-755E-450B-A349-3674899597B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin.Application.AdminService", "Admin.Application.AdminService\Admin.Application.AdminService.csproj", "{6E01FAB0-64A7-468D-91D1-0652B9EE724E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin.Application.AdminService", "Admin.Application.AdminService\Admin.Application.AdminService.csproj", "{6E01FAB0-64A7-468D-91D1-0652B9EE724E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

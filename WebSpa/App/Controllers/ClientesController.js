@@ -676,7 +676,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
                 $scope.Cliente.Telefono_Fijo = event.node.data.telefono_Fijo;
                 $scope.Cliente.Telefono_Movil = event.node.data.telefono_Movil;
                 $scope.Cliente.Mail = event.node.data.mail;
-                $scope.Cliente.Direccion = event.node.data.direccion;
+                $scope.Cliente.Direccion = event.node.data.direccion;                
                 $scope.Cliente.Id_Municipio = event.node.data.id_Municipio;
                 $scope.Cliente.Id_Barrio = event.node.data.id_Barrio;
                 $scope.Cliente.Fecha_Nacimiento = $filter('date')(new Date(event.node.data.fecha_Nacimiento), 'MM/dd/yyyy');

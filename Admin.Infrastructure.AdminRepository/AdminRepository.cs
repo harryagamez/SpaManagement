@@ -69,7 +69,7 @@ namespace Admin.Infrastructure.AdminRepository
             }
         }
 
-        public List<Empresa> ConsultarTodasLasEmpresas()
+        public List<Empresa> ConsultarEmpresasAdmin()
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -81,7 +81,7 @@ namespace Admin.Infrastructure.AdminRepository
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
                     _command.CommandType = CommandType.StoredProcedure;
-                    _command.CommandText = "ConsultarTodasLasEmpresas";
+                    _command.CommandText = "ConsultarEmpresasAdmin";
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);

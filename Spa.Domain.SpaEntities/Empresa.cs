@@ -15,5 +15,7 @@ namespace Spa.Domain.SpaEntities
         public string Id_SedePrincipal { get; set; }
         public string Id_Categoria_Servicio { get; set; }
         public string Estado { get; set; }
+        public string Contacto { get; set; }
+        public int Id_Barrio { get; set; }
     }
 }

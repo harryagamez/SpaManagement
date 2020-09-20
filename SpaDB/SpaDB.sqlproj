@@ -278,7 +278,7 @@
     <Build Include="dbo\Stored Procedures\ConsultarCategoriaServicios.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarSedesPrincipales.sql" />
     <Build Include="dbo\Stored Procedures\GuardarEmpresa.sql" />
-    <Build Include="dbo\Stored Procedures\ConsultarTodasLasEmpresas.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarEmpresasAdmin.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />
