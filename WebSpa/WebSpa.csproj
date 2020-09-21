@@ -148,6 +148,7 @@
     <Content Include="Images\spa_.png" />
     <Content Include="Images\spa_header.png" />
     <Content Include="Images\spa_login.png" />
+    <Content Include="Images\template\tulogo.png" />
     <Content Include="Images\usuario.png" />
     <Content Include="Images\usuarios.png" />
     <Content Include="Scripts\Ag-Grid\v17.1.1\ag-grid.css" />

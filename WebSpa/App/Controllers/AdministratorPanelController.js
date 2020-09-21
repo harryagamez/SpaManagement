@@ -1,10 +1,9 @@
 ﻿angular.module('app.controllers')
     .controller("AdministratorPanelController", AdministratorPanelController);
 
-AdministratorPanelController.$inject = ['$scope', '$state', '$location', '$filter','$http', '$mdDialog', '$rootScope', '$timeout', 'AuthService', 'SPAService'];
+AdministratorPanelController.$inject = ['$scope', '$state', '$location', '$filter', '$http', '$mdToast', '$document', '$mdDialog', '$rootScope', '$timeout', 'localStorageService', 'AuthService', 'SPAService'];
 
-function AdministratorPanelController($scope, $state, $location, $filter, $http, $mdDialog, $rootScope, $timeout, AuthService, SPAService) { 
-    
+function AdministratorPanelController($scope, $state, $location, $filter, $http, $mdToast, $document, $mdDialog, $rootScope, $timeout, localStorageService, AuthService, SPAService) {
     $scope.CategoriaServicios = [];
     $scope.SedesPrincipales = [];
     const mail_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
@@ -30,8 +29,8 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
     $scope.BarrioSeleccionado = -1;
     $scope.CategoriaSeleccionada = -1;
     $scope.SedePrincipalSeleccionada = -1;
-    $scope.EstadoSeleccionado = 'ACTIVA';    
-    $scope.LogoEmpresa = '../Images/default-perfil.png';
+    $scope.EstadoSeleccionado = 'ACTIVA';
+    $scope.LogoEmpresa = '../Images/template/tulogo.png';
 
     $scope.UserAvatar = '../../Images/default-perfil.png';
 
@@ -42,7 +41,7 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
             $scope.EmpresaSeleccionada = '00000000-0000-0000-0000-000000000000';
         } else {
             $scope.Empresas = [];
-            $scope.Empresas = $rootScope.Empresas;            
+            $scope.Empresas = $rootScope.Empresas;
             if ($scope.Empresas.length > 1) {
                 $scope.EmpresaSeleccionada = $rootScope.Empresas[0].id_Empresa;
                 $rootScope.Id_Empresa = $scope.EmpresaSeleccionada;
@@ -53,7 +52,7 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
                 $rootScope.Id_Empresa = $scope.EmpresaSeleccionada;
                 $scope.MultipleEmpresa = false
             } else $scope.MultipleEmpresa = false;
-        }        
+        }
     }
 
     $scope.Logout = function () {
@@ -63,7 +62,7 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
 
     $scope.UsuarioSistema = $rootScope.userData.userName;
     $scope.NombreEmpresa = $rootScope.Nombre_Empresa;
-    $scope.UserId = $rootScope.userData.userId;    
+    $scope.UserId = $rootScope.userData.userId;
 
     $scope.$on('successfull.useravatarload', function () {
         if ($rootScope.UserAvatar !== null && $rootScope.UserAvatar !== undefined)
@@ -89,7 +88,7 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
             $scope.MultipleEmpresa = false
         } else $scope.MultipleEmpresa = false;
 
-        $scope.NombreEmpresa = $rootScope.Nombre_Empresa;        
+        $scope.NombreEmpresa = $rootScope.Nombre_Empresa;
     });
 
     $scope.$on('failed.empresapropiedadesload', function () {
@@ -103,32 +102,31 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
             toastr.error($rootScope.Errores, '', $scope.toastrOptions);
         }
     });
-    
 
     $scope.EmpresasGridOptionsColumns = [
         {
-            headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+            headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='OnRowClicked(data)' data-toggle='tooltip' title='Editar/Consultar empresa' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>create</i>";
+                return "<i data-ng-click='ConsultarEmpresa (data)' data-toggle='tooltip' title='Editar empresa' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>create</i>";
             },
         },
         {
-            headerName: "Nombre", field: 'nombre', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
+            headerName: "Nombre", field: 'nombre', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
         },
         {
-            headerName: "Mail", field: 'mail', width: 100, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
+            headerName: "Mail", field: 'mail', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
         },
         {
             headerName: "Dirección", field: 'direccion', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
         },
         {
-            headerName: "Sede Principal", field: 'nombre_SedePrincipal', width: 150, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }
+            headerName: "Sede Principal", field: 'nombre_SedePrincipal', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
         },
         {
-            headerName: "Estado", field: 'estado', width: 160, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, suppressSizeToFit: true
+            headerName: "Estado", field: 'estado', width: 90, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true
         },
         {
-            headerName: "Telefono Móvil", field: 'telefono_Movil', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true
+            headerName: "Celular", field: 'telefono_Movil', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, suppressSizeToFit: true
         },
     ];
 
@@ -147,8 +145,7 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
         fullWidthCellRenderer: true,
         animateRows: true,
         suppressRowClickSelection: true,
-        rowSelection: 'multiple',
-        onRowClicked: OnRowClicked
+        rowSelection: 'multiple'
     }
 
     $scope.ConsultarBarrios = function (id_Municipio) {
@@ -195,13 +192,13 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
                 })
     }
 
-    $scope.ConsultarCategoriaServicios = function () {        
+    $scope.ConsultarCategoriaServicios = function () {
         SPAService._consultarCategoriaServicios()
             .then(
                 function (result) {
-                    if (result.data !== undefined && result.data !== null) {                        
+                    if (result.data !== undefined && result.data !== null) {
                         $scope.CategoriaServicios = [];
-                        $scope.CategoriaServicios = result.data;                        
+                        $scope.CategoriaServicios = result.data;
                         $scope.CategoriaServicios.push({ id_Categoria_Servicio: -1, nombre: '[Seleccione]' });
                         $scope.CategoriaServicios = $filter('orderBy')($scope.CategoriaServicios, 'id_Categoria_Servicio', false);
                     }
@@ -218,7 +215,7 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
                         $scope.TodasLasEmpresas = [];
-                        $scope.TodasLasEmpresas = result.data;                       
+                        $scope.TodasLasEmpresas = result.data;
 
                         $scope.EmpresasGridOptions.api.setRowData($scope.TodasLasEmpresas);
 
@@ -258,7 +255,7 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
                 .then(
                     function (result) {
                         if (result.data === true) {
-                            toastr.success('Empresa registrada y/o actualizada correctamente', '', $scope.toastrOptions);                            
+                            toastr.success('Empresa registrada y/o actualizada correctamente', '', $scope.toastrOptions);
                             $scope.LimpiarDatos();
                             $scope.ConsultarEmpresasAdmin();
                         }
@@ -364,7 +361,7 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
     }
 
     $scope.ModalNuevaEmpresa = function () {
-        try {            
+        try {
             if ($scope.Empresa.Nombre === '')
                 $scope.AccionEmpresa = 'Registrar Empresa';
             else
@@ -377,10 +374,10 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
                 clickOutsideToClose: true,
                 multiple: true
             })
-            .then(function () {
-            }, function () {                    
-                $scope.LimpiarDatos();
-            });            
+                .then(function () {
+                }, function () {
+                    $scope.LimpiarDatos();
+                });
 
             $scope.OcultarbtnNuevo = false;
         } catch (e) {
@@ -413,13 +410,13 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
             $scope.EstadoSeleccionado = 'ACTIVA';
             $scope.BarrioSeleccionado = -1;
             $scope.MunicipioSeleccionado = -1;
-            $scope.LogoEmpresa = '../Images/default-perfil.png';
+            $scope.LogoEmpresa = '../Images/template/tulogo.png';
 
             $('#txtNombreEmpresa').focus();
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
-        }       
+        }
     }
 
     $scope.FiltrarBarrios = function (id_Municipio) {
@@ -431,59 +428,55 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
         }
     }
 
-    function OnRowClicked(event) {
-        try {
+    $scope.ConsultarEmpresa = function (data) {
+        try {            
             $scope.LimpiarDatos();
 
-            if (event.node.data !== undefined && event.node.data !== null) {
-
-                if (event.node.data.id_Municipio === 0 || event.node.data.id_Municipio === null || event.node.data.id_Municipio === undefined)
+            if (data !== undefined && data !== null) {
+                if (data.id_Municipio === 0 || data.id_Municipio === null || data.id_Municipio === undefined)
                     $scope.MunicipioSeleccionado = -1;
                 else {
-                    $scope.MunicipioSeleccionado = event.node.data.id_Municipio;
+                    $scope.MunicipioSeleccionado = data.id_Municipio;
                     $scope.FiltrarBarrios($scope.MunicipioSeleccionado);
-                }               
+                }
 
-                $scope.Empresa.Id_Empresa = event.node.data.id_Empresa;
-                $scope.Empresa.Nombre = event.node.data.nombre;
-                $scope.Empresa.Direccion = event.node.data.direccion;
-                $scope.Empresa.Telefono_Fijo = event.node.data.telefono_Fijo;
-                $scope.Empresa.Telefono_Movil = event.node.data.telefono_Movil;
-                $scope.Empresa.Mail = event.node.data.mail;
+                $scope.Empresa.Id_Empresa = data.id_Empresa;
+                $scope.Empresa.Nombre = data.nombre;
+                $scope.Empresa.Direccion = data.direccion;
+                $scope.Empresa.Telefono_Fijo = data.telefono_Fijo;
+                $scope.Empresa.Telefono_Movil = data.telefono_Movil;
+                $scope.Empresa.Mail = data.mail;
 
-                if (event.node.data.logo !== null)
-                    $scope.LogoEmpresa = event.node.data.logo;
+                if (data.logo !== null)
+                    $scope.LogoEmpresa = data.logo;
                 else
-                    $scope.LogoEmpresa = '../Images/default-perfil.png';
+                    $scope.LogoEmpresa = '../Images/template/tulogo.png';
 
                 $scope.Empresa.Logo = $scope.LogoEmpresa;
-                $scope.Empresa.Descripcion = event.node.data.descripcion;                
+                $scope.Empresa.Descripcion = data.descripcion;
 
-                $scope.Empresa.Id_SedePrincipal = event.node.data.id_SedePrincipal;
-                $scope.Empresa.Id_Categoria_Servicio = event.node.data.id_Categoria_Servicio;
-                $scope.Empresa.Estado = event.node.data.estado;
+                $scope.Empresa.Id_SedePrincipal = data.id_SedePrincipal;
+                $scope.Empresa.Id_Categoria_Servicio = data.id_Categoria_Servicio;
+                $scope.Empresa.Estado = data.estado;
 
-                $scope.CategoriaSeleccionada = event.node.data.id_Categoria_Servicio;
-                if (event.node.data.id_SedePrincipal === null || event.node.data.id_SedePrincipal === undefined || event.node.data.id_SedePrincipal === '') {
+                $scope.CategoriaSeleccionada = data.id_Categoria_Servicio;
+                if (data.id_SedePrincipal === null || data.id_SedePrincipal === undefined || data.id_SedePrincipal === '') {
                     $scope.SedePrincipalSeleccionada = -1;
                 } else {
-                    $scope.SedePrincipalSeleccionada = event.node.data.id_SedePrincipal;
+                    $scope.SedePrincipalSeleccionada = data.id_SedePrincipal;
                 }
-                
-                $scope.EstadoSeleccionado = event.node.data.estado;
-                $scope.Empresa.Contacto = event.node.data.contacto;                
+
+                $scope.EstadoSeleccionado = data.estado;
+                $scope.Empresa.Contacto = data.contacto;
 
                 $timeout(function () {
-                    if (event.node.data.id_Barrio === 0 || event.node.data.id_Barrio === null || event.node.data.id_Barrio === undefined)
+                    if (data.id_Barrio === 0 || data.id_Barrio === null || data.id_Barrio === undefined)
                         $scope.BarrioSeleccionado = -1;
                     else
-                        $scope.BarrioSeleccionado = event.node.data.id_Barrio;
-                },100);
-                
+                        $scope.BarrioSeleccionado = data.id_Barrio;
+                }, 100);
 
-                $scope.ModalNuevaEmpresa();                
-
-                  
+                $scope.ModalNuevaEmpresa();
 
                 $('#txtNombreEmpesa').focus();
             }
@@ -539,7 +532,7 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
     }
 
     $scope.Cancelar = function () {
-        $mdDialog.cancel();        
+        $mdDialog.cancel();
     };
 
     $timeout(function () {
@@ -548,5 +541,5 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
         $scope.ConsultarEmpresasAdmin();
         $scope.ConsultarSedesPrincipales();
         $scope.ConsultarCategoriaServicios();
-    },200);          
+    }, 200);
 }
