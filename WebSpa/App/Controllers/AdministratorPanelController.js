@@ -223,12 +223,11 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
                             $scope.EmpresasGridOptions.api.sizeColumnsToFit();
                         }, 200);
                     }
-                }
-            ), function (err) {
-                toastr.remove();
-                if (err.data !== null && err.status === 500)
-                    toastr.error(err.data, '', $scope.toastrOptions);
-            }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
     }
 
     $scope.ConsultarSedesPrincipales = function () {
@@ -241,12 +240,11 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
                         $scope.SedesPrincipales.push({ id_Empresa: -1, nombre: '[Seleccione]' });
                         $scope.SedesPrincipales = $filter('orderBy')($scope.SedesPrincipales, 'id_Empresa', false);
                     }
-                }
-            ), function (err) {
-                toastr.remove();
-                if (err.data !== null && err.status === 500)
-                    toastr.error(err.data, '', $scope.toastrOptions);
-            }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
     }
 
     $scope.GuardarEmpresa = function () {
@@ -429,7 +427,7 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
     }
 
     $scope.ConsultarEmpresa = function (data) {
-        try {            
+        try {
             $scope.LimpiarDatos();
 
             if (data !== undefined && data !== null) {
