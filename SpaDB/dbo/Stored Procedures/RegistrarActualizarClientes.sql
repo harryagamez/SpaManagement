@@ -1,4 +1,6 @@
-﻿CREATE PROCEDURE RegistrarActualizarClientes(@JsonCliente NVARCHAR(MAX))
+﻿CREATE PROCEDURE RegistrarActualizarClientes(
+	@JsonCliente NVARCHAR(MAX)
+)
 AS
 BEGIN
 	

@@ -758,7 +758,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
     }
 
     $scope.ConsultarEmpresa = function (data) {
-        try {            
+        try {
             $scope.LimpiarDatos();
 
             if (data !== undefined && data !== null) {
