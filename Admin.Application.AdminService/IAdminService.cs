@@ -6,8 +6,10 @@ namespace Admin.Application.AdminService
     public interface IAdminService
     {
         List<CategoriaServicio> ConsultarCategoriaServicios();
+        List<Menu> ConsultarMenuAdmin();
         List<Empresa> ConsultarSedesPrincipales();
         List<Empresa> ConsultarEmpresasAdmin();
+        List<Usuario> ConsultarUsuariosAdmin();
         bool GuardarEmpresa(Empresa empresa);
     }
 }

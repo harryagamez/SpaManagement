@@ -8,7 +8,9 @@ namespace Admin.Infrastructure.AdminRepository
     {
         List<CategoriaServicio> ConsultarCategoriaServicios();
         List<Empresa> ConsultarSedesPrincipales();
+        List<Menu> ConsultarMenuAdmin();
         List<Empresa> ConsultarEmpresasAdmin();
+        List<Usuario> ConsultarUsuariosAdmin();
         bool GuardarEmpresa(Empresa empresa);
     }
 }

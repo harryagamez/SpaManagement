@@ -1,10 +1,8 @@
-CREATE PROCEDURE ConsultarUsuarios(
-	@IdEmpresa VARCHAR(36)
-)
+CREATE PROCEDURE ConsultarUsuariosAdmin
 AS
 BEGIN
 
-	CREATE TABLE #TempUsuarios(Id_Usuario INT, Nombre CHAR(25) COLLATE SQL_Latin1_General_CP1_CI_AS, Contrasenia NVARCHAR(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS, 
+CREATE TABLE #TempUsuarios(Id_Usuario INT, Nombre CHAR(25) COLLATE SQL_Latin1_General_CP1_CI_AS, Contrasenia NVARCHAR(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS, 
 	Perfil CHAR(15) COLLATE SQL_Latin1_General_CP1_CI_AS, Id_Empresa VARCHAR(36) COLLATE SQL_Latin1_General_CP1_CI_AS, Nombre_Empresa CHAR(100) COLLATE SQL_Latin1_General_CP1_CI_AS,
 	Codigo_Integracion VARCHAR(36) COLLATE SQL_Latin1_General_CP1_CI_AS, Fecha_Registro DATETIME, Fecha_Modificacion DATETIME, Verificado BIT, Mail CHAR(60) COLLATE SQL_Latin1_General_CP1_CI_AS,
 	Logo_Base64 NVARCHAR(MAX) COLLATE SQL_Latin1_General_CP1_CI_AS)
@@ -20,16 +18,14 @@ BEGIN
 		ISNULL(USUARIOS.MAIL, EMPRESA.MAIL) AS MAIL, LOGO_BASE64		
 	FROM USUARIOS 
 	INNER JOIN EMPRESA 
-	ON USUARIOS.ID_EMPRESA = EMPRESA.ID_EMPRESA 	
-	WHERE CAST(USUARIOS.ID_EMPRESA AS VARCHAR(36)) = @IdEmpresa 
-	ORDER BY USUARIOS.NOMBRE ASC
+	ON USUARIOS.ID_EMPRESA = EMPRESA.ID_EMPRESA	
 
 	INSERT INTO #TempMenuUsuarios(Id_Menu_Usuario, Id_Usuario, Id_Menu, Estado, Fecha_Registro, Fecha_Modificacion)	
 	SELECT 
 		ID_MENU_USUARIO, MENU_USUARIOS.ID_USUARIO, ID_MENU, ESTADO,
 		MENU_USUARIOS.FECHA_REGISTRO, MENU_USUARIOS.FECHA_MODIFICACION 
 	FROM MENU_USUARIOS 
-	INNER JOIN #TempUsuarios ON MENU_USUARIOS.ID_USUARIO = #TempUsuarios.Id_Usuario
+	INNER JOIN #TempUsuarios ON MENU_USUARIOS.ID_USUARIO = #TempUsuarios.Id_Usuario AND #TempUsuarios.Perfil <> '[MANAGER]'
 
 	SELECT 
 		Id_Usuario,RTRIM(Nombre) AS Nombre, RTRIM(Contrasenia) AS Contrasenia, RTRIM(Perfil) AS Perfil, 

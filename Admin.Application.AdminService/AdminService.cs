@@ -25,6 +25,11 @@ namespace Admin.Application.AdminService
             return _adminRepository.ConsultarCategoriaServicios();
         }
 
+        public List<Menu> ConsultarMenuAdmin()
+        {
+            return _adminRepository.ConsultarMenuAdmin();
+        }
+
         public List<Empresa> ConsultarSedesPrincipales()
         {
             return _adminRepository.ConsultarSedesPrincipales();
@@ -33,6 +38,11 @@ namespace Admin.Application.AdminService
         public List<Empresa> ConsultarEmpresasAdmin()
         {
             return _adminRepository.ConsultarEmpresasAdmin();
+        }
+
+        public List<Usuario> ConsultarUsuariosAdmin()
+        {
+            return _adminRepository.ConsultarUsuariosAdmin();
         }
 
         public bool GuardarEmpresa(Empresa empresa)

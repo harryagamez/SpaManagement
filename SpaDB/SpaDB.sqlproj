@@ -279,6 +279,8 @@
     <Build Include="dbo\Stored Procedures\ConsultarSedesPrincipales.sql" />
     <Build Include="dbo\Stored Procedures\GuardarEmpresa.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarEmpresasAdmin.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarMenuAdmin.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarUsuariosAdmin.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

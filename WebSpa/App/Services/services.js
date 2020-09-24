@@ -428,7 +428,9 @@
             _consultarCategoriaServicios: ConsultarCategoriaServicios,
             _consultarSedesPrincipales: ConsultarSedesPrincipales,
             _guardarEmpresa: GuardarEmpresa,
-            _consultarEmpresasAdmin: ConsultarEmpresasAdmin
+            _consultarEmpresasAdmin: ConsultarEmpresasAdmin,
+            _consultarMenuAdmin: ConsultarMenuAdmin,
+            _consultarUsuariosAdmin: ConsultarUsuariosAdmin
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1022,6 +1024,18 @@
             return deferred.promise;
         }
 
+        function ConsultarMenuAdmin() {
+            var deferred = $q.defer();
+            serviceRest.Get('Admin', 'ConsultarMenuAdmin',
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
         function ConsultarSedesPrincipales() {
             var deferred = $q.defer();            
             serviceRest.Get('Admin', 'ConsultarSedesPrincipales',
@@ -1037,6 +1051,18 @@
         function ConsultarEmpresasAdmin() {
             var deferred = $q.defer();
             serviceRest.Get('Admin', 'ConsultarEmpresasAdmin',
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarUsuariosAdmin() {
+            var deferred = $q.defer();
+            serviceRest.Get('Admin', 'ConsultarUsuariosAdmin',
                 function (data) {
                     deferred.resolve(data);
                 },

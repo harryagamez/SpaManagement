@@ -38,6 +38,23 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpGet]
+        [Route("api/Admin/ConsultarMenuAdmin")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarMenuAdmin()
+        {
+            try
+            {
+                List<Menu> _listMenu = _adminService.ConsultarMenuAdmin();
+
+                return Content(HttpStatusCode.OK, _listMenu);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando el Menu: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("api/Admin/ConsultarSedesPrincipales")]
         [HttpCache(DefaultExpirySeconds = 2)]
         public IHttpActionResult ConsultarSedesPrincipales()
@@ -68,6 +85,23 @@ namespace WebApiSpa.Controllers
             catch (Exception ex)
             {
                 return Content(HttpStatusCode.InternalServerError, "Error consultando las sedes principales: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/Admin/ConsultarUsuariosAdmin")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarUsuariosAdmin()
+        {
+            try
+            {
+                List<Usuario> _listUsuarios = _adminService.ConsultarUsuariosAdmin();
+
+                return Content(HttpStatusCode.OK, _listUsuarios);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los usuarios: " + ex.Message);
             }
         }
 

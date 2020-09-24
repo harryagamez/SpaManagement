@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Spa.InfraCommon.SpaCommon.Helpers;
+using System.Linq;
 
 namespace Admin.Infrastructure.AdminRepository
 {
@@ -39,6 +40,32 @@ namespace Admin.Infrastructure.AdminRepository
                     _command.Dispose();
 
                     return _list_categoriaServicios;
+                }
+            }
+        }
+
+        public List<Menu> ConsultarMenuAdmin()
+        {
+            DataTable _datatable = new DataTable();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarMenuAdmin";
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<Menu> _list_menu = _datatable.DataTableToList<Menu>();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _list_menu;
                 }
             }
         }
@@ -91,6 +118,46 @@ namespace Admin.Infrastructure.AdminRepository
                     _command.Dispose();
 
                     return _list_Empresas;
+                }
+            }
+        }
+
+        public List<Usuario> ConsultarUsuariosAdmin()
+        {
+            DataSet _dataset = new DataSet();
+            List<Usuario> _usuarios = new List<Usuario>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarUsuariosAdmin";
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_dataset);
+
+                    _dataset.Tables[0].TableName = "Usuarios";
+                    _dataset.Tables[1].TableName = "Menu_Usuarios";
+
+                    _dataset.Relations.Add("MenuUsuarios",
+                   _dataset.Tables["Usuarios"].Columns["Id_Usuario"],
+                   _dataset.Tables["Menu_Usuarios"].Columns["Id_Usuario"]);
+
+                    _usuarios = _dataset.Tables["Usuarios"]
+                    .AsEnumerable()
+                    .Select(row =>
+                    {
+                        Usuario usuario = row.ToObject<Usuario>();
+                        usuario.Menu_Usuario = row.GetChildRows("MenuUsuarios").DataTableToList<MenuUsuario>();
+                        return usuario;
+                    })
+                    .ToList();
+
+                    return _usuarios;
                 }
             }
         }

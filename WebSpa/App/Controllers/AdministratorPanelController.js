@@ -1,9 +1,11 @@
 ﻿angular.module('app.controllers')
     .controller("AdministratorPanelController", AdministratorPanelController);
 
-AdministratorPanelController.$inject = ['$scope', '$state', '$location', '$filter', '$http', '$mdToast', '$document', '$mdDialog', '$rootScope', '$timeout', 'localStorageService', 'AuthService', 'SPAService'];
+AdministratorPanelController.$inject = ['$scope', '$rootScope', '$state', '$location', '$filter', '$http', '$mdToast', '$document', '$mdDialog', '$rootScope', '$timeout', 'localStorageService', 'AuthService', 'SPAService'];
 
-function AdministratorPanelController($scope, $state, $location, $filter, $http, $mdToast, $document, $mdDialog, $rootScope, $timeout, localStorageService, AuthService, SPAService) {
+function AdministratorPanelController($scope, $rootScope, $state, $location, $filter, $http, $mdToast, $document, $mdDialog, $rootScope, $timeout, localStorageService, AuthService, SPAService) {
+
+    $scope.fActiveTab = 'Empresas';
     $scope.CategoriaServicios = [];
     $scope.SedesPrincipales = [];
     const mail_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
@@ -24,6 +26,28 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
         Contacto: '',
         Id_Barrio: -1
     };
+
+    $scope.Usuario = {
+        Id_Usuario: -1,
+        Nombre: '',
+        Contrasenia: '',
+        Perfil: '',
+        Id_Empresa: $scope.IdEmpresa,
+        Mail: '',
+        Logo_Base64: null,
+        Menu_Usuario: $scope.Menu,
+        PasswordHasChanged: $scope.PasswordHasChanged
+    }
+
+    $scope.TipoPerfil =
+        [
+            { id_TipoPerfil: -1, Nombre: "[Seleccione]" },
+            { id_TipoPerfil: 1, Nombre: "Administrador" },
+            { id_TipoPerfil: 2, Nombre: "Invitado" }
+        ];
+    $scope.TipoPerfil = $filter('orderBy')($scope.TipoPerfil, 'Nombre', false);  
+    
+
     $scope.Barrios = [];
     $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1 });
     $scope.BarrioSeleccionado = -1;
@@ -31,6 +55,10 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
     $scope.SedePrincipalSeleccionada = -1;
     $scope.EstadoSeleccionado = 'ACTIVA';
     $scope.LogoEmpresa = '../Images/template/tulogo.png';
+    $scope.ImagenUsuario = '../Images/default-perfil.png';
+
+    $scope.TipoPerfilSeleccionado = -1;
+    $scope.EmpresaSeleccionada = -1;
 
     $scope.UserAvatar = '../../Images/default-perfil.png';
 
@@ -148,6 +176,45 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
         rowSelection: 'multiple'
     }
 
+    $scope.UsuariosAdminGridOptionsColumns = [
+        {
+            headerName: "Nombre", field: 'nombre', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true
+        },
+        {
+            headerName: "Empresa", field: 'nombre_Empresa', width: 100, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
+        },
+        {
+            headerName: "Mail", field: 'mail', width: 90, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
+        },
+        {
+            headerName: "Fecha Registro", field: 'fecha_Registro', width: 150, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, suppressSizeToFit: true, cellRenderer: (data) => {
+                return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy') : '';
+            }
+        },
+        {
+            headerName: "Perfil", field: 'perfil', width: 160, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, suppressSizeToFit: true
+        }
+    ];
+
+    $scope.UsuariosAdminGridOptions = {
+        defaultColDef: {
+            resizable: true
+        },
+        columnDefs: $scope.UsuariosAdminGridOptionsColumns,
+        rowData: [],
+        enableSorting: true,
+        enableFilter: true,
+        enableColResize: true,
+        angularCompileRows: true,
+        onGridReady: function (params) {
+        },
+        fullWidthCellRenderer: true,
+        animateRows: true,
+        suppressRowClickSelection: true,
+        rowSelection: 'multiple',
+        onRowClicked: OnRowClicked
+    }
+
     $scope.ConsultarBarrios = function (id_Municipio) {
         SPAService._consultarBarrios(id_Municipio)
             .then(
@@ -209,26 +276,51 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
                 })
     }
 
+    $scope.ConsultarMenuAdmin = function () {
+        SPAService._consultarMenuAdmin()
+            .then(
+                function (result) {
+                    if (result.data !== undefined && result.data !== null) {
+                        $scope.MenuAdmin = [];
+                        $scope.MenuAdmin = result.data;
+                        $rootScope.Menu = $scope.MenuAdmin;
+                        $scope.Menu = angular.copy($scope.MenuAdmin);
+                        $scope.Menu = $scope.Menu.map(function (e) {
+                            return { Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
+                        });
+
+                        $scope.Menu = $filter('orderBy')($scope.Menu, 'nombre', false);
+                    }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
+    }
+
     $scope.ConsultarEmpresasAdmin = function () {
         SPAService._consultarEmpresasAdmin()
             .then(
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
-                        $scope.TodasLasEmpresas = [];
-                        $scope.TodasLasEmpresas = result.data;
+                        $scope.EmpresasAdmin = [];
+                        $scope.EmpresasAdmin = result.data;
+                        $scope.EmpresasCopy = angular.copy($scope.EmpresasAdmin);
+                        $scope.EmpresasCopy.push({ id_Empresa: -1, nombre: '[Seleccione]' });
+                        $scope.EmpresasCopy = $filter('orderBy')($scope.EmpresasCopy, 'id_Empresa', false);
 
-                        $scope.EmpresasGridOptions.api.setRowData($scope.TodasLasEmpresas);
+                        $rootScope.Empresas = angular.copy($scope.EmpresasAdmin);
+                        $scope.EmpresasGridOptions.api.setRowData($scope.EmpresasAdmin);
 
                         $timeout(function () {
                             $scope.EmpresasGridOptions.api.sizeColumnsToFit();
                         }, 200);
                     }
-                }
-            ), function (err) {
-                toastr.remove();
-                if (err.data !== null && err.status === 500)
-                    toastr.error(err.data, '', $scope.toastrOptions);
-            }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+            })
     }
 
     $scope.ConsultarSedesPrincipales = function () {
@@ -241,12 +333,11 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
                         $scope.SedesPrincipales.push({ id_Empresa: -1, nombre: '[Seleccione]' });
                         $scope.SedesPrincipales = $filter('orderBy')($scope.SedesPrincipales, 'id_Empresa', false);
                     }
-                }
-            ), function (err) {
-                toastr.remove();
-                if (err.data !== null && err.status === 500)
-                    toastr.error(err.data, '', $scope.toastrOptions);
-            }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
     }
 
     $scope.GuardarEmpresa = function () {
@@ -264,6 +355,216 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
                         if (err.data !== null && err.status === 500)
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
+        }
+    }
+
+    $scope.ConsultarUsuariosAdmin = function () {
+        SPAService._consultarUsuariosAdmin()
+            .then(
+                function (result) {
+                    if (result.data !== undefined && result.data !== null) {
+                        $scope.UsuariosAdmin = [];
+                        $scope.UsuariosAdmin = result.data;
+                        $scope.UsuariosAdminGridOptions.api.setRowData($scope.UsuariosAdmin);                        
+                        $timeout(function () {
+                            $scope.UsuariosAdminGridOptions.api.sizeColumnsToFit();
+                        }, 200);
+                    }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
+    }
+
+    $scope.ConsultarUsuarioAdmin = function (e, Nombre) {
+        if (Nombre !== null && Nombre !== '' && $scope.EditarUsuario === false) {
+            SPAService._consultarUsuario(Nombre)
+                .then(
+                    function (result) {
+                        if (result.data === true) {
+                            toastr.info('Ya existe ese nombre de usuario. Debe ingresar uno diferente', '', $scope.toastrOptions);
+                            $('#txtUsuario').focus();
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+        }
+    }
+
+    $scope.GuardarUsuarioAdmin = function () {
+        if ($scope.ValidarUsuarioAdmin()) {            
+            SPAService._guardarUsuario(JSON.stringify($scope.Usuario))
+                .then(
+                    function (result) {
+                        if (result.data === true) {
+                            toastr.success('Usuario registrado/actualizado correctamente', '', $scope.toastrOptions);
+                            $scope.ConsultarUsuariosAdmin();
+                            $scope.LimpiarDatos();
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+        }
+    }    
+
+    $scope.ValidarUsuarioAdmin = function () {
+        try {
+            let mail_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
+            $scope.Usuario.Id_Empresa = $scope.IdEmpresa;
+            if ($scope.ImagenUsuario !== '../Images/default-perfil.png')
+                $scope.Usuario.Logo_Base64 = $scope.ImagenUsuario;
+            else
+                $scope.Usuario.Logo_Base64 = null;            
+
+            if ($scope.Usuario.Nombre === '') {
+                toastr.info('Debe ingresar un nombre de usuario', '', $scope.toastrOptions);
+                $('#txtUsuario').focus();
+                return false;
+            }
+
+            if ($scope.Usuario.Contrasenia === '') {
+                toastr.info('Debe ingresar una contraseña', '', $scope.toastrOptions);
+                $('#txtContrasenia').focus();
+                return false;
+            }
+
+            if ($scope.Confirmacion === '') {
+                toastr.info('Debe confirmar la contraseña', '', $scope.toastrOptions);
+                $('#txtConfirmacion').focus();
+                return false;
+            }
+
+            if ($scope.Usuario.Contrasenia !== $scope.Confirmacion) {
+                toastr.info('La confirmación de la contraseña no coincide con la contraseña', '', $scope.toastrOptions);
+                $('#txtConfirmacion').focus();
+                return false;
+            }
+
+            if (($scope.Usuario.Contrasenia !== $scope.PasswordBackup && $scope.Usuario.Id_Usuario !== -1) || ($scope.Usuario.Id_Usuario === -1)) {
+                $scope.PasswordHasChanged = true;
+                $scope.Usuario.PasswordHasChanged = $scope.PasswordHasChanged;
+            }
+
+            if ($scope.Usuario.Mail === '') {
+                toastr.info('Debe ingresar una dirección de correo electrónico', '', $scope.toastrOptions);
+                $('#txtMail').focus();
+                return false;
+            }
+
+            if (!mail_expression.test($scope.Usuario.Mail)) {
+                toastr.info('La dirección de correo electrónico no es válida.', '', $scope.toastrOptions);
+                $('#txtMail').focus();
+                return false;
+            }
+
+            if ($scope.TipoPerfilSeleccionado === -1) {
+                toastr.info('Debe seleccionar un perfil', '', $scope.toastrOptions);
+                $('#slTipoPerfil').focus();
+                return false;
+            }
+
+            let filtrarTipoPerfil = Enumerable.From($scope.TipoPerfil)
+                .Where(function (x) { return x.id_TipoPerfil === $scope.TipoPerfilSeleccionado })
+                .ToArray();
+
+            if (filtrarTipoPerfil.length > 0)
+                $scope.Usuario.Perfil = filtrarTipoPerfil[0].Nombre;
+
+            if ($scope.EmpresaSeleccionada === -1 || $scope.EmpresaSeleccionada === undefined || $scope.EmpresaSeleccionada === null) {
+                toastr.info('Debe seleccionar una empresa', '', $scope.toastrOptions);
+                $('#slEmpresas').focus();
+                return false;
+            }
+
+            $scope.Usuario.Id_Empresa = $scope.EmpresaSeleccionada;
+            $scope.Usuario.Menu_Usuario = $scope.Menu;
+
+            let menuUnchecked = 0;
+            for (let i = 0; i < $scope.Usuario.Menu_Usuario.length; i++) {
+                if ($scope.Usuario.Menu_Usuario[i].Estado === false)
+                    menuUnchecked += 1;
+            }
+
+            if (menuUnchecked === $scope.Menu.length) {
+                toastr.info('Debe asignar almenos un elemento del menú', '', $scope.toastrOptions);
+                $scope.ModalMenu();
+                return false;
+            }
+            return true;
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    function OnRowClicked(event) {
+        try {
+            $scope.LimpiarDatos();
+            if (event.node.data !== undefined && event.node.data !== null) {
+                $scope.EditarUsuario = true;                
+                $scope.Usuario.Id_Usuario = event.node.data.id_Usuario;
+                $scope.Usuario.Nombre = event.node.data.nombre;
+                $scope.Usuario.Contrasenia = event.node.data.contrasenia;
+                $scope.Usuario.Mail = event.node.data.mail;
+                $scope.Usuario.Id_Empresa = event.node.data.id_Empresa;
+                $scope.PasswordBackup = angular.copy(event.node.data.contrasenia);
+
+                if (event.node.data.logo_Base64 !== null)
+                    $scope.ImagenUsuario = event.node.data.logo_Base64;
+                else
+                    $scope.ImagenUsuario = '../Images/default-perfil.png';
+
+                $scope.Usuario.Logo_Base64 = $scope.ImagenUsuario;
+                $scope.Menu = event.node.data.menu_Usuario;
+                $scope.Menu = $scope.Menu.map(function (e) {
+                    return { Id_Menu_Usuario: e.id_Menu_Usuario, Id_Usuario: e.id_Usuario, Id_Menu: e.id_Menu, Estado: e.estado, Descripcion: e.descripcion }
+                });
+
+                $scope.Menu = $filter('orderBy')($scope.Menu, 'nombre', false);
+
+                $scope.Usuario.Menu_Usuario = $scope.Menu;
+                $scope.Confirmacion = $scope.Usuario.Contrasenia;
+
+                let filtrarTipoPerfil = Enumerable.From($scope.TipoPerfil)
+                    .Where(function (x) { return x.Nombre === event.node.data.perfil })
+                    .ToArray();
+
+                if (filtrarTipoPerfil.length > 0)
+                    $scope.TipoPerfilSeleccionado = filtrarTipoPerfil[0].id_TipoPerfil;
+
+                $scope.EmpresaSeleccionada = event.node.data.id_Empresa;
+
+                $scope.NombreReadOnly = true;
+                $('#txtContrasenia').focus();
+            }
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.ModalMenu = function () {
+        try {
+            $scope.AccionGasto = 'MENU';
+
+            $mdDialog.show({
+                contentElement: '#dlgMenu',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                multiple: true,
+            })
+                .then(function () {
+                }, function () {
+                });
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
         }
     }
 
@@ -388,6 +689,8 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
 
     $scope.LimpiarDatos = function () {
         try {
+            $scope.fActiveTab = 'Empresas';
+
             $scope.Empresa =
             {
                 Id_Empresa: '00000000-0000-0000-0000-000000000000',
@@ -412,7 +715,33 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
             $scope.MunicipioSeleccionado = -1;
             $scope.LogoEmpresa = '../Images/template/tulogo.png';
 
-            $('#txtNombreEmpresa').focus();
+
+            $scope.ImagenUsuario = '../Images/default-perfil.png';
+            $scope.PasswordHasChanged = false;
+            $scope.PasswordBackup = '';
+            $scope.TipoPerfilSeleccionado = -1;
+            $scope.EmpresaSeleccionada = -1;
+            $scope.Confirmacion = '';
+            $scope.NombreReadOnly = false;
+
+
+            $scope.Menu = $rootScope.Menu;
+            $scope.Menu = $scope.Menu.map(function (e) {
+                return { Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
+            });
+
+            $scope.Usuario = {
+                Id_Usuario: -1,
+                Nombre: '',
+                Contrasenia: '',
+                Mail: '',
+                Perfil: '',
+                Id_Empresa: '',
+                Logo_Base64: null,
+                Menu_Usuario: $scope.Menu,
+                PasswordHasChanged: $scope.PasswordHasChanged
+            }            
+                        
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -517,9 +846,15 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
             reader.readAsDataURL(file);
             reader.onload = function () {
                 $scope.$apply(function () {
-                    $scope.LogoEmpresa = reader.result;
+                    if($scope.fActiveTab === 'Empresas')
+                        $scope.LogoEmpresa = reader.result;
+                    if ($scope.fActiveTab === 'Usuarios')
+                        $scope.ImagenUsuario = reader.result;
                 });
-                $("#LogoEmpresa").val('');
+                if ($scope.fActiveTab === 'Empresas')
+                    $("#LogoEmpresa").val('');
+                if ($scope.fActiveTab === 'Usuarios')
+                    $("#ImagenUsuario").val('');
             };
             reader.onerror = function (error) {
                 console.log('Error: ', error);
@@ -541,5 +876,7 @@ function AdministratorPanelController($scope, $state, $location, $filter, $http,
         $scope.ConsultarEmpresasAdmin();
         $scope.ConsultarSedesPrincipales();
         $scope.ConsultarCategoriaServicios();
-    }, 200);
+        $scope.ConsultarMenuAdmin();
+        $scope.ConsultarUsuariosAdmin();
+    }, 200);    
 }
