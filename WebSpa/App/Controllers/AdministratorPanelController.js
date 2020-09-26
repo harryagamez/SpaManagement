@@ -1049,6 +1049,17 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         }
     }
 
+    $scope.onFilterTextBoxChanged = function () {
+        $scope.ServiciosGridOptions.api.setQuickFilter($('#txtBuscarServicio').val());
+    }
+
+    $scope.SetFocus = function () {
+        $timeout(function () {
+            if ($scope.fActiveTab === 'Servicios')
+                $('#txtBuscarServicio').focus();
+        },200);           
+    }
+
     $scope.SeleccionarImagen = function (event) {
         try {
             let mayorDosMB = false;
