@@ -24,6 +24,12 @@
 
                 <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
 
+                    <md-tab label="Datos Maestros" data-ng-click="fActiveTab = 'DatosMaestros';LimpiarDatos()">
+                        <md-content class="md-padding" style="background-color:transparent; margin-bottom:10px;">
+
+                        </md-content>
+                    </md-tab>
+
                     <md-tab label="Empresas" data-ng-click="fActiveTab = 'Empresas'; LimpiarDatos()">
 
                         <md-content style="background-color:transparent; overflow:hidden; margin-top:-25px;">
@@ -31,11 +37,9 @@
                             <input type="file" name="file" id="LogoEmpresa" style="visibility:hidden;" data-toggle="tooltip" title="Upload" data-file-model="SeleccionarImagen($event)" accept=".png, .jpg, .jpeg" />
 
                             <section id="divButtons" layout="row" layout-align="left center" style="margin-top:7px;">
-
                                 <md-button type="button" id="btnNuevo" class="groupX middle btn-apanel" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevaEmpresa()">
                                     <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
                                 </md-button>
-
                             </section>
 
                             <div id="divGridEmpresas" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 190px); margin-top:7px; overflow-y:auto;">
@@ -45,13 +49,22 @@
 
                     </md-tab>
 
-                    <md-tab label="Datos Maestros" data-ng-click="fActiveTab = 'DatosMaestros';LimpiarDatos()">
-                        <md-content class="md-padding" style="background-color:transparent; margin-bottom:10px;">
+                    <md-tab label="Servicios" data-ng-click="fActiveTab = 'Servicios'; LimpiarDatos()">
+                        <md-content style="background-color:transparent; overflow:hidden; margin-top:2px;">
 
+                            <section id="divButtons" layout="row" layout-align="left center" style="margin-top:7px;">
+                                <md-button type="button" id="btnNuevoServicio" class="groupX middle btn-apanel" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevoServicio()">
+                                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                                </md-button>
+                            </section>
+
+                            <div id="divGridServicios" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 190px); margin-top:7px; overflow-y:auto;">
+                                <div id="divServiciosGridOptions" data-ag-grid="ServiciosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+                            </div>
                         </md-content>
                     </md-tab>
 
-                    <md-tab label="Usuarios" data-ng-click="fActiveTab = 'Usuarios';LimpiarDatos()">
+                    <md-tab label="Usuarios" data-ng-click="fActiveTab = 'Usuarios'; LimpiarDatos()">
                         <md-content style="background-color:transparent; ">
 
                             <input type="file" name="file" id="ImagenUsuario" style="visibility:hidden;" data-toggle="tooltip" title="Upload" data-file-model="SeleccionarImagen($event)" accept=".png, .jpg, .jpeg" />
@@ -140,7 +153,7 @@
                                     </div>
                                 </div>
 
-                                <div id="divGridUsuariosAdmin" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 330px); margin-top:5px; overflow-y:auto;">
+                                <div id="divGridUsuariosAdmin" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 315px); margin-top:5px; overflow-y:auto;">
                                     <div id="divUsuariosAdminGridOptions" data-ag-grid="UsuariosAdminGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                                 </div>
                             </md-content>
@@ -172,7 +185,7 @@
                                             <label class="label-form-empleados" style="">
                                                 Nombre:
                                             </label>
-                                            <input ng-model="Empresa.Nombre" id="txtNombreEmpresa" maxlength="100" type="text" placeholder="Nombre de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=1>
+                                            <input ng-model="Empresa.Nombre" md-autofocus="AccionEmpresa === 'Registrar Empresa'" id="txtNombreEmpresa" maxlength="100" type="text" placeholder="Nombre de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=1>
                                         </md-input-container>
                                     </div>
 
@@ -181,7 +194,7 @@
                                             <label class="label-form-empleados" style="">
                                                 Dirección:
                                             </label>
-                                            <input ng-model="Empresa.Direccion" id="txtDireccionEmpresa" maxlength="60" type="text" placeholder="Dirección de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
+                                            <input ng-model="Empresa.Direccion" md-autofocus="AccionEmpresa === 'Actualizar Empresa'" id="txtDireccionEmpresa" maxlength="60" type="text" placeholder="Dirección de la empresa ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
                                         </md-input-container>
                                     </div>
 
@@ -312,7 +325,90 @@
                                         <md-button type="button" id="btnGuardarEmpresa" style="margin: 6px 3px !important;" class="btn-apanel groupX left" data-toggle="tooltip" title="Guardar" ng-click="GuardarEmpresa()" tabindex=13>
                                             <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                                         </md-button>
-                                        <md-button type="button" id="btnLimpiar" ng-hide="OcultarbtnNuevo" style="margin: 6px 3px !important;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Limpiar Campos" data-ng-click="LimpiarDatos()" tabindex=14>
+                                        <md-button type="button" id="btnLimpiar" ng-hide="AccionEmpresa === 'Actualizar Empresa'" style="margin: 6px 3px !important;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Limpiar Campos" data-ng-click="LimpiarDatos()" tabindex=14>
+                                            <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Limpiar
+                                        </md-button>
+                                    </div>
+
+                                </div>
+
+                            </md-dialog-content>
+
+                        </form>
+                    </md-dialog>
+                </div>
+            </div>
+
+            <!-- Modal Servicios -->
+            <div style="visibility: hidden">
+
+                <div class="md-dialog-container" id="dlgNuevoServicio">
+                    <md-dialog id="mdNuevoServicio" aria-label="Nuevo Servicio" style="min-width: 460px; max-width: 460px; min-height:330px; max-height:330px; color: #666666 !important;">
+                        <md-toolbar>
+                            <div class="md-toolbar-tools">
+                                <h2 style="font-size:16px;">{{AccionServicio}}</h2>
+                                <span flex></span>
+                                <md-button class="md-icon-button" ng-click="Cancelar()">
+                                    <i class="material-icons" style="transform: scaleX(-1)">close</i>
+                                </md-button>
+                            </div>
+                        </md-toolbar>
+                        <form id="frmServiciosModal" style="">
+                            <md-dialog-content style="">
+                                <div layout="row" layout-align="">
+                                    <div style="width:100%;" class="material-apanel">
+                                        <md-input-container style="width: 99%; margin-bottom: 0">
+                                            <label class="label-form-empleados" style="">
+                                                Nombre Servicio:
+                                            </label>
+                                            <input ng-model="Servicio.Nombre" md-autofocus ="AccionServicio === 'Registrar Servicio'" id="txtNombreServicio" ng-disabled="AccionServicio === 'Actualizar Servicio'" maxlength="30" type="text" placeholder="Nombre del servicio ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=1>
+                                        </md-input-container>
+                                    </div>
+                                </div>
+
+                                <div layout="row" layout-align="" style="margin-top:-10px; ">
+                                    <div style="width:100%;" class="material-apanel">
+                                        <md-input-container style="width: 99%;">
+                                            <label class="label-form-empleados" style="">
+                                                Descripción:
+                                            </label>
+                                           <textarea ng-model="Servicio.Descripcion" md-autofocus ="AccionServicio === 'Actualizar Servicio'" id="txtDescripcionServicio" rows="2" md-maxlength="300" type="text" placeholder="Descripción del servicio ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2></textarea>
+                                        </md-input-container>
+                                    </div>
+                                </div>
+
+                                <div layout="row" layout-align="">
+                                    <div style="width:50%;" class="material-apanel" layout="column">
+                                        <md-input-container style="width: 99%; margin-top: 13px; margin-bottom: 0; ">
+                                            <label class="label-form-clientes" style="">
+                                                Categoría Servicio:
+                                            </label>
+                                            <md-select ng-model="CategoriaSeleccionada" data-ng-change="FiltrarTipoServicio(CategoriaSeleccionada)" style="display:inline-flex; min-width: 100% !important; margin-top:7px;" id="slCategoriaServicio1" tabindex=3>
+                                                <md-option ng-bind="item.nombre" ng-value="item.id_Categoria_Servicio" ng-repeat="item in CategoriaServicios track by item.id_Categoria_Servicio"></md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                    </div>
+
+                                    <div style="width:50%;" class="material-apanel" layout="column">
+                                        <md-input-container style="width: 99%; margin-top: 13px; margin-bottom: 0; ">
+                                            <label class="label-form-clientes" style="">
+                                                Tipo Servicio:
+                                            </label>
+                                            <md-select ng-model="TipoServicioSeleccionado" ng-disabled="CategoriaSeleccionada =='-1'" style="display:inline-flex; min-width: 100% !important; margin-top:7px;" id="slTipoServicio" tabindex=4>
+                                                <md-option ng-bind="item.nombre" ng-value="item.id_TipoServicio" ng-repeat="item in TipoServiciosFiltrado track by item.id_TipoServicio"></md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                    </div>
+                                </div>                           
+                                
+
+                                <div layout="row" layout-xs="column" layout-align="center start">
+
+                                    <div flex="" style="right:15px; position: absolute; margin-top:0px;">
+                                        <md-button type="button" id="btnGuardarServicio" style="margin: 6px 3px !important;" class="btn-apanel groupX left" data-toggle="tooltip" title="Guardar" ng-click="GuardarServicioAdmin()" tabindex=5>
+                                            <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                                        </md-button>
+                                        <md-button type="button" id="btnLimpiar" ng-hide="AccionServicio === 'Actualizar Servicio'" style="margin: 6px 3px !important;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Limpiar Campos" data-ng-click="LimpiarDatos()" tabindex=6>
                                             <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Limpiar
                                         </md-button>
                                     </div>

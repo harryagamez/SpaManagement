@@ -121,5 +121,39 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error registrando la empresa: " + ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("api/Admin/GuardarServicioAdmin")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarServicioAdmin(ServicioMaestro servicio)
+        {
+            try
+            {
+                bool result = _adminService.GuardarServicioAdmin(servicio);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (System.Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando el servicio: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/Admin/ConsultarServiciosAdmin")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarServiciosAdmin()
+        {
+            try
+            {
+                List<ServicioMaestro> _listServicios = _adminService.ConsultarServiciosAdmin();
+
+                return Content(HttpStatusCode.OK, _listServicios);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los servicios: " + ex.Message);
+            }
+        }
     }
 }

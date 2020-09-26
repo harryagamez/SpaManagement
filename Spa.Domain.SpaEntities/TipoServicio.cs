@@ -9,5 +9,6 @@ namespace Spa.Domain.SpaEntities
         public string Descripcion { get; set; }
         public DateTime? Fecha_Registro { get; set; }
         public DateTime? Fecha_Modificacion { get; set; }
+        public string Id_Categoria_Servicio { get; set; }
     }
 }

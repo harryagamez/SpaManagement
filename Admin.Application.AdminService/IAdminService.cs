@@ -11,5 +11,7 @@ namespace Admin.Application.AdminService
         List<Empresa> ConsultarEmpresasAdmin();
         List<Usuario> ConsultarUsuariosAdmin();
         bool GuardarEmpresa(Empresa empresa);
+        bool GuardarServicioAdmin(ServicioMaestro servicio);
+        List<ServicioMaestro> ConsultarServiciosAdmin();
     }
 }

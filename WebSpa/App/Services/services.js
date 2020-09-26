@@ -430,7 +430,9 @@
             _guardarEmpresa: GuardarEmpresa,
             _consultarEmpresasAdmin: ConsultarEmpresasAdmin,
             _consultarMenuAdmin: ConsultarMenuAdmin,
-            _consultarUsuariosAdmin: ConsultarUsuariosAdmin
+            _consultarUsuariosAdmin: ConsultarUsuariosAdmin,
+            _consultarServiciosAdmin: ConsultarServiciosAdmin,
+            _guardarServicioAdmin: GuardarServicioAdmin
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1075,6 +1077,31 @@
         function GuardarEmpresa(empresa) {
             var deferred = $q.defer();
             serviceRest.Post('Admin', 'GuardarEmpresa', empresa,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
+            return deferred.promise;
+        }
+
+        function ConsultarServiciosAdmin() {
+            var deferred = $q.defer();
+            serviceRest.Get('Admin', 'ConsultarServiciosAdmin',
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function GuardarServicioAdmin(servicio) {
+            var deferred = $q.defer();
+            serviceRest.Post('Admin', 'GuardarServicioAdmin', servicio,
                 function (data) {
                     deferred.resolve(data);
                 },

@@ -182,5 +182,52 @@ namespace Admin.Infrastructure.AdminRepository
                 }
             }
         }
+
+        public List<ServicioMaestro> ConsultarServiciosAdmin()
+        {
+            DataTable _datatable = new DataTable();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarServiciosAdmin";
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<ServicioMaestro> _list_Servicios = _datatable.DataTableToList<ServicioMaestro>();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _list_Servicios;
+                }
+            }
+        }
+
+        public bool GuardarServicioAdmin(ServicioMaestro servicio)
+        {
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "GuardarServicioAdmin";
+                    _command.Parameters.AddWithValue("@JsonServicio", JsonConvert.SerializeObject(servicio));
+
+                    _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return true;
+                }
+            }
+        }
     }
 }

@@ -11,6 +11,8 @@ namespace Admin.Infrastructure.AdminRepository
         List<Menu> ConsultarMenuAdmin();
         List<Empresa> ConsultarEmpresasAdmin();
         List<Usuario> ConsultarUsuariosAdmin();
+        List<ServicioMaestro> ConsultarServiciosAdmin();
         bool GuardarEmpresa(Empresa empresa);
+        bool GuardarServicioAdmin(ServicioMaestro servicio);
     }
 }

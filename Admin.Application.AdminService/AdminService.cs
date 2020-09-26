@@ -49,5 +49,15 @@ namespace Admin.Application.AdminService
         {
             return _adminRepository.GuardarEmpresa(empresa);
         }
+
+        public List<ServicioMaestro> ConsultarServiciosAdmin()
+        {
+            return _adminRepository.ConsultarServiciosAdmin();
+        }
+
+        public bool GuardarServicioAdmin(ServicioMaestro servicio)
+        {
+            return _adminRepository.GuardarServicioAdmin(servicio);
+        }
     }
 }

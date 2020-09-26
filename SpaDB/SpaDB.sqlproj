@@ -281,6 +281,8 @@
     <Build Include="dbo\Stored Procedures\ConsultarEmpresasAdmin.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarMenuAdmin.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarUsuariosAdmin.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarServiciosAdmin.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarServicioAdmin.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

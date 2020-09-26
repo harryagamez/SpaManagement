@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Spa.Domain.SpaEntities
 {
-    public class ServicioMaestro
+    public class ServicioMaestro : BusquedaServicio
     {
         public int Id_Servicio { get; set; }
         public string Nombre { get; set; }
