@@ -642,8 +642,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 $scope.Servicio.Fecha_Registro = data.fecha_Registro;
                 $scope.Servicio.Fecha_Modificacion = data.fecha_Modificacion;                
                 $scope.CategoriaSeleccionada = data.id_Categoria_Servicio;
-                $scope.TipoServicioSeleccionado = data.id_TipoServicio;
-                
+                $scope.TipoServicioSeleccionado = data.id_TipoServicio;               
 
                 $scope.ModalNuevoServicio();                
             }
@@ -1008,6 +1007,12 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             $scope.Menu = $scope.Menu.map(function (e) {
                 return { Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
             });
+
+            if ($scope.fActiveTab === "Empresas")
+                $('#txtNombreEmpresa').focus();
+            if ($scope.fActiveTab === "Servicios")
+                $('#txtNombreServicio').focus();
+
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
