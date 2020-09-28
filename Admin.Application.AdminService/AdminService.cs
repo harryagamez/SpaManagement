@@ -59,5 +59,10 @@ namespace Admin.Application.AdminService
         {
             return _adminRepository.GuardarServicioAdmin(servicio);
         }
+
+        public List<Barrio> ConsultarBarriosAdmin()
+        {
+            return _adminRepository.ConsultarBarriosAdmin();
+        }
     }
 }

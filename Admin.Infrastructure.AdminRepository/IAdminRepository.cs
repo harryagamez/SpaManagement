@@ -14,5 +14,6 @@ namespace Admin.Infrastructure.AdminRepository
         List<ServicioMaestro> ConsultarServiciosAdmin();
         bool GuardarEmpresa(Empresa empresa);
         bool GuardarServicioAdmin(ServicioMaestro servicio);
+        List<Barrio> ConsultarBarriosAdmin();
     }
 }

@@ -229,5 +229,31 @@ namespace Admin.Infrastructure.AdminRepository
                 }
             }
         }
+
+        public List<Barrio> ConsultarBarriosAdmin()
+        {
+            DataTable _datatable = new DataTable();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarBarriosAdmin";
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<Barrio> _list_Barrios = _datatable.DataTableToList<Barrio>();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _list_Barrios;
+                }
+            }
+        }
     }
 }

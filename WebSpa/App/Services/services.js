@@ -432,7 +432,8 @@
             _consultarMenuAdmin: ConsultarMenuAdmin,
             _consultarUsuariosAdmin: ConsultarUsuariosAdmin,
             _consultarServiciosAdmin: ConsultarServiciosAdmin,
-            _guardarServicioAdmin: GuardarServicioAdmin
+            _guardarServicioAdmin: GuardarServicioAdmin,
+            _consultarBarriosAdmin: ConsultarBarriosAdmin
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1109,6 +1110,18 @@
                     deferred.reject(err);
                 });
 
+            return deferred.promise;
+        }
+
+        function ConsultarBarriosAdmin() {
+            var deferred = $q.defer();
+            serviceRest.Get('Admin', 'ConsultarBarriosAdmin',
+                function (data) {                   
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
             return deferred.promise;
         }
     }

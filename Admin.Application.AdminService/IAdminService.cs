@@ -13,5 +13,6 @@ namespace Admin.Application.AdminService
         bool GuardarEmpresa(Empresa empresa);
         bool GuardarServicioAdmin(ServicioMaestro servicio);
         List<ServicioMaestro> ConsultarServiciosAdmin();
+        List<Barrio> ConsultarBarriosAdmin();
     }
 }

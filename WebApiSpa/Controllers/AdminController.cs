@@ -155,5 +155,22 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error consultando los servicios: " + ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("api/Admin/ConsultarBarriosAdmin")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarBarriosAdmin()
+        {
+            try
+            {
+                List<Barrio> _listBarrios = _adminService.ConsultarBarriosAdmin();
+
+                return Content(HttpStatusCode.OK, _listBarrios);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los barrios: " + ex.Message);
+            }
+        }
     }
 }

@@ -265,6 +265,114 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         rowSelection: 'multiple'
     }
 
+    $scope.CategoriaServiciosGridOptionsColumns = [
+        {
+            headerName: "Nombre", field: 'nombre', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+        },
+        {
+            headerName: "Descripción", field: 'descripcion', width: 400, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: false
+        }
+    ];
+
+    $scope.CategoriaServiciosGridOptions = {
+        defaultColDef: {
+            resizable: true
+        },
+        columnDefs: $scope.CategoriaServiciosGridOptionsColumns,
+        rowData: [],
+        enableSorting: true,
+        enableFilter: true,
+        enableColResize: true,
+        angularCompileRows: true,
+        onGridReady: function (params) {
+        },
+        fullWidthCellRenderer: true,
+        animateRows: true,
+        suppressRowClickSelection: true,
+        rowSelection: 'multiple'
+    }
+
+    $scope.TipoServiciosGridOptionsColumns = [
+        {
+            headerName: "Nombre", field: 'nombre', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+        },
+        {
+            headerName: "Descripción", field: 'descripcion', width: 300, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: false
+        },
+        {
+            headerName: "Categoria Servicio", field: 'nombre_Categoria_Servicio', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: false
+        }
+    ];
+
+    $scope.TipoServiciosGridOptions = {
+        defaultColDef: {
+            resizable: true
+        },
+        columnDefs: $scope.TipoServiciosGridOptionsColumns,
+        rowData: [],
+        enableSorting: true,
+        enableFilter: true,
+        enableColResize: true,
+        angularCompileRows: true,
+        onGridReady: function (params) {
+        },
+        fullWidthCellRenderer: true,
+        animateRows: true,
+        suppressRowClickSelection: true,
+        rowSelection: 'multiple'
+    }
+
+    $scope.MunicipiosGridOptionsColumns = [
+        {
+            headerName: "Nombre", field: 'nombre', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+        }
+    ];
+
+    $scope.MunicipiosGridOptions = {
+        defaultColDef: {
+            resizable: true
+        },
+        columnDefs: $scope.MunicipiosGridOptionsColumns,
+        rowData: [],
+        enableSorting: true,
+        enableFilter: true,
+        enableColResize: true,
+        angularCompileRows: true,
+        onGridReady: function (params) {
+        },
+        fullWidthCellRenderer: true,
+        animateRows: true,
+        suppressRowClickSelection: true,
+        rowSelection: 'multiple'
+    }
+
+    $scope.BarriosGridOptionsColumns = [
+        {
+            headerName: "Nombre", field: 'nombre', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+        },
+        {
+            headerName: "Municipio", field: 'nombre_Municipio', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+        }
+    ];
+
+    $scope.BarriosGridOptions = {
+        defaultColDef: {
+            resizable: true
+        },
+        columnDefs: $scope.BarriosGridOptionsColumns,
+        rowData: [],
+        enableSorting: true,
+        enableFilter: true,
+        enableColResize: true,
+        angularCompileRows: true,
+        onGridReady: function (params) {
+        },
+        fullWidthCellRenderer: true,
+        animateRows: true,
+        suppressRowClickSelection: true,
+        rowSelection: 'multiple'
+    }
+
     $scope.ConsultarBarrios = function (id_Municipio) {
         SPAService._consultarBarrios(id_Municipio)
             .then(
@@ -290,17 +398,46 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 })
     }
 
+    $scope.ConsultarBarriosAdmin = function () {
+        SPAService._consultarBarriosAdmin()
+            .then(
+                function (result) {
+                    if (result.data !== undefined && result.data !== null) {
+                        $scope.BarriosAdmin = [];
+                        $scope.BarriosAdmin = result.data;
+
+                        $scope.BarriosGridOptions.api.setRowData($scope.BarriosAdmin);
+
+                        $timeout(function () {
+                            $scope.BarriosGridOptions.api.sizeColumnsToFit();
+                        }, 200);
+                    }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
+    }
+
     $scope.ConsultarMunicipios = function () {
         SPAService._consultarMunicipios()
             .then(
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
                         $scope.Municipios = [];
+                        $scope.MunicipiosCopy = [];
                         $scope.Municipios = result.data;
-                        $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });
-                        $scope.Municipios = $filter('orderBy')($scope.Municipios, 'nombre', false);
-                        $scope.Municipios = $filter('orderBy')($scope.Municipios, 'id_Municipio', false);
+                        $scope.MunicipiosCopy = angular.copy($scope.Municipios);
+                        $scope.MunicipiosCopy.push({ id_Municipio: -1, nombre: '[Seleccione]' });
+                        $scope.MunicipiosCopy = $filter('orderBy')($scope.MunicipiosCopy, 'nombre', false);
+                        $scope.MunicipiosCopy = $filter('orderBy')($scope.MunicipiosCopy, 'id_Municipio', false);
                         $scope.MunicipioSeleccionado = -1;
+
+                        $scope.MunicipiosGridOptions.api.setRowData($scope.Municipios);
+
+                        $timeout(function () {
+                            $scope.MunicipiosGridOptions.api.sizeColumnsToFit();
+                        }, 200);
                     }
                 }, function (err) {
                     toastr.remove();
@@ -315,9 +452,17 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
                         $scope.CategoriaServicios = [];
+                        $scope.CategoriaServiciosCopy = [];
                         $scope.CategoriaServicios = result.data;
-                        $scope.CategoriaServicios.push({ id_Categoria_Servicio: -1, nombre: '[Seleccione]' });
-                        $scope.CategoriaServicios = $filter('orderBy')($scope.CategoriaServicios, 'id_Categoria_Servicio', false);
+                        $scope.CategoriaServiciosCopy = angular.copy($scope.CategoriaServicios);
+                        $scope.CategoriaServiciosCopy.push({ id_Categoria_Servicio: -1, nombre: '[Seleccione]' });
+                        $scope.CategoriaServiciosCopy = $filter('orderBy')($scope.CategoriaServiciosCopy, 'id_Categoria_Servicio', false);
+
+                        $scope.CategoriaServiciosGridOptions.api.setRowData($scope.CategoriaServicios);
+
+                        $timeout(function () {
+                            $scope.CategoriaServiciosGridOptions.api.sizeColumnsToFit();
+                        }, 200);
                     }
                 }, function (err) {
                     toastr.remove();
@@ -333,6 +478,12 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                     if (result.data !== undefined && result.data !== null) {
                         $scope.TipoServicios = [];
                         $scope.TipoServicios = result.data;
+
+                        $scope.TipoServiciosGridOptions.api.setRowData($scope.TipoServicios);
+
+                        $timeout(function () {
+                            $scope.TipoServiciosGridOptions.api.sizeColumnsToFit();
+                        }, 200);
                     }
                 }, function (err) {
                     toastr.remove();
@@ -492,8 +643,10 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                         }
                     }, function (err) {
                         toastr.remove();
-                        if (err.data !== null && err.status === 500)
+                        if (err.data !== null && err.status === 500) {
                             toastr.error(err.data, '', $scope.toastrOptions);
+                            $('#txtUsuario').focus();
+                        }
                     })
         }
     }
@@ -637,14 +790,14 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
 
                 $timeout(function () {
                     $scope.FiltrarTipoServicio(data.id_Categoria_Servicio);
-                });                
+                });
 
                 $scope.Servicio.Fecha_Registro = data.fecha_Registro;
-                $scope.Servicio.Fecha_Modificacion = data.fecha_Modificacion;                
+                $scope.Servicio.Fecha_Modificacion = data.fecha_Modificacion;
                 $scope.CategoriaSeleccionada = data.id_Categoria_Servicio;
-                $scope.TipoServicioSeleccionado = data.id_TipoServicio;               
+                $scope.TipoServicioSeleccionado = data.id_TipoServicio;
 
-                $scope.ModalNuevoServicio();                
+                $scope.ModalNuevoServicio();
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -916,7 +1069,6 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 }, function () {
                     $scope.LimpiarDatos();
                 });
-            
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -1014,7 +1166,6 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 $('#txtNombreServicio').focus();
             if ($scope.fActiveTab === "Usuarios")
                 $('#txtUsuario').focus();
-
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -1059,7 +1210,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         $timeout(function () {
             if ($scope.fActiveTab === 'Servicios')
                 $('#txtBuscarServicio').focus();
-        },200);           
+        }, 200);
     }
 
     $scope.SeleccionarImagen = function (event) {
@@ -1095,7 +1246,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             let reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = function () {
-                $scope.$apply(function () {                    
+                $scope.$apply(function () {
                     if ($scope.fActiveTab === 'Empresas')
                         $scope.LogoEmpresa = reader.result;
                     if ($scope.fActiveTab === 'Usuarios')
@@ -1131,5 +1282,6 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         $scope.ConsultarUsuariosAdmin();
         $scope.ConsultarServiciosAdmin();
         $scope.ConsultarTipoServicios();
+        $scope.ConsultarBarriosAdmin();
     }, 200);
 }
