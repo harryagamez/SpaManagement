@@ -1012,6 +1012,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 $('#txtNombreEmpresa').focus();
             if ($scope.fActiveTab === "Servicios")
                 $('#txtNombreServicio').focus();
+            if ($scope.fActiveTab === "Usuarios")
+                $('#txtUsuario').focus();
 
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -1093,8 +1095,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             let reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = function () {
-                $scope.$apply(function () {
-                    debugger;
+                $scope.$apply(function () {                    
                     if ($scope.fActiveTab === 'Empresas')
                         $scope.LogoEmpresa = reader.result;
                     if ($scope.fActiveTab === 'Usuarios')

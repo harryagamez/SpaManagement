@@ -3,6 +3,23 @@ AS
 BEGIN
 
 	DECLARE @UsuarioId INT
+	DECLARE @IdEmpresa VARCHAR(36)
+	DECLARE @NombreUsuario CHAR(25)
+	DECLARE @Mensaje VARCHAR(200)
+
+	SELECT 
+		@IdEmpresa = Id_Empresa, @NombreUsuario = Nombre
+	FROM 
+		OPENJSON(@JsonUsuario)
+	WITH (
+		Id_Empresa UNIQUEIDENTIFIER '$.Id_Empresa', Nombre CHAR(25) '$.Nombre'
+	)
+	
+	IF (SELECT COUNT(*) FROM USUARIOS WHERE ID_EMPRESA = @IdEmpresa AND NOMBRE = @NombreUsuario) > 0 BEGIN
+		SET @Mensaje = 'Ya existe un usuario con ese nombre en la empresa seleccionada'
+		RAISERROR (@Mensaje, 16, 1)		
+		RETURN
+	END
 	
 	BEGIN TRY
 		
