@@ -35,7 +35,7 @@
                                                 <label class="label-form-clientes" style="">
                                                     Nombre Categoría:
                                                 </label>
-                                                <input id="txtNombreCategoria" maxlength="50" type="text" style="min-width: 220px;" placeholder="Nombre categoría servicio..." tabindex=1>
+                                                <input id="txtNombreCategoria" md-autofocus="CategoriaServicio.Id_Categoria_Servicio === '00000000-0000-0000-0000-000000000000'" ng-disabled="CategoriaServicio.Id_Categoria_Servicio !== '00000000-0000-0000-0000-000000000000'" ng-model="CategoriaServicio.Nombre" maxlength="50" type="text" style="min-width: 220px;" placeholder="Nombre categoría servicio..." tabindex=1>
                                             </md-input-container>
                                         </div>
 
@@ -44,7 +44,7 @@
                                                 <label class="label-form-clientes" style="">
                                                     Descripción Categoría:
                                                 </label>
-                                                <input id="txtDescripcionCategoria" maxlength="250" type="text" style="min-width: 220px;" placeholder="Descripción categoría servicio..." tabindex=2>
+                                                <input id="txtDescripcionCategoria" ng-model="CategoriaServicio.Descripcion" maxlength="250" type="text" style="min-width: 220px;" placeholder="Descripción categoría servicio..." tabindex=2>
                                             </md-input-container>
                                         </div>
 
@@ -69,7 +69,7 @@
                                                 <label class="label-form-clientes" style="">
                                                     Nombre Tipo Servicio:
                                                 </label>
-                                                <input id="txtNombreTipoServicio" maxlength="30" type="text" style="min-width: 170px;" placeholder="Nombre tipo servicio..." tabindex=4>
+                                                <input id="txtNombreTipoServicio" ng-disabled="TipoServicio.Id_TipoServicio !== -1" ng-model="TipoServicio.Nombre" maxlength="30" type="text" style="min-width: 170px;" placeholder="Nombre tipo servicio..." tabindex=4>
                                             </md-input-container>
                                         </div>
 
@@ -78,7 +78,7 @@
                                                 <label class="label-form-clientes" style="">
                                                     Descripción Tipo Servicio:
                                                 </label>
-                                                <input id="txtDescripcionTipoServicio" maxlength="100" type="text" style="min-width: 170px;" placeholder="Descripción tipo servicio..." tabindex=5>
+                                                <input id="txtDescripcionTipoServicio" ng-model="TipoServicio.Descripcion" maxlength="100" type="text" style="min-width: 170px;" placeholder="Descripción tipo servicio..." tabindex=5>
                                             </md-input-container>
                                         </div>
 
@@ -87,7 +87,7 @@
                                                 <label class="label-form-clientes">
                                                     Categoría Servicio:
                                                 </label>
-                                                <md-select ng-model="CategoriaSeleccionada" style="display:inline-flex; max-width: 170px; min-width:170px; margin-top:1px;" id="slCategoriaServicios" tabindex=6>
+                                                <md-select ng-model="CategoriaSeleccionada" style="display:inline-flex; max-width: 170px; min-width:170px; margin-top:1px;" id="slCategoriaTipoServicio" tabindex=6>
                                                     <md-option ng-bind="item.nombre" ng-value="item.id_Categoria_Servicio" ng-repeat="item in CategoriaServiciosCopy track by item.id_Categoria_Servicio"></md-option>
                                                 </md-select>
                                             </md-input-container>
@@ -116,7 +116,7 @@
                                                 <label class="label-form-clientes" style="">
                                                     Nombre Municipio:
                                                 </label>
-                                                <input id="txtNombreMunicipio" maxlength="50" type="text" style="min-width: 220px;" placeholder="Nombre municipio..." tabindex=7>
+                                                <input id="txtNombreMunicipio" ng-model="Municipio.Nombre" maxlength="50" type="text" style="min-width: 220px;" placeholder="Nombre municipio..." tabindex=7>
                                             </md-input-container>
                                         </div>
 
@@ -141,7 +141,7 @@
                                                 <label class="label-form-clientes" style="">
                                                     Nombre Barrio:
                                                 </label>
-                                                <input id="txtNombreBarrio" maxlength="50" type="text" style="min-width: 220px;" placeholder="Nombre Barrio..." tabindex=7>
+                                                <input id="txtNombreBarrio" ng-model="Barrio.Nombre" ng-disabled="Barrio.Id_Barrio !== -1" maxlength="50" type="text" style="min-width: 220px;" placeholder="Nombre Barrio..." tabindex=7>
                                             </md-input-container>
                                         </div>
 

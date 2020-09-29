@@ -433,7 +433,11 @@
             _consultarUsuariosAdmin: ConsultarUsuariosAdmin,
             _consultarServiciosAdmin: ConsultarServiciosAdmin,
             _guardarServicioAdmin: GuardarServicioAdmin,
-            _consultarBarriosAdmin: ConsultarBarriosAdmin
+            _consultarBarriosAdmin: ConsultarBarriosAdmin,
+            _guardarCategoriaServicio: GuardarCategoriaServicio,
+            _guardarTipoServicio: GuardarTipoServicio,
+            _guardarMunicipio: GuardarMunicipio,
+            _guardarBarrio: GuardarBarrio
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1122,6 +1126,58 @@
                 function (err) {
                     deferred.reject(err);
                 });
+            return deferred.promise;
+        }
+
+        function GuardarCategoriaServicio(categoria) {
+            var deferred = $q.defer();
+            serviceRest.Post('Admin', 'GuardarCategoriaServicio', categoria,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
+            return deferred.promise;
+        }
+
+        function GuardarMunicipio(municipio) {
+            var deferred = $q.defer();
+            serviceRest.Post('Admin', 'GuardarMunicipio', municipio,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
+            return deferred.promise;
+        }
+
+        function GuardarBarrio(barrio) {
+            var deferred = $q.defer();
+            serviceRest.Post('Admin', 'GuardarBarrio', barrio,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
+            return deferred.promise;
+        }
+
+        function GuardarTipoServicio(tiposervicio) {
+            var deferred = $q.defer();
+            serviceRest.Post('Admin', 'GuardarTipoServicio', tiposervicio,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
             return deferred.promise;
         }
     }

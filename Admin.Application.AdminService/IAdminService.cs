@@ -14,5 +14,9 @@ namespace Admin.Application.AdminService
         bool GuardarServicioAdmin(ServicioMaestro servicio);
         List<ServicioMaestro> ConsultarServiciosAdmin();
         List<Barrio> ConsultarBarriosAdmin();
+        bool GuardarCategoriaServicio(CategoriaServicio categoria);
+        bool GuardarTipoServicio(TipoServicio tiposervicio);
+        bool GuardarMunicipio(Municipio municipio);
+        bool GuardarBarrio(Barrio barrio);
     }
 }

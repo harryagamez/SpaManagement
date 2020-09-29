@@ -172,5 +172,73 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error consultando los barrios: " + ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("api/Admin/GuardarCategoriaServicio")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarCategoriaServicio(CategoriaServicio categoria)
+        {
+            try
+            {
+                bool result = _adminService.GuardarCategoriaServicio(categoria);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (System.Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando el servicio: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/Admin/GuardarTipoServicio")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarTipoServicio(TipoServicio tiposervicio)
+        {
+            try
+            {
+                bool result = _adminService.GuardarTipoServicio(tiposervicio);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (System.Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando el tipo de servicio: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/Admin/GuardarMunicipio")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarMunicipio(Municipio municipio)
+        {
+            try
+            {
+                bool result = _adminService.GuardarMunicipio(municipio);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (System.Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando el municipio: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/Admin/GuardarBarrio")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarBarrio(Barrio barrio)
+        {
+            try
+            {
+                bool result = _adminService.GuardarBarrio(barrio);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (System.Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando el barrio: " + ex.Message);
+            }
+        }
     }
 }

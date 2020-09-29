@@ -46,6 +46,30 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         Id_TipoServicio: ''
     }
 
+    $scope.CategoriaServicio = {
+        Id_Categoria_Servicio: '00000000-0000-0000-0000-000000000000',
+        Nombre: '',
+        Descripcion: ''
+    }
+
+    $scope.TipoServicio = {
+        Id_TipoServicio: -1,
+        Nombre: '',
+        Descripcion: '',
+        Id_Categoria_Servicio: '00000000-0000-0000-0000-000000000000'
+    }
+
+    $scope.Municipio = {
+        Id_Municipio: -1,
+        Nombre: ''
+    }
+
+    $scope.Barrio = {
+        Id_Barrio: -1,
+        Nombre: '',
+        Id_Municipio: -1
+    }
+
     $scope.TipoPerfil =
         [
             { id_TipoPerfil: -1, Nombre: "[Seleccione]" },
@@ -61,6 +85,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
     $scope.TipoServiciosFiltrado = $filter('orderBy')($scope.TipoServiciosFiltrado, 'id_TipoServicio', false);
 
     $scope.BarrioSeleccionado = -1;
+    $scope.MunicipioSeleccionado = -1;
     $scope.CategoriaSeleccionada = -1;
     $scope.TipoServicioSeleccionado = -1;
     $scope.SedePrincipalSeleccionada = -1;
@@ -289,7 +314,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         fullWidthCellRenderer: true,
         animateRows: true,
         suppressRowClickSelection: true,
-        rowSelection: 'multiple'
+        rowSelection: 'multiple',
+        onRowClicked: OnRowClickedCategoriaServicios
     }
 
     $scope.TipoServiciosGridOptionsColumns = [
@@ -319,7 +345,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         fullWidthCellRenderer: true,
         animateRows: true,
         suppressRowClickSelection: true,
-        rowSelection: 'multiple'
+        rowSelection: 'multiple',
+        onRowClicked: OnRowClickedTipoServicios
     }
 
     $scope.MunicipiosGridOptionsColumns = [
@@ -343,7 +370,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         fullWidthCellRenderer: true,
         animateRows: true,
         suppressRowClickSelection: true,
-        rowSelection: 'multiple'
+        rowSelection: 'multiple',
+        onRowClicked: OnRowClickedMunicipios
     }
 
     $scope.BarriosGridOptionsColumns = [
@@ -370,7 +398,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         fullWidthCellRenderer: true,
         animateRows: true,
         suppressRowClickSelection: true,
-        rowSelection: 'multiple'
+        rowSelection: 'multiple',
+        onRowClicked: OnRowClickedBarrios
     }
 
     $scope.ConsultarBarrios = function (id_Municipio) {
@@ -490,6 +519,93 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                     if (err.data !== null && err.status === 500)
                         toastr.error(err.data, '', $scope.toastrOptions);
                 })
+    }
+
+    $scope.ConsultarEmpresa = function (data) {
+        try {
+            $scope.LimpiarDatos();
+
+            if (data !== undefined && data !== null) {
+                if (data.id_Municipio === 0 || data.id_Municipio === null || data.id_Municipio === undefined)
+                    $scope.MunicipioSeleccionado = -1;
+                else {
+                    $scope.MunicipioSeleccionado = data.id_Municipio;
+                    $scope.FiltrarBarrios($scope.MunicipioSeleccionado);
+                }
+
+                $scope.Empresa.Id_Empresa = data.id_Empresa;
+                $scope.Empresa.Nombre = data.nombre;
+                $scope.Empresa.Direccion = data.direccion;
+                $scope.Empresa.Telefono_Fijo = data.telefono_Fijo;
+                $scope.Empresa.Telefono_Movil = data.telefono_Movil;
+                $scope.Empresa.Mail = data.mail;
+
+                if (data.logo !== null)
+                    $scope.LogoEmpresa = data.logo;
+                else
+                    $scope.LogoEmpresa = '../Images/template/tulogo.png';
+
+                $scope.Empresa.Logo = $scope.LogoEmpresa;
+                $scope.Empresa.Descripcion = data.descripcion;
+
+                $scope.Empresa.Id_SedePrincipal = data.id_SedePrincipal;
+                $scope.Empresa.Id_Categoria_Servicio = data.id_Categoria_Servicio;
+                $scope.Empresa.Estado = data.estado;
+
+                $scope.CategoriaSeleccionada = data.id_Categoria_Servicio;
+                if (data.id_SedePrincipal === null || data.id_SedePrincipal === undefined || data.id_SedePrincipal === '') {
+                    $scope.SedePrincipalSeleccionada = -1;
+                } else {
+                    $scope.SedePrincipalSeleccionada = data.id_SedePrincipal;
+                }
+
+                $scope.EstadoSeleccionado = data.estado;
+                $scope.Empresa.Contacto = data.contacto;
+
+                $timeout(function () {
+                    if (data.id_Barrio === 0 || data.id_Barrio === null || data.id_Barrio === undefined)
+                        $scope.BarrioSeleccionado = -1;
+                    else
+                        $scope.BarrioSeleccionado = data.id_Barrio;
+                }, 100);
+
+                $scope.ModalNuevaEmpresa();
+
+                $('#txtNombreEmpesa').focus();
+            }
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.ConsultarServicio = function (data) {
+        try {
+            $scope.LimpiarDatos();
+
+            if (data !== undefined && data !== null) {
+                $scope.Servicio.Id_Servicio = data.id_Servicio;
+                $scope.Servicio.Nombre = data.nombre;
+                $scope.Servicio.Descripcion = data.descripcion;
+
+                $scope.Servicio.Id_Categoria_Servicio = data.id_Categoria_Servicio;
+                $scope.Servicio.Id_TipoServicio = data.id_TipoServicio;
+
+                $timeout(function () {
+                    $scope.FiltrarTipoServicio(data.id_Categoria_Servicio);
+                });
+
+                $scope.Servicio.Fecha_Registro = data.fecha_Registro;
+                $scope.Servicio.Fecha_Modificacion = data.fecha_Modificacion;
+                $scope.CategoriaSeleccionada = data.id_Categoria_Servicio;
+                $scope.TipoServicioSeleccionado = data.id_TipoServicio;
+
+                $scope.ModalNuevoServicio();
+            }
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
     }
 
     $scope.ConsultarMenuAdmin = function () {
@@ -672,6 +788,103 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         }
     }
 
+    $scope.GuardarCategoriaServicio = function () {
+        if ($scope.ValidarDatosCategoriaServicio()) {
+            SPAService._guardarCategoriaServicio($scope.CategoriaServicio)
+                .then(
+                    function (result) {
+                        if (result.data === true) {
+                            toastr.success('Categoría registrada y/o actualizada correctamente', '', $scope.toastrOptions);
+                            $scope.LimpiarDatos();
+                            $scope.ConsultarCategoriaServicios();
+
+                            $timeout(function () {
+                                $("#txtNombreCategoria").focus();
+                            }, 100);
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+        }
+    }
+
+    $scope.GuardarTipoServicio = function () {
+        if ($scope.ValidarDatosTipoServicio()) {
+            SPAService._guardarTipoServicio($scope.TipoServicio)
+                .then(
+                    function (result) {
+                        if (result.data === true) {
+                            toastr.success('Tipo Servicio registrado y/o actualizado correctamente', '', $scope.toastrOptions);
+                            $scope.LimpiarDatos();
+                            $scope.ConsultarTipoServicios();
+
+                            $timeout(function () {
+                                $("#txtNombreTipoServicio").focus();
+                            }, 100);
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+        }
+    }
+
+    $scope.GuardarMunicipio = function () {
+        if ($scope.ValidarDatosMunicipio()) {
+            SPAService._guardarMunicipio($scope.Municipio)
+                .then(
+                    function (result) {
+                        if (result.data === true) {
+                            toastr.success('Municipio registrado y/o actualizado correctamente', '', $scope.toastrOptions);
+                            $scope.LimpiarDatos();
+                            $scope.ConsultarMunicipios();
+
+                            $timeout(function () {
+                                $("#txtNombreMunicipio").focus();
+                            }, 100);
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500) {
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                            $scope.LimpiarDatos();
+                            $timeout(function () {
+                                $("#txtNombreMunicipio").focus();
+                            }, 100);
+                        }
+                    })
+        }
+    }
+
+    $scope.GuardarBarrio = function () {
+        if ($scope.ValidarDatosBarrio()) {
+            SPAService._guardarBarrio($scope.Barrio)
+                .then(
+                    function (result) {
+                        if (result.data === true) {
+                            toastr.success('Barrio registrado y/o actualizado correctamente', '', $scope.toastrOptions);
+                            $scope.LimpiarDatos();
+                            $scope.ConsultarBarriosAdmin();
+                            $timeout(function () {
+                                $("#txtNombreBarrio").focus();
+                            }, 100);
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500) {
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                            $timeout(function () {
+                                $scope.LimpiarDatos();
+                                $("#slMunicipios").focus();
+                            }, 100);
+                        }
+                    })
+        }
+    }
+
     function OnRowClickedUsuarios(event) {
         try {
             $scope.LimpiarDatos();
@@ -718,57 +931,14 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         }
     }
 
-    $scope.ConsultarEmpresa = function (data) {
+    function OnRowClickedCategoriaServicios(event) {
         try {
             $scope.LimpiarDatos();
-
-            if (data !== undefined && data !== null) {
-                if (data.id_Municipio === 0 || data.id_Municipio === null || data.id_Municipio === undefined)
-                    $scope.MunicipioSeleccionado = -1;
-                else {
-                    $scope.MunicipioSeleccionado = data.id_Municipio;
-                    $scope.FiltrarBarrios($scope.MunicipioSeleccionado);
-                }
-
-                $scope.Empresa.Id_Empresa = data.id_Empresa;
-                $scope.Empresa.Nombre = data.nombre;
-                $scope.Empresa.Direccion = data.direccion;
-                $scope.Empresa.Telefono_Fijo = data.telefono_Fijo;
-                $scope.Empresa.Telefono_Movil = data.telefono_Movil;
-                $scope.Empresa.Mail = data.mail;
-
-                if (data.logo !== null)
-                    $scope.LogoEmpresa = data.logo;
-                else
-                    $scope.LogoEmpresa = '../Images/template/tulogo.png';
-
-                $scope.Empresa.Logo = $scope.LogoEmpresa;
-                $scope.Empresa.Descripcion = data.descripcion;
-
-                $scope.Empresa.Id_SedePrincipal = data.id_SedePrincipal;
-                $scope.Empresa.Id_Categoria_Servicio = data.id_Categoria_Servicio;
-                $scope.Empresa.Estado = data.estado;
-
-                $scope.CategoriaSeleccionada = data.id_Categoria_Servicio;
-                if (data.id_SedePrincipal === null || data.id_SedePrincipal === undefined || data.id_SedePrincipal === '') {
-                    $scope.SedePrincipalSeleccionada = -1;
-                } else {
-                    $scope.SedePrincipalSeleccionada = data.id_SedePrincipal;
-                }
-
-                $scope.EstadoSeleccionado = data.estado;
-                $scope.Empresa.Contacto = data.contacto;
-
-                $timeout(function () {
-                    if (data.id_Barrio === 0 || data.id_Barrio === null || data.id_Barrio === undefined)
-                        $scope.BarrioSeleccionado = -1;
-                    else
-                        $scope.BarrioSeleccionado = data.id_Barrio;
-                }, 100);
-
-                $scope.ModalNuevaEmpresa();
-
-                $('#txtNombreEmpesa').focus();
+            if (event.node.data !== undefined && event.node.data !== null) {
+                $scope.CategoriaServicio.Id_Categoria_Servicio = event.node.data.id_Categoria_Servicio;
+                $scope.CategoriaServicio.Nombre = event.node.data.nombre;
+                $scope.CategoriaServicio.Descripcion = event.node.data.descripcion;
+                $('#txtDescripcionCategoria').focus();
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -776,28 +946,46 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         }
     }
 
-    $scope.ConsultarServicio = function (data) {
+    function OnRowClickedTipoServicios(event) {
         try {
             $scope.LimpiarDatos();
+            if (event.node.data !== undefined && event.node.data !== null) {
+                $scope.TipoServicio.Id_TipoServicio = event.node.data.id_TipoServicio;
+                $scope.TipoServicio.Nombre = event.node.data.nombre;
+                $scope.TipoServicio.Descripcion = event.node.data.descripcion;
+                $scope.TipoServicio.Id_Categoria_Servicio = event.node.data.id_Categoria_Servicio;
+                $scope.CategoriaSeleccionada = event.node.data.id_Categoria_Servicio;
+                $('#txtDescripcionTipoServicio').focus();
+            }
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
 
-            if (data !== undefined && data !== null) {
-                $scope.Servicio.Id_Servicio = data.id_Servicio;
-                $scope.Servicio.Nombre = data.nombre;
-                $scope.Servicio.Descripcion = data.descripcion;
+    function OnRowClickedMunicipios(event) {
+        try {
+            $scope.LimpiarDatos();
+            if (event.node.data !== undefined && event.node.data !== null) {
+                $scope.Municipio.Id_Municipio = event.node.data.id_Municipio;
+                $scope.Municipio.Nombre = event.node.data.nombre;
+                $('#txtNombreMunicipio').focus();
+            }
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
 
-                $scope.Servicio.Id_Categoria_Servicio = data.id_Categoria_Servicio;
-                $scope.Servicio.Id_TipoServicio = data.id_TipoServicio;
-
-                $timeout(function () {
-                    $scope.FiltrarTipoServicio(data.id_Categoria_Servicio);
-                });
-
-                $scope.Servicio.Fecha_Registro = data.fecha_Registro;
-                $scope.Servicio.Fecha_Modificacion = data.fecha_Modificacion;
-                $scope.CategoriaSeleccionada = data.id_Categoria_Servicio;
-                $scope.TipoServicioSeleccionado = data.id_TipoServicio;
-
-                $scope.ModalNuevoServicio();
+    function OnRowClickedBarrios(event) {
+        try {
+            $scope.LimpiarDatos();
+            if (event.node.data !== undefined && event.node.data !== null) {
+                $scope.Barrio.Id_Barrio = event.node.data.id_Barrio;
+                $scope.Barrio.Nombre = event.node.data.nombre;
+                $scope.Barrio.Id_Municipio = event.node.data.id_Municipio;
+                $scope.MunicipioSeleccionado = event.node.data.id_Municipio;
+                $('#slMunicipios').focus();
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -1025,6 +1213,94 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         }
     }
 
+    $scope.ValidarDatosCategoriaServicio = function () {
+        try {
+            if ($scope.CategoriaServicio.Nombre === '' || $scope.CategoriaServicio.Nombre === undefined || $scope.CategoriaServicio.Nombre === null) {
+                toastr.info('Debe establecer el nombre de la categoría', '', $scope.toastrOptions);
+                $('#txtNombreCategoria').focus();
+                return false;
+            }
+
+            if ($scope.CategoriaServicio.Descripcion === '' || $scope.CategoriaServicio.Descripcion === undefined || $scope.CategoriaServicio.Descripcion === null) {
+                toastr.info('Debe establecer la descripcion de la categoría', '', $scope.toastrOptions);
+                $('#txtDescripcionCategoria').focus();
+                return false;
+            }
+
+            return true;
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.ValidarDatosTipoServicio = function () {
+        try {
+            if ($scope.TipoServicio.Nombre === '' || $scope.TipoServicio.Nombre === undefined || $scope.TipoServicio.Nombre === null) {
+                toastr.info('Debe establecer el nombre del tipo de servicio', '', $scope.toastrOptions);
+                $('#txtNombreTipoServicio').focus();
+                return false;
+            }
+
+            if ($scope.TipoServicio.Descripcion === '' || $scope.TipoServicio.Descripcion === undefined || $scope.TipoServicio.Descripcion === null) {
+                toastr.info('Debe establecer la descripcion del tipo de servicio', '', $scope.toastrOptions);
+                $('#txtDescripcionTipoServicio').focus();
+                return false;
+            }
+
+            if ($scope.CategoriaSeleccionada === -1 || $scope.CategoriaSeleccionada === null || $scope.CategoriaSeleccionada === undefined) {
+                toastr.info('Debe establecer la categoría del tipo de servicio', '', $scope.toastrOptions);
+                $('#slCategoriaTipoServicio').focus();
+                return false;
+            }
+
+            $scope.TipoServicio.Id_Categoria_Servicio = $scope.CategoriaSeleccionada;
+
+            return true;
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.ValidarDatosMunicipio = function () {
+        try {
+            if ($scope.Municipio.Nombre === '' || $scope.Municipio.Nombre === undefined || $scope.Municipio.Nombre === null) {
+                toastr.info('Debe establecer el nombre del municipio', '', $scope.toastrOptions);
+                $('#txtNombreMunicipio').focus();
+                return false;
+            }
+
+            return true;
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.ValidarDatosBarrio = function () {
+        try {
+            if ($scope.Barrio.Nombre === '' || $scope.Barrio.Nombre === undefined || $scope.Barrio.Nombre === null) {
+                toastr.info('Debe establecer el nombre del barrio', '', $scope.toastrOptions);
+                $('#txtNombreBarrio').focus();
+                return false;
+            }
+
+            if ($scope.MunicipioSeleccionado === -1 || $scope.MunicipioSeleccionado === undefined || $scope.MunicipioSeleccionado === null) {
+                toastr.info('Debe seleccionar el municipio', '', $scope.toastrOptions);
+                $('#slMunicipios').focus();
+                return false;
+            }
+
+            $scope.Barrio.Id_Municipio = $scope.MunicipioSeleccionado;
+
+            return true;
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
     $scope.ModalNuevaEmpresa = function () {
         try {
             if ($scope.Empresa.Nombre === '')
@@ -1134,6 +1410,30 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 PasswordHasChanged: $scope.PasswordHasChanged
             }
 
+            $scope.CategoriaServicio = {
+                Id_Categoria_Servicio: '00000000-0000-0000-0000-000000000000',
+                Nombre: '',
+                Descripcion: ''
+            }
+
+            $scope.TipoServicio = {
+                Id_TipoServicio: -1,
+                Nombre: '',
+                Descripcion: '',
+                Id_Categoria_Servicio: '00000000-0000-0000-0000-000000000000'
+            }
+
+            $scope.Municipio = {
+                Id_Municipio: -1,
+                Nombre: ''
+            }
+
+            $scope.Barrio = {
+                Id_Barrio: -1,
+                Nombre: '',
+                Id_Municipio: -1
+            }
+
             $scope.CategoriaSeleccionada = -1;
             $scope.SedePrincipalSeleccionada = -1;
             $scope.EstadoSeleccionado = 'ACTIVA';
@@ -1159,7 +1459,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             $scope.Menu = $scope.Menu.map(function (e) {
                 return { Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
             });
-
+            if ($scope.fActiveTab === "Datos Maestros")
+                $('#txtNombreCategoria').focus();
             if ($scope.fActiveTab === "Empresas")
                 $('#txtNombreEmpresa').focus();
             if ($scope.fActiveTab === "Servicios")

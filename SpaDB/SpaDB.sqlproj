@@ -284,6 +284,10 @@
     <Build Include="dbo\Stored Procedures\ConsultarServiciosAdmin.sql" />
     <Build Include="dbo\Stored Procedures\GuardarServicioAdmin.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarBarriosAdmin.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarCategoriaServicio.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarTipoServicio.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarMunicipio.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarBarrio.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

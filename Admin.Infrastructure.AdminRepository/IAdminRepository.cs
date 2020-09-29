@@ -15,5 +15,9 @@ namespace Admin.Infrastructure.AdminRepository
         bool GuardarEmpresa(Empresa empresa);
         bool GuardarServicioAdmin(ServicioMaestro servicio);
         List<Barrio> ConsultarBarriosAdmin();
+        bool GuardarCategoriaServicio(CategoriaServicio categoria);
+        bool GuardarTipoServicio(TipoServicio tiposervicio);
+        bool GuardarMunicipio(Municipio municipio);
+        bool GuardarBarrio(Barrio barrio);
     }
 }

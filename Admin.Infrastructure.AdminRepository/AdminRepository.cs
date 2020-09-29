@@ -255,5 +255,89 @@ namespace Admin.Infrastructure.AdminRepository
                 }
             }
         }
+
+        public bool GuardarCategoriaServicio(CategoriaServicio categoria)
+        {
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "GuardarCategoriaServicio";
+                    _command.Parameters.AddWithValue("@JsonCategoriaServicio", JsonConvert.SerializeObject(categoria));
+
+                    _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return true;
+                }
+            }
+        }
+
+        public bool GuardarTipoServicio(TipoServicio tiposervicio)
+        {
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "GuardarTipoServicio";
+                    _command.Parameters.AddWithValue("@JsonTipoServicio", JsonConvert.SerializeObject(tiposervicio));
+
+                    _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return true;
+                }
+            }
+        }
+
+        public bool GuardarMunicipio(Municipio municipio)
+        {
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "GuardarMunicipio";
+                    _command.Parameters.AddWithValue("@JsonMunicipio", JsonConvert.SerializeObject(municipio));
+
+                    _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return true;
+                }
+            }
+        }
+
+        public bool GuardarBarrio(Barrio barrio)
+        {
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "GuardarBarrio";
+                    _command.Parameters.AddWithValue("@JsonBarrio", JsonConvert.SerializeObject(barrio));
+
+                    _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return true;
+                }
+            }
+        }
     }
 }
