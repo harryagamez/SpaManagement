@@ -800,7 +800,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
 
                             $timeout(function () {
                                 $("#txtNombreCategoria").focus();
-                            }, 100);
+                            }, 200);
                         }
                     }, function (err) {
                         toastr.remove();
@@ -822,7 +822,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
 
                             $timeout(function () {
                                 $("#txtNombreTipoServicio").focus();
-                            }, 100);
+                            }, 200);
                         }
                     }, function (err) {
                         toastr.remove();
@@ -853,7 +853,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                             $scope.LimpiarDatos();
                             $timeout(function () {
                                 $("#txtNombreMunicipio").focus();
-                            }, 100);
+                            }, 200);
                         }
                     })
         }
@@ -923,7 +923,11 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 $scope.EmpresaSeleccionada = event.node.data.id_Empresa;
 
                 $scope.NombreReadOnly = true;
-                $('#txtContrasenia').focus();
+
+                $timeout(function () {
+                    $('#txtContrasenia').focus();
+                },200);
+                
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -938,7 +942,10 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 $scope.CategoriaServicio.Id_Categoria_Servicio = event.node.data.id_Categoria_Servicio;
                 $scope.CategoriaServicio.Nombre = event.node.data.nombre;
                 $scope.CategoriaServicio.Descripcion = event.node.data.descripcion;
-                $('#txtDescripcionCategoria').focus();
+                $timeout(function () {
+                    $('#txtDescripcionCategoria').focus();
+                },200);
+                
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -955,7 +962,9 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 $scope.TipoServicio.Descripcion = event.node.data.descripcion;
                 $scope.TipoServicio.Id_Categoria_Servicio = event.node.data.id_Categoria_Servicio;
                 $scope.CategoriaSeleccionada = event.node.data.id_Categoria_Servicio;
-                $('#txtDescripcionTipoServicio').focus();
+                $timeout(function () {
+                    $('#txtDescripcionTipoServicio').focus();
+                }, 200);                
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -985,7 +994,9 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 $scope.Barrio.Nombre = event.node.data.nombre;
                 $scope.Barrio.Id_Municipio = event.node.data.id_Municipio;
                 $scope.MunicipioSeleccionado = event.node.data.id_Municipio;
-                $('#slMunicipios').focus();
+                $timeout(function () {
+                    $('#slMunicipios').focus();
+                });                
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
