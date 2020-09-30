@@ -4,7 +4,9 @@
 AdministratorPanelController.$inject = ['$scope', '$rootScope', '$state', '$location', '$filter', '$http', '$mdToast', '$document', '$mdDialog', '$rootScope', '$timeout', 'localStorageService', 'AuthService', 'SPAService'];
 
 function AdministratorPanelController($scope, $rootScope, $state, $location, $filter, $http, $mdToast, $document, $mdDialog, $rootScope, $timeout, localStorageService, AuthService, SPAService) {
+    
     $scope.fActiveTab = 'Datos Maestros';
+    $scope.fActiveGrid = 'CategoriaServicio'
     $scope.CategoriaServicios = [];
     $scope.SedesPrincipales = [];
     const mail_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
@@ -1470,14 +1472,51 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             $scope.Menu = $scope.Menu.map(function (e) {
                 return { Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
             });
-            if ($scope.fActiveTab === "Datos Maestros")
-                $('#txtNombreCategoria').focus();
-            if ($scope.fActiveTab === "Empresas")
-                $('#txtNombreEmpresa').focus();
-            if ($scope.fActiveTab === "Servicios")
-                $('#txtNombreServicio').focus();
-            if ($scope.fActiveTab === "Usuarios")
-                $('#txtUsuario').focus();
+            
+            if ($scope.fActiveTab === "Datos Maestros") {
+                if ($scope.fActiveGrid === 'CategoriaServicio') {
+                    $timeout(function () {
+                        $('#txtNombreCategoria').focus();
+                    }, 200);
+                }                    
+                    
+                if ($scope.fActiveGrid === 'TipoServicio') {
+                    $timeout(function () {
+                        $('#txtNombreTipoServicio').focus();
+                    }, 200);
+                }                    
+                    
+                if ($scope.fActiveGrid === 'Municipio') {
+                    $timeout(function () {
+                        $('#txtNombreMunicipio').focus();
+                    }, 200);
+                }                    
+                    
+                if ($scope.fActiveGrid === 'Barrio') {
+                    $timeout(function () {
+                        $('#txtNombreBarrio').focus();
+                    }, 200);
+                } 
+            }
+                
+            if ($scope.fActiveTab === "Empresas") {
+                $timeout(function () {
+                    $('#txtNombreEmpresa').focus();
+                }, 200);
+            }
+                
+            if ($scope.fActiveTab === "Servicios") {
+                $timeout(function () {
+                    $('#txtNombreServicio').focus();
+                }, 200);
+            }
+                
+            if ($scope.fActiveTab === "Usuarios") {
+                $timeout(function () {
+                    $('#txtUsuario').focus();
+                }, 200);
+            }
+                
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -1584,6 +1623,23 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         $mdDialog.cancel();
     };
 
+    window.onresize = function () {
+        $timeout(function () {
+            $scope.EmpresasGridOptions.api.sizeColumnsToFit();
+            $scope.ServiciosGridOptions.api.sizeColumnsToFit();
+            $scope.UsuariosAdminGridOptions.api.sizeColumnsToFit();
+            $scope.CategoriaServiciosGridOptions.api.sizeColumnsToFit();
+            $scope.TipoServiciosGridOptions.api.sizeColumnsToFit();
+            $scope.MunicipiosGridOptions.api.sizeColumnsToFit();
+            $scope.BarriosGridOptions.api.sizeColumnsToFit();
+        }, 200);        
+    }
+
+    $scope.Inicializacion = function () {
+        $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
+        window.onresize();
+    }
+
     $timeout(function () {
         $scope.LimpiarDatos();
         $scope.ConsultarMunicipios();
@@ -1595,5 +1651,6 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         $scope.ConsultarServiciosAdmin();
         $scope.ConsultarTipoServicios();
         $scope.ConsultarBarriosAdmin();
+        $scope.Inicializacion();
     }, 200);
 }

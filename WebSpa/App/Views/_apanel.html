@@ -24,18 +24,18 @@
 
                 <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
 
-                    <md-tab label="Datos Maestros" data-ng-click="fActiveTab = 'DatosMaestros';LimpiarDatos()">
+                    <md-tab label="Datos Maestros" data-ng-click="fActiveTab = 'Datos Maestros';LimpiarDatos()">
                         <md-content style="background-color:transparent; margin-bottom:10px; overflow-y:hidden;">
                             <div layout="row" style="height:calc(50vh - 74px); width:100%; margin-top:5px;">
 
                                 <div style="width:50%;">
-                                    <div layout="row">
+                                    <div layout="row" style="position:relative;">
                                         <div style="padding-right:10px;">
                                             <md-input-container>
                                                 <label class="label-form-clientes" style="">
                                                     Nombre Categoría:
                                                 </label>
-                                                <input id="txtNombreCategoria" md-autofocus="CategoriaServicio.Id_Categoria_Servicio === '00000000-0000-0000-0000-000000000000'" ng-disabled="CategoriaServicio.Id_Categoria_Servicio !== '00000000-0000-0000-0000-000000000000'" ng-model="CategoriaServicio.Nombre" maxlength="50" type="text" style="min-width: 220px;" placeholder="Nombre categoría servicio..." tabindex=1>
+                                                <input id="txtNombreCategoria" md-autofocus="CategoriaServicio.Id_Categoria_Servicio === '00000000-0000-0000-0000-000000000000'" ng-disabled="CategoriaServicio.Id_Categoria_Servicio !== '00000000-0000-0000-0000-000000000000'" ng-model="CategoriaServicio.Nombre" maxlength="50" type="text" style="min-width: 170px;" placeholder="Nombre categoría servicio..." tabindex=1>
                                             </md-input-container>
                                         </div>
 
@@ -44,14 +44,17 @@
                                                 <label class="label-form-clientes" style="">
                                                     Descripción Categoría:
                                                 </label>
-                                                <input id="txtDescripcionCategoria" ng-model="CategoriaServicio.Descripcion" maxlength="250" type="text" style="min-width: 220px;" placeholder="Descripción categoría servicio..." tabindex=2>
+                                                <input id="txtDescripcionCategoria" ng-model="CategoriaServicio.Descripcion" maxlength="250" type="text" style="min-width: 170px;" placeholder="Descripción categoría servicio..." tabindex=2>
                                             </md-input-container>
                                         </div>
 
-                                        <div style="padding-right:10px;">
-                                            <section id="divButtons" layout-align="right center" style="margin-top:7px;">
-                                                <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px;" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarCategoriaServicio()">
-                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                                        <div style="padding-right:10px; position:absolute; right:-5px;">
+                                            <section id="divButtons" layout-align="end center" style="margin-top:7px;">
+                                                <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Categoría Servicio" data-ng-click="GuardarCategoriaServicio()">
+                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
+                                                </md-button>
+                                                <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Limpiar Campos" data-ng-click="fActiveGrid = 'CategoriaServicio' ; LimpiarDatos()">
+                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
                                                 </md-button>
                                             </section>
                                         </div>
@@ -63,7 +66,7 @@
                                 </div>
 
                                 <div style="width:50%; padding-left:10px;">
-                                    <div layout="row">
+                                    <div layout="row" style="position:relative;">
                                         <div style="padding-right:10px;">
                                             <md-input-container>
                                                 <label class="label-form-clientes" style="">
@@ -93,10 +96,13 @@
                                             </md-input-container>
                                         </div>
 
-                                        <div style="">
+                                        <div style="position:absolute; right: 2px;">
                                             <section id="divButtons" layout-align="right center" style="margin-top:7px;">
-                                                <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px;" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarTipoServicio()">
-                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                                                <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Tipo Servicio" data-ng-click="GuardarTipoServicio()">
+                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
+                                                </md-button>
+                                                <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Limpiar Campos" data-ng-click="fActiveGrid = 'TipoServicio' ; LimpiarDatos()">
+                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
                                                 </md-button>
                                             </section>
                                         </div>
@@ -110,20 +116,23 @@
 
                             <div layout="row" style="height: calc(50vh - 74px); width: 100%; ">
                                 <div style="width:50%;">
-                                    <div layout="row">
+                                    <div layout="row" style="position:relative;">
                                         <div style="padding-right:10px;">
                                             <md-input-container>
                                                 <label class="label-form-clientes" style="">
                                                     Nombre Municipio:
                                                 </label>
-                                                <input id="txtNombreMunicipio" ng-model="Municipio.Nombre" maxlength="50" type="text" style="min-width: 220px;" placeholder="Nombre municipio..." tabindex=7>
+                                                <input id="txtNombreMunicipio" ng-model="Municipio.Nombre" maxlength="50" type="text" style="min-width: 170px;" placeholder="Nombre municipio..." tabindex=7>
                                             </md-input-container>
                                         </div>
 
-                                        <div style="padding-right:10px;">
+                                        <div style="position:absolute; right:0px;">
                                             <section id="divButtons" layout-align="right center" style="margin-top:7px;">
-                                                <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px;" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarMunicipio()">
-                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                                                <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Municipio" data-ng-click="GuardarMunicipio()">
+                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
+                                                </md-button>
+                                                <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Limpiar Campos" data-ng-click="fActiveGrid = 'Municipio' ; LimpiarDatos()">
+                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
                                                 </md-button>
                                             </section>
                                         </div>
@@ -135,13 +144,13 @@
                                 </div>
 
                                 <div style="width:50%; padding-left:10px;">
-                                    <div layout="row">
+                                    <div layout="row" style="position:relative;">
                                         <div style="padding-right:10px;">
                                             <md-input-container>
                                                 <label class="label-form-clientes" style="">
                                                     Nombre Barrio:
                                                 </label>
-                                                <input id="txtNombreBarrio" ng-model="Barrio.Nombre" ng-disabled="Barrio.Id_Barrio !== -1" maxlength="50" type="text" style="min-width: 220px;" placeholder="Nombre Barrio..." tabindex=7>
+                                                <input id="txtNombreBarrio" ng-model="Barrio.Nombre" ng-disabled="Barrio.Id_Barrio !== -1" maxlength="50" type="text" style="min-width: 170px;" placeholder="Nombre Barrio..." tabindex=7>
                                             </md-input-container>
                                         </div>
 
@@ -156,10 +165,13 @@
                                             </md-input-container>
                                         </div>
 
-                                        <div style="padding-right:10px;">
+                                        <div style="position:absolute; right: 2px;">
                                             <section id="divButtons" layout-align="right center" style="margin-top:7px;">
-                                                <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px;" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarBarrio()">
-                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                                                <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Barrio" data-ng-click="GuardarBarrio()">
+                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
+                                                </md-button>
+                                                <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Limpiar Campos" data-ng-click="fActiveGrid = 'Barrio' ; LimpiarDatos()">
+                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
                                                 </md-button>
                                             </section>
                                         </div>
