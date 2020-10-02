@@ -89,7 +89,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
 
     $scope.BarrioSeleccionado = -1;
     $scope.DepartamentoSeleccionado = -1;
-    $scope.DepartamentoSeleccionado2 = -1; 
+    $scope.DepartamentoSeleccionado2 = -1;
     $scope.MunicipioSeleccionado = -1;
     $scope.CategoriaSeleccionada = -1;
     $scope.TipoServicioSeleccionado = -1;
@@ -267,7 +267,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             headerName: "Nombre", field: 'nombre', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
         },
         {
-            headerName: "Descripción", field: 'descripcion', width: 260, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' } , cellRenderer: function (params) {
+            headerName: "Descripción", field: 'descripcion', width: 260, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function (params) {
                 return "<span  data-toggle='tooltip' data-placement='left' title='{{data.descripcion}}'>{{data.descripcion}}</span>"
             },
         },
@@ -469,8 +469,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             .then(
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
-                        $scope.Municipios = [];                        
-                        $scope.Municipios = result.data; 
+                        $scope.Municipios = [];
+                        $scope.Municipios = result.data;
                         $scope.MunicipioSeleccionado = -1;
 
                         $scope.MunicipiosGridOptions.api.setRowData($scope.Municipios);
@@ -491,11 +491,11 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             .then(
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
-                        $scope.Departamentos = [];                        
-                        $scope.Departamentos = result.data;                        
+                        $scope.Departamentos = [];
+                        $scope.Departamentos = result.data;
                         $scope.Departamentos.push({ id_Departamento: -1, nombre: '[Seleccione]' });
-                        $scope.Departamentos = $filter('orderBy')($scope.Departamentos, 'nombre', false);                        
-                        $scope.DepartamentoSeleccionado = -1;                        
+                        $scope.Departamentos = $filter('orderBy')($scope.Departamentos, 'nombre', false);
+                        $scope.DepartamentoSeleccionado = -1;
                     }
                 }, function (err) {
                     toastr.remove();
@@ -864,7 +864,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                             $timeout(function () {
                                 $("#txtNombreTipoServicio").focus();
                             }, 200);
-                        }                            
+                        }
                     })
         }
     }
@@ -1032,10 +1032,10 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 $scope.FiltrarMunicipios(event.node.data.id_Departamento);
                 $scope.Barrio.Id_Barrio = event.node.data.id_Barrio;
                 $scope.Barrio.Nombre = event.node.data.nombre;
-                $scope.Barrio.Id_Municipio = event.node.data.id_Municipio;                
+                $scope.Barrio.Id_Municipio = event.node.data.id_Municipio;
                 $timeout(function () {
                     $scope.DepartamentoSeleccionado2 = event.node.data.id_Departamento;
-                }, 100);                
+                }, 100);
                 $scope.MunicipioSeleccionado = event.node.data.id_Municipio;
                 $timeout(function () {
                     $('#slMunicipios').focus();
@@ -1089,7 +1089,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 toastr.info('La dirección de correo electrónico no es válida.', '', $scope.toastrOptions);
                 $('#txtMailEmpresa').focus();
                 return false;
-            }            
+            }
 
             if ($scope.CategoriaSeleccionada === -1 || $scope.CategoriaSeleccionada === undefined || $scope.CategoriaSeleccionada === null) {
                 toastr.info('Debe seleccionar una categoría de servicio para la empresa', '', $scope.toastrOptions);
@@ -1106,7 +1106,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             }
 
             $scope.Empresa.Estado = $scope.EstadoSeleccionado;
-            
+
 
             if ($scope.DepartamentoSeleccionado === -1 || $scope.DepartamentoSeleccionado === undefined || $scope.DepartamentoSeleccionado === null) {
                 toastr.info('Debe seleccionar un departamento', '', $scope.toastrOptions);
@@ -1508,8 +1508,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             $scope.EstadoSeleccionado = 'ACTIVA';
             $scope.BarrioSeleccionado = -1;
             $scope.MunicipioSeleccionado = -1;
-            $scope.DepartamentoSeleccionado = -1; 
-            $scope.DepartamentoSeleccionado2 = -1; 
+            $scope.DepartamentoSeleccionado = -1;
+            $scope.DepartamentoSeleccionado2 = -1;
 
             $scope.LogoEmpresa = '../Images/template/tulogo.png';
             $scope.ImagenUsuario = '../Images/default-perfil.png';
@@ -1610,7 +1610,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
-        }        
+        }
     }
 
     $scope.FiltrarTipoServicio = function (CategoriaSeleccionada) {
@@ -1705,13 +1705,15 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
     };
 
     window.onresize = function () {
-        $scope.EmpresasGridOptions.api.sizeColumnsToFit();
-        $scope.ServiciosGridOptions.api.sizeColumnsToFit();
-        $scope.UsuariosAdminGridOptions.api.sizeColumnsToFit();
-        $scope.CategoriaServiciosGridOptions.api.sizeColumnsToFit();
-        $scope.TipoServiciosGridOptions.api.sizeColumnsToFit();
-        $scope.MunicipiosGridOptions.api.sizeColumnsToFit();
-        $scope.BarriosGridOptions.api.sizeColumnsToFit();
+        $timeout(function () {
+            $scope.EmpresasGridOptions.api.sizeColumnsToFit();
+            $scope.ServiciosGridOptions.api.sizeColumnsToFit();
+            $scope.UsuariosAdminGridOptions.api.sizeColumnsToFit();
+            $scope.CategoriaServiciosGridOptions.api.sizeColumnsToFit();
+            $scope.TipoServiciosGridOptions.api.sizeColumnsToFit();
+            $scope.MunicipiosGridOptions.api.sizeColumnsToFit();
+            $scope.BarriosGridOptions.api.sizeColumnsToFit();
+        }, 200)
     }
 
     $scope.Inicializacion = function () {
