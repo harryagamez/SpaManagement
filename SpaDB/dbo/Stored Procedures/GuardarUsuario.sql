@@ -15,7 +15,7 @@ BEGIN
 		Id_Empresa UNIQUEIDENTIFIER '$.Id_Empresa', Nombre CHAR(25) '$.Nombre'
 	)
 	
-	IF (SELECT COUNT(*) FROM USUARIOS WHERE ID_EMPRESA = @IdEmpresa AND NOMBRE = @NombreUsuario) > 0 BEGIN
+	IF (SELECT COUNT(*) FROM USUARIOS WHERE ID_EMPRESA = @IdEmpresa AND NOMBRE = @NombreUsuario AND @UsuarioId <> -1) > 0 BEGIN
 		SET @Mensaje = 'Ya existe un usuario con ese nombre en la empresa seleccionada'
 		RAISERROR (@Mensaje, 16, 1)		
 		RETURN
