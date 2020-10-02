@@ -63,7 +63,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
 
     $scope.Municipio = {
         Id_Municipio: -1,
-        Nombre: ''
+        Nombre: '',
+        Id_Departamento: '00000000-0000-0000-0000-000000000000'
     }
 
     $scope.Barrio = {
@@ -87,6 +88,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
     $scope.TipoServiciosFiltrado = $filter('orderBy')($scope.TipoServiciosFiltrado, 'id_TipoServicio', false);
 
     $scope.BarrioSeleccionado = -1;
+    $scope.DepartamentoSeleccionado = -1;
+    $scope.DepartamentoSeleccionado2 = -1; 
     $scope.MunicipioSeleccionado = -1;
     $scope.CategoriaSeleccionada = -1;
     $scope.TipoServicioSeleccionado = -1;
@@ -264,7 +267,9 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             headerName: "Nombre", field: 'nombre', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
         },
         {
-            headerName: "Descripción", field: 'descripcion', width: 260, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
+            headerName: "Descripción", field: 'descripcion', width: 260, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' } , cellRenderer: function (params) {
+                return "<span  data-toggle='tooltip' data-placement='left' title='{{data.descripcion}}'>{{data.descripcion}}</span>"
+            },
         },
         {
             headerName: "Tipo", field: 'nombre_Tipo_Servicio', width: 120, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
@@ -297,7 +302,9 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             headerName: "Nombre", field: 'nombre', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Descripción", field: 'descripcion', width: 400, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: false
+            headerName: "Descripción", field: 'descripcion', width: 400, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: false, cellRenderer: function (params) {
+                return "<span  data-toggle='tooltip' data-placement='left' title='{{data.descripcion}}'>{{data.descripcion}}</span>"
+            },
         }
     ];
 
@@ -325,7 +332,9 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             headerName: "Nombre", field: 'nombre', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Descripción", field: 'descripcion', width: 300, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: false
+            headerName: "Descripción", field: 'descripcion', width: 300, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: false, cellRenderer: function (params) {
+                return "<span  data-toggle='tooltip' data-placement='left' title='{{data.descripcion}}'>{{data.descripcion}}</span>"
+            },
         },
         {
             headerName: "Categoria Servicio", field: 'nombre_Categoria_Servicio', width: 160, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: false
@@ -353,7 +362,10 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
 
     $scope.MunicipiosGridOptionsColumns = [
         {
-            headerName: "Nombre", field: 'nombre', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            headerName: "Municipio", field: 'nombre', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+        },
+        {
+            headerName: "Departamento", field: 'nombre_Departamento', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         }
     ];
 
@@ -378,7 +390,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
 
     $scope.BarriosGridOptionsColumns = [
         {
-            headerName: "Nombre", field: 'nombre', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            headerName: "Barrio", field: 'nombre', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
             headerName: "Municipio", field: 'nombre_Municipio', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -402,6 +414,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         suppressRowClickSelection: true,
         rowSelection: 'multiple',
         onRowClicked: OnRowClickedBarrios
+        //pagination: true,
+        //paginationAutoPageSize: true
     }
 
     $scope.ConsultarBarrios = function (id_Municipio) {
@@ -455,13 +469,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             .then(
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
-                        $scope.Municipios = [];
-                        $scope.MunicipiosCopy = [];
-                        $scope.Municipios = result.data;
-                        $scope.MunicipiosCopy = angular.copy($scope.Municipios);
-                        $scope.MunicipiosCopy.push({ id_Municipio: -1, nombre: '[Seleccione]' });
-                        $scope.MunicipiosCopy = $filter('orderBy')($scope.MunicipiosCopy, 'nombre', false);
-                        $scope.MunicipiosCopy = $filter('orderBy')($scope.MunicipiosCopy, 'id_Municipio', false);
+                        $scope.Municipios = [];                        
+                        $scope.Municipios = result.data; 
                         $scope.MunicipioSeleccionado = -1;
 
                         $scope.MunicipiosGridOptions.api.setRowData($scope.Municipios);
@@ -469,6 +478,24 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                         $timeout(function () {
                             $scope.MunicipiosGridOptions.api.sizeColumnsToFit();
                         }, 200);
+                    }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
+    }
+
+    $scope.ConsultarDepartamentos = function () {
+        SPAService._consultarDepartamentos()
+            .then(
+                function (result) {
+                    if (result.data !== undefined && result.data !== null) {
+                        $scope.Departamentos = [];                        
+                        $scope.Departamentos = result.data;                        
+                        $scope.Departamentos.push({ id_Departamento: -1, nombre: '[Seleccione]' });
+                        $scope.Departamentos = $filter('orderBy')($scope.Departamentos, 'nombre', false);                        
+                        $scope.DepartamentoSeleccionado = -1;                        
                     }
                 }, function (err) {
                     toastr.remove();
@@ -528,6 +555,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             $scope.LimpiarDatos();
 
             if (data !== undefined && data !== null) {
+                $scope.FiltrarMunicipios(data.id_Departamento);
+
                 if (data.id_Municipio === 0 || data.id_Municipio === null || data.id_Municipio === undefined)
                     $scope.MunicipioSeleccionado = -1;
                 else {
@@ -563,6 +592,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
 
                 $scope.EstadoSeleccionado = data.estado;
                 $scope.Empresa.Contacto = data.contacto;
+
+                $scope.DepartamentoSeleccionado = data.id_Departamento;
 
                 $timeout(function () {
                     if (data.id_Barrio === 0 || data.id_Barrio === null || data.id_Barrio === undefined)
@@ -828,8 +859,12 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                         }
                     }, function (err) {
                         toastr.remove();
-                        if (err.data !== null && err.status === 500)
+                        if (err.data !== null && err.status === 500) {
                             toastr.error(err.data, '', $scope.toastrOptions);
+                            $timeout(function () {
+                                $("#txtNombreTipoServicio").focus();
+                            }, 200);
+                        }                            
                     })
         }
     }
@@ -846,7 +881,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
 
                             $timeout(function () {
                                 $("#txtNombreMunicipio").focus();
-                            }, 100);
+                            }, 200);
                         }
                     }, function (err) {
                         toastr.remove();
@@ -980,6 +1015,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             if (event.node.data !== undefined && event.node.data !== null) {
                 $scope.Municipio.Id_Municipio = event.node.data.id_Municipio;
                 $scope.Municipio.Nombre = event.node.data.nombre;
+                $scope.Municipio.Id_Departamento = event.node.data.id_Departamento;
+                $scope.DepartamentoSeleccionado = event.node.data.id_Departamento;
                 $('#txtNombreMunicipio').focus();
             }
         } catch (e) {
@@ -992,9 +1029,13 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         try {
             $scope.LimpiarDatos();
             if (event.node.data !== undefined && event.node.data !== null) {
+                $scope.FiltrarMunicipios(event.node.data.id_Departamento);
                 $scope.Barrio.Id_Barrio = event.node.data.id_Barrio;
                 $scope.Barrio.Nombre = event.node.data.nombre;
-                $scope.Barrio.Id_Municipio = event.node.data.id_Municipio;
+                $scope.Barrio.Id_Municipio = event.node.data.id_Municipio;                
+                $timeout(function () {
+                    $scope.DepartamentoSeleccionado2 = event.node.data.id_Departamento;
+                }, 100);                
                 $scope.MunicipioSeleccionado = event.node.data.id_Municipio;
                 $timeout(function () {
                     $('#slMunicipios').focus();
@@ -1032,6 +1073,12 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 return false;
             }
 
+            if ($scope.Empresa.Descripcion === '' || $scope.Empresa.Descripcion === undefined || $scope.Empresa.Descripcion === null) {
+                toastr.info('Debe digitar la descripción de la empresa', '', $scope.toastrOptions);
+                $('#txtDescripcionEmpresa').focus();
+                return false;
+            }
+
             if ($scope.Empresa.Mail === '' || $scope.Empresa.Mail === undefined || $scope.Empresa.Mail === null) {
                 toastr.info('Correo electrónico de la empresa es requerido', '', $scope.toastrOptions);
                 $('#txtMailEmpresa').focus();
@@ -1042,13 +1089,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 toastr.info('La dirección de correo electrónico no es válida.', '', $scope.toastrOptions);
                 $('#txtMailEmpresa').focus();
                 return false;
-            }
-
-            if ($scope.Empresa.Descripcion === '' || $scope.Empresa.Descripcion === undefined || $scope.Empresa.Descripcion === null) {
-                toastr.info('Debe digitar la descripción de la empresa', '', $scope.toastrOptions);
-                $('#txtDescripcionEmpresa').focus();
-                return false;
-            }
+            }            
 
             if ($scope.CategoriaSeleccionada === -1 || $scope.CategoriaSeleccionada === undefined || $scope.CategoriaSeleccionada === null) {
                 toastr.info('Debe seleccionar una categoría de servicio para la empresa', '', $scope.toastrOptions);
@@ -1065,10 +1106,11 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             }
 
             $scope.Empresa.Estado = $scope.EstadoSeleccionado;
+            
 
-            if ($scope.Empresa.Contacto === '' || $scope.Empresa.Contacto === undefined || $scope.Empresa.Contacto === null) {
-                toastr.info('Debe ingresar el nombre de un contacto para la empresa', '', $scope.toastrOptions);
-                $('#txtContactoEmpresa').focus();
+            if ($scope.DepartamentoSeleccionado === -1 || $scope.DepartamentoSeleccionado === undefined || $scope.DepartamentoSeleccionado === null) {
+                toastr.info('Debe seleccionar un departamento', '', $scope.toastrOptions);
+                $('#slDepartamentos').focus();
                 return false;
             }
 
@@ -1085,6 +1127,12 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             }
 
             $scope.Empresa.Id_Barrio = $scope.BarrioSeleccionado;
+
+            if ($scope.Empresa.Contacto === '' || $scope.Empresa.Contacto === undefined || $scope.Empresa.Contacto === null) {
+                toastr.info('Debe ingresar el nombre de un contacto para la empresa', '', $scope.toastrOptions);
+                $('#txtContactoEmpresa').focus();
+                return false;
+            }
 
             if ($scope.LogoEmpresa === undefined || $scope.LogoEmpresa === null || $scope.LogoEmpresa === '') {
                 $scope.Empresa.Logo = null
@@ -1284,6 +1332,14 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 return false;
             }
 
+            if ($scope.DepartamentoSeleccionado === -1 || $scope.DepartamentoSeleccionado === undefined || $scope.DepartamentoSeleccionado === null) {
+                toastr.info('Debe seleccionar un departamento', '', $scope.toastrOptions);
+                $('#slDepartamentos').focus();
+                return false;
+            }
+
+            $scope.Municipio.Id_Departamento = $scope.DepartamentoSeleccionado;
+
             return true;
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -1452,6 +1508,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             $scope.EstadoSeleccionado = 'ACTIVA';
             $scope.BarrioSeleccionado = -1;
             $scope.MunicipioSeleccionado = -1;
+            $scope.DepartamentoSeleccionado = -1; 
+            $scope.DepartamentoSeleccionado2 = -1; 
 
             $scope.LogoEmpresa = '../Images/template/tulogo.png';
             $scope.ImagenUsuario = '../Images/default-perfil.png';
@@ -1467,6 +1525,9 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             $scope.TipoServiciosFiltrado = [];
             $scope.TipoServiciosFiltrado.push({ id_TipoServicio: -1, nombre: '[Seleccione]' });
             $scope.TipoServiciosFiltrado = $filter('orderBy')($scope.TipoServiciosFiltrado, 'id_TipoServicio', false);
+
+            $scope.MunicipiosCopy = [];
+            $scope.MunicipiosCopy.push({ id_Municipio: -1, nombre: '[Seleccione]' });
 
             $scope.Menu = $rootScope.Menu;
             $scope.Menu = $scope.Menu.map(function (e) {
@@ -1530,6 +1591,26 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
         }
+    }
+
+    $scope.FiltrarMunicipios = function (id_Departamento) {
+        try {
+            let idDepartamento = id_Departamento;
+            $scope.MunicipiosCopy = [];
+            $scope.MunicipiosCopy = angular.copy($scope.Municipios);
+
+            $scope.MunicipiosCopy = $scope.Municipios.filter(function (e) {
+                return e.id_Departamento === idDepartamento;
+            });
+
+            $scope.MunicipiosCopy.push({ id_Municipio: -1, nombre: '[Seleccione]' });
+            $scope.MunicipiosCopy = $filter('orderBy')($scope.MunicipiosCopy, 'nombre', false);
+            $scope.MunicipiosCopy = $filter('orderBy')($scope.MunicipiosCopy, 'id_Municipio', false);
+            $scope.MunicipioSeleccionado = -1;
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }        
     }
 
     $scope.FiltrarTipoServicio = function (CategoriaSeleccionada) {
@@ -1642,6 +1723,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
 
     $timeout(function () {
         $scope.LimpiarDatos();
+        $scope.ConsultarDepartamentos();
         $scope.ConsultarMunicipios();
         $scope.ConsultarEmpresasAdmin();
         $scope.ConsultarSedesPrincipales();

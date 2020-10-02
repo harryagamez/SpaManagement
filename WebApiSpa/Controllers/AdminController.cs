@@ -173,6 +173,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/Admin/ConsultarDepartamentos")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarDepartamentos()
+        {
+            try
+            {
+                List<Departamento> _listDepartamentos = _adminService.ConsultarDepartamentos();
+
+                return Content(HttpStatusCode.OK, _listDepartamentos);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los departamentos: " + ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("api/Admin/GuardarCategoriaServicio")]
         [HttpCache(DefaultExpirySeconds = 2)]

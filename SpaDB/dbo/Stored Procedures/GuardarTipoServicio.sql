@@ -15,7 +15,7 @@ BEGIN
 		Id_Categoria_Servicio UNIQUEIDENTIFIER '$.Id_Categoria_Servicio', Nombre CHAR(30) '$.Nombre', Id_TipoServicio INT '$.Id_TipoServicio'
 	)
 	
-	IF (SELECT COUNT(*) FROM TIPO_SERVICIO WHERE ID_CATEGORIA_SERVICIO = @IdCategoriaServicio AND NOMBRE = @Nombre AND ID_TIPOSERVICIO <> @IdTipoServicio) > 0 BEGIN
+	IF (SELECT COUNT(*) FROM TIPO_SERVICIO WHERE ID_CATEGORIA_SERVICIO = @IdCategoriaServicio AND NOMBRE = UPPER(@Nombre) AND ID_TIPOSERVICIO <> @IdTipoServicio) > 0 BEGIN
 		SET @Mensaje = 'Ya existe un Tipo de Servicio con ese nombre asociado a esa categoría. Debe digitar otro nombre o seleccionar otra categoría.'
 		RAISERROR (@Mensaje, 16, 1)		
 		RETURN
@@ -42,7 +42,7 @@ BEGIN
 			UPDATE SET TARGET.DESCRIPCION = SOURCE.Descripcion, TARGET.ID_CATEGORIA_SERVICIO = SOURCE.Id_Categoria_Servicio
 		WHEN NOT MATCHED THEN
 			INSERT (NOMBRE, DESCRIPCION, ID_CATEGORIA_SERVICIO)
-			VALUES (SOURCE.Nombre, SOURCE.Descripcion, SOURCE.Id_Categoria_Servicio);
+			VALUES (UPPER(SOURCE.Nombre), SOURCE.Descripcion, SOURCE.Id_Categoria_Servicio);
 
 		IF OBJECT_ID('tempdb..#TempTipoServicio') IS NOT NULL DROP TABLE #TempTipoServicio
 

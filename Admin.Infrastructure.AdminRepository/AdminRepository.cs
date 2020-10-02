@@ -256,6 +256,32 @@ namespace Admin.Infrastructure.AdminRepository
             }
         }
 
+        public List<Departamento> ConsultarDepartamentos()
+        {
+            DataTable _datatable = new DataTable();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarDepartamentos";
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<Departamento> _list_Departamentos = _datatable.DataTableToList<Departamento>();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _list_Departamentos;
+                }
+            }
+        }
+
         public bool GuardarCategoriaServicio(CategoriaServicio categoria)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))

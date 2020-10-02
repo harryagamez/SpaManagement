@@ -29,13 +29,15 @@
                             <div layout="row" style="height:calc(50vh - 74px); width:100%; margin-top:5px;">
 
                                 <div style="width:50%;">
-                                    <div layout="row" style="position:relative;">
+                                    <h3 style="font-size:16px; font-weight:600; margin-top:5px; color:white; background-color:#385178; width:180px; padding-left:7px; border-radius:0 25px 25px 0;">CATEGORIA SERVICIO</h3>
+                                    <hr style="margin-top:-18px; z-index:1;"/>
+                                    <div layout="row" style="position:relative; margin-top:-10px;">
                                         <div style="padding-right:10px;">
                                             <md-input-container>
                                                 <label class="label-form-clientes" style="">
                                                     Nombre Categoría:
                                                 </label>
-                                                <input id="txtNombreCategoria" md-autofocus="CategoriaServicio.Id_Categoria_Servicio === '00000000-0000-0000-0000-000000000000'" ng-disabled="CategoriaServicio.Id_Categoria_Servicio !== '00000000-0000-0000-0000-000000000000'" ng-model="CategoriaServicio.Nombre" maxlength="50" type="text" style="min-width: 170px;" placeholder="Nombre categoría servicio..." tabindex=1>
+                                                <input id="txtNombreCategoria" md-autofocus="CategoriaServicio.Id_Categoria_Servicio === '00000000-0000-0000-0000-000000000000'" ng-disabled="CategoriaServicio.Id_Categoria_Servicio !== '00000000-0000-0000-0000-000000000000'" ng-model="CategoriaServicio.Nombre" maxlength="50" type="text" style="min-width: 170px;" placeholder="Nombre categoría ..." tabindex=1>
                                             </md-input-container>
                                         </div>
 
@@ -44,29 +46,31 @@
                                                 <label class="label-form-clientes" style="">
                                                     Descripción Categoría:
                                                 </label>
-                                                <input id="txtDescripcionCategoria" ng-model="CategoriaServicio.Descripcion" maxlength="250" type="text" style="min-width: 170px;" placeholder="Descripción categoría servicio..." tabindex=2>
+                                                <input id="txtDescripcionCategoria" ng-model="CategoriaServicio.Descripcion" maxlength="250" type="text" style="min-width: 170px;" placeholder="Descripción categoría ..." tabindex=2>
                                             </md-input-container>
                                         </div>
 
-                                        <div style="padding-right:10px; position:absolute; right:-5px;">
+                                        <div style="padding-right:10px; position:absolute; right:-5px; padding-top:5px;">
                                             <section id="divButtons" layout-align="end center" style="margin-top:7px;">
                                                 <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Categoría Servicio" data-ng-click="GuardarCategoriaServicio()">
                                                     <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
                                                 </md-button>
-                                                <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Limpiar Campos" data-ng-click="fActiveGrid = 'CategoriaServicio' ; LimpiarDatos()">
+                                                <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'CategoriaServicio' ; LimpiarDatos()">
                                                     <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
                                                 </md-button>
                                             </section>
                                         </div>
                                     </div>
 
-                                    <div id="divGridCategoriaServicios" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 123px); margin-top:-37px; overflow-y:auto;">
+                                    <div id="divGridCategoriaServicios" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 140px); margin-top:-37px; overflow-y:auto;">
                                         <div id="divCategoriaServiciosGridOptions" data-ag-grid="CategoriaServiciosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                                     </div>
                                 </div>
 
                                 <div style="width:50%; padding-left:10px;">
-                                    <div layout="row" style="position:relative;">
+                                    <h3 style="font-size:16px; font-weight:600; margin-top:5px; color:white; background-color:#385178; width:128px; padding-left:7px; border-radius:0 25px 25px 0;">TIPO SERVICIO</h3>
+                                    <hr style="margin-top:-18px; z-index:1;" />
+                                    <div layout="row" style="position:relative; margin-top:-10px;">
                                         <div style="padding-right:10px;">
                                             <md-input-container>
                                                 <label class="label-form-clientes" style="">
@@ -90,25 +94,25 @@
                                                 <label class="label-form-clientes">
                                                     Categoría Servicio:
                                                 </label>
-                                                <md-select ng-model="CategoriaSeleccionada" style="display:inline-flex; max-width: 170px; min-width:170px; margin-top:1px;" id="slCategoriaTipoServicio" tabindex=6>
+                                                <md-select ng-model="CategoriaSeleccionada" style="display:inline-flex; max-width: 150px; min-width:150px; margin-top:1px;" id="slCategoriaTipoServicio" tabindex=6>
                                                     <md-option ng-bind="item.nombre" ng-value="item.id_Categoria_Servicio" ng-repeat="item in CategoriaServiciosCopy track by item.id_Categoria_Servicio"></md-option>
                                                 </md-select>
                                             </md-input-container>
                                         </div>
 
-                                        <div style="position:absolute; right: 2px;">
+                                        <div style="position:absolute; right: 2px; padding-top:5px;">
                                             <section id="divButtons" layout-align="right center" style="margin-top:7px;">
                                                 <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Tipo Servicio" data-ng-click="GuardarTipoServicio()">
                                                     <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
                                                 </md-button>
-                                                <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Limpiar Campos" data-ng-click="fActiveGrid = 'TipoServicio' ; LimpiarDatos()">
+                                                <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'TipoServicio' ; LimpiarDatos()">
                                                     <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
                                                 </md-button>
                                             </section>
                                         </div>
                                     </div>
 
-                                    <div id="divGridTipoServicios" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 123px); margin-top:-37px; overflow-y:auto;">
+                                    <div id="divGridTipoServicios" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 140px); margin-top:-37px; overflow-y:auto;">
                                         <div id="divTipoServiciosGridOptions" data-ag-grid="TipoServiciosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                                     </div>
                                 </div>
@@ -116,7 +120,9 @@
 
                             <div layout="row" style="height: calc(50vh - 74px); width: 100%; ">
                                 <div style="width:50%;">
-                                    <div layout="row" style="position:relative;">
+                                    <h3 style="font-size:16px; font-weight:600; margin-top:5px; color:white; background-color:#385178; width:109px; padding-left:7px; border-radius:0 25px 25px 0;">MUNICIPIOS</h3>
+                                    <hr style="margin-top:-18px; z-index:1;" />
+                                    <div layout="row" style="position:relative; margin-top:-10px;">
                                         <div style="padding-right:10px;">
                                             <md-input-container>
                                                 <label class="label-form-clientes" style="">
@@ -126,31 +132,55 @@
                                             </md-input-container>
                                         </div>
 
-                                        <div style="position:absolute; right:0px;">
+                                        <div style="padding-right:10px;">
+                                            <md-input-container style="width: 180px; margin-top: 18px; margin-bottom: 0;">
+                                                <label class="label-form-clientes">
+                                                    Departamento:
+                                                </label>
+                                                <md-select ng-model="DepartamentoSeleccionado" style="display:inline-flex; max-width: 170px; min-width:170px; margin-top:1px;" id="slDepartamentos" tabindex=8>
+                                                    <md-option ng-bind="item.nombre" ng-value="item.id_Departamento" ng-repeat="item in Departamentos track by item.id_Departamento"></md-option>
+                                                </md-select>
+                                            </md-input-container>
+                                        </div>
+
+                                        <div style="position:absolute; right:0px; padding-top:5px;">
                                             <section id="divButtons" layout-align="right center" style="margin-top:7px;">
                                                 <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Municipio" data-ng-click="GuardarMunicipio()">
                                                     <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
                                                 </md-button>
-                                                <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Limpiar Campos" data-ng-click="fActiveGrid = 'Municipio' ; LimpiarDatos()">
+                                                <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'Municipio' ; LimpiarDatos()">
                                                     <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
                                                 </md-button>
                                             </section>
                                         </div>
                                     </div>
 
-                                    <div id="divGridMunicipios" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 123px); margin-top:-37px; overflow-y:auto;">
+                                    <div id="divGridMunicipios" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 140px); margin-top:-37px; overflow-y:auto;">
                                         <div id="divMunicipiosGridOptions" data-ag-grid="MunicipiosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                                     </div>
                                 </div>
 
                                 <div style="width:50%; padding-left:10px;">
-                                    <div layout="row" style="position:relative;">
+                                    <h3 style="font-size:16px; font-weight:600; margin-top:5px; color:white; background-color:#385178; width:83px; padding-left:7px; border-radius:0 25px 25px 0;">BARRIOS</h3>
+                                    <hr style="margin-top:-18px; z-index:1;" />
+                                    <div layout="row" style="position:relative; margin-top:-10px;">
                                         <div style="padding-right:10px;">
                                             <md-input-container>
                                                 <label class="label-form-clientes" style="">
                                                     Nombre Barrio:
                                                 </label>
-                                                <input id="txtNombreBarrio" ng-model="Barrio.Nombre" ng-disabled="Barrio.Id_Barrio !== -1" maxlength="50" type="text" style="min-width: 170px;" placeholder="Nombre Barrio..." tabindex=7>
+                                                <input id="txtNombreBarrio" ng-model="Barrio.Nombre" ng-disabled="Barrio.Id_Barrio !== -1" maxlength="50" type="text" style="min-width: 170px;" placeholder="Nombre Barrio..." tabindex=9>
+                                            </md-input-container>
+                                        </div>
+
+                                        <div style="padding-right:10px;">
+                                            <md-input-container style="width: 180px; margin-top: 18px; margin-bottom: 0;">
+                                                <label class="label-form-clientes">
+                                                    Departamento:
+                                                </label>
+                                                <md-select ng-model="DepartamentoSeleccionado2" data-ng-change="FiltrarMunicipios(DepartamentoSeleccionado2)" style="display:inline-flex; max-width: 170px; min-width:170px; margin-top:1px;" id="slDepartamentos2" tabindex=10>
+                                                    <md-option ng-bind="item.nombre" ng-value="item.id_Departamento" ng-repeat="item in Departamentos track by item.id_Departamento"></md-option>
+                                                </md-select>
                                             </md-input-container>
                                         </div>
 
@@ -159,25 +189,25 @@
                                                 <label class="label-form-clientes">
                                                     Municipio:
                                                 </label>
-                                                <md-select ng-model="MunicipioSeleccionado" style="display:inline-flex; max-width: 170px; min-width:170px; margin-top:1px;" id="slMunicipios" tabindex=8>
+                                                <md-select ng-model="MunicipioSeleccionado" ng-disabled="DepartamentoSeleccionado2 === -1" style="display:inline-flex; max-width: 170px; min-width:170px; margin-top:1px;" id="slMunicipios" tabindex=11>
                                                     <md-option ng-bind="item.nombre" ng-value="item.id_Municipio" ng-repeat="item in MunicipiosCopy track by item.id_Municipio"></md-option>
                                                 </md-select>
                                             </md-input-container>
                                         </div>
 
-                                        <div style="position:absolute; right: 2px;">
+                                        <div style="position:absolute; right: 2px; padding-top:5px;">
                                             <section id="divButtons" layout-align="right center" style="margin-top:7px;">
                                                 <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Barrio" data-ng-click="GuardarBarrio()">
                                                     <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
                                                 </md-button>
-                                                <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Limpiar Campos" data-ng-click="fActiveGrid = 'Barrio' ; LimpiarDatos()">
+                                                <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'Barrio' ; LimpiarDatos()">
                                                     <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
                                                 </md-button>
                                             </section>
                                         </div>
                                     </div>
 
-                                    <div id="divGridBarrios" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 123px); margin-top:-37px; overflow-y:auto;">
+                                    <div id="divGridBarrios" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 140px); margin-top:-37px; overflow-y:auto;">
                                         <div id="divBarriosGridOptions" data-ag-grid="BarriosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                                     </div>
                                 </div>
@@ -331,7 +361,7 @@
             <div style="visibility: hidden">
 
                 <div class="md-dialog-container" id="dlgNuevaEmpresa">
-                    <md-dialog id="mdNuevaEmpresa" aria-label="Nueva Empresa" style="min-width: 760px; max-width: 760px; min-height:370px; max-height:370px; color: #666666 !important;">
+                    <md-dialog id="mdNuevaEmpresa" aria-label="Nueva Empresa" style="min-width: 760px; max-width: 760px; min-height:390px; max-height:390px; color: #666666 !important;">
                         <md-toolbar>
                             <div class="md-toolbar-tools">
                                 <h2 style="font-size:16px;">{{AccionEmpresa}}</h2>
@@ -372,7 +402,7 @@
                                     </div>
                                 </div>
 
-                                <div layout="row" layout-align="">
+                                <div layout="row" layout-sm="column" layout-align="start start" style="margin-top:-5px; margin-bottom:0;">
 
                                     <div style="width:200px;" class="material-apanel">
                                         <md-input-container style="width: 190px; margin-top: 13px; margin-bottom: 0">
@@ -439,14 +469,16 @@
                                     </div>
                                 </div>
 
-                                <div layout="row" layout-sm="column" layout-align="start start" style="margin-top:15px;">
+                                <div layout="row" layout-sm="column" layout-align="start start" style="margin-top:15px;">                                    
 
-                                    <div style="width:200px; margin-top:7px;" class="material-apanel">
-                                        <md-input-container style="width: 190px; margin-top: 6px; margin-bottom: 0; ">
-                                            <label class="label-form-clientes" style="">
-                                                Contacto:
+                                    <div style="width:200px;" class="material-apanel">
+                                        <md-input-container style="width: 190px; margin-top: 13px; margin-bottom: 0; ">
+                                            <label class="label-form-clientes">
+                                                Departamento:
                                             </label>
-                                            <input ng-model="Empresa.Contacto" id="txtContactoEmpresa" style="margin-top:2px;" type="text" maxlength="50" placeholder="Nombre del contacto ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=10>
+                                            <md-select ng-model="DepartamentoSeleccionado" data-ng-change="FiltrarMunicipios(DepartamentoSeleccionado)" style="display: inline-flex; min-width: 190px !important; max-width: 190px; margin-top: 7px;" id="slDepartamentos3" tabindex=11>
+                                                <md-option ng-bind="item.nombre" ng-value="item.id_Departamento" ng-repeat="item in Departamentos track by item.id_Departamento"></md-option>
+                                            </md-select>
                                         </md-input-container>
                                     </div>
 
@@ -455,7 +487,7 @@
                                             <label class="label-form-clientes" style="">
                                                 Municipio:
                                             </label>
-                                            <md-select ng-model="MunicipioSeleccionado" ng-change="FiltrarBarrios(MunicipioSeleccionado)" style="display:inline-flex; min-width: 190px !important; max-width:190px; margin-top:7px;" id="slMunicipios" tabindex=11>
+                                            <md-select ng-model="MunicipioSeleccionado" ng-disabled="DepartamentoSeleccionado === -1" ng-change="FiltrarBarrios(MunicipioSeleccionado)" style="display:inline-flex; min-width: 190px !important; max-width:190px; margin-top:7px;" id="slMunicipios" tabindex=12>
                                                 <md-option ng-bind="item.nombre" ng-value="item.id_Municipio" ng-repeat="item in MunicipiosCopy track by $index"></md-option>
                                             </md-select>
                                         </md-input-container>
@@ -466,14 +498,14 @@
                                             <label class="label-form-clientes" style="">
                                                 Barrio:
                                             </label>
-                                            <md-select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado =='-1'" style="display:inline-flex; min-width: 190px !important; max-width:190px; margin-top:7px;" id="slBarrios" tabindex=12>
+                                            <md-select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado == -1" style="display:inline-flex; min-width: 190px !important; max-width:190px; margin-top:7px;" id="slBarrios" tabindex=13>
                                                 <md-option ng-bind="item.nombre" ng-value="item.id_Barrio" ng-repeat="item in Barrios track by $index"></md-option>
                                             </md-select>
                                         </md-input-container>
                                     </div>
                                 </div>
 
-                                <div layout="row" layout-xs="column" layout-align="center start">
+                                <div layout="row" layout-xs="column" layout-align="start start">
 
                                     <div style="width:120px;">
                                         <div class="empresa-logo" style="top:60px; right:20px;">
@@ -482,12 +514,21 @@
                                         </div>
                                     </div>
 
-                                    <div flex="" style="right:15px; position: absolute; margin-top:-15px;">
-                                        <md-button type="button" id="btnGuardarEmpresa" style="margin: 6px 3px !important;" class="btn-apanel groupX left" data-toggle="tooltip" title="Guardar" ng-click="GuardarEmpresa()" tabindex=13>
+                                    <div style="width:200px; position: absolute; left: 15px;" class="material-apanel">
+                                        <md-input-container style="width: 190px; margin-bottom:0; margin-top:30px;">
+                                            <label class="label-form-clientes" style="">
+                                                Contacto:
+                                            </label>
+                                            <input ng-model="Empresa.Contacto" id="txtContactoEmpresa" style="margin-top:2px;" type="text" maxlength="50" placeholder="Nombre del contacto ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=14>
+                                        </md-input-container>
+                                    </div>
+
+                                    <div style="right:15px; position: absolute; margin-top:26px; ">
+                                        <md-button type="button" id="btnGuardarEmpresa" style="" class="btn-apanel groupX left" data-toggle="tooltip" title="Guardar" ng-click="GuardarEmpresa()" tabindex=15>
                                             <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                                         </md-button>
-                                        <md-button type="button" id="btnLimpiar" ng-hide="AccionEmpresa === 'Actualizar Empresa'" style="margin: 6px 3px !important;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Limpiar Campos" data-ng-click="LimpiarDatos()" tabindex=14>
-                                            <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Limpiar
+                                        <md-button type="button" id="btnLimpiar" ng-hide="AccionEmpresa === 'Actualizar Empresa'" style="margin-left:-10px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()" tabindex=16>
+                                            <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
                                         </md-button>
                                     </div>
                                 </div>

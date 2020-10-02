@@ -437,7 +437,8 @@
             _guardarCategoriaServicio: GuardarCategoriaServicio,
             _guardarTipoServicio: GuardarTipoServicio,
             _guardarMunicipio: GuardarMunicipio,
-            _guardarBarrio: GuardarBarrio
+            _guardarBarrio: GuardarBarrio,
+            _consultarDepartamentos: ConsultarDepartamentos
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1121,6 +1122,18 @@
             var deferred = $q.defer();
             serviceRest.Get('Admin', 'ConsultarBarriosAdmin',
                 function (data) {                   
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarDepartamentos() {
+            var deferred = $q.defer();
+            serviceRest.Get('Admin', 'ConsultarDepartamentos',
+                function (data) {
                     deferred.resolve(data);
                 },
                 function (err) {
