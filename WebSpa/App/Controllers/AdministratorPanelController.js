@@ -6,7 +6,8 @@ AdministratorPanelController.$inject = ['$scope', '$rootScope', '$state', '$loca
 function AdministratorPanelController($scope, $rootScope, $state, $location, $filter, $http, $mdToast, $document, $mdDialog, $rootScope, $timeout, localStorageService, AuthService, SPAService) {
 
     $scope.fActiveTab = 'Datos Maestros';
-    $scope.fActiveGrid = 'CategoriaServicio'
+    $scope.fActiveGrid = 'CategoriaServicio';
+    $scope.fEditarEmpresa = false;
     $scope.CategoriaServicios = [];
     $scope.SedesPrincipales = [];
     const mail_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
@@ -553,7 +554,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
     $scope.ConsultarEmpresa = function (data) {
         try {
             $scope.LimpiarDatos();
-
+            $scope.fEditarEmpresa = true;
             if (data !== undefined && data !== null) {
                 $scope.FiltrarMunicipios(data.id_Departamento);
 
@@ -770,7 +771,12 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                         if (result.data === true) {
                             toastr.success('Empresa registrada y/o actualizada correctamente', '', $scope.toastrOptions);
                             $scope.LimpiarDatos();
-                            $scope.ConsultarEmpresasAdmin();
+                            $scope.ConsultarEmpresasAdmin();                            
+                            if ($scope.fEditarEmpresa) {
+                                $scope.fEditarEmpresa = false;
+                                $scope.Cancelar();
+                            }
+                                
                         }
                     }, function (err) {
                         toastr.remove();
