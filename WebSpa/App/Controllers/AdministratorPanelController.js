@@ -4,7 +4,7 @@
 AdministratorPanelController.$inject = ['$scope', '$rootScope', '$state', '$location', '$filter', '$http', '$mdToast', '$document', '$mdDialog', '$rootScope', '$timeout', 'localStorageService', 'AuthService', 'SPAService'];
 
 function AdministratorPanelController($scope, $rootScope, $state, $location, $filter, $http, $mdToast, $document, $mdDialog, $rootScope, $timeout, localStorageService, AuthService, SPAService) {
-    
+
     $scope.fActiveTab = 'Datos Maestros';
     $scope.fActiveGrid = 'CategoriaServicio'
     $scope.CategoriaServicios = [];
@@ -963,8 +963,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
 
                 $timeout(function () {
                     $('#txtContrasenia').focus();
-                },200);
-                
+                }, 200);
+
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -981,8 +981,8 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 $scope.CategoriaServicio.Descripcion = event.node.data.descripcion;
                 $timeout(function () {
                     $('#txtDescripcionCategoria').focus();
-                },200);
-                
+                }, 200);
+
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -1001,7 +1001,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 $scope.CategoriaSeleccionada = event.node.data.id_Categoria_Servicio;
                 $timeout(function () {
                     $('#txtDescripcionTipoServicio').focus();
-                }, 200);                
+                }, 200);
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -1039,7 +1039,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 $scope.MunicipioSeleccionado = event.node.data.id_Municipio;
                 $timeout(function () {
                     $('#slMunicipios').focus();
-                });                
+                });
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -1533,51 +1533,51 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             $scope.Menu = $scope.Menu.map(function (e) {
                 return { Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
             });
-            
+
             if ($scope.fActiveTab === "Datos Maestros") {
                 if ($scope.fActiveGrid === 'CategoriaServicio') {
                     $timeout(function () {
                         $('#txtNombreCategoria').focus();
                     }, 200);
-                }                    
-                    
+                }
+
                 if ($scope.fActiveGrid === 'TipoServicio') {
                     $timeout(function () {
                         $('#txtNombreTipoServicio').focus();
                     }, 200);
-                }                    
-                    
+                }
+
                 if ($scope.fActiveGrid === 'Municipio') {
                     $timeout(function () {
                         $('#txtNombreMunicipio').focus();
                     }, 200);
-                }                    
-                    
+                }
+
                 if ($scope.fActiveGrid === 'Barrio') {
                     $timeout(function () {
                         $('#txtNombreBarrio').focus();
                     }, 200);
-                } 
+                }
             }
-                
+
             if ($scope.fActiveTab === "Empresas") {
                 $timeout(function () {
                     $('#txtNombreEmpresa').focus();
                 }, 200);
             }
-                
+
             if ($scope.fActiveTab === "Servicios") {
                 $timeout(function () {
                     $('#txtNombreServicio').focus();
                 }, 200);
             }
-                
+
             if ($scope.fActiveTab === "Usuarios") {
                 $timeout(function () {
                     $('#txtUsuario').focus();
                 }, 200);
             }
-                
+
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -1705,23 +1705,21 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
     };
 
     window.onresize = function () {
-        $timeout(function () {
-            $scope.EmpresasGridOptions.api.sizeColumnsToFit();
-            $scope.ServiciosGridOptions.api.sizeColumnsToFit();
-            $scope.UsuariosAdminGridOptions.api.sizeColumnsToFit();
-            $scope.CategoriaServiciosGridOptions.api.sizeColumnsToFit();
-            $scope.TipoServiciosGridOptions.api.sizeColumnsToFit();
-            $scope.MunicipiosGridOptions.api.sizeColumnsToFit();
-            $scope.BarriosGridOptions.api.sizeColumnsToFit();
-        }, 200);        
+        $scope.EmpresasGridOptions.api.sizeColumnsToFit();
+        $scope.ServiciosGridOptions.api.sizeColumnsToFit();
+        $scope.UsuariosAdminGridOptions.api.sizeColumnsToFit();
+        $scope.CategoriaServiciosGridOptions.api.sizeColumnsToFit();
+        $scope.TipoServiciosGridOptions.api.sizeColumnsToFit();
+        $scope.MunicipiosGridOptions.api.sizeColumnsToFit();
+        $scope.BarriosGridOptions.api.sizeColumnsToFit();
     }
 
     $scope.Inicializacion = function () {
         $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
-        window.onresize();
     }
 
     $timeout(function () {
+        window.onresize();
         $scope.LimpiarDatos();
         $scope.ConsultarDepartamentos();
         $scope.ConsultarMunicipios();
