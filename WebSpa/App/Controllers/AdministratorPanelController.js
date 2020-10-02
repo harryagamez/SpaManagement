@@ -414,9 +414,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         animateRows: true,
         suppressRowClickSelection: true,
         rowSelection: 'multiple',
-        onRowClicked: OnRowClickedBarrios
-        //pagination: true,
-        //paginationAutoPageSize: true
+        onRowClicked: OnRowClickedBarrios        
     }
 
     $scope.ConsultarBarrios = function (id_Municipio) {
