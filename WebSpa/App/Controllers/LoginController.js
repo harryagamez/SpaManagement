@@ -12,7 +12,6 @@ function LoginController($scope, $state, $location, $mdDialog, $rootScope, $time
     $timeout(function () {
         $('#txtUsuario').focus();
     }, 200);
-    
 
     $scope.$on('$viewContentLoaded', function () {
         $location.replace();

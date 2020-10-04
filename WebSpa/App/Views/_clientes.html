@@ -7,53 +7,62 @@
 <body>
     <div layout="row" layout-wrap="" style="height: calc(100vh - 70px); overflow:auto;">
         <form id="frmClientes" style="">
-            <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
-                <!--<md-button type="button" id="btnGuardar" class="btn-spa groupX left" style="margin-left: 0px;" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarCliente()">
-                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
-                </md-button>-->
 
-                <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin-left:-2px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevoCliente()">
-                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                </md-button>
+            <div layout="row" layout-sm="column" style="">
+                <div flex="" style="flex:none;">
+                    <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
 
-                <md-button type="button" id="btnImportar" class="btn-spa groupX middle" style="margin-left: -2px;" data-toggle="tooltip" title="Importar" data-ng-click="ImportarArchivo()">
-                    <i class="material-icons md-18" style="transform: scaleX(-1)">cloud_upload</i>Importar
-                </md-button>
+                        <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin-left:-2px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevoCliente()">
+                            <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                        </md-button>
 
-                <md-button type="button" id="btnInformes" class="btn-spa groupX middle" style="margin-left: -2px;" data-toggle="tooltip" title="Informes">
-                    <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Informes
-                </md-button>
-                <md-button type="button" class="btn-spa dropdown-toggle-split groupX right" style="min-width:0; margin-left:-12px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons" style="transform: scaleX(-1); margin-top: -0px;">settings</i>
-                </md-button>
-                <div class="dropdown-menu">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="ListadoClientes" aria-label="Checkbox 1">
-                                Listado de clientes
-                            </md-checkbox>
-                        </li>
-                        <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="DetalladoServicios" aria-label="Checkbox 2">
-                                Detallado servicios facturados
-                            </md-checkbox>
-                        </li>
-                        <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="GeneralServicios" aria-label="Checkbox 3">
-                                General servicios facturados
-                            </md-checkbox>
-                        </li>
-                    </ul>
+                        <md-button type="button" id="btnImportar" class="btn-spa groupX middle" style="margin-left: -2px;" data-toggle="tooltip" title="Importar" data-ng-click="ImportarArchivo()">
+                            <i class="material-icons md-18" style="transform: scaleX(-1)">cloud_upload</i>Importar
+                        </md-button>
+
+                        <md-button type="button" id="btnInformes" class="btn-spa groupX middle" style="margin-left: -2px;" data-toggle="tooltip" title="Informes">
+                            <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Informes
+                        </md-button>
+                        <md-button type="button" class="btn-spa dropdown-toggle-split groupX right" style="min-width:0; margin-left:-12px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons" style="transform: scaleX(-1); margin-top: -0px;">settings</i>
+                        </md-button>
+                        <div class="dropdown-menu">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item btn-informe">
+                                    <md-checkbox ng-model="ListadoClientes" aria-label="Checkbox 1">
+                                        Listado de clientes
+                                    </md-checkbox>
+                                </li>
+                                <li class="list-group-item btn-informe">
+                                    <md-checkbox ng-model="DetalladoServicios" aria-label="Checkbox 2">
+                                        Detallado servicios facturados
+                                    </md-checkbox>
+                                </li>
+                                <li class="list-group-item btn-informe">
+                                    <md-checkbox ng-model="GeneralServicios" aria-label="Checkbox 3">
+                                        General servicios facturados
+                                    </md-checkbox>
+                                </li>
+                            </ul>
+                        </div>
+                        <input type="file" name="file" id="labelArchivo" data-file-model="CargarArchivo($event);" style="visibility: hidden; height: 0px; width: 0px" />
+                    </section>
                 </div>
-                <input type="file" name="file" id="labelArchivo" data-file-model="CargarArchivo($event);" style="visibility: hidden; height: 0px; width: 0px" />
-            </section>
 
-            <div id="divGridClientes" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 145px); margin-top:5px; overflow-y:auto;">
-                <div id="divClientesGridOptions" data-ag-grid="ClientesGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+                <div flex="">
+                    <md-input-container style="margin-bottom:0;">
+                        <label class="label-form-clientes" style="">
+                            Nombre Cliente:
+                        </label>
+                        <input ng-keyup="onFilterTextBoxChanged()" id="txtBuscarCliente" maxlength="60" type="text" style="min-width: 200px;" placeholder="Cliente a filtrar..." tabindex=1>
+                    </md-input-container>
+                </div>
             </div>
 
+            <div id="divGridClientes" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 145px); margin-top:-15px; overflow-y:auto;">
+                <div id="divClientesGridOptions" data-ag-grid="ClientesGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+            </div>
         </form>
-
     </div>
 
     <!-- Modal Cliente -->
@@ -227,6 +236,5 @@
             </md-dialog>
         </div>
     </div>
-
 </body>
 </html>

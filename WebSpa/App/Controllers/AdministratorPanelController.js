@@ -4,7 +4,6 @@
 AdministratorPanelController.$inject = ['$scope', '$rootScope', '$state', '$location', '$filter', '$http', '$mdToast', '$document', '$mdDialog', '$rootScope', '$timeout', 'localStorageService', 'AuthService', 'SPAService'];
 
 function AdministratorPanelController($scope, $rootScope, $state, $location, $filter, $http, $mdToast, $document, $mdDialog, $rootScope, $timeout, localStorageService, AuthService, SPAService) {
-
     $scope.fActiveTab = 'Datos Maestros';
     $scope.fActiveGrid = 'CategoriaServicio';
     $scope.fEditarEmpresa = false;
@@ -414,7 +413,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         animateRows: true,
         suppressRowClickSelection: true,
         rowSelection: 'multiple',
-        onRowClicked: OnRowClickedBarrios        
+        onRowClicked: OnRowClickedBarrios
     }
 
     $scope.ConsultarBarrios = function (id_Municipio) {
@@ -769,12 +768,11 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                         if (result.data === true) {
                             toastr.success('Empresa registrada y/o actualizada correctamente', '', $scope.toastrOptions);
                             $scope.LimpiarDatos();
-                            $scope.ConsultarEmpresasAdmin();                            
+                            $scope.ConsultarEmpresasAdmin();
                             if ($scope.fEditarEmpresa) {
                                 $scope.fEditarEmpresa = false;
                                 $scope.Cancelar();
                             }
-                                
                         }
                     }, function (err) {
                         toastr.remove();
@@ -968,7 +966,6 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 $timeout(function () {
                     $('#txtContrasenia').focus();
                 }, 200);
-
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -986,7 +983,6 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 $timeout(function () {
                     $('#txtDescripcionCategoria').focus();
                 }, 200);
-
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -1110,7 +1106,6 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             }
 
             $scope.Empresa.Estado = $scope.EstadoSeleccionado;
-
 
             if ($scope.DepartamentoSeleccionado === -1 || $scope.DepartamentoSeleccionado === undefined || $scope.DepartamentoSeleccionado === null) {
                 toastr.info('Debe seleccionar un departamento', '', $scope.toastrOptions);
@@ -1581,7 +1576,6 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                     $('#txtUsuario').focus();
                 }, 200);
             }
-
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;

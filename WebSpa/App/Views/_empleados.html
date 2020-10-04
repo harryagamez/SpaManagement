@@ -8,36 +8,48 @@
     <div layout="row" layout-wrap="" style="height: calc(100vh - 70px); overflow:auto;">
 
         <form id="frmEmpleados" style="">
+            <div layout="row" layout-sm="column" style="">
+                <div flex="" style="flex:none;">
+                    <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
 
-            <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
+                        <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevoEmpleado()">
+                            <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                        </md-button>
 
-                <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevoEmpleado()">
-                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                </md-button>
-
-                <md-button type="button" id="btnInformes" class="btn-spa groupX middle" style="margin-right:0;" data-toggle="tooltip" title="Informes">
-                    <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Informes
-                </md-button>
-                <md-button type="button" class="btn-spa dropdown-toggle-split groupX right" style="min-width:0; margin-left:-3px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons" style="transform: scaleX(-1); margin-top: -0px;">settings</i>
-                </md-button>
-                <div class="dropdown-menu">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="ListadoClientes" aria-label="Checkbox 1">
-                                Listado de empleados
-                            </md-checkbox>
-                        </li>
-                        <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="DetalladoInsumosEmpleados" aria-label="Checkbox 2">
-                                Detallado insumos
-                            </md-checkbox>
-                        </li>
-                    </ul>
+                        <md-button type="button" id="btnInformes" class="btn-spa groupX middle" style="margin-right:0;" data-toggle="tooltip" title="Informes">
+                            <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Informes
+                        </md-button>
+                        <md-button type="button" class="btn-spa dropdown-toggle-split groupX right" style="min-width:0; margin-left:-3px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons" style="transform: scaleX(-1); margin-top: -0px;">settings</i>
+                        </md-button>
+                        <div class="dropdown-menu">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item btn-informe">
+                                    <md-checkbox ng-model="ListadoClientes" aria-label="Checkbox 1">
+                                        Listado de empleados
+                                    </md-checkbox>
+                                </li>
+                                <li class="list-group-item btn-informe">
+                                    <md-checkbox ng-model="DetalladoInsumosEmpleados" aria-label="Checkbox 2">
+                                        Detallado insumos
+                                    </md-checkbox>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
                 </div>
-            </section>           
 
-            <div id="divGridEmpleados" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 145px); margin-top:5px; overflow-y:auto;">
+                <div flex="">
+                    <md-input-container style="margin-bottom:0;">
+                        <label class="label-form-clientes" style="">
+                            Nombre Empleado:
+                        </label>
+                        <input ng-keyup="onFilterTextBoxChanged()" id="txtBuscarEmpleado" maxlength="60" type="text" style="min-width: 200px;" placeholder="Empleado a filtrar..." tabindex=1>
+                    </md-input-container>
+                </div>
+            </div>
+
+            <div id="divGridEmpleados" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 145px); margin-top:-15px; overflow-y:auto;">
                 <div id="divEmpleadosGridOptions" data-ag-grid="EmpleadosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
             </div>
         </form>
@@ -291,10 +303,8 @@
                                 <div id="divEmpleadoServicioGridOptions" data-ag-grid="EmpleadoServicioGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                             </div>
                         </div>
-
                     </md-dialog-content>
                 </form>
-
             </md-dialog>
         </div>
     </div>
@@ -371,7 +381,6 @@
                                     <i class="material-icons md-18" style="transform: scaleX(-1)">add</i>Agregar
                                 </md-button>
                             </div>
-
                         </div>
 
                         <div layout="row" layout-align="center center">
@@ -381,10 +390,8 @@
                         </div>
                     </md-dialog-content>
                 </form>
-
             </md-dialog>
         </div>
     </div>
-
 </body>
 </html>

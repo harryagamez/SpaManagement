@@ -71,7 +71,7 @@
                         <label class="label-form-clientes" style="">
                             Fecha Hasta:
                         </label>
-                        <md-datepicker ng-model="Filtros.Hasta" data-ng-change="ValidarFechaHasta()" md-placeholder="Enter date"  class="dateClientes" id="dpFechaHasta" tabindex=8></md-datepicker>
+                        <md-datepicker ng-model="Filtros.Hasta" data-ng-change="ValidarFechaHasta()" md-placeholder="Enter date" class="dateClientes" id="dpFechaHasta" tabindex=8></md-datepicker>
                     </md-input-container>
                 </div>
 
@@ -79,21 +79,18 @@
                     <md-input-container style="width:50%">
                         <label class="label-form-clientes">
                             Tipo Gasto:
-                        </label>                        
+                        </label>
                         <md-select ng-model="TipoGastoSeleccionado" style="display:inline-flex; min-width: 100% !important; margin:15px 0; margin-top:1px;" id="slTipoGasto" tabindex=9>
                             <md-option ng-bind="item.Nombre" ng-value="item.id_TipoGasto" ng-repeat="item in TipoGastos track by item.id_TipoGasto"></md-option>
                         </md-select>
                     </md-input-container>
-                </div>               
-
+                </div>
             </div>
 
             <div id="divGridGastos" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 205px); margin-top:-30px; overflow-y:auto;">
                 <div id="divGastosGridOptions" data-ag-grid="GastosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
             </div>
-
         </form>
-
     </div>
 
     <!-- Modal Caja Menor-->
@@ -113,7 +110,7 @@
                 <form id="frmServicios" style="">
 
                     <md-dialog-content style="">
-                        
+
                         <div layout="row" layout-xs="column" style="" layout-align="center center">
 
                             <div flex="50">
@@ -135,7 +132,6 @@
                                     <input ng-model="CajaMenor.Saldo_Inicial" id="txtSaldoInicial" placeholder="Digite el saldo inicial ..." numbers-only type="text" md-autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
                                 </md-input-container>
                             </div>
-
                         </div>
 
                         <div layout="row" layout-sm="column" style="" layout-align="center center">
@@ -145,7 +141,7 @@
                                     <label class="label-form-empleados" style="font-size:10px; color: orangered;">
                                         Acumulado:
                                     </label>
-                                    <br />                                    
+                                    <br />
                                     <div style="font-size:22px; color: orangered; font-weight:600; padding-top:5px;">{{Acumulado | currency}}</div>
                                 </md-input-container>
                             </div>
@@ -155,15 +151,12 @@
                                     <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                                 </md-button>
                             </div>
-
                         </div>
                     </md-dialog-content>
                 </form>
-
             </md-dialog>
         </div>
     </div>
-
 
     <!-- Modal Nuevo Gasto-->
     <div style="visibility: hidden">
@@ -182,7 +175,7 @@
                 <form id="frmServicios" style="">
 
                     <md-dialog-content style="overflow:hidden;">
-                        
+
                         <div layout="row" layout-sm="column" style="" layout-align="center center">
 
                             <div flex="50">
@@ -206,7 +199,6 @@
                                     </md-select>
                                 </md-input-container>
                             </div>
-
                         </div>
 
                         <div layout="row" layout-sm="column" style="" layout-align="center center">
@@ -246,13 +238,11 @@
                                     <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                                 </md-button>
                             </div>
-                        </div>                        
+                        </div>
                     </md-dialog-content>
                 </form>
-
             </md-dialog>
         </div>
     </div>
-
 </body>
 </html>

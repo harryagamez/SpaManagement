@@ -57,7 +57,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
 
     $scope.Inicializacion = function () {
         $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
-        window.onresize();        
+        window.onresize();
     }
 
     $scope.GuardarCliente = function () {
@@ -71,7 +71,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
                         if (result.data === true) {
                             toastr.success('Cliente registrado y/o actualizado correctamente', '', $scope.toastrOptions);
                             $scope.ConsultarClientes();
-                            
+
                             $('#txtCedula').focus();
                             if ($scope.fEditarCliente) {
                                 $scope.Cancelar();
@@ -135,12 +135,12 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
                             $scope.Cliente.Id_Cliente = result.data.id_Cliente;
                             $scope.Cliente.Cedula = result.data.cedula;
                             $scope.Cliente.Nombres = result.data.nombres;
-                            $scope.Cliente.Apellidos = result.data.apellidos;                            
+                            $scope.Cliente.Apellidos = result.data.apellidos;
                             $scope.Cliente.Telefono_Fijo = result.data.telefono_Fijo;
                             $scope.Cliente.Telefono_Movil = result.data.telefono_Movil;
                             $scope.Cliente.Mail = result.data.mail;
                             $scope.Cliente.Direccion = result.data.direccion;
-                            $scope.Cliente.Id_Barrio = result.data.id_Barrio;                            
+                            $scope.Cliente.Id_Barrio = result.data.id_Barrio;
                             $scope.Cliente.Fecha_Nacimiento = $filter('date')(new Date(result.data.fecha_Nacimiento), 'MM/dd/yyyy');
                             $scope.Cliente.Id_Tipo = result.data.id_Tipo;
                             $scope.TipoClienteSeleccionado = result.data.id_Tipo;
@@ -149,7 +149,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
                                 $scope.DepartamentoSeleccionado = result.data.id_Departamento;
                                 $scope.MunicipioSeleccionado = result.data.id_Municipio;
                                 $scope.BarrioSeleccionado = result.data.id_Barrio;
-                            }, 200);                          
+                            }, 200);
 
                             $('#txtNombre').focus();
                             $scope.AccionCliente = 'Actualizar Cliente';
@@ -224,7 +224,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
                         $scope.Municipios = [];
-                        $scope.Municipios = result.data;                        
+                        $scope.Municipios = result.data;
                     }
                 }, function (err) {
                     toastr.remove();
@@ -273,7 +273,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
         }
-    }    
+    }
 
     $scope.ImportarArchivo = function () {
         $('#labelArchivo').trigger('click');
@@ -578,7 +578,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
                 toastr.info('La dirección de correo electrónico no es válida.', '', $scope.toastrOptions);
                 $('#txtMail').focus();
                 return false;
-            }            
+            }
 
             if ($scope.Cliente.Id_Tipo === -1) {
                 toastr.info('Tipo de cliente es requerido', '', $scope.toastrOptions);
@@ -642,8 +642,8 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
             $scope.fEditarCliente = false;
 
             $scope.MunicipiosCopy = [];
-            $scope.MunicipiosCopy.push({ id_Municipio: -1, nombre: '[Seleccione]' });            
-                
+            $scope.MunicipiosCopy.push({ id_Municipio: -1, nombre: '[Seleccione]' });
+
             $scope.CedulaReadOnly = false;
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -651,14 +651,14 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
         }
     }
 
-    $scope.ClientesGridOptionsColumns = [        
+    $scope.ClientesGridOptionsColumns = [
         {
             headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
         },
         {
             headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='EditarCliente (data)' data-toggle='tooltip' title='Editar Cliente' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>create</i>";
+                return "<i data-ng-click='EditarCliente (data)' data-toggle='tooltip' title='Editar Cliente' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>create</i>";
             },
         },
         {
@@ -705,8 +705,12 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
         fullWidthCellRenderer: true,
         animateRows: true,
         suppressRowClickSelection: true,
-        rowSelection: 'multiple',        
+        rowSelection: 'multiple',
         getRowStyle: ChangeRowColor
+    }
+
+    $scope.onFilterTextBoxChanged = function () {
+        $scope.ClientesGridOptions.api.setQuickFilter($('#txtBuscarCliente').val());
     }
 
     $scope.ModalNuevoCliente = function () {
@@ -724,7 +728,6 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
                 multiple: true
             })
                 .then(function () {
-                    
                 }, function () {
                     $scope.LimpiarDatos();
                 });
@@ -746,7 +749,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
         }
     }
 
-    $scope.EditarCliente = function(data) {
+    $scope.EditarCliente = function (data) {
         try {
             if (data !== undefined && data !== null) {
                 $scope.LimpiarDatos();
@@ -761,7 +764,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
                 $scope.Cliente.Telefono_Fijo = data.telefono_Fijo;
                 $scope.Cliente.Telefono_Movil = data.telefono_Movil;
                 $scope.Cliente.Mail = data.mail;
-                $scope.Cliente.Direccion = data.direccion;                
+                $scope.Cliente.Direccion = data.direccion;
                 $scope.Cliente.Id_Municipio = data.id_Municipio;
                 $scope.Cliente.Id_Barrio = data.id_Barrio;
                 $scope.Cliente.Fecha_Nacimiento = $filter('date')(new Date(data.fecha_Nacimiento), 'MM/dd/yyyy');
@@ -773,9 +776,9 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
                 $timeout(function () {
                     $scope.MunicipioSeleccionado = data.id_Municipio;
                     $scope.BarrioSeleccionado = data.id_Barrio;
-                },200);                
-                
-                $scope.EstadoSeleccionado = $scope.Cliente.Estado;                
+                }, 200);
+
+                $scope.EstadoSeleccionado = $scope.Cliente.Estado;
                 $scope.PermitirFiltrar = false;
                 $scope.ModalNuevoCliente();
             }

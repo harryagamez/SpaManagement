@@ -12,7 +12,6 @@ function AdministratorController($scope, $state, $location, $mdDialog, $rootScop
     $timeout(function () {
         $('#txtUsuario').focus();
     }, 200);
-    
 
     $scope.$on('$viewContentLoaded', function () {
         $location.replace();
@@ -24,7 +23,7 @@ function AdministratorController($scope, $state, $location, $mdDialog, $rootScop
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
-                            if (result.data.access_token !== undefined && result.data.access_token !== null) {                                
+                            if (result.data.access_token !== undefined && result.data.access_token !== null) {
                                 if (result.data.IntegrationCode == null
                                     || result.data.IntegrationCode === "undefined"
                                     || result.data.Validated === "False") {

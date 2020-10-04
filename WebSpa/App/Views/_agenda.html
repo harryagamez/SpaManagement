@@ -9,7 +9,7 @@
         <form id="frmAgenda">
 
             <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
-                
+
                 <md-tab label="Detallada" data-ng-click="fActiveTab = 'Detallada'; LimpiarAgenda()">
                     <md-content class="md-padding" style="background-color:transparent; margin-bottom:10px;">
                         <div layout="row" layout-xs="column" style="margin-bottom:-5px;" layout-align="start start">
@@ -61,15 +61,15 @@
                                                     <span data-ng-show="agenda.estado === 'PROGRAMADA'" style="padding:0; padding-top: 1px; margin:0; float:right; display:inline-flex;" class="cards-icons">
                                                         <i class="material-icons" style="font-size:15px; font-weight:600; color: lightslategrey;" data-ng-click="showConfirmConfirmarAgenda($event, ev, agenda)" data-toggle="tooltip" title="Confirmar cita">check</i>
                                                         <i class="material-icons" style="font-size:15px; color: lightslategrey;" data-ng-click="EditarAgenda($event, agenda)" data-toggle="tooltip" title="Editar cita">edit</i>
-                                                        <i class="material-icons" style="font-size:15px; margin-left:2px; color:lightslategrey;" data-ng-click="showConfirmCancelarAgenda($event, ev, agenda)" data-toggle="tooltip" title="Cancelar cita">cancel</i>                                                        
+                                                        <i class="material-icons" style="font-size:15px; margin-left:2px; color:lightslategrey;" data-ng-click="showConfirmCancelarAgenda($event, ev, agenda)" data-toggle="tooltip" title="Cancelar cita">cancel</i>
                                                     </span>
                                                     <span data-ng-show="agenda.estado !== 'PROGRAMADA'">
                                                         <i class="material-icons" style="font-size:15px; font-weight:600; float: right; color: lightslategrey;" data-ng-click="MostrarDatosCita($event,agenda);" data-toggle="tooltip" title="Ver cita">remove_red_eye</i>
                                                     </span>
                                                     <br />
                                                     <span><b>Hora</b>: {{agenda.fechaInicio}} - {{agenda.fechaFin}}</span>
-                                                </div>                                                
-                                            </div>                                            
+                                                </div>
+                                            </div>
                                         </td>
                                         <td class="table-schedule-empty" ng-repeat="x in BlankCells"></td>
                                     </tr>
@@ -148,8 +148,6 @@
                         </div>
                     </md-content>
                 </md-tab>
-
-                
             </md-tabs>
         </form>
     </div>

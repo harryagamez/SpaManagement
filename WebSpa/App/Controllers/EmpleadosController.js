@@ -919,19 +919,19 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
         {
             headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='EditarEmpleado (data)' data-toggle='tooltip' title='Editar Empleado' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>create</i>";
+                return "<i data-ng-click='EditarEmpleado (data)' data-toggle='tooltip' title='Editar Empleado' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>create</i>";
             },
         },
         {
             headerName: "", field: "", colId: 'AsignarServicios', suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='AsignarServicios(data)' data-toggle='tooltip' title='Asignar Servicios' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>settings</i>";
+                return "<i data-ng-click='AsignarServicios(data)' data-toggle='tooltip' title='Asignar Servicios' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>settings</i>";
             },
         },
         {
             headerName: "", field: "", colId: 'AsignarInsumos', suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='AsignarInsumos(data)' data-toggle='tooltip' title='Asignar Insumos' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>add_to_photos</i>";
+                return "<i data-ng-click='AsignarInsumos(data)' data-toggle='tooltip' title='Asignar Insumos' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>add_to_photos</i>";
             },
         },
         {
@@ -1053,6 +1053,10 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
         animateRows: true,
         suppressRowClickSelection: true,
         rowSelection: 'multiple'
+    }
+
+    $scope.onFilterTextBoxChanged = function () {
+        $scope.EmpleadosGridOptions.api.setQuickFilter($('#txtBuscarEmpleado').val());
     }
 
     $scope.SeleccionarImagen = function (event) {

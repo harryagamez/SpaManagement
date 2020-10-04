@@ -3,12 +3,12 @@
         .service("serviceRest", serviceRest)
         .factory('AuthtenticantionIntecerptorService', AuthtenticantionIntecerptorService)
         .factory("AuthService", AuthService)
-        .factory("SPAService", SPAService)        
+        .factory("SPAService", SPAService)
 
     serviceRest.$inject = ['$http', '$q', '$rootScope'];
     AuthtenticantionIntecerptorService.$inject = ['$q', '$location', 'localStorageService', '$stateParams'];
     AuthService.$inject = ['$http', '$q', '$rootScope', '$state', 'localStorageService', '$timeout', '$filter', 'serviceRest'];
-    SPAService.$inject = ['$http', '$rootScope', '$q', 'serviceRest', 'localStorageService'];    
+    SPAService.$inject = ['$http', '$rootScope', '$q', 'serviceRest', 'localStorageService'];
 
     function AuthtenticantionIntecerptorService($q, $location, localStorageService, $stateParams) {
         var authInterceptorServiceFactory = {};
@@ -93,7 +93,7 @@
             }).then(
                 function (response) {
                     $rootScope.Id_Empresa = '';
-                    $rootScope.Categoria_Empresa = '';                    
+                    $rootScope.Categoria_Empresa = '';
                     localStorageService.set('authorizationData',
                         {
                             token: response.data.access_token,
@@ -322,8 +322,8 @@
                         empresapropiedades: result.data
                     });
             }, function (error) {
-                    $rootScope.Errores = error.data;
-                    $rootScope.$broadcast('failed.empresapropiedadesload');
+                $rootScope.Errores = error.data;
+                $rootScope.$broadcast('failed.empresapropiedadesload');
             })
         }
 
@@ -333,8 +333,8 @@
                 method: 'GET',
                 url: $rootScope.config.data.API_URL + 'SPA/ConsultarEmpresas'
             }).then(function (result) {
-                localStorageService.set('empresas', result.data);                
-                $rootScope.Empresas = result.data;                
+                localStorageService.set('empresas', result.data);
+                $rootScope.Empresas = result.data;
                 $rootScope.$broadcast('successfull.companiesLoaded');
                 let ids = '00000000-0000-0000-0000-000000000000';
                 _consultarEmpresaPropiedades(ids);
@@ -354,7 +354,7 @@
                 url: $rootScope.config.data.API_URL + 'SPA/ConsultarUsuarioEmpresas?IdUsuario=' + parseInt(authData.userId)
             }).then(function (result) {
                 localStorageService.set('empresas', result.data);
-                $rootScope.Empresas = result.data;                
+                $rootScope.Empresas = result.data;
                 $rootScope.$broadcast('successfull.companiesLoaded');
                 let ids = Enumerable.From($rootScope.Empresas)
                     .Select(function (x) { return x.id_Empresa })
@@ -377,7 +377,6 @@
 
         return authServiceFactory;
     }
-    
 
     function SPAService($http, $rootScope, $q, serviceRest, localStorageService) {
         return {
@@ -454,7 +453,6 @@
 
             return deferred.promise;
         }
-
 
         function RegistrarClientes(clientes) {
             var deferred = $q.defer();
@@ -742,7 +740,7 @@
 
         function ConsultarEmpleadoServicio(IdEmpleado, IdEmpresa) {
             var deferred = $q.defer();
-            serviceRest.Get('SPA', 'ConsultarEmpleadoServicio?IdEmpleado=' + IdEmpleado + '&IdEmpresa=' +IdEmpresa,
+            serviceRest.Get('SPA', 'ConsultarEmpleadoServicio?IdEmpleado=' + IdEmpleado + '&IdEmpresa=' + IdEmpresa,
                 function (data) {
                     deferred.resolve(data);
                 },
@@ -1021,7 +1019,7 @@
         }
 
         function ConsultarCategoriaServicios() {
-            var deferred = $q.defer();            
+            var deferred = $q.defer();
             serviceRest.Get('Admin', 'ConsultarCategoriaServicios',
                 function (data) {
                     deferred.resolve(data);
@@ -1045,7 +1043,7 @@
         }
 
         function ConsultarSedesPrincipales() {
-            var deferred = $q.defer();            
+            var deferred = $q.defer();
             serviceRest.Get('Admin', 'ConsultarSedesPrincipales',
                 function (data) {
                     deferred.resolve(data);
@@ -1121,7 +1119,7 @@
         function ConsultarBarriosAdmin() {
             var deferred = $q.defer();
             serviceRest.Get('Admin', 'ConsultarBarriosAdmin',
-                function (data) {                   
+                function (data) {
                     deferred.resolve(data);
                 },
                 function (err) {
@@ -1197,7 +1195,7 @@
 
     function serviceRest($http, $q, $rootScope) {
         return {
-            Get: function (controller, action, callback, errorCallback) {                
+            Get: function (controller, action, callback, errorCallback) {
                 var _Uri = $rootScope.config.data.API_URL + controller + (action.trim() != '' ? '/' + action : '');
                 return $http(
                     {

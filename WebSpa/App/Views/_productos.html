@@ -7,7 +7,7 @@
 <body>
 
     <div layout="row" layout-wrap="" style="height: calc(100vh - 70px); overflow:auto;">
-        <form id="frmProductos">          
+        <form id="frmProductos">
 
             <div layout="row" layout-sm="column" style="">
                 <div flex="" style="flex:none;">
@@ -49,7 +49,7 @@
                         </div>
                     </section>
                 </div>
-                
+
                 <div flex="">
                     <md-input-container>
                         <label class="label-form-clientes" style="">
@@ -99,7 +99,6 @@
                                         </label>
                                         <textarea ng-model="Producto.Descripcion" id="txtDescripcionProducto" type="text" placeholder="Digite la descripción del producto ..." md-maxlength="200" rows="2" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2 md-autofocus="AccionProducto == 'Editar Producto'"></textarea>
                                     </md-input-container>
-
                                 </div>
                             </div>
 
@@ -111,7 +110,6 @@
                                         </label>
                                         <input ng-model="Producto.Cantidad_Transaccion" id="txtCantidadProducto" numbers-only type="text" placeholder="Digite la cantidad ..." value="" tabindex=3>
                                     </md-input-container>
-
                                 </div>
 
                                 <div flex="">
@@ -131,7 +129,6 @@
                                         <br />
                                         <div style="font-size:22px; color: orangered; font-weight:600; padding-top:5px; text-align:center;">{{Producto.Inventario}}</div>
                                     </md-input-container>
-
                                 </div>
                             </div>
 
@@ -141,7 +138,7 @@
                                         <label class="label-form-servicios" style="">
                                             Tipo Transacción:
                                         </label>
-                                        
+
                                         <md-select ng-model="TipoTransaccionSeleccionada" ng-disabled="true" style="min-width:200px;" id="slTipoTransaccion" tabindex=4>
                                             <md-option ng-bind="item.nombre" ng-value="item.id_TipoTransaccion" ng-repeat="item in TipoTransacciones track by item.id_TipoTransaccion"></md-option>
                                         </md-select>
@@ -157,11 +154,9 @@
                                         <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                                     </md-button>
                                 </div>
-                            </div>                            
-
+                            </div>
                         </md-dialog-content>
                     </form>
-
                 </md-dialog>
             </div>
 
@@ -187,15 +182,11 @@
                                     <div id="divProductoTransaccionesGridOptions" data-ag-grid="ProductoTransaccionesGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                                 </div>
                             </div>
-
                         </md-dialog-content>
                     </form>
-
                 </md-dialog>
             </div>
-
         </div>
-
     </div>
 </body>
 </html>

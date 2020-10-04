@@ -8,7 +8,7 @@
     <div layout="row" style="height: calc(100vh - 70px);">
         <form id="frmGestion" autocomplete="nope">
             <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
-                
+
                 <md-tab label="Configuraciones">
                     <md-content style="background-color:transparent; overflow:hidden;">
 
@@ -38,7 +38,7 @@
                                                 </md-input-container>
                                             </td>
                                             <td data-ng-show="propiedad.tipo == 'CONDICIONAL'">
-                                                <md-input-container style="margin:0; padding:0;">                                                    
+                                                <md-input-container style="margin:0; padding:0;">
                                                     <md-select style="min-width:240px; max-width:240px;" class="form-control fix-display select-propiedad" data-ng-model="propiedad.valor_Propiedad">
                                                         <md-option ng-bind="item.descripcion" ng-value="item.valor_Propiedad" ng-repeat="item in PropiedadesCondicionales track by item.valor_Propiedad"></md-option>
                                                     </md-select>
@@ -46,7 +46,7 @@
                                             </td>
                                             <td data-ng-show="propiedad.tipo == 'RANGO_HORA'">
                                                 <md-input-container style="margin:0; padding:0;">
-                                                    <input type="time" id="txtRangoDesde" class="form-control fix-display" data-ng-change="ValidarHora()" style="width:120px; margin:-3px 0; padding:0;" ng-model="Rango.Desde"/>
+                                                    <input type="time" id="txtRangoDesde" class="form-control fix-display" data-ng-change="ValidarHora()" style="width:120px; margin:-3px 0; padding:0;" ng-model="Rango.Desde" />
                                                 </md-input-container>
                                                 <md-input-container style="margin:0; padding:0;">
                                                     <input type="time" id="txtRangoHasta" class="form-control fix-display" data-ng-change="ValidarHora()" style="width:120px; margin:-3px 0; padding:0;" ng-model="Rango.Hasta" />
@@ -57,7 +57,6 @@
                                 </table>
                             </div>
                         </div>
-
                     </md-content>
                 </md-tab>
 
@@ -78,7 +77,6 @@
                             <md-button type="button" id="btnMenu" class="btn-spa groupX middle" style="margin-right:0;" data-toggle="tooltip" title="Informes" data-ng-click="ModalMenu()">
                                 <i class="material-icons md-18" style="transform: scaleX(-1)">menu</i>Menu
                             </md-button>
-
                         </section>
 
                         <div layout="row" layout-xs="column" style="" layout-align="center center">
@@ -143,7 +141,6 @@
                         </div>
                     </md-content>
                 </md-tab>
-
             </md-tabs>
         </form>
     </div>
@@ -177,7 +174,6 @@
                         </div>
                     </md-dialog-content>
                 </form>
-
             </md-dialog>
         </div>
     </div>

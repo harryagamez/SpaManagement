@@ -522,7 +522,6 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, $ht
                 }
                 return;
             }
-
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -554,4 +553,3 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, $ht
     $scope.ConfiguracionEmpresaActual();
     $scope.ConsultarUsuarios();
 }
-
