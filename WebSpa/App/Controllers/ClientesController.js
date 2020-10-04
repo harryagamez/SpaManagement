@@ -223,8 +223,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
                         $scope.Municipios = [];
-                        $scope.Municipios = result.data;
-                        
+                        $scope.Municipios = result.data;                        
                     }
                 }, function (err) {
                     toastr.remove();

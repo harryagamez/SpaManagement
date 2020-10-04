@@ -20,6 +20,8 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
     $scope.PermitirFiltrar = true;
     $scope.GridAccion = '';
 
+    $scope.fEditarEmpleado = false;
+
     $scope.IdEmpresa = $rootScope.Id_Empresa;
     $scope.IdUsuario = parseInt($rootScope.userData.userId);
 
@@ -39,11 +41,15 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
         Id_TipoPago: $scope.TipoPagoSeleccionado,
         Monto: '',
         Estado: $scope.EstadoSeleccionado,
-        Id_Empresa: $scope.IdEmpresa
+        Id_Empresa: $scope.IdEmpresa,
+        Logo_Base64: null
     }
 
     $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1 });
-    $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });
+
+    $scope.MunicipiosCopy = [];
+    $scope.MunicipiosCopy.push({ id_Municipio: -1, nombre: '[Seleccione]' });
+
     $scope.TipoPagos.push({ id_TipoPago: '00000000-000-000-000000000000', descripcion: '[Seleccione]', criterio: '' });
 
     $scope.Inicializacion = function () {
@@ -94,13 +100,13 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
 
     $scope.AsignarEmpleadoServicio = function () {
         if ($scope.ServiciosAsignados.length > 0) {
-            $scope.ListaServiciosAsignados = [];            
+            $scope.ListaServiciosAsignados = [];
             $scope.ListaServiciosAsignados = $scope.ServiciosAsignados.map(function (e) {
                 let servicio = $scope.Servicios.filter(function (s) {
                     return s.id_Servicio === e;
-                });                
+                });
                 return { Id_Empleado_Servicio: -1, Id_Empresa_Servicio: servicio[0].id_Empresa_Servicio, Id_Servicio: e, Id_Empleado: $scope.IdEmpleado }
-            });            
+            });
             SPAService._asignarEmpleadoServicio(JSON.stringify($scope.ListaServiciosAsignados))
                 .then(
                     function (result) {
@@ -170,9 +176,12 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                         if (result.data === true) {
                             toastr.success('Empleado registrado y/o actualizado correctamente', '', $scope.toastrOptions);
                             $scope.ConsultarEmpleados();
-                            $scope.LimpiarDatos();
-                            $scope.PermitirFiltrar = true;
                             $('#txtCedula').focus();
+
+                            if ($scope.fEditarEmpleado) {
+                                $scope.Cancelar();
+                            }
+                            $scope.LimpiarDatos();
                         }
                     }, function (err) {
                         toastr.remove();
@@ -227,7 +236,8 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
                             $scope.Accion = 'BUSQUEDA_EMPLEADO';
-
+                            $scope.FiltrarMunicipios(result.data.id_Departamento);
+                            $scope.ConsultarBarrios(result.data.id_Municipio);
                             $scope.Empleado.Id_Empleado = result.data.id_Empleado;
                             $scope.Empleado.Cedula = result.data.cedula;
                             $scope.Empleado.Nombres = result.data.nombres;
@@ -243,15 +253,24 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                             $scope.Empleado.Estado_Civil = result.data.estado_Civil;
                             $scope.Empleado.Estado = result.data.estado;
                             $scope.Empleado.Monto = result.data.monto;
+                            $scope.Empleado.Logo_Base64 = result.data.logo_Base64;
+
+                            if (result.data.logo_Base64 === null)
+                                $scope.ImagenEmpleado = '../Images/default-perfil.png';
+                            else
+                                $scope.ImagenEmpleado = result.data.logo_Base64;
 
                             $scope.EstadoCivilSeleccionado = $scope.Empleado.Estado_Civil;
-                            $scope.MunicipioSeleccionado = $scope.Empleado.Id_Municipio;
                             $scope.TipoPagoSeleccionado = $scope.Empleado.Id_TipoPago;
 
-                            $scope.ConsultarBarrios($scope.MunicipioSeleccionado);
+                            $timeout(function () {
+                                $scope.DepartamentoSeleccionado = result.data.id_Departamento;
+                                $scope.MunicipioSeleccionado = result.data.id_Municipio;
+                                $scope.BarrioSeleccionado = result.data.id_Barrio;
+                            }, 200);
 
                             $('#txtNombre').focus();
-                            $scope.CedulaReadOnly = true;
+                            $scope.AccionEmpleado = 'Actualizar Empleado';
                             $scope.PermitirFiltrar = false;
                         }
                         else $scope.PermitirFiltrar = false;
@@ -266,7 +285,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
     $scope.ConsultarEmpleadoServicio = function () {
         SPAService._consultarEmpleadoServicio($scope.IdEmpleado, $scope.IdEmpresa)
             .then(
-                function (result) {                    
+                function (result) {
                     if (result.data !== undefined && result.data !== null) {
                         $scope.EmpleadoServicio = [];
                         $scope.EmpleadoServicio = result.data;
@@ -278,7 +297,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                                 return s.id_Servicio === es.id_Servicio;
                             });
                         });
-                        
+
                         $scope.TempListadoServicios = $filter('orderBy')($scope.TempListadoServicios, 'nombre', false);
                         $timeout(function () {
                             $scope.EmpleadoServicioGridOptions.api.sizeColumnsToFit();
@@ -323,7 +342,10 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                             $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1 });
                             $scope.Barrios = $filter('orderBy')($scope.Barrios, 'nombre', false);
                             $scope.Barrios = $filter('orderBy')($scope.Barrios, 'id_Municipio', false);
-                        } else $scope.MunicipioSeleccionado = -1;
+                        } else {
+                            $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1 });
+                            $scope.MunicipioSeleccionado = -1;
+                        }
 
                         if ($scope.Accion === 'BUSQUEDA_EMPLEADO') {
                             let filtrarBarrio = Enumerable.From($scope.Barrios)
@@ -350,9 +372,24 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                     if (result.data !== undefined && result.data !== null) {
                         $scope.Municipios = [];
                         $scope.Municipios = result.data;
-                        $scope.Municipios.push({ id_Municipio: -1, nombre: '[Seleccione]' });
-                        $scope.Municipios = $filter('orderBy')($scope.Municipios, 'nombre', false);
-                        $scope.Municipios = $filter('orderBy')($scope.Municipios, 'id_Municipio', false);
+                    }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
+    }
+
+    $scope.ConsultarDepartamentos = function () {
+        SPAService._consultarDepartamentos()
+            .then(
+                function (result) {
+                    if (result.data !== undefined && result.data !== null) {
+                        $scope.Departamentos = [];
+                        $scope.Departamentos = result.data;
+                        $scope.Departamentos.push({ id_Departamento: -1, nombre: '[Seleccione]' });
+                        $scope.Departamentos = $filter('orderBy')($scope.Departamentos, 'nombre', false);
+                        $scope.DepartamentoSeleccionado = -1;
                     }
                 }, function (err) {
                     toastr.remove();
@@ -399,7 +436,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
                         $scope.Servicios = [];
-                        $scope.Servicios = result.data;                        
+                        $scope.Servicios = result.data;
                         $scope.Servicios = $filter('orderBy')($scope.Servicios, 'id_Servicio', false);
                     }
                 }, function (err) {
@@ -452,7 +489,9 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
     $scope.LimpiarDatos = function () {
         try {
             $scope.CedulaReadOnly = false;
+            $scope.fEditarEmpleado = false;
             $scope.EstadoSeleccionado = 'ACTIVO';
+            $scope.AccionEmpleado = '';
 
             $scope.Empleado =
             {
@@ -470,14 +509,18 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 Id_TipoPago: $scope.TipoPagoSeleccionado,
                 Monto: '',
                 Estado: $scope.EstadoSeleccionado,
-                Id_Empresa: $scope.IdEmpresa
+                Id_Empresa: $scope.IdEmpresa,
+                Logo_Base64: null
             }
+            $scope.ImagenEmpleado = '../Images/default-perfil.png';
 
+            $scope.MunicipiosCopy = [];
+            $scope.MunicipiosCopy.push({ id_Municipio: -1, nombre: '[Seleccione]' });
+            $scope.DepartamentoSeleccionado = -1;
             $scope.MunicipioSeleccionado = -1;
             $scope.BarrioSeleccionado = -1;
             $scope.TipoPagoSeleccionado = '00000000-000-000-000000000000';
             $scope.EstadoCivilSeleccionado = 'SOLTERA';
-            $('#txtCedula').focus();
             $scope.PermitirFiltrar = true;
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -614,6 +657,12 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 return false;
             }
 
+            if ($scope.ImagenEmpleado !== '../Images/default-perfil.png') {
+                $scope.Empleado.Logo_Base64 = $scope.ImagenEmpleado;
+            } else {
+                $scope.Empleado.Logo_Base64 = null;
+            }
+
             return true;
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -624,6 +673,50 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
     $scope.FiltrarBarrios = function (id_Municipio) {
         try {
             $scope.ConsultarBarrios(id_Municipio);
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.FiltrarMunicipios = function (id_Departamento) {
+        try {
+            let idDepartamento = id_Departamento;
+            $scope.MunicipiosCopy = [];
+            $scope.MunicipiosCopy = angular.copy($scope.Municipios);
+
+            $scope.MunicipiosCopy = $scope.Municipios.filter(function (e) {
+                return e.id_Departamento === idDepartamento;
+            });
+
+            $scope.MunicipiosCopy.push({ id_Municipio: -1, nombre: '[Seleccione]' });
+            $scope.MunicipiosCopy = $filter('orderBy')($scope.MunicipiosCopy, 'nombre', false);
+            $scope.MunicipiosCopy = $filter('orderBy')($scope.MunicipiosCopy, 'id_Municipio', false);
+            $scope.MunicipioSeleccionado = -1;
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.ModalNuevoEmpleado = function () {
+        try {
+            if ($scope.Empleado.Id_Empleado === -1)
+                $scope.AccionEmpleado = 'Registrar Empleado';
+            else
+                $scope.AccionEmpleado = 'Actualizar Empleado';
+
+            $mdDialog.show({
+                contentElement: '#dlgNuevoEmpleado',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                multiple: true
+            })
+                .then(function () {
+                }, function () {
+                    $scope.LimpiarDatos();
+                });
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -747,38 +840,49 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
         }
     }
 
-    function OnRowClicked(event) {
+    $scope.EditarEmpleado = function (data) {
         try {
             if ($scope.GridAccion === 'LLAMAR_MODALES') return;
             $scope.LimpiarDatos();
 
             $scope.Accion = 'BUSQUEDA_EMPLEADO';
+            if (data !== undefined && data !== null) {
+                $scope.fEditarEmpleado = true;
+                $scope.AccionEmpleado = 'Actualizar Empleado';
+                $scope.FiltrarMunicipios(data.id_Departamento);
+                $scope.ConsultarBarrios(data.id_Municipio);
+                $scope.Empleado.Id_Empleado = data.id_Empleado;
+                $scope.Empleado.Cedula = data.cedula;
+                $scope.Empleado.Nombres = data.nombres;
+                $scope.Empleado.Apellidos = data.apellidos;
+                $scope.Empleado.Telefono_Fijo = data.telefono_Fijo;
+                $scope.Empleado.Telefono_Movil = data.telefono_Movil;
+                $scope.Empleado.Monto = data.monto;
+                $scope.Empleado.Numero_Hijos = data.numero_Hijos;
+                $scope.Empleado.Direccion = data.direccion;
+                $scope.Empleado.Id_Barrio = data.id_Barrio;
+                $scope.Empleado.Fecha_Nacimiento = $filter('date')(new Date(data.fecha_Nacimiento), 'MM/dd/yyyy');
+                $scope.Empleado.Id_TipoPago = data.id_TipoPago;
+                $scope.TipoPagoSeleccionado = data.id_TipoPago;
+                $scope.Empleado.Estado = data.estado;
+                $scope.Empleado.Logo_Base64 = data.logo_Base64;
+                if (data.logo_Base64 === null)
+                    $scope.ImagenEmpleado = '../Images/default-perfil.png';
+                else
+                    $scope.ImagenEmpleado = data.logo_Base64;
 
-            if (event.node.data !== undefined && event.node.data !== null) {
-                $scope.Empleado.Id_Empleado = event.node.data.id_Empleado;
-                $scope.Empleado.Cedula = event.node.data.cedula;
-                $scope.Empleado.Nombres = event.node.data.nombres;
-                $scope.Empleado.Apellidos = event.node.data.apellidos;
-                $scope.Empleado.Telefono_Fijo = event.node.data.telefono_Fijo;
-                $scope.Empleado.Telefono_Movil = event.node.data.telefono_Movil;
-                $scope.Empleado.Monto = event.node.data.monto;
-                $scope.Empleado.Numero_Hijos = event.node.data.numero_Hijos;
-                $scope.Empleado.Direccion = event.node.data.direccion;
-                $scope.Empleado.Id_Municipio = event.node.data.id_Municipio;
-                $scope.Empleado.Id_Barrio = event.node.data.id_Barrio;
-                $scope.Empleado.Fecha_Nacimiento = $filter('date')(new Date(event.node.data.fecha_Nacimiento), 'MM/dd/yyyy');
-                $scope.Empleado.Id_TipoPago = event.node.data.id_TipoPago;
-                $scope.TipoPagoSeleccionado = event.node.data.id_TipoPago;
-                $scope.Empleado.Estado = event.node.data.estado;
+                $scope.EstadoCivilSeleccionado = data.estado_Civil;
+                $timeout(function () {
+                    $scope.DepartamentoSeleccionado = data.id_Departamento;
+                    $scope.MunicipioSeleccionado = data.id_Municipio;
+                    $scope.BarrioSeleccionado = data.id_Barrio;
+                }, 200);
 
-                $scope.EstadoCivilSeleccionado = event.node.data.estado_Civil;
-                $scope.MunicipioSeleccionado = $scope.Empleado.Id_Municipio;
-                $scope.BarrioSeleccionado = $scope.Empleado.Id_Barrio;
                 $scope.EstadoSeleccionado = $scope.Empleado.Estado;
-                $scope.ConsultarBarrios($scope.MunicipioSeleccionado);
 
                 $scope.PermitirFiltrar = false;
-                $scope.CedulaReadOnly = true;
+
+                $scope.ModalNuevoEmpleado();
                 $('#txtNombre').focus();
             }
         } catch (e) {
@@ -808,6 +912,12 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
 
         {
             headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
+        },
+        {
+            headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+            cellRenderer: function () {
+                return "<i data-ng-click='EditarEmpleado (data)' data-toggle='tooltip' title='Editar Empleado' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>create</i>";
+            },
         },
         {
             headerName: "", field: "", colId: 'AsignarServicios', suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
@@ -863,7 +973,6 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
         animateRows: true,
         suppressRowClickSelection: true,
         rowSelection: 'multiple',
-        onRowClicked: OnRowClicked,
         getRowStyle: ChangeRowColor,
         suppressRowClickSelection: true
     }
@@ -943,6 +1052,51 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
         rowSelection: 'multiple'
     }
 
+    $scope.SeleccionarImagen = function (event) {
+        try {
+            let mayorDosMB = false;
+            let files = event.target.files[0];
+
+            let fileSize = (files.size / 1024 / 1024)
+            if (fileSize > 2)
+                mayorDosMB = true;
+
+            if (mayorDosMB) {
+                toastr.info('El tamaño de las imágenes debe ser de máximo 2MB', '', $scope.toastrOptions);
+                files = '';
+                return;
+            }
+            $scope.getBase64(files);
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.ProcesarImagen = function () {
+        $("#ImagenEmpleado").trigger('click');
+    }
+
+    $scope.getBase64 = function (file) {
+        try {
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                $scope.$apply(function () {
+                    $scope.ImagenEmpleado = reader.result;
+                });
+                $("#ImagenEmpleado").val('');
+            };
+            reader.onerror = function (error) {
+                console.log('Error: ', error);
+                $("#ImagenEmpleado").val('');
+            };
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
     $scope.Cancelar = function () {
         $mdDialog.cancel();
         $('#txtBuscarServicio').focus();
@@ -953,13 +1107,17 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
             $scope.EmpleadosGridOptions.api.sizeColumnsToFit();
         }, 200);
 
-        $timeout(function () {
-            $scope.EmpleadoInsumosGridOptions.api.sizeColumnsToFit();
-        }, 200);
+        if ($scope.AccionEmpleado === 'Asignar Insumos') {
+            $timeout(function () {
+                $scope.EmpleadoInsumosGridOptions.api.sizeColumnsToFit();
+            }, 200);
+        }
 
-        $timeout(function () {
-            $scope.EmpleadoServicioGridOptions.api.sizeColumnsToFit();
-        }, 200);
+        if ($scope.AccionEmpleado === 'Asignar Servicios') {
+            $timeout(function () {
+                $scope.EmpleadoServicioGridOptions.api.sizeColumnsToFit();
+            }, 200);
+        }
     }
 
     $scope.$on("CompanyChange", function () {
@@ -975,6 +1133,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
     $scope.ConsultarTipoServicios();
     $scope.ConsultarEmpleados();
     $scope.ConsultarMunicipios();
+    $scope.ConsultarDepartamentos();
     $scope.ConsultarTipoPagos();
     $scope.ConsultarProductos();
     $scope.ConsultarTipoTransacciones();

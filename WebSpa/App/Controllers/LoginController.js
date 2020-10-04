@@ -9,7 +9,10 @@ function LoginController($scope, $state, $location, $mdDialog, $rootScope, $time
     $scope.ValidarIntegracion = false;
     $scope.DatosUsuario = { Usuario: '', Clave: '', CodigoIntegracion: '' };
 
-    $('#txtUsuario').focus();
+    $timeout(function () {
+        $('#txtUsuario').focus();
+    }, 200);
+    
 
     $scope.$on('$viewContentLoaded', function () {
         $location.replace();
@@ -50,7 +53,6 @@ function LoginController($scope, $state, $location, $mdDialog, $rootScope, $time
             toastr.info('Debe digitar nombre de usuario y contraseña', '', $scope.toastrOptions);
             return false
         }
-
         return true;
     }
 }
