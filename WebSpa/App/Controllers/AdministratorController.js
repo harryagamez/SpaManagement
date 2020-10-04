@@ -9,7 +9,10 @@ function AdministratorController($scope, $state, $location, $mdDialog, $rootScop
     $scope.ValidarIntegracion = false;
     $scope.DatosUsuario = { Usuario: '', Clave: '', CodigoIntegracion: '' };
 
-    $('#txtUsuario').focus();
+    $timeout(function () {
+        $('#txtUsuario').focus();
+    }, 200);
+    
 
     $scope.$on('$viewContentLoaded', function () {
         $location.replace();

@@ -138,6 +138,7 @@
     <Content Include="Images\cerrar-sesion.png" />
     <Content Include="Images\config.png" />
     <Content Include="Images\default-perfil.png" />
+    <Content Include="Images\default_logo.png" />
     <Content Include="Images\empresa.png" />
     <Content Include="Images\header_mail.jpeg" />
     <Content Include="Images\home.png" />

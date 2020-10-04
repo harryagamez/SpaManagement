@@ -8,7 +8,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, $ht
     $scope.NombreReadOnly = false;
     $scope.Confirmacion = '';
     $scope.EditarUsuario = false;
-    $scope.ImagenUsuario = '../Images/default-perfil.png';
+    $scope.ImagenUsuario = '../Images/default_logo.png';
     $scope.PasswordHasChanged = false;
     $scope.PasswordBackup = '';
     $scope.EmpresaPropiedades = [];
@@ -266,7 +266,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, $ht
         try {
             let mail_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
             $scope.Usuario.Id_Empresa = $scope.IdEmpresa;
-            if ($scope.ImagenUsuario !== '../Images/default-perfil.png')
+            if ($scope.ImagenUsuario !== '../Images/default_logo.png')
                 $scope.Usuario.Logo_Base64 = $scope.ImagenUsuario;
             else
                 $scope.Usuario.Logo_Base64 = null;
@@ -352,7 +352,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, $ht
     $scope.LimpiarDatos = function () {
         try {
             $scope.EditarUsuario = false;
-            $scope.ImagenUsuario = '../Images/default-perfil.png';
+            $scope.ImagenUsuario = '../Images/default_logo.png';
             $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
             $scope.Menu = $rootScope.Menu;
             $scope.PasswordHasChanged = false;
@@ -401,7 +401,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, $ht
                 if (event.node.data.logo_Base64 !== null)
                     $scope.ImagenUsuario = event.node.data.logo_Base64;
                 else
-                    $scope.ImagenUsuario = '../Images/default-perfil.png';
+                    $scope.ImagenUsuario = '../Images/default_logo.png';
 
                 $scope.Usuario.Logo_Base64 = $scope.ImagenUsuario;
                 $scope.Menu = event.node.data.menu_Usuario;

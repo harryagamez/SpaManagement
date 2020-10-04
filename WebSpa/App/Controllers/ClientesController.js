@@ -153,6 +153,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
 
                             $('#txtNombre').focus();
                             $scope.AccionCliente = 'Actualizar Cliente';
+                            $scope.fEditarCliente = true;
                             $scope.PermitirFiltrar = false;
                         }
                         else
