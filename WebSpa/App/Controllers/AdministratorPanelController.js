@@ -97,7 +97,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
     $scope.SedePrincipalSeleccionada = -1;
     $scope.EstadoSeleccionado = 'ACTIVA';
     $scope.LogoEmpresa = '../Images/template/tulogo.png';
-    $scope.ImagenUsuario = '../Images/default_logo.png';
+    $scope.ImagenUsuario = '../Images/template/default_logo.png';
 
     $scope.TipoPerfilSeleccionado = -1;
     $scope.EmpresaSeleccionada = -1;
@@ -941,7 +941,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                 if (event.node.data.logo_Base64 !== null)
                     $scope.ImagenUsuario = event.node.data.logo_Base64;
                 else
-                    $scope.ImagenUsuario = '../Images/default_logo.png';
+                    $scope.ImagenUsuario = '../Images/template/default_logo.png';
 
                 $scope.Usuario.Logo_Base64 = $scope.ImagenUsuario;
                 $scope.Menu = event.node.data.menu_Usuario;
@@ -1155,7 +1155,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         try {
             let mail_expression = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
             $scope.Usuario.Id_Empresa = $scope.IdEmpresa;
-            if ($scope.ImagenUsuario !== '../Images/default_logo.png')
+            if ($scope.ImagenUsuario !== '../Images/template/default_logo.png')
                 $scope.Usuario.Logo_Base64 = $scope.ImagenUsuario;
             else
                 $scope.Usuario.Logo_Base64 = null;
@@ -1516,7 +1516,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             $scope.DepartamentoSeleccionado2 = -1;
 
             $scope.LogoEmpresa = '../Images/template/tulogo.png';
-            $scope.ImagenUsuario = '../Images/default_logo.png';
+            $scope.ImagenUsuario = '../Images/template/default_logo.png';
 
             $scope.PasswordHasChanged = false;
             $scope.PasswordBackup = '';

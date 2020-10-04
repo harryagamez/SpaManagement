@@ -45,7 +45,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
         Logo_Base64: null
     }
 
-    $scope.ImagenEmpleado = '../Images/default_logo.png';
+    $scope.ImagenEmpleado = '../Images/template/default_logo.png';
 
     $scope.Barrios.push({ id_Barrio: -1, nombre: '[Seleccione]', id_Municipio: -1, codigo: "-1", id_Object: -1 });
 
@@ -258,7 +258,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                             $scope.Empleado.Logo_Base64 = result.data.logo_Base64;
 
                             if (result.data.logo_Base64 === null)
-                                $scope.ImagenEmpleado = '../Images/default_logo.png';
+                                $scope.ImagenEmpleado = '../Images/template/default_logo.png';
                             else
                                 $scope.ImagenEmpleado = result.data.logo_Base64;
 
@@ -515,7 +515,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 Id_Empresa: $scope.IdEmpresa,
                 Logo_Base64: null
             }
-            $scope.ImagenEmpleado = '../Images/default_logo.png';
+            $scope.ImagenEmpleado = '../Images/template/default_logo.png';
 
             $scope.MunicipiosCopy = [];
             $scope.MunicipiosCopy.push({ id_Municipio: -1, nombre: '[Seleccione]' });
@@ -660,7 +660,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 return false;
             }
 
-            if ($scope.ImagenEmpleado !== '../Images/default_logo.png') {
+            if ($scope.ImagenEmpleado !== '../Images/template/default_logo.png') {
                 $scope.Empleado.Logo_Base64 = $scope.ImagenEmpleado;
             } else {
                 $scope.Empleado.Logo_Base64 = null;
@@ -870,7 +870,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 $scope.Empleado.Estado = data.estado;
                 $scope.Empleado.Logo_Base64 = data.logo_Base64;
                 if (data.logo_Base64 === null)
-                    $scope.ImagenEmpleado = '../Images/default_logo.png';
+                    $scope.ImagenEmpleado = '../Images/template/default_logo.png';
                 else
                     $scope.ImagenEmpleado = data.logo_Base64;
 
