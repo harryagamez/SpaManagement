@@ -20,8 +20,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
     $scope.Accion = '';
     $scope.ListadoClientes = false;
     $scope.DetalladoServicios = false;
-    $scope.GeneralServicios = false;
-    $scope.PermitirFiltrar = true;
+    $scope.GeneralServicios = false;    
     $scope.ArchivoSeleccionado = null;
     $scope.ExcelClientes = [];
     $scope.Validaciones = [];
@@ -154,10 +153,8 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
                             $('#txtNombre').focus();
                             $scope.AccionCliente = 'Actualizar Cliente';
                             $scope.fEditarCliente = true;
-                            $scope.PermitirFiltrar = false;
-                        }
-                        else
-                            $scope.PermitirFiltrar = false;
+                            
+                        }                        
                     }, function (err) {
                         toastr.remove();
                         if (err.data !== null && err.status === 500)
@@ -632,8 +629,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
             $scope.DepartamentoSeleccionado = -1;
             $scope.TipoClienteSeleccionado = -1;
 
-            $scope.ListadoClientes = false;
-            $scope.PermitirFiltrar = true;
+            $scope.ListadoClientes = false;            
             $scope.DetalladoServicios = false;
             $scope.GeneralServicios = false;
             $scope.Accion = '';
@@ -658,7 +654,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
         {
             headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='EditarCliente (data)' data-toggle='tooltip' title='Editar Cliente' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>create</i>";
+                return "<i data-ng-click='EditarCliente (data)' data-toggle='tooltip' title='Editar Cliente' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>create</i>";
             },
         },
         {
@@ -741,13 +737,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
         if (params.data.estado === 'INACTIVO') {
             return { 'background-color': '#ecf0e0', 'color': '#999999', 'font-weight': '300' };
         }
-    }
-
-    $scope.onFilterTextBoxChanged = function () {
-        if ($scope.PermitirFiltrar === true) {
-            $scope.ClientesGridOptions.api.setQuickFilter($('#txtNombres').val());
-        }
-    }
+    }    
 
     $scope.EditarCliente = function (data) {
         try {
@@ -778,8 +768,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
                     $scope.BarrioSeleccionado = data.id_Barrio;
                 }, 200);
 
-                $scope.EstadoSeleccionado = $scope.Cliente.Estado;
-                $scope.PermitirFiltrar = false;
+                $scope.EstadoSeleccionado = $scope.Cliente.Estado;                
                 $scope.ModalNuevoCliente();
             }
         } catch (e) {

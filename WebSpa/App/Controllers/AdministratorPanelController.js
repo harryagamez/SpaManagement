@@ -176,7 +176,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         {
             headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='ConsultarEmpresa (data)' data-toggle='tooltip' title='Editar empresa' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>create</i>";
+                return "<i data-ng-click='ConsultarEmpresa (data)' data-toggle='tooltip' title='Editar empresa' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>create</i>";
             },
         },
         {
@@ -260,7 +260,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         {
             headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='ConsultarServicio (data)' data-toggle='tooltip' title='Editar servicio' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>create</i>";
+                return "<i data-ng-click='ConsultarServicio (data)' data-toggle='tooltip' title='Editar servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>create</i>";
             },
         },
         {

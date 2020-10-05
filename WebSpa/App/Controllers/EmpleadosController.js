@@ -17,7 +17,6 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
     $scope.EstadoCivilSeleccionado = 'SOLTERA';
     $scope.TipoPagoSeleccionado = '00000000-000-000-000000000000';
     $scope.InventarioProducto = 0;
-    $scope.PermitirFiltrar = true;
     $scope.GridAccion = '';
 
     $scope.fEditarEmpleado = false;
@@ -201,7 +200,6 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                         $scope.Empleados = [];
                         $scope.Empleados = result.data;
                         $scope.EmpleadosGridOptions.api.setRowData($scope.Empleados);
-                        $scope.PermitirFiltrar = true;
                         $timeout(function () {
                             $scope.EmpleadosGridOptions.api.sizeColumnsToFit();
                         }, 200);
@@ -274,9 +272,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                             $('#txtNombre').focus();
                             $scope.AccionEmpleado = 'Actualizar Empleado';
                             $scope.fEditarEmpleado = true;
-                            $scope.PermitirFiltrar = false;
                         }
-                        else $scope.PermitirFiltrar = false;
                     }, function (err) {
                         toastr.remove();
                         if (err.data !== null && err.status === 500)
@@ -524,7 +520,6 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
             $scope.BarrioSeleccionado = -1;
             $scope.TipoPagoSeleccionado = '00000000-000-000-000000000000';
             $scope.EstadoCivilSeleccionado = 'SOLTERA';
-            $scope.PermitirFiltrar = true;
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -882,22 +877,8 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 }, 200);
 
                 $scope.EstadoSeleccionado = $scope.Empleado.Estado;
-
-                $scope.PermitirFiltrar = false;
-
                 $scope.ModalNuevoEmpleado();
                 $('#txtNombre').focus();
-            }
-        } catch (e) {
-            toastr.error(e.message, '', $scope.toastrOptions);
-            return;
-        }
-    }
-
-    $scope.onFilterTextBoxChanged = function () {
-        try {
-            if ($scope.PermitirFiltrar === true) {
-                $scope.EmpleadosGridOptions.api.setQuickFilter($('#txtNombres').val());
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -917,21 +898,21 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
             headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
         },
         {
-            headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+            headerName: "", field: "", suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='EditarEmpleado (data)' data-toggle='tooltip' title='Editar Empleado' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>create</i>";
+                return "<i data-ng-click='EditarEmpleado (data)' data-toggle='tooltip' title='Editar Empleado' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>create</i>";
             },
         },
         {
             headerName: "", field: "", colId: 'AsignarServicios', suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='AsignarServicios(data)' data-toggle='tooltip' title='Asignar Servicios' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>settings</i>";
+                return "<i data-ng-click='AsignarServicios(data)' data-toggle='tooltip' title='Asignar Servicios' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>settings</i>";
             },
         },
         {
             headerName: "", field: "", colId: 'AsignarInsumos', suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='AsignarInsumos(data)' data-toggle='tooltip' title='Asignar Insumos' class='material-icons' style='font-size:20px;margin-top:-1px;color:#f17325;'>add_to_photos</i>";
+                return "<i data-ng-click='AsignarInsumos(data)' data-toggle='tooltip' title='Asignar Insumos' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>add_to_photos</i>";
             },
         },
         {
@@ -985,7 +966,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
         {
             headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='showConfirmServicio($event, data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>delete_sweep</i>";
+                return "<i data-ng-click='showConfirmServicio($event, data)' data-toggle='tooltip' title='Desasignar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>delete_sweep</i>";
             },
         },
         {
@@ -1020,7 +1001,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
         {
             headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='showConfirmInsumo($event,data)' data-toggle='tooltip' title='Eliminar Insumo' class='material-icons' style='font-size:25px;margin-top:-1px;color:#f17325;'>delete_sweep</i>";
+                return "<i data-ng-click='showConfirmInsumo($event,data)' data-toggle='tooltip' title='Eliminar Insumo' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>delete_sweep</i>";
             },
         },
         {

@@ -10,7 +10,7 @@
 
             <div layout="row" layout-sm="column" style="">
                 <div flex="" style="flex:none;">
-                    <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
+                    <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px; margin-left:2px;">
 
                         <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin-left:-2px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevoCliente()">
                             <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
@@ -96,7 +96,7 @@
                                     <label for="dateType" class="label-form-clientes" style="">
                                         Nombre(s):
                                     </label>
-                                    <input ng-model="Cliente.Nombres" md-autofocus="AccionCliente === 'Actualizar Cliente'" ng-keyup="onFilterTextBoxChanged()" maxlength="60" type="text" class="" placeholder="Digite su nombre ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtNombres" tabindex=2>
+                                    <input ng-model="Cliente.Nombres" md-autofocus="AccionCliente === 'Actualizar Cliente'" maxlength="60" type="text" class="" placeholder="Digite su nombre ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtNombres" tabindex=2>
                                 </md-input-container>
                             </div>
 
