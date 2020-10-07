@@ -793,4 +793,8 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
     $scope.ConsultarDepartamentos();
     $scope.ConsultarTipoClientes();
     $scope.Inicializacion();
+
+    $timeout(function () {
+        $('#txtBuscarCliente').focus();
+    }, 200);
 }

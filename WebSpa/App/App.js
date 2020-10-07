@@ -77,6 +77,11 @@
                 templateUrl: 'Views/_agenda.html',
                 controller: 'AgendaController'
             })
+            .state('home.transacciones', {
+                url: '/transacciones',
+                templateUrl: 'Views/_transacciones.html',
+                controller: 'TransaccionesController'
+            })
             .state('administrator', {
                 url: '/administrator',
                 templateUrl: 'Views/_administrator.html',

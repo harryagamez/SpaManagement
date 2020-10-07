@@ -17,5 +17,6 @@
         public string Telefono_Fijo_Cliente { get; set; }
         public string Telefono_Movil_Cliente { get; set; }
         public bool Traer_Canceladas { get; set; }
+        public float Valor_Servicio { get; set; }
     }
 }

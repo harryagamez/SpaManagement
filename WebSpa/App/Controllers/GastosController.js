@@ -625,6 +625,11 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
         }
     }
 
+    $scope.ResetearGrids = function () {
+        $scope.Gastos = [];
+        $scope.GastosGridOptions.api.setRowData($scope.Gastos);
+    }
+
     function currencyFormatter(params) {
         let valueGrid = params.value;
         return $filter('currency')(valueGrid, '$', 0);
@@ -633,6 +638,7 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
     $scope.$on("CompanyChange", function () {
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.Inicializacion();
+        $scope.ResetearGrids();
     });
 
     $scope.Inicializacion();

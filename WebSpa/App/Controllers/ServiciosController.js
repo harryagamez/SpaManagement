@@ -651,4 +651,8 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
     $scope.ConsultarTipoServicios();
     $scope.ConsultarServiciosMaestro();
     $scope.Inicializacion();
+
+    $timeout(function () {
+        $('#txtBuscarServicio').focus();
+    },200);
 }

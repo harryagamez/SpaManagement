@@ -1126,4 +1126,8 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
     $scope.ConsultarProductos();
     $scope.ConsultarTipoTransacciones();
     $scope.Inicializacion();
+
+    $timeout(function () {
+        $('#txtBuscarEmpleado').focus();
+    }, 200);
 }

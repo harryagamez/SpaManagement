@@ -177,7 +177,7 @@
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Empleados:
                                     </label>
-                                    <md-autocomplete ng-readonly="fDisableEmpleado" md-autofocus="fActiveTab === 'General'" aria-label="empleado modal" md-input-id="acEmpleadosModal" id="acEmpleadosModal" md-select-on-match="true" md-input-name="acEmpleadosModal" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionadoModal" md-search-text-change="OnChange()" md-selected-item-change="FiltrarServicios(EmpleadoSeleccionadoModal)" md-search-text="buscarEmpleadoM" md-items="empleadom in BuscarEmpleado(buscarEmpleadoM)" md-item-text="empleadom.nombres" tabindex="7">
+                                    <md-autocomplete ng-readonly="fDisableEmpleado" aria-label="empleado modal" md-input-id="acEmpleadosModal" id="acEmpleadosModal" md-select-on-match="true" md-input-name="acEmpleadosModal" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionadoModal" md-search-text-change="OnChange()" md-selected-item-change="FiltrarServicios(EmpleadoSeleccionadoModal)" md-search-text="buscarEmpleadoM" md-items="empleadom in BuscarEmpleado(buscarEmpleadoM)" md-item-text="empleadom.nombres" tabindex="7">
                                         <md-item-template>
                                             <span ng-bind="empleadom.id_Empleado" md-highlight-text="buscarEmpleado">{{empleadom.nombres + ' ' + empleadom.apellidos}}</span>
                                         </md-item-template>
@@ -195,7 +195,7 @@
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Clientes:
                                     </label>
-                                    <md-autocomplete ng-readonly="fDisableCliente" md-autofocus="fActiveTab === 'Detallada'" aria-label="clientes modal" md-input-id="acClientesModal" id="acClientesModal" md-input-name="acClientesModal" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionadoModal" md-search-text="buscarClienteM" md-items="clientem in BuscarCliente(buscarClienteM)" md-item-text="clientem.nombres" tabindex="8">
+                                    <md-autocomplete ng-readonly="fDisableCliente" aria-label="clientes modal" md-input-id="acClientesModal" id="acClientesModal" md-input-name="acClientesModal" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionadoModal" md-search-text="buscarClienteM" md-items="clientem in BuscarCliente(buscarClienteM)" md-item-text="clientem.nombres" tabindex="8">
                                         <md-item-template>
                                             <span md-highlight-text="buscarCliente" ng-bind="clientem.id_Cliente">{{clientem.nombres + ' ' + clientem.apellidos}}</span>
                                         </md-item-template>
@@ -271,7 +271,7 @@
 
                             <div flex="">
                                 <md-input-container style="width:100%">
-                                    <md-button type="button" id="btnGuardarCita" ng-disabled="fDisableGuardarAgenda" style="position: fixed; right:7px; bottom:20px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarActualizarAgenda()" tabindex="13">
+                                    <md-button type="button" id="btnGuardarCita" ng-hide="AccionAgenda === 'Información Cita'" ng-disabled="fDisableGuardarAgenda" style="position: fixed; right:7px; bottom:20px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarActualizarAgenda()" tabindex="13">
                                         <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
                                     </md-button>
                                 </md-input-container>
