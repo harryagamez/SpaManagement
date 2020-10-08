@@ -41,7 +41,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     $scope.ProductoSeleccionado = -1;
 
     $scope.Inicializacion = function () {
-        $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
+        $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();        
     }
 
     $scope.RegistrarFacturacionServicios = function () {
@@ -199,7 +199,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         {
             headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='EliminarProductoGrilla($event,data)' data-toggle='tooltip' title='Eliminar Producto' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>delete_sweep</i>";
+                return "<i data-ng-click='EliminarProductoGrilla($event,data)' id='gridTooltip' data-toggle='tooltip' title='Eliminar Producto' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>delete_sweep</i>";
             },
         },
         {
@@ -483,6 +483,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                 $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
 
                 $scope.ProductosTransaccionGridOptions.api.setRowData($scope.ObjetoProductosGrid);
+                
                 $timeout(function () {
                     $scope.ProductosTransaccionGridOptions.api.sizeColumnsToFit();
                 }, 200);
@@ -582,7 +583,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             $scope.ServiciosAgendaGridOptions.api.sizeColumnsToFit();
             $scope.ProductosTransaccionGridOptions.api.sizeColumnsToFit();
         }, 300);
-    }
+    }   
 
     $scope.$on("CompanyChange", function () {
         $scope.IdEmpresa = $rootScope.Id_Empresa;
