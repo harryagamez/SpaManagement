@@ -17,6 +17,8 @@
         .run(Initialize)
         .filter('sumInventory', sumInventory)
         .filter('sumShrink', sumShrink)
+        .filter('mathOperation', mathOperation)
+        .filter('decimalParseAmount', decimalParseAmount)
     Configuration.$inject = ['$stateProvider', '$urlRouterProvider', '$routeProvider', '$httpProvider', '$locationProvider', '$mdDateLocaleProvider', '$mdThemingProvider', 'ADMdtpProvider'];
     Initialize.$inject = ['$rootScope', '$state', '$http', '$window', '$location', 'localStorageService', 'AuthService'];
 
@@ -163,4 +165,49 @@
             return sum;
         };
     }
+
+    function mathOperation() {
+        return function (values, args) {
+            if (!values || values.length <= 0) return 0;
+            if (values.length == 1) return parseFloat(values[0][args.property]);
+
+            return values.reduce(function (a, b) {
+                var valueA, valueB;
+
+                valueA = a[args.property] != null &&
+                    a[args.property] != undefined &&
+                    a[args.property].toString().trim() != "" &&
+                    a[args.property] != null
+                    ? parseFloat(a[args.property])
+                    : parseFloat(a);
+
+                valueB = b[args.property] != null &&
+                    b[args.property] != undefined &&
+                    b[args.property].toString().trim() != "" &&
+                    b[args.property] != null
+                    ? parseFloat(b[args.property])
+                    : parseFloat(b);
+
+
+                valueA = (isNaN(valueA)) ? 0 : valueA
+                valueB = (isNaN(valueB)) ? 0 : valueB
+
+                return eval("valueA " + args.operation + " valueB");
+            });
+        }
+    }
+
+    function decimalParseAmount() {
+        return function (text, len) {
+
+            if (len == undefined || len == null) {
+                len = 3
+            }
+
+            if (text != null) {
+                return parseFloat(text).toFixed(len)
+            }
+        }
+    }
+
 })();

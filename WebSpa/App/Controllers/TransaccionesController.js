@@ -496,11 +496,13 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                 $scope.ProductosTransaccionGridOptions.api.sizeColumnsToFit();
             }, 200);
 
-            for (let i = 0; i < $scope.ObjetoProductosGrid.length; i++) {
-                sumaProductosGrilla += $scope.ObjetoProductosGrid[i].Total;
-            }
+            //for (let i = 0; i < $scope.ObjetoProductosGrid.length; i++) {
+            //    sumaProductosGrilla += $scope.ObjetoProductosGrid[i].Total;
+            //}
 
-            $scope.TotalProductos = sumaProductosGrilla;
+            // Utilizar Filters ejemplo:
+            $scope.TotalProductos = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoProductosGrid, { property: "Total", operation: "+" }), '2', $scope);
+            //$scope.TotalProductos = sumaProductosGrilla;
             
             $scope.SubtotalTransaccion = $scope.TotalServicios + $scope.TotalProductos;
             $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
@@ -514,7 +516,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     }
 
     $scope.EliminarProductoGrilla = function (e, data) {
-        try {            
+        try {        
             let sumaProductosGrilla = 0;
             let idProducto = data.Id_Producto;
             let cantidad = parseInt(data.Cantidad);
@@ -532,11 +534,13 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                     }
                 }
 
-                for (let i = 0; i < $scope.ObjetoProductosGrid.length; i++) {
-                    sumaProductosGrilla += $scope.ObjetoProductosGrid[i].Total;
-                }
+                //for (let i = 0; i < $scope.ObjetoProductosGrid.length; i++) {
+                //    sumaProductosGrilla += $scope.ObjetoProductosGrid[i].Total;
+                //}
 
-                $scope.TotalProductos = sumaProductosGrilla;
+                // Utilizar Filters ejemplo:
+                $scope.TotalProductos = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoProductosGrid, { property: "Total", operation: "+" }), '2', $scope);
+                //$scope.TotalProductos = sumaProductosGrilla;
 
                 $scope.SubtotalTransaccion = $scope.TotalServicios + $scope.TotalProductos;
                 $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
