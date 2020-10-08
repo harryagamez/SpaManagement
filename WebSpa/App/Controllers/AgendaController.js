@@ -333,12 +333,12 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
 
             $scope.EmpleadoSeleccionadoModal = {
                 id_Empleado: agenda.id_Empleado,
-                nombres: agenda.nombres_Empleado
+                nombres: agenda.nombres_Empleado + ' ' + agenda.apellidos_Empleado
             };
 
             $scope.ClienteSeleccionadoModal = {
                 id_Cliente: agenda.id_Cliente,
-                nombres: agenda.nombres_Cliente
+                nombres: agenda.nombres_Cliente + ' ' + agenda.apellidos_Cliente
             };
 
             $scope.ServicioSeleccionadoModal = agenda.id_Servicio;
@@ -850,7 +850,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
 
                 $scope.EmpleadoSeleccionadoModal = {
                     id_Empleado: empleado.id_Empleado,
-                    nombres: empleado.nombres
+                    nombres: empleado.nombres + ' ' + empleado.apellidos
                 };
 
                 if (empleado.criterio === 'PAGO_PORCENTUAL') {

@@ -154,7 +154,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
         },
         {
-            headerName: "Descripción Servicio", field: 'nombre_Servicio', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            headerName: "Servicio", field: 'nombre_Servicio', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
             headerName: "Valor", field: 'valor_Servicio', width: 80, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
@@ -203,7 +203,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             },
         },
         {
-            headerName: "Nombre Producto", field: 'nombre', width: 280, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            headerName: "Producto", field: 'nombre', width: 280, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
             headerName: "Precio", field: 'Precio', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter

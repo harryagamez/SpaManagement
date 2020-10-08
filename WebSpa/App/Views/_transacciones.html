@@ -36,7 +36,7 @@
                                         <label for="dateType" class="label-form-empleados" style="">
                                             Clientes:
                                         </label>
-                                        <md-autocomplete style="margin-top:2px;" aria-label="clientes autocomplete" md-input-id="acClientes" id="acClientes" md-input-name="acClientes" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionado" md-search-text="buscarCliente" md-items="cliente in BuscarCliente(buscarCliente)" md-item-text="cliente.nombres" tabindex="1">
+                                        <md-autocomplete style="margin-top:2px;" aria-label="clientes autocomplete" md-input-id="acClientes" id="acClientes" md-input-name="acClientes" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionado" md-search-text="buscarCliente" md-items="cliente in BuscarCliente(buscarCliente)" md-item-text="cliente.nombres + ' ' + cliente.apellidos" tabindex="1">
                                             <md-item-template>
                                                 <span md-highlight-text="buscarCliente" ng-bind="cliente.id_Cliente">{{cliente.nombres + ' ' + cliente.apellidos}}</span>
                                             </md-item-template>
@@ -122,7 +122,7 @@
                             <div style="width:30%; padding-left:10px;">
                                 <div layout="row" style="position:relative;">
                                     <div style="margin-top:13px; width:100%;">
-                                        <table style="width:100%;">
+                                        <table style="width:30%; position:fixed; right:0; bottom: 30px;">
                                             <tr>
                                                 <td style="padding-bottom: 10px;">
                                                     <div>
