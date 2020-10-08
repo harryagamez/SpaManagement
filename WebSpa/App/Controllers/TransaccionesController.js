@@ -16,6 +16,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     $scope.DescuentoTransaccion = 0;
     $scope.TotalProductos = 0;
     $scope.TotalServicios = 0;
+    
 
     $scope.Agenda = {
         Id_Agenda: -1,
@@ -28,7 +29,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         Estado: 'CONFIRMADA',
         Observaciones: '',
         Traer_Canceladas: false
-    };
+    };    
 
     $scope.ProductoGrid = {
         Id_Producto: -1,
@@ -36,7 +37,18 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         Cantidad: 0,
         Total: 0
     }
+
+    $scope.ObjetoClientePago = {
+        Id_ClientePago: -1,
+        Id_Cliente: -1,
+        Subtotal: 0,
+        Descuento: 0,
+        Total: 0,
+        Id_Empresa: $scope.IdEmpresa
+    }
+
     $scope.ObjetoProductosGrid = [];
+    $scope.ObjetoAgendasSeleccionadas = [];
 
     $scope.ProductoSeleccionado = -1;
 
@@ -46,7 +58,8 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
 
     $scope.RegistrarFacturacionServicios = function () {
         if ($scope.ValidarDatosPagos()) {
-            SPAService._registrarFacturacionServicios($scope.ObjetoFacturacionServicios)
+            debugger;
+            SPAService._registrarFacturacionServicios($scope.ObjetoServicios, $scope.ObjetoTransacciones, $scope.ObjetoClientePago)
                 .then(
                     function (result) {
                         if (result.data === true) {
@@ -278,11 +291,46 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             }, 200);
             return false;
         }
-
-        if ($scope.ObjetoAgendasSeleccionadas === undefined || $scope.ObjetoAgendasSeleccionadas.lenght === 0 || $scope.ObjetoAgendasSeleccionadas === null) {
+        
+        if ($scope.ObjetoAgendasSeleccionadas === undefined || $scope.ObjetoAgendasSeleccionadas.length === 0 || $scope.ObjetoAgendasSeleccionadas === null) {
             toastr.warning('Debe seleccionar al menos un servicio a procesar', '', $scope.toastrOptions);
             return false;
         }
+
+        $scope.ObjetoServicios = [];
+        
+        for (let i = 0; i < $scope.ObjetoAgendasSeleccionadas.length; i++) {
+            $scope.ObjetoServicio = {
+                Id_Agenda: -1,
+                Estado: 'FACTURADA'
+            }
+            $scope.ObjetoServicio.Id_Agenda = $scope.ObjetoAgendasSeleccionadas[i].id_Agenda;
+            
+            $scope.ObjetoServicios.push($scope.ObjetoServicio);
+        }
+
+        $scope.ObjetoTransacciones = [];
+
+        for (let i = 0; i < $scope.ObjetoProductosGrid.length; i++) {
+            $scope.ObjetoTransaccion = {
+                Id_Transaccion: -1,
+                Id_Producto: -1,
+                Cantidad: 0,
+                Id_TipoTransaccion: $scope.TipoTransaccionSeleccionada,
+                Id_EmpleadoCliente: $scope.ClienteSeleccionado.id_Cliente,
+                Id_Empresa: $scope.IdEmpresa
+            }
+
+            $scope.ObjetoTransaccion.Id_Producto = $scope.ObjetoProductosGrid[i].Id_Producto;
+            $scope.ObjetoTransaccion.Cantidad = $scope.ObjetoProductosGrid[i].Cantidad;
+
+            $scope.ObjetoTransacciones.push($scope.ObjetoTransaccion);                       
+        }
+
+        $scope.ObjetoClientePago.Id_Cliente = $scope.ClienteSeleccionado.id_Cliente;
+        $scope.ObjetoClientePago.Subtotal = $scope.SubtotalTransaccion;
+        $scope.ObjetoClientePago.Descuento = parseInt($scope.DescuentoTransaccion);
+        $scope.ObjetoClientePago.Total = $scope.TotalTransaccion;       
 
         return true;
     }
@@ -330,7 +378,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     $scope.LimpiarDatos = function () {
         $scope.ClienteSeleccionado = null;
         $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
-        $scope.fActiveTab = 'Facturar Servicios'; 
+        $scope.fActiveTab = 'Facturar Servicios';
         $scope.InventarioProducto = 0;
         $scope.PrecioProducto = 0;
         $scope.CantidadInsumo = 0;
@@ -360,9 +408,20 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             Cantidad: 0,
             Total: 0
         }        
+
+        $scope.ClientePago = {
+            Id_ClientePago: -1,
+            Id_Cliente: -1,
+            Subtotal: 0,
+            Descuento: 0,
+            Total: 0,
+            Id_Empresa: $scope.IdEmpresa
+        }       
+
         $scope.ProductoSeleccionado = -1;
 
         $scope.ObjetoProductosGrid = [];
+        $scope.ObjetoAgendasSeleccionadas = [];
         $scope.ProductosTransaccionGridOptions.api.setRowData($scope.ObjetoProductosGrid);
         $timeout(function () {
             $scope.ProductosTransaccionGridOptions.api.sizeColumnsToFit();
