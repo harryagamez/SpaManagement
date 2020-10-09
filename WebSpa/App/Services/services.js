@@ -437,7 +437,8 @@
             _guardarTipoServicio: GuardarTipoServicio,
             _guardarMunicipio: GuardarMunicipio,
             _guardarBarrio: GuardarBarrio,
-            _consultarDepartamentos: ConsultarDepartamentos
+            _consultarDepartamentos: ConsultarDepartamentos,
+            _registrarFacturacionServicios: RegistrarFacturacionServicios
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1182,6 +1183,20 @@
         function GuardarTipoServicio(tiposervicio) {
             var deferred = $q.defer();
             serviceRest.Post('Admin', 'GuardarTipoServicio', tiposervicio,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
+            return deferred.promise;
+        }
+
+        function RegistrarFacturacionServicios(aplicacionpagos) {
+            var deferred = $q.defer();
+
+            serviceRest.Post('SPA', 'RegistrarFacturacionServicios', aplicacionpagos,
                 function (data) {
                     deferred.resolve(data);
                 },

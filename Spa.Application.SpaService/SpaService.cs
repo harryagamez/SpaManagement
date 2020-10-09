@@ -417,5 +417,10 @@ namespace Spa.Application.SpaService
         {
             return _spaRepository.RegistrarClientes(clientes);
         }
+
+        public bool RegistrarFacturacionServicios(AplicacionPago aplicacionPago)        {           
+
+            return _spaRepository.RegistrarFacturacionServicios(aplicacionPago);
+        }
     }
 }

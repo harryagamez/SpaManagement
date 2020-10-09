@@ -6,7 +6,7 @@ TransaccionesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog
 function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
 
     $scope.IdEmpresa = $rootScope.Id_Empresa;
-    $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
+    $scope.FechaBusqueda = new Date();
     $scope.fActiveTab = 'Facturar Servicios';
     $scope.InventarioProducto = 0;
     $scope.PrecioProducto = 0;
@@ -38,9 +38,10 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         Total: 0
     }
 
-    $scope.ObjetoClientePago = {
+    $scope.ClientePago = {
         Id_ClientePago: -1,
         Id_Cliente: -1,
+        Fecha: new Date(),
         Subtotal: 0,
         Descuento: 0,
         Total: 0,
@@ -57,9 +58,8 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     }
 
     $scope.RegistrarFacturacionServicios = function () {
-        if ($scope.ValidarDatosPagos()) {
-            debugger;
-            SPAService._registrarFacturacionServicios($scope.ObjetoServicios, $scope.ObjetoTransacciones, $scope.ObjetoClientePago)
+        if ($scope.ValidarDatosPagos()) {            
+            SPAService._registrarFacturacionServicios($scope.AplicacionPagos)
                 .then(
                     function (result) {
                         if (result.data === true) {
@@ -297,41 +297,41 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             return false;
         }
 
-        $scope.ObjetoServicios = [];
+        if ($scope.DescuentoTransaccion > $scope.SubtotalTransaccion) {
+            toastr.warning('El descuento no puede ser mayor al subtotal de la transacción', '', $scope.toastrOptions);
+            $('#txtDescuento').focus();
+            return false;
+        }
+
+        $scope.Servicios = [];
+
+        $scope.Servicios = $scope.ObjetoAgendasSeleccionadas.map(function (e) {
+            return { Id_Agenda: e.id_Agenda, Estado: 'FACTURADA', Id_Empresa: $scope.IdEmpresa}
+        });       
+
+        $scope.Transacciones = [];
         
-        for (let i = 0; i < $scope.ObjetoAgendasSeleccionadas.length; i++) {
-            $scope.ObjetoServicio = {
-                Id_Agenda: -1,
-                Estado: 'FACTURADA'
-            }
-            $scope.ObjetoServicio.Id_Agenda = $scope.ObjetoAgendasSeleccionadas[i].id_Agenda;
-            
-            $scope.ObjetoServicios.push($scope.ObjetoServicio);
-        }
+        $scope.Transacciones = $scope.ObjetoProductosGrid.map(function (e) {
+            return { Id_Transaccion: -1, Fecha: new Date($scope.FechaBusqueda + 'Z'), Id_Producto: e.Id_Producto, Cantidad: e.Cantidad, Id_TipoTransaccion: $scope.TipoTransaccionSeleccionada, Id_EmpleadoCliente: $scope.ClienteSeleccionado.id_Cliente, Id_Empresa: $scope.IdEmpresa }
+        });       
 
-        $scope.ObjetoTransacciones = [];
+        $scope.ClientePago.Id_Cliente = $scope.ClienteSeleccionado.id_Cliente;
+        $scope.ClientePago.Fecha = new Date($scope.FechaBusqueda + 'Z');
+        $scope.ClientePago.SubTotal = $scope.SubtotalTransaccion;
 
-        for (let i = 0; i < $scope.ObjetoProductosGrid.length; i++) {
-            $scope.ObjetoTransaccion = {
-                Id_Transaccion: -1,
-                Id_Producto: -1,
-                Cantidad: 0,
-                Id_TipoTransaccion: $scope.TipoTransaccionSeleccionada,
-                Id_EmpleadoCliente: $scope.ClienteSeleccionado.id_Cliente,
-                Id_Empresa: $scope.IdEmpresa
-            }
+        if ($scope.DescuentoTransaccion === '' || $scope.DescuentoTransaccion === null || $scope.DescuentoTransaccion === undefined)
+            $scope.ClientePago.Descuento = 0;
+        else
+            $scope.ClientePago.Descuento = parseInt($scope.DescuentoTransaccion);
 
-            $scope.ObjetoTransaccion.Id_Producto = $scope.ObjetoProductosGrid[i].Id_Producto;
-            $scope.ObjetoTransaccion.Cantidad = $scope.ObjetoProductosGrid[i].Cantidad;
+        $scope.ClientePago.Total = $scope.TotalTransaccion;       
 
-            $scope.ObjetoTransacciones.push($scope.ObjetoTransaccion);                       
-        }
-
-        $scope.ObjetoClientePago.Id_Cliente = $scope.ClienteSeleccionado.id_Cliente;
-        $scope.ObjetoClientePago.Subtotal = $scope.SubtotalTransaccion;
-        $scope.ObjetoClientePago.Descuento = parseInt($scope.DescuentoTransaccion);
-        $scope.ObjetoClientePago.Total = $scope.TotalTransaccion;       
-
+        $scope.AplicacionPagos = {
+            Agendas: $scope.Servicios,
+            Transacciones: $scope.Transacciones,
+            Cliente_Pago: $scope.ClientePago
+        }       
+        
         return true;
     }
 
@@ -494,17 +494,12 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             $scope.ProductosTransaccionGridOptions.api.setRowData($scope.ObjetoProductosGrid);
             $timeout(function () {
                 $scope.ProductosTransaccionGridOptions.api.sizeColumnsToFit();
-            }, 200);
+            }, 200);            
 
-            //for (let i = 0; i < $scope.ObjetoProductosGrid.length; i++) {
-            //    sumaProductosGrilla += $scope.ObjetoProductosGrid[i].Total;
-            //}
-
-            // Utilizar Filters ejemplo:
-            $scope.TotalProductos = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoProductosGrid, { property: "Total", operation: "+" }), '2', $scope);
-            //$scope.TotalProductos = sumaProductosGrilla;
             
-            $scope.SubtotalTransaccion = $scope.TotalServicios + $scope.TotalProductos;
+            $scope.TotalProductos = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoProductosGrid, { property: "Total", operation: "+" }), '2', $scope);
+                        
+            $scope.SubtotalTransaccion = parseInt($scope.TotalServicios) + parseInt($scope.TotalProductos); 
             $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
 
             $scope.LimpiarProductos();
@@ -533,16 +528,10 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                         $scope.Productos[i].inventario = parseInt($scope.Productos[i].inventario) + parseInt(cantidad);
                     }
                 }
+                
+                $scope.TotalProductos = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoProductosGrid, { property: "Total", operation: "+" }), '2', $scope);                
 
-                //for (let i = 0; i < $scope.ObjetoProductosGrid.length; i++) {
-                //    sumaProductosGrilla += $scope.ObjetoProductosGrid[i].Total;
-                //}
-
-                // Utilizar Filters ejemplo:
-                $scope.TotalProductos = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoProductosGrid, { property: "Total", operation: "+" }), '2', $scope);
-                //$scope.TotalProductos = sumaProductosGrilla;
-
-                $scope.SubtotalTransaccion = $scope.TotalServicios + $scope.TotalProductos;
+                $scope.SubtotalTransaccion = parseInt($scope.TotalServicios) + parseInt($scope.TotalProductos);
                 $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
 
                 $scope.ProductosTransaccionGridOptions.api.setRowData($scope.ObjetoProductosGrid);
@@ -609,6 +598,8 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
 
             tipoCliente = tempCliente[0].tipo_Cliente;
 
+            $scope.TotalServicios = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoAgendasSeleccionadas, { property: "valor_Servicio", operation: "+" }), '2', $scope);
+
             for (let i = 0; i < $scope.ObjetoAgendasSeleccionadas.length; i++) {
                 total += $scope.ObjetoAgendasSeleccionadas[i].valor_Servicio;
             }
@@ -620,7 +611,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
 
         $scope.$apply(function () {
             $scope.TipoClienteTransaccion = tipoCliente;
-            $scope.SubtotalTransaccion = $scope.TotalServicios + $scope.TotalProductos; 
+            $scope.SubtotalTransaccion = parseInt($scope.TotalServicios) + parseInt($scope.TotalProductos); 
             $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
         });        
     }

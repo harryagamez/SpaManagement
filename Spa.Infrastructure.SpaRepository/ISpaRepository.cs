@@ -61,6 +61,7 @@ namespace Spa.Infrastructure.SpaRepository
         List<SistemaPropiedades> ConsultarSistemaPropiedades();
         bool GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades);
         bool RegistrarClientes(List<Cliente> clientes);
+        bool RegistrarFacturacionServicios(AplicacionPago aplicacionPago);
 
     }
 }

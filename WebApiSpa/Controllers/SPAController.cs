@@ -879,5 +879,24 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error procesando el archivo de clientes: " + ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("api/SPA/RegistrarFacturacionServicios")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult RegistrarFacturacionServicios(AplicacionPago aplicacionPago)
+        {
+            try
+            {
+                bool result = _spaService.RegistrarFacturacionServicios(aplicacionPago);                
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando la transacción: " + ex.Message);
+            }
+        }
+
+
     }
 }
