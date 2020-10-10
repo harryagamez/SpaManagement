@@ -39,7 +39,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     }
 
     $scope.ClientePago = {
-        Id_ClientePago: -1,
+        Id_ClientePago: '00000000-0000-0000-0000-000000000000',
         Id_Cliente: -1,
         Fecha: new Date(),
         Subtotal: 0,
@@ -322,7 +322,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         if ($scope.DescuentoTransaccion === '' || $scope.DescuentoTransaccion === null || $scope.DescuentoTransaccion === undefined)
             $scope.ClientePago.Descuento = 0;
         else
-            $scope.ClientePago.Descuento = parseInt($scope.DescuentoTransaccion);
+            $scope.ClientePago.Descuento = parseFloat($scope.DescuentoTransaccion);
 
         $scope.ClientePago.Total = $scope.TotalTransaccion;       
 
@@ -483,7 +483,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             if (tempObjetoProductosGrid.length > 0) {
                 for (let i = 0; i < $scope.ObjetoProductosGrid.length; i++) {
                     if ($scope.ObjetoProductosGrid[i].Id_Producto === idProducto) {
-                        $scope.ObjetoProductosGrid[i].Cantidad = parseInt($scope.ObjetoProductosGrid[i].Cantidad) + parseInt(cantidad);
+                        $scope.ObjetoProductosGrid[i].Cantidad = parseFloat($scope.ObjetoProductosGrid[i].Cantidad) + parseFloat(cantidad);
                         $scope.ObjetoProductosGrid[i].Total += total;
                     }
                 }
@@ -499,7 +499,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             
             $scope.TotalProductos = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoProductosGrid, { property: "Total", operation: "+" }), '2', $scope);
                         
-            $scope.SubtotalTransaccion = parseInt($scope.TotalServicios) + parseInt($scope.TotalProductos); 
+            $scope.SubtotalTransaccion = parseFloat($scope.TotalServicios) + parseFloat($scope.TotalProductos); 
             $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
 
             $scope.LimpiarProductos();
@@ -531,7 +531,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                 
                 $scope.TotalProductos = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoProductosGrid, { property: "Total", operation: "+" }), '2', $scope);                
 
-                $scope.SubtotalTransaccion = parseInt($scope.TotalServicios) + parseInt($scope.TotalProductos);
+                $scope.SubtotalTransaccion = parseFloat($scope.TotalServicios) + parseFloat($scope.TotalProductos);
                 $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
 
                 $scope.ProductosTransaccionGridOptions.api.setRowData($scope.ObjetoProductosGrid);
@@ -581,39 +581,50 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         }
     }
 
+    $scope.SetPerfilCliente = function () {        
+        try {
+            if ($scope.ClienteSeleccionado !== null && $scope.ClienteSeleccionado !== undefined) {
+                let tempCliente = [];
+                let tipoCliente = '';
+                tempCliente = $scope.Clientes.filter(function (e) {
+                    return e.id_Cliente === $scope.ClienteSeleccionado.id_Cliente;
+                });
+
+                tipoCliente = tempCliente[0].tipo_Cliente;
+                $scope.TipoClienteTransaccion = tipoCliente;
+            }
+            else
+                $scope.TipoClienteTransaccion = '';
+            
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }        
+    }
+
     function OnRowSelected(event) {
-        let total = 0;
-        let tempCliente = [];
-        let tipoCliente = '';
-        
-        let checked = event.node.selected;       
-        $scope.ObjetoAgendasSeleccionadas = [];
-        $scope.ObjetoAgendasSeleccionadas = $scope.ServiciosAgendaGridOptions.api.getSelectedRows();
-        
-        if ($scope.ObjetoAgendasSeleccionadas.length > 0) {
+        try {
+            let total = 0;
 
-            tempCliente = $scope.Clientes.filter(function (e) {
-                return e.id_Cliente === $scope.ObjetoAgendasSeleccionadas[0].id_Cliente;
-            });
+            let checked = event.node.selected;
+            $scope.ObjetoAgendasSeleccionadas = [];
+            $scope.ObjetoAgendasSeleccionadas = $scope.ServiciosAgendaGridOptions.api.getSelectedRows();
 
-            tipoCliente = tempCliente[0].tipo_Cliente;
+            if ($scope.ObjetoAgendasSeleccionadas.length > 0) {
+                $scope.TotalServicios = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoAgendasSeleccionadas, { property: "valor_Servicio", operation: "+" }), '2', $scope);
 
-            $scope.TotalServicios = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoAgendasSeleccionadas, { property: "valor_Servicio", operation: "+" }), '2', $scope);
-
-            for (let i = 0; i < $scope.ObjetoAgendasSeleccionadas.length; i++) {
-                total += $scope.ObjetoAgendasSeleccionadas[i].valor_Servicio;
+            } else {
+                $scope.TotalServicios = 0;
             }
 
-            $scope.TotalServicios = total;
-        } else {
-            $scope.TotalServicios = 0;
-        }      
-
-        $scope.$apply(function () {
-            $scope.TipoClienteTransaccion = tipoCliente;
-            $scope.SubtotalTransaccion = parseInt($scope.TotalServicios) + parseInt($scope.TotalProductos); 
-            $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
-        });        
+            $scope.$apply(function () {
+                $scope.SubtotalTransaccion = parseFloat($scope.TotalServicios) + parseFloat($scope.TotalProductos);
+                $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
+            });        
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }        
     }
 
     $scope.ResetearGrids = function () {

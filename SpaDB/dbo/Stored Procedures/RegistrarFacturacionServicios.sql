@@ -1,25 +1,33 @@
-CREATE PROCEDURE RegistrarFacturacionServicios(@JsonAplicacionPago NVARCHAR(MAX))
+CREATE PROCEDURE RegistrarFacturacionServicios(
+	@JsonAplicacionPago NVARCHAR(MAX)
+)
 AS
 BEGIN
 
 SET XACT_ABORT, NOCOUNT ON
 
-DECLARE @Fecha AS DATE
-DECLARE @IdEmpresa AS VARCHAR(36)
-DECLARE @Mensaje AS VARCHAR(200)
-DECLARE @Anio INT
-DECLARE @Mes INT
-DECLARE @Dia AS INT
-DECLARE @Total AS REAL
+	DECLARE @Fecha AS DATE
+	DECLARE @IdEmpresa AS VARCHAR(36)
+	DECLARE @Mensaje AS VARCHAR(200)
+	DECLARE @Anio INT
+	DECLARE @Mes INT
+	DECLARE @Dia AS INT
+	DECLARE @Total AS REAL
+	DECLARE @FechaActual AS DATETIME
 
-CREATE TABLE #TempAgenda (Id_Agenda INT, Estado CHAR(12), Id_Empresa VARCHAR(36))
-CREATE TABLE #TempTransacciones (Fecha DATETIME, Id_Producto INT, Cantidad INT, Id_TipoTransaccion INT, Id_EmpleadoCliente INT, Id_Empresa VARCHAR(36))
-CREATE TABLE #TempClientePagos (Id_Cliente INT, Fecha DATETIME, SubTotal REAL, Descuento REAL, Total REAL, Id_Empresa VARCHAR(36))
-CREATE TABLE #TempCajaMenor (Id_Registro INT, Anio INT, Mes INT, Dia SMALLDATETIME, Quincena INT, Saldo_Inicial REAL, Acumulado REAL, Fecha_Registro DATETIME, Fecha_Modificacion DATETIME, Id_Empresa VARCHAR(36))
+	SET @FechaActual = GETDATE()
 
-INSERT INTO #TempAgenda(Id_Agenda, Estado, Id_Empresa)
+	CREATE TABLE #TempAgenda (Id_Agenda INT, Estado CHAR(12), Id_Empresa VARCHAR(36))
+	CREATE TABLE #TempTransacciones (Fecha DATETIME, Id_Producto INT, Cantidad INT, Id_TipoTransaccion INT, Id_EmpleadoCliente INT, Id_Empresa VARCHAR(36))
+	CREATE TABLE #TempClientePagos (Id_Cliente INT, Fecha DATETIME, SubTotal REAL, Descuento REAL, Total REAL, Id_Empresa VARCHAR(36))
+	CREATE TABLE #TempCajaMenor (Id_Registro INT, Anio INT, Mes INT, Dia SMALLDATETIME, Quincena INT, Saldo_Inicial REAL, Acumulado REAL, Fecha_Registro DATETIME, 
+								Fecha_Modificacion DATETIME, Id_Empresa VARCHAR(36))
+
+	INSERT INTO #TempAgenda(Id_Agenda, Estado, Id_Empresa)
 	SELECT 
-		JsonAgendas.*
+		A.Id_Agenda,
+		A.Estado,
+		A.Id_Empresa
 	FROM 
 		OPENJSON(@JsonAplicacionPago, '$')
 	WITH (
@@ -30,11 +38,16 @@ INSERT INTO #TempAgenda(Id_Agenda, Estado, Id_Empresa)
 		Id_Agenda INT '$.Id_Agenda',
 		Estado CHAR(12) '$.Estado',
 		Id_Empresa VARCHAR(36) '$.Id_Empresa'
-	) JsonAgendas
+	) A
 
-INSERT INTO #TempTransacciones(Fecha, Id_Producto, Cantidad, Id_TipoTransaccion, Id_EmpleadoCliente, Id_Empresa)
+	INSERT INTO #TempTransacciones(Fecha, Id_Producto, Cantidad, Id_TipoTransaccion, Id_EmpleadoCliente, Id_Empresa)
 	SELECT
-		JsonTransacciones.*
+		T.Fecha,
+		T.Id_Producto,
+		T.Cantidad,
+		T.Id_TipoTransaccion,
+		T.Id_EmpleadoCliente,
+		T.Id_Empresa
 	FROM
 		OPENJSON(@JsonAplicacionPago, '$')
 	WITH(
@@ -48,11 +61,16 @@ INSERT INTO #TempTransacciones(Fecha, Id_Producto, Cantidad, Id_TipoTransaccion,
 		Id_TipoTransaccion INT '$.Id_TipoTransaccion',
 		Id_EmpleadoCliente INT '$.Id_EmpleadoCliente',		
 		Id_Empresa VARCHAR(36) '$.Id_Empresa'
-	) JsonTransacciones	
+	) T	
 
-INSERT INTO #TempClientePagos(Id_Cliente, Fecha, SubTotal, Descuento, Total, Id_Empresa)
+	INSERT INTO #TempClientePagos(Id_Cliente, Fecha, SubTotal, Descuento, Total, Id_Empresa)
 	SELECT
-		JsonClientePago.*
+		C.Id_Cliente,
+		C.Fecha,
+		C.SubTotal,
+		C.Descuento,
+		C.Total,
+		C.Id_Empresa
 	FROM
 		OPENJSON(@JsonAplicacionPago, '$')
 	WITH(
@@ -66,12 +84,14 @@ INSERT INTO #TempClientePagos(Id_Cliente, Fecha, SubTotal, Descuento, Total, Id_
 		Descuento REAL '$.Descuento',
 		Total REAL '$.Total',
 		Id_Empresa VARCHAR(36) '$.Id_Empresa'		
-	) JsonClientePago
+	) C
 
 	SET @Fecha = (SELECT TOP 1 Fecha FROM #TempClientePagos)
 	SET @IdEmpresa = (SELECT TOP 1 Id_Empresa FROM #TempClientePagos)
 
-	INSERT INTO #TempCajaMenor SELECT TOP 1 * FROM CAJA_MENOR WHERE ID_EMPRESA = @IdEmpresa ORDER BY ID_REGISTRO DESC
+	INSERT INTO #TempCajaMenor SELECT TOP 1 * FROM CAJA_MENOR 
+	WHERE ID_EMPRESA = @IdEmpresa 
+	ORDER BY ID_REGISTRO DESC
 
 	SELECT TOP 1 @Anio = Anio FROM #TempCajaMenor
 	SELECT TOP 1 @Mes = Mes FROM #TempCajaMenor
@@ -79,24 +99,26 @@ INSERT INTO #TempClientePagos(Id_Cliente, Fecha, SubTotal, Descuento, Total, Id_
 	SELECT TOP 1 @Total = Total FROM #TempClientePagos
 
 	IF (SELECT COUNT(*) FROM #TempCajaMenor) = 0 BEGIN
-		SET @Mensaje = 'Nunca ha configurado la caja menor'
+		SET @Mensaje = 'Para poder realizar una transacción debe configurar la caja menor'
 		RAISERROR (@Mensaje, 16, 1)		
 		RETURN
 	END
 	
 	IF (@Dia IS NULL) BEGIN
-		IF(@Anio <> YEAR(GETDATE()) OR @Mes <> MONTH(GETDATE())) BEGIN
+		IF(@Anio <> YEAR(@FechaActual) OR @Mes <> MONTH(@FechaActual)) BEGIN
 			SET @Mensaje = 'La configuración de caja menor mensual no está actualizada'
 			RAISERROR (@Mensaje, 16, 1)		
 			RETURN
 		END		
 	END
-	ELSE
-	IF(@Dia <> DAY(GETDATE()) OR @Mes <> MONTH(GETDATE()) OR @Anio <> YEAR(GETDATE()) ) BEGIN
+	ELSE BEGIN
+		IF(@Dia <> DAY(@FechaActual) OR @Mes <> MONTH(@FechaActual) OR @Anio <> YEAR(@FechaActual)) BEGIN
 		SET @Mensaje = 'La configuración de caja menor diaria no está actualizada'
 			RAISERROR (@Mensaje, 16, 1)		
 			RETURN
-	END	
+		END	
+	END
+	
 
 	BEGIN TRY
 
@@ -108,7 +130,9 @@ INSERT INTO #TempClientePagos(Id_Cliente, Fecha, SubTotal, Descuento, Total, Id_
 		WHEN MATCHED THEN
 			UPDATE SET TARGET.ESTADO = SOURCE.Estado;
 
-		INSERT INTO TRANSACCIONES (FECHA, ID_PRODUCTO, CANTIDAD, ID_TIPOTRANSACCION, ID_EMPLEADOCLIENTE, FECHA_REGISTRO, FECHA_MODIFICACION, ID_EMPRESA) SELECT Fecha, Id_Producto, Cantidad, Id_TipoTransaccion, Id_EmpleadoCliente, GETDATE(), GETDATE(), Id_Empresa FROM #TempTransacciones
+		INSERT INTO TRANSACCIONES (FECHA, ID_PRODUCTO, CANTIDAD, ID_TIPOTRANSACCION, ID_EMPLEADOCLIENTE, FECHA_REGISTRO, FECHA_MODIFICACION, ID_EMPRESA) 
+		SELECT Fecha, Id_Producto, Cantidad, Id_TipoTransaccion, Id_EmpleadoCliente, @FechaActual, @FechaActual, Id_Empresa 
+		FROM #TempTransacciones
 		
 		MERGE PRODUCTOS AS TARGET
 		USING #TempTransacciones AS SOURCE
@@ -122,14 +146,14 @@ INSERT INTO #TempClientePagos(Id_Cliente, Fecha, SubTotal, Descuento, Total, Id_
 		WHEN MATCHED THEN
 			UPDATE SET SUBTOTAL = (TARGET.SUBTOTAL + SOURCE.SubTotal), DESCUENTO = (TARGET.DESCUENTO + SOURCE.Descuento), TOTAL = (TARGET.TOTAL + SOURCE.Total)
 		WHEN NOT MATCHED THEN
-			INSERT (ID_CLIENTE, FECHA, SUBTOTAL, DESCUENTO, TOTAL, ID_EMPRESA)
-			VALUES (SOURCE.Id_Cliente, SOURCE.Fecha, SOURCE.SubTotal, SOURCE.Descuento, SOURCE.Total, SOURCE.Id_Empresa);
+			INSERT (ID_CLIENTEPAGO, ID_CLIENTE, FECHA, SUBTOTAL, DESCUENTO, TOTAL, ID_EMPRESA)
+			VALUES (NEWID(), SOURCE.Id_Cliente, SOURCE.Fecha, SOURCE.SubTotal, SOURCE.Descuento, SOURCE.Total, SOURCE.Id_Empresa);
 
 		MERGE CAJA_MENOR AS TARGET
 		USING #TempCajaMenor AS SOURCE
 		ON TARGET.ID_EMPRESA = SOURCE.Id_Empresa AND TARGET.ID_REGISTRO = SOURCE.Id_Registro
 		WHEN MATCHED THEN
-			UPDATE SET ACUMULADO = (TARGET.ACUMULADO + @Total), FECHA_MODIFICACION = GETDATE();
+			UPDATE SET ACUMULADO = (TARGET.ACUMULADO + @Total), FECHA_MODIFICACION = @FechaActual;
 		
 
 	COMMIT TRANSACTION Tn_FacturacionServicios

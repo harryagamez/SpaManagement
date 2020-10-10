@@ -36,7 +36,7 @@
                                         <label for="dateType" class="label-form-empleados" style="">
                                             Clientes:
                                         </label>
-                                        <md-autocomplete style="margin-top:2px;" aria-label="clientes autocomplete" md-input-id="acClientes" id="acClientes" md-input-name="acClientes" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionado" md-search-text="buscarCliente" md-items="cliente in BuscarCliente(buscarCliente)" md-item-text="cliente.nombres + ' ' + cliente.apellidos" tabindex="1">
+                                        <md-autocomplete style="margin-top:2px;" aria-label="clientes autocomplete" md-selected-item-change="SetPerfilCliente()" md-input-id="acClientes" id="acClientes" md-input-name="acClientes" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionado" md-search-text="buscarCliente" md-items="cliente in BuscarCliente(buscarCliente)" md-item-text="cliente.nombres + ' ' + cliente.apellidos" tabindex="1">
                                             <md-item-template>
                                                 <span md-highlight-text="buscarCliente" ng-bind="cliente.id_Cliente">{{cliente.nombres + ' ' + cliente.apellidos}}</span>
                                             </md-item-template>
@@ -63,7 +63,7 @@
                             </div>
                         </div>
 
-                        <div style="height:calc(50vh - 74px); width:100%;" layout="row">
+                        <div style="height:calc(50vh - 74px); width:100%; position:relative;" layout="row">
                             <div style="width:70%;">
                                 <div layout="row" style="position:relative; width:100%;">
                                     <div>
@@ -103,7 +103,7 @@
                                                 Inventario:
                                             </label>
                                             <br />
-                                            <div style="font-size:16px; color: orangered; font-weight:600; padding-top:0px; margin-left:5px;">{{InventarioProducto}}</div>
+                                            <div style="font-size:18px; color: orangered; font-weight:600; padding-top:0px; margin-left:2px;">{{InventarioProducto}}</div>
                                         </md-input-container>
                                     </div>
 
@@ -113,11 +113,11 @@
                                                 Precio:
                                             </label>
                                             <br />
-                                            <div style="font-size:16px; color: orangered; font-weight:600; padding-top:0px; margin-left:5px;">{{PrecioProducto | currency}}</div>
+                                            <div style="font-size:18px; color: orangered; font-weight:600; padding-top:0px; margin-left:2px;">{{PrecioProducto | currency}}</div>
                                         </md-input-container>
                                     </div>
                                     
-                                    <div id="divButtons" style="position:absolute;right:0; margin-top:10px; margin-left:10px;">
+                                    <div id="divButtons" style="position:absolute;right:3px; margin-top:10px; margin-left:10px;">
                                         <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Agregar" data-ng-click="AgregarProductoGrilla()">
                                             <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Agregar
                                         </md-button>
@@ -130,65 +130,51 @@
                                 </div>
                             </div>
 
-                            <div style="width:30%; padding-left:10px;">
+                            <div style="width:30%; padding-left:10px; bottom:40px; right:10px; position:absolute;">                                
                                 <div layout="row" style="position:relative;">
-                                    <div style="margin-top:13px; width:98%;">
-                                        <table style="width:30%; position:fixed; right:0; bottom: 30px;">                                            
-                                            <tr>
-                                                <td style="padding-bottom:  5px; width:98%;">
-                                                    <div>
-                                                        <md-input-container style="margin-left: 10px; width: 97%; margin-top: -5px; margin-bottom: 7px;">
-                                                            <label class="label-form-servicios" style="font-size: 11px; padding-bottom:0px;">
-                                                                Subtotal:
-                                                            </label>
-                                                            <br />                                                            
-                                                            <div style="width: 98%; font-size:18px !important; font-weight:600; border-bottom:1px dotted grey; text-align:right; padding-right:10px;">{{SubtotalTransaccion | currency}}</div>
-                                                        </md-input-container>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="padding-bottom:  5px; width:98%;">
-                                                    <div>
-                                                        <md-input-container style="margin-left: 10px; width: 97%; margin-top: 8px; margin-bottom: 0;">
-                                                            <label class="label-form-servicios" style="">
-                                                                Descuento:
-                                                            </label>
-                                                            <input ng-model="DescuentoTransaccion" ng-readonly="SubtotalTransaccion === 0" numbers-only id="txtDescuento" type="text" class="" style="width:99%; text-align:right; font-size:18px !important; font-weight:600; padding-right:10px;" placeholder="">
-                                                        </md-input-container>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="padding-bottom:  5px; width:98%;">
-                                                    <div>
-                                                        <md-input-container style="margin-left: 10px; width: 97%; margin-top: 0px; margin-bottom: 0; ">
-                                                            <label class="label-form-servicios" style="font-size:11px; padding-bottom:5px;">
-                                                                Total:
-                                                            </label>
-                                                            <br />                                                            
-                                                            <div style="width: 98%; font-size:18px !important; font-weight:600; color:forestgreen; border-bottom:1px dotted grey; text-align:right; padding-right:10px;">{{TotalTransaccion | currency}}</div>
-                                                        </md-input-container>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="padding-bottom:  5px; width:98%;">
-                                                    <div>
-                                                        <div id="divButtons" style="position:absolute; right:3.5%; margin-top:-10px; margin-left:10px;">
-                                                            <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Registrar Pagos" data-ng-click="showConfirmDescuento()">
-                                                                <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Registrar Pagos
-                                                            </md-button>
-                                                            <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos();">
-                                                                <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                                                            </md-button>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                    <div style="margin-top:13px; width:100%;">
+                                        <md-input-container style="margin-left: 10px; width: 100%; margin-top: -5px; margin-bottom: 7px;">
+                                            <label class="label-form-servicios" style="font-size: 11px; padding-bottom:0px;">
+                                                Subtotal:
+                                            </label>
+                                            <br />
+                                            <div style="width: 98%; color:orangered; font-size:20px !important; font-weight:600; border-bottom:1px dotted grey; text-align:right; padding-right:10px;">{{SubtotalTransaccion | currency}}</div>
+                                        </md-input-container>
+
                                     </div>
-                                    
+                                </div>
+                                <div layout="row" style="position:relative;">
+                                    <div style="margin-top:13px; width:100%;">
+                                        <md-input-container style="margin-left: 10px; width: 100%; margin-top: 8px; margin-bottom: 0;">
+                                            <label class="label-form-servicios" style="">
+                                                Descuento:
+                                            </label>
+                                            <input ng-model="DescuentoTransaccion" ng-readonly="SubtotalTransaccion === 0" numbers-only id="txtDescuento" type="text" class="" style="width:99%; text-align:right; font-size:18px !important; font-weight:600; padding-right:10px;" placeholder="">
+                                        </md-input-container>
+
+                                    </div>
+                                </div>
+                                <div layout="row" style="position:relative;">
+                                    <div style="margin-top:13px; width:100%;">
+                                        <md-input-container style="margin-left: 10px; width: 100%; margin-top: 0px; margin-bottom: 0; right:-5px; ">
+                                            <label class="label-form-servicios" style="font-size:11px; padding-bottom:5px;">
+                                                Total:
+                                            </label>
+                                            <br />
+                                            <div style="width: 98%; font-size:20px !important; font-weight:600; color:orangered; border-bottom:1px dotted grey; text-align:right; padding-right:10px;">{{TotalTransaccion | currency}}</div>
+                                        </md-input-container>
+
+                                    </div>
+                                </div>
+                                <div layout="row" style="position:relative; margin-top:5px;">
+                                    <div id="divButtons" style="position:absolute; right:0; margin-right:-6px;">
+                                        <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Registrar Pagos" data-ng-click="showConfirmDescuento()">
+                                            <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Registrar Pagos
+                                        </md-button>
+                                        <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos();">
+                                            <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                                        </md-button>
+                                    </div>
                                 </div>
                             </div> 
                         </div>
