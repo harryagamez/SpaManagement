@@ -410,7 +410,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         }        
 
         $scope.ClientePago = {
-            Id_ClientePago: -1,
+            Id_ClientePago: '00000000-0000-0000-0000-000000000000',
             Id_Cliente: -1,
             Subtotal: 0,
             Descuento: 0,
