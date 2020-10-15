@@ -142,6 +142,7 @@ namespace Spa.Application.SpaService
         {
             return _spaRepository.ConsultarTipoServicios();
         }
+
         public List<ServicioMaestro> ConsultarServiciosMaestro(string CategoriaEmpresa)
         {
             return _spaRepository.ConsultarServiciosMaestro(CategoriaEmpresa);
@@ -421,6 +422,11 @@ namespace Spa.Application.SpaService
         public bool RegistrarFacturacionServicios(AplicacionPago aplicacionPago)        {           
 
             return _spaRepository.RegistrarFacturacionServicios(aplicacionPago);
+        }
+
+        public bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties)
+        {
+            return _spaRepository.SincronizarDepartamentos(_departmentProperties);
         }
     }
 }

@@ -62,6 +62,6 @@ namespace Spa.Application.SpaService
         Task EmailConfirmacionAgenda(Agenda agenda);
         bool RegistrarClientes(List<Cliente> clientes);
         bool RegistrarFacturacionServicios(AplicacionPago aplicacionPago);
-
+        bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties);
     }
 }

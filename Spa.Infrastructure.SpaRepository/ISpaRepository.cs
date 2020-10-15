@@ -7,7 +7,6 @@ namespace Spa.Infrastructure.SpaRepository
 {
     public interface ISpaRepository
     {
-
         Usuario ValidarUsuario(string Nombre, string Password, bool ValidarIntegracion, string CodigoIntegracion);
         bool ActualizarCodigoIntegracion(int IdUsuario, string IdEmpresa, string CodigoIntegracion);
         bool RegistrarActualizarCliente(List<Cliente> _Cliente);
@@ -62,6 +61,6 @@ namespace Spa.Infrastructure.SpaRepository
         bool GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades);
         bool RegistrarClientes(List<Cliente> clientes);
         bool RegistrarFacturacionServicios(AplicacionPago aplicacionPago);
-
+        bool SincronizarDepartamentos(List<DepartmentProperties> departmentProperties);
     }
 }
