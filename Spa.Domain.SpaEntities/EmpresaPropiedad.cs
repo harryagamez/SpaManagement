@@ -1,6 +1,6 @@
 ﻿namespace Spa.Domain.SpaEntities
 {
-    public class EmpresaPropiedades
+    public class EmpresaPropiedad
     {
         public string Id_Empresa_Propiedad { get; set; }
         public string Id_Empresa { get; set; }

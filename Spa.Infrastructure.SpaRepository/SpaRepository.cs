@@ -1053,7 +1053,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<EmpresaPropiedades> ConsultarEmpresaPropiedades(string IdEmpresa)
+        public List<EmpresaPropiedad> ConsultarEmpresaPropiedades(string IdEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -1070,7 +1070,7 @@ namespace Spa.Infrastructure.SpaRepository
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
-                    List<EmpresaPropiedades> _empresaPropiedades = _datatable.DataTableToList<EmpresaPropiedades>();
+                    List<EmpresaPropiedad> _empresaPropiedades = _datatable.DataTableToList<EmpresaPropiedad>();
 
                     return _empresaPropiedades;
                 }
@@ -1299,7 +1299,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<SistemaPropiedades> ConsultarSistemaPropiedades()
+        public List<SistemaPropiedad> ConsultarSistemaPropiedades()
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -1315,14 +1315,14 @@ namespace Spa.Infrastructure.SpaRepository
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
-                    List<SistemaPropiedades> _sistemaPropiedades = _datatable.DataTableToList<SistemaPropiedades>();
+                    List<SistemaPropiedad> _sistemaPropiedades = _datatable.DataTableToList<SistemaPropiedad>();
 
                     return _sistemaPropiedades;
                 }
             }
         }
 
-        public bool GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades)
+        public bool GuardarEmpresaPropiedades(List<EmpresaPropiedad> empresaPropiedades)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {

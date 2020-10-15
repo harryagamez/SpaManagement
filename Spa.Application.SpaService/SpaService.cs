@@ -301,7 +301,7 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarUserAvatar(UserId, IdEmpresa);
         }
 
-        public List<EmpresaPropiedades> ConsultarEmpresaPropiedades(string IdEmpresa)
+        public List<EmpresaPropiedad> ConsultarEmpresaPropiedades(string IdEmpresa)
         {
             return _spaRepository.ConsultarEmpresaPropiedades(IdEmpresa);
         }
@@ -346,12 +346,12 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarUsuarioEmpresas(IdUsuario);
         }
 
-        public List<SistemaPropiedades> ConsultarSistemaPropiedades()
+        public List<SistemaPropiedad> ConsultarSistemaPropiedades()
         {
             return _spaRepository.ConsultarSistemaPropiedades();
         }
 
-        public bool GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades)
+        public bool GuardarEmpresaPropiedades(List<EmpresaPropiedad> empresaPropiedades)
         {
             return _spaRepository.GuardarEmpresaPropiedades(empresaPropiedades);
         }

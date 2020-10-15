@@ -47,7 +47,7 @@ namespace Spa.Infrastructure.SpaRepository
         bool ConsultarUsuario(string Nombre);
         bool GuardarUsuario(Usuario _Usuario);
         Usuario ConsultarUserAvatar(int UserId, string IdEmpresa);
-        List<EmpresaPropiedades> ConsultarEmpresaPropiedades(string IdEmpresa);
+        List<EmpresaPropiedad> ConsultarEmpresaPropiedades(string IdEmpresa);
         List<Empleado> ConsultarEmpleadosAutoComplete(string IdEmpresa);
         bool GuardarActualizarAgenda(Agenda _Agenda);
         List<Agenda> ConsultarAgenda(Agenda _Agenda);
@@ -57,8 +57,8 @@ namespace Spa.Infrastructure.SpaRepository
         Usuario ValidarUsuarioAdmin(string Nombre, string Password);
         List<Empresa> ConsultarEmpresas();
         List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario);
-        List<SistemaPropiedades> ConsultarSistemaPropiedades();
-        bool GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades);
+        List<SistemaPropiedad> ConsultarSistemaPropiedades();
+        bool GuardarEmpresaPropiedades(List<EmpresaPropiedad> empresaPropiedades);
         bool RegistrarClientes(List<Cliente> clientes);
         bool RegistrarFacturacionServicios(AplicacionPago aplicacionPago);
         bool SincronizarDepartamentos(List<DepartmentProperties> departmentProperties);
