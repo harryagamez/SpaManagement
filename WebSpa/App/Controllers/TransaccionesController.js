@@ -74,23 +74,23 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();        
     }       
 
-    $scope.ConsultarEmpleadosNomina = function () {        
+    $scope.ConsultarNominaEmpleados = function () {        
         let idEmpresa = $scope.IdEmpresa;
         let fechaNomina = $filter('date')(angular.copy($scope.FechaNomina), 'dd/MM/yyyy');
-        SPAService._consultarEmpleadosNomina(idEmpresa, fechaNomina)
+        SPAService._consultarNominaEmpleados(idEmpresa, fechaNomina)
             .then(
                 function (result) {                    
                     if (result.data !== undefined && result.data !== null) {
                         
-                        $scope.EmpleadosNomina = [];
-                        $scope.ObjetoEmpleadosNomina = [];
-                        $scope.EmpleadosNomina = result.data;
-                        $scope.ObjetoEmpleadosNomina = result.data;
-                        $scope.ObjetoEmpleadosNomina = $filter('orderBy')($scope.ObjetoEmpleadosNomina, 'id_Empleado', false);
+                        $scope.NominaEmpleados = [];
+                        $scope.ObjetoNominaEmpleados = [];
+                        $scope.NominaEmpleados = result.data;
+                        $scope.ObjetoNominaEmpleados = result.data;
+                        $scope.ObjetoNominaEmpleados = $filter('orderBy')($scope.ObjetoNominaEmpleados, 'id_Empleado', false);
 
-                        $scope.EmpleadosNominaGridOptions.api.setRowData($scope.ObjetoEmpleadosNomina);
+                        $scope.NominaEmpleadosGridOptions.api.setRowData($scope.ObjetoNominaEmpleados);
                         $timeout(function () {
-                            $scope.EmpleadosNominaGridOptions.api.sizeColumnsToFit();
+                            $scope.NominaEmpleadosGridOptions.api.sizeColumnsToFit();
                         }, 200);
                     }
                 }, function (err) {
@@ -290,7 +290,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         rowSelection: 'single'
     }
 
-    $scope.EmpleadosNominaGridOptionsColumns = [
+    $scope.NominaEmpleadosGridOptionsColumns = [
 
         {
             headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
@@ -330,11 +330,11 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         },
     ];
 
-    $scope.EmpleadosNominaGridOptions = {
+    $scope.NominaEmpleadosGridOptions = {
         defaultColDef: {
             resizable: true
         },
-        columnDefs: $scope.EmpleadosNominaGridOptionsColumns,
+        columnDefs: $scope.NominaEmpleadosGridOptionsColumns,
         rowData: [],
         enableSorting: true,
         enableFilter: true,
@@ -760,8 +760,8 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         $scope.Agendas = [];
         $scope.ServiciosAgendaGridOptions.api.setRowData($scope.Agendas);
 
-        $scope.ObjetoEmpleadosNomina = [];
-        $scope.EmpleadosNominaGridOptions.api.setRowData($scope.ObjetoEmpleadosNomina);
+        $scope.ObjetoNominaEmpleados = [];
+        $scope.NominaEmpleadosGridOptions.api.setRowData($scope.ObjetoNominaEmpleados);
     }
 
     function currencyFormatter(params) {
@@ -790,6 +790,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         $timeout(function () {
             $scope.ServiciosAgendaGridOptions.api.sizeColumnsToFit();
             $scope.ProductosTransaccionGridOptions.api.sizeColumnsToFit();
+            $scope.NominaEmpleadosGridOptions.api.sizeColumnsToFit();
         }, 300);
     }   
 

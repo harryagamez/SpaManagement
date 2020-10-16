@@ -1385,7 +1385,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<EmpleadoNomina> ConsultarEmpleadosNomina(string idEmpresa, string fechaNomina)
+        public List<EmpleadoNomina> ConsultarNominaEmpleados(string idEmpresa, string fechaNomina)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -1397,18 +1397,18 @@ namespace Spa.Infrastructure.SpaRepository
                 using (SqlCommand _command = _connection.CreateCommand())
                 {
                     _command.CommandType = CommandType.StoredProcedure;
-                    _command.CommandText = "ConsultarEmpleadosNomina";
+                    _command.CommandText = "ConsultarNominaEmpleados";
                     _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _command.Parameters.AddWithValue("@FechaNomina", fechaNomina);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
-                    List<EmpleadoNomina> _empleadosNomina = _datatable.DataTableToList<EmpleadoNomina>();
+                    List<EmpleadoNomina> _nominaEmpleados = _datatable.DataTableToList<EmpleadoNomina>();
 
                     _adapter.Dispose();
                     _command.Dispose();
 
-                    return _empleadosNomina;
+                    return _nominaEmpleados;
                 }
             }
         }

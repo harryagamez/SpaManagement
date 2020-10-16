@@ -424,9 +424,9 @@ namespace Spa.Application.SpaService
             return _spaRepository.RegistrarFacturacionServicios(aplicacionPago);
         }
 
-        public List<EmpleadoNomina> ConsultarEmpleadosNomina(string idEmpresa, string fechaBusqueda)
+        public List<EmpleadoNomina> ConsultarNominaEmpleados(string idEmpresa, string fechaBusqueda)
         {
-            return _spaRepository.ConsultarEmpleadosNomina(idEmpresa, fechaBusqueda);
+            return _spaRepository.ConsultarNominaEmpleados(idEmpresa, fechaBusqueda);
         }
 
         public bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties)

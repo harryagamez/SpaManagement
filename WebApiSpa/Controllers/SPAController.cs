@@ -898,15 +898,15 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpGet]        
-        [Route("api/SPA/ConsultarEmpleadosNomina")]
+        [Route("api/SPA/ConsultarNominaEmpleados")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult ConsultarEmpleadosNomina(string idEmpresa, string fechaNomina)
+        public IHttpActionResult ConsultarNominaEmpleados(string idEmpresa, string fechaNomina)
         {
             try
             {
-                List<EmpleadoNomina> _empleadosNomina = _spaService.ConsultarEmpleadosNomina(idEmpresa, fechaNomina);
+                List<EmpleadoNomina> _nominaEmpleados = _spaService.ConsultarNominaEmpleados(idEmpresa, fechaNomina);
 
-                return Content(HttpStatusCode.OK, _empleadosNomina);
+                return Content(HttpStatusCode.OK, _nominaEmpleados);
             }
             catch (Exception ex)
             {

@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarEmpleadosNomina (
+CREATE PROCEDURE ConsultarNominaEmpleados (
 	@IdEmpresa	VARCHAR(36),
 	@FechaNomina CHAR(12)
 

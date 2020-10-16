@@ -62,7 +62,7 @@ namespace Spa.Application.SpaService
         Task EmailConfirmacionAgenda(Agenda agenda);
         bool RegistrarClientes(List<Cliente> clientes);
         bool RegistrarFacturacionServicios(AplicacionPago aplicacionPago);
-        List<EmpleadoNomina> ConsultarEmpleadosNomina(string idEmpresa, string fechaNomina);
+        List<EmpleadoNomina> ConsultarNominaEmpleados(string idEmpresa, string fechaNomina);
         bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties);
     }
 }
