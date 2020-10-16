@@ -1,6 +1,7 @@
 ﻿using Spa.Domain.SpaEntities;
 using Spa.Domain.SpaEntities.Extensions;
 using Spa.InfraCommon.SpaCommon.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -62,6 +63,6 @@ namespace Spa.Application.SpaService
         Task EmailConfirmacionAgenda(Agenda agenda);
         bool RegistrarClientes(List<Cliente> clientes);
         bool RegistrarFacturacionServicios(AplicacionPago aplicacionPago);
-
+        List<EmpleadoNomina> ConsultarEmpleadosNomina(string idEmpresa, string fechaNomina);
     }
 }

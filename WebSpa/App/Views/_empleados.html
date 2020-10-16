@@ -221,8 +221,8 @@
                                     <label class="label-form-empleados" style="">
                                         Tipo Pago:
                                     </label>
-                                    <md-select ng-model="TipoPagoSeleccionado" style="display: inline-flex; min-width: 190px; max-width: 190px; margin-top: 7px;" id="slTipoPago" ng-change="FocoMonto()" tabindex=14>
-                                        <md-option ng-bind="tipopago.descripcion" ng-value="tipopago.id_TipoPago" ng-repeat="tipopago in TipoPagos track by $index"></md-option>
+                                    <md-select ng-model="TipoPagoSeleccionado" ng-disabled="true" style="display: inline-flex; min-width: 190px; max-width: 190px; margin-top: 7px;" id="slTipoPago" ng-change="FocoMonto()" tabindex=14>
+                                        <md-option ng-bind="tipopago.descripcion" ng-value="tipopago.id_TipoPago" ng-repeat="tipopago in TipoPagos"></md-option>
                                     </md-select>
                                 </md-input-container>
                             </div>

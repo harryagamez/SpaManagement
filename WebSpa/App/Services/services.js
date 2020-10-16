@@ -438,7 +438,8 @@
             _guardarMunicipio: GuardarMunicipio,
             _guardarBarrio: GuardarBarrio,
             _consultarDepartamentos: ConsultarDepartamentos,
-            _registrarFacturacionServicios: RegistrarFacturacionServicios
+            _registrarFacturacionServicios: RegistrarFacturacionServicios,
+            _consultarEmpleadosNomina: ConsultarEmpleadosNomina
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1204,6 +1205,18 @@
                     deferred.reject(err);
                 });
 
+            return deferred.promise;
+        }
+
+        function ConsultarEmpleadosNomina(idEmpresa, fechaNomina) {            
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarEmpleadosNomina?idEmpresa=' + idEmpresa + '&fechaNomina=' + fechaNomina,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
             return deferred.promise;
         }
     }

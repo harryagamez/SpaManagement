@@ -6,7 +6,8 @@ TransaccionesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog
 function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
 
     $scope.IdEmpresa = $rootScope.Id_Empresa;
-    $scope.FechaBusqueda = new Date();
+    $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
+    $scope.FechaBusqueda = new Date();    
     $scope.fActiveTab = 'Facturar Servicios';
     $scope.InventarioProducto = 0;
     $scope.PrecioProducto = 0;
@@ -16,7 +17,23 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     $scope.DescuentoTransaccion = 0;
     $scope.TotalProductos = 0;
     $scope.TotalServicios = 0;
-    
+
+    $scope.fPropertiesSetted = false;
+    $scope.fTDN = false;
+
+    $scope.FechaNomina = new Date();
+    $scope.Anio = $scope.FechaNomina.getFullYear();
+    $scope.Mes = $scope.FechaNomina.getMonth();
+    $scope.Quincena = [
+        {
+            Id_Quincena: 1,
+            Descripcion: 'Primera Quincena'
+        },
+        {
+            Id_Quincena: 2,
+            Descripcion: 'Segunda Quincena'
+        }
+    ];       
 
     $scope.Agenda = {
         Id_Agenda: -1,
@@ -55,6 +72,32 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
 
     $scope.Inicializacion = function () {
         $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();        
+    }       
+
+    $scope.ConsultarEmpleadosNomina = function () {        
+        let idEmpresa = $scope.IdEmpresa;
+        let fechaNomina = $filter('date')(angular.copy($scope.FechaNomina), 'dd/MM/yyyy');
+        SPAService._consultarEmpleadosNomina(idEmpresa, fechaNomina)
+            .then(
+                function (result) {                    
+                    if (result.data !== undefined && result.data !== null) {
+                        
+                        $scope.EmpleadosNomina = [];
+                        $scope.ObjetoEmpleadosNomina = [];
+                        $scope.EmpleadosNomina = result.data;
+                        $scope.ObjetoEmpleadosNomina = result.data;
+                        $scope.ObjetoEmpleadosNomina = $filter('orderBy')($scope.ObjetoEmpleadosNomina, 'id_Empleado', false);
+
+                        $scope.EmpleadosNominaGridOptions.api.setRowData($scope.ObjetoEmpleadosNomina);
+                        $timeout(function () {
+                            $scope.EmpleadosNominaGridOptions.api.sizeColumnsToFit();
+                        }, 200);
+                    }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
     }
 
     $scope.RegistrarFacturacionServicios = function () {
@@ -212,7 +255,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         {
             headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='EliminarProductoGrilla($event,data)' id='gridTooltip' data-toggle='tooltip' title='Eliminar Producto' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>delete_sweep</i>";
+                return "<i data-ng-click='showConfirmEliminarProducto($event,data)' id='gridTooltip' data-toggle='tooltip' title='Retornar Producto' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>delete_sweep</i>";
             },
         },
         {
@@ -245,6 +288,65 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         animateRows: true,
         suppressRowClickSelection: true,
         rowSelection: 'single'
+    }
+
+    $scope.EmpleadosNominaGridOptionsColumns = [
+
+        {
+            headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
+        },        
+        {
+            headerName: "", field: "", colId: 'Consultar Servicios', suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+            cellRenderer: function () {
+                return "<i data-ng-click='ConsultarServicios(data)' data-toggle='tooltip' title='Consultar Servicios' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>settings</i>";
+            },
+        },
+        {
+            headerName: "", field: "", colId: 'Consultar Prestamos', suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+            cellRenderer: function () {
+                return "<i data-ng-click='ConsultarPrestamos(data)' data-toggle='tooltip' title='Consultar Prestamos' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>add_to_photos</i>";
+            },
+        },        
+        {
+            headerName: "Nombres(s)", field: 'nombres', width: 240, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+        },
+        {
+            headerName: "Apellido(s)", field: 'apellidos', width: 240, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+        },
+        {
+            headerName: "Total Servicios", field: 'servicios', width: 200, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+        },
+        {
+            headerName: "Total Prestamos", field: 'prestamos', width: 200, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+        },        
+        {
+            headerName: "Salario/Monto", field: 'salario', width: 200, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: decimalFormatter         
+        },
+        {
+            headerName: "Total Aplicado", field: 'total_Aplicado', width: 200, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+        },
+        {
+            headerName: "Total a Pagar", field: 'total_Pagar', width: 200, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+        },
+    ];
+
+    $scope.EmpleadosNominaGridOptions = {
+        defaultColDef: {
+            resizable: true
+        },
+        columnDefs: $scope.EmpleadosNominaGridOptionsColumns,
+        rowData: [],
+        enableSorting: true,
+        enableFilter: true,
+        enableColResize: true,
+        angularCompileRows: true,
+        onGridReady: function (params) {
+        },
+        fullWidthCellRenderer: true,
+        animateRows: true,
+        suppressRowClickSelection: true,
+        rowSelection: 'multiple',        
+        suppressRowClickSelection: true
     }
 
     $scope.ValidarDatosConsulta = function () {
@@ -362,6 +464,27 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         }
     }
 
+    $scope.showConfirmEliminarProducto = function (ev, data) {
+        try {
+            let confirm = $mdDialog.confirm()
+                .title('Venta de Productos')
+                .textContent('¿Desea retornar el producto?')
+                .ariaLabel('Retornar Producto')
+                .targetEvent(ev, data)
+                .ok('Sí')
+                .cancel('No')
+                .multiple(true);
+            $mdDialog.show(confirm).then(function () {
+                $scope.EliminarProductoGrilla(ev, data);
+            }, function () {                
+            });
+            
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
     $scope.LimpiarProductos = function () {
         $scope.ProductoGrid = {
             Id_Producto: -1,
@@ -444,6 +567,12 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             if ($scope.ProductoSeleccionado === -1) {
                 toastr.info('Debe seleccionar un producto', '', $scope.toastrOptions);
                 $('#slProductos').focus();
+                return;
+            }
+
+            if ($scope.CantidadInsumo === '' || $scope.CantidadInsumo === null || $scope.CantidadInsumo === undefined || parseInt($scope.CantidadInsumo) === 0) {
+                toastr.info('Debe ingresar el número de productos a procesar', '', $scope.toastrOptions);
+                $('#txtCantidadInsumo').focus();
                 return;
             }
 
@@ -630,11 +759,25 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     $scope.ResetearGrids = function () {
         $scope.Agendas = [];
         $scope.ServiciosAgendaGridOptions.api.setRowData($scope.Agendas);
+
+        $scope.ObjetoEmpleadosNomina = [];
+        $scope.EmpleadosNominaGridOptions.api.setRowData($scope.ObjetoEmpleadosNomina);
     }
 
     function currencyFormatter(params) {
         let valueGrid = params.value;
         return $filter('currency')(valueGrid, '$', 0);
+    }
+
+    function decimalFormatter(params) {
+        if (params.value <= 1) {
+            let valueGrid = params.value;
+            return $filter('currency')(valueGrid, '', 2);
+        }
+        else {
+            let valueGrid = params.value;
+            return $filter('currency')(valueGrid, '$', 0);
+        }        
     }
 
     $scope.$watch("DescuentoTransaccion", function (oldValue, newValue) {
@@ -651,24 +794,21 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     }   
 
     $scope.$on("CompanyChange", function () {
-        $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.IdEmpresa = $rootScope.Id_Empresa;        
         $scope.LimpiarDatos();
         $scope.ConsultarClientes();
         $scope.ConsultarProductos();
-        $scope.ConsultarTipoTransacciones();
+        $scope.ConsultarTipoTransacciones();        
         $scope.Inicializacion();
-        $scope.ResetearGrids();
+        $scope.ResetearGrids();        
     });
 
     $timeout(function () {
-        window.onresize();
+        window.onresize();        
         $scope.ConsultarClientes();
         $scope.ConsultarProductos();
         $scope.ConsultarTipoTransacciones();
         $scope.Inicializacion();
-    }, 200);
-
-    $timeout(function () {
         angular.element(document.getElementById('acClientes')).find('input').focus();
-    }, 200);
+    }, 200);    
 }

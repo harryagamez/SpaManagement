@@ -897,6 +897,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpGet]        
+        [Route("api/SPA/ConsultarEmpleadosNomina")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarEmpleadosNomina(string idEmpresa, string fechaNomina)
+        {
+            try
+            {
+                List<EmpleadoNomina> _empleadosNomina = _spaService.ConsultarEmpleadosNomina(idEmpresa, fechaNomina);
+
+                return Content(HttpStatusCode.OK, _empleadosNomina);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los empleados de la empresa para el módulo de transacciones: " + ex.Message);
+            }
+        }
+
 
     }
 }

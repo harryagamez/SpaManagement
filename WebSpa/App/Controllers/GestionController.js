@@ -31,6 +31,14 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, $ht
         { valor_Propiedad: "SI", descripcion: "SI" },
         { valor_Propiedad: "NO", descripcion: "NO" }
     ];
+    $scope.PropiedadesNomina = [
+        { valor_Propiedad: "-1", descripcion: "[Seleccione]" },
+        { valor_Propiedad: "MENSUAL", descripcion: "MENSUAL" },
+        { valor_Propiedad: "QUINCENAL", descripcion: "QUINCENAL" },
+        { valor_Propiedad: "DIARIO", descripcion: "DIARIO" },
+        { valor_Propiedad: "POR SERVICIOS", descripcion: "POR SERVICIOS" }
+
+    ];
     $scope.TipoPerfil = $filter('orderBy')($scope.TipoPerfil, 'Nombre', false);
 
     $scope.Inicializacion = function () {
@@ -208,6 +216,8 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, $ht
                             propiedad.valor_Propiedad = '';
                         else if (propiedad.tipo === 'CONDICIONAL')
                             propiedad.valor_Propiedad = 'SI';
+                        else if (propiedad.tipo === 'TIPO_NOMINA')
+                            propiedad.valor_Propiedad = 'MENSUAL'
                         else if (propiedad.tipo === 'RANGO_HORA') {
                             let fechaactual = new Date();
                             $scope.Rango = {

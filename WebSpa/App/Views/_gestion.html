@@ -31,7 +31,7 @@
                                     <tbody>
                                         <tr data-ng-repeat="propiedad in SistemaPropiedades">
                                             <td>{{propiedad.descripcion}}</td>
-                                            <td style="text-align:center; font-weight:600;">{{propiedad.codigo}}</td>
+                                            <td style="text-align:left; font-weight:600;">{{propiedad.codigo}}</td>
                                             <td data-ng-show="propiedad.tipo == 'ESCALAR'">
                                                 <md-input-container style="margin:0; padding:0;">
                                                     <input type="text" class="form-control fix-display" style="width:240px; margin:-3px 0;padding:0;" numbers-only maxlength="15" data-ng-model="propiedad.valor_Propiedad">
@@ -50,6 +50,13 @@
                                                 </md-input-container>
                                                 <md-input-container style="margin:0; padding:0;">
                                                     <input type="time" id="txtRangoHasta" class="form-control fix-display" data-ng-change="ValidarHora()" style="width:120px; margin:-3px 0; padding:0;" ng-model="Rango.Hasta" />
+                                                </md-input-container>
+                                            </td>
+                                            <td data-ng-show="propiedad.tipo == 'TIPO_NOMINA'">
+                                                <md-input-container style="margin:0; padding:0;">
+                                                    <md-select style="min-width:240px; max-width:240px;" class="form-control fix-display select-propiedad" data-ng-model="propiedad.valor_Propiedad">
+                                                        <md-option ng-bind="item.descripcion" ng-value="item.valor_Propiedad" ng-repeat="item in PropiedadesNomina track by item.valor_Propiedad"></md-option>
+                                                    </md-select>
                                                 </md-input-container>
                                             </td>
                                         </tr>
