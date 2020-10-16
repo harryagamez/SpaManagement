@@ -8,7 +8,6 @@ namespace Spa.Infrastructure.SpaRepository
 {
     public interface ISpaRepository
     {
-
         Usuario ValidarUsuario(string Nombre, string Password, bool ValidarIntegracion, string CodigoIntegracion);
         bool ActualizarCodigoIntegracion(int IdUsuario, string IdEmpresa, string CodigoIntegracion);
         bool RegistrarActualizarCliente(List<Cliente> _Cliente);
@@ -49,7 +48,7 @@ namespace Spa.Infrastructure.SpaRepository
         bool ConsultarUsuario(string Nombre);
         bool GuardarUsuario(Usuario _Usuario);
         Usuario ConsultarUserAvatar(int UserId, string IdEmpresa);
-        List<EmpresaPropiedades> ConsultarEmpresaPropiedades(string IdEmpresa);
+        List<EmpresaPropiedad> ConsultarEmpresaPropiedades(string IdEmpresa);
         List<Empleado> ConsultarEmpleadosAutoComplete(string IdEmpresa);
         bool GuardarActualizarAgenda(Agenda _Agenda);
         List<Agenda> ConsultarAgenda(Agenda _Agenda);
@@ -59,10 +58,11 @@ namespace Spa.Infrastructure.SpaRepository
         Usuario ValidarUsuarioAdmin(string Nombre, string Password);
         List<Empresa> ConsultarEmpresas();
         List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario);
-        List<SistemaPropiedades> ConsultarSistemaPropiedades();
-        bool GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades);
+        List<SistemaPropiedad> ConsultarSistemaPropiedades();
+        bool GuardarEmpresaPropiedades(List<EmpresaPropiedad> empresaPropiedades);
         bool RegistrarClientes(List<Cliente> clientes);
         bool RegistrarFacturacionServicios(AplicacionPago aplicacionPago);
         List<EmpleadoNomina> ConsultarEmpleadosNomina(string idEmpresa, string fechaNomina);
+        bool SincronizarDepartamentos(List<DepartmentProperties> departmentProperties);
     }
 }

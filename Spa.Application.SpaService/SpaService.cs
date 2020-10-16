@@ -142,6 +142,7 @@ namespace Spa.Application.SpaService
         {
             return _spaRepository.ConsultarTipoServicios();
         }
+
         public List<ServicioMaestro> ConsultarServiciosMaestro(string CategoriaEmpresa)
         {
             return _spaRepository.ConsultarServiciosMaestro(CategoriaEmpresa);
@@ -300,7 +301,7 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarUserAvatar(UserId, IdEmpresa);
         }
 
-        public List<EmpresaPropiedades> ConsultarEmpresaPropiedades(string IdEmpresa)
+        public List<EmpresaPropiedad> ConsultarEmpresaPropiedades(string IdEmpresa)
         {
             return _spaRepository.ConsultarEmpresaPropiedades(IdEmpresa);
         }
@@ -345,12 +346,12 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarUsuarioEmpresas(IdUsuario);
         }
 
-        public List<SistemaPropiedades> ConsultarSistemaPropiedades()
+        public List<SistemaPropiedad> ConsultarSistemaPropiedades()
         {
             return _spaRepository.ConsultarSistemaPropiedades();
         }
 
-        public bool GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades)
+        public bool GuardarEmpresaPropiedades(List<EmpresaPropiedad> empresaPropiedades)
         {
             return _spaRepository.GuardarEmpresaPropiedades(empresaPropiedades);
         }
@@ -426,6 +427,11 @@ namespace Spa.Application.SpaService
         public List<EmpleadoNomina> ConsultarEmpleadosNomina(string idEmpresa, string fechaBusqueda)
         {
             return _spaRepository.ConsultarEmpleadosNomina(idEmpresa, fechaBusqueda);
+        }
+
+        public bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties)
+        {
+            return _spaRepository.SincronizarDepartamentos(_departmentProperties);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Spa.Domain.SpaEntities;
 using Spa.Domain.SpaEntities.Extensions;
 using Spa.InfraCommon.SpaCommon.Models;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -48,7 +47,7 @@ namespace Spa.Application.SpaService
         bool ConsultarUsuario(string nombre);
         bool GuardarUsuario(Usuario usuario);
         Usuario ConsultarUserAvatar(int UserId, string IdEmpresa);
-        List<EmpresaPropiedades> ConsultarEmpresaPropiedades(string IdEmpresa);
+        List<EmpresaPropiedad> ConsultarEmpresaPropiedades(string IdEmpresa);
         List<Empleado> ConsultarEmpleadosAutoComplete(string IdEmpresa);
         bool GuardarActualizarAgenda(Agenda agenda);
         List<Agenda> ConsultarAgenda(Agenda agenda);
@@ -58,11 +57,11 @@ namespace Spa.Application.SpaService
         Usuario ValidarUsuarioAdmin(string Nombre, string Password);
         List<Empresa> ConsultarEmpresas();
         List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario);
-        List<SistemaPropiedades> ConsultarSistemaPropiedades();
-        bool GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades);
+        List<SistemaPropiedad> ConsultarSistemaPropiedades();
+        bool GuardarEmpresaPropiedades(List<EmpresaPropiedad> empresaPropiedades);
         Task EmailConfirmacionAgenda(Agenda agenda);
         bool RegistrarClientes(List<Cliente> clientes);
         bool RegistrarFacturacionServicios(AplicacionPago aplicacionPago);
-        List<EmpleadoNomina> ConsultarEmpleadosNomina(string idEmpresa, string fechaNomina);
+        bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties);
     }
 }

@@ -678,7 +678,7 @@ namespace WebApiSpa.Controllers
         {
             try
             {
-                List<EmpresaPropiedades> _empresaPropiedades = _spaService.ConsultarEmpresaPropiedades(IdEmpresa);
+                List<EmpresaPropiedad> _empresaPropiedades = _spaService.ConsultarEmpresaPropiedades(IdEmpresa);
 
                 return Content(HttpStatusCode.OK, _empresaPropiedades);
             }
@@ -836,7 +836,7 @@ namespace WebApiSpa.Controllers
         {
             try
             {
-                List<SistemaPropiedades> _sistemaPropiedades = _spaService.ConsultarSistemaPropiedades();
+                List<SistemaPropiedad> _sistemaPropiedades = _spaService.ConsultarSistemaPropiedades();
 
                 return Content(HttpStatusCode.OK, _sistemaPropiedades);
             }
@@ -849,7 +849,7 @@ namespace WebApiSpa.Controllers
         [HttpPost]
         [Route("api/SPA/GuardarEmpresaPropiedades")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult GuardarEmpresaPropiedades(List<EmpresaPropiedades> empresaPropiedades)
+        public IHttpActionResult GuardarEmpresaPropiedades(List<EmpresaPropiedad> empresaPropiedades)
         {
             try
             {
