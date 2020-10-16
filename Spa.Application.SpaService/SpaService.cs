@@ -429,6 +429,11 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarNominaEmpleados(idEmpresa, fechaBusqueda);
         }
 
+        public List<Agenda> ConsultarNominaEmpleadoServicios(string idEmpresa, int idEmpleado, string fechaBusqueda)
+        {
+            return _spaRepository.ConsultarNominaEmpleadoServicios(idEmpresa, idEmpleado, fechaBusqueda);
+        }
+
         public bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties)
         {
             return _spaRepository.SincronizarDepartamentos(_departmentProperties);

@@ -293,6 +293,7 @@
     <Build Include="dbo\Stored Procedures\RegistrarFacturacionServicios.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarNominaEmpleados.sql" />
     <Build Include="dbo\Stored Procedures\SincronizarDepartamentos.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarNominaEmpleadoServicios.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

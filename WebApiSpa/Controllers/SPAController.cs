@@ -914,6 +914,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/SPA/ConsultarNominaEmpleadoServicios")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarNominaEmpleadoServicios(string idEmpresa, int IdEmpleado, string fechaNomina)
+        {
+            try
+            {
+                List<Agenda> _empleadoServicios = _spaService.ConsultarNominaEmpleadoServicios(idEmpresa, IdEmpleado, fechaNomina);
+
+                return Content(HttpStatusCode.OK, _empleadoServicios);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los servicios realizados por el empleado: " + ex.Message);
+            }
+        }
+
 
     }
 }

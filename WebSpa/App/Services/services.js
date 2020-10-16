@@ -439,7 +439,8 @@
             _guardarBarrio: GuardarBarrio,
             _consultarDepartamentos: ConsultarDepartamentos,
             _registrarFacturacionServicios: RegistrarFacturacionServicios,
-            _consultarNominaEmpleados: ConsultarNominaEmpleados
+            _consultarNominaEmpleados: ConsultarNominaEmpleados,
+            _consultarNominaEmpleadoServicios: ConsultarNominaEmpleadoServicios
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1211,6 +1212,18 @@
         function ConsultarNominaEmpleados(idEmpresa, fechaNomina) {            
             var deferred = $q.defer();
             serviceRest.Get('SPA', 'ConsultarNominaEmpleados?idEmpresa=' + idEmpresa + '&fechaNomina=' + fechaNomina,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarNominaEmpleadoServicios(idEmpresa, idEmpleado, fechaNomina) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarNominaEmpleadoServicios?idEmpresa=' + idEmpresa + '&idEmpleado=' + idEmpleado + '&fechaNomina=' + fechaNomina,
                 function (data) {
                     deferred.resolve(data);
                 },

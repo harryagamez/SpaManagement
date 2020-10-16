@@ -46,7 +46,7 @@
                                         </md-autocomplete>
                                     </md-input-container>
                                 </div>
-                                
+
                                 <div style="flex:none; margin-left:10px;">
                                     <div>
                                         <md-input-container style="margin:18px 0 0 0;padding:0;" ">
@@ -97,7 +97,7 @@
                                         </md-input-container>
                                     </div>
 
-                                    <div  style="min-width:80px; max-width:80px;">
+                                    <div style="min-width:80px; max-width:80px;">
                                         <md-input-container style="margin-left:10px; margin-top:-2px; width:110px;">
                                             <label class="label-form-servicios" style="margin-bottom:8px; font-size:10px;">
                                                 Inventario:
@@ -116,7 +116,7 @@
                                             <div style="font-size:18px; color: orangered; font-weight:600; padding-top:0px; margin-left:2px;">{{PrecioProducto | currency}}</div>
                                         </md-input-container>
                                     </div>
-                                    
+
                                     <div id="divButtons" style="position:absolute;right:3px; margin-top:10px; margin-left:10px;">
                                         <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Agregar" data-ng-click="AgregarProductoGrilla()">
                                             <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Agregar
@@ -130,7 +130,7 @@
                                 </div>
                             </div>
 
-                            <div style="width:30%; padding-left:10px; bottom:40px; right:10px; position:absolute;">                                
+                            <div style="width:30%; padding-left:10px; bottom:40px; right:10px; position:absolute;">
                                 <div layout="row" style="position:relative;">
                                     <div style="margin-top:13px; width:100%;">
                                         <md-input-container style="margin-left: 10px; width: 100%; margin-top: -5px; margin-bottom: 7px;">
@@ -138,7 +138,7 @@
                                                 Subtotal:
                                             </label>
                                             <br />
-                                            <div style="width: 98%; color:orangered; font-size:20px !important; font-weight:800; border-bottom:1px dotted grey; text-align:right; padding-right:10px;">{{SubtotalTransaccion | currency}}</div>
+                                            <div style="width: 98%; color:orangered; font-size:20px !important; font-weight:600; border-bottom:1px dotted grey; text-align:right; padding-right:10px;">{{SubtotalTransaccion | currency}}</div>
                                         </md-input-container>
 
                                     </div>
@@ -161,7 +161,7 @@
                                                 Total:
                                             </label>
                                             <br />
-                                            <div style="width: 98%; font-size:20px !important; font-weight:800; color:orangered; border-bottom:1px dotted grey; text-align:right; padding-right:10px;">{{TotalTransaccion | currency}}</div>
+                                            <div style="width: 98%; font-size:20px !important; font-weight:600; color:orangered; border-bottom:1px dotted grey; text-align:right; padding-right:10px;">{{TotalTransaccion | currency}}</div>
                                         </md-input-container>
 
                                     </div>
@@ -176,12 +176,12 @@
                                         </md-button>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                         </div>
                     </md-content>
                 </md-tab>
 
-                <md-tab label="Liquidar Nómina" data-ng-click="fActiveTab = 'Liquidar Nómina'; LimpiarDatos();">                   
+                <md-tab label="Liquidar Nómina" data-ng-click="fActiveTab = 'Liquidar Nómina'; LimpiarDatos();">
 
                     <md-content style="background-color:transparent; overflow:hidden; margin-top:2px;">
 
@@ -209,7 +209,7 @@
                             <div id="divNominaEmpleadosGridOptions" data-ag-grid="NominaEmpleadosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                         </div>
 
-                        <div layout="row" layout-sm="column" style="position:relative; margin-top:-5px;">                            
+                        <div layout="row" layout-sm="column" style="position:relative; margin-top:-5px;">
 
                             <div style="margin-top:-5px; width:200px;">
                                 <md-input-container style="margin-left: 0px; width: 99%; margin-top: 0px; margin-bottom: 0; ">
@@ -224,7 +224,7 @@
                             <div style="margin-top:-5px; width:200px;">
                                 <md-input-container style="margin-left: 10px; width: 99%; margin-top: 0px; margin-bottom: 0; ">
                                     <label class="label-form-servicios" style="font-size:11px; padding-bottom:5px;">
-                                        Total Servicios:
+                                        Total Salarios:
                                     </label>
                                     <br />
                                     <div style="width: 98%; font-size:20px !important; font-weight:600; color:orangered; text-align:left; padding-right:10px;">{{NominaTotalServicios | currency}}</div>
@@ -257,7 +257,7 @@
                                         <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Liquidar Nómina
                                     </md-button>
                                 </section>
-                            </div>                           
+                            </div>
 
                         </div>
 
@@ -265,6 +265,34 @@
                 </md-tab>
             </md-tabs>
         </form>
+    </div>
+
+    <!-- Modales Nomina Empleado Servicios-->
+    <div style="visibility: hidden">
+        <div class="md-dialog-container" id="dlgNominaEmpleadoServicios">
+            <md-dialog id="mdNominaEmpleadoServicios" aria-label="" style="min-width: 800px !important; max-width:800px; color: #666666 !important;">
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2 style="font-size:16px;">{{AccionNominaEmpleadoServicios}}</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="Cancelar()">
+                            <i class="material-icons" style="transform: scaleX(-1)">close</i>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+
+                <form id="frmServicios" style="">
+
+                    <md-dialog-content style="">
+                        <div layout="row" layout-align="center center">
+                            <div id="divGridNominaEmpleadoServicios" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 600px); margin-top:11px; overflow-y:auto;">
+                                <div id="divNominaEmpleadoServiciosGridOptions" data-ag-grid="NominaEmpleadoServiciosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+                            </div>
+                        </div>
+                    </md-dialog-content>
+                </form>
+            </md-dialog>
+        </div>
     </div>
 </body>
 </html>

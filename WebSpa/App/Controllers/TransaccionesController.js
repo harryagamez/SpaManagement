@@ -77,7 +77,31 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
 
     $scope.Inicializacion = function () {
         $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();        
-    }       
+    }
+
+    $scope.ConfiguracionEmpresaActual = function () {
+        try {
+            if ($scope.EmpresaPropiedades.length > 0) {
+                let tdn = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'TDN' });
+                $scope.TDN = '';
+                if (tdn.length > 0) {
+                    $scope.fPropertiesSetted = true;
+                    $scope.TDN = tdn[0].valor_Propiedad;
+                    $scope.fTDN = true;                    
+                }
+                else {
+                    $scope.fPropertiesSetted = true;
+                    $scope.fTDN = false;
+                }
+            } else {
+                $scope.fPropertiesSetted = false;
+                toastr.warning('La empresa actual, no tiene propiedades definidas', '', $scope.toastrOptions);
+            }
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
 
     $scope.ConsultarNominaEmpleados = function () {        
         let idEmpresa = $scope.IdEmpresa;
@@ -174,6 +198,35 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
 
                         if (filtrarEntrada.length > 0)
                             $scope.TipoTransaccionSeleccionada = filtrarEntrada[0].id_TipoTransaccion;
+                    }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
+    }
+
+    $scope.ConsultarNominaEmpleadoServicios = function (data) {
+        
+        let idEmpresa = data.id_Empresa;
+        let idEmpleado = data.id_Empleado;
+        let fechaNomina = $filter('date')(angular.copy($scope.FechaNomina), 'yyyy-MM-dd');
+        let nombreApellidoEmpleado = data.nombres + ' ' + data.apellidos;
+
+        SPAService._consultarNominaEmpleadoServicios(idEmpresa, idEmpleado, fechaNomina)
+            .then(
+                function (result) {
+                    if (result.data !== undefined && result.data !== null) {                        
+                        $scope.EmpleadoServicios = [];                        
+                        $scope.EmpleadoServicios = result.data;                       
+                        $scope.EmpleadoServicios = $filter('orderBy')($scope.EmpleadoServicios, 'id_Agenda', false);                        
+                        $scope.NominaEmpleadoServiciosGridOptions.api.setRowData($scope.EmpleadoServicios);
+                        $scope.AccionNominaEmpleadoServicios = 'Servicios realizados por ' + nombreApellidoEmpleado;
+                        $scope.ModalNominaServicios();
+
+                        $timeout(function () {
+                            $scope.NominaEmpleadoServiciosGridOptions.api.sizeColumnsToFit();
+                        }, 200);
                     }
                 }, function (err) {
                     toastr.remove();
@@ -321,7 +374,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         {
             headerName: "", field: "", colId: 'Consultar Servicios', suppressMenu: true, visible: true, width: 30, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='ConsultarEmpleadoServicios(data)' data-toggle='tooltip' title='Consultar Servicios' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>assignment</i>";
+                return "<i data-ng-click='ConsultarNominaEmpleadoServicios(data)' data-toggle='tooltip' title='Consultar Servicios' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>assignment</i>";
             },
         },
         {
@@ -338,10 +391,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         },
         {
             headerName: "Servicios", field: 'servicios', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
-        },
-        {
-            headerName: "Préstamos", field: 'prestamos', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
-        },        
+        },               
         {
             headerName: "Salario / % ", field: 'salario', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: decimalFormatter         
         },
@@ -349,11 +399,14 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             headerName: "Subtotal", field: 'total_Aplicado', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
         },
         {
+            headerName: "Préstamos", field: 'prestamos', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+        }, 
+        {
             headerName: "Total a Pagar", field: 'total_Pagar', width: 180, cellStyle: function (params) {
                 if (params.value < 0) {
-                    return { 'color': 'red', 'text-align': 'right', 'cursor': 'pointer' };
+                    return { 'color': 'red', 'text-align': 'right', 'cursor': 'pointer', 'font-weight': '600' };
                 } else {
-                    return { 'color': 'green', 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold' };
+                    return { 'color': 'green', 'text-align': 'right', 'cursor': 'pointer', 'font-weight': '600' };
                 }
             }, valueFormatter: currencyFormatter 
         }       
@@ -375,6 +428,44 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         animateRows: true,
         suppressRowClickSelection: true,
         rowSelection: 'multiple',        
+        suppressRowClickSelection: true
+    }
+
+    $scope.NominaEmpleadoServiciosGridOptionsColumns = [
+        {
+            headerName: "Servicio", field: 'nombre_Servicio', width: 340, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
+        },    
+        {
+            headerName: "Fecha", field: 'fecha_Inicio', width: 150, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter
+        },
+        {
+            headerName: "Hora Inicio", field: 'fecha_Inicio', width: 150, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: hourFormatter
+        },
+        {
+            headerName: "Hora Fin", field: 'fecha_Fin', width: 150, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: hourFormatter
+        },
+        {
+            headerName: "Clientes", field: 'nombreApellido_Cliente', width: 250, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+        } 
+        
+    ];
+
+    $scope.NominaEmpleadoServiciosGridOptions = {
+        defaultColDef: {
+            resizable: true
+        },
+        columnDefs: $scope.NominaEmpleadoServiciosGridOptionsColumns,
+        rowData: [],
+        enableSorting: true,
+        enableFilter: true,
+        enableColResize: true,
+        angularCompileRows: true,
+        onGridReady: function (params) {
+        },
+        fullWidthCellRenderer: true,
+        animateRows: true,
+        suppressRowClickSelection: true,
+        rowSelection: 'multiple',
         suppressRowClickSelection: true
     }
 
@@ -760,6 +851,28 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         }        
     }
 
+    $scope.ModalNominaServicios = function () {
+        try {
+            
+            $mdDialog.show({
+                contentElement: '#dlgNominaEmpleadoServicios',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                multiple: true,
+            })
+                .then(function () {
+                }, function () {
+                    $scope.ServiciosSeleccionados = [];
+                    $scope.ServiciosAsignados = [];
+                    $scope.GridAccion = '';
+                });
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
     function OnRowSelected(event) {
         try {
             let total = 0;
@@ -809,11 +922,25 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         }        
     }
 
+    function dateFormatter(params) {
+        let valueGrid = params.value;
+        return $filter('date')(valueGrid, 'dd-MM-yyyy');
+    }
+
+    function hourFormatter(params) {
+        let valueGrid = params.value;
+        return $filter('date')(valueGrid, 'h:mma');
+    }
+
     $scope.$watch("DescuentoTransaccion", function (oldValue, newValue) {
         if (oldValue !== newValue) {
             $scope.TotalTransaccion = $scope.SubtotalTransaccion - $scope.DescuentoTransaccion;
         }        
     });
+
+    $scope.Cancelar = function () {
+        $mdDialog.cancel();        
+    };
 
     window.onresize = function () {
         $timeout(function () {
@@ -826,6 +953,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     $scope.$on("CompanyChange", function () {
         $scope.IdEmpresa = $rootScope.Id_Empresa;        
         $scope.LimpiarDatos();
+        $scope.ConfiguracionEmpresaActual();
         $scope.ConsultarClientes();
         $scope.ConsultarProductos();
         $scope.ConsultarTipoTransacciones();
@@ -835,7 +963,8 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     });
 
     $timeout(function () {
-        window.onresize();        
+        window.onresize();
+        $scope.ConfiguracionEmpresaActual();
         $scope.ConsultarClientes();
         $scope.ConsultarProductos();
         $scope.ConsultarTipoTransacciones();

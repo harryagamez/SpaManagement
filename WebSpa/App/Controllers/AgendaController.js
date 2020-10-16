@@ -87,7 +87,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
                             $scope.Agendas = [];
-                            $scope.Agendas = result.data;
+                            $scope.Agendas = result.data;                            
                             $scope.Agendas = $scope.Agendas.map(function (e) {
                                 e.mensaje_Whatsapp = 'Hola ' + e.nombres_Cliente + ', le escribimos desde ' + e.nombre_Empresa + ' para confirmar su cita para el servicio de ' + e.nombre_Servicio + ' a las ' + e.fechaInicio;
                                 return e;

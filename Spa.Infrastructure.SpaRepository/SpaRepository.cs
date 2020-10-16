@@ -1413,6 +1413,35 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public List<Agenda> ConsultarNominaEmpleadoServicios(string idEmpresa, int idEmpleado, string fechaNomina)
+        {
+            DataTable _datatable = new DataTable();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarNominaEmpleadoServicios";
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
+                    _command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+                    _command.Parameters.AddWithValue("@FechaNomina", fechaNomina);
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<Agenda> _empleadoServicios = _datatable.DataTableToList<Agenda>();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _empleadoServicios;
+                }
+            }
+        }
+
         public bool SincronizarDepartamentos(List<DepartmentProperties> departmentProperties)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
