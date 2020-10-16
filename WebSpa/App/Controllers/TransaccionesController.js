@@ -18,6 +18,11 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     $scope.TotalProductos = 0;
     $scope.TotalServicios = 0;
 
+    $scope.AcumuladoCajaMenor = 0;
+    $scope.NominaTotalServicios = 0;
+    $scope.NominaTotalPrestamos = 0;
+    $scope.NominaTotalPagar = 0;
+
     $scope.fPropertiesSetted = false;
     $scope.fTDN = false;
 
@@ -76,7 +81,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
 
     $scope.ConsultarNominaEmpleados = function () {        
         let idEmpresa = $scope.IdEmpresa;
-        let fechaNomina = $filter('date')(angular.copy($scope.FechaNomina), 'dd/MM/yyyy');
+        let fechaNomina = $filter('date')(angular.copy($scope.FechaNomina), 'yyyy-MM-dd');
         SPAService._consultarNominaEmpleados(idEmpresa, fechaNomina)
             .then(
                 function (result) {                    
@@ -205,6 +210,24 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         }
     }
 
+    $scope.ConsultarCajaMenor = function () {
+        SPAService._consultarCajaMenor($scope.IdEmpresa)
+            .then(
+                function (result) {
+                    if (result.data !== undefined && result.data !== null) {
+                        $scope.Caja_Menor = [];
+                        $scope.Caja_Menor = result.data;
+
+                        $scope.AcumuladoCajaMenor = $scope.Caja_Menor.acumulado;
+                    }
+                    else toastr.info('Debe configurar la caja menor', '', $scope.toastrOptions);
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
+    }
+
     $scope.ServiciosAgendaGridOptionsColumns = [        
         {
             headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
@@ -253,7 +276,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
 
     $scope.ProductosTransaccionGridOptionsColumns = [
         {
-            headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+            headerName: "", field: "", suppressMenu: true, visible: true, width: 30, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
                 return "<i data-ng-click='showConfirmEliminarProducto($event,data)' id='gridTooltip' data-toggle='tooltip' title='Retornar Producto' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>delete_sweep</i>";
             },
@@ -296,15 +319,15 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
         },        
         {
-            headerName: "", field: "", colId: 'Consultar Servicios', suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+            headerName: "", field: "", colId: 'Consultar Servicios', suppressMenu: true, visible: true, width: 30, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='ConsultarServicios(data)' data-toggle='tooltip' title='Consultar Servicios' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>settings</i>";
+                return "<i data-ng-click='ConsultarEmpleadoServicios(data)' data-toggle='tooltip' title='Consultar Servicios' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>assignment</i>";
             },
         },
         {
-            headerName: "", field: "", colId: 'Consultar Prestamos', suppressMenu: true, visible: true, width: 25, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+            headerName: "", field: "", colId: 'Consultar Prestamos', suppressMenu: true, visible: true, width: 30, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='ConsultarPrestamos(data)' data-toggle='tooltip' title='Consultar Prestamos' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>add_to_photos</i>";
+                return "<i data-ng-click='ConsultarEmpleadoPrestamos(data)' data-toggle='tooltip' title='Consultar Prestamos' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>monetization_on</i>";
             },
         },        
         {
@@ -314,20 +337,26 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             headerName: "Apellido(s)", field: 'apellidos', width: 240, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Total Servicios", field: 'servicios', width: 200, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+            headerName: "Servicios", field: 'servicios', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
         },
         {
-            headerName: "Total Prestamos", field: 'prestamos', width: 200, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+            headerName: "Préstamos", field: 'prestamos', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
         },        
         {
-            headerName: "Salario/Monto", field: 'salario', width: 200, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: decimalFormatter         
+            headerName: "Salario / % ", field: 'salario', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: decimalFormatter         
         },
         {
-            headerName: "Total Aplicado", field: 'total_Aplicado', width: 200, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+            headerName: "Subtotal", field: 'total_Aplicado', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
         },
         {
-            headerName: "Total a Pagar", field: 'total_Pagar', width: 200, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
-        },
+            headerName: "Total a Pagar", field: 'total_Pagar', width: 180, cellStyle: function (params) {
+                if (params.value < 0) {
+                    return { 'color': 'red', 'text-align': 'right', 'cursor': 'pointer' };
+                } else {
+                    return { 'color': 'green', 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold' };
+                }
+            }, valueFormatter: currencyFormatter 
+        }       
     ];
 
     $scope.NominaEmpleadosGridOptions = {
@@ -799,7 +828,8 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         $scope.LimpiarDatos();
         $scope.ConsultarClientes();
         $scope.ConsultarProductos();
-        $scope.ConsultarTipoTransacciones();        
+        $scope.ConsultarTipoTransacciones();
+        $scope.ConsultarCajaMenor();
         $scope.Inicializacion();
         $scope.ResetearGrids();        
     });
@@ -809,6 +839,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         $scope.ConsultarClientes();
         $scope.ConsultarProductos();
         $scope.ConsultarTipoTransacciones();
+        $scope.ConsultarCajaMenor();
         $scope.Inicializacion();
         angular.element(document.getElementById('acClientes')).find('input').focus();
     }, 200);    
