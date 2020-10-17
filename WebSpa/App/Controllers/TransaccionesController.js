@@ -946,7 +946,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         $timeout(function () {
             $scope.ServiciosAgendaGridOptions.api.sizeColumnsToFit();
             $scope.ProductosTransaccionGridOptions.api.sizeColumnsToFit();
-            $scope.NominaEmpleadosGridOptions.api.sizeColumnsToFit();
+            $scope.NominaEmpleadosGridOptions.api.sizeColumnsToFit();            
         }, 300);
     }   
 

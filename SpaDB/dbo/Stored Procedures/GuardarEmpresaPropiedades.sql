@@ -26,7 +26,7 @@ SET XACT_ABORT, NOCOUNT ON
 
 	SET @IdEmpresa = (SELECT TOP 1 Id_Empresa FROM #TempPropiedades)
 	SET @ValorPropiedad = (SELECT TOP 1 Valor_Propiedad FROM #TempPropiedades
-	WHERE Valor_Propiedad = 'MENSUAL' OR Valor_Propiedad = 'QUINCENAL' OR Valor_Propiedad = 'DIARIO' OR Valor_Propiedad = 'POR SERVICIOS')
+	WHERE Valor_Propiedad = 'MENSUAL' OR Valor_Propiedad = 'QUINCENAL' OR Valor_Propiedad = 'DIARIO' OR Valor_Propiedad = 'POR_SERVICIOS')
 
 	SET @OldIdTipoPago = (SELECT TOP 1 CAST(ID_TIPOPAGO AS VARCHAR(36)) FROM EMPLEADOS WHERE ID_EMPRESA = @IdEmpresa)
 	SET @NewIdTipoPago = (SELECT TOP 1 CAST(ID_TIPOPAGO AS VARCHAR(36)) FROM TIPO_PAGO WHERE DESCRIPCION = @ValorPropiedad)

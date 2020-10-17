@@ -36,7 +36,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, $ht
         { valor_Propiedad: "MENSUAL", descripcion: "MENSUAL" },
         { valor_Propiedad: "QUINCENAL", descripcion: "QUINCENAL" },
         { valor_Propiedad: "DIARIO", descripcion: "DIARIO" },
-        { valor_Propiedad: "POR SERVICIOS", descripcion: "POR SERVICIOS" }
+        { valor_Propiedad: "POR_SERVICIOS", descripcion: "POR SERVICIOS" }
 
     ];
     $scope.TipoPerfil = $filter('orderBy')($scope.TipoPerfil, 'Nombre', false);

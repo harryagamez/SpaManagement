@@ -11,7 +11,7 @@ BEGIN
 	SET @TipoNomina = (
 		SELECT TOP 1 VALOR_PROPIEDAD 
 		FROM EMPRESA_PROPIEDADES 
-		WHERE ID_EMPRESA = @IdEmpresa AND (VALOR_PROPIEDAD = 'MENSUAL' OR VALOR_PROPIEDAD = 'QUINCENAL' OR VALOR_PROPIEDAD = 'DIARIO' OR VALOR_PROPIEDAD = 'POR SERVICIOS')
+		WHERE ID_EMPRESA = @IdEmpresa AND (VALOR_PROPIEDAD = 'MENSUAL' OR VALOR_PROPIEDAD = 'QUINCENAL' OR VALOR_PROPIEDAD = 'DIARIO' OR VALOR_PROPIEDAD = 'POR_SERVICIOS')
 	)	
 
 	CREATE TABLE #TempNomina_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Nombres CHAR(60), Apellidos CHAR(60), Servicios REAL, Prestamos REAL, Salario REAL, Total_Aplicado REAL, Total_Pagar REAL)	
@@ -86,7 +86,7 @@ BEGIN
 
 	END
 
-	IF(@TipoNomina = 'POR SERVICIOS') BEGIN
+	IF(@TipoNomina = 'POR_SERVICIOS') BEGIN
 	
 		INSERT INTO #TempNomina_Empleados (Id_Empresa, Id_Empleado, Nombres, Apellidos, Salario)		
 		SELECT Empleados.ID_EMPRESA, Empleados.ID_EMPLEADO, Empleados.NOMBRES, Empleados.APELLIDOS, Empleados.MONTO
@@ -122,7 +122,7 @@ BEGIN
 	FROM #TempNomina_Empleados NominaEmpleados
 	INNER JOIN #TempPrestamos_Empleados PrestamosEmpleados ON PrestamosEmpleados.Id_Empleado = NominaEmpleados.Id_Empleado AND PrestamosEmpleados.Id_Empresa = NominaEmpleados.Id_Empresa	
 
-	IF(@TipoNomina = 'POR SERVICIOS') BEGIN
+	IF(@TipoNomina = 'POR_SERVICIOS') BEGIN
 		SELECT 
 			Id_Empresa, Id_Empleado, Nombres, Apellidos, Servicios, Prestamos, Salario, (Servicios * Salario) AS Total_Aplicado, ((Servicios * Salario) - ISNULL(Prestamos, 0)) AS Total_Pagar
 		FROM #TempNomina_Empleados
