@@ -122,7 +122,6 @@
                                             <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Agregar
                                         </md-button>
                                     </div>
-
                                 </div>
 
                                 <div id="divGridProductosTransaccion" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 118px); margin-top:-20px; overflow-y:auto;">
@@ -140,7 +139,6 @@
                                             <br />
                                             <div style="width: 98%; color:orangered; font-size:20px !important; font-weight:600; border-bottom:1px dotted grey; text-align:right; padding-right:10px;">{{SubtotalTransaccion | currency}}</div>
                                         </md-input-container>
-
                                     </div>
                                 </div>
                                 <div layout="row" style="position:relative;">
@@ -151,7 +149,6 @@
                                             </label>
                                             <input ng-model="DescuentoTransaccion" ng-readonly="SubtotalTransaccion === 0" numbers-only id="txtDescuento" type="text" class="" style="width:99%; text-align:right; font-size:18px !important; font-weight:600; padding-right:10px;" placeholder="">
                                         </md-input-container>
-
                                     </div>
                                 </div>
                                 <div layout="row" style="position:relative;">
@@ -163,7 +160,6 @@
                                             <br />
                                             <div style="width: 98%; font-size:20px !important; font-weight:600; color:orangered; border-bottom:1px dotted grey; text-align:right; padding-right:10px;">{{TotalTransaccion | currency}}</div>
                                         </md-input-container>
-
                                     </div>
                                 </div>
                                 <div layout="row" style="position:relative; margin-top:5px;">
@@ -202,7 +198,6 @@
                                     <md-datepicker ng-model="FechaNomina" md-placeholder="Enter date" class="dateClientes" id="dpFechaBusqueda" tabindex=2 style="margin-bottom:0; margin-top:-5px; width:200px;"></md-datepicker>
                                 </md-input-container>
                             </div>
-
                         </div>
 
                         <div id="divGridNominaEmpleados" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 240px); margin-top:-39px; overflow-y:auto;">
@@ -258,9 +253,7 @@
                                     </md-button>
                                 </section>
                             </div>
-
                         </div>
-
                     </md-content>
                 </md-tab>
             </md-tabs>
@@ -285,7 +278,7 @@
 
                     <md-dialog-content style="">
                         <div layout="row" layout-align="center center">
-                            <div id="divGridNominaEmpleadoServicios" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 600px); margin-top:11px; overflow-y:auto;">
+                            <div id="divGridNominaEmpleadoServicios" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 600px); margin-top:0px; overflow-y:auto;">
                                 <div id="divNominaEmpleadoServiciosGridOptions" data-ag-grid="NominaEmpleadoServiciosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                             </div>
                         </div>

@@ -11,5 +11,6 @@
         public double Salario { get; set; }
         public double Total_Aplicado { get; set; }
         public double Total_Pagar { get; set; }
+        public string Tipo_Nomina { get; set; }
     }
 }

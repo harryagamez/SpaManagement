@@ -4,10 +4,9 @@
 TransaccionesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
 function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-
     $scope.IdEmpresa = $rootScope.Id_Empresa;
     $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
-    $scope.FechaBusqueda = new Date();    
+    $scope.FechaBusqueda = new Date();
     $scope.fActiveTab = 'Facturar Servicios';
     $scope.InventarioProducto = 0;
     $scope.PrecioProducto = 0;
@@ -38,7 +37,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             Id_Quincena: 2,
             Descripcion: 'Segunda Quincena'
         }
-    ];       
+    ];
 
     $scope.Agenda = {
         Id_Agenda: -1,
@@ -51,7 +50,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         Estado: 'CONFIRMADA',
         Observaciones: '',
         Traer_Canceladas: false
-    };    
+    };
 
     $scope.ProductoGrid = {
         Id_Producto: -1,
@@ -76,7 +75,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     $scope.ProductoSeleccionado = -1;
 
     $scope.Inicializacion = function () {
-        $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();        
+        $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
     }
 
     $scope.ConfiguracionEmpresaActual = function () {
@@ -87,7 +86,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                 if (tdn.length > 0) {
                     $scope.fPropertiesSetted = true;
                     $scope.TDN = tdn[0].valor_Propiedad;
-                    $scope.fTDN = true;                    
+                    $scope.fTDN = true;
                 }
                 else {
                     $scope.fPropertiesSetted = true;
@@ -103,14 +102,13 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         }
     }
 
-    $scope.ConsultarNominaEmpleados = function () {        
+    $scope.ConsultarNominaEmpleados = function () {
         let idEmpresa = $scope.IdEmpresa;
         let fechaNomina = $filter('date')(angular.copy($scope.FechaNomina), 'yyyy-MM-dd');
         SPAService._consultarNominaEmpleados(idEmpresa, fechaNomina)
             .then(
-                function (result) {                    
+                function (result) {
                     if (result.data !== undefined && result.data !== null) {
-                        
                         $scope.NominaEmpleados = [];
                         $scope.ObjetoNominaEmpleados = [];
                         $scope.NominaEmpleados = result.data;
@@ -130,13 +128,13 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     }
 
     $scope.RegistrarFacturacionServicios = function () {
-        if ($scope.ValidarDatosPagos()) {            
+        if ($scope.ValidarDatosPagos()) {
             SPAService._registrarFacturacionServicios($scope.AplicacionPagos)
                 .then(
                     function (result) {
                         if (result.data === true) {
                             toastr.success('Transacción registrada correctamente', '', $scope.toastrOptions);
-                            $scope.ConsultarProductos(); 
+                            $scope.ConsultarProductos();
                             $scope.LimpiarDatos();
                         }
                     }, function (err) {
@@ -169,7 +167,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
                         $scope.ProductosMaster = [];
-                        $scope.ProductosMaster = result.data;                       
+                        $scope.ProductosMaster = result.data;
 
                         $scope.Productos = angular.copy($scope.ProductosMaster);
                         $scope.Productos.push({ id_Producto: -1, nombre: '[Seleccione]' });
@@ -207,7 +205,6 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     }
 
     $scope.ConsultarNominaEmpleadoServicios = function (data) {
-        
         let idEmpresa = data.id_Empresa;
         let idEmpleado = data.id_Empleado;
         let fechaNomina = $filter('date')(angular.copy($scope.FechaNomina), 'yyyy-MM-dd');
@@ -216,10 +213,10 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         SPAService._consultarNominaEmpleadoServicios(idEmpresa, idEmpleado, fechaNomina)
             .then(
                 function (result) {
-                    if (result.data !== undefined && result.data !== null) {                        
-                        $scope.EmpleadoServicios = [];                        
-                        $scope.EmpleadoServicios = result.data;                       
-                        $scope.EmpleadoServicios = $filter('orderBy')($scope.EmpleadoServicios, 'id_Agenda', false);                        
+                    if (result.data !== undefined && result.data !== null) {
+                        $scope.EmpleadoServicios = [];
+                        $scope.EmpleadoServicios = result.data;
+                        $scope.EmpleadoServicios = $filter('orderBy')($scope.EmpleadoServicios, 'id_Agenda', false);
                         $scope.NominaEmpleadoServiciosGridOptions.api.setRowData($scope.EmpleadoServicios);
                         $scope.AccionNominaEmpleadoServicios = 'Servicios realizados por ' + nombreApellidoEmpleado;
                         $scope.ModalNominaServicios();
@@ -254,7 +251,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                         if ($scope.Agendas.length === 0) {
                             toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
                             return;
-                        }                        
+                        }
                     }, function (err) {
                         toastr.remove();
                         if (err.data !== null && err.status === 500)
@@ -281,7 +278,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                 })
     }
 
-    $scope.ServiciosAgendaGridOptionsColumns = [        
+    $scope.ServiciosAgendaGridOptionsColumns = [
         {
             headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
         },
@@ -370,11 +367,15 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
 
         {
             headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
-        },        
+        },
         {
             headerName: "", field: "", colId: 'Consultar Servicios', suppressMenu: true, visible: true, width: 30, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
-            cellRenderer: function () {
-                return "<i data-ng-click='ConsultarNominaEmpleadoServicios(data)' data-toggle='tooltip' title='Consultar Servicios' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>assignment</i>";
+            cellRenderer: function (params) {
+                let tipoNomina = params.data.tipo_Nomina;
+                if (tipoNomina === 'POR_SERVICIOS')
+                    return "<i data-ng-click='ConsultarNominaEmpleadoServicios(data)' data-toggle='tooltip' title='Consultar Servicios' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>assignment</i>";
+                else
+                    return
             },
         },
         {
@@ -382,7 +383,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             cellRenderer: function () {
                 return "<i data-ng-click='ConsultarEmpleadoPrestamos(data)' data-toggle='tooltip' title='Consultar Prestamos' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>monetization_on</i>";
             },
-        },        
+        },
         {
             headerName: "Nombres(s)", field: 'nombres', width: 240, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
@@ -391,16 +392,16 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         },
         {
             headerName: "Servicios", field: 'servicios', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
-        },               
+        },
         {
-            headerName: "Salario / % ", field: 'salario', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: decimalFormatter         
+            headerName: "Salario / % ", field: 'salario', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: decimalFormatter
         },
         {
             headerName: "Subtotal", field: 'total_Aplicado', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
         },
         {
             headerName: "Préstamos", field: 'prestamos', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
-        }, 
+        },
         {
             headerName: "Total a Pagar", field: 'total_Pagar', width: 180, cellStyle: function (params) {
                 if (params.value < 0) {
@@ -408,8 +409,8 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                 } else {
                     return { 'color': 'green', 'text-align': 'right', 'cursor': 'pointer', 'font-weight': '600' };
                 }
-            }, valueFormatter: currencyFormatter 
-        }       
+            }, valueFormatter: currencyFormatter
+        }
     ];
 
     $scope.NominaEmpleadosGridOptions = {
@@ -427,14 +428,14 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         fullWidthCellRenderer: true,
         animateRows: true,
         suppressRowClickSelection: true,
-        rowSelection: 'multiple',        
+        rowSelection: 'multiple',
         suppressRowClickSelection: true
     }
 
     $scope.NominaEmpleadoServiciosGridOptionsColumns = [
         {
             headerName: "Servicio", field: 'nombre_Servicio', width: 340, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
-        },    
+        },
         {
             headerName: "Fecha", field: 'fecha_Inicio', width: 150, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter
         },
@@ -445,9 +446,8 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             headerName: "Hora Fin", field: 'fecha_Fin', width: 150, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: hourFormatter
         },
         {
-            headerName: "Clientes", field: 'nombreApellido_Cliente', width: 250, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
-        } 
-        
+            headerName: "Valor", field: 'valor_Servicio', width: 250, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
+        }
     ];
 
     $scope.NominaEmpleadoServiciosGridOptions = {
@@ -471,7 +471,6 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
 
     $scope.ValidarDatosConsulta = function () {
         try {
-
             if ($scope.FechaBusqueda === '' || $scope.FechaBusqueda === null || $scope.FechaBusqueda === undefined) {
                 toastr.warning('Formato de fecha inválido. Debe seleccionar una fecha', '', $scope.toastrOptions);
                 $('#dpFechaBusqueda').focus();
@@ -487,17 +486,16 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             $scope.Agenda.Estado = 'CONFIRMADA';
 
             if ($scope.ClienteSeleccionado === '' || $scope.ClienteSeleccionado === null || $scope.ClienteSeleccionado === undefined) {
-                toastr.info('Debe seleccionar un cliente', '', $scope.toastrOptions); 
+                toastr.info('Debe seleccionar un cliente', '', $scope.toastrOptions);
                 $timeout(function () {
                     angular.element(document.getElementById('acClientes')).find('input').focus();
                 }, 200);
                 return false;
             }
-           
+
             $scope.Agenda.Id_Cliente = $scope.ClienteSeleccionado.id_Cliente;
 
             return true;
-
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -505,7 +503,6 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     }
 
     $scope.ValidarDatosPagos = function () {
-        
         if ($scope.ClienteSeleccionado === null || $scope.ClienteSeleccionado === undefined) {
             toastr.warning('Debe seleccionar un cliente.', '', $scope.toastrOptions);
             $timeout(function () {
@@ -513,7 +510,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             }, 200);
             return false;
         }
-        
+
         if ($scope.ObjetoAgendasSeleccionadas === undefined || $scope.ObjetoAgendasSeleccionadas.length === 0 || $scope.ObjetoAgendasSeleccionadas === null) {
             toastr.warning('Debe seleccionar al menos un servicio a procesar', '', $scope.toastrOptions);
             return false;
@@ -528,14 +525,14 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         $scope.Servicios = [];
 
         $scope.Servicios = $scope.ObjetoAgendasSeleccionadas.map(function (e) {
-            return { Id_Agenda: e.id_Agenda, Estado: 'FACTURADA', Id_Empresa: $scope.IdEmpresa}
-        });       
+            return { Id_Agenda: e.id_Agenda, Estado: 'FACTURADA', Id_Empresa: $scope.IdEmpresa }
+        });
 
         $scope.Transacciones = [];
-        
+
         $scope.Transacciones = $scope.ObjetoProductosGrid.map(function (e) {
             return { Id_Transaccion: -1, Fecha: new Date($scope.FechaBusqueda + 'Z'), Id_Producto: e.Id_Producto, Cantidad: e.Cantidad, Id_TipoTransaccion: $scope.TipoTransaccionSeleccionada, Id_EmpleadoCliente: $scope.ClienteSeleccionado.id_Cliente, Id_Empresa: $scope.IdEmpresa }
-        });       
+        });
 
         $scope.ClientePago.Id_Cliente = $scope.ClienteSeleccionado.id_Cliente;
         $scope.ClientePago.Fecha = new Date($scope.FechaBusqueda + 'Z');
@@ -546,21 +543,20 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         else
             $scope.ClientePago.Descuento = parseFloat($scope.DescuentoTransaccion);
 
-        $scope.ClientePago.Total = $scope.TotalTransaccion;       
+        $scope.ClientePago.Total = $scope.TotalTransaccion;
 
         $scope.AplicacionPagos = {
             Agendas: $scope.Servicios,
             Transacciones: $scope.Transacciones,
             Cliente_Pago: $scope.ClientePago
-        }       
-        
+        }
+
         return true;
     }
 
     $scope.showConfirmDescuento = function (ev, data) {
         try {
             if ($scope.DescuentoTransaccion > 0) {
-
                 let confirm = $mdDialog.confirm()
                     .title('Confirmar Descuento')
                     .textContent('¿Desea aplicar el descuento?')
@@ -573,11 +569,11 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                 $mdDialog.show(confirm).then(function () {
                     $scope.RegistrarFacturacionServicios();
                 }, function () {
-                        $('#txtDescuento').focus();
+                    $('#txtDescuento').focus();
                 });
             } else {
                 $scope.RegistrarFacturacionServicios();
-            }            
+            }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -596,9 +592,8 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                 .multiple(true);
             $mdDialog.show(confirm).then(function () {
                 $scope.EliminarProductoGrilla(ev, data);
-            }, function () {                
+            }, function () {
             });
-            
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -650,7 +645,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             Precio: 0,
             Cantidad: 0,
             Total: 0
-        }        
+        }
 
         $scope.ClientePago = {
             Id_ClientePago: '00000000-0000-0000-0000-000000000000',
@@ -659,7 +654,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             Descuento: 0,
             Total: 0,
             Id_Empresa: $scope.IdEmpresa
-        }       
+        }
 
         $scope.ProductoSeleccionado = -1;
 
@@ -681,9 +676,8 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         }, 200);
     }
 
-    $scope.AgregarProductoGrilla = function () {        
+    $scope.AgregarProductoGrilla = function () {
         try {
-
             if ($scope.ProductoSeleccionado === -1) {
                 toastr.info('Debe seleccionar un producto', '', $scope.toastrOptions);
                 $('#slProductos').focus();
@@ -739,35 +733,32 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             } else {
                 $scope.ObjetoProductosGrid.push($scope.ProductoGrid);
             }
-            
+
             $scope.ProductosTransaccionGridOptions.api.setRowData($scope.ObjetoProductosGrid);
             $timeout(function () {
                 $scope.ProductosTransaccionGridOptions.api.sizeColumnsToFit();
-            }, 200);            
+            }, 200);
 
-            
             $scope.TotalProductos = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoProductosGrid, { property: "Total", operation: "+" }), '2', $scope);
-                        
-            $scope.SubtotalTransaccion = parseFloat($scope.TotalServicios) + parseFloat($scope.TotalProductos); 
+
+            $scope.SubtotalTransaccion = parseFloat($scope.TotalServicios) + parseFloat($scope.TotalProductos);
             $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
 
             $scope.LimpiarProductos();
-
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
-        }        
+        }
     }
 
     $scope.EliminarProductoGrilla = function (e, data) {
-        try {        
+        try {
             let sumaProductosGrilla = 0;
             let idProducto = data.Id_Producto;
             let cantidad = parseInt(data.Cantidad);
             let total = data.Total;
 
-            if (data !== undefined && data !== null) {                              
-
+            if (data !== undefined && data !== null) {
                 $scope.ObjetoProductosGrid = $scope.ObjetoProductosGrid.filter(function (e) {
                     return e.Id_Producto !== idProducto;
                 });
@@ -777,25 +768,24 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                         $scope.Productos[i].inventario = parseInt($scope.Productos[i].inventario) + parseInt(cantidad);
                     }
                 }
-                
-                $scope.TotalProductos = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoProductosGrid, { property: "Total", operation: "+" }), '2', $scope);                
+
+                $scope.TotalProductos = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoProductosGrid, { property: "Total", operation: "+" }), '2', $scope);
 
                 $scope.SubtotalTransaccion = parseFloat($scope.TotalServicios) + parseFloat($scope.TotalProductos);
                 $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
 
                 $scope.ProductosTransaccionGridOptions.api.setRowData($scope.ObjetoProductosGrid);
-                
+
                 $timeout(function () {
                     $scope.ProductosTransaccionGridOptions.api.sizeColumnsToFit();
                 }, 200);
 
                 $scope.LimpiarProductos();
             }
-
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
-        }      
+        }
     }
 
     $scope.BuscarCliente = function (nombre) {
@@ -830,7 +820,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         }
     }
 
-    $scope.SetPerfilCliente = function () {        
+    $scope.SetPerfilCliente = function () {
         try {
             if ($scope.ClienteSeleccionado !== null && $scope.ClienteSeleccionado !== undefined) {
                 let tempCliente = [];
@@ -844,16 +834,14 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             }
             else
                 $scope.TipoClienteTransaccion = '';
-            
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
-        }        
+        }
     }
 
     $scope.ModalNominaServicios = function () {
         try {
-            
             $mdDialog.show({
                 contentElement: '#dlgNominaEmpleadoServicios',
                 parent: angular.element(document.body),
@@ -883,7 +871,6 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
 
             if ($scope.ObjetoAgendasSeleccionadas.length > 0) {
                 $scope.TotalServicios = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoAgendasSeleccionadas, { property: "valor_Servicio", operation: "+" }), '2', $scope);
-
             } else {
                 $scope.TotalServicios = 0;
             }
@@ -891,11 +878,11 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             $scope.$apply(function () {
                 $scope.SubtotalTransaccion = parseFloat($scope.TotalServicios) + parseFloat($scope.TotalProductos);
                 $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
-            });        
+            });
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
-        }        
+        }
     }
 
     $scope.ResetearGrids = function () {
@@ -919,7 +906,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         else {
             let valueGrid = params.value;
             return $filter('currency')(valueGrid, '$', 0);
-        }        
+        }
     }
 
     function dateFormatter(params) {
@@ -935,23 +922,23 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     $scope.$watch("DescuentoTransaccion", function (oldValue, newValue) {
         if (oldValue !== newValue) {
             $scope.TotalTransaccion = $scope.SubtotalTransaccion - $scope.DescuentoTransaccion;
-        }        
+        }
     });
 
     $scope.Cancelar = function () {
-        $mdDialog.cancel();        
+        $mdDialog.cancel();
     };
 
     window.onresize = function () {
         $timeout(function () {
             $scope.ServiciosAgendaGridOptions.api.sizeColumnsToFit();
             $scope.ProductosTransaccionGridOptions.api.sizeColumnsToFit();
-            $scope.NominaEmpleadosGridOptions.api.sizeColumnsToFit();            
+            $scope.NominaEmpleadosGridOptions.api.sizeColumnsToFit();
         }, 300);
-    }   
+    }
 
     $scope.$on("CompanyChange", function () {
-        $scope.IdEmpresa = $rootScope.Id_Empresa;        
+        $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.LimpiarDatos();
         $scope.ConfiguracionEmpresaActual();
         $scope.ConsultarClientes();
@@ -959,7 +946,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         $scope.ConsultarTipoTransacciones();
         $scope.ConsultarCajaMenor();
         $scope.Inicializacion();
-        $scope.ResetearGrids();        
+        $scope.ResetearGrids();
     });
 
     $timeout(function () {
@@ -971,5 +958,5 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         $scope.ConsultarCajaMenor();
         $scope.Inicializacion();
         angular.element(document.getElementById('acClientes')).find('input').focus();
-    }, 200);    
+    }, 200);
 }

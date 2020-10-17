@@ -18,5 +18,6 @@
         public string Telefono_Movil_Cliente { get; set; }
         public bool Traer_Canceladas { get; set; }
         public float Valor_Servicio { get; set; }
+        public string Tipo_Nomina { get; set; }
     }
 }
