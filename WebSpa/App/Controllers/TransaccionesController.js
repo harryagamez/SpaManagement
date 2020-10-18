@@ -270,7 +270,10 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
 
                         $scope.AcumuladoCajaMenor = $scope.Caja_Menor.acumulado;
                     }
-                    else toastr.info('Debe configurar la caja menor', '', $scope.toastrOptions);
+                    else {
+                        $scope.AcumuladoCajaMenor = 0;
+                        toastr.info('Debe configurar la caja menor', '', $scope.toastrOptions);
+                    } 
                 }, function (err) {
                     toastr.remove();
                     if (err.data !== null && err.status === 500)
@@ -437,6 +440,9 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             headerName: "Servicio", field: 'nombre_Servicio', width: 340, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
         },
         {
+            headerName: "Valor", field: 'valor_Servicio', width: 250, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
+        },
+        {
             headerName: "Fecha", field: 'fecha_Inicio', width: 150, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter
         },
         {
@@ -444,9 +450,6 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         },
         {
             headerName: "Hora Fin", field: 'fecha_Fin', width: 150, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: hourFormatter
-        },
-        {
-            headerName: "Valor", field: 'valor_Servicio', width: 250, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
         }
     ];
 
@@ -916,7 +919,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
 
     function hourFormatter(params) {
         let valueGrid = params.value;
-        return $filter('date')(valueGrid, 'h:mma');
+        return $filter('date')(valueGrid, 'h:mm a');
     }
 
     $scope.$watch("DescuentoTransaccion", function (oldValue, newValue) {
