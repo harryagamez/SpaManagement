@@ -87,7 +87,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
                             $scope.Agendas = [];
-                            $scope.Agendas = result.data;                            
+                            $scope.Agendas = result.data;
                             $scope.Agendas = $scope.Agendas.map(function (e) {
                                 e.mensaje_Whatsapp = 'Hola ' + e.nombres_Cliente + ', le escribimos desde ' + e.nombre_Empresa + ' para confirmar su cita para el servicio de ' + e.nombre_Servicio + ' a las ' + e.fechaInicio;
                                 return e;
@@ -379,7 +379,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
             $scope.EmpleadoSeleccionado = null;
             $scope.AgendaServicios = [];
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
-            $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));            
+            $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
 
             $scope.fEditAgenda = false;
             $scope.fDisableEmpleado = false;
@@ -460,7 +460,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     toastr.info('Debe seleccionar un empleado', '', $scope.toastrOptions);
                     $timeout(function () {
                         angular.element(document.getElementById('acEmpleadosModal')).find('input').focus();
-                    }, 200);                    
+                    }, 200);
                     return false;
                 }
 
@@ -471,7 +471,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     toastr.info('Debe seleccionar un cliente', '', $scope.toastrOptions);
                     $timeout(function () {
                         angular.element(document.getElementById('acClientesModal')).find('input').focus();
-                    }, 200);                    
+                    }, 200);
                     return false;
                 }
 
@@ -800,16 +800,16 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                         clickOutsideToClose: true,
                         multiple: true,
                     })
-                    .then(function () {                                                       
-                    }, function () {
-                        $scope.LimpiarDatos();
-                    });                    
+                        .then(function () {
+                        }, function () {
+                            $scope.LimpiarDatos();
+                        });
                 }
                 if ($scope.AccionAgenda !== 'Información Cita') {
                     $timeout(function () {
                         angular.element(document.getElementById('acEmpleadosModal')).find('input').focus();
-                    }, 500); 
-                }                 
+                    }, 500);
+                }
             }
             else
                 toastr.warning('Para utilizar el módulo agenda, debe configurar las propiedades de la empresa', '', $scope.toastrOptions);
@@ -879,7 +879,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     $timeout(function () {
                         angular.element(document.getElementById('acClientesModal')).find('input').focus();
                     }, 500);
-                }    
+                }
             }
             else
                 toastr.warning('Para utilizar el módulo agenda, debe configurar las propiedades de la empresa', '', $scope.toastrOptions);
@@ -906,7 +906,7 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                 });
             $timeout(function () {
                 angular.element(document.getElementById('acEmpleados')).find('input').focus();
-            }, 500); 
+            }, 500);
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -1288,4 +1288,9 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
     $scope.ConsultarEmpleadosAutoComplete();
     $scope.ConsultarClientes();
     $scope.ConfiguracionEmpresaActual();
+
+    window.onresize = function () {
+        $timeout(function () {
+        }, 200);
+    }
 }
