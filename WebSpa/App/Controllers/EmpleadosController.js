@@ -1001,7 +1001,6 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
     }
 
     $scope.EmpleadoServicioGridOptionsColumns = [
-
         {
             headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {

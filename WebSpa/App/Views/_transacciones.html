@@ -263,7 +263,7 @@
     <!-- Modales Nomina Empleado Servicios-->
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgNominaEmpleadoServicios">
-            <md-dialog id="mdNominaEmpleadoServicios" aria-label="" style="min-width: 800px !important; max-width:800px; min-height:400px; max-height:400px; color: #666666 !important;">
+            <md-dialog id="mdNominaEmpleadoServicios" aria-label="" style="min-width: 800px !important; max-width:800px; color: #666666 !important;">
                 <md-toolbar>
                     <div class="md-toolbar-tools">
                         <h2 style="font-size:16px;">{{AccionNominaEmpleadoServicios}}</h2>
@@ -274,11 +274,11 @@
                     </div>
                 </md-toolbar>
 
-                <form id="frmServicios" style="">
+                <form id="frmServicios" style="position:relative;">
 
                     <md-dialog-content style="">
                         <div layout="row" layout-align="center center">
-                            <div id="divGridNominaEmpleadoServicios" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 495px); margin-top:0px; overflow-y:auto;">
+                            <div id="divGridNominaEmpleadoServicios" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 300px); margin-top:5px; overflow-y:auto;">
                                 <div id="divNominaEmpleadoServiciosGridOptions" data-ag-grid="NominaEmpleadoServiciosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                             </div>
                         </div>

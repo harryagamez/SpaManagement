@@ -369,29 +369,29 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     $scope.NominaEmpleadosGridOptionsColumns = [
 
         {
-            headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
+            headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" },
         },
         {
-            headerName: "", field: "", colId: 'Consultar Servicios', suppressMenu: true, visible: true, width: 30, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+            headerName: "", field: "", colId: 'Consultar Servicios', suppressMenu: true, visible: true,  width: 50, cellStyle: { 'display':'flex', 'justify-content': 'center', 'cursor': 'pointer' },
             cellRenderer: function (params) {
                 let tipoNomina = params.data.tipo_Nomina;
                 if (tipoNomina === 'POR_SERVICIOS')
-                    return "<i data-ng-click='ConsultarNominaEmpleadoServicios(data)' data-toggle='tooltip' title='Consultar Servicios' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>assignment</i>";
+                    return "<i data-ng-click='ConsultarNominaEmpleadoServicios(data)' data-toggle='tooltip' title='Consultar Servicios' class='material-icons' style='font-size:20px; margin-left:5px; margin-top:-1px; color:lightslategrey;'>assignment</i>";
                 else
                     return
             },
         },
         {
-            headerName: "", field: "", colId: 'Consultar Prestamos', suppressMenu: true, visible: true, width: 30, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+            headerName: "", field: "", colId: 'Consultar Prestamos', suppressMenu: true, visible: true, width: 50, cellStyle: { 'display': 'flex', 'justify-content': 'center', 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='ConsultarEmpleadoPrestamos(data)' data-toggle='tooltip' title='Consultar Prestamos' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>monetization_on</i>";
+                return "<i data-ng-click='ConsultarEmpleadoPrestamos(data)' data-toggle='tooltip' title='Consultar Prestamos' class='material-icons' style='font-size:20px; margin-left:2px; margin-top:-1px; color:lightslategrey;'>monetization_on</i>";
             },
         },
         {
-            headerName: "Nombres(s)", field: 'nombres', width: 240, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            headerName: "Nombres(s)", field: 'nombres', width: 220, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Apellido(s)", field: 'apellidos', width: 240, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            headerName: "Apellido(s)", field: 'apellidos', width: 220, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
             headerName: "Servicios", field: 'servicios', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
