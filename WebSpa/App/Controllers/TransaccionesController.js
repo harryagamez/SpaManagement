@@ -232,6 +232,37 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                 })
     }
 
+    $scope.ConsultarEmpleadoPrestamos = function (data) {
+        let idEmpresa = data.id_Empresa;
+        let idEmpleado = data.id_Empleado;
+        let nombreApellidoEmpleado = data.nombres + ' ' + data.apellidos;
+
+        SPAService._consultarEmpleadoPrestamos(idEmpresa, idEmpleado)
+            .then(
+                function (result) {
+                    if (result.data !== undefined && result.data !== null) {
+                        if (result.data.length > 0) {
+                            $scope.EmpleadoPrestamos = [];
+                            $scope.EmpleadoPrestamos = result.data;
+                            $scope.EmpleadoPrestamos = $filter('orderBy')($scope.EmpleadoPrestamos, 'fecha', false);
+                            $scope.EmpleadoPrestamosGridOptions.api.setRowData($scope.EmpleadoPrestamos);
+                            $scope.AccionEmpleadoPrestamos = 'Prestamos asignados a ' + nombreApellidoEmpleado;
+                            $scope.ModalEmpleadoPrestamos();
+                            $timeout(function () {
+                                $scope.EmpleadoPrestamosGridOptions.api.sizeColumnsToFit();
+                            }, 200);
+                        } else {
+                            toastr.info('El empleado seleccionado no tiene prestamos asignados', '', $scope.toastrOptions);
+                        }
+                        
+                    }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
+    }
+
     $scope.ConsultarServiciosAgenda = function () {
         if ($scope.ValidarDatosConsulta()) {
             SPAService._consultarAgenda($scope.Agenda)
@@ -458,6 +489,37 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             resizable: true
         },
         columnDefs: $scope.NominaEmpleadoServiciosGridOptionsColumns,
+        rowData: [],
+        enableSorting: true,
+        enableFilter: true,
+        enableColResize: true,
+        angularCompileRows: true,
+        onGridReady: function (params) {
+        },
+        fullWidthCellRenderer: true,
+        animateRows: true,
+        suppressRowClickSelection: true,
+        rowSelection: 'multiple',
+        suppressRowClickSelection: true
+    }
+
+    $scope.EmpleadoPrestamosGridOptionsColumns = [
+        {
+            headerName: "Descripción", field: 'descripcion', width: 300, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
+        },
+        {
+            headerName: "Valor", field: 'valor', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
+        },
+        {
+            headerName: "Fecha", field: 'fecha', width: 100, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter
+        }
+    ];
+
+    $scope.EmpleadoPrestamosGridOptions = {
+        defaultColDef: {
+            resizable: true
+        },
+        columnDefs: $scope.EmpleadoPrestamosGridOptionsColumns,
         rowData: [],
         enableSorting: true,
         enableFilter: true,
@@ -853,10 +915,25 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                 multiple: true,
             })
                 .then(function () {
-                }, function () {
-                    $scope.ServiciosSeleccionados = [];
-                    $scope.ServiciosAsignados = [];
-                    $scope.GridAccion = '';
+                }, function () {                    
+                });
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.ModalEmpleadoPrestamos = function () {
+        try {
+            $mdDialog.show({
+                contentElement: '#dlgEmpleadoPrestamos',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                multiple: true,
+            })
+                .then(function () {
+                }, function () {                    
                 });
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);

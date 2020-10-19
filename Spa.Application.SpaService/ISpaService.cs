@@ -64,6 +64,7 @@ namespace Spa.Application.SpaService
         bool RegistrarFacturacionServicios(AplicacionPago aplicacionPago);
         List<EmpleadoNomina> ConsultarNominaEmpleados(string idEmpresa, string fechaNomina);
         List<Agenda> ConsultarNominaEmpleadoServicios(string idEmpresa, int idEmpleado, string fechaNomina);
+        List<Gasto> ConsultarEmpleadoPrestamos(string idEmpresa, int idEmpleado);
         bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties);
     }
 }

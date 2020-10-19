@@ -8,6 +8,7 @@ BEGIN
 	DECLARE @IdRegistro INT
 	DECLARE @IdEmpresa VARCHAR(36)
 	DECLARE @Acumulado REAL
+	DECLARE @FechaActual DATETIME = GETDATE()
 
 	SELECT 
 		@Distribucion = Distribucion, 
@@ -40,13 +41,13 @@ BEGIN
 					) AS JsonCajaMenor
 				) AS SOURCE(Saldo_Inicial, Acumulado, Distribucion, Id_Empresa)		
 
-				ON  TARGET.ID_EMPRESA = SOURCE.Id_Empresa AND TARGET.ANIO = CAST(YEAR(GETDATE()) AS INT) AND TARGET.MES = CAST(MONTH(GETDATE()) AS INT) AND CONVERT(date, TARGET.DIA) = CONVERT(date, GETDATE())
+				ON  TARGET.ID_EMPRESA = SOURCE.Id_Empresa AND TARGET.ANIO = YEAR(@FechaActual) AND TARGET.MES = MONTH(@FechaActual) AND DAY(TARGET.DIA) = DAY(@FechaActual)
 				WHEN MATCHED THEN
 					UPDATE 
-						SET TARGET.ACUMULADO = (TARGET.ACUMULADO + SOURCE.Saldo_Inicial), TARGET.SALDO_INICIAL = (TARGET.SALDO_INICIAL + SOURCE.Saldo_Inicial), TARGET.FECHA_MODIFICACION = GETDATE()
+						SET TARGET.ACUMULADO = (TARGET.ACUMULADO + SOURCE.Saldo_Inicial), TARGET.SALDO_INICIAL = (TARGET.SALDO_INICIAL + SOURCE.Saldo_Inicial), TARGET.FECHA_MODIFICACION = @FechaActual
 				WHEN NOT MATCHED THEN
 					INSERT (ANIO, MES, DIA, SALDO_INICIAL, ACUMULADO, FECHA_REGISTRO, FECHA_MODIFICACION, ID_EMPRESA)
-					VALUES (YEAR(GETDATE()), MONTH(GETDATE()), CAST(GETDATE() AS SMALLDATETIME), (SOURCE.Saldo_Inicial + @Acumulado), (SOURCE.Saldo_Inicial + SOURCE.Acumulado), GETDATE(), GETDATE(), SOURCE.Id_Empresa);
+					VALUES (YEAR(@FechaActual), MONTH(@FechaActual), CAST(@FechaActual AS SMALLDATETIME), (SOURCE.Saldo_Inicial + @Acumulado), (SOURCE.Saldo_Inicial + SOURCE.Acumulado), @FechaActual, @FechaActual, SOURCE.Id_Empresa);
 
 			END
 
@@ -61,13 +62,13 @@ BEGIN
 					) AS JsonCajaMenor
 				) AS SOURCE(Saldo_Inicial, Acumulado, Distribucion, Id_Empresa)		
 
-				ON  TARGET.ID_EMPRESA = SOURCE.Id_Empresa AND TARGET.ANIO = CAST(YEAR(GETDATE()) AS INT) AND TARGET.MES = CAST(MONTH(GETDATE()) AS INT)
+				ON  TARGET.ID_EMPRESA = SOURCE.Id_Empresa AND TARGET.ANIO = YEAR(@FechaActual) AND TARGET.MES = MONTH(@FechaActual)
 				WHEN MATCHED THEN
 					UPDATE 
-						SET TARGET.ACUMULADO = (SOURCE.Acumulado + SOURCE.Saldo_Inicial), TARGET.SALDO_INICIAL = (SOURCE.Acumulado + SOURCE.Saldo_Inicial), TARGET.FECHA_MODIFICACION = GETDATE()
+						SET TARGET.ACUMULADO = (SOURCE.Acumulado + SOURCE.Saldo_Inicial), TARGET.SALDO_INICIAL = (SOURCE.Acumulado + SOURCE.Saldo_Inicial), TARGET.FECHA_MODIFICACION = @FechaActual
 				WHEN NOT MATCHED THEN
 					INSERT (ANIO, MES, SALDO_INICIAL, ACUMULADO, FECHA_REGISTRO, FECHA_MODIFICACION, ID_EMPRESA)
-					VALUES (YEAR(GETDATE()), MONTH(GETDATE()), (SOURCE.Saldo_Inicial + @Acumulado), (SOURCE.Acumulado + SOURCE.Saldo_Inicial), GETDATE(), GETDATE(), SOURCE.Id_Empresa);
+					VALUES (YEAR(@FechaActual), MONTH(@FechaActual), (SOURCE.Saldo_Inicial + @Acumulado), (SOURCE.Acumulado + SOURCE.Saldo_Inicial), @FechaActual, @FechaActual, SOURCE.Id_Empresa);
 
 			END
 

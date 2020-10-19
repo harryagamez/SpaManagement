@@ -931,6 +931,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/SPA/ConsultarEmpleadoPrestamos")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarEmpleadoPrestamos(string idEmpresa, int IdEmpleado)
+        {
+            try
+            {
+                List<Gasto> _empleadoPrestamos = _spaService.ConsultarEmpleadoPrestamos(idEmpresa, IdEmpleado);
+
+                return Content(HttpStatusCode.OK, _empleadoPrestamos);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los prestamos del empleado: " + ex.Message);
+            }
+        }
+
 
     }
 }

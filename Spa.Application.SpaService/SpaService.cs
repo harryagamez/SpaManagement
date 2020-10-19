@@ -433,6 +433,10 @@ namespace Spa.Application.SpaService
         {
             return _spaRepository.ConsultarNominaEmpleadoServicios(idEmpresa, idEmpleado, fechaBusqueda);
         }
+        public List<Gasto> ConsultarEmpleadoPrestamos(string idEmpresa, int idEmpleado)
+        {
+            return _spaRepository.ConsultarEmpleadoPrestamos(idEmpresa, idEmpleado);
+        }
 
         public bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties)
         {
