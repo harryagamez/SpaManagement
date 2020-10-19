@@ -437,10 +437,10 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
 
     $scope.NominaEmpleadoServiciosGridOptionsColumns = [
         {
-            headerName: "Servicio", field: 'nombre_Servicio', width: 340, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
+            headerName: "Servicio", field: 'nombre_Servicio', width: 350, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
         },
         {
-            headerName: "Valor", field: 'valor_Servicio', width: 250, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
+            headerName: "Valor", field: 'valor_Servicio', width: 140, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
         },
         {
             headerName: "Fecha", field: 'fecha_Inicio', width: 150, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter
@@ -688,7 +688,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             }
 
             if ($scope.CantidadInsumo === '' || $scope.CantidadInsumo === null || $scope.CantidadInsumo === undefined || parseInt($scope.CantidadInsumo) === 0) {
-                toastr.info('Debe ingresar el número de productos a procesar', '', $scope.toastrOptions);
+                toastr.info('Debe ingresar la cantidad del producto', '', $scope.toastrOptions);
                 $('#txtCantidadInsumo').focus();
                 return;
             }

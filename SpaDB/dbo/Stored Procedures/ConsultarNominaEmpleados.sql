@@ -16,12 +16,27 @@ BEGIN
 		OR VALOR_PROPIEDAD = 'QUINCENAL' 
 		OR VALOR_PROPIEDAD = 'DIARIO' 
 		OR VALOR_PROPIEDAD = 'POR_SERVICIOS')
-	)	
+	)
+	
+	IF (@TipoNomina IS NULL) BEGIN
+		DECLARE @Mensaje CHAR(200) = 'Para poder realizar esta tarea debe configurar el tipo de nómina de la empresa'
+		RAISERROR (@Mensaje, 16, 1)		
+		RETURN
+	END
 
 	CREATE TABLE #TempNomina_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Nombres CHAR(60), Apellidos CHAR(60), Servicios REAL, Prestamos REAL, Salario REAL, Total_Aplicado REAL, Total_Pagar REAL, Tipo_Nomina CHAR(15))	
 	CREATE TABLE #TempServicios_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Servicios REAL)
 	CREATE TABLE #TempPrestamos_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Prestamos REAL)
 
+	INSERT INTO #TempPrestamos_Empleados (Id_Empresa, Id_Empleado, Prestamos)		
+	SELECT 
+		ID_EMPRESA, ID_EMPLEADO, 
+		SUM(VALOR) AS PRESTAMO
+	FROM GASTOS
+	WHERE ID_EMPRESA = @IdEmpresa 
+	AND ESTADO = 'ASIGNADO'
+	GROUP BY ID_EMPRESA, ID_EMPLEADO
+	
 	IF(@TipoNomina = 'MENSUAL') BEGIN
 	
 		INSERT INTO #TempNomina_Empleados (Id_Empresa, Id_Empleado, Nombres, Apellidos, Salario)		
@@ -34,16 +49,7 @@ BEGIN
 		AND Liquidaciones.ANIO = YEAR(@FechaNomina) 
 		AND Liquidaciones.MES = MONTH(@FechaNomina)
 		WHERE Liquidaciones.ID_EMPLEADO IS NULL 
-		AND Empleados.ID_EMPRESA = @IdEmpresa 
-
-		INSERT INTO #TempPrestamos_Empleados (Id_Empresa, Id_Empleado, Prestamos)		
-		SELECT 
-			ID_EMPRESA, ID_EMPLEADO, 
-			SUM(VALOR) AS PRESTAMO
-		FROM GASTOS
-		WHERE ID_EMPRESA = @IdEmpresa 
-		AND ESTADO = 'ASIGNADO'
-		GROUP BY ID_EMPRESA, ID_EMPLEADO
+		AND Empleados.ID_EMPRESA = @IdEmpresa
 		
 	END
 
@@ -62,16 +68,7 @@ BEGIN
 			AND Liquidaciones.MES = MONTH(@FechaNomina) 
 			AND Liquidaciones.QUINCENA = 1
 			WHERE Liquidaciones.ID_EMPLEADO IS NULL 
-			AND Empleados.ID_EMPRESA = @IdEmpresa			
-
-			INSERT INTO #TempPrestamos_Empleados (Id_Empresa, Id_Empleado, Prestamos)				
-			SELECT 
-				ID_EMPRESA, ID_EMPLEADO, 
-				SUM(VALOR) AS PRESTAMO
-			FROM GASTOS
-			WHERE ID_EMPRESA = @IdEmpresa 
-			AND ESTADO = 'ASIGNADO'
-			GROUP BY ID_EMPRESA, ID_EMPLEADO
+			AND Empleados.ID_EMPRESA = @IdEmpresa
 			
 		END
 
@@ -88,16 +85,7 @@ BEGIN
 			AND Liquidaciones.MES = MONTH(@FechaNomina) 
 			AND Liquidaciones.QUINCENA = 2
 			WHERE Liquidaciones.ID_EMPLEADO IS NULL 
-			AND Empleados.ID_EMPRESA = @IdEmpresa 			
-
-			INSERT INTO #TempPrestamos_Empleados (Id_Empresa, Id_Empleado, Prestamos)				
-			SELECT 
-				ID_EMPRESA, ID_EMPLEADO, 
-				SUM(VALOR) AS TOTAL_PRESTAMO
-			FROM GASTOS
-			WHERE ID_EMPRESA = @IdEmpresa 
-			AND ESTADO = 'ASIGNADO'
-			GROUP BY ID_EMPRESA, ID_EMPLEADO
+			AND Empleados.ID_EMPRESA = @IdEmpresa
 			
 		END
 
@@ -116,16 +104,7 @@ BEGIN
 		AND Liquidaciones.MES = MONTH(@FechaNomina) 
 		AND DAY(Liquidaciones.DIA) = DAY(@FechaNomina)
 		WHERE Liquidaciones.ID_EMPLEADO IS NULL 
-		AND Empleados.ID_EMPRESA = @IdEmpresa 
-		
-		INSERT INTO #TempPrestamos_Empleados (Id_Empresa, Id_Empleado, Prestamos)			
-		SELECT 
-			ID_EMPRESA, ID_EMPLEADO, 
-			SUM(VALOR) AS TOTAL_PRESTAMO
-		FROM GASTOS
-		WHERE ID_EMPRESA = @IdEmpresa 
-		AND ESTADO = 'ASIGNADO'
-		GROUP BY ID_EMPRESA, ID_EMPLEADO
+		AND Empleados.ID_EMPRESA = @IdEmpresa
 		
 	END
 
@@ -149,7 +128,7 @@ BEGIN
 			SUM(EMPRESA_SERVICIOS.VALOR)
 		FROM AGENDA Agenda
 		INNER JOIN EMPRESA_SERVICIOS 
-		ON EMPRESA_SERVICIOS.ID_SERVICIO = Agenda.ID_SERVICIO
+		ON EMPRESA_SERVICIOS.ID_SERVICIO = Agenda.ID_SERVICIO AND EMPRESA_SERVICIOS.ID_EMPRESA = Agenda.ID_EMPRESA
 		LEFT JOIN LIQUIDACIONES Liquidaciones 
 		ON Liquidaciones.ID_EMPLEADO = Agenda.ID_EMPLEADO 
 		AND Liquidaciones.ANIO = YEAR(@FechaNomina) 
@@ -160,12 +139,6 @@ BEGIN
 		AND YEAR(Agenda.FECHA_INICIO) = YEAR(@FechaNomina) 
 		AND MONTH(Agenda.FECHA_INICIO) = MONTH(@FechaNomina))
 		GROUP BY Agenda.ID_EMPRESA, Agenda.ID_EMPLEADO
-		
-		INSERT INTO #TempPrestamos_Empleados (Id_Empresa, Id_Empleado, Prestamos)		
-		SELECT ID_EMPRESA, ID_EMPLEADO, SUM(VALOR) AS TOTAL_PRESTAMO
-		FROM GASTOS
-		WHERE ID_EMPRESA = @IdEmpresa AND ESTADO = 'ASIGNADO'
-		GROUP BY ID_EMPRESA, ID_EMPLEADO
 		
 	END
 
