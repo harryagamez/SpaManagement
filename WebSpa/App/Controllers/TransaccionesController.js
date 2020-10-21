@@ -18,7 +18,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     $scope.TotalServicios = 0;
 
     $scope.AcumuladoCajaMenor = 0;
-    $scope.NominaTotalServicios = 0;
+    $scope.NominaTotalSalarios = 0;
     $scope.NominaTotalPrestamos = 0;
     $scope.NominaTotalPagar = 0;
 
@@ -86,7 +86,16 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                 if (tdn.length > 0) {
                     $scope.fPropertiesSetted = true;
                     $scope.TDN = tdn[0].valor_Propiedad;
-                    $scope.fTDN = true;
+                    $scope.fTDN = true;                    
+                    if ($scope.TDN === 'POR_SERVICIOS') {
+                        $timeout(function () {
+                            $scope.TabTitle = 'Liquidar Servicios';
+                        },100);                        
+                    } else {
+                        $timeout(function () {
+                            $scope.TabTitle = 'Liquidar Nómina';
+                        },100);                        
+                    }
                 }
                 else {
                     $scope.fPropertiesSetted = true;
@@ -135,6 +144,25 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                         if (result.data === true) {
                             toastr.success('Transacción registrada correctamente', '', $scope.toastrOptions);
                             $scope.ConsultarProductos();
+                            $scope.LimpiarDatos();
+                        }
+                    }, function (err) {
+                        toastr.remove();
+                        if (err.data !== null && err.status === 500)
+                            toastr.error(err.data, '', $scope.toastrOptions);
+                    })
+        }
+    }
+
+    $scope.LiquidarNominaEmpleados = function () {
+        if ($scope.ValidarDatosNominaEmpleados()) {
+            debugger;
+            SPAService._liquidarNominaEmpleados($scope.AplicacionNomina)
+                .then(
+                    function (result) {
+                        if (result.data === true) {
+                            toastr.success('Liquidación de la nómina registrada correctamente', '', $scope.toastrOptions);
+                            $scope.ConsultarNominaEmpleados();
                             $scope.LimpiarDatos();
                         }
                     }, function (err) {
@@ -355,7 +383,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         animateRows: true,
         suppressRowClickSelection: true,
         rowSelection: 'multiple',
-        onRowSelected: OnRowSelected
+        onRowSelected: OnRowSelectedFacturarServicios
     }
 
     $scope.ProductosTransaccionGridOptionsColumns = [
@@ -431,7 +459,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             headerName: "Salario / % ", field: 'salario', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: decimalFormatter
         },
         {
-            headerName: "Subtotal", field: 'total_Aplicado', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
+            headerName: "Subtotal", field: 'subtotal', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
         },
         {
             headerName: "Préstamos", field: 'prestamos', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
@@ -463,7 +491,8 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         animateRows: true,
         suppressRowClickSelection: true,
         rowSelection: 'multiple',
-        suppressRowClickSelection: true
+        suppressRowClickSelection: true,
+        onRowSelected: OnRowSelectedLiquidarNomina
     }
 
     $scope.NominaEmpleadoServiciosGridOptionsColumns = [
@@ -565,6 +594,25 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
         }
+    }
+
+    $scope.ValidarDatosNominaEmpleados = function () {
+        if ($scope.ObjetoEmpleadosSeleccionados === undefined || $scope.ObjetoEmpleadosSeleccionados === null || $scope.ObjetoEmpleadosSeleccionados.length === 0) {
+            toastr.info('Debe seleccionar al menos un empleado para liquidar ésta nómina', '', $scope.toastrOptions);
+            return false;
+        }
+
+        if ($scope.NominaTotalPagar > $scope.AcumuladoCajaMenor) {
+            toastr.warning('El saldo acumulado de la caja menor no es suficiente para liquidar ésta nómina', '', $scope.toastrOptions);
+            return false;            
+        }
+
+        $scope.AplicacionNomina = [];
+        $scope.AplicacionNomina = $scope.ObjetoEmpleadosSeleccionados.map(function (e) {
+            return {Id_Registro: -1, Id_Empresa: $scope.IdEmpresa, Id_empleado: e.id_Empleado, Subtotal: e.subtotal, Total_Prestamos: e.prestamos, Total_Pagado: e.total_Pagar}
+        });       
+
+        return true;
     }
 
     $scope.ValidarDatosPagos = function () {
@@ -691,6 +739,10 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         $scope.DescuentoTransaccion = 0;
         $scope.TotalProductos = 0;
         $scope.TotalServicios = 0;
+
+        $scope.NominaTotalSalarios = 0;
+        $scope.NominaTotalPrestamos = 0;
+        $scope.NominaTotalPagar = 0;
 
         $scope.Agenda = {
             Id_Agenda: -1,
@@ -941,7 +993,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         }
     }
 
-    function OnRowSelected(event) {
+    function OnRowSelectedFacturarServicios(event) {
         try {
             let total = 0;
 
@@ -959,6 +1011,34 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                 $scope.SubtotalTransaccion = parseFloat($scope.TotalServicios) + parseFloat($scope.TotalProductos);
                 $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
             });
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    function OnRowSelectedLiquidarNomina(event) {
+        try {
+            $scope.NominaTotalSalarios = 0;
+            $scope.NominaTotalPrestamos = 0;
+            $scope.NominaTotalPagar = 0;
+
+            $scope.ObjetoEmpleadosSeleccionados = [];
+            $scope.ObjetoEmpleadosSeleccionados = $scope.NominaEmpleadosGridOptions.api.getSelectedRows();
+            
+            if ($scope.ObjetoEmpleadosSeleccionados.length > 0) {
+                $scope.$apply(function () {
+                    $scope.NominaTotalSalarios = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoEmpleadosSeleccionados, { property: "subtotal", operation: "+" }), '2', $scope);
+                    $scope.NominaTotalPrestamos = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoEmpleadosSeleccionados, { property: "prestamos", operation: "+" }), '2', $scope);
+                    $scope.NominaTotalPagar = ($scope.NominaTotalSalarios - $scope.NominaTotalPrestamos);
+                });                
+            } else {
+                $scope.$apply(function () {
+                    $scope.NominaTotalSalarios = 0;
+                    $scope.NominaTotalPrestamos = 0;
+                    $scope.NominaTotalPagar = 0;
+                });                
+            }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -1019,6 +1099,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
 
     $scope.$on("CompanyChange", function () {
         $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
         $scope.LimpiarDatos();
         $scope.ConfiguracionEmpresaActual();
         $scope.ConsultarClientes();

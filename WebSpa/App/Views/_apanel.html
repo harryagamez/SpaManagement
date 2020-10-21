@@ -25,334 +25,374 @@
                 <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
 
                     <md-tab label="Datos Maestros" data-ng-click="fActiveTab = 'Datos Maestros';LimpiarDatos()">
-                        <md-content style="background-color:transparent; margin-bottom:10px; overflow-y:hidden;">
-                            <div layout="row" style="height:calc(50vh - 74px); width:100%; margin-top:5px;">
 
-                                <div style="width:50%;">
-                                    <h3 style="font-size:16px; font-weight:600; margin-top:5px; color:white; background-color:#385178; width:180px; padding-left:7px; border-radius:0 25px 25px 0;">CATEGORIA SERVICIO</h3>
-                                    <hr style="margin-top:-18px; z-index:1;" />
-                                    <div layout="row" style="position:relative; margin-top:-10px;">
-                                        <div style="padding-right:10px;">
-                                            <md-input-container>
-                                                <label class="label-form-clientes" style="">
-                                                    Nombre Categoría:
-                                                </label>
-                                                <input id="txtNombreCategoria" md-autofocus="CategoriaServicio.Id_Categoria_Servicio === '00000000-0000-0000-0000-000000000000'" ng-disabled="CategoriaServicio.Id_Categoria_Servicio !== '00000000-0000-0000-0000-000000000000'" ng-model="CategoriaServicio.Nombre" maxlength="50" type="text" style="min-width: 170px;" placeholder="Nombre categoría ..." tabindex=1>
-                                            </md-input-container>
+                        <md-tab-label>
+                            <i class="material-icons md-18" style="transform: scaleX(1); font-size:22px; font-weight:bold;">storage</i> Datos Maestros
+                        </md-tab-label>
+
+                        <md-tab-body>
+
+                            <md-content style="background-color:transparent; margin-bottom:10px; overflow-y:hidden;">
+                                <div layout="row" style="height:calc(50vh - 74px); width:100%; margin-top:5px;">
+
+                                    <div style="width:50%;">
+                                        <h3 style="font-size:16px; font-weight:600; margin-top:5px; color:white; background-color:#385178; width:180px; padding-left:7px; border-radius:0 25px 25px 0;">CATEGORIA SERVICIO</h3>
+                                        <hr style="margin-top:-18px; z-index:1;" />
+                                        <div layout="row" style="position:relative; margin-top:-10px;">
+                                            <div style="padding-right:10px;">
+                                                <md-input-container>
+                                                    <label class="label-form-clientes" style="">
+                                                        Nombre Categoría:
+                                                    </label>
+                                                    <input id="txtNombreCategoria" md-autofocus="CategoriaServicio.Id_Categoria_Servicio === '00000000-0000-0000-0000-000000000000'" ng-disabled="CategoriaServicio.Id_Categoria_Servicio !== '00000000-0000-0000-0000-000000000000'" ng-model="CategoriaServicio.Nombre" maxlength="50" type="text" style="min-width: 170px;" placeholder="Nombre categoría ..." tabindex=1>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div style="padding-right:10px;">
+                                                <md-input-container>
+                                                    <label class="label-form-clientes" style="">
+                                                        Descripción Categoría:
+                                                    </label>
+                                                    <input id="txtDescripcionCategoria" ng-model="CategoriaServicio.Descripcion" maxlength="250" type="text" style="min-width: 170px;" placeholder="Descripción categoría ..." tabindex=2>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div style="padding-right:10px; position:absolute; right:-5px; padding-top:5px;">
+                                                <section id="divButtons" layout-align="end center" style="margin-top:7px;">
+                                                    <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Categoría Servicio" data-ng-click="GuardarCategoriaServicio()">
+                                                        <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
+                                                    </md-button>
+                                                    <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'CategoriaServicio' ; LimpiarDatos()">
+                                                        <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
+                                                    </md-button>
+                                                </section>
+                                            </div>
                                         </div>
 
-                                        <div style="padding-right:10px;">
-                                            <md-input-container>
-                                                <label class="label-form-clientes" style="">
-                                                    Descripción Categoría:
-                                                </label>
-                                                <input id="txtDescripcionCategoria" ng-model="CategoriaServicio.Descripcion" maxlength="250" type="text" style="min-width: 170px;" placeholder="Descripción categoría ..." tabindex=2>
-                                            </md-input-container>
-                                        </div>
-
-                                        <div style="padding-right:10px; position:absolute; right:-5px; padding-top:5px;">
-                                            <section id="divButtons" layout-align="end center" style="margin-top:7px;">
-                                                <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Categoría Servicio" data-ng-click="GuardarCategoriaServicio()">
-                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
-                                                </md-button>
-                                                <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'CategoriaServicio' ; LimpiarDatos()">
-                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
-                                                </md-button>
-                                            </section>
-                                        </div>
-                                    </div>
-
-                                    <div id="divGridCategoriaServicios" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 140px); margin-top:-37px; overflow-y:auto;">
-                                        <div id="divCategoriaServiciosGridOptions" data-ag-grid="CategoriaServiciosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
-                                    </div>
-                                </div>
-
-                                <div style="width:50%; padding-left:10px;">
-                                    <h3 style="font-size:16px; font-weight:600; margin-top:5px; color:white; background-color:#385178; width:128px; padding-left:7px; border-radius:0 25px 25px 0;">TIPO SERVICIO</h3>
-                                    <hr style="margin-top:-18px; z-index:1;" />
-                                    <div layout="row" style="position:relative; margin-top:-10px;">
-                                        <div style="padding-right:10px;">
-                                            <md-input-container>
-                                                <label class="label-form-clientes" style="">
-                                                    Nombre Tipo Servicio:
-                                                </label>
-                                                <input id="txtNombreTipoServicio" ng-disabled="TipoServicio.Id_TipoServicio !== -1" ng-model="TipoServicio.Nombre" maxlength="30" type="text" style="min-width: 170px;" placeholder="Nombre tipo servicio..." tabindex=4>
-                                            </md-input-container>
-                                        </div>
-
-                                        <div style="padding-right:10px;">
-                                            <md-input-container>
-                                                <label class="label-form-clientes" style="">
-                                                    Descripción Tipo Servicio:
-                                                </label>
-                                                <input id="txtDescripcionTipoServicio" ng-model="TipoServicio.Descripcion" maxlength="100" type="text" style="min-width: 170px;" placeholder="Descripción tipo servicio..." tabindex=5>
-                                            </md-input-container>
-                                        </div>
-
-                                        <div style="padding-right:10px;">
-                                            <md-input-container style="width: 180px; margin-top: 18px; margin-bottom: 0;">
-                                                <label class="label-form-clientes">
-                                                    Categoría Servicio:
-                                                </label>
-                                                <md-select ng-model="CategoriaSeleccionada" style="display:inline-flex; max-width: 150px; min-width:150px; margin-top:1px;" id="slCategoriaTipoServicio" tabindex=6>
-                                                    <md-option ng-bind="item.nombre" ng-value="item.id_Categoria_Servicio" ng-repeat="item in CategoriaServiciosCopy track by item.id_Categoria_Servicio"></md-option>
-                                                </md-select>
-                                            </md-input-container>
-                                        </div>
-
-                                        <div style="position:absolute; right: 2px; padding-top:5px;">
-                                            <section id="divButtons" layout-align="right center" style="margin-top:7px;">
-                                                <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Tipo Servicio" data-ng-click="GuardarTipoServicio()">
-                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
-                                                </md-button>
-                                                <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'TipoServicio' ; LimpiarDatos()">
-                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
-                                                </md-button>
-                                            </section>
+                                        <div id="divGridCategoriaServicios" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 140px); margin-top:-37px; overflow-y:auto;">
+                                            <div id="divCategoriaServiciosGridOptions" data-ag-grid="CategoriaServiciosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                                         </div>
                                     </div>
 
-                                    <div id="divGridTipoServicios" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 140px); margin-top:-37px; overflow-y:auto;">
-                                        <div id="divTipoServiciosGridOptions" data-ag-grid="TipoServiciosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
-                                    </div>
-                                </div>
-                            </div>
+                                    <div style="width:50%; padding-left:10px;">
+                                        <h3 style="font-size:16px; font-weight:600; margin-top:5px; color:white; background-color:#385178; width:128px; padding-left:7px; border-radius:0 25px 25px 0;">TIPO SERVICIO</h3>
+                                        <hr style="margin-top:-18px; z-index:1;" />
+                                        <div layout="row" style="position:relative; margin-top:-10px;">
+                                            <div style="padding-right:10px;">
+                                                <md-input-container>
+                                                    <label class="label-form-clientes" style="">
+                                                        Nombre Tipo Servicio:
+                                                    </label>
+                                                    <input id="txtNombreTipoServicio" ng-disabled="TipoServicio.Id_TipoServicio !== -1" ng-model="TipoServicio.Nombre" maxlength="30" type="text" style="min-width: 170px;" placeholder="Nombre tipo servicio..." tabindex=4>
+                                                </md-input-container>
+                                            </div>
 
-                            <div layout="row" style="height: calc(50vh - 74px); width: 100%; ">
-                                <div style="width:50%;">
-                                    <h3 style="font-size:16px; font-weight:600; margin-top:5px; color:white; background-color:#385178; width:109px; padding-left:7px; border-radius:0 25px 25px 0;">MUNICIPIOS</h3>
-                                    <hr style="margin-top:-18px; z-index:1;" />
-                                    <div layout="row" style="position:relative; margin-top:-10px;">
-                                        <div style="padding-right:10px;">
-                                            <md-input-container>
-                                                <label class="label-form-clientes" style="">
-                                                    Nombre Municipio:
-                                                </label>
-                                                <input id="txtNombreMunicipio" ng-model="Municipio.Nombre" maxlength="50" type="text" style="min-width: 170px;" placeholder="Nombre municipio..." tabindex=7>
-                                            </md-input-container>
+                                            <div style="padding-right:10px;">
+                                                <md-input-container>
+                                                    <label class="label-form-clientes" style="">
+                                                        Descripción Tipo Servicio:
+                                                    </label>
+                                                    <input id="txtDescripcionTipoServicio" ng-model="TipoServicio.Descripcion" maxlength="100" type="text" style="min-width: 170px;" placeholder="Descripción tipo servicio..." tabindex=5>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div style="padding-right:10px;">
+                                                <md-input-container style="width: 180px; margin-top: 18px; margin-bottom: 0;">
+                                                    <label class="label-form-clientes">
+                                                        Categoría Servicio:
+                                                    </label>
+                                                    <md-select ng-model="CategoriaSeleccionada" style="display:inline-flex; max-width: 150px; min-width:150px; margin-top:1px;" id="slCategoriaTipoServicio" tabindex=6>
+                                                        <md-option ng-bind="item.nombre" ng-value="item.id_Categoria_Servicio" ng-repeat="item in CategoriaServiciosCopy track by item.id_Categoria_Servicio"></md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div style="position:absolute; right: 2px; padding-top:5px;">
+                                                <section id="divButtons" layout-align="right center" style="margin-top:7px;">
+                                                    <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Tipo Servicio" data-ng-click="GuardarTipoServicio()">
+                                                        <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
+                                                    </md-button>
+                                                    <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'TipoServicio' ; LimpiarDatos()">
+                                                        <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
+                                                    </md-button>
+                                                </section>
+                                            </div>
                                         </div>
 
-                                        <div style="padding-right:10px;">
-                                            <md-input-container style="width: 180px; margin-top: 18px; margin-bottom: 0;">
-                                                <label class="label-form-clientes">
-                                                    Departamento:
-                                                </label>
-                                                <md-select ng-model="DepartamentoSeleccionado" style="display:inline-flex; max-width: 170px; min-width:170px; margin-top:1px;" id="slDepartamentos" tabindex=8>
-                                                    <md-option ng-bind="item.nombre" ng-value="item.id_Departamento" ng-repeat="item in Departamentos track by item.id_Departamento"></md-option>
-                                                </md-select>
-                                            </md-input-container>
+                                        <div id="divGridTipoServicios" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 140px); margin-top:-37px; overflow-y:auto;">
+                                            <div id="divTipoServiciosGridOptions" data-ag-grid="TipoServiciosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                                         </div>
-
-                                        <div style="position:absolute; right:0px; padding-top:5px;">
-                                            <section id="divButtons" layout-align="right center" style="margin-top:7px;">
-                                                <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Municipio" data-ng-click="GuardarMunicipio()">
-                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
-                                                </md-button>
-                                                <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'Municipio' ; LimpiarDatos()">
-                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
-                                                </md-button>
-                                            </section>
-                                        </div>
-                                    </div>
-
-                                    <div id="divGridMunicipios" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 140px); margin-top:-37px; overflow-y:auto;">
-                                        <div id="divMunicipiosGridOptions" data-ag-grid="MunicipiosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                                     </div>
                                 </div>
 
-                                <div style="width:50%; padding-left:10px;">
-                                    <h3 style="font-size:16px; font-weight:600; margin-top:5px; color:white; background-color:#385178; width:83px; padding-left:7px; border-radius:0 25px 25px 0;">BARRIOS</h3>
-                                    <hr style="margin-top:-18px; z-index:1;" />
-                                    <div layout="row" style="position:relative; margin-top:-10px;">
-                                        <div style="padding-right:10px;">
-                                            <md-input-container>
-                                                <label class="label-form-clientes" style="">
-                                                    Nombre Barrio:
-                                                </label>
-                                                <input id="txtNombreBarrio" ng-model="Barrio.Nombre" ng-disabled="Barrio.Id_Barrio !== -1" maxlength="50" type="text" style="min-width: 170px;" placeholder="Nombre Barrio..." tabindex=9>
-                                            </md-input-container>
+                                <div layout="row" style="height: calc(50vh - 74px); width: 100%; ">
+                                    <div style="width:50%;">
+                                        <h3 style="font-size:16px; font-weight:600; margin-top:5px; color:white; background-color:#385178; width:109px; padding-left:7px; border-radius:0 25px 25px 0;">MUNICIPIOS</h3>
+                                        <hr style="margin-top:-18px; z-index:1;" />
+                                        <div layout="row" style="position:relative; margin-top:-10px;">
+                                            <div style="padding-right:10px;">
+                                                <md-input-container>
+                                                    <label class="label-form-clientes" style="">
+                                                        Nombre Municipio:
+                                                    </label>
+                                                    <input id="txtNombreMunicipio" ng-model="Municipio.Nombre" maxlength="50" type="text" style="min-width: 170px;" placeholder="Nombre municipio..." tabindex=7>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div style="padding-right:10px;">
+                                                <md-input-container style="width: 180px; margin-top: 18px; margin-bottom: 0;">
+                                                    <label class="label-form-clientes">
+                                                        Departamento:
+                                                    </label>
+                                                    <md-select ng-model="DepartamentoSeleccionado" style="display:inline-flex; max-width: 170px; min-width:170px; margin-top:1px;" id="slDepartamentos" tabindex=8>
+                                                        <md-option ng-bind="item.nombre" ng-value="item.id_Departamento" ng-repeat="item in Departamentos track by item.id_Departamento"></md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div style="position:absolute; right:0px; padding-top:5px;">
+                                                <section id="divButtons" layout-align="right center" style="margin-top:7px;">
+                                                    <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Municipio" data-ng-click="GuardarMunicipio()">
+                                                        <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
+                                                    </md-button>
+                                                    <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'Municipio' ; LimpiarDatos()">
+                                                        <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
+                                                    </md-button>
+                                                </section>
+                                            </div>
                                         </div>
 
-                                        <div style="padding-right:10px;">
-                                            <md-input-container style="width: 180px; margin-top: 18px; margin-bottom: 0;">
-                                                <label class="label-form-clientes">
-                                                    Departamento:
-                                                </label>
-                                                <md-select ng-model="DepartamentoSeleccionado2" data-ng-change="FiltrarMunicipios(DepartamentoSeleccionado2)" style="display:inline-flex; max-width: 170px; min-width:170px; margin-top:1px;" id="slDepartamentos2" tabindex=10>
-                                                    <md-option ng-bind="item.nombre" ng-value="item.id_Departamento" ng-repeat="item in Departamentos track by item.id_Departamento"></md-option>
-                                                </md-select>
-                                            </md-input-container>
-                                        </div>
-
-                                        <div style="padding-right:10px;">
-                                            <md-input-container style="width: 180px; margin-top: 18px; margin-bottom: 0;">
-                                                <label class="label-form-clientes">
-                                                    Municipio:
-                                                </label>
-                                                <md-select ng-model="MunicipioSeleccionado" ng-disabled="DepartamentoSeleccionado2 === -1" style="display:inline-flex; max-width: 150px; min-width:150px; margin-top:1px;" id="slMunicipios" tabindex=11>
-                                                    <md-option ng-bind="item.nombre" ng-value="item.id_Municipio" ng-repeat="item in MunicipiosCopy track by item.id_Municipio"></md-option>
-                                                </md-select>
-                                            </md-input-container>
-                                        </div>
-
-                                        <div style="position:absolute; right: 2px; padding-top:5px;">
-                                            <section id="divButtons" layout-align="right center" style="margin-top:7px;">
-                                                <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Barrio" data-ng-click="GuardarBarrio()">
-                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
-                                                </md-button>
-                                                <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'Barrio' ; LimpiarDatos()">
-                                                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
-                                                </md-button>
-                                            </section>
+                                        <div id="divGridMunicipios" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 140px); margin-top:-37px; overflow-y:auto;">
+                                            <div id="divMunicipiosGridOptions" data-ag-grid="MunicipiosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                                         </div>
                                     </div>
 
-                                    <div id="divGridBarrios" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 140px); margin-top:-37px; overflow-y:auto;">
-                                        <div id="divBarriosGridOptions" data-ag-grid="BarriosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+                                    <div style="width:50%; padding-left:10px;">
+                                        <h3 style="font-size:16px; font-weight:600; margin-top:5px; color:white; background-color:#385178; width:83px; padding-left:7px; border-radius:0 25px 25px 0;">BARRIOS</h3>
+                                        <hr style="margin-top:-18px; z-index:1;" />
+                                        <div layout="row" style="position:relative; margin-top:-10px;">
+                                            <div style="padding-right:10px;">
+                                                <md-input-container>
+                                                    <label class="label-form-clientes" style="">
+                                                        Nombre Barrio:
+                                                    </label>
+                                                    <input id="txtNombreBarrio" ng-model="Barrio.Nombre" ng-disabled="Barrio.Id_Barrio !== -1" maxlength="50" type="text" style="min-width: 170px;" placeholder="Nombre Barrio..." tabindex=9>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div style="padding-right:10px;">
+                                                <md-input-container style="width: 180px; margin-top: 18px; margin-bottom: 0;">
+                                                    <label class="label-form-clientes">
+                                                        Departamento:
+                                                    </label>
+                                                    <md-select ng-model="DepartamentoSeleccionado2" data-ng-change="FiltrarMunicipios(DepartamentoSeleccionado2)" style="display:inline-flex; max-width: 170px; min-width:170px; margin-top:1px;" id="slDepartamentos2" tabindex=10>
+                                                        <md-option ng-bind="item.nombre" ng-value="item.id_Departamento" ng-repeat="item in Departamentos track by item.id_Departamento"></md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div style="padding-right:10px;">
+                                                <md-input-container style="width: 180px; margin-top: 18px; margin-bottom: 0;">
+                                                    <label class="label-form-clientes">
+                                                        Municipio:
+                                                    </label>
+                                                    <md-select ng-model="MunicipioSeleccionado" ng-disabled="DepartamentoSeleccionado2 === -1" style="display:inline-flex; max-width: 150px; min-width:150px; margin-top:1px;" id="slMunicipios" tabindex=11>
+                                                        <md-option ng-bind="item.nombre" ng-value="item.id_Municipio" ng-repeat="item in MunicipiosCopy track by item.id_Municipio"></md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div style="position:absolute; right: 2px; padding-top:5px;">
+                                                <section id="divButtons" layout-align="right center" style="margin-top:7px;">
+                                                    <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Barrio" data-ng-click="GuardarBarrio()">
+                                                        <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
+                                                    </md-button>
+                                                    <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'Barrio' ; LimpiarDatos()">
+                                                        <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
+                                                    </md-button>
+                                                </section>
+                                            </div>
+                                        </div>
+
+                                        <div id="divGridBarrios" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 140px); margin-top:-37px; overflow-y:auto;">
+                                            <div id="divBarriosGridOptions" data-ag-grid="BarriosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </md-content>
+                            </md-content>
+
+                        </md-tab-body>
+
+                        
                     </md-tab>
 
                     <md-tab label="Empresas" data-ng-click="fActiveTab = 'Empresas'; LimpiarDatos()">
 
-                        <md-content style="background-color:transparent; overflow:hidden; margin-top:-25px;">
+                        <md-tab-label>
+                            <i class="material-icons md-18" style="transform: scaleX(1); font-size:22px; font-weight:bold;">business</i> Empresas
+                        </md-tab-label>
 
-                            <input type="file" name="file" id="LogoEmpresa" style="visibility:hidden;" data-toggle="tooltip" title="Upload" data-file-model="SeleccionarImagen($event)" accept=".png, .jpg, .jpeg" />
-
-                            <section id="divButtons" layout="row" layout-align="left center" style="margin-top:7px; margin-left:2px;">
-                                <md-button type="button" id="btnNuevo" class="groupX middle btn-apanel" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevaEmpresa()">
-                                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                                </md-button>
-                            </section>
-
-                            <div id="divGridEmpresas" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 190px); margin-top:7px; overflow-y:auto;">
-                                <div id="divEmpresasGridOptions" data-ag-grid="EmpresasGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
-                            </div>
-                        </md-content>
-                    </md-tab>
-
-                    <md-tab label="Servicios" data-ng-click="fActiveTab = 'Servicios'; SetFocus(); LimpiarDatos();">
-                        <md-content style="background-color:transparent; overflow:hidden; margin-top:2px;">
-
-                            <div layout="row" layout-sm="column" style="margin-bottom:-45px;">
-                                <div flex="" style="flex:none;">
-                                    <section id="divButtons" layout="row" layout-align="left center" style="margin-top:7px; margin-left:2px;">
-                                        <md-button type="button" id="btnNuevoServicio" class="groupX middle btn-apanel" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevoServicio()">
-                                            <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                                        </md-button>
-                                    </section>
-                                </div>
-                                <div flex="" style="flex:none; margin-left:10px;">
-                                    <md-input-container>
-                                        <label class="label-form-clientes" style="">
-                                            Nombre Servicio:
-                                        </label>
-                                        <input ng-keyup="onFilterTextBoxChanged()" id="txtBuscarServicio" maxlength="25" data-ng-enter="ConsultarServicio($event, Servicio.Nombre)" type="text" style="min-width: 200px;" placeholder="Servicio a filtrar..." tabindex=1>
-                                    </md-input-container>
-                                </div>
-                            </div>
-
-                            <div id="divGridServicios" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 193px); margin-top:7px; overflow-y:auto;">
-                                <div id="divServiciosGridOptions" data-ag-grid="ServiciosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
-                            </div>
-                        </md-content>
-                    </md-tab>
-
-                    <md-tab label="Usuarios" data-ng-click="fActiveTab = 'Usuarios'; LimpiarDatos()">
-                        <md-content style="background-color:transparent; ">
-
-                            <input type="file" name="file" id="ImagenUsuario" style="visibility:hidden;" data-toggle="tooltip" title="Upload" data-file-model="SeleccionarImagen($event)" accept=".png, .jpg, .jpeg" />
+                        <md-tab-body>
 
                             <md-content style="background-color:transparent; overflow:hidden; margin-top:-25px;">
-                                <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px; margin-left:2px;">
-                                    <md-button type="button" id="btnGuardarUsuario" class="btn-apanel groupX left" style="margin-left: 0px;" ng-disabled="PerfilUsuario === 'Invitado'" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarUsuarioAdmin()">
-                                        <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
-                                    </md-button>
 
-                                    <md-button type="button" id="btnNuevo" class="btn-apanel groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
+                                <input type="file" name="file" id="LogoEmpresa" style="visibility:hidden;" data-toggle="tooltip" title="Upload" data-file-model="SeleccionarImagen($event)" accept=".png, .jpg, .jpeg" />
+
+                                <section id="divButtons" layout="row" layout-align="left center" style="margin-top:7px; margin-left:2px;">
+                                    <md-button type="button" id="btnNuevo" class="groupX middle btn-apanel" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevaEmpresa()">
                                         <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                                    </md-button>
-
-                                    <md-button type="button" id="btnMenu" class="btn-apanel groupX middle" style="margin-right:0;" data-toggle="tooltip" title="Informes" data-ng-click="ModalMenu()">
-                                        <i class="material-icons md-18" style="transform: scaleX(-1)">menu</i>Menu
                                     </md-button>
                                 </section>
 
-                                <div layout="row" layout-xs="column" style="" layout-align="start center">
-                                    <div style="width:220px;">
-                                        <md-input-container style="width:200px; margin-bottom:0;">
-                                            <label class="label-form-empleados" style="">
-                                                Nombre de usuario:
-                                            </label>
-                                            <input ng-model="Usuario.Nombre" id="txtUsuario" maxlength="25" data-ng-enter="ConsultarUsuario($event, Usuario.Nombre)" ng-blur="ConsultarUsuario($event, Usuario.Nombre)" type="text" ng-readonly="NombreReadOnly" placeholder="Nombre de usuario ..." autocomplete="nope" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=1>
-                                        </md-input-container>
-                                    </div>
-                                    <div style="width:220px;">
-                                        <md-input-container style="width: 200px; margin-bottom: 0; ">
-                                            <label class="label-form-empleados" style="">
-                                                Contraseña:
-                                            </label>
-                                            <input ng-model="Usuario.Contrasenia" id="txtContrasenia" maxlength="100" type="password" placeholder="Contraseña ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
-                                        </md-input-container>
-                                    </div>
-
-                                    <div style="width:220px;">
-                                        <md-input-container style="width: 190px; margin-bottom: 0; ">
-                                            <label class="label-form-empleados" style="">
-                                                Confirme la contraseña:
-                                            </label>
-                                            <input ng-model="Confirmacion" id="txtConfirmacion" maxlength="100" type="password" placeholder="Contraseña ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=3>
-                                        </md-input-container>
-                                    </div>
-
-                                    <div style="width:200px;">
-                                        <md-input-container style="width: 200px; margin-bottom: 0; ">
-                                            <label class="label-form-clientes" for="txtSearchText" style="">
-                                                E-Mail:
-                                            </label>
-                                            <input ng-model="Usuario.Mail" maxlength="60" type="email" class="" placeholder="E-mail ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtMail" tabindex=4>
-                                        </md-input-container>
-                                    </div>
-
-                                    <div>
-                                        <div class="usuario-imagen">
-                                            <label class="label-imagen-usuario" ng-click="ProcesarImagen()"><i class="material-icons md-18" style="transform: scaleX(-1);">camera_alt</i> Cargar Avatar</label>
-                                            <img ng-src="{{ImagenUsuario}}" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div layout="row" layout-xs="column" style="padding:10px 0;" layout-align="start center">
-                                    <div style="width:220px;">
-                                        <md-input-container style="width: 200px; margin-top: -18px; margin-bottom: 0;">
-                                            <label class="label-form-clientes">
-                                                Perfil:
-                                            </label>
-                                            <md-select ng-model="TipoPerfilSeleccionado" style="display:inline-flex; min-width: 100% !important; margin-top:7px;" id="slTipoPerfil" tabindex=5>
-                                                <md-option ng-bind="item.Nombre" ng-value="item.id_TipoPerfil" ng-repeat="item in TipoPerfil track by item.id_TipoPerfil"></md-option>
-                                            </md-select>
-                                        </md-input-container>
-                                    </div>
-
-                                    <div style="width:220px;">
-                                        <md-input-container style="width: 200px; margin-top: -18px; margin-bottom: 0;">
-                                            <label class="label-form-clientes">
-                                                Empresa:
-                                            </label>
-                                            <md-select ng-model="EmpresaSeleccionada" style="display:inline-flex; max-width: 200px; min-width:200px; margin-top:7px;" id="slEmpresas" tabindex=6>
-                                                <md-option ng-bind="item.nombre" ng-value="item.id_Empresa" ng-repeat="item in EmpresasCopy track by item.id_Empresa"></md-option>
-                                            </md-select>
-                                        </md-input-container>
-                                    </div>
-                                </div>
-
-                                <div id="divGridUsuariosAdmin" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 315px); margin-top:5px; overflow-y:auto;">
-                                    <div id="divUsuariosAdminGridOptions" data-ag-grid="UsuariosAdminGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+                                <div id="divGridEmpresas" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 190px); margin-top:7px; overflow-y:auto;">
+                                    <div id="divEmpresasGridOptions" data-ag-grid="EmpresasGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                                 </div>
                             </md-content>
-                        </md-content>
+
+                        </md-tab-body>
+                        
+                    </md-tab>
+
+                    <md-tab label="Servicios" data-ng-click="fActiveTab = 'Servicios'; SetFocus(); LimpiarDatos();">
+
+                        <md-tab-label>
+                            <i class="material-icons md-18" style="transform: scaleX(1); font-size:22px; font-weight:bold;">style</i> Servicios
+                        </md-tab-label>
+
+                        <md-tab-body>
+
+                            <md-content style="background-color:transparent; overflow:hidden; margin-top:2px;">
+
+                                <div layout="row" layout-sm="column" style="margin-bottom:-45px;">
+                                    <div flex="" style="flex:none;">
+                                        <section id="divButtons" layout="row" layout-align="left center" style="margin-top:7px; margin-left:2px;">
+                                            <md-button type="button" id="btnNuevoServicio" class="groupX middle btn-apanel" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevoServicio()">
+                                                <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                                            </md-button>
+                                        </section>
+                                    </div>
+                                    <div flex="" style="flex:none; margin-left:10px;">
+                                        <md-input-container>
+                                            <label class="label-form-clientes" style="">
+                                                Nombre Servicio:
+                                            </label>
+                                            <input ng-keyup="onFilterTextBoxChanged()" id="txtBuscarServicio" maxlength="25" data-ng-enter="ConsultarServicio($event, Servicio.Nombre)" type="text" style="min-width: 200px;" placeholder="Servicio a filtrar..." tabindex=1>
+                                        </md-input-container>
+                                    </div>
+                                </div>
+
+                                <div id="divGridServicios" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 193px); margin-top:7px; overflow-y:auto;">
+                                    <div id="divServiciosGridOptions" data-ag-grid="ServiciosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+                                </div>
+                            </md-content>
+
+                        </md-tab-body>
+                        
+                    </md-tab>
+
+                    <md-tab label="Usuarios" data-ng-click="fActiveTab = 'Usuarios'; LimpiarDatos()">
+
+                        <md-tab-label>
+                            <i class="material-icons md-18" style="transform: scaleX(1); font-size:22px; font-weight:bold;">group_add</i> Usuarios
+                        </md-tab-label>
+
+                        <md-tab-body>
+
+                            <md-content style="background-color:transparent; ">
+
+                                <input type="file" name="file" id="ImagenUsuario" style="visibility:hidden;" data-toggle="tooltip" title="Upload" data-file-model="SeleccionarImagen($event)" accept=".png, .jpg, .jpeg" />
+
+                                <md-content style="background-color:transparent; overflow:hidden; margin-top:-25px;">
+                                    <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px; margin-left:2px;">
+                                        <md-button type="button" id="btnGuardarUsuario" class="btn-apanel groupX left" style="margin-left: 0px;" ng-disabled="PerfilUsuario === 'Invitado'" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarUsuarioAdmin()">
+                                            <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
+                                        </md-button>
+
+                                        <md-button type="button" id="btnNuevo" class="btn-apanel groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
+                                            <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
+                                        </md-button>
+
+                                        <md-button type="button" id="btnMenu" class="btn-apanel groupX middle" style="margin-right:0;" data-toggle="tooltip" title="Informes" data-ng-click="ModalMenu()">
+                                            <i class="material-icons md-18" style="transform: scaleX(-1)">menu</i>Menu
+                                        </md-button>
+                                    </section>
+
+                                    <div layout="row" layout-xs="column" style="" layout-align="start center">
+                                        <div style="width:220px;">
+                                            <md-input-container style="width:200px; margin-bottom:0;">
+                                                <label class="label-form-empleados" style="">
+                                                    Nombre de usuario:
+                                                </label>
+                                                <input ng-model="Usuario.Nombre" id="txtUsuario" maxlength="25" data-ng-enter="ConsultarUsuario($event, Usuario.Nombre)" ng-blur="ConsultarUsuario($event, Usuario.Nombre)" type="text" ng-readonly="NombreReadOnly" placeholder="Nombre de usuario ..." autocomplete="nope" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=1>
+                                            </md-input-container>
+                                        </div>
+                                        <div style="width:220px;">
+                                            <md-input-container style="width: 200px; margin-bottom: 0; ">
+                                                <label class="label-form-empleados" style="">
+                                                    Contraseña:
+                                                </label>
+                                                <input ng-model="Usuario.Contrasenia" id="txtContrasenia" maxlength="100" type="password" placeholder="Contraseña ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
+                                            </md-input-container>
+                                        </div>
+
+                                        <div style="width:220px;">
+                                            <md-input-container style="width: 190px; margin-bottom: 0; ">
+                                                <label class="label-form-empleados" style="">
+                                                    Confirme la contraseña:
+                                                </label>
+                                                <input ng-model="Confirmacion" id="txtConfirmacion" maxlength="100" type="password" placeholder="Contraseña ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=3>
+                                            </md-input-container>
+                                        </div>
+
+                                        <div style="width:200px;">
+                                            <md-input-container style="width: 200px; margin-bottom: 0; ">
+                                                <label class="label-form-clientes" for="txtSearchText" style="">
+                                                    E-Mail:
+                                                </label>
+                                                <input ng-model="Usuario.Mail" maxlength="60" type="email" class="" placeholder="E-mail ..." value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="txtMail" tabindex=4>
+                                            </md-input-container>
+                                        </div>
+
+                                        <div>
+                                            <div class="usuario-imagen">
+                                                <label class="label-imagen-usuario" ng-click="ProcesarImagen()"><i class="material-icons md-18" style="transform: scaleX(-1);">camera_alt</i> Cargar Avatar</label>
+                                                <img ng-src="{{ImagenUsuario}}" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div layout="row" layout-xs="column" style="padding:10px 0;" layout-align="start center">
+                                        <div style="width:220px;">
+                                            <md-input-container style="width: 200px; margin-top: -18px; margin-bottom: 0;">
+                                                <label class="label-form-clientes">
+                                                    Perfil:
+                                                </label>
+                                                <md-select ng-model="TipoPerfilSeleccionado" style="display:inline-flex; min-width: 100% !important; margin-top:7px;" id="slTipoPerfil" tabindex=5>
+                                                    <md-option ng-bind="item.Nombre" ng-value="item.id_TipoPerfil" ng-repeat="item in TipoPerfil track by item.id_TipoPerfil"></md-option>
+                                                </md-select>
+                                            </md-input-container>
+                                        </div>
+
+                                        <div style="width:220px;">
+                                            <md-input-container style="width: 200px; margin-top: -18px; margin-bottom: 0;">
+                                                <label class="label-form-clientes">
+                                                    Empresa:
+                                                </label>
+                                                <md-select ng-model="EmpresaSeleccionada" style="display:inline-flex; max-width: 200px; min-width:200px; margin-top:7px;" id="slEmpresas" tabindex=6>
+                                                    <md-option ng-bind="item.nombre" ng-value="item.id_Empresa" ng-repeat="item in EmpresasCopy track by item.id_Empresa"></md-option>
+                                                </md-select>
+                                            </md-input-container>
+                                        </div>
+                                    </div>
+
+                                    <div id="divGridUsuariosAdmin" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 315px); margin-top:5px; overflow-y:auto;">
+                                        <div id="divUsuariosAdminGridOptions" data-ag-grid="UsuariosAdminGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+                                    </div>
+                                </md-content>
+                            </md-content>
+
+                        </md-tab-body>
+                        
                     </md-tab>
                 </md-tabs>
             </form>

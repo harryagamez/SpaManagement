@@ -2,7 +2,7 @@
     [ID_REGISTRO]     INT       IDENTITY (1, 1) NOT NULL,
     [FECHA]           DATETIME  NULL,
     [ID_EMPLEADO]     CHAR (15) NULL,
-    [TOTAL_SERVICIOS] REAL      NULL,
+    [SUBTOTAL] REAL      NULL,
     [TOTAL_PRESTAMOS] REAL      NULL,
     [TOTAL_PAGADO]    REAL      NULL,
     [ANIO]    INT      NOT NULL,

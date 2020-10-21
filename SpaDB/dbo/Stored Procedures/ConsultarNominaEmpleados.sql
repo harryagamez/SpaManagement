@@ -24,7 +24,7 @@ BEGIN
 		RETURN
 	END
 
-	CREATE TABLE #TempNomina_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Nombres CHAR(60), Apellidos CHAR(60), Servicios REAL, Prestamos REAL, Salario REAL, Total_Aplicado REAL, Total_Pagar REAL, Tipo_Nomina CHAR(15))	
+	CREATE TABLE #TempNomina_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Nombres CHAR(60), Apellidos CHAR(60), Servicios REAL, Prestamos REAL, Salario REAL, Subtotal REAL, Total_Pagar REAL, Tipo_Nomina CHAR(15))	
 	CREATE TABLE #TempServicios_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Servicios REAL)
 	CREATE TABLE #TempPrestamos_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Prestamos REAL)
 
@@ -163,14 +163,14 @@ BEGIN
 	IF(@TipoNomina = 'POR_SERVICIOS') BEGIN
 		SELECT 
 			Id_Empresa, Id_Empleado, Nombres, Apellidos, Servicios, Prestamos, 
-			Salario, (Servicios * Salario) AS Total_Aplicado, ((Servicios * Salario) - ISNULL(Prestamos, 0)) AS Total_Pagar, 
+			Salario, (Servicios * Salario) AS Subtotal, ((Servicios * Salario) - ISNULL(Prestamos, 0)) AS Total_Pagar, 
 			RTRIM(Tipo_Nomina) AS Tipo_Nomina
 		FROM #TempNomina_Empleados
 	END
 	ELSE BEGIN
 		SELECT 
 			Id_Empresa, Id_Empleado, Nombres, Apellidos, Servicios, Prestamos, 
-			Salario, (Salario) AS Total_Aplicado, (Salario - ISNULL(Prestamos, 0)) AS Total_Pagar, 
+			Salario, (Salario) AS Subtotal, (Salario - ISNULL(Prestamos, 0)) AS Total_Pagar, 
 			RTRIM(Tipo_Nomina) AS Tipo_Nomina
 		FROM #TempNomina_Empleados		
 	END
