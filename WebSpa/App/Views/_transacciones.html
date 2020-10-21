@@ -9,7 +9,7 @@
         <form id="frmGestion" autocomplete="nope">
             <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
 
-                <md-tab  data-ng-click="fActiveTab = 'Facturar Servicios'; LimpiarDatos();">
+                <md-tab data-ng-click="fActiveTab = 'Facturar Servicios'; LimpiarDatos();">
                     <md-tab-label>
                         <i class="material-icons md-18" style="transform: scaleX(1); font-size:20px; font-weight:bold;">shopping_cart</i> Facturar Servicios
                     </md-tab-label>
@@ -181,9 +181,7 @@
                                 </div>
                             </div>
                         </md-content>
-
                     </md-tab-body>
-                    
                 </md-tab>
 
                 <md-tab data-ng-click="fActiveTab = 'Liquidar Nómina'; LimpiarDatos();">
@@ -209,7 +207,7 @@
                                         <label class="label-form-clientes" style="margin-bottom:-2px;">
                                             Fecha
                                         </label>
-                                        <md-datepicker ng-model="FechaNomina" md-placeholder="Enter date" class="dateClientes" id="dpFechaBusqueda" tabindex=2 style="margin-bottom:0; margin-top:-5px; width:200px;"></md-datepicker>
+                                        <md-datepicker ng-model="FechaNomina" md-placeholder="Enter date" class="dateClientes" id="dpFechaNomina" tabindex=2 style="margin-bottom:0; margin-top:-5px; width:200px;"></md-datepicker>
                                     </md-input-container>
                                 </div>
                             </div>
@@ -270,8 +268,6 @@
                             </div>
                         </md-content>
                     </md-tab-body>
-                    
-                    
                 </md-tab>
             </md-tabs>
         </form>
@@ -280,7 +276,7 @@
     <!-- Modales Nomina Empleado Servicios-->
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgNominaEmpleadoServicios">
-            <md-dialog id="mdNominaEmpleadoServicios" aria-label="" style="min-width: 800px !important; max-width:800px; color: #666666 !important;">
+            <md-dialog id="mdNominaEmpleadoServicios" aria-label="" style="min-width: 850px !important; max-width:850px; color: #666666 !important;">
                 <md-toolbar>
                     <div class="md-toolbar-tools">
                         <h2 style="font-size:16px;">{{AccionNominaEmpleadoServicios}}</h2>
@@ -308,7 +304,7 @@
     <!-- Modales Prestamo empleados-->
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgEmpleadoPrestamos">
-            <md-dialog id="mdEmpleadoPrestamos" aria-label="" style="min-width: 500px !important; max-width:500px; color: #666666 !important;">
+            <md-dialog id="mdEmpleadoPrestamos" aria-label="" style="min-width: 600px !important; max-width:600px; color: #666666 !important;">
                 <md-toolbar>
                     <div class="md-toolbar-tools">
                         <h2 style="font-size:16px;">{{AccionEmpleadoPrestamos}}</h2>

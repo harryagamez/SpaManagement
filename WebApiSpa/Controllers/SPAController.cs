@@ -948,6 +948,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/SPA/LiquidarNominaEmpleados")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult LiquidarNominaEmpleados(AplicacionNomina aplicacionNomina)
+        {
+            try
+            {
+                bool result = _spaService.LiquidarNominaEmpleados(aplicacionNomina);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando la transacción: " + ex.Message);
+            }
+        }
+
 
     }
 }

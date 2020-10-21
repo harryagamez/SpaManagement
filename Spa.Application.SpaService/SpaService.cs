@@ -438,6 +438,11 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarEmpleadoPrestamos(idEmpresa, idEmpleado);
         }
 
+        public bool LiquidarNominaEmpleados(AplicacionNomina aplicacionNomina)
+        {
+            return _spaRepository.LiquidarNominaEmpleados(aplicacionNomina);
+        }
+
         public bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties)
         {
             return _spaRepository.SincronizarDepartamentos(_departmentProperties);

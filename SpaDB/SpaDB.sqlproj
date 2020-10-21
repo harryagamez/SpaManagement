@@ -295,6 +295,7 @@
     <Build Include="dbo\Stored Procedures\SincronizarDepartamentos.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarNominaEmpleadoServicios.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarEmpleadoPrestamos.sql" />
+    <Build Include="dbo\Stored Procedures\LiquidarNominaEmpleados.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

@@ -1470,6 +1470,26 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public bool LiquidarNominaEmpleados(AplicacionNomina aplicacionNomina)
+        {
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "LiquidarNominaEmpleados";
+                    _command.Parameters.AddWithValue("@JsonAplicacionNomina", JsonConvert.SerializeObject(aplicacionNomina));
+
+                    _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return true;
+                }
+            }
+        }
 
         public bool SincronizarDepartamentos(List<DepartmentProperties> departmentProperties)
         {

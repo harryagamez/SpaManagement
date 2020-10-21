@@ -441,7 +441,8 @@
             _registrarFacturacionServicios: RegistrarFacturacionServicios,
             _consultarNominaEmpleados: ConsultarNominaEmpleados,
             _consultarNominaEmpleadoServicios: ConsultarNominaEmpleadoServicios,
-            _consultarEmpleadoPrestamos: ConsultarEmpleadoPrestamos
+            _consultarEmpleadoPrestamos: ConsultarEmpleadoPrestamos,
+            _liquidarNominaEmpleados: LiquidarNominaEmpleados
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1243,6 +1244,20 @@
                 function (err) {
                     deferred.reject(err);
                 });
+            return deferred.promise;
+        }
+
+        function LiquidarNominaEmpleados(aplicacionnomina) {
+            var deferred = $q.defer();
+
+            serviceRest.Post('SPA', 'LiquidarNominaEmpleados', aplicacionnomina,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
             return deferred.promise;
         }
     }

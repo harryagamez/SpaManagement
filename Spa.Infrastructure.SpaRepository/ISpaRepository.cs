@@ -65,6 +65,7 @@ namespace Spa.Infrastructure.SpaRepository
         List<EmpleadoNomina> ConsultarNominaEmpleados(string idEmpresa, string fechaNomina);
         List<Agenda> ConsultarNominaEmpleadoServicios(string idEmpresa, int idEmpleado, string fechaNomina);
         List<Gasto> ConsultarEmpleadoPrestamos(string idEmpresa, int idEmpleado);
+        bool LiquidarNominaEmpleados(AplicacionNomina aplicacionNomina);
         bool SincronizarDepartamentos(List<DepartmentProperties> departmentProperties);
     }
 }
