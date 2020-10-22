@@ -4,7 +4,7 @@ CREATE PROCEDURE LiquidarNominaEmpleados(
 AS
 BEGIN
 
-SET XACT_ABORT, NOCOUNT ON
+	SET XACT_ABORT, NOCOUNT ON
 	
 	DECLARE @IdEmpresa AS VARCHAR(36)
 	DECLARE @FechaNomina AS DATETIME
@@ -12,8 +12,13 @@ SET XACT_ABORT, NOCOUNT ON
 	DECLARE @Mensaje AS VARCHAR(200)	
 	DECLARE @TipoNomina CHAR(15)
 	DECLARE @FechaActual AS DATETIME =  GETDATE()
+	DECLARE @MensajePrestamos VARCHAR(100)
+	DECLARE @MensajePagoNomina VARCHAR(100)
 
-	SELECT @IdEmpresa = Id_Empresa, @FechaNomina = Fecha_Nomina, @TotalNomina = Total_Nomina
+	SELECT 
+		@IdEmpresa = Id_Empresa, 
+		@FechaNomina = Fecha_Nomina, 
+		@TotalNomina = Total_Nomina
 	FROM 
 		OPENJSON(@JsonAplicacionNomina)
 		WITH (
@@ -45,10 +50,10 @@ SET XACT_ABORT, NOCOUNT ON
 
 		INSERT INTO #TempLiquidaciones_Empleados (Id_Empleado, Subtotal, Total_Prestamos, Total_Pagado, Anio, Mes, Id_Empresa)
 		SELECT
-			L.Id_Empleado,
-			L.Subtotal,
-			L.Total_Prestamos,
-			L.Total_Pagado,
+			Liquidacion.Id_Empleado,
+			Liquidacion.Subtotal,
+			Liquidacion.Total_Prestamos,
+			Liquidacion.Total_Pagado,
 			YEAR(@FechaNomina),
 			MONTH(@FechaNomina),
 			@IdEmpresa
@@ -63,7 +68,7 @@ SET XACT_ABORT, NOCOUNT ON
 			Subtotal REAL '$.Subtotal',
 			Total_Prestamos REAL '$.Total_Prestamos',
 			Total_Pagado REAL '$.Total_Pagado'
-		) L	
+		) Liquidacion	
 
 	END
 
@@ -73,10 +78,10 @@ SET XACT_ABORT, NOCOUNT ON
 
 			INSERT INTO #TempLiquidaciones_Empleados (Id_Empleado, Subtotal, Total_Prestamos, Total_Pagado, Anio, Mes, Quincena, Id_Empresa)
 			SELECT
-				L.Id_Empleado,
-				L.Subtotal,
-				L.Total_Prestamos,
-				L.Total_Pagado,
+				Liquidacion.Id_Empleado,
+				Liquidacion.Subtotal,
+				Liquidacion.Total_Prestamos,
+				Liquidacion.Total_Pagado,
 				YEAR(@FechaNomina),
 				MONTH(@FechaNomina),
 				1,
@@ -92,7 +97,7 @@ SET XACT_ABORT, NOCOUNT ON
 				Subtotal REAL '$.Subtotal',
 				Total_Prestamos REAL '$.Total_Prestamos',
 				Total_Pagado REAL '$.Total_Pagado'
-			) L			
+			) Liquidacion			
 
 		END
 
@@ -100,10 +105,10 @@ SET XACT_ABORT, NOCOUNT ON
 		
 			INSERT INTO #TempLiquidaciones_Empleados (Id_Empleado, Subtotal, Total_Prestamos, Total_Pagado, Anio, Mes, Quincena, Id_Empresa)
 			SELECT
-				L.Id_Empleado,
-				L.Subtotal,
-				L.Total_Prestamos,
-				L.Total_Pagado,
+				Liquidacion.Id_Empleado,
+				Liquidacion.Subtotal,
+				Liquidacion.Total_Prestamos,
+				Liquidacion.Total_Pagado,
 				YEAR(@FechaNomina),
 				MONTH(@FechaNomina),
 				2,
@@ -119,7 +124,7 @@ SET XACT_ABORT, NOCOUNT ON
 				Subtotal REAL '$.Subtotal',
 				Total_Prestamos REAL '$.Total_Prestamos',
 				Total_Pagado REAL '$.Total_Pagado'
-			) L
+			) Liquidacion
 			
 		END
 	
@@ -129,10 +134,10 @@ SET XACT_ABORT, NOCOUNT ON
 	
 		INSERT INTO #TempLiquidaciones_Empleados (Id_Empleado, Subtotal, Total_Prestamos, Total_Pagado, Anio, Mes, Dia, Id_Empresa)
 		SELECT
-			L.Id_Empleado,
-			L.Subtotal,
-			L.Total_Prestamos,
-			L.Total_Pagado,
+			Liquidacion.Id_Empleado,
+			Liquidacion.Subtotal,
+			Liquidacion.Total_Prestamos,
+			Liquidacion.Total_Pagado,
 			YEAR(@FechaNomina),
 			MONTH(@FechaNomina),
 			@FechaNomina,
@@ -148,52 +153,71 @@ SET XACT_ABORT, NOCOUNT ON
 			Subtotal REAL '$.Subtotal',
 			Total_Prestamos REAL '$.Total_Prestamos',
 			Total_Pagado REAL '$.Total_Pagado'
-		) L		
+		) Liquidacion		
 	
 	END	
 
 	BEGIN TRY
 
-	BEGIN TRANSACTION Tn_LiquidarNomina
+		BEGIN TRANSACTION Tn_LiquidarNomina
 
-		INSERT INTO LIQUIDACIONES (FECHA, ID_EMPLEADO, SUBTOTAL, TOTAL_PRESTAMOS, TOTAL_PAGADO, ANIO, MES, QUINCENA, DIA, ID_EMPRESA)
-		SELECT @FechaActual, Id_Empleado, Subtotal, Total_Prestamos, Total_Pagado, Anio, Mes, Quincena, Dia, Id_Empresa
-		FROM #TempLiquidaciones_Empleados
-		WHERE Total_Pagado > 0
+			INSERT INTO LIQUIDACIONES (FECHA, ID_EMPLEADO, SUBTOTAL, TOTAL_PRESTAMOS, TOTAL_PAGADO, ANIO, MES, QUINCENA, DIA, ID_EMPRESA)
+			SELECT 
+				@FechaActual, Id_Empleado, Subtotal, Total_Prestamos, 
+				Total_Pagado, Anio, Mes, Quincena, Dia, Id_Empresa
+			FROM #TempLiquidaciones_Empleados
+			WHERE Total_Pagado > 0
 
-		IF(@TipoNomina = 'POR_SERVICIOS') BEGIN
+			IF(@TipoNomina = 'POR_SERVICIOS') BEGIN
 		
-			UPDATE Agenda SET ESTADO = 'LIQUIDADA', FECHA_MODIFICACION = @FechaActual
-			FROM AGENDA Agenda
+				UPDATE Agenda 
+					SET ESTADO = 'LIQUIDADA', 
+					FECHA_MODIFICACION = @FechaActual
+				FROM AGENDA Agenda
+				INNER JOIN #TempLiquidaciones_Empleados LiquidacionesEmpleados
+				ON LiquidacionesEmpleados.Id_Empleado = Agenda.ID_EMPLEADO 
+				AND LiquidacionesEmpleados.Id_Empresa = Agenda.ID_EMPRESA
+				WHERE YEAR(FECHA_INICIO) = YEAR(@FechaNomina) 
+				AND MONTH(FECHA_INICIO) = MONTH(@FechaNomina)
+		
+			END
+
+			UPDATE Gastos 
+				SET ESTADO = 'LIQUIDADO', 
+				FECHA_MODIFICACION = @FechaActual
+			FROM GASTOS Gastos
 			INNER JOIN #TempLiquidaciones_Empleados LiquidacionesEmpleados
-			ON LiquidacionesEmpleados.Id_Empleado = Agenda.ID_EMPLEADO AND LiquidacionesEmpleados.Id_Empresa = Agenda.ID_EMPRESA
-			WHERE YEAR(FECHA_INICIO) = YEAR(@FechaNomina) AND MONTH(FECHA_INICIO) = MONTH(@FechaNomina)
-		
-		END
+			ON LiquidacionesEmpleados.Id_Empleado = Gastos.ID_EMPLEADO 
+			AND LiquidacionesEmpleados.Id_Empresa = Gastos.ID_EMPRESA
+			WHERE LiquidacionesEmpleados.Subtotal >= LiquidacionesEmpleados.Total_Prestamos
 
-		UPDATE Gastos SET ESTADO = 'LIQUIDADO', FECHA_MODIFICACION = @FechaActual
-		FROM GASTOS Gastos
-		INNER JOIN #TempLiquidaciones_Empleados LiquidacionesEmpleados
-		ON LiquidacionesEmpleados.Id_Empleado = Gastos.ID_EMPLEADO 
-		AND LiquidacionesEmpleados.Id_Empresa = Gastos.ID_EMPRESA
-		WHERE LiquidacionesEmpleados.Subtotal >= LiquidacionesEmpleados.Total_Prestamos
+			SET @MensajePrestamos = 'Excedente del valor de los prestamos el cual no pudo ser cancelado en ésta liquidación'
 
-		INSERT INTO GASTOS (TIPO_GASTO, DESCRIPCION, VALOR, FECHA, ESTADO, ID_EMPLEADO, FECHA_REGISTRO, FECHA_MODIFICACION, ID_EMPRESA )
-		SELECT 'PRESTAMOS', 'Excedente del valor de los prestamos el cual no pudo ser cancelado en ésta liquidación', ABS(Total_Pagado), @FechaActual, 'ASIGNADO', Id_Empleado, @FechaActual, @FechaActual, @IdEmpresa
-		FROM #TempLiquidaciones_Empleados
-		WHERE Total_Pagado < 0
+			INSERT INTO GASTOS (TIPO_GASTO, DESCRIPCION, VALOR, FECHA, ESTADO, ID_EMPLEADO, FECHA_REGISTRO, FECHA_MODIFICACION, ID_EMPRESA )
+			SELECT 
+				'PRESTAMOS', @MensajePrestamos, ABS(Total_Pagado), 
+				@FechaActual, 'ASIGNADO', Id_Empleado, 
+				@FechaActual, @FechaActual, @IdEmpresa
+			FROM #TempLiquidaciones_Empleados
+			WHERE Total_Pagado < 0
 
-		INSERT INTO GASTOS (TIPO_GASTO, DESCRIPCION, VALOR, FECHA, ESTADO, ID_EMPLEADO, FECHA_REGISTRO, FECHA_MODIFICACION, ID_EMPRESA)
-		SELECT 'NOMINA', 'Liquidación de nómina la cual fue abonada en su totalidad', Total_Pagado, @FechaNomina, 'PAGADA', Id_Empleado, @FechaActual, @FechaActual, @IdEmpresa
-		FROM #TempLiquidaciones_Empleados
-		WHERE Total_Pagado > 0
+			SET @MensajePagoNomina = 'Liquidación de nómina la cual fue abonada en su totalidad'
 
-		UPDATE CAJA_MENOR SET ACUMULADO = (CAJA_MENOR.ACUMULADO - ISNULL(@TotalNomina, 0))
-		WHERE ID_EMPRESA = @IdEmpresa
+			INSERT INTO GASTOS (TIPO_GASTO, DESCRIPCION, VALOR, FECHA, ESTADO, ID_EMPLEADO, FECHA_REGISTRO, FECHA_MODIFICACION, ID_EMPRESA)
+			SELECT 
+				'NOMINA', @MensajePagoNomina, Total_Pagado, 
+				@FechaNomina, 'PAGADA', Id_Empleado, @FechaActual, 
+				@FechaActual, @IdEmpresa
+			FROM #TempLiquidaciones_Empleados
+			WHERE Total_Pagado > 0
 
-	COMMIT TRANSACTION Tn_LiquidarNomina
+			UPDATE CAJA_MENOR 
+				SET ACUMULADO = (CAJA_MENOR.ACUMULADO - ISNULL(@TotalNomina, 0))
+			WHERE ID_EMPRESA = @IdEmpresa
 
-	IF OBJECT_ID('tempdb..#TempLiquidaciones_Empleados') IS NOT NULL DROP TABLE #TempLiquidaciones_Empleados
+		COMMIT TRANSACTION Tn_LiquidarNomina
+
+		IF OBJECT_ID('tempdb..#TempLiquidaciones_Empleados') IS NOT NULL DROP TABLE #TempLiquidaciones_Empleados
 	
 	END TRY
 
