@@ -258,20 +258,16 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         SPAService._consultarEmpleadoPrestamos(idEmpresa, idEmpleado)
             .then(
                 function (result) {
-                    if (result.data !== undefined && result.data !== null) {
-                        if (result.data.length > 0) {
-                            $scope.EmpleadoPrestamos = [];
-                            $scope.EmpleadoPrestamos = result.data;
-                            $scope.EmpleadoPrestamos = $filter('orderBy')($scope.EmpleadoPrestamos, 'fecha', false);
-                            $scope.EmpleadoPrestamosGridOptions.api.setRowData($scope.EmpleadoPrestamos);
-                            $scope.AccionEmpleadoPrestamos = 'Prestamos asignados a ' + nombreApellidoEmpleado;
-                            $scope.ModalEmpleadoPrestamos();
-                            $timeout(function () {
-                                $scope.EmpleadoPrestamosGridOptions.api.sizeColumnsToFit();
-                            }, 200);
-                        } else {
-                            toastr.info('El empleado seleccionado no tiene prestamos asignados', '', $scope.toastrOptions);
-                        }
+                    if (result.data !== undefined && result.data !== null) {                        
+                        $scope.EmpleadoPrestamos = [];
+                        $scope.EmpleadoPrestamos = result.data;
+                        $scope.EmpleadoPrestamos = $filter('orderBy')($scope.EmpleadoPrestamos, 'fecha', false);
+                        $scope.EmpleadoPrestamosGridOptions.api.setRowData($scope.EmpleadoPrestamos);
+                        $scope.AccionEmpleadoPrestamos = 'Prestamos asignados a ' + nombreApellidoEmpleado;
+                        $scope.ModalEmpleadoPrestamos();
+                        $timeout(function () {
+                            $scope.EmpleadoPrestamosGridOptions.api.sizeColumnsToFit();
+                        }, 200);                        
                     }
                 }, function (err) {
                     toastr.remove();

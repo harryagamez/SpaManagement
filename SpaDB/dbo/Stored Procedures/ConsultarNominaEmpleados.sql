@@ -128,8 +128,7 @@ BEGIN
 			SUM(EMPRESA_SERVICIOS.VALOR)
 		FROM AGENDA Agenda
 		INNER JOIN EMPRESA_SERVICIOS 
-		ON EMPRESA_SERVICIOS.ID_SERVICIO = Agenda.ID_SERVICIO 
-		AND EMPRESA_SERVICIOS.ID_EMPRESA = Agenda.ID_EMPRESA
+		ON EMPRESA_SERVICIOS.ID_SERVICIO = Agenda.ID_SERVICIO AND EMPRESA_SERVICIOS.ID_EMPRESA = Agenda.ID_EMPRESA
 		LEFT JOIN LIQUIDACIONES Liquidaciones 
 		ON Liquidaciones.ID_EMPLEADO = Agenda.ID_EMPLEADO 
 		AND Liquidaciones.ANIO = YEAR(@FechaNomina) 
@@ -170,7 +169,7 @@ BEGIN
 			Salario, Subtotal, Total_Pagar, 
 			RTRIM(Tipo_Nomina) AS Tipo_Nomina
 		FROM #TempNomina_Empleados
-		WHERE (ISNULL(Servicios, 0) = 0 AND ISNULL(Prestamos, 0) > 0) OR Total_Pagar <> 0
+		WHERE ISNULL(Servicios, 0) > 0 OR ISNULL(Prestamos, 0) > 0
 	END
 	ELSE BEGIN
 		UPDATE #TempNomina_Empleados
