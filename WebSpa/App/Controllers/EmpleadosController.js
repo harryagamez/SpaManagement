@@ -521,7 +521,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
             $scope.MunicipiosCopy.push({ id_Municipio: -1, nombre: '[Seleccione]' });
             $scope.DepartamentoSeleccionado = -1;
             $scope.MunicipioSeleccionado = -1;
-            $scope.BarrioSeleccionado = -1;            
+            $scope.BarrioSeleccionado = -1;
             $scope.EstadoCivilSeleccionado = 'SOLTERA';
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -701,29 +701,29 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
     }
 
     $scope.ConfiguracionEmpresaActual = function () {
-        try {            
-            if ($scope.EmpresaPropiedades.length > 0) {                
-                let tdn = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'TDN' });                
+        try {
+            if ($scope.EmpresaPropiedades.length > 0) {
+                let tdn = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'TDN' });
                 $scope.TDN = '';
-                if (tdn.length > 0) {                    
+                if (tdn.length > 0) {
                     $scope.fPropertiesSetted = true;
                     $scope.TDN = tdn[0].valor_Propiedad;
                     $scope.fTDN = true;
-                    
+
                     let tipoPagoSeleccionado = $scope.TipoPagos.filter(function (e) {
                         return e.descripcion === $scope.TDN;
                     });
 
                     $scope.TipoPagoSeleccionado = tipoPagoSeleccionado[0].id_TipoPago;
                 }
-                else {                    
+                else {
                     $scope.fPropertiesSetted = true;
                     $scope.fTDN = false;
                 }
             } else {
                 $scope.fPropertiesSetted = false;
                 toastr.warning('La empresa actual, no tiene propiedades definidas', '', $scope.toastrOptions);
-            }            
+            }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -753,7 +753,6 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
             else {
                 toastr.warning('Para poder registrar/actualizar un nuevo empleado debe configurar las propiedades de la empresa', '', $scope.toastrOptions);
             }
-            
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -1148,23 +1147,23 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
 
     $scope.$on("CompanyChange", function () {
         $scope.LimpiarDatos();
-        $scope.IdEmpresa = $rootScope.Id_Empresa;       
+        $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
-        $scope.ConfiguracionEmpresaActual();        
+        $scope.ConfiguracionEmpresaActual();
         $scope.ConsultarServicios();
         $scope.ConsultarEmpleados();
         $scope.ConsultarProductos();
         $scope.Inicializacion();
     });
 
-    $scope.ConsultarTipoPagos();   
+    $scope.ConsultarTipoPagos();
     $scope.ConsultarServicios();
     $scope.ConsultarTipoServicios();
     $scope.ConsultarEmpleados();
     $scope.ConsultarMunicipios();
-    $scope.ConsultarDepartamentos();    
+    $scope.ConsultarDepartamentos();
     $scope.ConsultarProductos();
-    $scope.ConsultarTipoTransacciones();    
+    $scope.ConsultarTipoTransacciones();
     $scope.Inicializacion();
 
     $timeout(function () {

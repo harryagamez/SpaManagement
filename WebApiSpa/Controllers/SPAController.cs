@@ -34,7 +34,6 @@ namespace WebApiSpa.Controllers
                     return Content(HttpStatusCode.OK, _usuario);
                 else
                     return Content(HttpStatusCode.NotFound, _usuario);
-
             }
             catch (Exception ex)
             {
@@ -714,9 +713,9 @@ namespace WebApiSpa.Controllers
             {
                 bool result = _spaService.GuardarActualizarAgenda(agenda);
 
-                if(agenda.Id_Agenda == -1)
+                if (agenda.Id_Agenda == -1)
                     _spaService.EmailConfirmacionAgenda(agenda);
-                
+
                 return Content(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
@@ -887,7 +886,7 @@ namespace WebApiSpa.Controllers
         {
             try
             {
-                bool result = _spaService.RegistrarFacturacionServicios(aplicacionPago);                
+                bool result = _spaService.RegistrarFacturacionServicios(aplicacionPago);
 
                 return Content(HttpStatusCode.OK, result);
             }
@@ -897,7 +896,7 @@ namespace WebApiSpa.Controllers
             }
         }
 
-        [HttpGet]        
+        [HttpGet]
         [Route("api/SPA/ConsultarNominaEmpleados")]
         [HttpCache(DefaultExpirySeconds = 2)]
         public IHttpActionResult ConsultarNominaEmpleados(string idEmpresa, string fechaNomina)
@@ -964,7 +963,5 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error registrando la transacción: " + ex.Message);
             }
         }
-
-
     }
 }

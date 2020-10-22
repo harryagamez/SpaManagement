@@ -4,6 +4,5 @@
     {
         public string Servicio { get; set; }
         public string TipoServicio { get; set; }
-        
     }
 }

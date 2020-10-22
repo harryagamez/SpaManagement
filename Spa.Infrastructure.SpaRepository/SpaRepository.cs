@@ -1,13 +1,13 @@
-﻿using Spa.Domain.SpaEntities;
+﻿using Newtonsoft.Json;
+using Spa.Domain.SpaEntities;
+using Spa.Domain.SpaEntities.Extensions;
+using Spa.InfraCommon.SpaCommon.Helpers;
+using Spa.InfraCommon.SpaCommon.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using Spa.InfraCommon.SpaCommon.Helpers;
 using System.Linq;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using Spa.InfraCommon.SpaCommon.Models;
-using Spa.Domain.SpaEntities.Extensions;
 
 namespace Spa.Infrastructure.SpaRepository
 {
@@ -310,7 +310,6 @@ namespace Spa.Infrastructure.SpaRepository
 
         public List<ServicioMaestro> ConsultarServiciosMaestro(string CategoriaEmpresa)
         {
-
             DataTable _datatable = new DataTable();
             List<ServicioMaestro> _serviciosMaestro = new List<ServicioMaestro>();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -336,7 +335,6 @@ namespace Spa.Infrastructure.SpaRepository
 
         public List<Servicio> ConsultarServicios(string IdEmpresa)
         {
-
             DataSet _dataset = new DataSet();
             List<Servicio> _servicios = new List<Servicio>();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -378,7 +376,6 @@ namespace Spa.Infrastructure.SpaRepository
 
         public List<Servicio> ConsultarServiciosActivos(string IdEmpresa)
         {
-
             DataSet _dataset = new DataSet();
             List<Servicio> _servicios = new List<Servicio>();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -873,7 +870,6 @@ namespace Spa.Infrastructure.SpaRepository
 
         public bool ReemplazarCajaMenor(List<CajaMenor> _CajaMenor)
         {
-
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
                 _connection.Open();
@@ -1105,7 +1101,7 @@ namespace Spa.Infrastructure.SpaRepository
         }
 
         public bool GuardarActualizarAgenda(Agenda _Agenda)
-         {
+        {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
                 _connection.Open();
@@ -1456,7 +1452,7 @@ namespace Spa.Infrastructure.SpaRepository
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarEmpleadoPrestamos";
                     _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
-                    _command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);                    
+                    _command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);

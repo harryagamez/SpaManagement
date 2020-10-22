@@ -1211,7 +1211,7 @@
             return deferred.promise;
         }
 
-        function ConsultarNominaEmpleados(idEmpresa, fechaNomina) {            
+        function ConsultarNominaEmpleados(idEmpresa, fechaNomina) {
             var deferred = $q.defer();
             serviceRest.Get('SPA', 'ConsultarNominaEmpleados?idEmpresa=' + idEmpresa + '&fechaNomina=' + fechaNomina,
                 function (data) {

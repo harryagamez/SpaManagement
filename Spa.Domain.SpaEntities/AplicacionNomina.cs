@@ -1,5 +1,4 @@
-﻿using Spa.Domain.SpaEntities.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Spa.Domain.SpaEntities

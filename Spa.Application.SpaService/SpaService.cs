@@ -28,7 +28,7 @@ namespace Spa.Application.SpaService
                 string encryptedPassword = SecurityHelper.EncryptPasswordHash(Password);
 
                 Usuario _usuario = _spaRepository.ValidarUsuario(Nombre, encryptedPassword, ValidarIntegracion, CodigoIntegracion);
-                
+
                 if (_usuario != null)
                 {
                     string htmlString = @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">
@@ -47,25 +47,25 @@ namespace Spa.Application.SpaService
                            <tr>
                            <td bgcolor=""#ffffff"" style=""padding: 20px 30px 20px 30px; color: #1360a7; font-size:20px; text-align:center;"">
                                 <h2>¡Hola!, " + _usuario.Nombre + @"</h2>
-                           </td>                           
+                           </td>
                            </tr>
                             <tr>
                            <td bgcolor=""#ffffff"" style=""padding: 20px 30px 20px 30px; color: grey; font-size:18px;"">
-                                <b>Gracias por crear una cuenta en SPA MANAGEMENT. Pero antes de poder acceder al sistema, deberá activar su cuenta. El siguiente es su código de activación:</b>                                
-                           </td>                           
+                                <b>Gracias por crear una cuenta en SPA MANAGEMENT. Pero antes de poder acceder al sistema, deberá activar su cuenta. El siguiente es su código de activación:</b>
+                           </td>
                            </tr>
                            <tr>
                            <td bgcolor=""#ffffff"" style=""padding: 5px 30px 5px 30px; color: grey; font-size:16px; text-align:center;"">
                                 <p>" + _usuario.HashKey + @"</p>
-                           </td>                           
+                           </td>
                            </tr>
                            <tr>
                            <td bgcolor=""#212121"" style=""padding: 10px 30px 10px 30px; text-align:center; color: white;"" >
                             <p>SPA MANAGEMENT © Todos los derechos reservados</p>
-                           </td>                           
+                           </td>
                            </tr>
-                           </table>                            
-                    </body>                    
+                           </table>
+                    </body>
                     </html>
                     ";
 
@@ -74,7 +74,7 @@ namespace Spa.Application.SpaService
                         EmailModel _emailModel = new EmailModel
                         {
                             MailTo = _usuario.Mail,
-                            Subject = "Activación cuenta de usuario - SpaManagement",                            
+                            Subject = "Activación cuenta de usuario - SpaManagement",
                             Body = htmlString
                         };
 
@@ -380,25 +380,25 @@ namespace Spa.Application.SpaService
                            <tr>
                            <td bgcolor=""#ffffff"" style=""padding: 5px 30px 5px 30px; color: #1360a7; font-size:20px; text-align:center;"">
                                 <h2>¡Hola!, " + _Agenda.NombreApellido_Cliente + @"</h2>
-                           </td>                           
+                           </td>
                            </tr>
                             <tr>
                            <td bgcolor=""#ffffff"" style=""padding: 5px 30px 2px 30px; color: grey; font-size:18px; text-align:justify;"">
-                                <b>Su cita en " + _Agenda.Nombre_Empresa + @", para el servicio: " + _Agenda.Nombre_Servicio + @", ha sido programada para el día: " + fecha + @" a las: " + hora + @".</b>                                
-                           </td>                           
+                                <b>Su cita en " + _Agenda.Nombre_Empresa + @", para el servicio: " + _Agenda.Nombre_Servicio + @", ha sido programada para el día: " + fecha + @" a las: " + hora + @".</b>
+                           </td>
                            </tr>
                            <tr>
                            <td bgcolor=""#ffffff"" style=""padding: 5px 30px 5px 30px; color: grey; font-size:16px; text-align:justify;"">
                                 <p>Recuerde llegar con 20 minutos de anticipación. Si desea cancelar su cita, comuníquese con " + _Agenda.Nombre_Empresa + @" con 6 horas de anticipación.</p>
-                           </td>                           
+                           </td>
                            </tr>
                            <tr>
                            <td bgcolor=""#212121"" style=""padding: 10px 30px 10px 30px; text-align:center; color: white;"" >
                             <p>SPA MANAGEMENT © Todos los derechos reservados</p>
-                           </td>                           
+                           </td>
                            </tr>
-                           </table>                            
-                    </body>                    
+                           </table>
+                    </body>
                     </html>
                     ";
                     EmailModel _emailModel = new EmailModel
@@ -409,9 +409,8 @@ namespace Spa.Application.SpaService
                     };
 
                     MailHelper.SendMail(_emailModel);
-
                 }
-            });            
+            });
         }
 
         public bool RegistrarClientes(List<Cliente> clientes)
@@ -433,6 +432,7 @@ namespace Spa.Application.SpaService
         {
             return _spaRepository.ConsultarNominaEmpleadoServicios(idEmpresa, idEmpleado, fechaBusqueda);
         }
+
         public List<Gasto> ConsultarEmpleadoPrestamos(string idEmpresa, int idEmpleado)
         {
             return _spaRepository.ConsultarEmpleadoPrestamos(idEmpresa, idEmpleado);

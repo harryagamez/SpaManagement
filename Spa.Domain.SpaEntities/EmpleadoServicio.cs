@@ -1,5 +1,5 @@
 ﻿using Spa.Domain.SpaEntities.Extensions;
-using System;
+
 namespace Spa.Domain.SpaEntities
 {
     public class EmpleadoServicio : BusquedaServicioTipo

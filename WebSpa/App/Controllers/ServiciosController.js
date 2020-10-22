@@ -654,5 +654,5 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
 
     $timeout(function () {
         $('#txtBuscarServicio').focus();
-    },200);
+    }, 200);
 }

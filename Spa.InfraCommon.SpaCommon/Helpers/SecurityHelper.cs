@@ -142,7 +142,6 @@ namespace Spa.InfraCommon.SpaCommon.Helpers
                 encStream.Close();
                 TDESAlgorithm.Dispose();
                 Password.Dispose();
-
             }
         }
 

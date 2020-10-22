@@ -20,7 +20,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
     $scope.Accion = '';
     $scope.ListadoClientes = false;
     $scope.DetalladoServicios = false;
-    $scope.GeneralServicios = false;    
+    $scope.GeneralServicios = false;
     $scope.ArchivoSeleccionado = null;
     $scope.ExcelClientes = [];
     $scope.Validaciones = [];
@@ -153,8 +153,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
                             $('#txtNombre').focus();
                             $scope.AccionCliente = 'Actualizar Cliente';
                             $scope.fEditarCliente = true;
-                            
-                        }                        
+                        }
                     }, function (err) {
                         toastr.remove();
                         if (err.data !== null && err.status === 500)
@@ -629,7 +628,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
             $scope.DepartamentoSeleccionado = -1;
             $scope.TipoClienteSeleccionado = -1;
 
-            $scope.ListadoClientes = false;            
+            $scope.ListadoClientes = false;
             $scope.DetalladoServicios = false;
             $scope.GeneralServicios = false;
             $scope.Accion = '';
@@ -737,7 +736,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
         if (params.data.estado === 'INACTIVO') {
             return { 'background-color': '#ecf0e0', 'color': '#999999', 'font-weight': '300' };
         }
-    }    
+    }
 
     $scope.EditarCliente = function (data) {
         try {
@@ -768,7 +767,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
                     $scope.BarrioSeleccionado = data.id_Barrio;
                 }, 200);
 
-                $scope.EstadoSeleccionado = $scope.Cliente.Estado;                
+                $scope.EstadoSeleccionado = $scope.Cliente.Estado;
                 $scope.ModalNuevoCliente();
             }
         } catch (e) {

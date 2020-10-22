@@ -52,7 +52,6 @@ namespace Spa.InfraCommon.SpaCommon.Helpers
                 }
 
                 return list;
-
             }
             catch
             {
@@ -69,7 +68,6 @@ namespace Spa.InfraCommon.SpaCommon.Helpers
 
                 if (dataRow.Table.Columns.Contains(column.ColumnName) && property != null && dataRow[column] != DBNull.Value)
                     property.SetValue(item, Convert.ChangeType(dataRow[column], Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType), null);
-
             }
 
             return item;
