@@ -963,7 +963,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
             headerName: "Apellido(s)", field: 'apellidos', width: 155, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Celular", field: 'telefono_Movil', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' },
+            headerName: "Celular", field: 'telefono_Movil', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
         },
         {
             headerName: "Dirección", field: 'direccion', width: 240, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },

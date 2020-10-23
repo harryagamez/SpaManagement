@@ -5,7 +5,7 @@
     --primary-color: #132644;
     --accent-color: #4CAF50;
     --light-primary-color: #003d78;
-    --main-font: Open Sans, sans-serif;
+    --main-font: 'Source Sans Pro', sans-serif;
 }
 
 /*################ Margins, Paddings, Heights, Widths, 
@@ -22,10 +22,13 @@ Positions, Display, Top, Bottom, left, rights ################*/
 }
 
 #header {
-    min-width: 820px;
+    position:fixed;
+    width:100%;
     height: 50px;
+    left:200px;
     margin-bottom: 10px;
     z-index: 10;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 #header .site-title {
@@ -34,7 +37,8 @@ Positions, Display, Top, Bottom, left, rights ################*/
 }
 
 #header .site-widgets {
-    float: right;    
+    position:absolute;
+    right:195px;    
     margin: 14px 20px 0 0;
 }
 
@@ -68,7 +72,7 @@ Positions, Display, Top, Bottom, left, rights ################*/
     position: fixed;
     left: 0;
     right: 0;
-    margin: 0 15px 15px 15px;
+    margin: 60px 15px 15px 15px;
     z-index: 8;    
 }
 
@@ -79,6 +83,14 @@ Positions, Display, Top, Bottom, left, rights ################*/
     padding-top: 15px;
     z-index: 9;
 }
+
+#sidebar ul {
+    margin-top:150px;    
+}
+
+    #sidebar ul li {
+        font-size: 14px;
+    }
 
 #sidebar ul li:hover {
     margin-left: 25px;
@@ -102,7 +114,7 @@ li.active {
 }
 
 .li-padding {
-    padding: 7px 12px 7px 20px;
+    padding: 4px 12px 4px 20px;
 }
 
 .form-control-login {
@@ -186,7 +198,7 @@ select,
 .btn-spa:hover,
 .btn-login,
 .btn-login:hover {
-    font-size: 14px !important;
+    font-size: 16px !important;
     font-family: var(--main-font) !important;
 }
 
@@ -235,8 +247,8 @@ select,
 
 .tooltip .tooltip-inner {
     color: var(--light-text) !important;
-    font-family: Open Sans !important;
-    font-size: 12px !important;
+    font-family: 'Source Sans Pro' !important;
+    font-size: 13px !important;
 }
 
 .login-icons,
@@ -245,7 +257,7 @@ select,
 }
 
 #frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos, #frmGestion, #frmAgenda, #frmAPanel {
-    font-size: 13px;
+    font-size: 16px;
 }
 
     #frmClientes .material-icons, #frmServicios .material-icons,
@@ -270,7 +282,7 @@ body {
 
 #header {
     background: white !important;
-    border-bottom: 1px solid #eee;
+    /*border-bottom: 1px solid #eee;*/
 }
 
 .bg {
@@ -313,37 +325,35 @@ body {
     }
 
 .btn-spa {
-    background: var(--accent-color) !important;
-    color: var(--light-text);
+    background: #67ddab;
+    color: white;
 }
 
-    .btn-spa:hover {
-        background: #56c15a !important;
+    .btn-spa:hover {        
+        background: #566473 !important;        
     }
 
     .btn-spa:active {
-        background: #239c28 !important;
+        background: #566473 !important;        
     }
 
 #sidebar {
-    background: rgba(19, 38, 68, 0.90);
-    border-radius: 0 10px;
+    background: #2c333c;
 }
 
 #sidebar ul li {
-    border-bottom: 1px solid rgba(40, 40, 40, 0.87);
+    /*border-bottom: 1px solid rgba(40, 40, 40, 0.87);
     background-size: 200% 100%;
-    background-image: linear-gradient(to left, #212121 50%, transparent 50%);
+    background-image: linear-gradient(to left, #212121 50%, transparent 50%);*/
 }
 
-#sidebar ul li:hover {
-    border-radius: 10px 0 0 10px;
-    background-position: 100% 0;
+#sidebar ul li:hover {    
+    /*background-position: 100% 0;*/
 }
 
 li.active {
-    border-radius: 10px 0 0 10px;
-    background-position: 100% 0;
+    /*border-radius: 10px 0 0 10px;
+    background-position: 100% 0;*/
 }
 
 #sidebar .toggle-btn span {
@@ -368,8 +378,7 @@ li.active {
 }
 
 #frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos, #frmGestion, #frmAgenda, #frmAPanel {
-    background-color: white !important;
-    border-radius: 10px;
+    background-color: white !important;    
 }
 
 
@@ -423,7 +432,7 @@ label {
 .label-imagen-usuario {
     color: transparent;
     background-color: transparent;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 300;
     width: 108px;
     height:40px;
@@ -477,9 +486,6 @@ label {
 
 
 /*################ Filters, Shadows, Transitions ################*/
-#header {
-    box-shadow: rgb(19, 19, 19) 0px 0px 7px
-}
 
 .background-image {
     filter: blur(5px) grayscale(100%);
@@ -493,13 +499,13 @@ label {
     transform: translateY(2px);
 }*/
 
-#sidebar {
+/*#sidebar {
     transition: all 500ms linear;
 }
 
 #sidebar ul li {
     transition: background-position 0.3s;
-}
+}*/
 
 aside ul li:hover {
     transition: all 0.3s ease-in-out;
@@ -558,7 +564,7 @@ input:-webkit-autofill:active {
 
 /*################ Containers ################*/
 .dropdown-menu{
-    font-size:13px !important;
+    font-size:14px !important;
 }
 
 ._md-datepicker-floating-label > md-datepicker .md-datepicker-button {
@@ -604,6 +610,7 @@ md-tabs md-ink-bar {
 md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active {
     color: white;
     font-weight:600;
+    font-size:16px;
 }
 
 md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
@@ -1070,7 +1077,7 @@ md-card md-card-title {
 }
 
 .table-propiedades {
-    font-size:13px;
+    font-size:14px;
     border:1px solid #e1e1e1;    
 }
 
@@ -1086,7 +1093,7 @@ md-card md-card-title {
         padding: 1px;
         border-right: 1px dotted #e1e1e1;
         height: 20px;
-        font-size: 13px;
+        font-size: 14px;
     }  
 
 
@@ -1099,7 +1106,7 @@ md-card md-card-title {
 
 .table-propiedades tbody tr {
     height:30px;
-    font-size:13px;
+    font-size:14px;
 }
 
 .table-propiedades tbody tr:nth-child(odd) {
@@ -1267,6 +1274,36 @@ input:focus, input.form-control:focus {
 
 #toast-container > .toast-success:before {
     content: "\f058";
+}
+
+/*MATERIAL MAIN APP*/
+
+.material-app md-input-container:not(.md-input-invalid).md-input-focused .md-input {
+    border-color: #566473;
+}
+
+.material-app md-input-container:not(.md-input-invalid).md-input-focused label {
+    color: #566473;
+}
+
+.material-app md-input-container:not(.md-input-invalid).md-input-focused .login-icons {
+    color: #8d93ab !important;
+}
+
+.material-app md-tabs.md-primary > md-tabs-wrapper {
+    background-color: white;
+    border-bottom: 2px solid #566473 !important;
+    color: grey;
+}
+
+.material-app md-tabs md-ink-bar {
+    background: transparent !important;
+}
+
+.material-app .md-tab.md-active {
+    background: #566473;
+    border-radius: 0;
+    box-shadow: 5px 5px 10px #999;
 }
 
 /*MATERIAL APANEL*/

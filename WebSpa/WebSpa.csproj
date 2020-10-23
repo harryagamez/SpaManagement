@@ -308,6 +308,18 @@
     <Content Include="Scripts\fonts\fontawesome-webfont.woff" />
     <Content Include="Scripts\fonts\fontawesome-webfont.woff2" />
     <Content Include="Scripts\fonts\FontAwesome.otf" />
+    <Content Include="Styles\Fonts\Source_Sans_Pro\SourceSansPro-Black.ttf" />
+    <Content Include="Styles\Fonts\Source_Sans_Pro\SourceSansPro-BlackItalic.ttf" />
+    <Content Include="Styles\Fonts\Source_Sans_Pro\SourceSansPro-Bold.ttf" />
+    <Content Include="Styles\Fonts\Source_Sans_Pro\SourceSansPro-BoldItalic.ttf" />
+    <Content Include="Styles\Fonts\Source_Sans_Pro\SourceSansPro-ExtraLight.ttf" />
+    <Content Include="Styles\Fonts\Source_Sans_Pro\SourceSansPro-ExtraLightItalic.ttf" />
+    <Content Include="Styles\Fonts\Source_Sans_Pro\SourceSansPro-Italic.ttf" />
+    <Content Include="Styles\Fonts\Source_Sans_Pro\SourceSansPro-Light.ttf" />
+    <Content Include="Styles\Fonts\Source_Sans_Pro\SourceSansPro-LightItalic.ttf" />
+    <Content Include="Styles\Fonts\Source_Sans_Pro\SourceSansPro-Regular.ttf" />
+    <Content Include="Styles\Fonts\Source_Sans_Pro\SourceSansPro-SemiBold.ttf" />
+    <Content Include="Styles\Fonts\Source_Sans_Pro\SourceSansPro-SemiBoldItalic.ttf" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
