@@ -1,4 +1,6 @@
-CREATE PROCEDURE RegistrarActualizarEmpleado(@JsonEmpleado NVARCHAR(MAX))
+CREATE PROCEDURE RegistrarActualizarEmpleado(
+	@JsonEmpleado NVARCHAR(MAX)
+)
 AS
 BEGIN
 	
@@ -51,7 +53,9 @@ BEGIN
 			VALUES (SOURCE.Cedula, SOURCE.Nombres, SOURCE.Apellidos, SOURCE.Telefono_Fijo, SOURCE.Telefono_Movil, SOURCE.Id_TipoPago,
 			SOURCE.Direccion, SOURCE.Id_Barrio, SOURCE.Fecha_Nacimiento, SOURCE.Estado_Civil, SOURCE.Numero_Hijos, SOURCE.Monto, SOURCE.Estado, GETDATE(),
 			SOURCE.Id_Empresa, SOURCE.Logo_Base64);
+
 	END TRY
+
 	BEGIN CATCH
 
 		IF OBJECT_ID('tempdb..#TempEmpleado') IS NOT NULL DROP TABLE #TempEmpleado

@@ -56,6 +56,7 @@ BEGIN
 		IF OBJECT_ID('tempdb..#TempProducto') IS NOT NULL DROP TABLE #TempProducto
 
 	END TRY
+
 	BEGIN CATCH
 
 		IF OBJECT_ID('tempdb..#TempProducto') IS NOT NULL DROP TABLE #TempProducto

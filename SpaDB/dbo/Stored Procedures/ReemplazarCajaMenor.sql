@@ -1,4 +1,6 @@
-CREATE PROCEDURE ReemplazarCajaMenor(@JsonCajaMenor NVARCHAR(MAX))
+CREATE PROCEDURE ReemplazarCajaMenor(
+	@JsonCajaMenor NVARCHAR(MAX)
+)
 AS
 BEGIN
 
@@ -75,6 +77,7 @@ BEGIN
 		COMMIT TRANSACTION Tn_ReemplazarCajaMenor
 
 	END TRY
+
 	BEGIN CATCH
 
 		IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION Tn_ReemplazarCajaMenor

@@ -1,4 +1,6 @@
-CREATE PROCEDURE GuardarServicioAdmin(@JsonServicio NVARCHAR(MAX))
+CREATE PROCEDURE GuardarServicioAdmin(
+	@JsonServicio NVARCHAR(MAX)
+)
 AS
 BEGIN
 	
@@ -30,10 +32,10 @@ BEGIN
 		IF OBJECT_ID('tempdb..#TempServicios') IS NOT NULL DROP TABLE #TempServicios
 
 	END TRY
+
 	BEGIN CATCH
 
 		IF OBJECT_ID('tempdb..#TempServicios') IS NOT NULL DROP TABLE #TempServicios
-
         DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE()
         RAISERROR (@ErrorMessage, 16, 1)
 

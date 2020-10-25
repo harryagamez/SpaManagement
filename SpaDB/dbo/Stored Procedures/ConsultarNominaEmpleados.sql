@@ -161,25 +161,27 @@ BEGIN
 	FROM #TempNomina_Empleados NominaEmpleados
 	
 	IF(@TipoNomina = 'POR_SERVICIOS') BEGIN
-		UPDATE #TempNomina_Empleados
-		SET Subtotal = (Servicios * Salario), Total_Pagar = ((Servicios * Salario) - ISNULL(Prestamos,0))		
+
+		UPDATE #TempNomina_Empleados SET Subtotal = (Servicios * Salario), Total_Pagar = ((Servicios * Salario) - ISNULL(Prestamos,0))		
 
 		SELECT 
-			Id_Empresa, Id_Empleado, RTRIM(Nombres) AS Nombres, RTRIM(Apellidos) AS Apellidos, Servicios, Prestamos, 
-			Salario, Subtotal, Total_Pagar, 
-			RTRIM(Tipo_Nomina) AS Tipo_Nomina
+			Id_Empresa, Id_Empleado, RTRIM(Nombres) AS Nombres, 
+			RTRIM(Apellidos) AS Apellidos, Servicios, Prestamos, 
+			Salario, Subtotal, Total_Pagar, RTRIM(Tipo_Nomina) AS Tipo_Nomina
 		FROM #TempNomina_Empleados
 		WHERE ISNULL(Servicios, 0) > 0 OR ISNULL(Prestamos, 0) > 0
+
 	END
 	ELSE BEGIN
-		UPDATE #TempNomina_Empleados
-		SET Subtotal = Salario, Total_Pagar = (Salario - ISNULL(Prestamos, 0))
+
+		UPDATE #TempNomina_Empleados SET Subtotal = Salario, Total_Pagar = (Salario - ISNULL(Prestamos, 0))
 		 
 		 SELECT 
-			Id_Empresa, Id_Empleado, RTRIM(Nombres) AS Nombres, RTRIM(Apellidos) AS Apellidos, Servicios, Prestamos, 
-			Salario, Subtotal, Total_Pagar, 
-			RTRIM(Tipo_Nomina) AS Tipo_Nomina
+			Id_Empresa, Id_Empleado, RTRIM(Nombres) AS Nombres, 
+			RTRIM(Apellidos) AS Apellidos, Servicios, Prestamos, 
+			Salario, Subtotal, Total_Pagar, RTRIM(Tipo_Nomina) AS Tipo_Nomina
 		 FROM #TempNomina_Empleados
+
 	END
 
 	IF OBJECT_ID('tempdb..#TempNomina_Empleados') IS NOT NULL DROP TABLE #TempNomina_Empleados

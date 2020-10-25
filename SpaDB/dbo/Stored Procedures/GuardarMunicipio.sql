@@ -1,4 +1,6 @@
-CREATE PROCEDURE GuardarMunicipio(@JsonMunicipio NVARCHAR(MAX))
+CREATE PROCEDURE GuardarMunicipio(
+	@JsonMunicipio NVARCHAR(MAX)
+)
 AS
 BEGIN
 	
@@ -46,6 +48,7 @@ BEGIN
 		IF OBJECT_ID('tempdb..#TempMunicipios') IS NOT NULL DROP TABLE #TempMunicipios
 
 	END TRY
+
 	BEGIN CATCH
 
 		IF OBJECT_ID('tempdb..#TempMunicipios') IS NOT NULL DROP TABLE #TempMunicipios

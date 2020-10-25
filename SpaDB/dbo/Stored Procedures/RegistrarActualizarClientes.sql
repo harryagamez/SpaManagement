@@ -52,7 +52,6 @@ BEGIN
 	BEGIN CATCH
 
 		IF OBJECT_ID('tempdb..#TempCliente') IS NOT NULL DROP TABLE #TempCliente
-
         DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE()
         RAISERROR (@ErrorMessage, 16, 1)
 

@@ -1,4 +1,6 @@
-CREATE PROCEDURE GuardarTipoServicio(@JsonTipoServicio NVARCHAR(MAX))
+CREATE PROCEDURE GuardarTipoServicio(
+	@JsonTipoServicio NVARCHAR(MAX)
+)
 AS
 BEGIN
 
@@ -8,11 +10,15 @@ BEGIN
 	DECLARE @Mensaje VARCHAR(200)
 
 	SELECT 
-		@IdCategoriaServicio = Id_Categoria_Servicio, @Nombre = Nombre, @IdTipoServicio = Id_TipoServicio
+		@IdCategoriaServicio = Id_Categoria_Servicio, 
+		@Nombre = Nombre, 
+		@IdTipoServicio = Id_TipoServicio
 	FROM 
 		OPENJSON(@JsonTipoServicio)
 	WITH (
-		Id_Categoria_Servicio UNIQUEIDENTIFIER '$.Id_Categoria_Servicio', Nombre CHAR(30) '$.Nombre', Id_TipoServicio INT '$.Id_TipoServicio'
+		Id_Categoria_Servicio UNIQUEIDENTIFIER '$.Id_Categoria_Servicio', 
+		Nombre CHAR(30) '$.Nombre', 
+		Id_TipoServicio INT '$.Id_TipoServicio'
 	)
 	
 	IF (SELECT COUNT(*) FROM TIPO_SERVICIO WHERE ID_CATEGORIA_SERVICIO = @IdCategoriaServicio AND NOMBRE = UPPER(@Nombre) AND ID_TIPOSERVICIO <> @IdTipoServicio) > 0 BEGIN
@@ -47,10 +53,10 @@ BEGIN
 		IF OBJECT_ID('tempdb..#TempTipoServicio') IS NOT NULL DROP TABLE #TempTipoServicio
 
 	END TRY
+
 	BEGIN CATCH
 
 		IF OBJECT_ID('tempdb..#TempTipoServicio') IS NOT NULL DROP TABLE #TempTipoServicio
-
         DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE()
         RAISERROR (@ErrorMessage, 16, 1)
 

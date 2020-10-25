@@ -1,4 +1,6 @@
-CREATE PROCEDURE GuardarUsuario(@JsonUsuario NVARCHAR(MAX))
+CREATE PROCEDURE GuardarUsuario(
+	@JsonUsuario NVARCHAR(MAX)
+)
 AS
 BEGIN
 
@@ -8,11 +10,15 @@ BEGIN
 	DECLARE @Mensaje VARCHAR(200)
 
 	SELECT 
-		@IdEmpresa = Id_Empresa, @NombreUsuario = Nombre
+		@IdEmpresa = Id_Empresa, 
+		@NombreUsuario = Nombre,
+		@UsuarioId = Id_Usuario
 	FROM 
 		OPENJSON(@JsonUsuario)
 	WITH (
-		Id_Empresa UNIQUEIDENTIFIER '$.Id_Empresa', Nombre CHAR(25) '$.Nombre'
+		Id_Empresa UNIQUEIDENTIFIER '$.Id_Empresa', 
+		Nombre CHAR(25) '$.Nombre',
+		Id_Usuario INT '$.Id_Usuario' 
 	)
 	
 	IF (SELECT COUNT(*) FROM USUARIOS WHERE ID_EMPRESA = @IdEmpresa AND NOMBRE = @NombreUsuario AND @UsuarioId <> -1) > 0 BEGIN
@@ -43,16 +49,9 @@ BEGIN
 			INSERT (NOMBRE, CONTRASENIA, PERFIL, ID_EMPRESA, MAIL, LOGO_BASE64, VERIFICADO, FECHA_REGISTRO, FECHA_MODIFICACION)
 			VALUES (SOURCE.Nombre, SOURCE.Contrasenia, SOURCE.Perfil, SOURCE.Id_Empresa, SOURCE.Mail, SOURCE.Logo_Base64, NULL, GETDATE(), GETDATE());
 
-		SELECT 
-			@UsuarioId = Id_Usuario
-		FROM 
-			OPENJSON(@JsonUsuario)
-		WITH (
-			Id_Usuario INT '$.Id_Usuario' 
-		)
-
-		IF @UsuarioId = -1
+		IF @UsuarioId = -1 BEGIN
 			SET @UsuarioId = SCOPE_IDENTITY()	
+		END
 		
 		MERGE MENU_USUARIOS AS TARGET
 		USING(
@@ -78,6 +77,7 @@ BEGIN
 			VALUES (NEWID(), @UsuarioId, SOURCE.Id_Menu, SOURCE.Estado, GETDATE(), GETDATE());
 
 	END TRY
+
 	BEGIN CATCH
 
         DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE()

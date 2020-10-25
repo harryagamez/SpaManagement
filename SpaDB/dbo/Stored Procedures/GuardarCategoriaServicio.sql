@@ -1,4 +1,6 @@
-CREATE PROCEDURE GuardarCategoriaServicio(@JsonCategoriaServicio NVARCHAR(MAX))
+CREATE PROCEDURE GuardarCategoriaServicio(
+	@JsonCategoriaServicio NVARCHAR(MAX)
+)
 AS
 BEGIN
 	

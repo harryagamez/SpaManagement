@@ -1,4 +1,6 @@
-CREATE PROCEDURE GuardarEmpresa(@JsonEmpresa NVARCHAR(MAX))
+CREATE PROCEDURE GuardarEmpresa(
+	@JsonEmpresa NVARCHAR(MAX)
+)
 AS
 BEGIN
 	

@@ -1,4 +1,9 @@
-﻿CREATE PROCEDURE ValidarUsuario(@Nombre VARCHAR(25), @Password VARCHAR(100), @ValidarIntegracion BIT = NULL, @CodigoIntegracion VARCHAR(36) = NULL)
+﻿CREATE PROCEDURE ValidarUsuario(
+	@Nombre VARCHAR(25), 
+	@Password VARCHAR(100), 
+	@ValidarIntegracion BIT = NULL, 
+	@CodigoIntegracion VARCHAR(36) = NULL
+)
 AS
 BEGIN	
 	

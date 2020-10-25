@@ -44,6 +44,7 @@ BEGIN
 		IF OBJECT_ID('tempdb..#TempGastos') IS NOT NULL DROP TABLE #TempGastos
 
 	END TRY
+
 	BEGIN CATCH
 
 		IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION Tn_GuardarGasto
