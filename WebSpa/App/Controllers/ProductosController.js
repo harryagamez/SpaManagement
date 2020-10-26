@@ -317,7 +317,7 @@ function ProductosController($scope, $rootScope, $templateCache, $filter, $mdDia
             },
         },
         {
-            headerName: "Precio", field: 'precio', width: 50, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
+            headerName: "Precio", field: 'precio', width: 50, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
         },
         {
             headerName: "Inventario", field: 'inventario', width: 80, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },

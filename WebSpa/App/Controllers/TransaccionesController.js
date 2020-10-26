@@ -444,7 +444,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             headerName: "Salario / % ", field: 'salario', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: decimalFormatter
         },
         {
-            headerName: "Subtotal", field: 'subtotal', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
+            headerName: "Subtotal", field: 'subtotal', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
         },
         {
             headerName: "Préstamos", field: 'prestamos', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
@@ -452,9 +452,9 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         {
             headerName: "Total a Pagar", field: 'total_Pagar', width: 180, cellStyle: function (params) {
                 if (params.value < 0) {
-                    return { 'color': 'red', 'text-align': 'right', 'cursor': 'pointer', 'font-weight': '600' };
+                    return { 'color': '#dd6767', 'text-align': 'right', 'cursor': 'pointer', 'font-weight': '600' };
                 } else {
-                    return { 'color': 'green', 'text-align': 'right', 'cursor': 'pointer', 'font-weight': '600' };
+                    return { 'color': '#499977', 'text-align': 'right', 'cursor': 'pointer', 'font-weight': '600' };
                 }
             }, valueFormatter: currencyFormatter
         }
@@ -522,7 +522,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             headerName: "Descripción", field: 'descripcion', width: 300, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
         },
         {
-            headerName: "Valor", field: 'valor', width: 150, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#212121', 'background': 'RGBA(210,216,230,0.75)', 'font-weight': 'bold', 'border-bottom': '1px dashed #212121', 'border-right': '1px dashed #212121', 'border-left': '1px dashed #212121' }, valueFormatter: currencyFormatter
+            headerName: "Valor", field: 'valor', width: 150, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold'}, valueFormatter: currencyFormatter
         },
         {
             headerName: "Fecha", field: 'fecha', width: 150, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter

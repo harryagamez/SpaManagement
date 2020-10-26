@@ -237,7 +237,7 @@
                         </div>
 
                         <div layout="row" layout-sm="column" style="margin-bottom:-10px;" layout-align="start center">
-                            <div flex="60" class="material-app">
+                            <div class="material-app">
                                 <md-input-container style="margin-left: -40px; min-width: 100%;  z-index:9999; margin-bottom:0;">
                                     <label class="label-form-empleados" style="position: absolute; left: 43px; }">
                                         Fecha Cita:
@@ -249,14 +249,14 @@
 
                         <div layout="row" layout-sm="column" style="margin-bottom:-10px; padding-left:7px;" layout-align="center center">
                             <div flex="" class="material-app">
-                                <label class="label-form-empleados agenda-timepicker" style="font-size:10px;">
+                                <label class="label-form-empleados agenda-timepicker" style="font-size:11px;">
                                     Hora Inicio Cita:
                                 </label>
                                 <div uib-timepicker mousewheel="true" arrowkeys="true" minute-step="30" ng-model="HoraInicio" ng-disabled="fDisableHoraInicio" data-ng-change="CalcularHoraFin(ServicioSeleccionado)" class="agenda-timepicker" id="timeInicio" tabindex="11"></div>
                             </div>
 
                             <div flex="">
-                                <label class="label-form-empleados agenda-timepicker" style="font-size: 10px;">
+                                <label class="label-form-empleados agenda-timepicker" style="font-size: 11px;">
                                     Hora Fin Cita:
                                 </label>
                                 <div uib-timepicker mousewheel="true" arrowkeys="true" minute-step="30" ng-model="HoraFin" data-ng-change="ValidarHoraFin()" ng-disabled="fDisableHoraFin" class="agenda-timepicker" id="timeFin" tabindex="12"></div>

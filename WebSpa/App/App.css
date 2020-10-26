@@ -93,11 +93,11 @@ Positions, Display, Top, Bottom, left, rights ################*/
     }
 
 #sidebar ul li:hover {
-    margin-left: 25px;
+    margin-left: 10px;
 }
 
 li.active {
-    margin-left: 25px;
+    margin-left: 10px;
 }
 
 #sidebar .toggle-btn {
@@ -235,16 +235,24 @@ select,
 }
 
 #sidebar ul li:hover,
-#sidebar ul li:hover a,
-#sidebar ul li:active {
+#sidebar ul li:hover a
+ {
     color: var(--light-text) !important;
     font-weight: 600;
+    text-decoration:underline;
+}
+
+#sidebar ul li.active,
+#sidebar ul li.active a {
+    color: var(--light-text) !important;
+    font-weight: 800;
+    text-decoration: underline;
 }
 
 
-.form-control {
-    font-family: var(--main-font);
-}
+    .form-control {
+        font-family: var(--main-font);
+    }
 
 .tooltip .tooltip-inner {
     color: var(--light-text) !important;
@@ -334,7 +342,12 @@ body {
     /*border-bottom: 1px solid rgba(40, 40, 40, 0.87);
     background-size: 200% 100%;
     background-image: linear-gradient(to left, #212121 50%, transparent 50%);*/
+    border-bottom:1px solid #222;
 }
+
+    #sidebar ul li:first-child {
+        border-top: 1px solid #222;
+    }
 
 #sidebar ul li:hover {    
     /*background-position: 100% 0;*/
@@ -499,12 +512,12 @@ label {
 
 aside ul li:hover {
     transition: all 0.3s ease-in-out;
-    box-shadow: -7px 0 5px rgba(0,0,0,0.87);
+    /*box-shadow: -7px 0 5px rgba(0,0,0,0.87);*/
 }
 
 li.active {
     transition: all 0.3s ease-in-out;
-    box-shadow: -7px 0 5px rgba(0,0,0,0.87);
+    /*box-shadow: -7px 0 5px rgba(0,0,0,0.87);*/
 }
 
 .form-control:focus {
@@ -1199,12 +1212,12 @@ md-card md-card-title {
     padding-left:2px !important;
 }
 
-.agenda-timepicker .btn-default {
-    background:white !important;
-    font-size:14px;
-    font-weight:600;
-    color:orange;
-}
+    .agenda-timepicker .btn-default {
+        background: white !important;
+        font-size: 14px;
+        font-weight: 600;
+        color: #67ddab;
+    }
 
     .agenda-timepicker .form-control {
         border-left: none !important;
