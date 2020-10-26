@@ -27,7 +27,7 @@
                                         </md-button>
                                     </section>
                                 </div>
-                                <div flex="20" style="margin-top:-12px">
+                                <div style="margin-top:-12px;">
                                     <md-input-container style="margin-left: -40px; max-width:300px;z-index:99; margin-top:15px;">
                                         <label class="label-form-clientes" style="margin-bottom:-4px;">
                                             Fecha:
@@ -35,12 +35,12 @@
                                         <md-datepicker id="dpFechaActual" ng-model="FechaActual" ng-change="LimpiarAgenda()" md-placeholder="mm/dd/yyyy" class="dateClientes" tabindex=5 style="margin-bottom:0;"></md-datepicker>
                                     </md-input-container>
                                 </div>
-                                <div flex="20" style="margin-left:-40px; margin-top:10px;">
+                                <div style="margin-top:10px; margin-left:10px;">
                                     <md-checkbox ng-model="MostrarCanceladasDetallada" aria-label="Checkbox Filtro Canceladas" style="margin-left: 2px;">
                                     </md-checkbox>
                                     <span style="font-size:14px; margin-left:-10px; vertical-align:middle;">Mostrar Solo Canceladas</span>
                                 </div>
-                                <div flex="40">
+                                <!--<div flex="40">
                                     <div style="position: absolute; right:20px; margin-top:16px; font-size:14px;">
                                         <span style="padding-left:5px; vertical-align:middle;"><img src="../../Images/agenda/agenda-confirmada-28px.png" width="18" height="18" />Confirmada</span>
                                         <span style="padding-left:5px; vertical-align:middle;"><img src="../../Images/agenda/agenda-programada-28px.png" width="18" height="18" />Programada</span>
@@ -48,19 +48,19 @@
                                         <span style="padding-left:5px; vertical-align:middle;"><img src="../../Images/agenda/agenda-facturada-28px.png" width="18" height="18" />Facturada</span>
                                         <span style="padding-left:5px; vertical-align:middle;"><img src="../../Images/agenda/agenda-liquidada-28px.png" width="18" height="18" />Liquidada</span>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
 
                             <div id="divScheduleCitas" layout="row" style="width:100%; height: calc(100vh - 215px); margin-top:-30px; overflow-y:auto; overflow-x:auto;">
                                 <table class="table-schedule" id="tabledetallada">
                                     <tr>
                                         <td class="table-schedule-nullpoint"></td>
-                                        <th scope="col" ng-repeat="empleado in Empleados" style="font-size:14px; font-weight:600; color:white; padding:10px; background-color:#385178; box-shadow: 2px 2px 4px 0px rgba(102,102,102,1);">{{empleado.nombres}}</th>
-                                        <th class="table-schedule-empty" ng-repeat="x in BlankCells" style="background-color: #385178 !important; box-shadow: 2px 2px 4px 0px rgba(102,102,102,1); position:sticky; top:0;"></th>
+                                        <th scope="col" ng-repeat="empleado in Empleados" style="font-size:14px; font-weight:600; color:white; padding:10px; background-color:#566473; box-shadow: 2px 2px 4px 0px rgba(102,102,102,1);">{{empleado.nombres}}</th>
+                                        <th class="table-schedule-empty" ng-repeat="x in BlankCells" style="background-color: #566473 !important; box-shadow: 2px 2px 4px 0px rgba(102,102,102,1); position:sticky; top:0;"></th>
                                     </tr>
                                     <tbody ng-repeat="hora in RangoHoras track by $index">
                                         <tr>
-                                            <th scope="rowgroup" rowspan="1" class="table-schedule-horas" style="font-size:13px; font-weight:600; color:forestgreen; background-color:white;">{{hora}}</th>
+                                            <th scope="rowgroup" rowspan="1" class="table-schedule-horas" style="font-size:12px; font-weight:800; color:#2c333c; background-color:white;">{{hora}}</th>
                                             <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado)" layout-wrap>
                                                 <div ng-repeat="agenda in Agendas | filter: {'id_Empleado': empleado.id_Empleado} : true| filter:{'fechaInicio': hora} : true">
                                                     <div class="agenda-detallada" ng-style="{'height':CalcularAlturaDiv(agenda)}" ng-class="CardsDetalladaStyle(agenda)" ng-click="DetalladaEventoClick($event)">
@@ -188,7 +188,7 @@
                     <md-dialog-content style="overflow:hidden;">
 
                         <div layout="row" layout-sm="column" style="margin-bottom:-15px;" layout-align="center center">
-                            <div flex="">
+                            <div flex="" class="material-app">
                                 <md-input-container style="min-width:100%; max-width:100%;">
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Empleados:
@@ -206,7 +206,7 @@
                         </div>
 
                         <div layout="row" layout-sm="column" style="margin-top:-5px; margin-bottom:-15px;" layout-align="center center">
-                            <div flex="">
+                            <div flex="" class="material-app">
                                 <md-input-container style="min-width:100%; max-width:100%;">
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Clientes:
@@ -224,7 +224,7 @@
                         </div>
 
                         <div layout="row" layout-sm="column" style="" layout-align="center center">
-                            <div flex="" style="">
+                            <div flex="" style="" class="material-app">
                                 <md-input-container style="width:100%">
                                     <label class="label-form-empleados">
                                         Servicios:
@@ -237,7 +237,7 @@
                         </div>
 
                         <div layout="row" layout-sm="column" style="margin-bottom:-10px;" layout-align="start center">
-                            <div flex="60">
+                            <div flex="60" class="material-app">
                                 <md-input-container style="margin-left: -40px; min-width: 100%;  z-index:9999; margin-bottom:0;">
                                     <label class="label-form-empleados" style="position: absolute; left: 43px; }">
                                         Fecha Cita:
@@ -248,7 +248,7 @@
                         </div>
 
                         <div layout="row" layout-sm="column" style="margin-bottom:-10px; padding-left:7px;" layout-align="center center">
-                            <div flex="">
+                            <div flex="" class="material-app">
                                 <label class="label-form-empleados agenda-timepicker" style="font-size:10px;">
                                     Hora Inicio Cita:
                                 </label>
@@ -264,7 +264,7 @@
                         </div>
 
                         <div layout="row" layout-sm="column" style="" layout-align="center center">
-                            <div flex="">
+                            <div flex="" class="material-app">
                                 <md-input-container style="width:100%">
                                     <label class="label-form-empleados" style="">
                                         Observaciones:
@@ -275,13 +275,13 @@
                         </div>
 
                         <div layout="row" layout-sm="column" style="" layout-align="center center">
-                            <div flex="" data-ng-show="MNCD > 0 || MNCD == null || MNCD == undefined">
+                            <div flex="" data-ng-show="MNCD > 0 || MNCD == null || MNCD == undefined" class="material-app">
                                 <md-input-container style="width:100%; margin-top: -45px;">
-                                    <label class="label-form-empleados" style="font-size:10px; color: orangered;">
+                                    <label class="label-form-empleados" style="font-size:10px; color: #566473;">
                                         Citas disponibles:
                                     </label>
                                     <br />
-                                    <div style="font-size:22px; color: orangered; font-weight:600; padding-top:5px;">{{NumCitasDisponibles}}</div>
+                                    <div style="font-size:22px; color: #566473; font-weight:600; padding-top:5px;">{{NumCitasDisponibles}}</div>
                                 </md-input-container>
                             </div>
 
@@ -317,7 +317,7 @@
                     <md-dialog-content style="overflow:hidden;">
 
                         <div layout="row" layout-sm="column" style="margin-bottom:-5px;" layout-align="start center">
-                            <div flex="" style="width:90%">
+                            <div flex="" style="width:90%" class="material-app">
                                 <md-input-container style="margin-left: -40px; z-index:99; margin-top:15px; width: 98%">
                                     <label class="label-form-clientes" style="">
                                         Fecha
@@ -328,7 +328,7 @@
                         </div>
 
                         <div layout="row" layout-sm="column" style="margin-top:-25px;" layout-align="start center">
-                            <div flex="" style="width:90%">
+                            <div flex="" style="width:90%" class="material-app">
                                 <md-input-container style="width: 98%">
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Empleados:
@@ -346,7 +346,7 @@
                         </div>
 
                         <div layout="row" layout-sm="column" style="margin-top:-25px;" layout-align="start center">
-                            <div flex="" style="width:90%">
+                            <div flex="" style="width:90%" class="material-app">
                                 <md-input-container style="width: 98%">
                                     <label for="dateType" class="label-form-empleados" style="">
                                         Clientes:
@@ -364,7 +364,7 @@
                         </div>
 
                         <div layout="row" layout-sm="column" style="margin-top:-12px;" layout-align="start center">
-                            <div flex="" style="width: 90%">
+                            <div flex="" style="width: 90%" class="material-app">
                                 <md-input-container style="width:98%; margin-top:0px;">
                                     <label class="label-form-empleados">
                                         Servicios:
@@ -377,7 +377,7 @@
                         </div>
 
                         <div layout="row" layout-sm="column" style="margin-top:3px;" layout-align="start center">
-                            <div flex="" style="width:90%">
+                            <div flex="" style="width:90%" class="material-app">
                                 <md-input-container style="width: 98%; margin-top:0px;">
                                     <label class="label-form-clientes">
                                         Estado:
@@ -390,7 +390,7 @@
                         </div>
 
                         <div layout="row" layout-sm="column" style="margin-top:-15px;" layout-align="end center">
-                            <div flex="" style="">
+                            <div flex="" style="" class="material-app">
                                 <md-checkbox ng-model="Agenda.Traer_Canceladas" aria-label="Checkbox Filtro Canceladas" style="margin-left: 2px;">
                                 </md-checkbox>
                                 <span style="font-size:11px; margin-left:-10px;">Mostrar Canceladas</span>

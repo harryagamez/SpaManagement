@@ -5,7 +5,7 @@
     --primary-color: #132644;
     --accent-color: #4CAF50;
     --light-primary-color: #003d78;
-    --main-font: 'Source Sans Pro', sans-serif;
+    --main-font: Open Sans, sans-serif;
 }
 
 /*################ Margins, Paddings, Heights, Widths, 
@@ -28,7 +28,7 @@ Positions, Display, Top, Bottom, left, rights ################*/
     left:200px;
     margin-bottom: 10px;
     z-index: 10;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: Open Sans, sans-serif;
 }
 
 #header .site-title {
@@ -161,14 +161,14 @@ li.active {
     }
 
 #frmServiciosModal {
-    padding: 15px;    
+    padding: 10px 15px;    
     height: auto;
     margin-top: 3px;
     min-width: 100%
 }
 
 #frmProductosModal {
-    padding: 15px;
+    padding: 10px 15px;
     height: auto;
     margin-top: 3px;
     min-width: 100%
@@ -198,7 +198,7 @@ select,
 .btn-spa:hover,
 .btn-login,
 .btn-login:hover {
-    font-size: 16px !important;
+    font-size: 15px !important;
     font-family: var(--main-font) !important;
 }
 
@@ -221,7 +221,7 @@ select,
 
 .control-label,
 .col-form-label {
-    font-size: 12px !important;
+    font-size: 11px !important;
     font-weight: bold;
 }
 
@@ -235,7 +235,8 @@ select,
 }
 
 #sidebar ul li:hover,
-#sidebar ul li:hover a {
+#sidebar ul li:hover a,
+#sidebar ul li:active {
     color: var(--light-text) !important;
     font-weight: 600;
 }
@@ -247,7 +248,7 @@ select,
 
 .tooltip .tooltip-inner {
     color: var(--light-text) !important;
-    font-family: 'Source Sans Pro' !important;
+    font-family: Open Sans !important;
     font-size: 13px !important;
 }
 
@@ -257,13 +258,13 @@ select,
 }
 
 #frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos, #frmGestion, #frmAgenda, #frmAPanel {
-    font-size: 16px;
+    font-size: 15px;
 }
 
     #frmClientes .material-icons, #frmServicios .material-icons,
     #frmEmpleados .material-icons, #frmProductos .material-icons, #frmGastos .material-icons,
     #frmGestion .material-icons, #frmAgenda .material-icons, #frmAPanel .material-icons {
-        font-size: 16px;
+        font-size: 15px;
     }
 
 .ADMdtpInput input {
@@ -302,18 +303,6 @@ body {
     background-size: cover;
 }
 
-.btn-login {
-    background: var(--accent-color) !important;
-    color: var(--light-text);
-}
-
-.btn-login:hover {
-    background: #56c15a !important;
-}
-.btn-login:active {
-    background: #239c28 !important;
-}
-
 .btn-administrator, .btn-apanel {
     background: #8d93ab;
     color: #fff;
@@ -324,16 +313,16 @@ body {
         color: #333;
     }
 
-.btn-spa {
+.btn-spa, .btn-login {
     background: #67ddab;
     color: white;
 }
 
-    .btn-spa:hover {        
+    .btn-spa:hover, .btn-login:hover {        
         background: #566473 !important;        
     }
 
-    .btn-spa:active {
+    .btn-spa:active, .btn-login:active {
         background: #566473 !important;        
     }
 
@@ -423,6 +412,7 @@ label {
     min-width: 75px;
     margin-right: 25px;
     font-weight: bold;
+    font-size:14px;
 }
 
 .ag-theme-fresh .ag-body{
@@ -432,7 +422,7 @@ label {
 .label-imagen-usuario {
     color: transparent;
     background-color: transparent;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 300;
     width: 108px;
     height:40px;
@@ -564,7 +554,7 @@ input:-webkit-autofill:active {
 
 /*################ Containers ################*/
 .dropdown-menu{
-    font-size:14px !important;
+    font-size:13px !important;
 }
 
 ._md-datepicker-floating-label > md-datepicker .md-datepicker-button {
@@ -602,7 +592,7 @@ md-tabs md-ink-bar {
 }
 
 .md-tab.md-active {
-    background: orange;
+    background: white;
     border-radius: 10px 10px 0 0;
     box-shadow: 5px 5px 10px #999;
 }
@@ -610,7 +600,7 @@ md-tabs md-ink-bar {
 md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active {
     color: white;
     font-weight:600;
-    font-size:16px;
+    font-size:15px;
 }
 
 md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
@@ -1088,7 +1078,7 @@ md-card md-card-title {
     .table-propiedades thead tr th {
         text-transform: uppercase;
         text-align: center;
-        background-color: #385178;
+        background-color: #566473;
         color: white;
         padding: 1px;
         border-right: 1px dotted #e1e1e1;
