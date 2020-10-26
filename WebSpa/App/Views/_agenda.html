@@ -55,7 +55,7 @@
                                 <table class="table-schedule" id="tabledetallada">
                                     <tr>
                                         <td class="table-schedule-nullpoint"></td>
-                                        <th scope="col" ng-repeat="empleado in Empleados" style="vertical-align:middle; font-size:14px; font-weight:600; color:white; padding:10px 5px; background-color:#566473; box-shadow: 2px 2px 4px 0px rgba(102,102,102,1);">{{empleado.nombres + ' ' + empleado.apellidos}}</th>
+                                        <th scope="col" ng-repeat="empleado in Empleados" style="vertical-align:middle; font-size:14px; font-weight:600; color:white; padding:10px 5px; background-color:#566473; box-shadow: 2px 2px 4px 0px rgba(102,102,102,1);">{{empleado.nombres}}</th>
                                         <th class="table-schedule-empty" ng-repeat="x in BlankCells" style="background-color: #566473 !important; box-shadow: 2px 2px 4px 0px rgba(102,102,102,1); position:sticky; top:0;"></th>
                                     </tr>
                                     <tbody ng-repeat="hora in RangoHoras track by $index">

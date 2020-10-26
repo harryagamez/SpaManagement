@@ -142,9 +142,6 @@
     <Content Include="Images\template\default_logo.png" />
     <Content Include="Images\empresa.png" />
     <Content Include="Images\header_mail.jpeg" />
-    <Content Include="Images\logo-login.png" />
-    <Content Include="Images\logo-spa.png" />
-    <Content Include="Images\spa_.png" />
     <Content Include="Images\spa_header.png" />
     <Content Include="Images\spa_login.png" />
     <Content Include="Images\template\tulogo.png" />

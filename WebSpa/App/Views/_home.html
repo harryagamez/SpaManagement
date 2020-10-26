@@ -1,13 +1,13 @@
 ﻿<aside id="sidebar">
     <div style="position:relative; margin-bottom:-135px;">
         <div style="text-align:center; margin-top:10px;"><img ng-src="{{UserAvatar}}" style="max-width:100px; max-height:100px; min-height:100px; min-width:100px; object-fit: cover; margin-right:7px; border-radius:50%; margin-top: -3px;cursor:pointer;" /></div>
-        <div class="sidebar-user" style="text-align:center; color:white; font-weight:600; margin-top:10px;" data-toggle="tooltip" title="Usuario activo en el sistema">{{ UsuarioSistema }}</div>
+        <div class="sidebar-user" style="text-align:center; color:white; font-weight:600; margin-top:10px;">{{ UsuarioSistema }}</div>
     </div>
     <ul>
         <li class="li-padding" ng-repeat="item in Menu" ui-sref-active="active">
             <a ui-sref="{{item.ruta_Acceso}}"><img ng-src="data:image/png;base64,{{item.logo_Base64}}" style="max-width:28px; margin-right:15px; vertical-align:middle;">{{item.descripcion}}</a>
         </li>
-        <li class="li-padding"><img src="../../Images/cerrar-sesion.png" style="max-width: 28px; max-height: 28px; min-height: 28px; min-width: 28px; margin-right:15px; vertical-align:middle;" data-toggle="tooltip" title="Cerrar sesión" /><a href="" ng-click="Logout()">Cerrar sesión</a></li>
+        <li class="li-padding"><img src="../../Images/cerrar-sesion.png" style="max-width: 28px; max-height: 28px; min-height: 28px; min-width: 28px; margin-right:15px; vertical-align:middle;" /><a href="" ng-click="Logout()">Cerrar sesión</a></li>
     </ul>
 </aside>
 

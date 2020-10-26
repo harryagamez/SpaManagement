@@ -297,7 +297,7 @@ body {
 }
 
 #header {
-    background: white !important;
+    background: transparent;
     /*border-bottom: 1px solid #eee;*/
 }
 
@@ -312,7 +312,7 @@ body {
 }
 
 .background-image {
-    background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('../Images/background-img.jpg');
+    background: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.95)), url('../Images/background-img.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1147,7 +1147,7 @@ md-card md-card-title {
     font-weight: 800;
     box-shadow: none;
     box-shadow: 0 0px 5px rgba(0, 0, 0, 0.075);
-    background-color: #f1f1f1;    
+    background-color: transparent;    
 }
 
 .agenda-cards:focus {
@@ -1302,7 +1302,7 @@ input:focus, input.form-control:focus {
 
 .material-app md-tabs.md-primary > md-tabs-wrapper {
     background-color: white;
-    border-bottom: 1px solid #566473 !important;
+    border-bottom: 1px solid #6d7f93 !important;
     color: grey;
 }
 
@@ -1311,7 +1311,7 @@ input:focus, input.form-control:focus {
 }
 
 .material-app .md-tab.md-active {
-    background: #566473;
+    background: #6d7f93;
     border-radius: 0;
     box-shadow: 5px 5px 10px #999;
 }
@@ -1348,7 +1348,7 @@ input:focus, input.form-control:focus {
 }
 
 .sidebar-user {
-    background-color: #566473;
+    background-color: #6d7f93;
     padding: 3px 0;
     border-radius: 25px;
     width: 140px;
