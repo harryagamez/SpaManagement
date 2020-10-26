@@ -493,8 +493,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
         try {
             $scope.CedulaReadOnly = false;
             $scope.fEditarEmpleado = false;
-            $scope.EstadoSeleccionado = 'ACTIVO';
-            $scope.AccionEmpleado = '';
+            $scope.EstadoSeleccionado = 'ACTIVO';            
 
             $scope.Empleado =
             {
@@ -523,6 +522,10 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
             $scope.MunicipioSeleccionado = -1;
             $scope.BarrioSeleccionado = -1;
             $scope.EstadoCivilSeleccionado = 'SOLTERA';
+            if ($scope.AccionEmpleado === 'Registrar Empleado') {
+                $('#txtCedula').focus();
+            }
+
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;

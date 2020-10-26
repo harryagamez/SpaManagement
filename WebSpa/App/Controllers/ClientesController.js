@@ -639,7 +639,9 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $d
             $scope.MunicipiosCopy = [];
             $scope.MunicipiosCopy.push({ id_Municipio: -1, nombre: '[Seleccione]' });
 
-            $scope.CedulaReadOnly = false;
+            if ($scope.AccionCliente === 'Registrar Cliente') {
+                $('#txtCedula').focus();
+            }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
