@@ -293,7 +293,7 @@
                             </div>
                             <div flex="25">
                                 <md-button type="button" id="btnAgregarServicio" style="right: 8px; position: fixed; margin-top: -18px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Asignar Servicio" data-ng-click="AsignarEmpleadoServicio()">
-                                    <i class="material-icons md-18" style="transform: scaleX(-1)">add</i>Agregar
+                                    <i class="material-icons md-18" style="transform: scaleX(-1)">add</i> Agregar
                                 </md-button>
                             </div>
                         </div>
@@ -367,18 +367,18 @@
 
                         <div layout="row" layout-sm="column" layout-align="start center" style="margin-top:-5px;">
 
-                            <div flex="75" style="margin: 0px 5px; padding-bottom:5px;">
+                            <div flex="75" style="margin: 0px 5px; padding-bottom:5px;" class="material-app">
                                 <md-input-container style="min-width:35%; max-width:35%; margin:0; padding: 0;">
                                     <label class="label-form-servicios" style="">
                                         Cantidad:
                                     </label>
-                                    <input ng-model="CantidadInsumo" focus="productChanged" id="txtCantidadInsumo" maxlength="12" numbers-only type="text" class="" style="min-width:100%; margin:0; padding: 0;" placeholder="" value="" tabindex=2 md-autofocus>
+                                    <input ng-model="CantidadInsumo" focus="productChanged" id="txtCantidadInsumo" maxlength="12" numbers-only type="text" class="" style="min-width:100%; margin:0; padding: 0;" placeholder="" value="" tabindex=2 autocomplete="off" md-autofocus>
                                 </md-input-container>
                             </div>
 
                             <div flex="">
                                 <md-button type="button" id="btnAgregarInsumo" class="btn-spa groupX left" style="margin-top: -25px; position: relative; float:right; right:6px; position:fixed;" data-toggle="tooltip" title="Agregar" ng-click="AsignarEmpleadoInsumo()" tabindex=7>
-                                    <i class="material-icons md-18" style="transform: scaleX(-1)">add</i>Agregar
+                                    <i class="material-icons md-18" style="transform: scaleX(-1)">add</i> Agregar
                                 </md-button>
                             </div>
                         </div>

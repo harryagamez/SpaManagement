@@ -89,7 +89,7 @@ Positions, Display, Top, Bottom, left, rights ################*/
 }
 
     #sidebar ul li {
-        font-size: 14px;
+        font-size: 13px;
     }
 
 #sidebar ul li:hover {
@@ -264,7 +264,7 @@ select,
 .tooltip .tooltip-inner {
     color: var(--light-text) !important;
     font-family: Open Sans, sans-serif;
-    font-size: 14px !important;
+    font-size: 12px !important;
 }
 
 .login-icons,
@@ -349,12 +349,8 @@ body {
     /*border-bottom: 1px solid rgba(40, 40, 40, 0.87);
     background-size: 200% 100%;
     background-image: linear-gradient(to left, #212121 50%, transparent 50%);*/
-    border-bottom:1px solid #222;
-}
-
-    #sidebar ul li:first-child {
-        border-top: 1px solid #222;
-    }
+    
+}    
 
 #sidebar ul li:hover {    
     /*background-position: 100% 0;*/
@@ -432,7 +428,7 @@ label {
     min-width: 75px;
     margin-right: 25px;
     font-weight: bold;
-    font-size:14px;
+    font-size:13px;
 }
 
 .ag-theme-fresh .ag-body{
@@ -620,7 +616,7 @@ md-tabs md-ink-bar {
 md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active {
     color: white;
     font-weight:600;
-    font-size:15px;
+    font-size:13px;
 }
 
 md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
@@ -1087,7 +1083,7 @@ md-card md-card-title {
 }
 
 .table-propiedades {
-    font-size:14px;
+    font-size:13px;
     border:1px solid #e1e1e1;    
 }
 
@@ -1103,7 +1099,7 @@ md-card md-card-title {
         padding: 1px;
         border-right: 1px dotted #e1e1e1;
         height: 20px;
-        font-size: 14px;
+        font-size: 13px;
     }  
 
 
@@ -1116,7 +1112,7 @@ md-card md-card-title {
 
 .table-propiedades tbody tr {
     height:30px;
-    font-size:14px;
+    font-size:13px;
 }
 
 .table-propiedades tbody tr:nth-child(odd) {
@@ -1221,7 +1217,7 @@ md-card md-card-title {
 
     .agenda-timepicker .btn-default {
         background: white !important;
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 600;
         color: #67ddab;
     }
@@ -1356,4 +1352,10 @@ input:focus, input.form-control:focus {
     margin-left: auto;
     margin-right: auto;
     box-shadow: 1px 2px 5px #222 inset;
+}
+
+.ag-theme-fresh .ag-header {
+    font-family: Open Sans, sans-serif !important;
+    font-size:13px !important;
+    font-weight:400 !important;
 }

@@ -444,7 +444,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             headerName: "Salario / % ", field: 'salario', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: decimalFormatter
         },
         {
-            headerName: "Subtotal", field: 'subtotal', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
+            headerName: "Subtotal", field: 'subtotal', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#445a9e' }, valueFormatter: currencyFormatter
         },
         {
             headerName: "Préstamos", field: 'prestamos', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter

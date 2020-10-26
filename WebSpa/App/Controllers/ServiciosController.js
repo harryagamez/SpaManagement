@@ -493,7 +493,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
             headerName: "Tiempo", field: 'tiempo', width: 70, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
         },
         {
-            headerName: "Costo", field: 'valor', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': '600' }, valueFormatter: currencyFormatter
+            headerName: "Costo", field: 'valor', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': '600', 'color': '#445a9e' }, valueFormatter: currencyFormatter
         },
         {
             headerName: "Tipo", field: 'nombre_Tipo_Servicio', width: 100, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
