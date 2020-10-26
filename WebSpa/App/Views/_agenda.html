@@ -55,12 +55,12 @@
                                 <table class="table-schedule" id="tabledetallada">
                                     <tr>
                                         <td class="table-schedule-nullpoint"></td>
-                                        <th scope="col" ng-repeat="empleado in Empleados" style="font-size:14px; font-weight:600; color:white; padding:10px; background-color:#566473; box-shadow: 2px 2px 4px 0px rgba(102,102,102,1);">{{empleado.nombres}}</th>
+                                        <th scope="col" ng-repeat="empleado in Empleados" style="vertical-align:middle; font-size:14px; font-weight:600; color:white; padding:10px 5px; background-color:#566473; box-shadow: 2px 2px 4px 0px rgba(102,102,102,1);">{{empleado.nombres + ' ' + empleado.apellidos}}</th>
                                         <th class="table-schedule-empty" ng-repeat="x in BlankCells" style="background-color: #566473 !important; box-shadow: 2px 2px 4px 0px rgba(102,102,102,1); position:sticky; top:0;"></th>
                                     </tr>
                                     <tbody ng-repeat="hora in RangoHoras track by $index">
                                         <tr>
-                                            <th scope="rowgroup" rowspan="1" class="table-schedule-horas" style="font-size:12px; font-weight:800; color:#2c333c; background-color:white;">{{hora}}</th>
+                                            <th scope="rowgroup" rowspan="1" class="table-schedule-horas" style="font-size:12px; font-weight:800; color:#566473; background-color:white;">{{hora}}</th>
                                             <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado)" layout-wrap>
                                                 <div ng-repeat="agenda in Agendas | filter: {'id_Empleado': empleado.id_Empleado} : true| filter:{'fechaInicio': hora} : true">
                                                     <div class="agenda-detallada" ng-style="{'height':CalcularAlturaDiv(agenda)}" ng-class="CardsDetalladaStyle(agenda)" ng-click="DetalladaEventoClick($event)">

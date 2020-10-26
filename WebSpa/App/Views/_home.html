@@ -1,5 +1,5 @@
 ﻿<aside id="sidebar">
-    <div style="position:relative; margin-bottom:-130px;">
+    <div style="position:relative; margin-bottom:-135px;">
         <div style="text-align:center; margin-top:10px;"><img ng-src="{{UserAvatar}}" style="max-width:110px; max-height:110px; min-height:110px; min-width:110px; object-fit: cover; margin-right:7px; border-radius:50%; margin-top: -3px;cursor:pointer;" /></div>
         <div style="text-align:center; color:white; font-weight:600; margin-top:10px;" data-toggle="tooltip" title="Usuario activo en el sistema">{{ UsuarioSistema }}</div>
     </div>
@@ -21,13 +21,13 @@
         <div>
             <div class="site-widgets">
                 <ul style=" white-space: nowrap;">                    
-                    <li ng-show="!MultipleEmpresa"><span><img src="../../Images/empresa.png" style="max-width:30px; margin-top: -5px;cursor:pointer;" data-toggle="tooltip" title="Empresa activa en el sistema" />{{ NombreEmpresa }}</span></li>
+                    <li ng-show="!MultipleEmpresa"><span style="font-size:12px;"><img src="../../Images/empresa.png" style="max-width:30px; margin-top: -5px; cursor:pointer;" data-toggle="tooltip" title="Empresa activa en el sistema" />{{ NombreEmpresa }}</span></li>
                     <li ng-show="MultipleEmpresa">
                         <span>
                             <img src="../../Images/empresa.png" style="max-width: 27px; max-height: 27px; min-height: 27px; min-width: 27px; margin-top: -5px; cursor: pointer; margin-right: -13px; z-index: 999; position: relative;" data-toggle="tooltip" title="Empresa activa en el sistema" />
                         </span>
                     </li>
-                    <md-select class="select-multiempresa" ng-model="EmpresaSeleccionada" style="" id="slEstado" ng-show="MultipleEmpresa" ng-change="FiltrarEmpresa(EmpresaSeleccionada)">
+                    <md-select class="select-multiempresa" ng-model="EmpresaSeleccionada" style="font-size: 12px;" id="slEstado" ng-show="MultipleEmpresa" ng-change="FiltrarEmpresa(EmpresaSeleccionada)">
                         <md-option ng-bind="empresa.nombre" ng-value="empresa.id_Empresa" ng-repeat="empresa in Empresas track by empresa.id_Empresa"></md-option>
                     </md-select>                    
                 </ul>

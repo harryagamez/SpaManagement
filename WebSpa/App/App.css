@@ -97,7 +97,7 @@ Positions, Display, Top, Bottom, left, rights ################*/
 }
 
 li.active {
-    margin-left: 10px;
+    margin-left: 15px;
 }
 
 #sidebar .toggle-btn {
@@ -227,7 +227,7 @@ select,
 
 #sidebar a {
     color: var(--light-text) !important;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 #sidebar ul li {
@@ -245,7 +245,7 @@ select,
 #sidebar ul li.active,
 #sidebar ul li.active a {
     color: var(--light-text) !important;
-    font-weight: 800;
+    font-weight: 600;
     text-decoration: underline;
 }
 
@@ -1295,7 +1295,7 @@ input:focus, input.form-control:focus {
 
 .material-app md-tabs.md-primary > md-tabs-wrapper {
     background-color: white;
-    border-bottom: 2px solid #566473 !important;
+    border-bottom: 1px solid #566473 !important;
     color: grey;
 }
 
