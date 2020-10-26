@@ -263,8 +263,8 @@ select,
 
 .tooltip .tooltip-inner {
     color: var(--light-text) !important;
-    font-family: Open Sans !important;
-    font-size: 13px !important;
+    font-family: Open Sans, sans-serif;
+    font-size: 14px !important;
 }
 
 .login-icons,
@@ -273,13 +273,13 @@ select,
 }
 
 #frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos, #frmGestion, #frmAgenda, #frmAPanel {
-    font-size: 15px;
+    font-size: 13px;
 }
 
     #frmClientes .material-icons, #frmServicios .material-icons,
     #frmEmpleados .material-icons, #frmProductos .material-icons, #frmGastos .material-icons,
     #frmGestion .material-icons, #frmAgenda .material-icons, #frmAPanel .material-icons {
-        font-size: 15px;
+        font-size: 13px;
     }
 
 .ADMdtpInput input {
