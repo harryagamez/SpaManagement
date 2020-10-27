@@ -101,7 +101,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
     $scope.TipoPerfilSeleccionado = -1;
     $scope.EmpresaSeleccionada = -1;
 
-    $scope.UserAvatar = '../Images/default-perfil.png';
+    $scope.UserAvatar = '../Images/default_perfil_apanel.png';
 
     if ($rootScope.Empresas !== undefined) {
         if ($rootScope.Empresas.length === 0) {
@@ -1703,33 +1703,26 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
     };
 
     window.onresize = function () {
-        if ($scope.fActiveTab === 'Empresas') {
-            $timeout(function () {
-                $scope.EmpresasGridOptions.api.sizeColumnsToFit();
-            }, 200);
-        }
-
-        if ($scope.fActiveTab === 'Servicios') {
-            $timeout(function () {
-                $scope.ServiciosGridOptions.api.sizeColumnsToFit();
-            }, 200);
-        }
-
-        if ($scope.fActiveTab === 'Usuarios') {
-            $timeout(function () {
-                $scope.UsuariosAdminGridOptions.api.sizeColumnsToFit();
-            }, 200);
-        }
-
-        if ($scope.fActiveTab === 'Datos Maestros') {
-            $timeout(function () {
-                $scope.CategoriaServiciosGridOptions.api.sizeColumnsToFit();
-                $scope.TipoServiciosGridOptions.api.sizeColumnsToFit();
-                $scope.MunicipiosGridOptions.api.sizeColumnsToFit();
-                $scope.BarriosGridOptions.api.sizeColumnsToFit();
-            }, 200);            
-        }      
         
+        $timeout(function () {
+            $scope.EmpresasGridOptions.api.sizeColumnsToFit();
+        }, 300);       
+
+        
+        $timeout(function () {
+            $scope.ServiciosGridOptions.api.sizeColumnsToFit();
+        }, 300);  
+        
+        $timeout(function () {
+            $scope.UsuariosAdminGridOptions.api.sizeColumnsToFit();
+        }, 300);
+        
+        $timeout(function () {
+            $scope.CategoriaServiciosGridOptions.api.sizeColumnsToFit();
+            $scope.TipoServiciosGridOptions.api.sizeColumnsToFit();
+            $scope.MunicipiosGridOptions.api.sizeColumnsToFit();
+            $scope.BarriosGridOptions.api.sizeColumnsToFit();
+        }, 300);         
     }
 
     $scope.Inicializacion = function () {

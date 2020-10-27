@@ -138,7 +138,9 @@
     <Content Include="Images\agenda\whatsapp-icon.png" />
     <Content Include="Images\background-img.jpg" />
     <Content Include="Images\cerrar-sesion.png" />
+    <Content Include="Images\cerrar_sesion_apanel.png" />
     <Content Include="Images\default-perfil.png" />
+    <Content Include="Images\default_perfil_apanel.png" />
     <Content Include="Images\template\default_logo.png" />
     <Content Include="Images\empresa.png" />
     <Content Include="Images\header_mail.jpeg" />
