@@ -1703,15 +1703,33 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
     };
 
     window.onresize = function () {
-        $timeout(function () {
-            $scope.EmpresasGridOptions.api.sizeColumnsToFit();
-            $scope.ServiciosGridOptions.api.sizeColumnsToFit();
-            $scope.UsuariosAdminGridOptions.api.sizeColumnsToFit();
-            $scope.CategoriaServiciosGridOptions.api.sizeColumnsToFit();
-            $scope.TipoServiciosGridOptions.api.sizeColumnsToFit();
-            $scope.MunicipiosGridOptions.api.sizeColumnsToFit();
-            $scope.BarriosGridOptions.api.sizeColumnsToFit();
-        }, 200)
+        if ($scope.fActiveTab === 'Empresas') {
+            $timeout(function () {
+                $scope.EmpresasGridOptions.api.sizeColumnsToFit();
+            }, 200);
+        }
+
+        if ($scope.fActiveTab === 'Servicios') {
+            $timeout(function () {
+                $scope.ServiciosGridOptions.api.sizeColumnsToFit();
+            }, 200);
+        }
+
+        if ($scope.fActiveTab === 'Usuarios') {
+            $timeout(function () {
+                $scope.UsuariosAdminGridOptions.api.sizeColumnsToFit();
+            }, 200);
+        }
+
+        if ($scope.fActiveTab === 'Datos Maestros') {
+            $timeout(function () {
+                $scope.CategoriaServiciosGridOptions.api.sizeColumnsToFit();
+                $scope.TipoServiciosGridOptions.api.sizeColumnsToFit();
+                $scope.MunicipiosGridOptions.api.sizeColumnsToFit();
+                $scope.BarriosGridOptions.api.sizeColumnsToFit();
+            }, 200);            
+        }      
+        
     }
 
     $scope.Inicializacion = function () {

@@ -60,7 +60,7 @@
                                     </tr>
                                     <tbody ng-repeat="hora in RangoHoras track by $index">
                                         <tr>
-                                            <th scope="rowgroup" rowspan="1" class="table-schedule-horas" style="font-size:12px; font-weight:800; color:#566473; background-color:white;">{{hora}}</th>
+                                            <th scope="rowgroup" rowspan="1" class="table-schedule-horas" style="font-size:13px; font-weight:700; color:#566473; background-color:white;">{{hora}}</th>
                                             <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado)" layout-wrap>
                                                 <div ng-repeat="agenda in Agendas | filter: {'id_Empleado': empleado.id_Empleado} : true| filter:{'fechaInicio': hora} : true">
                                                     <div class="agenda-detallada" ng-style="{'height':CalcularAlturaDiv(agenda)}" ng-class="CardsDetalladaStyle(agenda)" ng-click="DetalladaEventoClick($event)">
