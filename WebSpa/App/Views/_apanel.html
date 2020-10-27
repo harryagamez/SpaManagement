@@ -20,11 +20,11 @@
     <section id="section-apanel">
         <div layout="row" style="height: calc(100vh - 70px);">
 
-            <form id="frmAPanel" class="material-apanel">
+            <form id="frmAPanel" class="material-app">
 
                 <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
 
-                    <md-tab label="Datos Maestros" data-ng-click="fActiveTab = 'Datos Maestros';LimpiarDatos()">
+                    <md-tab label="Datos Maestros" data-ng-click="fActiveTab = 'Datos Maestros'; LimpiarDatos()">
 
                         <md-tab-label>
                             <i class="material-icons md-18" style="transform: scaleX(1); font-size:22px; font-weight:bold;">storage</i> Datos Maestros
@@ -62,7 +62,7 @@
                                                     <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Categoría Servicio" data-ng-click="GuardarCategoriaServicio()">
                                                         <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
                                                     </md-button>
-                                                    <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'CategoriaServicio' ; LimpiarDatos()">
+                                                    <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-spa" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'CategoriaServicio' ; LimpiarDatos()">
                                                         <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
                                                     </md-button>
                                                 </section>
@@ -109,10 +109,10 @@
 
                                             <div style="position:absolute; right: 2px; padding-top:5px;">
                                                 <section id="divButtons" layout-align="right center" style="margin-top:7px;">
-                                                    <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Tipo Servicio" data-ng-click="GuardarTipoServicio()">
+                                                    <md-button type="button" class="groupX middle btn-spa" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Tipo Servicio" data-ng-click="GuardarTipoServicio()">
                                                         <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
                                                     </md-button>
-                                                    <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'TipoServicio' ; LimpiarDatos()">
+                                                    <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'TipoServicio' ; LimpiarDatos()">
                                                         <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
                                                     </md-button>
                                                 </section>
@@ -152,10 +152,10 @@
 
                                             <div style="position:absolute; right:0px; padding-top:5px;">
                                                 <section id="divButtons" layout-align="right center" style="margin-top:7px;">
-                                                    <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Municipio" data-ng-click="GuardarMunicipio()">
+                                                    <md-button type="button" class="groupX middle btn-spa" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Municipio" data-ng-click="GuardarMunicipio()">
                                                         <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
                                                     </md-button>
-                                                    <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'Municipio' ; LimpiarDatos()">
+                                                    <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'Municipio' ; LimpiarDatos()">
                                                         <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
                                                     </md-button>
                                                 </section>
@@ -204,10 +204,10 @@
 
                                             <div style="position:absolute; right: 2px; padding-top:5px;">
                                                 <section id="divButtons" layout-align="right center" style="margin-top:7px;">
-                                                    <md-button type="button" class="groupX middle btn-apanel" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Barrio" data-ng-click="GuardarBarrio()">
+                                                    <md-button type="button" class="groupX middle btn-spa" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Guardar Barrio" data-ng-click="GuardarBarrio()">
                                                         <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>
                                                     </md-button>
-                                                    <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-apanel groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'Barrio' ; LimpiarDatos()">
+                                                    <md-button type="button" style="margin: -1px; min-width: 52px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="fActiveGrid = 'Barrio' ; LimpiarDatos()">
                                                         <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
                                                     </md-button>
                                                 </section>
@@ -236,7 +236,7 @@
                                 <input type="file" name="file" id="LogoEmpresa" style="visibility:hidden;" data-toggle="tooltip" title="Upload" data-file-model="SeleccionarImagen($event)" accept=".png, .jpg, .jpeg" />
 
                                 <section id="divButtons" layout="row" layout-align="left center" style="margin-top:7px; margin-left:2px;">
-                                    <md-button type="button" id="btnNuevo" class="groupX middle btn-apanel" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevaEmpresa()">
+                                    <md-button type="button" id="btnNuevo" class="groupX middle btn-spa" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevaEmpresa()">
                                         <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
                                     </md-button>
                                 </section>

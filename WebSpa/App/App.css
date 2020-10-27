@@ -201,12 +201,8 @@ li.active {
     table,
     input,
     select,
-    .form-control,
-    .btn-spa,
-    .btn-spa:hover,
-    .btn-login,
-    .btn-login:hover {
-        font-size: 15px !important;
+    .form-control {
+        font-size: 13px !important;
         font-family: var(--main-font) !important;
     }
 
@@ -219,6 +215,8 @@ li.active {
 .btn-login,
 .btn-login:hover {
     font-weight: 600;
+    font-size: 15px !important;
+    font-family: var(--main-font) !important;
 }
 
 .material-icons {
