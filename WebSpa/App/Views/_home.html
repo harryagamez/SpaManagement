@@ -14,17 +14,17 @@
 <header id="header">
     <div layout="row">
         <div>
-            <div class="site-title">
-                <a ui-sref="home"><img src="../../Images/spa_header.png" style="max-height:36px; margin-top:-1px;" /></a>
+            <div class="site-title" style="margin-top:10px;">
+                <a ui-sref="home"><img src="../../Images/spa_header.png" style="max-height:36px;" /></a>
             </div>
         </div>
         <div>
-            <div class="site-widgets">
+            <div class="site-widgets" style="top:7px;">
                 <ul style=" white-space: nowrap;">                    
-                    <li ng-show="!MultipleEmpresa"><span style="font-size:13px; font-weight:800;"><img src="../../Images/empresa.png" style="max-width:30px; margin-top: -5px; cursor:pointer;" data-toggle="tooltip" title="Empresa activa en el sistema" />{{ NombreEmpresa }}</span></li>
+                    <li ng-show="!MultipleEmpresa"><span style="font-size:13px; font-weight:800;"><img src="../../Images/empresa.png" style="max-width:30px; margin-top: -5px; cursor:pointer;" />{{ NombreEmpresa }}</span></li>
                     <li ng-show="MultipleEmpresa">
                         <span>
-                            <img src="../../Images/empresa.png" style="max-width: 27px; max-height: 27px; min-height: 27px; min-width: 27px; margin-top: -5px; cursor: pointer; margin-right: -13px; z-index: 999; position: relative;" data-toggle="tooltip" title="Empresa activa en el sistema" />
+                            <img src="../../Images/empresa.png" style="max-width: 27px; max-height: 27px; min-height: 27px; min-width: 27px; margin-top: -5px; cursor: pointer; margin-right: -13px; z-index: 999; position: relative;" />
                         </span>
                     </li>
                     <md-select class="select-multiempresa" ng-model="EmpresaSeleccionada" style="font-size: 12px;" id="slEstado" ng-show="MultipleEmpresa" ng-change="FiltrarEmpresa(EmpresaSeleccionada)">

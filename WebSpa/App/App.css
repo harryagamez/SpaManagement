@@ -19,6 +19,17 @@
     padding-left: 200px;
 }
 
+#apanel-header {
+    position: fixed;
+    width: 100%;
+    height: 50px;
+    left: 18px;
+    margin-bottom: 10px;
+    z-index: 10;
+    font-family: Open Sans, sans-serif;
+    background: transparent;
+}
+
 #header {
     position: fixed;
     width: 100%;
@@ -30,18 +41,18 @@
     background: transparent;
 }
 
-    #header .site-title {
+    #header .site-title, #apanel-header .site-title {
         float: left;
         margin: 5px 0 0 20px;
     }
 
-    #header .site-widgets {
+    #header .site-widgets, #apanel-header .site-widgets {
         position: absolute;
         right: 195px;
         margin: 14px 20px 0 0;
     }
 
-        #header .site-widgets ul li {
+        #header .site-widgets ul li, #apanel-header .site-widgets ul li {
             display: inline;
             font-weight: 600 !important;
             list-style: none;
@@ -191,6 +202,14 @@ li.active {
         margin: 15px 0 0;
     }
 
+#frmServiciosModal md-input-container input[type=text], #frmServiciosModal textarea, #frmServiciosModal md-select {
+    font-size: 14px !important;
+}
+
+#frmServiciosModal md-input-container label{
+    font-size: 14px;
+}
+
 .btn-login,
 .btn-administrator {
     min-width: 100%;
@@ -202,7 +221,7 @@ li.active {
     input,
     select,
     .form-control {
-        font-size: 13px !important;
+        font-size: 14px !important;
         font-family: var(--main-font) !important;
     }
 
@@ -1216,6 +1235,19 @@ input.form-control:focus {
 .material-app md-tabs md-ink-bar,
 .material-apanel md-tabs md-ink-bar {
     background: transparent !important;
+}
+
+.apanel-tags {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 5px;
+    color: white;
+    background-color: #6d7f93;
+    padding-left: 7px;
+    border-radius: 0 25px 25px 0;
+    box-shadow: 1px 2px 5px #222 inset;
+    padding: 3px 0;
+    padding-left:7px;
 }
 
 @media only screen and (max-width: 700px) {
