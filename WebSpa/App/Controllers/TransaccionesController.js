@@ -522,7 +522,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             headerName: "Descripción", field: 'descripcion', width: 300, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
         },
         {
-            headerName: "Valor", field: 'valor', width: 150, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold'}, valueFormatter: currencyFormatter
+            headerName: "Valor", field: 'valor', width: 150, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#445a9e'}, valueFormatter: currencyFormatter
         },
         {
             headerName: "Fecha", field: 'fecha', width: 150, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter

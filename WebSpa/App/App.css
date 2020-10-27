@@ -1,6 +1,6 @@
 ﻿:root {
     --dark-text: #212121;
-    --light-text: #FFFFFF;
+    --light-text: #FFF;
     --light-background: #f0f4f5;
     --primary-color: #132644;
     --accent-color: #4CAF50;
@@ -8,55 +8,61 @@
     --main-font: Open Sans, sans-serif;
 }
 
-/*################ Margins, Paddings, Heights, Widths, 
-Positions, Display, Top, Bottom, left, rights ################*/
-
 * {
+    font-family: var(--main-font);
+    font-style: normal;
     margin: 0;
     padding: 0;
 }
-
 
 #section {
     padding-left: 200px;
 }
 
 #header {
-    position:fixed;
-    width:100%;
+    position: fixed;
+    width: 100%;
     height: 50px;
-    left:200px;
+    left: 200px;
     margin-bottom: 10px;
     z-index: 10;
     font-family: Open Sans, sans-serif;
+    background: transparent;
 }
 
-#header .site-title {
-    float: left;    
-    margin: 5px 0 0 20px;
-}
+    #header .site-title {
+        float: left;
+        margin: 5px 0 0 20px;
+    }
 
-#header .site-widgets {
-    position:absolute;
-    right:195px;    
-    margin: 14px 20px 0 0;
-}
+    #header .site-widgets {
+        position: absolute;
+        right: 195px;
+        margin: 14px 20px 0 0;
+    }
 
-#header .site-widgets ul li {
-    display: inline;
-    padding: 0 3px 0 3px;
-}
+        #header .site-widgets ul li {
+            display: inline;
+            font-weight: 600 !important;
+            list-style: none;
+            padding: 0 3px;
+        }
 
 .bg {
     width: 100%;
     height: 100vh;
+    background-color: var(--light-background) !important;
+    background-size: 100%;
 }
 
 .form-container {
     position: relative;
     top: 15vh;
-    padding: 30px 30px 0 30px;
-    margin: 30px 30px 0 30px;
+    background: #FFF;
+    border-radius: 10px;
+    box-shadow: 0 0 6px #999;
+    margin: 30px 30px 0;
+    padding: 30px 30px 0;
 }
 
 .background-image {
@@ -66,38 +72,47 @@ Positions, Display, Top, Bottom, left, rights ################*/
     display: block;
     height: 100%;
     z-index: 1;
+    background: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.95)), url(../Images/background-img.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(5px) grayscale(100%);
 }
 
 .wrapper {
     position: fixed;
     left: 0;
     right: 0;
-    margin: 60px 15px 15px 15px;
-    z-index: 8;    
+    z-index: 8;
+    margin: 60px 15px 15px;
 }
 
 #sidebar {
     position: fixed;
-    width: 200px; 
+    width: 200px;
     height: 100%;
     padding-top: 15px;
     z-index: 9;
+    background: #2c333c;
 }
 
-#sidebar ul {
-    margin-top:150px;    
-}
-
-    #sidebar ul li {
-        font-size: 14px;
+    #sidebar ul {
+        margin-top: 150px;
     }
 
-#sidebar ul li:hover {
-    margin-left: 10px;
-}
+        #sidebar ul li {
+            font-size: 14px;
+            color: rgba(230, 230, 230, 0.9);
+            list-style: none;
+        }
+
+            #sidebar ul li:hover {
+                margin-left: 10px;
+            }
 
 li.active {
     margin-left: 15px;
+    transition: all .3s ease-in-out;
 }
 
 #sidebar .toggle-btn {
@@ -106,111 +121,104 @@ li.active {
     top: 20px;
 }
 
-#sidebar .toggle-btn span {
-    display: block;
-    width: 30px;
-    height: 5px;
-    margin: 3px 0;
-}
+    #sidebar .toggle-btn span {
+        display: block;
+        width: 30px;
+        height: 5px;
+        background: #151719;
+        margin: 3px 0;
+    }
 
 .li-padding {
     padding: 4px 12px 4px 20px;
 }
 
-.form-control-login {
-}
-
 .tooltip .tooltip-inner {
     z-index: 9999;
+    max-width: 140px;
+    color: var(--light-text) !important;
+    font-family: Open Sans, sans-serif;
+    font-size: 12px !important;
+    background-color: #749eba !important;
+    opacity: 1.0;
+    filter: alpha(opacity=100);
 }
 
 .tooltip-inner {
     max-width: 500px;
 }
 
-.login-icons {
-}
-
 .login-header {
-    margin: -30px -30px 0 -30px;
     height: 130px;
+    border-radius: 10px 10px 0 0;
+    background-size: cover;
+    margin: -30px -30px 0;
 }
 
 .login-footer {
+    text-align: center !important;
+    margin: 10px;
     padding: 10px;
-    margin:10px;
 }
 
 .ag-theme-fresh .ag-header-select-all span {
     margin-left: 12px;
 }
 
-#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos, #frmGestion, #frmAgenda, #frmAPanel {
-    padding: 13px;
+#frmClientes,
+#frmServicios,
+#frmEmpleados,
+#frmProductos,
+#frmGastos,
+#frmGestion,
+#frmAgenda,
+#frmAPanel {
     height: auto;
     margin-top: 3px;
-    min-width: 100%
+    min-width: 100%;
+    font-size: 13px;
+    background-color: #FFF !important;
+    padding: 13px;
 }
 
-    #frmClientes .layout-row, #frmEmpleados .layout-row {
+    #frmClientes .layout-row,
+    #frmEmpleados .layout-row {
         margin-bottom: -10px;
     }
 
-    #frmClientes md-input-container, #frmEmpleados md-input-container {
-        margin: 15px 0 0 0;
+    #frmClientes md-input-container,
+    #frmEmpleados md-input-container {
+        margin: 15px 0 0;
     }
 
-#frmServiciosModal {
-    padding: 10px 15px;    
-    height: auto;
-    margin-top: 3px;
-    min-width: 100%
-}
-
-#frmProductosModal {
-    padding: 10px 15px;
-    height: auto;
-    margin-top: 3px;
-    min-width: 100%
-}
-
-.btn-login, .btn-administrator {
+.btn-login,
+.btn-administrator {
     min-width: 100%;
     margin: 0;
 }
 
-.tooltip .tooltip-inner {
-    max-width:140px;
-}
-
-/*################ Font Styles ################*/
-* {
-    font-family: var(--main-font);
-    font-style: normal;
-}
-
-body,
-table,
-input,
-select,
-.form-control,
-.btn-spa,
-.btn-spa:hover,
-.btn-login,
-.btn-login:hover {
-    font-size: 15px !important;
-    font-family: var(--main-font) !important;    
-}
-
-    .btn-primary:active {
-        color: var(--light-text);
+    body,
+    table,
+    input,
+    select,
+    .form-control,
+    .btn-spa,
+    .btn-spa:hover,
+    .btn-login,
+    .btn-login:hover {
+        font-size: 15px !important;
+        font-family: var(--main-font) !important;
     }
 
+.btn-primary:active {
+    color: var(--light-text);
+}
+
 .btn-spa,
 .btn-spa:hover,
 .btn-login,
 .btn-login:hover {
-    font-weight:600;
+    font-weight: 600;
 }
 
 .material-icons {
@@ -222,14 +230,10 @@ select,
     font-size: 26px;
 }
 
-#header .site-widgets ul li {
-    font-weight:600 !important;
-}
-
 .control-label,
 .col-form-label {
     font-size: 11px !important;
-    font-weight: bold;
+    font-weight: 700;
 }
 
 #sidebar a {
@@ -237,155 +241,66 @@ select,
     font-weight: 400;
 }
 
-#sidebar ul li {
-    color: rgba(230,230,230,0.9);
-}
-
-#sidebar ul li:hover,
-#sidebar ul li:hover a
- {
-    color: var(--light-text) !important;
-    font-weight: 600;
-    text-decoration:underline;
-}
-
-#sidebar ul li.active,
-#sidebar ul li.active a {
-    color: var(--light-text) !important;
-    font-weight: 600;
-    text-decoration: underline;
-}
-
-
-    .form-control {
-        font-family: var(--main-font);
-    }
-
-.tooltip .tooltip-inner {
-    color: var(--light-text) !important;
-    font-family: Open Sans, sans-serif;
-    font-size: 12px !important;
+.form-control {
+    font-family: var(--main-font);
 }
 
 .login-icons,
 .login-footer {
-    color: darkgray;
+    color: #A9A9A9;
 }
 
-#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos, #frmGestion, #frmAgenda, #frmAPanel {
+#frmClientes .material-icons,
+#frmServicios .material-icons,
+#frmEmpleados .material-icons,
+#frmProductos .material-icons,
+#frmGastos .material-icons,
+#frmGestion .material-icons,
+#frmAgenda .material-icons,
+#frmAPanel .material-icons {
     font-size: 13px;
 }
-
-    #frmClientes .material-icons, #frmServicios .material-icons,
-    #frmEmpleados .material-icons, #frmProductos .material-icons, #frmGastos .material-icons,
-    #frmGestion .material-icons, #frmAgenda .material-icons, #frmAPanel .material-icons {
-        font-size: 13px;
-    }
 
 .ADMdtpInput input {
     font-family: var(--main-font) !important;
 }
 
-.btn-login, .btn-spa {
+.btn-login,
+.btn-spa {
     text-transform: none;
 }
 
-
-/*################ Backgrounds and borders ################*/
 body {
-    background: white !important;
+    background: #FFF !important;
 }
 
-#header {
-    background: transparent;
-    /*border-bottom: 1px solid #eee;*/
-}
-
-.bg {
-    background-color: var(--light-background) !important;
-    background-size: 100%;
-}
-
-.form-container {
-    background: white;
-    border-radius: 10px;
-}
-
-.background-image {
-    background: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.95)), url('../Images/background-img.jpg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.btn-administrator, .btn-apanel {
+.btn-administrator,
+.btn-apanel {
     background: #8d93ab;
     color: #fff;
-    text-transform:capitalize;
+    text-transform: capitalize;
 }
 
-    .btn-administrator:hover, .btn-apanel:hover {
+    .btn-administrator:hover,
+    .btn-apanel:hover {
         color: #333;
     }
 
-.btn-spa, .btn-login {
+.btn-spa,
+.btn-login {
     background: #67ddab;
-    color: white;
-}
-
-    .btn-spa:hover, .btn-login:hover {        
-        background: #566473 !important;        
-    }
-
-    .btn-spa:active, .btn-login:active {
-        background: #566473 !important;        
-    }
-
-#sidebar {
-    background: #2c333c;
-}
-
-#sidebar ul li {
-    /*border-bottom: 1px solid rgba(40, 40, 40, 0.87);
-    background-size: 200% 100%;
-    background-image: linear-gradient(to left, #212121 50%, transparent 50%);*/
-    
-}    
-
-#sidebar ul li:hover {    
-    /*background-position: 100% 0;*/
-}
-
-li.active {
-    /*border-radius: 10px 0 0 10px;
-    background-position: 100% 0;*/
-}
-
-#sidebar .toggle-btn span {
-    background: #151719;
+    color: #FFF;
 }
 
 .form-control-login:focus {
+    transition: all .3s ease-in-out;
+    box-shadow: none !important;
     border-color: var(--light-primary-color);
-}
-
-.tooltip .tooltip-inner {
-    background-color: #749eba !important;
-}
-
-.login-header {
-    border-radius: 10px 10px 0 0;
-    background-size: cover;
 }
 
 .md-primary.md-checked .md-icon {
     background-color: #3A6EA5 !important;
 }
-
-#frmClientes, #frmServicios, #frmEmpleados, #frmProductos, #frmGastos, #frmGestion, #frmAgenda, #frmAPanel {
-    background-color: white !important;    
-}
-
 
 .warning {
     border: 1px solid red;
@@ -396,43 +311,32 @@ md-checkbox.md-default-theme.md-checked .md-icon {
 }
 
 .md-toolbar-tools {
-    background-color:white;
-    color:#212121;
-    height: 35px!important;
-}
-
-/*################ Element Tweaks ################*/
-#sidebar ul li {
-    list-style: none;
-}
-
-.login-footer {
-    text-align: center !important;
-}
-
-#header .site-widgets ul li {
-    list-style: none;
+    background-color: #FFF;
+    color: #212121;
+    height: 35px !important;
 }
 
 .btn-informe {
-    padding: 5px 15px 5px 15px !important;
     min-width: 250px !important;
     border: none;
+    padding: 5px 15px !important;
 }
 
 label {
-    margin: 2px 0 2px 0;
+    margin: 2px 0;
 }
 
-.label-form-clientes, .label-form-servicios, .label-form-empleados {
+.label-form-clientes,
+.label-form-servicios,
+.label-form-empleados {
     min-width: 75px;
     margin-right: 25px;
-    font-weight: bold;
-    font-size:13px;
+    font-weight: 700;
+    font-size: 13px;
 }
 
-.ag-theme-fresh .ag-body{
-    background:transparent;
+.ag-theme-fresh .ag-body {
+    background: transparent;
 }
 
 .label-imagen-usuario {
@@ -441,18 +345,18 @@ label {
     font-size: 12px;
     font-weight: 300;
     width: 108px;
-    height:40px;
+    height: 40px;
     position: absolute;
     bottom: -2px;
-    transition-duration: 0.5s;
-    text-align:center;
-    line-height:40px;
+    transition-duration: .5s;
+    text-align: center;
+    line-height: 40px;
 }
 
     .label-imagen-usuario:hover {
-        color: white;
-        background-color: rgba(0,0,0,0.6);
-        transition-duration: 0.5s;        
+        color: #FFF;
+        background-color: rgba(0, 0, 0, 0.6);
+        transition-duration: .5s;
     }
 
     .label-imagen-usuario:focus {
@@ -460,82 +364,49 @@ label {
         outline: none;
     }
 
-.usuario-imagen, .empresa-logo {
+.usuario-imagen,
+.empresa-logo {
     border: 1px solid #e1e1e1;
     min-height: 110px;
     min-width: 110px;
     max-height: 110px;
     max-width: 110px;
-    box-shadow: inset 0 0 5px #999;
-    margin: 0;
-    padding: 0;
     position: absolute;
     top: 50px;
     right: 8px;
-    box-shadow:0px 0px 9px 2px rgba(224,224,224,1);
+    box-shadow: 0 0 9px 2px rgba(224, 224, 224, 1);
+    margin: 0;
+    padding: 0;
 }
 
-    .usuario-imagen img, .empresa-logo img {
+    .usuario-imagen img,
+    .empresa-logo img {
         min-height: 106px;
         min-width: 106px;
         max-height: 106px;
         max-width: 106px;
-        margin-left:auto;
-        margin-right:auto;
-        display:block;
-        margin-top:1px;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        margin-top: 1px;
     }
 
-.flex, .flex-15,.flex-20, .flex-40, .flex-60, .flex-80 {
-    background-color: white !important;
+.flex,
+.flex-15,
+.flex-20,
+.flex-40,
+.flex-60,
+.flex-80 {
+    background-color: #FFF !important;
 }
-
-
-/*################ Filters, Shadows, Transitions ################*/
-
-.background-image {
-    filter: blur(5px) grayscale(100%);
-}
-
-.form-container {
-    box-shadow: 0 0 6px #999;
-}
-
-/*.btn-spa:active {
-    transform: translateY(2px);
-}*/
-
-/*#sidebar {
-    transition: all 500ms linear;
-}
-
-#sidebar ul li {
-    transition: background-position 0.3s;
-}*/
 
 aside ul li:hover {
-    transition: all 0.3s ease-in-out;
-    /*box-shadow: -7px 0 5px rgba(0,0,0,0.87);*/
-}
-
-li.active {
-    transition: all 0.3s ease-in-out;
-    /*box-shadow: -7px 0 5px rgba(0,0,0,0.87);*/
+    transition: all .3s ease-in-out;
 }
 
 .form-control:focus {
-    transition: all 0.3s ease-in-out;
+    transition: all .3s ease-in-out;
     outline: 0;
-}
-
-.form-control-login:focus {
-    transition: all 0.3s ease-in-out;
-    box-shadow: none !important;
-}
-
-.tooltip .tooltip-inner {
-    opacity: 1.0;
-    filter: alpha(opacity=100);
 }
 
 .tooltip.in {
@@ -547,13 +418,11 @@ li.active {
     opacity: 1;
 }
 
-/*################ Fixes ################*/
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
-
+    -webkit-box-shadow: 0 0 0 30px #FFF inset !important;
 }
 
 .md-datepicker-calendar-pane.md-pane-open {
@@ -561,16 +430,8 @@ input:-webkit-autofill:active {
     transform: scale(0.9);
 }
 
-/*################ @Media Responsive ################*/
-@media only screen and (max-width: 700px) {
-    .bg {
-        background-size: 300%;
-    }   
-}
-
-/*################ Containers ################*/
-.dropdown-menu{
-    font-size:13px !important;
+.dropdown-menu {
+    font-size: 13px !important;
 }
 
 ._md-datepicker-floating-label > md-datepicker .md-datepicker-button {
@@ -590,17 +451,16 @@ input:-webkit-autofill:active {
     white-space: pre;
 }
 
-.md-whiteframe-1dp, .md-whiteframe-z1 {
+.md-whiteframe-1dp,
+.md-whiteframe-z1 {
     box-shadow: none !important;
 }
 
-/*TABS GESTION*/
 md-tabs.md-primary > md-tabs-wrapper {
-    background-color: white;
+    background-color: #FFF;
     border-bottom: 2px solid orange;
-    color:grey;
+    color: grey;
 }
-
 
 md-tabs md-ink-bar {
     background: transparent !important;
@@ -608,20 +468,595 @@ md-tabs md-ink-bar {
 }
 
 .md-tab.md-active {
-    background: white;
+    background: #FFF;
     border-radius: 10px 10px 0 0;
     box-shadow: 5px 5px 10px #999;
 }
 
 md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-active {
-    color: white;
-    font-weight:600;
-    font-size:13px;
+    color: #FFF;
+    font-weight: 600;
+    font-size: 13px;
 }
 
 md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
     color: #212121;
     font-weight: 300;
+}
+
+.imagenes-adjuntas {
+    border-left: 1px solid #ccc;
+    min-height: 64px;
+}
+
+    .imagenes-adjuntas:first-child {
+        border-left: none !important;
+    }
+
+md-list-item .md-list-item-inner {
+    min-height: 28px !important;
+    height: 28px !important;
+}
+
+#btnAgendarCita {
+    max-width: 55px;
+    max-height: 55px;
+    min-height: 55px;
+    min-width: 55px;
+    padding-top: 15px;
+    position: absolute;
+    top: 3px;
+    right: 10px;
+    border-radius: 50%;
+    display: flex;
+    z-index: 999999;
+    box-shadow: 0 0 21px 0 rgba(153, 153, 153, 1);
+}
+
+#btnFiltrarCards {
+    max-width: 55px;
+    max-height: 55px;
+    min-height: 55px;
+    min-width: 55px;
+    padding-top: 10px;
+    position: absolute;
+    top: 3px;
+    right: 70px;
+    border-radius: 50%;
+    display: flex;
+    z-index: 999999;
+    box-shadow: 0 0 21px 0 rgba(153, 153, 153, 1);
+}
+
+.md-virtual-repeat-container.md-autocomplete-suggestions-container.custom-autocomplete {
+    background-color: RGBA(249, 249, 249, 0.89) !important;
+    box-shadow: 0 7px 7px #999 !important;
+}
+
+.table-schedule {
+    border: none;
+    table-layout: fixed;
+}
+
+    .table-schedule tbody td {
+        min-height: 36px !important;
+        max-height: 36px !important;
+        position: relative;
+        z-index: 1;
+    }
+
+    .table-schedule,
+    .table-schedule td,
+    .table-schedule th,
+    .table.table-schedule tr {
+        margin: 0;
+        padding: 0 10px;
+    }
+
+        .table-schedule th {
+            text-align: center;
+            vertical-align: top;
+            border-left: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 999999999;
+        }
+
+        .table-schedule td,
+        .table-schedule th {
+            min-width: 200px;
+            max-width: 200px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table-schedule td {
+            border-left: 1px solid #ddd;
+            height: 40px !important;
+            position: relative;
+            z-index: 1;
+        }
+
+            .table-schedule td:focus {
+                z-index: 0;
+                outline: none;
+            }
+
+            .table-schedule td:hover {
+                background: #e1e1e1;
+                position: relative;
+                z-index: 0;
+            }
+
+            .table-schedule td:last-child {
+                border-right: 1px solid #ddd;
+            }
+
+        .table-schedule tr {
+            min-height: 40px;
+            max-height: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+.table-schedule-empty,
+.table-schedule-empty:hover {
+    background-color: #fafafa !important;
+    border: 1px dashed #ccc !important;
+    z-index: 1;
+    position: relative;
+}
+
+.table-schedule-nullpoint,
+.table-schedule-nullpoint:hover {
+    background: #FFF !important;
+    border-left: none !important;
+    border-top: none;
+    min-width: 90px !important;
+    max-width: 90px !important;
+    border-bottom: 1px solid #ddd;
+}
+
+.table-schedule .table-schedule-horas {
+    min-width: 90px !important;
+    max-width: 90px !important;
+}
+
+.table-schedule tr div .agenda-detallada {
+    color: #000;
+    font-size: 11px;
+    font-weight: 600;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.75);
+    z-index: 99;
+    cursor: default;
+    padding: 0 5px;
+}
+
+    .table-schedule tr div .agenda-detallada:hover {
+        z-index: 999;
+        cursor: default;
+    }
+
+    .table-schedule tr div .agenda-detallada:focus,
+    .table-schedule tr div .agenda-detallada:active {
+        z-index: 9999;
+        cursor: default;
+        outline: none;
+    }
+
+.agenda-leyenda {
+    min-height: 28px;
+    min-width: 28px;
+    border-radius: 50%;
+    background-color: red;
+}
+
+.detallada-programada {
+    background-color: #e9e1cc;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-programada-28px.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+
+.detallada-confirmada {
+    background-color: #9dc;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-confirmada-28px.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+
+.detallada-cancelada {
+    background-color: #f67280;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-cancelada-28px.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+
+.detallada-facturada {
+    background-color: #ffd;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-facturada-28px.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+
+.detallada-liquidada {
+    background-color: #c2dbdf;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-liquidada-28px.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+
+md-input-container input[type=text] {
+    margin-top: -5px;
+}
+
+.table-cards {
+    table-layout: fixed;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+    .table-cards th {
+        font-size: 13px;
+        font-weight: 600;
+        width: 80px;
+        padding-right: 8px;
+    }
+
+    .table-cards td {
+        font-size: 13px;
+        width: 120px;
+        text-align: left;
+    }
+
+.service-cards {
+    position: relative;
+}
+
+    .service-cards:before {
+        content: ' ';
+        visibility: hidden;
+    }
+
+    .service-cards span {
+        position: absolute;
+        font-size: 13px;
+        left: 0;
+        right: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+.agenda-cards {
+    height: 200px;
+    width: 230px;
+    box-shadow: 0 7px 12px #aaa;
+}
+
+.confirmada-cards {
+    background-color: #9dc;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-confirmada.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+}
+
+.cancelada-cards {
+    background-color: #f67280;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-cancelada.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+}
+
+.facturada-cards {
+    background-color: #ffd;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-facturada.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+}
+
+.programada-cards {
+    background-color: #e9e1cc;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-programada.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+}
+
+.liquidada-cards {
+    background-color: #c2dbdf;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-liquidada.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+}
+
+md-card md-card-title {
+    padding-top: 10px !important;
+}
+
+.table-propiedades {
+    font-size: 13px;
+    border: 1px solid #e1e1e1;
+}
+
+    .table-propiedades thead tr,
+    .table-propiedades tbody tr {
+        padding: 10px;
+    }
+
+        .table-propiedades thead tr th {
+            text-transform: uppercase;
+            text-align: center;
+            background-color: #566473;
+            color: #FFF;
+            border-right: 1px dotted #e1e1e1;
+            height: 20px;
+            font-size: 13px;
+            padding: 1px;
+        }
+
+    .table-propiedades tbody td {
+        border-right: 1px dotted #e1e1e1;
+        border-bottom: 1px solid #e1e1e1;
+        padding: 5px;
+    }
+
+    .table-propiedades tbody tr {
+        height: 30px;
+        font-size: 13px;
+    }
+
+        .table-propiedades tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        .table-propiedades tbody tr:hover {
+            background-color: #a5c0ca;
+            color: #FFF;
+        }
+
+.select-propiedad .md-select-value {
+    margin-top: -6px;
+}
+
+.select-multiempresa {
+    border: none;
+    text-align: left;
+    display: inline-flex;
+    max-width: 290px !important;
+    min-width: 290px !important;
+    min-height: 24px;
+    max-height: 24px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: 800;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.075);
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+.agenda-cards:focus {
+    outline: none;
+}
+
+.moreinfo-card {
+    position: absolute;
+    width: 230px;
+    height: 115px;
+    margin-top: -210px;
+    z-index: 99;
+    background-color: #FFF;
+    box-shadow: 0 0 7px #999;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+    .moreinfo-card h3 {
+        width: 100%;
+        height: 25px;
+        font-size: 18px;
+        font-weight: 600;
+        text-align: center;
+        color: #333;
+        padding: 3px 0;
+    }
+
+    .moreinfo-card p {
+        font-size: 13px;
+        margin: 0;
+        padding: 0 20px;
+    }
+
+.confirmada-moreinfo {
+    background-color: #9dc;
+}
+
+.cancelada-moreinfo {
+    background-color: #f67280;
+}
+
+.facturada-moreinfo {
+    background-color: #ffd;
+}
+
+.programada-moreinfo {
+    background-color: #e9e1cc;
+}
+
+.liquidada-moreinfo {
+    background-color: #c2dbdf;
+}
+
+.agenda-timepicker {
+    padding-bottom: 5px;
+}
+
+    .agenda-timepicker .btn .glyphicon {
+        color: #ccc !important;
+    }
+
+    .agenda-timepicker .btn {
+        padding: 0 2px !important;
+    }
+
+    .agenda-timepicker .btn-default {
+        background: #FFF !important;
+        font-size: 13px;
+        font-weight: 600;
+        color: #67ddab;
+    }
+
+    .agenda-timepicker .form-control {
+        border-left: none !important;
+        border-right: none !important;
+        border-top: none !important;
+        border-radius: 0;
+        transition: border-width .1s ease-in-out;
+    }
+
+    .agenda-timepicker .uib-time input {
+        width: 45px !important;
+    }
+
+    .agenda-timepicker .form-control:focus {
+        border-color: #003d78 !important;
+    }
+
+    .agenda-timepicker label:focus {
+        color: #003d78 !important;
+    }
+
+input:focus,
+input.form-control:focus {
+    outline: none !important;
+    outline-width: 0 !important;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+#toast-container > .toast {
+    background-image: none !important;
+}
+
+    #toast-container > .toast:before {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: FontAwesome;
+        font-size: 30px;
+        float: left;
+        color: #FFF;
+        padding-right: .5em;
+        margin: auto auto auto -37px;
+    }
+
+#toast-container > .toast-warning:before {
+    content: "\f071";
+}
+
+#toast-container > .toast-error:before {
+    content: "\f057";
+}
+
+#toast-container > .toast-info:before {
+    content: "\f05a";
+}
+
+#toast-container > .toast-success:before {
+    content: "\f058";
+}
+
+.material-app md-input-container:not(.md-input-invalid).md-input-focused .md-input {
+    border-color: #566473;
+}
+
+.material-app md-input-container:not(.md-input-invalid).md-input-focused label {
+    color: #566473;
+}
+
+.material-app md-tabs.md-primary > md-tabs-wrapper {
+    background-color: #FFF;
+    border-bottom: 1px solid #6d7f93 !important;
+    color: grey;
+}
+
+.material-app .md-tab.md-active {
+    background: #6d7f93;
+    border-radius: 0;
+    box-shadow: 5px 5px 10px #999;
+}
+
+.material-apanel md-input-container:not(.md-input-invalid).md-input-focused .md-input {
+    border-color: #8d93ab;
+}
+
+.material-apanel md-input-container:not(.md-input-invalid).md-input-focused label {
+    color: #8d93ab;
+}
+
+.material-apanel md-tabs.md-primary > md-tabs-wrapper {
+    background-color: #FFF;
+    border-bottom: 2px solid #8d93ab !important;
+    color: grey;
+}
+
+.material-apanel .md-tab.md-active {
+    background: #8d93ab;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 5px 5px 10px #999;
+}
+
+.sidebar-user {
+    background-color: #6d7f93;
+    border-radius: 25px;
+    width: 140px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 1px 2px 5px #222 inset;
+    padding: 3px 0;
+}
+
+.ag-theme-fresh .ag-header {
+    font-family: Open Sans, sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+}
+
+#frmServiciosModal,
+#frmProductosModal {
+    height: auto;
+    margin-top: 3px;
+    min-width: 100%;
+    padding: 10px 15px;
+}
+
+#sidebar ul li:hover,
+#sidebar ul li:hover a,
+#sidebar ul li.active,
+#sidebar ul li.active a {
+    color: var(--light-text) !important;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.btn-spa:hover,
+.btn-login:hover,
+.btn-spa:active,
+.btn-login:active {
+    background: #566473 !important;
 }
 
 /*SLIDER*/
@@ -635,8 +1070,8 @@ md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > 
 }
 
     .container1 > ul {
-        white-space: nowrap;        
-    }    
+        white-space: nowrap;
+    }
 
 
 .container2 {
@@ -678,7 +1113,7 @@ md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > 
 
     .container3 > ul {
         white-space: nowrap;
-        animation: slide3 infinite 9s alternate;        
+        animation: slide3 infinite 9s alternate;
     }
 
     .container3:hover > ul {
@@ -687,15 +1122,15 @@ md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > 
 
 @keyframes slide3 {
     0%, 33% {
-        margin-left: 0px;        
+        margin-left: 0px;
     }
 
     45%, 66% {
-        margin-left: -400px;        
+        margin-left: -400px;
     }
 
     95%, 100% {
-        margin-left: -800px;        
+        margin-left: -800px;
     }
 }
 
@@ -721,15 +1156,18 @@ md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > 
     0%, 12% {
         margin-left: 0px;
     }
+
     30%, 40% {
         margin-left: -400px;
     }
+
     50%, 60% {
         margin-left: -800px;
     }
+
     90%, 100% {
         margin-left: -1200px;
-    }    
+    }
 }
 
 .container5 {
@@ -772,590 +1210,18 @@ md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > 
     }
 }
 
-/* IMAGENES ADJUNTAS */
-
-.imagenes-adjuntas {
-    border-left: 1px solid #ccc;
-    min-height:64px;
-}
-
-.imagenes-adjuntas:first-child {
-    border-left:none !important;
-}
-
-
-/*GESTION MENU LIST*/
-md-list-item .md-list-item-inner {
-    min-height:28px !important;
-    height:28px !important;
-}
-
-/*FLOAT BUTTON AGENDA*/
-#btnAgendarCita {
-    max-width: 55px;
-    max-height: 55px;
-    min-height: 55px;
-    min-width: 55px;
-    padding-top: 15px;
-    position: absolute;
-    top: 3px;
-    right: 10px;
-    border-radius: 50%;
-    display: flex;
-    z-index: 999999;
-    box-shadow: 0px 0px 21px 0px rgba(153,153,153,1);
-}
-
-#btnFiltrarCards {
-    max-width: 55px;
-    max-height: 55px;
-    min-height: 55px;
-    min-width: 55px;
-    padding-top: 10px;
-    position: absolute;
-    top: 3px;
-    right: 70px;
-    border-radius: 50%;
-    display: flex;
-    z-index: 999999;
-    box-shadow: 0px 0px 21px 0px rgba(153,153,153,1);
-}
-
-/*AUTO COMPLETE CONTAINER*/
-.md-virtual-repeat-container.md-autocomplete-suggestions-container.custom-autocomplete {
-    background-color: RGBA(249,249,249,0.89) !important;
-    box-shadow: 0px 7px 7px #999 !important;
-}
-
-
-/*TABLE SCHEDULE*/
-.table-schedule {
-    border: none;
-    table-layout: fixed;
-}
-
-.table-schedule tbody td {
-    min-height:36px !important;
-    max-height:36px !important;
-    position:relative;
-    z-index:1;
-}
-
-.table-schedule, .table-schedule td, .table-schedule th, .table.table-schedule tr {
-    padding:0px 10px 0px 10px;
-    margin:0;
-}
-
-.table-schedule th {
-    text-align:center;
-    vertical-align:top;
-    border-left: 1px solid #ddd;
-    position:sticky;
-    top:0;
-    z-index:999999999;
-}
-
-    .table-schedule td, .table-schedule th {
-        min-width: 200px;
-        max-width: 200px;
-        border-bottom: 1px solid #ddd;
-    }
-
-.table-schedule td {
-    border-left: 1px solid #ddd;
-    height:40px !important;
-    position:relative;
-    z-index:1;
-}
-
-    .table-schedule td:focus {
-        z-index: 0;
-        outline: none;
-    }
-
-    .table-schedule td:hover {
-        background: #e1e1e1;
-        position: relative;
-        z-index: 0;
-    }
-
-.table-schedule td:last-child {
-    border-right: 1px solid #ddd;
-}
-
-.table-schedule tr {
-    min-height:40px;
-    max-height:40px;
-    position:relative;
-    z-index: 1;
-}
-
-.table-schedule-empty, .table-schedule-empty:hover {
-    background-color: #fafafa !important;
-    border: 1px dashed #ccc !important;
-    z-index: 1;
-    position:relative;
-}
-
-.table-schedule-nullpoint, .table-schedule-nullpoint:hover {
-    background: white !important;
-    border-left: none !important;
-    border-top:none;
-    min-width: 90px !important;
-    max-width: 90px !important;
-    border-bottom:1px solid #ddd;
-}
-
-.table-schedule .table-schedule-horas {
-    min-width: 90px !important;
-    max-width: 90px !important;
-}
-
-.table-schedule tr div .agenda-detallada {
-    color: black;
-    font-size: 11px;
-    font-weight: 600;
-    position: absolute;
-    padding: 0 5px;
-    top: 0;
-    left: 0;
-    -webkit-box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.75);
-    box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.75);
-    z-index: 99;
-    cursor:default;
-}
-
-    .table-schedule tr div .agenda-detallada:hover {
-        z-index: 999;
-        cursor: default;
-    }
-
-    .table-schedule tr div .agenda-detallada:focus, .table-schedule tr div .agenda-detallada:active {
-        z-index: 9999;
-        cursor: default;
-        outline:none;
-    }
-
-
-
-.agenda-leyenda {
-    min-height: 28px;
-    min-width: 28px;
-    border-radius: 50%;
-    background-color: red;
-}
-
-.detallada-programada {
-    background-color: #e9e1cc;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-programada-28px.png);
-    background-position: right bottom;
-    background-repeat: no-repeat;
-    width:100%;
-}
-
-.detallada-confirmada {
-    background-color: #99ddcc;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-confirmada-28px.png);
-    background-position: right bottom;
-    background-repeat: no-repeat;
-    width: 100%;
-}
-
-.detallada-cancelada {
-    background-color: #f67280;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-cancelada-28px.png);
-    background-position: right bottom;
-    background-repeat: no-repeat;
-    width: 100%;
-}
-
-.detallada-facturada {
-    background-color: #ffffdd;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-facturada-28px.png);
-    background-position: right bottom;
-    background-repeat: no-repeat;
-    width: 100%;
-}
-
-.detallada-liquidada {
-    background-color: #c2dbdf;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-liquidada-28px.png);
-    background-position: right bottom;
-    background-repeat: no-repeat;
-    width: 100%;
-}
-
-
-/*AutoComplete*/
-md-input-container input[type=text] {
-    margin-top: -5px;
-}
-
-/*TABLE CARDS*/
-.table-cards {
-    padding: 0;
-    margin: 0;
-    table-layout: fixed;
-    width: 100%;
-}
-
-     .table-cards th {
-        font-size: 13px;
-        font-weight:600;
-        width: 80px;
-        padding-right:8px;
-    }    
-
-    .table-cards td {
-        font-size: 13px;
-        width: 120px;
-        text-align:left;
-    }   
-
-.service-cards {    
-    position: relative;
-}
-
-    .service-cards:before {
-        content: '&nbsp;';
-        visibility: hidden;
-    }
-
-    .service-cards span {
-        position: absolute;
-        font-size: 13px;
-        left: 0;
-        right: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-.agenda-cards {
-    height: 200px;
-    width: 230px;
-    box-shadow: 0px 7px 12px #aaa;
-}
-
-.confirmada-cards {
-    background-color: #99ddcc;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-confirmada.png);
-    background-position: right bottom;
-    background-repeat: no-repeat;
-    
-}
-
-.cancelada-cards {
-    background-color: #f67280;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-cancelada.png);
-    background-position: right bottom;
-    background-repeat: no-repeat;
-    
-}
-
-.facturada-cards {
-    background-color: #ffffdd;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-facturada.png);
-    background-position: right bottom;
-    background-repeat: no-repeat;
-    
-}
-
-.programada-cards {
-    background-color: #e9e1cc;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-programada.png);
-    background-position: right bottom;
-    background-repeat: no-repeat;
-    
-}
-
-.liquidada-cards {
-    background-color: #c2dbdf;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url(../Images/agenda/agenda-liquidada.png);
-    background-position: right bottom;
-    background-repeat: no-repeat;
-    
-}
-
-md-card md-card-title {
-    padding-top:10px !important;
-}
-
-.table-propiedades {
-    font-size:13px;
-    border:1px solid #e1e1e1;    
-}
-
-.table-propiedades thead tr, .table-propiedades tbody tr {
-    padding:10px;
-}
-
-    .table-propiedades thead tr th {
-        text-transform: uppercase;
-        text-align: center;
-        background-color: #566473;
-        color: white;
-        padding: 1px;
-        border-right: 1px dotted #e1e1e1;
-        height: 20px;
-        font-size: 13px;
-    }  
-
-
-.table-propiedades tbody td {    
-    padding:5px;
-    border-right:1px dotted #e1e1e1;
-    border-bottom:1px solid #e1e1e1;
-}
-    
-
-.table-propiedades tbody tr {
-    height:30px;
-    font-size:13px;
-}
-
-.table-propiedades tbody tr:nth-child(odd) {
-    background-color:#f9f9f9;
-}
-
-    .table-propiedades tbody tr:hover {
-        background-color: #a5c0ca;
-        color:white;
-    }    
-
-.select-propiedad .md-select-value {
-    margin-top: -6px;
-}
-
-.select-multiempresa {
-    border: none;    
-    text-align: left;
-    display: inline-flex;
-    max-width: 290px !important;
-    min-width: 290px !important;
-    min-height:24px;
-    max-height:24px;
-    padding:0;
-    margin:0;
-    overflow: hidden;
-    white-space: nowrap;
-    font-weight: 800;
-    box-shadow: none;
-    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.075);
-    background-color: transparent;    
-}
-
-.agenda-cards:focus {
-    outline: none;
-}
-
-.moreinfo-card {
-    position: absolute;    
-    width: 230px;
-    height: 115px;
-    margin-top:-210px;
-    z-index: 99;    
-    background-color: white;
-    box-shadow: 0px 0px 7px #999;
-    overflow: hidden;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-    .moreinfo-card h3 {        
-        width:100%;
-        height:25px;        
-        padding:3px 0;
-        font-size:18px;
-        font-weight:600;
-        text-align:center;
-        color:#333;
-    }
-
-    .moreinfo-card p {
-        padding:0 20px;
-        margin: 0;
-        font-size:13px;
-    }
-
-.confirmada-moreinfo {
-    background-color: #99ddcc;    
-}
-
-.cancelada-moreinfo {
-    background-color: #f67280;    
-}
-
-.facturada-moreinfo {
-    background-color: #ffffdd;    
-}
-
-.programada-moreinfo {
-    background-color: #e9e1cc;    
-}
-
-.liquidada-moreinfo {
-    background-color: #c2dbdf;    
-}
-
-.agenda-timepicker {
-    padding-bottom:5px;
-}
-
-.agenda-timepicker .btn .glyphicon {
-    color:#ccc !important;
-}
-
-.agenda-timepicker .btn {
-    padding-top:0 !important;
-    padding-bottom:0 !important;
-    padding-right:2px !important;
-    padding-left:2px !important;
-}
-
-    .agenda-timepicker .btn-default {
-        background: white !important;
-        font-size: 13px;
-        font-weight: 600;
-        color: #67ddab;
-    }
-
-    .agenda-timepicker .form-control {
-        border-left: none !important;
-        border-right: none !important;
-        border-top: none !important;
-        border-radius: 0px;
-        transition: border-width 0.1s ease-in-out;
-    }
-
-.agenda-timepicker .uib-time input {
-    width: 45px !important;
-}
-
-    .agenda-timepicker .form-control:focus {
-        border-color: #003d78 !important;
-    }
-
-    .agenda-timepicker label:focus {
-        color: #003d78 !important;
-    }
-
-input:focus, input.form-control:focus {
-    outline: none !important;
-    outline-width: 0 !important;
-    box-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-}
-
-#toast-container > .toast {
-    background-image: none !important;
-}
-
-    #toast-container > .toast:before {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        font-family: FontAwesome;
-        font-size: 30px;
-        float: left;
-        color: #FFF;
-        padding-right: 0.5em;
-        margin: auto auto auto -37px;        
-    }
-
-#toast-container > .toast-warning:before {
-    content: "\f071";
-}
-
-#toast-container > .toast-error:before {
-    content: "\f057";
-}
-
-#toast-container > .toast-info:before {
-    content: "\f05a";
-}
-
-#toast-container > .toast-success:before {
-    content: "\f058";
-}
-
-/*MATERIAL MAIN APP*/
-
-.material-app md-input-container:not(.md-input-invalid).md-input-focused .md-input {
-    border-color: #566473;
-}
-
-.material-app md-input-container:not(.md-input-invalid).md-input-focused label {
-    color: #566473;
-}
-
-.material-app md-input-container:not(.md-input-invalid).md-input-focused .login-icons {
-    color: #8d93ab !important;
-}
-
-.material-app md-tabs.md-primary > md-tabs-wrapper {
-    background-color: white;
-    border-bottom: 1px solid #6d7f93 !important;
-    color: grey;
-}
-
-.material-app md-tabs md-ink-bar {
-    background: transparent !important;
-}
-
-.material-app .md-tab.md-active {
-    background: #6d7f93;
-    border-radius: 0;
-    box-shadow: 5px 5px 10px #999;
-}
-
-/*MATERIAL APANEL*/
-
-.material-apanel md-input-container:not(.md-input-invalid).md-input-focused .md-input {
-    border-color: #8d93ab;
-}
-
-.material-apanel md-input-container:not(.md-input-invalid).md-input-focused label {
-    color: #8d93ab;
-}
-
+.material-app md-input-container:not(.md-input-invalid).md-input-focused .login-icons,
 .material-apanel md-input-container:not(.md-input-invalid).md-input-focused .login-icons {
     color: #8d93ab !important;
 }
 
-.material-apanel md-tabs.md-primary > md-tabs-wrapper {
-    background-color: white;
-    border-bottom: 2px solid #8d93ab !important;
-    color: grey;
-}
-
-
+.material-app md-tabs md-ink-bar,
 .material-apanel md-tabs md-ink-bar {
-    background: transparent !important;    
+    background: transparent !important;
 }
 
-.material-apanel .md-tab.md-active {
-    background: #8d93ab;
-    border-radius: 10px 10px 0 0;
-    box-shadow: 5px 5px 10px #999;
-}
-
-.sidebar-user {
-    background-color: #6d7f93;
-    padding: 3px 0;
-    border-radius: 25px;
-    width: 140px;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 1px 2px 5px #222 inset;
-}
-
-.ag-theme-fresh .ag-header {
-    font-family: Open Sans, sans-serif !important;
-    font-size:13px !important;
-    font-weight:400 !important;
+@media only screen and (max-width: 700px) {
+    .bg {
+        background-size: 300%;
+    }
 }
