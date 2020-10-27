@@ -1703,26 +1703,24 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
     };
 
     window.onresize = function () {
-        
         $timeout(function () {
             $scope.EmpresasGridOptions.api.sizeColumnsToFit();
-        }, 300);       
+        }, 300);
 
-        
         $timeout(function () {
             $scope.ServiciosGridOptions.api.sizeColumnsToFit();
-        }, 300);  
-        
+        }, 300);
+
         $timeout(function () {
             $scope.UsuariosAdminGridOptions.api.sizeColumnsToFit();
         }, 300);
-        
+
         $timeout(function () {
             $scope.CategoriaServiciosGridOptions.api.sizeColumnsToFit();
             $scope.TipoServiciosGridOptions.api.sizeColumnsToFit();
             $scope.MunicipiosGridOptions.api.sizeColumnsToFit();
             $scope.BarriosGridOptions.api.sizeColumnsToFit();
-        }, 300);         
+        }, 300);
     }
 
     $scope.Inicializacion = function () {
