@@ -4,6 +4,7 @@
 EmpleadosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
 function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+    $rootScope.header = 'SPA Management - Empleados';
     $scope.Empleados = [];
     $scope.Municipios = [];
     $scope.TipoPagos = [];

@@ -4,6 +4,7 @@
 AgendaController.$inject = ['$scope', '$rootScope', '$q', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
 function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+    $rootScope.header = 'SPA Management - Agenda';
     $scope.Estado =
         [
             { id_Estado: -1, Nombre: "[Seleccione]" },

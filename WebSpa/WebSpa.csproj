@@ -119,12 +119,14 @@
     <Content Include="App\Views\_apanel.html" />
     <Content Include="App\Views\_clientes.html" />
     <Content Include="App\Views\_empleados.html" />
+    <Content Include="App\Views\_encuestas.html" />
     <Content Include="App\Views\_gastos.html" />
     <Content Include="App\Views\_gestion.html" />
     <Content Include="App\Views\_home.html" />
     <Content Include="App\Views\_productos.html" />
     <Content Include="App\Views\_servicios.html" />
     <Content Include="App\Views\_transacciones.html" />
+    <Content Include="App\Views\_visitas.html" />
     <Content Include="Images\agenda\agenda-cancelada-28px.png" />
     <Content Include="Images\agenda\agenda-cancelada.png" />
     <Content Include="Images\agenda\agenda-confirmada-28px.png" />
@@ -141,6 +143,7 @@
     <Content Include="Images\cerrar_sesion_apanel.png" />
     <Content Include="Images\default-perfil.png" />
     <Content Include="Images\default_perfil_apanel.png" />
+    <Content Include="Images\template\construccion.png" />
     <Content Include="Images\template\default_logo.png" />
     <Content Include="Images\empresa.png" />
     <Content Include="Images\header_mail.jpeg" />

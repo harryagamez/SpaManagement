@@ -4,6 +4,7 @@
 ServiciosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
 function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+    $rootScope.header = 'SPA Management - Servicios';
     $scope.TipoServicios = [];
     $scope.ObjetoServicio = [];
     $scope.Servicios = [];

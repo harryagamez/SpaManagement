@@ -4,6 +4,7 @@
 AdministratorPanelController.$inject = ['$scope', '$rootScope', '$state', '$location', '$filter', '$http', '$mdToast', '$document', '$mdDialog', '$rootScope', '$timeout', 'localStorageService', 'AuthService', 'SPAService'];
 
 function AdministratorPanelController($scope, $rootScope, $state, $location, $filter, $http, $mdToast, $document, $mdDialog, $rootScope, $timeout, localStorageService, AuthService, SPAService) {
+    $rootScope.header = 'SPA Management - aPanel';
     $scope.fActiveTab = 'Datos Maestros';
     $scope.fActiveGrid = 'CategoriaServicio';
     $scope.fEditarEmpresa = false;

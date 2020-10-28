@@ -84,6 +84,14 @@
                 templateUrl: 'Views/_transacciones.html',
                 controller: 'TransaccionesController'
             })
+            .state('home.visitas', {
+                url: '/visitas',
+                templateUrl: 'Views/_visitas.html'
+            })
+            .state('home.encuestas', {
+                url: '/encuestas',
+                templateUrl: 'Views/_encuestas.html'
+            })
             .state('administrator', {
                 url: '/administrator',
                 templateUrl: 'Views/_administrator.html',

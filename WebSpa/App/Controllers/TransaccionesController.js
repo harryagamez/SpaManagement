@@ -4,6 +4,7 @@
 TransaccionesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
 function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+    $rootScope.header = 'SPA Management - Transacciones';
     $scope.IdEmpresa = $rootScope.Id_Empresa;
     $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
     $scope.FechaBusqueda = new Date();
@@ -342,10 +343,10 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             headerName: "Atendido Por:", field: 'nombreApellido_Empleado', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Hora Inicio", field: 'fechaInicio', width: 90, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
+            headerName: "Hora Inicio", field: 'fechaInicio', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
         },
         {
-            headerName: "Hora Fin", field: 'fechaFin', width: 90, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
+            headerName: "Hora Fin", field: 'fechaFin', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
         },
         {
             headerName: "Observaciones", field: 'observaciones', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
