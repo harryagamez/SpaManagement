@@ -135,6 +135,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                         if (result.data === true) {
                             toastr.success('Transacción registrada correctamente', '', $scope.toastrOptions);
                             $scope.ConsultarProductos();
+                            $scope.ConsultarCajaMenor();
                             $scope.LimpiarDatos();
                         }
                     }, function (err) {
@@ -671,26 +672,64 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         return true;
     }
 
-    $scope.showConfirmDescuento = function (ev, data) {
+    $scope.ConfirmarPagos = function () {
         try {
-            if ($scope.DescuentoTransaccion > 0) {
-                let confirm = $mdDialog.confirm()
-                    .title('Confirmar Descuento')
-                    .textContent('¿Desea aplicar el descuento?')
-                    .ariaLabel('Confirmar Descuento')
-                    .targetEvent(ev, data)
-                    .ok('Sí')
-                    .cancel('No')
-                    .multiple(true);
 
-                $mdDialog.show(confirm).then(function () {
-                    $scope.RegistrarFacturacionServicios();
-                }, function () {
-                    $('#txtDescuento').focus();
-                });
-            } else {
-                $scope.RegistrarFacturacionServicios();
+            if ($scope.ObjetoAgendasSeleccionadas === undefined || $scope.ObjetoAgendasSeleccionadas.length === 0 || $scope.ObjetoAgendasSeleccionadas === null) {
+                toastr.warning('Debe seleccionar al menos un servicio a procesar', '', $scope.toastrOptions);
+                return false;
             }
+
+            if ($scope.DescuentoTransaccion > 0) {
+                $scope.showConfirmDescuento();
+            } else {
+                $scope.showConfirmPagos();
+            }
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }   
+    }
+
+    $scope.showConfirmDescuento = function (ev, data) {
+        try {            
+            let confirm = $mdDialog.confirm()
+                .title('Confirmar Descuento')
+                .textContent('¿Desea aplicar el descuento?')
+                .ariaLabel('Confirmar Descuento')
+                .targetEvent(ev, data)
+                .ok('Sí')
+                .cancel('No')
+                .multiple(true);
+
+            $mdDialog.show(confirm).then(function () {
+                $scope.RegistrarFacturacionServicios();
+            }, function () {
+                $('#txtDescuento').focus();
+            });
+            
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.showConfirmPagos = function (ev, data) {
+        try {
+            let confirm = $mdDialog.confirm()
+                .title('Confirmar Pago')
+                .textContent('¿Desea registrar los pagos?')
+                .ariaLabel('Confirmar Pago')
+                .targetEvent(ev, data)
+                .ok('Sí')
+                .cancel('No')
+                .multiple(true);
+
+            $mdDialog.show(confirm).then(function () {
+                $scope.RegistrarFacturacionServicios();
+            }, function () {                
+            });
+
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
