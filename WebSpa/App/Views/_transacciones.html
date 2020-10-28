@@ -99,7 +99,7 @@
                                                 <label class="label-form-servicios" style="">
                                                     Cantidad:
                                                 </label>
-                                                <input ng-model="CantidadInsumo" focus="productChanged" id="txtCantidadInsumo" maxlength="12" numbers-only type="text" class="" style="min-width:50px; max-width:50px;" placeholder="" value="" tabindex=2>
+                                                <input ng-model="CantidadInsumo" focus="productChanged" id="txtCantidadInsumo" maxlength="12" numbers-only type="text" class="" style="min-width:50px; max-width:50px;" placeholder="" value="" autocomplete="off" tabindex=2>
                                             </md-input-container>
                                         </div>
 
@@ -260,7 +260,7 @@
 
                                 <div flex="" style="flex:none; position:absolute; right:-9px;">
                                     <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px; margin-left:2px;">
-                                        <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin-left:-2px;" data-toggle="tooltip" title="Liquidar Nómina" data-ng-click="LiquidarNominaEmpleados()">
+                                        <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin-left:-2px;" data-toggle="tooltip" title="Liquidar Nómina" data-ng-click="showConfirmLiquidarNomina()">
                                             <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">save</i> Liquidar Nómina
                                         </md-button>
                                     </section>

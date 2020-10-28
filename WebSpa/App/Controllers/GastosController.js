@@ -396,7 +396,7 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
             },
         },
         {
-            headerName: "Valor", field: 'valor', width: 80, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': '600', 'color':'#445a9e' }, valueFormatter: currencyFormatter
+            headerName: "Valor", field: 'valor', width: 80, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color':'#445a9e' }, valueFormatter: currencyFormatter
         },
         {
             headerName: "Registro", field: 'fecha_Registro', width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {

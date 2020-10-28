@@ -734,6 +734,9 @@ md-input-container input[type=text] {
         font-size: 13px;
         width: 120px;
         text-align: left;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 
 .service-cards {

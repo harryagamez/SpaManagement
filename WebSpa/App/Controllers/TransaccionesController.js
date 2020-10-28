@@ -333,7 +333,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             headerName: "Servicio", field: 'nombre_Servicio', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Valor", field: 'valor_Servicio', width: 80, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+            headerName: "Valor", field: 'valor_Servicio', width: 80, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#445a9e', 'font-weight':'bold' }, valueFormatter: currencyFormatter
         },
         {
             headerName: "Cliente:", field: 'nombreApellido_Cliente', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -382,13 +382,13 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             headerName: "Producto", field: 'nombre', width: 280, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Precio", field: 'Precio', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+            headerName: "Precio", field: 'Precio', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color':'#445a9e','font-weight':'bold' }, valueFormatter: currencyFormatter
         },
         {
             headerName: "Cantidad", field: 'Cantidad', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
         },
         {
-            headerName: "Total", field: 'Total', width: 140, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+            headerName: "Total", field: 'Total', width: 140, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#499977', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
         }
     ];
 
@@ -452,9 +452,9 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         {
             headerName: "Total a Pagar", field: 'total_Pagar', width: 180, cellStyle: function (params) {
                 if (params.value < 0) {
-                    return { 'color': '#dd6767', 'text-align': 'right', 'cursor': 'pointer', 'font-weight': '600' };
+                    return { 'color': '#dd6767', 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold' };
                 } else {
-                    return { 'color': '#499977', 'text-align': 'right', 'cursor': 'pointer', 'font-weight': '600' };
+                    return { 'color': '#499977', 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold' };
                 }
             }, valueFormatter: currencyFormatter
         }
@@ -710,6 +710,29 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                 $scope.EliminarProductoGrilla(ev, data);
             }, function () {
             });
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.showConfirmLiquidarNomina = function (ev, data) {
+        try {            
+            let confirm = $mdDialog.confirm()
+                .title('Confirmar Transacción')
+                .textContent('¿Desea liquidar la nómina?')
+                .ariaLabel('Confirmar liquidación')
+                .targetEvent(ev, data)
+                .ok('Sí')
+                .cancel('No')
+                .multiple(true);
+
+            $mdDialog.show(confirm).then(function () {
+                $scope.LiquidarNominaEmpleados();
+            }, function () {
+                $('#txtDescuento').focus();
+            });
+            
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
