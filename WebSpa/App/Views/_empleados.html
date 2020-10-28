@@ -253,18 +253,14 @@
                             
                         </div>
 
-                        <div layout="row" layout-sm="column" layout-align="start start" style="margin-top:-20px;">
-
-                            <div style="right:15px; position: absolute; margin-bottom:0px; ">
-                                <md-button type="button" id="btnGuardarEmpresa" style="" class="btn-spa" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarEmpleado()" tabindex=16>
-                                    <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">save</i> Guardar
-                                </md-button>
-                                <md-button type="button" id="btnLimpiar" ng-hide="AccionEmpleado === 'Actualizar Empleado'" style="margin-left:-10px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()" tabindex=17>
-                                    <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">note_add</i> Nuevo
-                                </md-button>
-                            </div>
-
-                        </div>
+                        <section id="divButtons" layout="row" layout-align="end center" style="margin-left:2px; margin-top:-10px;">
+                            <md-button type="button" id="btnGuardarEmpresa" style="margin-right:-2px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarEmpleado()" tabindex=16>
+                                <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">save</i> Guardar
+                            </md-button>
+                            <md-button type="button" id="btnLimpiar" ng-hide="AccionEmpleado === 'Actualizar Empleado'" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()" tabindex=17>
+                                <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">note_add</i> Nuevo
+                            </md-button>
+                        </section>                        
 
                     </md-dialog-content>
                 </form>

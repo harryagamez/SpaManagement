@@ -222,15 +222,16 @@
                                 </md-input-container>
                             </div>
 
-                            <div style="right:15px; position: absolute; margin-top:5px; ">
-                                <md-button type="button" id="btnGuardarEmpresa" style="" class="btn-spa" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarCliente()" tabindex=14>
-                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i> Guardar
-                                </md-button>
-                                <md-button type="button" id="btnLimpiar" ng-hide="AccionCliente === 'Actualizar Cliente'" style="margin-left:-10px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()" tabindex=15>
-                                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i> Nuevo
-                                </md-button>
-                            </div>
                         </div>
+
+                        <section id="divButtons" layout="row" layout-align="end center" style="margin-left:2px; margin-top:0px;">
+                            <md-button type="button" id="btnGuardarEmpresa" style="margin:6px 3px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarCliente()" tabindex=14>
+                                <i class="material-icons md-18" style="transform: scaleX(-1)">save</i> Guardar
+                            </md-button>
+                            <md-button type="button" id="btnLimpiar" style="margin:6px 3px;" ng-hide="AccionCliente === 'Actualizar Cliente'" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()" tabindex=15>
+                                <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i> Nuevo
+                            </md-button>
+                        </section>
                     </md-dialog-content>
                 </form>
             </md-dialog>

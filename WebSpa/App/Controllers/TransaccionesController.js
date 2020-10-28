@@ -718,7 +718,13 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     }
 
     $scope.showConfirmLiquidarNomina = function (ev, data) {
-        try {            
+        try {
+
+            if ($scope.ObjetoEmpleadosSeleccionados === undefined || $scope.ObjetoEmpleadosSeleccionados === null || $scope.ObjetoEmpleadosSeleccionados.length === 0) {
+                toastr.info('Debe seleccionar al menos un empleado para liquidar ésta nómina', '', $scope.toastrOptions);
+                return false;
+            }
+
             let confirm = $mdDialog.confirm()
                 .title('Confirmar Transacción')
                 .textContent('¿Desea liquidar la nómina?')
