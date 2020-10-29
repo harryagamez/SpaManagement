@@ -1268,6 +1268,18 @@ input.form-control:focus {
     opacity: 0.85;
 }
 
+md-switch.md-default-theme.md-checked:not([disabled]) .md-ink-ripple, md-switch.md-checked:not([disabled]) .md-ink-ripple {
+    color: #445a9e !important;
+}
+
+md-switch.md-default-theme.md-checked:not([disabled]) .md-thumb, md-switch.md-checked:not([disabled]) .md-thumb {
+    background-color: #445a9e !important;
+}
+
+md-switch.md-default-theme.md-checked:not([disabled]) .md-bar, md-switch.md-checked:not([disabled]) .md-bar {
+    background-color:rgba(68,90,158,0.5)
+}
+
 @media only screen and (max-width: 700px) {
     .bg {
         background-size: 300%;

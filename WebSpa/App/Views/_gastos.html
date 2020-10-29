@@ -36,20 +36,20 @@
                 </md-button>
                 <div class="dropdown-menu">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="ListadoGastos" aria-label="Checkbox 1">
-                                Listado por tipo de gasto
-                            </md-checkbox>
+                        <li class="list-group-item btn-informe">                            
+                            <md-switch ng-model="ListadoGastos" aria-label="Listado por tipo de gasto" style="margin:2px 5px;">
+                                <span style="font-size:12px;">Listado por tipo de gasto</span>
+                            </md-switch>
                         </li>
-                        <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="DetalladoGastosLiquidados" aria-label="Checkbox 2">
-                                Detallado gastos liquidados
-                            </md-checkbox>
+                        <li class="list-group-item btn-informe">                            
+                            <md-switch ng-model="DetalladoGastosLiquidados" aria-label="Detallado gastos liquidados" style="margin:2px 5px;">
+                                <span style="font-size:12px;">Detallado gastos liquidados</span>
+                            </md-switch>
                         </li>
-                        <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="DetalladoGastosPendientes" aria-label="Checkbox 3">
-                                Detallado gastos pendientes
-                            </md-checkbox>
+                        <li class="list-group-item btn-informe">                            
+                            <md-switch ng-model="DetalladoGastosPendientes" aria-label="Detallado gastos pendientes" style="margin:2px 5px;">
+                                <span style="font-size:12px;">Detallado gastos pendientes</span>
+                            </md-switch>
                         </li>
                     </ul>
                 </div>

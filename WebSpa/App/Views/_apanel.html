@@ -668,9 +668,10 @@
                                 <div layout="row" layout-sm="column" style="" layout-align="start start">
                                     <div flex="">
                                         <md-list style="border:1px solid #e1e1e1;">
-                                            <md-list-item ng-repeat="item in Menu" style="min-height:20px; height:20px;">
-                                                <p style="font-size:14px;">{{item.Descripcion}}</p>
-                                                <md-checkbox class="md-secondary" ng-model="item.Estado"></md-checkbox>
+                                            <md-list-item ng-repeat="item in Menu" style="min-height:20px; height:20px;">                                                
+                                                <md-switch ng-model="item.Estado" aria-label="menu estado" style="margin:2px 5px;">
+                                                    <span style="padding-left:10px; font-size:14px;">{{item.Descripcion}}</span>
+                                                </md-switch>
                                             </md-list-item>
                                         </md-list>
                                     </div>

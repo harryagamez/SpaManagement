@@ -35,10 +35,13 @@
                                         <md-datepicker id="dpFechaActual" ng-model="FechaActual" ng-change="LimpiarAgenda()" md-placeholder="mm/dd/yyyy" class="dateClientes" tabindex=5 style="margin-bottom:0;"></md-datepicker>
                                     </md-input-container>
                                 </div>
-                                <div style="margin-top:10px; margin-left:10px;">
-                                    <md-checkbox ng-model="MostrarCanceladasDetallada" aria-label="Checkbox Filtro Canceladas" style="margin-left: 2px;">
-                                    </md-checkbox>
-                                    <span style="font-size:14px; margin-left:-10px; vertical-align:middle;">Mostrar Solo Canceladas</span>
+                                <div style="margin-top:-5px; margin-left:10px;">
+                                    <!--<md-checkbox ng-model="MostrarCanceladasDetallada" aria-label="Checkbox Filtro Canceladas" style="margin-left: 2px;">
+                                    </md-checkbox>-->
+                                    <!--<span style="font-size:14px; margin-left:-10px; vertical-align:middle;">Mostrar Solo Canceladas</span>-->
+                                    <md-switch ng-model="MostrarCanceladasDetallada" aria-label="Mostrar Canceladas">
+                                        Mostrar Solo Canceladas
+                                    </md-switch>                                    
                                 </div>
                                 <!--<div flex="40">
                                     <div style="position: absolute; right:20px; margin-top:16px; font-size:14px;">
@@ -390,10 +393,10 @@
                         </div>
 
                         <div layout="row" layout-sm="column" style="margin-top:-15px;" layout-align="end center">
-                            <div flex="" style="" class="material-app">
-                                <md-checkbox ng-model="Agenda.Traer_Canceladas" aria-label="Checkbox Filtro Canceladas" style="margin-left: 2px;">
-                                </md-checkbox>
-                                <span style="font-size:11px; margin-left:-10px;">Mostrar Canceladas</span>
+                            <div flex="" style="" class="material-app">                                
+                                <md-switch ng-model="Agenda.Traer_Canceladas" aria-label="Filtro Canceladas">
+                                    <span style="font-size:12px;">Mostrar Canceladas</span>
+                                </md-switch> 
                             </div>
 
                             <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Buscar" data-ng-click="ConsultarAgenda()">
