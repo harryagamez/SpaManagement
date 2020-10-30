@@ -648,7 +648,10 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
                         $scope.MenuAdmin = [];
                         $scope.MenuAdmin = result.data;
                         $rootScope.Menu = $scope.MenuAdmin;
-                        $scope.Menu = angular.copy($scope.MenuAdmin);
+                        $scope.Menu = angular.copy($scope.MenuAdmin);                        
+                        $scope.Menu = $rootScope.Menu.filter(function (e) {
+                            return e._Level === 1;
+                        });
                         $scope.Menu = $scope.Menu.map(function (e) {
                             return { Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
                         });
@@ -1422,7 +1425,7 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
 
     $scope.ModalMenu = function () {
         try {
-            $scope.AccionGasto = 'MENU';
+            $scope.AccionGasto = 'MENÚ';
 
             $mdDialog.show({
                 contentElement: '#dlgMenu',
@@ -1529,7 +1532,9 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
             $scope.MunicipiosCopy = [];
             $scope.MunicipiosCopy.push({ id_Municipio: -1, nombre: '[Seleccione]' });
 
-            $scope.Menu = $rootScope.Menu;
+            $scope.Menu = $rootScope.Menu.filter(function (e) {
+                return e._Level === 1;
+            });
             $scope.Menu = $scope.Menu.map(function (e) {
                 return { Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
             });

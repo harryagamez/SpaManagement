@@ -38,8 +38,11 @@ function HomeController($scope, $state, $rootScope, $element, $location, localSt
     $scope.NombreEmpresa = $rootScope.Nombre_Empresa;
     $scope.UserId = $rootScope.userData.userId;
     $scope.$on('successfull.menuload', function () {
-        if ($scope.Menu.length == 0)
+
+        if ($scope.Menu.length === 0) {
             $scope.Menu = $rootScope.Menu;
+                  
+        }            
     });
 
     $scope.$on('successfull.useravatarload', function () {
@@ -92,6 +95,7 @@ function HomeController($scope, $state, $rootScope, $element, $location, localSt
 
     $scope.$on("$destroy", function () {
         $scope.Menu = [];
+        $scope.SubMenu = [];
         $scope.Empresas = [];
     });
 }

@@ -4,11 +4,17 @@
         <div class="sidebar-user" style="text-align:center; color:white; font-weight:400; margin-top:10px;">{{ UsuarioSistema }}</div>
     </div>
     <ul>
-        <li class="li-padding" ng-repeat="item in Menu" ui-sref-active="active">
-            <a ui-sref="{{item.ruta_Acceso}}"><img ng-src="data:image/png;base64,{{item.logo_Base64}}" style="max-width:28px; margin-right:15px; vertical-align:middle;">{{item.descripcion}}</a>
-        </li>
+        <li class="li-padding" ng-repeat="item in Menu | filter:{ '_Level': 1 } : true" ui-sref-active="active" ng-click="fShowSubMenu = true" ng-mouseleave="fShowSubMenu = false">
+            <a ng-if="item._Level === 1 && item._Children === 0" ui-sref="{{item.ruta_Acceso}}"><img ng-src="data:image/png;base64,{{item.logo_Base64}}" style="max-width:28px; margin-right:15px; vertical-align:middle;">{{item.descripcion}}</a>
+            <a style="cursor: pointer;" ng-if="item._Level === 1 && item._Children > 0"><img ng-src="data:image/png;base64,{{item.logo_Base64}}" style="max-width:28px; margin-right:15px; vertical-align:middle;">{{item.descripcion}} <i class="material-icons md-18" style="margin-left:10px; margin-top:-3px;">play_arrow</i></a>
+            <ul class="sidebar-submenu" ng-if="fShowSubMenu && item._Children > 0">
+                <li ng-repeat="subitem in Menu | filter: {'_ParentId': item.id_Menu} : true">
+                    <a ui-sref="{{subitem.ruta_Acceso}}"><img ng-src="data:image/png;base64,{{subitem.logo_Base64}}" style="max-width:28px; margin-right:15px; vertical-align:middle;">{{subitem.descripcion}}</a>
+                </li>
+            </ul>            
+        </li>        
         <li class="li-padding"><img src="../../Images/cerrar-sesion.png" style="max-width: 28px; max-height: 28px; min-height: 28px; min-width: 28px; margin-right:15px; vertical-align:middle;" /><a href="" ng-click="Logout()">Cerrar sesión</a></li>
-    </ul>
+    </ul>    
 </aside>
 
 <header id="header">

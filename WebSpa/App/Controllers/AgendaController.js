@@ -88,11 +88,12 @@ function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, 
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
                             $scope.Agendas = [];
-                            $scope.Agendas = result.data;
+                            $scope.Agendas = result.data;                           
                             $scope.Agendas = $scope.Agendas.map(function (e) {
-                                e.mensaje_Whatsapp = 'Hola ' + e.nombres_Cliente + ', le escribimos desde ' + e.nombre_Empresa + ' para confirmar su cita para el servicio de ' + e.nombre_Servicio + ' a las ' + e.fechaInicio;
+                                let fechaCita = $filter('date')(e.fechaCita, 'yyyy-MM-dd');
+                                e.mensaje_Whatsapp = 'Estimada/o ' + e.nombres_Cliente + ', le escribimos desde ' + e.nombre_Empresa + ' con el motivo de confirmar su asistencia a la cita del día ' + fechaCita + ' a las ' + e.fechaInicio + ' para el servicio de '+ e.nombre_Servicio +'. Esperamos su pronta respuesta.';
                                 return e;
-                            });
+                            });                            
                         }
 
                         if ($scope.Agendas.length === 0) {

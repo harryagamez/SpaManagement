@@ -48,11 +48,14 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, $ht
 
         $('#txtUsuario').focus();
     }
+    
+    $scope.Menu = $rootScope.Menu.filter(function (e) {
+        return e._Level === 1;
+    });
 
-    $scope.Menu = $rootScope.Menu;
     $scope.Menu = $scope.Menu.map(function (e) {
         return { Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
-    });
+    });    
 
     $scope.Usuario = {
         Id_Usuario: -1,

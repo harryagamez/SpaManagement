@@ -258,7 +258,7 @@
                 url: $rootScope.config.data.API_URL + 'SPA/ConsultarMenu?IdUsuario=' + parseInt(authorizationData.userId) + '&IdEmpresa=' + authorizationData.companyId + '&Perfil=' + authorizationData.userRole
             }).then(function (result) {
                 localStorageService.set('menu', result.data);
-                $rootScope.Menu = result.data;
+                $rootScope.Menu = result.data;                
                 $rootScope.$broadcast('successfull.menuload');
                 localStorageService.set('masterdataMenu',
                     {
