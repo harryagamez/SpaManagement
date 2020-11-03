@@ -443,6 +443,11 @@ namespace Spa.Application.SpaService
             return _spaRepository.LiquidarNominaEmpleados(aplicacionNomina);
         }
 
+        public List<Agenda> ConsultarServiciosCliente(Agenda _Agenda)
+        {
+            return _spaRepository.ConsultarServiciosCliente(_Agenda);
+        }
+
         public bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties)
         {
             return _spaRepository.SincronizarDepartamentos(_departmentProperties);

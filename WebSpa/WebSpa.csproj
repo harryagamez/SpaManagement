@@ -106,6 +106,7 @@
     <Content Include="App\Controllers\ImgAttachedController.js" />
     <Content Include="App\Controllers\LoginController.js" />
     <Content Include="App\Controllers\ProductosController.js" />
+    <Content Include="App\Controllers\ServiciosClientesController.js" />
     <Content Include="App\Controllers\ServiciosController.js" />
     <Content Include="App\Controllers\SliderController.js" />
     <Content Include="App\Controllers\TransaccionesController.js" />
@@ -125,6 +126,7 @@
     <Content Include="App\Views\_home.html" />
     <Content Include="App\Views\_productos.html" />
     <Content Include="App\Views\_servicios.html" />
+    <Content Include="App\Views\_serviciosClientes.html" />
     <Content Include="App\Views\_transacciones.html" />
     <Content Include="App\Views\_visitas.html" />
     <Content Include="Images\agenda\agenda-cancelada-28px.png" />

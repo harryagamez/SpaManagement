@@ -83,7 +83,7 @@
     display: block;
     height: 100%;
     z-index: 1;
-    background: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.95)), url(../Images/background-img.jpg);
+    background: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45)), url(../Images/background-img.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

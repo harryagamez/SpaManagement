@@ -123,6 +123,8 @@ namespace Spa.Infrastructure.SpaRepository
 
         bool LiquidarNominaEmpleados(AplicacionNomina aplicacionNomina);
 
+        List<Agenda> ConsultarServiciosCliente(Agenda agenda);
+
         bool SincronizarDepartamentos(List<DepartmentProperties> departmentProperties);
     }
 }

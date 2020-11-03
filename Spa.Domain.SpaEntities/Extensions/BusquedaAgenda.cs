@@ -1,4 +1,7 @@
-﻿namespace Spa.Domain.SpaEntities.Extensions
+﻿using System;
+using System.Collections.Generic;
+
+namespace Spa.Domain.SpaEntities.Extensions
 {
     public class BusquedaAgenda
     {
@@ -19,5 +22,8 @@
         public bool Traer_Canceladas { get; set; }
         public float Valor_Servicio { get; set; }
         public string Tipo_Nomina { get; set; }
+        public List<int> Id_Servicios { get; set; }
+        public DateTime Fecha_Desde { get; set; }
+        public DateTime Fecha_Hasta { get; set; }
     }
 }

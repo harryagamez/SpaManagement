@@ -963,5 +963,22 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error registrando la transacción: " + ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("api/SPA/ConsultarServiciosCliente")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarServiciosCliente(Agenda agenda)
+        {
+            try
+            {
+                List<Agenda> _agenda = _spaService.ConsultarServiciosCliente(agenda);
+
+                return Content(HttpStatusCode.OK, _agenda);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los servicios del cliente: " + ex.Message);
+            }
+        }
     }
 }

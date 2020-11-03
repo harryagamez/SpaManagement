@@ -257,8 +257,8 @@
                 method: 'GET',
                 url: $rootScope.config.data.API_URL + 'SPA/ConsultarMenu?IdUsuario=' + parseInt(authorizationData.userId) + '&IdEmpresa=' + authorizationData.companyId + '&Perfil=' + authorizationData.userRole
             }).then(function (result) {
-                localStorageService.set('menu', result.data);
-                $rootScope.Menu = result.data;                
+                localStorageService.set('menu', result.data);                
+                $rootScope.Menu = result.data;
                 $rootScope.$broadcast('successfull.menuload');
                 localStorageService.set('masterdataMenu',
                     {
@@ -442,7 +442,8 @@
             _consultarNominaEmpleados: ConsultarNominaEmpleados,
             _consultarNominaEmpleadoServicios: ConsultarNominaEmpleadoServicios,
             _consultarEmpleadoPrestamos: ConsultarEmpleadoPrestamos,
-            _liquidarNominaEmpleados: LiquidarNominaEmpleados
+            _liquidarNominaEmpleados: LiquidarNominaEmpleados,
+            _consultarServiciosCliente: ConsultarServiciosCliente
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1258,6 +1259,18 @@
                     deferred.reject(err);
                 });
 
+            return deferred.promise;
+        }
+
+        function ConsultarServiciosCliente(agenda) {
+            var deferred = $q.defer();
+            serviceRest.Post('SPA', 'ConsultarServiciosCliente', agenda,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
             return deferred.promise;
         }
     }

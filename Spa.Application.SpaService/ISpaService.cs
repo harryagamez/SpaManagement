@@ -124,6 +124,8 @@ namespace Spa.Application.SpaService
 
         bool LiquidarNominaEmpleados(AplicacionNomina aplicacionNomina);
 
+        List<Agenda> ConsultarServiciosCliente(Agenda agenda);
+
         bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties);
     }
 }
