@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Pagos por Clientes</title>
+</head>
+<body>
+    <div layout="row" layout-wrap="" style="height: calc(100vh - 70px); overflow:hidden;">
+        <form id="frmServicios" style="" class="material-app">
+            <div layout="row" layout-sm="column" style="position:relative;">
+
+                <div flex="" style="flex:none;">
+                    <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px; margin-left:2px;">
+
+                        <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin-left:-2px;" data-toggle="tooltip" title="Buscar" data-ng-click="ConsultarPagosCliente()">
+                            <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-3px;">search</i> Buscar
+                        </md-button>
+
+                        <md-button type="button" id="btnImportar" class="btn-spa groupX middle" style="margin-left: -2px;" data-toggle="tooltip" title="Exportar" data-ng-click="ExportarArchivo()">
+                            <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-3px;">cloud_upload</i> Exportar
+                        </md-button>
+
+                    </section>
+                </div>
+
+                <div style="flex:none; margin-left:10px;">
+                    <md-input-container style="margin:18px 0 0 0;padding:0;">
+                        <label for="dateType" class="label-form-empleados" style="">
+                            Clientes:
+                        </label>
+                        <md-autocomplete style="margin-top:2px;" aria-label="clientes autocomplete" md-selected-item-change="SetPerfilCliente()" md-input-id="acClientes" id="acClientes" md-input-name="acClientes" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionado" md-search-text="buscarCliente" md-items="cliente in BuscarCliente(buscarCliente)" md-item-text="cliente.nombres + ' ' + cliente.apellidos" tabindex="1">
+                            <md-item-template>
+                                <span md-highlight-text="buscarCliente" ng-bind="cliente.id_Cliente">{{cliente.nombres + ' ' + cliente.apellidos}}</span>
+                            </md-item-template>
+                            <md-not-found>
+                                No se encontraron resultados.
+                            </md-not-found>
+                        </md-autocomplete>
+                    </md-input-container>
+                </div>                
+
+                <div style="flex: none; margin-left:10px; margin-top:-5px; z-index:999;">
+                    <md-input-container style="margin-left: -40px;">
+                        <label class="label-form-clientes" style="margin-bottom:-2px;">
+                            Fecha desde:
+                        </label>
+                        <md-datepicker ng-model="FechaDesde" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=3 style="margin-bottom:0; margin-top:-5px; width:200px;"></md-datepicker>
+                    </md-input-container>
+                </div>
+
+                <div style="flex: none; margin-left:10px; margin-top:-5px; z-index:99;">
+                    <md-input-container style="margin-left: -40px;">
+                        <label class="label-form-clientes" style="margin-bottom:-2px;">
+                            Fecha hasta:
+                        </label>
+                        <md-datepicker ng-model="FechaHasta" md-placeholder="Enter date" class="dateClientes" id="dpFechaHasta" tabindex=4 style="margin-bottom:0; margin-top:-5px; width:200px;"></md-datepicker>
+                    </md-input-container>
+                </div>
+
+            </div>
+
+            <div id="divGridServiciosCliente" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 145px); margin-top:-33px; overflow-y:auto;">
+                <div id="divServiciosClienteGridOptions" data-ag-grid="ServiciosClienteGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
