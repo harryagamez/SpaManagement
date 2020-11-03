@@ -89,6 +89,13 @@
                 templateUrl: 'Views/_serviciosClientes.html',
                 controller: 'ServiciosClientesController'
             })
+            .state('home.reportes_ppc', {
+                url: '/pagosclientes',
+                templateUrl: 'Views/_pagosClientes.html',
+                controller: 'PagosClientesController'
+            })
+            .state('home.reportes', {
+            })
             .state('home.visitas', {
                 url: '/visitas',
                 templateUrl: 'Views/_visitas.html'

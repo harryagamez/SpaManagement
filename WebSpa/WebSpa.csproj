@@ -105,6 +105,7 @@
     <Content Include="App\Controllers\HomeController.js" />
     <Content Include="App\Controllers\ImgAttachedController.js" />
     <Content Include="App\Controllers\LoginController.js" />
+    <Content Include="App\Controllers\PagosClientesController.js" />
     <Content Include="App\Controllers\ProductosController.js" />
     <Content Include="App\Controllers\ServiciosClientesController.js" />
     <Content Include="App\Controllers\ServiciosController.js" />
@@ -124,6 +125,7 @@
     <Content Include="App\Views\_gastos.html" />
     <Content Include="App\Views\_gestion.html" />
     <Content Include="App\Views\_home.html" />
+    <Content Include="App\Views\_pagosClientes.html" />
     <Content Include="App\Views\_productos.html" />
     <Content Include="App\Views\_servicios.html" />
     <Content Include="App\Views\_serviciosClientes.html" />
