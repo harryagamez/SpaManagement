@@ -443,7 +443,8 @@
             _consultarNominaEmpleadoServicios: ConsultarNominaEmpleadoServicios,
             _consultarEmpleadoPrestamos: ConsultarEmpleadoPrestamos,
             _liquidarNominaEmpleados: LiquidarNominaEmpleados,
-            _consultarServiciosCliente: ConsultarServiciosCliente
+            _consultarServiciosCliente: ConsultarServiciosCliente,
+            _consultarPagosCliente: ConsultarPagosCliente
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1265,6 +1266,18 @@
         function ConsultarServiciosCliente(agenda) {
             var deferred = $q.defer();
             serviceRest.Post('SPA', 'ConsultarServiciosCliente', agenda,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarPagosCliente(aplicacionPago) {
+            var deferred = $q.defer();
+            serviceRest.Post('SPA', 'ConsultarPagosCliente', aplicacionPago,
                 function (data) {
                     deferred.resolve(data);
                 },

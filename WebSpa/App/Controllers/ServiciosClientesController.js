@@ -108,6 +108,24 @@ function ServiciosClientesController($scope, $rootScope, $filter, $mdDialog, $md
 
     ];
 
+    $scope.ServiciosClienteGridOptions = {
+        defaultColDef: {
+            resizable: true
+        },
+        columnDefs: $scope.ServiciosClienteGridOptionsColumns,
+        rowData: [],
+        enableSorting: true,
+        enableFilter: true,
+        enableColResize: true,
+        angularCompileRows: true,
+        onGridReady: function (params) {
+        },
+        fullWidthCellRenderer: true,
+        animateRows: true,
+        suppressRowClickSelection: true,
+        rowSelection: 'multiple'
+    }
+
     $scope.LimpiarDatos = function () {
         $scope.Agenda = {
             Id_Cliente: -1,
@@ -143,25 +161,7 @@ function ServiciosClientesController($scope, $rootScope, $filter, $mdDialog, $md
         $timeout(function () {
             $scope.ServiciosClienteGridOptions.api.sizeColumnsToFit();
         }, 200);
-    }
-
-    $scope.ServiciosClienteGridOptions = {
-        defaultColDef: {
-            resizable: true
-        },
-        columnDefs: $scope.ServiciosClienteGridOptionsColumns,
-        rowData: [],
-        enableSorting: true,
-        enableFilter: true,
-        enableColResize: true,
-        angularCompileRows: true,
-        onGridReady: function (params) {
-        },
-        fullWidthCellRenderer: true,
-        animateRows: true,
-        suppressRowClickSelection: true,
-        rowSelection: 'multiple'        
-    }
+    }    
 
     $scope.ValidarDatosBusqueda = function () {
         if ($scope.FechaDesde === null || $scope.FechaDesde === undefined || $scope.FechaDesde === '') {

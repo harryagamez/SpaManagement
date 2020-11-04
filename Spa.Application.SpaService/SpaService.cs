@@ -448,6 +448,11 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarServiciosCliente(_Agenda);
         }
 
+        public List<AplicacionPago> ConsultarPagosCliente(AplicacionPago aplicacionPago)
+        {
+            return _spaRepository.ConsultarPagosCliente(aplicacionPago);
+        }
+
         public bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties)
         {
             return _spaRepository.SincronizarDepartamentos(_departmentProperties);

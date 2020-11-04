@@ -297,6 +297,7 @@
     <Build Include="dbo\Stored Procedures\ConsultarEmpleadoPrestamos.sql" />
     <Build Include="dbo\Stored Procedures\LiquidarNominaEmpleados.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarServiciosCliente.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarPagosCliente.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

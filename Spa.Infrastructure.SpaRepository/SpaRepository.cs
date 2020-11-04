@@ -1535,5 +1535,32 @@ namespace Spa.Infrastructure.SpaRepository
                 }
             }
         }
+
+        public List<AplicacionPago> ConsultarPagosCliente(AplicacionPago aplicacionPago)
+        {
+            DataTable _datatable = new DataTable();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarPagosCliente";
+                    _command.Parameters.AddWithValue("@JsonPagos", JsonConvert.SerializeObject(aplicacionPago));
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<AplicacionPago> _pagos = _datatable.DataTableToList<AplicacionPago>();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _pagos;
+                }
+            }
+        }
     }
 }

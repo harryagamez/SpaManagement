@@ -28,7 +28,7 @@
                         <label for="dateType" class="label-form-empleados" style="">
                             Clientes:
                         </label>
-                        <md-autocomplete style="margin-top:2px;" aria-label="clientes autocomplete" md-selected-item-change="SetPerfilCliente()" md-input-id="acClientes" id="acClientes" md-input-name="acClientes" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionado" md-search-text="buscarCliente" md-items="cliente in BuscarCliente(buscarCliente)" md-item-text="cliente.nombres + ' ' + cliente.apellidos" tabindex="1">
+                        <md-autocomplete style="margin-top:2px;" aria-label="clientes autocomplete" md-selected-item-change="SetPerfilCliente()" md-input-id="acClientes" id="acClientes" md-input-name="acClientes" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionado" md-search-text="buscarCliente" md-items="cliente in BuscarCliente(buscarCliente)" md-item-text="cliente.nombres + ' ' + cliente.apellidos" autocomplete="off" tabindex="1">
                             <md-item-template>
                                 <span md-highlight-text="buscarCliente" ng-bind="cliente.id_Cliente">{{cliente.nombres + ' ' + cliente.apellidos}}</span>
                             </md-item-template>
@@ -37,7 +37,7 @@
                             </md-not-found>
                         </md-autocomplete>
                     </md-input-container>
-                </div>                
+                </div>
 
                 <div style="flex: none; margin-left:10px; margin-top:-5px; z-index:999;">
                     <md-input-container style="margin-left: -40px;">
@@ -59,8 +59,42 @@
 
             </div>
 
-            <div id="divGridServiciosCliente" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 145px); margin-top:-33px; overflow-y:auto;">
-                <div id="divServiciosClienteGridOptions" data-ag-grid="ServiciosClienteGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+            <div id="divGridPagosCliente" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 190px); margin-top:-33px; overflow-y:auto;">
+                <div id="divPagosClienteGridOptions" data-ag-grid="PagosClienteGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+            </div>
+
+            <div layout="row" layout-sm="column" style="position:relative; margin-top:-5px;">                
+
+                <div style="margin-top:-5px; width:200px;">
+                    <md-input-container style="margin-left: 10px; width: 99%; margin-top: 0px; margin-bottom: 0; ">
+                        <label class="label-form-servicios" style="font-size:11px; padding-bottom:5px;">
+                            Subtotal:
+                        </label>
+                        <br />
+                        <div style="width: 98%; font-size:20px !important; font-weight:600; color:#566473; text-align:left; padding-right:10px;">{{PagosSubtotal | currency}}</div>
+                    </md-input-container>
+                </div>
+
+                <div style="margin-top:-5px; width:200px;">
+                    <md-input-container style="margin-left: 10px; width: 99%; margin-top: 0px; margin-bottom: 0; ">
+                        <label class="label-form-servicios" style="font-size:11px; padding-bottom:5px;">
+                            Descuentos:
+                        </label>
+                        <br />
+                        <div style="width: 98%; font-size:20px !important; font-weight:600; color:#566473;  text-align:left; padding-right:10px;">{{PagosDescuento | currency}}</div>
+                    </md-input-container>
+                </div>
+
+                <div style="margin-top:-5px; width:200px;">
+                    <md-input-container style="margin-left: 10px; width: 99%; margin-top: 0px; margin-bottom: 0;  ">
+                        <label class="label-form-servicios" style="font-size:11px; padding-bottom:5px;">
+                            Total:
+                        </label>
+                        <br />
+                        <div style="width: 98%; font-size:20px !important; font-weight:600; color:#566473; text-align:left; padding-right:10px;">{{PagosTotal | currency}}</div>
+                    </md-input-container>
+                </div>
+
             </div>
         </form>
     </div>

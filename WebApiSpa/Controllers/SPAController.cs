@@ -980,5 +980,22 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error consultando los servicios del cliente: " + ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("api/SPA/ConsultarPagosCliente")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarPagosCliente(AplicacionPago aplicacionPago)
+        {
+            try
+            {
+                List<AplicacionPago> _pagos = _spaService.ConsultarPagosCliente(aplicacionPago);
+
+                return Content(HttpStatusCode.OK, _pagos);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los pagos: " + ex.Message);
+            }
+        }
     }
 }
