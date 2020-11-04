@@ -162,6 +162,39 @@ function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         onRowSelected: OnRowSelectedPagos
     }
 
+    $scope.ExportarArchivo = function () {
+        try {
+            if ($scope.Pagos !== null && $scope.Pagos !== undefined) {
+
+                let pagos = [];
+                if ($scope.ObjetoPagosSeleccionados !== undefined && $scope.ObjetoPagosSeleccionados !==null && $scope.ObjetoPagosSeleccionados.length > 0)
+                    pagos = $scope.ObjetoPagosSeleccionados;
+                else
+                    pagos = $scope.Pagos;
+
+                let mystyle = {
+                    sheetid: 'Cliente Pagos',
+                    headers: true,                    
+                    columns: [
+                        { columnid: 'nombreApellido_Cliente', title: 'CLIENTE', width: 300, style: 'font-size: 20px; color:#fff; background-color: rgb(86, 100, 115); text-transform: uppercase;' },
+                        { columnid: 'fecha', title: 'FECHA', width: 150, style: 'font-size: 20px; color:#fff; background-color: rgb(86, 100, 115); text-transform: uppercase;' },
+                        { columnid: 'subtotal', title: 'SUBTOTAL', width: 150, style: 'font-size: 20px; color:#fff; background-color: rgb(86, 100, 115); text-transform: uppercase;' },
+                        { columnid: 'descuento', title: 'DESCUENTO', width: 150, style: 'font-size: 20px; color:#fff; background-color: rgb(86, 100, 115); text-transform: uppercase;' },
+                        { columnid: 'total', title: 'TOTAL', width: 150, style: 'font-size: 20px; color:#fff; background-color: rgb(86, 100, 115); text-transform: uppercase;' },
+                    ]
+                };
+
+                alasql('SELECT * INTO XLS("pagos_por_cliente.xls",?) FROM ?', [mystyle, pagos]);
+            } else {
+                toastr.info('No hay datos para exportar', '', $scope.toastrOptions);
+            }
+            
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }        
+    }
+
     $scope.LimpiarDatos = function () {
         $scope.AplicacionPago = {
             Id_Cliente: -1,
