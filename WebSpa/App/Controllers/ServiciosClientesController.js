@@ -291,7 +291,7 @@ function ServiciosClientesController($scope, $rootScope, $filter, $mdDialog, $md
                     ]
                 };
 
-                alasql('SELECT nombre_Servicio, currencyFormatter(valor_Servicio) AS valor_Servicio, datetime(fecha_Inicio) AS fecha_Inicio, fechaInicio, fechaFin, nombreApellido_Empleado INTO XLSXML("Servicios_cliente.xls",?) FROM ?', [mystyle, agendas]);
+                alasql('SELECT nombre_Servicio AS SERVICIO, currencyFormatter(valor_Servicio) AS VALOR_SERVICIO, datetime(fecha_Inicio) AS FECHA, fechaInicio AS HORA_INICIO, fechaFin AS HORA_FIN, nombreApellido_Empleado AS EMPLEADO INTO XLSX("Servicios_cliente.xlsx",?) FROM ?', [mystyle, agendas]);
             } else {
                 toastr.info('No hay datos para exportar', '', $scope.toastrOptions);
             }

@@ -194,7 +194,7 @@ function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                     ]
                 };
 
-                alasql('SELECT nombreApellido_Cliente, datetime(fecha) AS fecha, currencyFormatter(subtotal) AS subtotal, currencyFormatter(descuento) AS descuento, currencyFormatter(total) AS total INTO XLSXML("Pagos_cliente.xls",?) FROM ?', [mystyle, pagos]);
+                alasql('SELECT nombreApellido_Cliente AS CLIENTE, datetime(fecha) AS FECHA, currencyFormatter(subtotal) AS SUBTOTAL, currencyFormatter(descuento) AS DESCUENTO, currencyFormatter(total) AS TOTAL INTO XLSX("Pagos_cliente.xlsx",?) FROM ?', [mystyle, pagos]);
             } else {
                 toastr.info('No hay datos para exportar', '', $scope.toastrOptions);
             }
