@@ -129,7 +129,7 @@ function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             headerName: "Cliente", field: 'nombreApellido_Cliente', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },        
         {
-            headerName: "Fecha", field: 'fecha', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: dateFormatter
+            headerName: "Fecha", field: 'fecha', width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter
         },
         {
             headerName: "Subtotal", field: 'subtotal', width: 140, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#445a9e', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
@@ -163,8 +163,18 @@ function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     }
 
     $scope.ExportarArchivo = function () {
-        try {
-            if ($scope.Pagos !== null && $scope.Pagos !== undefined) {
+        try {            
+            if ($scope.Pagos !== null && $scope.Pagos !== undefined && $scope.Pagos.length > 0) {                
+
+                alasql.fn.datetime = function (dateStr) {
+                    let date = $filter('date')(new Date(), 'dd-MM-yyyy');
+                    return date.toLocaleString();
+                };
+
+                alasql.fn.currencyFormatter = function (currencyStr) {
+                    let currency = $filter('currency')(currencyStr, '$', 0);
+                    return currency.toLocaleString();
+                }
 
                 let pagos = [];
                 if ($scope.ObjetoPagosSeleccionados !== undefined && $scope.ObjetoPagosSeleccionados !==null && $scope.ObjetoPagosSeleccionados.length > 0)
@@ -176,15 +186,15 @@ function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                     sheetid: 'Cliente Pagos',
                     headers: true,                    
                     columns: [
-                        { columnid: 'nombreApellido_Cliente', title: 'CLIENTE', width: 300, style: 'font-size: 20px; color:#fff; background-color: rgb(86, 100, 115); text-transform: uppercase;' },
-                        { columnid: 'fecha', title: 'FECHA', width: 150, style: 'font-size: 20px; color:#fff; background-color: rgb(86, 100, 115); text-transform: uppercase;' },
-                        { columnid: 'subtotal', title: 'SUBTOTAL', width: 150, style: 'font-size: 20px; color:#fff; background-color: rgb(86, 100, 115); text-transform: uppercase;' },
-                        { columnid: 'descuento', title: 'DESCUENTO', width: 150, style: 'font-size: 20px; color:#fff; background-color: rgb(86, 100, 115); text-transform: uppercase;' },
-                        { columnid: 'total', title: 'TOTAL', width: 150, style: 'font-size: 20px; color:#fff; background-color: rgb(86, 100, 115); text-transform: uppercase;' },
+                        { columnid: 'nombreApellido_Cliente', title: 'CLIENTE', width: 300  },
+                        { columnid: 'fecha', title: 'FECHA', width: 150 },
+                        { columnid: 'subtotal', title: 'SUBTOTAL', width: 150 },
+                        { columnid: 'descuento', title: 'DESCUENTO', width: 150 },
+                        { columnid: 'total', title: 'TOTAL', width: 150 },
                     ]
                 };
 
-                alasql('SELECT * INTO XLS("pagos_por_cliente.xls",?) FROM ?', [mystyle, pagos]);
+                alasql('SELECT nombreApellido_Cliente, datetime(fecha) AS fecha, currencyFormatter(subtotal) AS subtotal, currencyFormatter(descuento) AS descuento, currencyFormatter(total) AS total INTO XLSXML("Pagos_cliente.xls",?) FROM ?', [mystyle, pagos]);
             } else {
                 toastr.info('No hay datos para exportar', '', $scope.toastrOptions);
             }
@@ -193,39 +203,10 @@ function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
         }        
-    }
-
-    $scope.LimpiarDatos = function () {
-        $scope.AplicacionPago = {
-            Id_Cliente: -1,
-            Id_Servicios: [],
-            Fecha_Desde: null,
-            Fecha_Hasta: null,
-            Id_Empresa: $scope.IdEmpresa
-        }        
-    }
-
-    $scope.ResetearData = function () {
-        $scope.AplicacionPago = {
-            Id_Cliente: -1,            
-            Fecha_Desde: null,
-            Fecha_Hasta: null,
-            Id_Empresa: $scope.IdEmpresa
-        }
-        
-        $scope.ClienteSeleccionado = null;
-        $scope.FechaDesde = new Date();
-        $scope.FechaHasta = new Date();
-
-        $scope.PagosSubtotal = 0;
-        $scope.PagosDescuento = 0;
-        $scope.PagosTotal = 0;
-
-    }
+    }   
 
     function OnRowSelectedPagos(event) {
-        try {
-            let total = 0;
+        try {           
             
             $scope.ObjetoPagosSeleccionados = [];
             $scope.ObjetoPagosSeleccionados = $scope.PagosClienteGridOptions.api.getSelectedRows();
@@ -259,9 +240,9 @@ function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
         }
-    }
+    }   
 
-    $scope.ResetearData = function () {
+    $scope.LimpiarDatos = function () {
         $scope.AplicacionPago = {
             Id_Cliente: -1,
             Id_Servicios: [],
@@ -269,15 +250,6 @@ function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToas
             Fecha_Hasta: null,
             Id_Empresa: $scope.IdEmpresa
         }
-        
-        $scope.ClienteSeleccionado = null;
-        $scope.FechaDesde = new Date();
-        $scope.FechaHasta = new Date();
-
-        $scope.PagosSubtotal = 0;
-        $scope.PagosDescuento = 0;
-        $scope.PagosTotal = 0; 
-
     }
 
     $scope.ResetearGrids = function () {
@@ -286,6 +258,26 @@ function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         $timeout(function () {
             $scope.PagosClienteGridOptions.api.sizeColumnsToFit();
         }, 200);
+    }    
+
+    $scope.ResetearData = function () {
+        $scope.Pagos = [];
+        $scope.ObjetoPagosSeleccionados = [];
+
+        $scope.AplicacionPago = {
+            Id_Cliente: -1,
+            Fecha_Desde: null,
+            Fecha_Hasta: null,
+            Id_Empresa: $scope.IdEmpresa
+        }
+
+        $scope.ClienteSeleccionado = null;
+        $scope.FechaDesde = new Date();
+        $scope.FechaHasta = new Date();
+
+        $scope.PagosSubtotal = 0;
+        $scope.PagosDescuento = 0;
+        $scope.PagosTotal = 0;
     }
 
     function currencyFormatter(params) {

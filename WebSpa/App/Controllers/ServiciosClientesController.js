@@ -94,13 +94,13 @@ function ServiciosClientesController($scope, $rootScope, $filter, $mdDialog, $md
             headerName: "Valor", field: 'valor_Servicio', width: 80, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#445a9e', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
         },
         {
-            headerName: "Fecha", field: 'fecha_Inicio', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: dateFormatter
+            headerName: "Fecha", field: 'fecha_Inicio', width: 110, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter
         },
         {
-            headerName: "Hora Inicio", field: 'fechaInicio', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
+            headerName: "Hora Inicio", field: 'fechaInicio', width: 110, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
         },
         {
-            headerName: "Hora Fin", field: 'fechaFin', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
+            headerName: "Hora Fin", field: 'fechaFin', width: 110, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
         },
         {
             headerName: "Empleado", field: 'nombreApellido_Empleado', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -123,7 +123,8 @@ function ServiciosClientesController($scope, $rootScope, $filter, $mdDialog, $md
         fullWidthCellRenderer: true,
         animateRows: true,
         suppressRowClickSelection: true,
-        rowSelection: 'multiple'
+        rowSelection: 'multiple',
+        onRowSelected: OnRowSelectedAgendas
     }
 
     $scope.LimpiarDatos = function () {
@@ -152,6 +153,8 @@ function ServiciosClientesController($scope, $rootScope, $filter, $mdDialog, $md
         $scope.FechaDesde = new Date();
         $scope.FechaHasta = new Date();
         $scope.ServiciosSeleccionados = [];
+        $scope.ObjetoAgendasSeleccionadas = [];
+        $scope.Agendas = [];
 
     }
 
@@ -237,6 +240,62 @@ function ServiciosClientesController($scope, $rootScope, $filter, $mdDialog, $md
                 $scope.ServiciosCliente = ServiciosSeleccionados;
             else
                 $scope.ServiciosCliente.splice($scope.ServiciosCliente.indexOf(ServiciosSeleccionados), 1);
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    function OnRowSelectedAgendas(event) {
+        try {
+
+            $scope.ObjetoAgendasSeleccionadas = [];
+            $scope.ObjetoAgendasSeleccionadas = $scope.ServiciosClienteGridOptions.api.getSelectedRows();            
+
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.ExportarArchivo = function () {
+        try {
+            if ($scope.Agendas !== null && $scope.Agendas !== undefined && $scope.Agendas.length > 0) {
+
+                alasql.fn.datetime = function (dateStr) {                    
+                    let date = $filter('date')(new Date(), 'dd-MM-yyyy');
+                    return date.toLocaleString();
+                };
+
+                alasql.fn.currencyFormatter = function (currencyStr) {
+                    let currency = $filter('currency')(currencyStr, '$', 0);
+                    return currency.toLocaleString();
+                }
+
+                let agendas = [];
+                if ($scope.ObjetoAgendasSeleccionadas !== undefined && ObjetoAgendasSeleccionadas !== null && ObjetoAgendasSeleccionadas.length > 0)
+                    agendas = ObjetoAgendasSeleccionadas;
+                else
+                    agendas = $scope.Agendas;
+
+                let mystyle = {
+                    sheetid: 'Cliente Servicios',
+                    headers: true,
+                    columns: [
+                        { columnid: 'nombre_Servicio', title: 'SERVICIO', width: 300 },
+                        { columnid: 'valor_Servicio', title: 'VALOR', width: 150 },
+                        { columnid: 'fecha_Inicio', title: 'FECHA', width: 150 },
+                        { columnid: 'fechaInicio', title: 'HORA INICIO', width: 150 },
+                        { columnid: 'fechaFin', title: 'HORA FIN', width: 150 },
+                        { columnid: 'nombreApellido_Empleado', title: 'EMPLEADO', width: 150 }
+                    ]
+                };
+
+                alasql('SELECT nombre_Servicio, currencyFormatter(valor_Servicio) AS valor_Servicio, datetime(fecha_Inicio) AS fecha_Inicio, fechaInicio, fechaFin, nombreApellido_Empleado INTO XLSXML("Servicios_cliente.xls",?) FROM ?', [mystyle, agendas]);
+            } else {
+                toastr.info('No hay datos para exportar', '', $scope.toastrOptions);
+            }
+
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
