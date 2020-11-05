@@ -146,6 +146,7 @@
     <Content Include="Images\cerrar-sesion.png" />
     <Content Include="Images\cerrar_sesion_apanel.png" />
     <Content Include="Images\default-perfil.png" />
+    <Content Include="Images\default_perfil_alt.png" />
     <Content Include="Images\default_perfil_apanel.png" />
     <Content Include="Images\template\construccion.png" />
     <Content Include="Images\template\default_logo.png" />

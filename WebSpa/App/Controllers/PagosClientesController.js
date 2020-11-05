@@ -37,12 +37,30 @@ function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                             $scope.LimpiarDatos();
 
                             $scope.PagosClienteGridOptions.api.setRowData($scope.Pagos);
+
                             $timeout(function () {
                                 $scope.PagosClienteGridOptions.api.sizeColumnsToFit();
                             }, 200);
+                            $timeout(function () {
+                                angular.element(document.getElementById('acClientes')).find('input').focus();
+                            }, 200);
+
+                            $scope.PagosSubtotal = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "subtotal", operation: "+" }), '2', $scope);
+                            $scope.PagosDescuento = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "descuento", operation: "+" }), '2', $scope);
+                            $scope.PagosTotal = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "total", operation: "+" }), '2', $scope);
+
                         } else {
+
                             $scope.LimpiarDatos();
                             $scope.ResetearGrids();
+
+                            $timeout(function () {
+                                angular.element(document.getElementById('acClientes')).find('input').focus();
+                            }, 200);
+
+                            $scope.PagosSubtotal = 0;
+                            $scope.PagosDescuento = 0;
+                            $scope.PagosTotal = 0;
                             toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);
                         }
                     }, function (err) {
@@ -194,7 +212,7 @@ function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                     ]
                 };
 
-                alasql('SELECT nombreApellido_Cliente AS CLIENTE, datetime(fecha) AS FECHA, currencyFormatter(subtotal) AS SUBTOTAL, currencyFormatter(descuento) AS DESCUENTO, currencyFormatter(total) AS TOTAL INTO XLSX("Pagos_cliente.xlsx",?) FROM ?', [mystyle, pagos]);
+                alasql('SELECT nombreApellido_Cliente AS CLIENTE, datetime(fecha) AS FECHA, subtotal AS SUBTOTAL, descuento AS DESCUENTO, total AS TOTAL INTO XLSX("Pagos_cliente.xlsx",?) FROM ?', [mystyle, pagos]);
             } else {
                 toastr.info('No hay datos para exportar', '', $scope.toastrOptions);
             }
@@ -219,9 +237,9 @@ function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                 });                
             } else {
                 $scope.$apply(function () {
-                    $scope.PagosSubtotal = 0;
-                    $scope.PagosDescuento = 0;
-                    $scope.PagosTotal = 0;  
+                    $scope.PagosSubtotal = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "subtotal", operation: "+" }), '2', $scope);
+                    $scope.PagosDescuento = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "descuento", operation: "+" }), '2', $scope);
+                    $scope.PagosTotal = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "total", operation: "+" }), '2', $scope);
                 });                
             }
             

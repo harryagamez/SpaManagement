@@ -165,7 +165,7 @@
             $rootScope.Empresas = [];
             $rootScope.EmpresaPropiedades = [];
             $rootScope.SistemaPropiedades = [];
-            $rootScope.UserAvatar = '../../Images/default-perfil.png';
+            $rootScope.UserAvatar = '../../Images/default_perfil_alt.png';
             $rootScope.Errores = '';
 
             _authentication.isAuth = false;
@@ -278,7 +278,7 @@
                 if (result.data !== null)
                     $rootScope.UserAvatar = result.data.logo_Base64;
                 else
-                    $rootScope.UserAvatar = '../../Images/default-perfil.png';
+                    $rootScope.UserAvatar = '../../Images/default_perfil_alt.png';
 
                 $rootScope.$broadcast('successfull.useravatarload');
 

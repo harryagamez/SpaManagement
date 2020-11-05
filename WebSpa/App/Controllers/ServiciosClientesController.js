@@ -35,12 +35,20 @@ function ServiciosClientesController($scope, $rootScope, $filter, $mdDialog, $md
                             $scope.LimpiarDatos();
 
                             $scope.ServiciosClienteGridOptions.api.setRowData($scope.Agendas);
+
                             $timeout(function () {
                                 $scope.ServiciosClienteGridOptions.api.sizeColumnsToFit();
                             }, 200);
+                            $timeout(function () {
+                                angular.element(document.getElementById('acClientes')).find('input').focus();
+                            }, 200);
+
                         } else {
                             $scope.LimpiarDatos();
                             $scope.ResetearGrids();
+                            $timeout(function () {
+                                angular.element(document.getElementById('acClientes')).find('input').focus();
+                            }, 200);
                             toastr.info('La busqueda no arrojó resultados', '', $scope.toastrOptions);                            
                         }
                     }, function (err) {
@@ -273,8 +281,9 @@ function ServiciosClientesController($scope, $rootScope, $filter, $mdDialog, $md
                 }
 
                 let agendas = [];
-                if ($scope.ObjetoAgendasSeleccionadas !== undefined && ObjetoAgendasSeleccionadas !== null && ObjetoAgendasSeleccionadas.length > 0)
-                    agendas = ObjetoAgendasSeleccionadas;
+                
+                if ($scope.ObjetoAgendasSeleccionadas !== undefined && $scope.ObjetoAgendasSeleccionadas !== null && $scope.ObjetoAgendasSeleccionadas.length > 0)
+                    agendas = $scope.ObjetoAgendasSeleccionadas;
                 else
                     agendas = $scope.Agendas;
 
@@ -291,7 +300,7 @@ function ServiciosClientesController($scope, $rootScope, $filter, $mdDialog, $md
                     ]
                 };
 
-                alasql('SELECT nombre_Servicio AS SERVICIO, currencyFormatter(valor_Servicio) AS VALOR_SERVICIO, datetime(fecha_Inicio) AS FECHA, fechaInicio AS HORA_INICIO, fechaFin AS HORA_FIN, nombreApellido_Empleado AS EMPLEADO INTO XLSX("Servicios_cliente.xlsx",?) FROM ?', [mystyle, agendas]);
+                alasql('SELECT nombre_Servicio AS SERVICIO, valor_Servicio AS VALOR_SERVICIO, datetime(fecha_Inicio) AS FECHA, fechaInicio AS HORA_INICIO, fechaFin AS HORA_FIN, nombreApellido_Empleado AS EMPLEADO INTO XLSX("Servicios_cliente.xlsx",?) FROM ?', [mystyle, agendas]);
             } else {
                 toastr.info('No hay datos para exportar', '', $scope.toastrOptions);
             }

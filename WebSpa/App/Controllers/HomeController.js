@@ -5,7 +5,7 @@ HomeController.$inject = ['$scope', '$state', '$rootScope', '$element', '$locati
 
 function HomeController($scope, $state, $rootScope, $element, $location, localStorageService, authService, SPAService) {
     $rootScope.header = 'SPA Management - Home';
-    $scope.UserAvatar = '../../Images/default-perfil.png';
+    $scope.UserAvatar = '../../Images/default_perfil_alt.png';
 
     if ($rootScope.Empresas !== undefined) {
         if ($rootScope.Empresas.length === 0) {
