@@ -43,8 +43,7 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $doc
         $scope.Filtros = { Desde: new Date(), Hasta: new Date() }
         $scope.TipoGastoSeleccionado = -1;
         $scope.TipoGastoSeleccionadoModal = -1;
-        $scope.LimpiarDatosCajaMenor();
-        $scope.ConsultarCajaMenor();
+        $scope.LimpiarDatosCajaMenor();        
     }
 
     $scope.IdEmpresa = $rootScope.Id_Empresa;
