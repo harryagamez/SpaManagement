@@ -108,17 +108,28 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
         SPAService._consultarNominaEmpleados(idEmpresa, fechaNomina)
             .then(
                 function (result) {
-                    if (result.data !== undefined && result.data !== null) {
+                    if (result.data !== undefined && result.data !== null && result.data.length > 0) {
                         $scope.NominaEmpleados = [];
                         $scope.ObjetoNominaEmpleados = [];
                         $scope.NominaEmpleados = result.data;
                         $scope.ObjetoNominaEmpleados = result.data;
                         $scope.ObjetoNominaEmpleados = $filter('orderBy')($scope.ObjetoNominaEmpleados, 'id_Empleado', false);
 
+                        $scope.NominaTotalSalarios = $filter('decimalParseAmount')($filter("mathOperation")($scope.NominaEmpleados, { property: "subtotal", operation: "+" }), '2', $scope);
+                        $scope.NominaTotalPrestamos = $filter('decimalParseAmount')($filter("mathOperation")($scope.NominaEmpleados, { property: "prestamos", operation: "+" }), '2', $scope);
+                        $scope.NominaTotalPagar = $filter('decimalParseAmount')($filter("mathOperation")($scope.NominaEmpleados, { property: "total_Pagar", operation: "+" }), '2', $scope);
+
                         $scope.NominaEmpleadosGridOptions.api.setRowData($scope.ObjetoNominaEmpleados);
+
                         $timeout(function () {
                             $scope.NominaEmpleadosGridOptions.api.sizeColumnsToFit();
-                        }, 200);
+                        }, 200);                        
+                    } else {
+                        $scope.NominaTotalSalarios = 0;
+                        $scope.NominaTotalPrestamos = 0;
+                        $scope.NominaTotalPagar = 0;
+                        $scope.ResetearGrids();
+                        toastr.info('La búsqueda no arrojó resultados', '', $scope.toastrOptions);                        
                     }
                 }, function (err) {
                     toastr.remove();
@@ -1106,9 +1117,9 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToas
                 });
             } else {
                 $scope.$apply(function () {
-                    $scope.NominaTotalSalarios = 0;
-                    $scope.NominaTotalPrestamos = 0;
-                    $scope.NominaTotalPagar = 0;
+                    $scope.NominaTotalSalarios = $filter('decimalParseAmount')($filter("mathOperation")($scope.NominaEmpleados, { property: "subtotal", operation: "+" }), '2', $scope);
+                    $scope.NominaTotalPrestamos = $filter('decimalParseAmount')($filter("mathOperation")($scope.NominaEmpleados, { property: "prestamos", operation: "+" }), '2', $scope);
+                    $scope.NominaTotalPagar = $filter('decimalParseAmount')($filter("mathOperation")($scope.NominaEmpleados, { property: "total_Pagar", operation: "+" }), '2', $scope);
                 });
             }
         } catch (e) {
