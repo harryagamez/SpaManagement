@@ -1,0 +1,412 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Agenda</title>
+</head>
+<body>
+    <div layout="row" style="height: calc(100vh - 70px);">
+        <form id="frmAgenda" class="material-app">
+
+            <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
+
+                <md-tab label="Detallada" data-ng-click="fActiveTab = 'Detallada'; LimpiarAgenda()">
+
+                    <md-tab-label>
+                        <i class="material-icons md-18" style="transform: scaleX(1); font-size:20px; font-weight:bold;">today</i> Detallada
+                    </md-tab-label>
+
+                    <md-tab-body>
+
+                        <md-content class="md-padding" style="background-color:transparent; margin-bottom:10px;">
+                            <div layout="row" layout-xs="column" style="margin-bottom:-5px;" layout-align="start start">
+                                <div flex="20" style="flex:none; padding-right:10px;">
+                                    <section id="divButtons" style="">
+                                        <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Buscar" data-ng-click="ConsultarAgenda()">
+                                            <i class="material-icons md-18" style="transform: scaleX(-1)">search</i> Buscar
+                                        </md-button>
+                                    </section>
+                                </div>
+                                <div style="margin-top:-12px;">
+                                    <md-input-container style="margin-left: -40px; max-width:300px;z-index:99; margin-top:15px;">
+                                        <label class="label-form-clientes" style="margin-bottom:-4px;">
+                                            Fecha:
+                                        </label>
+                                        <md-datepicker id="dpFechaActual" ng-model="FechaActual" ng-change="LimpiarAgenda()" md-placeholder="mm/dd/yyyy" class="dateClientes" tabindex=5 style="margin-bottom:0;"></md-datepicker>
+                                    </md-input-container>
+                                </div>
+                                <div style="margin-top:-5px; margin-left:10px;">
+                                    <!--<md-checkbox ng-model="MostrarCanceladasDetallada" aria-label="Checkbox Filtro Canceladas" style="margin-left: 2px;">
+                                    </md-checkbox>-->
+                                    <!--<span style="font-size:14px; margin-left:-10px; vertical-align:middle;">Mostrar Solo Canceladas</span>-->
+                                    <md-switch ng-model="MostrarCanceladasDetallada" aria-label="Mostrar Canceladas">
+                                        Mostrar Solo Canceladas
+                                    </md-switch>                                    
+                                </div>
+                                <!--<div flex="40">
+                                    <div style="position: absolute; right:20px; margin-top:16px; font-size:14px;">
+                                        <span style="padding-left:5px; vertical-align:middle;"><img src="../../Images/agenda/agenda-confirmada-28px.png" width="18" height="18" />Confirmada</span>
+                                        <span style="padding-left:5px; vertical-align:middle;"><img src="../../Images/agenda/agenda-programada-28px.png" width="18" height="18" />Programada</span>
+                                        <span style="padding-left:5px; vertical-align:middle;"><img src="../../Images/agenda/agenda-cancelada-28px.png" width="18" height="18" />Cancelada</span>
+                                        <span style="padding-left:5px; vertical-align:middle;"><img src="../../Images/agenda/agenda-facturada-28px.png" width="18" height="18" />Facturada</span>
+                                        <span style="padding-left:5px; vertical-align:middle;"><img src="../../Images/agenda/agenda-liquidada-28px.png" width="18" height="18" />Liquidada</span>
+                                    </div>
+                                </div>-->
+                            </div>
+
+                            <div id="divScheduleCitas" layout="row" style="width:100%; height: calc(100vh - 215px); margin-top:-30px; overflow-y:auto; overflow-x:auto;">
+                                <table class="table-schedule" id="tabledetallada">
+                                    <tr>
+                                        <td class="table-schedule-nullpoint"></td>
+                                        <th scope="col" ng-repeat="empleado in Empleados" style="vertical-align:middle; font-size:14px; font-weight:600; color:white; padding:10px 5px; background-color:#566473; box-shadow: 2px 2px 4px 0px rgba(102,102,102,1);">{{empleado.nombres}}</th>
+                                        <th class="table-schedule-empty" ng-repeat="x in BlankCells" style="background-color: #566473 !important; box-shadow: 2px 2px 4px 0px rgba(102,102,102,1); position:sticky; top:0;"></th>
+                                    </tr>
+                                    <tbody ng-repeat="hora in RangoHoras track by $index">
+                                        <tr>
+                                            <th scope="rowgroup" rowspan="1" class="table-schedule-horas" style="font-size:13px; font-weight:700; color:#566473; background-color:white;">{{hora}}</th>
+                                            <td ng-repeat="empleado in Empleados" data-ng-click="ModalAgendaDetallada(hora, empleado)" layout-wrap>
+                                                <div ng-repeat="agenda in Agendas | filter: {'id_Empleado': empleado.id_Empleado} : true| filter:{'fechaInicio': hora} : true">
+                                                    <div style="overflow: hidden;" class="agenda-detallada" ng-style="{'height':CalcularAlturaDiv(agenda)}" ng-class="CardsDetalladaStyle(agenda)" ng-click="DetalladaEventoClick($event)">
+                                                        <span style="width:140px; display:inline-block; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;" data-toggle="tooltip" title="{{agenda.nombres_Cliente + ' ' + agenda.apellidos_Cliente}}"><b>Cliente</b>: {{agenda.nombres_Cliente}}</span>
+                                                        <span data-ng-show="agenda.estado === 'PROGRAMADA'" style="padding:0; padding-top: 1px; margin:0; float:right; display:inline-flex; position:absolute;" class="cards-icons">
+                                                            <i class="material-icons" style="font-size:15px; font-weight:600; color: lightslategrey;" data-ng-click="showConfirmConfirmarAgenda($event, ev, agenda)" data-toggle="tooltip" title="Confirmar cita">check</i>
+                                                            <i class="material-icons" style="font-size:15px; color: lightslategrey;" data-ng-click="EditarAgenda($event, agenda)" data-toggle="tooltip" title="Editar cita">edit</i>
+                                                            <i class="material-icons" style="font-size:15px; margin-left:2px; color:lightslategrey;" data-ng-click="showConfirmCancelarAgenda($event, ev, agenda)" data-toggle="tooltip" title="Cancelar cita">cancel</i>
+                                                        </span>
+                                                        <span data-ng-show="agenda.estado !== 'PROGRAMADA'">
+                                                            <i class="material-icons" style="font-size:15px; font-weight:600; float: right; color: lightslategrey;" data-ng-click="MostrarDatosCita($event,agenda);" data-toggle="tooltip" title="Ver cita">remove_red_eye</i>
+                                                        </span>
+                                                        <br />
+                                                        <span><b>Hora</b>: {{agenda.fechaInicio}} - {{agenda.fechaFin}}</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="table-schedule-empty" ng-repeat="x in BlankCells"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </md-content>
+                    </md-tab-body>
+                </md-tab>
+
+                <md-tab label="General" data-ng-click="fActiveTab = 'General'; LimpiarAgenda() ; LimpiarDatos() ; ModalFiltrarCitas()">
+
+                    <md-tab-label>
+                        <i class="material-icons md-18" style="transform: scaleX(1); font-size:20px; font-weight:bold;">view_agenda</i> General
+                    </md-tab-label>
+
+                    <md-tab-body>
+
+                        <md-content class="md-padding" style="background-color:transparent; padding:30px 0 0 0; margin: 0 0 0 -5px; overflow-x:hidden; ">
+
+                            <div type="button" id="btnAgendarCita" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Agendar Cita" data-ng-click="ModalAgendaGeneral()">
+                                <i class="material-icons md-18" style="font-size:35px; font-weight:800; z-index:9999; width:110%; height:110%; text-align:center; display:block; margin-top: -4px;">add</i>
+                            </div>
+
+                            <div type="button" id="btnFiltrarCards" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Opciones de consulta" data-ng-click="ModalFiltrarCitas()">
+                                <i class="material-icons md-18" style="font-size:35px; font-weight:800; z-index:9999; width:110%; height:110%; text-align:center; display:block;">search</i>
+                            </div>
+
+                            <div id="divCardsCitas" layout="row" style="width:100%; height: calc(100vh - 170px); margin-top:-20px; overflow-y:auto; overflow-x:hidden;">
+                                <div flex-xs class="md-padding" layout="row" style="margin-top:-20px; margin-left:0; margin-right:0; padding-left:0;padding-right:0;" layout-wrap>
+                                    <md-card flex="21" ng-repeat="item in Agendas" ng-class="BackgroundCards(item.estado)" class="agenda-cards" ng-click="fShowMoreInfo = true" ng-mouseleave="fShowMoreInfo = false">
+                                        <div>
+                                            <md-card-title style="">
+                                                <md-card-title-text>
+                                                    <div class="md-headline" style="border-bottom:1px dashed #212121; padding-bottom:3px; margin-top:-7px;">
+                                                        <span style="text-align: left; font-size: 17px; font-weight: 600;">{{item.estado}}</span>
+                                                        <span data-ng-show="item.estado === 'PROGRAMADA'" style="padding:0; padding-top:8px; margin:0; float:right; display:inline-flex;" class="cards-icons">
+                                                            <i class="material-icons" style="font-size:23px; font-weight:600; color: lightslategrey;" data-ng-click="showConfirmConfirmarAgenda($event, ev, item)" data-toggle="tooltip" title="Confirmar cita">check</i>
+                                                            <i class="material-icons" style="font-size:22px; color: lightslategrey;" data-ng-click="EditarAgenda($event, item)" data-toggle="tooltip" title="Editar cita">edit</i>
+                                                            <i class="material-icons" style="font-size:22px; margin-left:2px; color:lightslategrey;" data-ng-click="showConfirmCancelarAgenda($event, ev, item)" data-toggle="tooltip" title="Cancelar cita">cancel</i>
+                                                        </span>
+                                                    </div>
+                                                </md-card-title-text>
+                                            </md-card-title>
+                                            <md-card-content style="margin-top: -12px;">
+                                                <div>
+                                                    <table class="table-cards" style="table-layout: fixed;">
+                                                        <tr>
+                                                            <th>Empleado:</th>
+                                                            <td data-toggle="tooltip" title="{{item.nombres_Empleado + ' ' + item.apellidos_Empleado}}"><span style="">{{item.nombreApellido_Empleado}}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Cliente:</th>
+                                                            <td><span style="">{{item.nombreApellido_Cliente}}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Servicio:</th>
+                                                            <td class="service-cards" data-placement='bottom' data-toggle="tooltip" title="{{item.nombre_Servicio}}"><span style="margin-top:-8px;">{{item.nombre_Servicio}}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Fecha:</th>
+                                                            <td><span>{{item.fecha_Inicio | date : "dd-MM-yyyy"}}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Hora Inicio:</th>
+                                                            <td><span>{{item.fechaInicio}}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Hora Fin:</th>
+                                                            <td><span>{{item.fechaFin}}</span></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </md-card-content>
+                                            <div class="moreinfo-card" data-ng-show="item.estado === 'PROGRAMADA' && fShowMoreInfo || item.estado === 'CONFIRMADA' && fShowMoreInfo ">
+                                                <div><h3 ng-class="BackgroundShowMore(item.estado)">{{item.estado}}</h3></div>
+                                                <div><p><i class="material-icons" style="font-size:18px; font-weight:600; color: grey; padding-right:5px; margin-top:-3px;">person</i>{{item.nombreApellido_Cliente}}</p></div>
+                                                <div><p><i class="material-icons" style="font-size:18px; font-weight:600; color: grey; padding-right:5px; margin-top:-3px;">email</i>{{item.mail_Cliente}}</p></div>
+                                                <div><p><i class="material-icons" style="font-size:18px; font-weight:600; color: grey; padding-right:5px; margin-top:-3px;">phone</i>{{item.telefono_Fijo_Cliente}}</p></div>
+                                                <div><p><a ng-href="https://wa.me/57{{item.telefono_Movil_Cliente}}?text={{item.mensaje_Whatsapp}}" target="_blank"><img src="../../Images/agenda/whatsapp-icon.png" style="padding-right:5px; margin-top:-3px; min-width:22px; max-width:22px;" />{{item.telefono_Movil_Cliente}}</a></p></div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </md-content>
+                    </md-tab-body>
+                </md-tab>
+            </md-tabs>
+        </form>
+    </div>
+
+    <!-- Modales-->
+    <!-- Modal Agenda-->
+    <div style="visibility: hidden">
+        <div class="md-dialog-container" id="dlgAgendaGeneral">
+            <md-dialog id="mdAgendarCita" aria-label="fecha busqueda" style="min-width: 320px !important; max-width:320px; min-height:590px; color: #666666 !important;" tabindex="-1">
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2 style="font-size:16px;">{{AccionAgenda}}</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="Cancelar()">
+                            <i class="material-icons" style="transform: scaleX(-1)">close</i>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+
+                <form id="frmServiciosModal" style="">
+
+                    <md-dialog-content style="overflow:hidden;">
+
+                        <div layout="row" layout-sm="column" style="margin-bottom:-15px;" layout-align="center center">
+                            <div flex="" class="material-app">
+                                <md-input-container style="min-width:100%; max-width:100%;">
+                                    <label for="dateType" class="label-form-empleados" style="">
+                                        Empleados:
+                                    </label>
+                                    <md-autocomplete ng-readonly="fDisableEmpleado" aria-label="empleado modal" md-input-id="acEmpleadosModal" id="acEmpleadosModal" md-select-on-match="true" md-input-name="acEmpleadosModal" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionadoModal" md-search-text-change="OnChange()" md-selected-item-change="FiltrarServicios(EmpleadoSeleccionadoModal)" md-search-text="buscarEmpleadoM" md-items="empleadom in BuscarEmpleado(buscarEmpleadoM)" md-item-text="empleadom.nombres + ' ' + empleadom.apellidos" tabindex="7">
+                                        <md-item-template>
+                                            <span ng-bind="empleadom.id_Empleado" md-highlight-text="buscarEmpleado">{{empleadom.nombres + ' ' + empleadom.apellidos}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No se encontraron resultados.
+                                        </md-not-found>
+                                    </md-autocomplete>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="margin-top:-5px; margin-bottom:-15px;" layout-align="center center">
+                            <div flex="" class="material-app">
+                                <md-input-container style="min-width:100%; max-width:100%;">
+                                    <label for="dateType" class="label-form-empleados" style="">
+                                        Clientes:
+                                    </label>
+                                    <md-autocomplete ng-readonly="fDisableCliente" aria-label="clientes modal" md-input-id="acClientesModal" id="acClientesModal" md-input-name="acClientesModal" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionadoModal" md-search-text="buscarClienteM" md-items="clientem in BuscarCliente(buscarClienteM)" md-item-text="clientem.nombres + ' ' + clientem.apellidos" tabindex="8">
+                                        <md-item-template>
+                                            <span md-highlight-text="buscarCliente" ng-bind="clientem.id_Cliente">{{clientem.nombres + ' ' + clientem.apellidos}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No se encontraron resultados.
+                                        </md-not-found>
+                                    </md-autocomplete>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="" layout-align="center center">
+                            <div flex="" style="" class="material-app">
+                                <md-input-container style="width:100%">
+                                    <label class="label-form-empleados">
+                                        Servicios:
+                                    </label>
+                                    <md-select aria-label="servicios modal" ng-model="ServicioSeleccionadoModal" data-ng-change="CalcularHoraFin()" ng-disabled="fDisableServiciosM" style="display:inline-flex; min-width: 99% !important; max-width: 99% !important; margin-top:5px; position: relative; z-index:99999;" id="slServiciosModal" tabindex="9">
+                                        <md-option ng-bind="item.nombre" ng-value="item.id_Servicio" ng-repeat="item in AgendaServicios track by item.id_Servicio">{{item.nombre}}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="margin-bottom:-10px;" layout-align="start center">
+                            <div class="material-app">
+                                <md-input-container style="margin-left: -40px; min-width: 100%;  z-index:9999; margin-bottom:0;">
+                                    <label class="label-form-empleados" style="position: absolute; left: 43px; }">
+                                        Fecha Cita:
+                                    </label>
+                                    <md-datepicker ng-disabled="fDisableFechaCita" ng-model="FechaInicio" data-ng-change="ValidarFechaModal(); ConsultarNumeroCitasDia()" md-placeholder="Enter date" class="dateClientes" id="dpFechaCitaModal" tabindex="10"></md-datepicker>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="margin-bottom:-10px; padding-left:7px;" layout-align="center center">
+                            <div flex="" class="material-app">
+                                <label class="label-form-empleados agenda-timepicker" style="font-size:11px;">
+                                    Hora Inicio Cita:
+                                </label>
+                                <div uib-timepicker mousewheel="true" arrowkeys="true" minute-step="30" ng-model="HoraInicio" ng-disabled="fDisableHoraInicio" data-ng-change="CalcularHoraFin(ServicioSeleccionado)" class="agenda-timepicker" id="timeInicio" tabindex="11"></div>
+                            </div>
+
+                            <div flex="">
+                                <label class="label-form-empleados agenda-timepicker" style="font-size: 11px;">
+                                    Hora Fin Cita:
+                                </label>
+                                <div uib-timepicker mousewheel="true" arrowkeys="true" minute-step="30" ng-model="HoraFin" data-ng-change="ValidarHoraFin()" ng-disabled="fDisableHoraFin" class="agenda-timepicker" id="timeFin" tabindex="12"></div>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="" layout-align="center center">
+                            <div flex="" class="material-app">
+                                <md-input-container style="width:100%">
+                                    <label class="label-form-empleados" style="">
+                                        Observaciones:
+                                    </label>
+                                    <textarea ng-readonly="fDisableObservaciones" ng-model="Agenda.Observaciones" id="txtObservaciones" rows="2" md-maxlength="200" placeholder="" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="12"></textarea>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="" layout-align="center center">
+                            <div flex="" data-ng-show="MNCD > 0 || MNCD == null || MNCD == undefined" class="material-app">
+                                <md-input-container style="width:100%; margin-top: -45px;">
+                                    <label class="label-form-empleados" style="font-size:10px; color: #566473;">
+                                        Citas disponibles:
+                                    </label>
+                                    <br />
+                                    <div style="font-size:22px; color: #566473; font-weight:600; padding-top:5px;">{{NumCitasDisponibles}}</div>
+                                </md-input-container>
+                            </div>
+
+                            <div flex="">
+                                <md-input-container style="width:100%">
+                                    <md-button type="button" id="btnGuardarCita" ng-hide="AccionAgenda === 'Información Cita'" ng-disabled="fDisableGuardarAgenda" style="position: fixed; right:7px; bottom:20px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarActualizarAgenda()" tabindex="13">
+                                        <i class="material-icons md-18" style="transform: scaleX(-1)">save</i> Guardar
+                                    </md-button>
+                                </md-input-container>
+                            </div>
+                        </div>
+                    </md-dialog-content>
+                </form>
+            </md-dialog>
+        </div>
+    </div>
+
+    <!-- Modal Filtrar Agenda-->
+    <div style="visibility: hidden">
+        <div class="md-dialog-container" id="dlgFiltrarAgenda">
+            <md-dialog id="mdFiltrarAgenda" aria-label="" style="min-width: 290px !important; max-width:290px; color: #666666 !important;" tabindex="-1">
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2 style="font-size:16px;">{{AccionAgenda}}</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="Cancelar()">
+                            <i class="material-icons" style="transform: scaleX(-1)">close</i>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+
+                <form id="frmServiciosModal" style="">
+                    <md-dialog-content style="overflow:hidden;">
+
+                        <div layout="row" layout-sm="column" style="margin-bottom:-5px;" layout-align="start center">
+                            <div flex="" style="width:90%" class="material-app">
+                                <md-input-container style="margin-left: -40px; z-index:99; margin-top:15px; width: 98%">
+                                    <label class="label-form-clientes" style="">
+                                        Fecha
+                                    </label>
+                                    <md-datepicker ng-model="FechaBusqueda" md-placeholder="Enter date" class="dateClientes" id="dpFechaBusqueda" tabindex=1 style="margin-bottom:0;"></md-datepicker>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="margin-top:-25px;" layout-align="start center">
+                            <div flex="" style="width:90%" class="material-app">
+                                <md-input-container style="width: 98%">
+                                    <label for="dateType" class="label-form-empleados" style="">
+                                        Empleados:
+                                    </label>
+                                    <md-autocomplete aria-label="empleados view" md-input-id="acEmpleados" id="acEmpleados" md-input-name="acEmpleados" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionado" md-search-text-change="OnChange(EmpleadoSeleccionado)" md-selected-item-change="FiltrarServicios(EmpleadoSeleccionado)" md-search-text="buscarEmpleado" md-items="empleado in BuscarEmpleado(buscarEmpleado)" md-item-text="empleado.nombres + ' ' + empleado.apellidos" tabindex="2">
+                                        <md-item-template>
+                                            <span ng-bind="empleado.id_Empleado" md-highlight-text="buscarEmpleado">{{empleado.nombres + ' ' + empleado.apellidos}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No se encontraron resultados.
+                                        </md-not-found>
+                                    </md-autocomplete>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="margin-top:-25px;" layout-align="start center">
+                            <div flex="" style="width:90%" class="material-app">
+                                <md-input-container style="width: 98%">
+                                    <label for="dateType" class="label-form-empleados" style="">
+                                        Clientes:
+                                    </label>
+                                    <md-autocomplete aria-label="clientes view" md-input-id="acClientes" id="acClientes" md-input-name="acClientes" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="ClienteSeleccionado" md-search-text="buscarCliente" md-items="cliente in BuscarCliente(buscarCliente)" md-item-text="cliente.nombres + ' ' + cliente.apellidos" tabindex="3">
+                                        <md-item-template>
+                                            <span md-highlight-text="buscarCliente" ng-bind="cliente.id_Cliente">{{cliente.nombres + ' ' + cliente.apellidos}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No se encontraron resultados.
+                                        </md-not-found>
+                                    </md-autocomplete>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="margin-top:-12px;" layout-align="start center">
+                            <div flex="" style="width: 90%" class="material-app">
+                                <md-input-container style="width:98%; margin-top:0px;">
+                                    <label class="label-form-empleados">
+                                        Servicios:
+                                    </label>
+                                    <md-select aria-label="servicios view" ng-model="ServicioSeleccionado" ng-disabled="fDisableServicios" style="margin-top: 5px;" id="slServicios" tabindex="4">
+                                        <md-option ng-bind="item.nombre" ng-value="item.id_Servicio" ng-repeat="item in AgendaServicios track by item.id_Servicio">{{item.nombre}}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="margin-top:3px;" layout-align="start center">
+                            <div flex="" style="width:90%" class="material-app">
+                                <md-input-container style="width: 98%; margin-top:0px;">
+                                    <label class="label-form-clientes">
+                                        Estado:
+                                    </label>
+                                    <md-select aria-label="estado view" ng-model="EstadoSeleccionado" style="margin-top:5px; z-index:99999;" id="slEstado" tabindex="5">
+                                        <md-option ng-bind="item.Nombre" ng-value="item.id_Estado" ng-repeat="item in Estado track by item.id_Estado"></md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" style="margin-top:-15px;" layout-align="end center">
+                            <div flex="" style="" class="material-app">                                
+                                <md-switch ng-model="Agenda.Traer_Canceladas" aria-label="Filtro Canceladas">
+                                    <span style="font-size:12px;">Mostrar Canceladas</span>
+                                </md-switch> 
+                            </div>
+
+                            <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="" data-toggle="tooltip" title="Buscar" data-ng-click="ConsultarAgenda()">
+                                <i class="material-icons md-18" style="transform: scaleX(-1)">search</i> Buscar
+                            </md-button>
+                        </div>
+                    </md-dialog-content>
+                </form>
+            </md-dialog>
+        </div>
+    </div>
+</body>
+</html>
