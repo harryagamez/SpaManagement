@@ -4,7 +4,7 @@
 GestionController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$timeout', '$http', 'SPAService', 'AuthService'];
 
 function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, $http, SPAService, AuthService) {
-    $rootScope.header = 'SPA Management - Gestion';
+    $rootScope.header = 'Agenda - Gestion';
     $scope.TipoPerfilSeleccionado = -1;
     $scope.NombreReadOnly = false;
     $scope.Confirmacion = '';

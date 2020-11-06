@@ -1,10 +1,10 @@
 ﻿angular.module('app.controllers')
-    .controller("AgendaController", AgendaController);
+    .controller("DashboardController", DashboardController);
 
-AgendaController.$inject = ['$scope', '$rootScope', '$q', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+DashboardController.$inject = ['$scope', '$rootScope', '$q', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
-function AgendaController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-    $rootScope.header = 'SPA Management - Agenda';
+function DashboardController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+    $rootScope.header = 'Agenda - Dashboard';
     $scope.Estado =
         [
             { id_Estado: -1, Nombre: "[Seleccione]" },

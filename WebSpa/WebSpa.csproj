@@ -96,7 +96,7 @@
     <Content Include="App\app.js" />
     <Content Include="App\Controllers\AdministratorController.js" />
     <Content Include="App\Controllers\AdministratorPanelController.js" />
-    <Content Include="App\Controllers\AgendaController.js" />
+    <Content Include="App\Controllers\DashboardController.js" />
     <Content Include="App\Controllers\ClientesController.js" />
     <Content Include="App\Controllers\MainController.js" />
     <Content Include="App\Controllers\EmpleadosController.js" />
@@ -117,7 +117,7 @@
     <Content Include="App\Views\_administrator.html" />
     <Content Include="App\Views\Templates\_imgattached.tmpl.html" />
     <Content Include="App\Views\Templates\_slider.tmpl.html" />
-    <Content Include="App\Views\_agenda.html" />
+    <Content Include="App\Views\_dashboard.html" />
     <Content Include="App\Views\_apanel.html" />
     <Content Include="App\Views\_clientes.html" />
     <Content Include="App\Views\_empleados.html" />
@@ -154,6 +154,7 @@
     <Content Include="Images\header_mail.jpeg" />
     <Content Include="Images\spa_header.png" />
     <Content Include="Images\spa_login.png" />
+    <Content Include="Images\template\favicon.png" />
     <Content Include="Images\template\tulogo.png" />
     <Content Include="Scripts\Ag-Grid\v17.1.1\ag-grid.css" />
     <Content Include="Scripts\Ag-Grid\v17.1.1\ag-grid.min.js" />

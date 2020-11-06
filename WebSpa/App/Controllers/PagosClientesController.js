@@ -4,7 +4,7 @@
 PagosClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
 function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-    $rootScope.header = 'SPA Management - Pagos por Cliente';
+    $rootScope.header = 'Agenda - Pagos por Cliente';
     $scope.IdEmpresa = $rootScope.Id_Empresa;
 
     $scope.FechaDesde = new Date();

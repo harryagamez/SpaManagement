@@ -4,7 +4,7 @@
 ProductosController.$inject = ['$scope', '$rootScope', '$templateCache', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
 function ProductosController($scope, $rootScope, $templateCache, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-    $rootScope.header = 'SPA Management - Productos';
+    $rootScope.header = 'Agenda - Productos';
     $scope.TipoTransacciones = [];
     $scope.ObjetoProducto = [];
     $scope.Productos = [];
