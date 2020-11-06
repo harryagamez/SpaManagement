@@ -4,7 +4,7 @@
 GastosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
 function GastosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-    $rootScope.header = 'SPA Management - Gastos';
+    $rootScope.header = 'Agenda - Gastos';
     $scope.ObjetoGasto = [];
     $scope.ObjetoBorrarGasto = [];
     $scope.Gastos = [];

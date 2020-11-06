@@ -4,7 +4,7 @@
 DashboardController.$inject = ['$scope', '$rootScope', '$q', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
 function DashboardController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-    $rootScope.header = 'SPA Management - Dashboard';
+    $rootScope.header = 'Agenda - Dashboard';
     $scope.Estado =
         [
             { id_Estado: -1, Nombre: "[Seleccione]" },

@@ -83,7 +83,7 @@
     display: block;
     height: 100%;
     z-index: 1;
-    background: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45)), url(../Images/background-img.jpg);
+    background: linear-gradient(rgba(255, 255, 255, 0.80), rgba(255, 255, 255, 0.45)), url(../Images/background-img.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -146,10 +146,11 @@
             list-style: none;
             position:relative;
         }
-            
+
 li.active {
     margin-left: 20px;
-    transition: all .3s ease-in-out;
+    transition-duration: 0.4s;
+    transition-timing-function: linear;    
 }
 
 #sidebar .toggle-btn {
@@ -995,6 +996,7 @@ input.form-control:focus {
 
 #toast-container > .toast {
     background-image: none !important;
+    background-color: #2c333c !important;
 }
 
     #toast-container > .toast:before {
@@ -1009,20 +1011,29 @@ input.form-control:focus {
         margin: auto auto auto -37px;
     }
 
+.toast {
+    opacity: 0.95 !important;
+    border-radius:0px !important;
+}
+
 #toast-container > .toast-warning:before {
     content: "\f071";
+    color: #dda067 !important;
 }
 
 #toast-container > .toast-error:before {
     content: "\f057";
+    color: rgb(221, 103, 103) !important;    
 }
 
 #toast-container > .toast-info:before {
     content: "\f05a";
+    color: rgb(68, 90, 158) !important;    
 }
 
 #toast-container > .toast-success:before {
     content: "\f058";
+    color: #499977 !important;
 }
 
 .material-app md-input-container:not(.md-input-invalid).md-input-focused .md-input {
@@ -1066,14 +1077,20 @@ input.form-control:focus {
 }
 
 .sidebar-user {
-    background-color: #6d7f93;    
-    width: 140px;
+    /*background-color: #6d7f93; */
+    width: 80%;
     position: relative;
     margin-left: auto;
     margin-right: auto;
-    box-shadow: 1px 2px 5px #222 inset;
-    padding: 3px 0;
+    box-shadow: 10px 1px 10px #222;
+    padding: 3px 0 6px 0;
+    transition-duration: 0.2s;
+    transition-timing-function: linear;
 }
+
+    .sidebar-user:hover {
+        box-shadow: none;        
+    }
 
 .ag-theme-fresh .ag-header {
     font-family: Open Sans, sans-serif !important;

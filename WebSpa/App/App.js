@@ -74,10 +74,10 @@
                 templateUrl: 'Views/_gestion.html',
                 controller: 'GestionController'
             })
-            .state('home.agenda', {
-                url: '/agenda',
-                templateUrl: 'Views/_agenda.html',
-                controller: 'AgendaController'
+            .state('home.dashboard', {
+                url: '/dashboard',
+                templateUrl: 'Views/_dashboard.html',
+                controller: 'DashboardController'
             })
             .state('home.transacciones', {
                 url: '/transacciones',
