@@ -2,7 +2,7 @@
     [ID_PRODUCTO]        INT              IDENTITY (1, 1) NOT NULL,
     [NOMBRE]             CHAR (60)        NULL,
     [DESCRIPCION]        CHAR (200)       NULL,
-    [PRECIO]             REAL             NULL,
+    [PRECIO]             DECIMAL(18,2)    NULL,
     [INVENTARIO]         INT              NULL,
     [FECHA_REGISTRO]     DATETIME         NULL,
     [FECHA_MODIFICACION] DATETIME         NULL,

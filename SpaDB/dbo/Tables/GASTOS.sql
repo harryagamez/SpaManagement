@@ -2,7 +2,7 @@
     [ID_GASTO]           INT              IDENTITY (1, 1) NOT NULL,
     [TIPO_GASTO]         CHAR (15)        NULL,
     [DESCRIPCION]        CHAR (300)       NULL,
-    [VALOR]              REAL             NULL,
+    [VALOR]              DECIMAL(18,2)    NULL,
     [FECHA]              SMALLDATETIME    NULL,
     [ESTADO]             CHAR (12)        NULL,
     [ID_EMPLEADO]        INT              NULL,
