@@ -1082,7 +1082,7 @@ function DashboardController($scope, $rootScope, $q, $filter, $mdDialog, $mdToas
             if ($scope.PAPTS) {
                 if ($scope.ServicioSeleccionadoModal !== -1 && IdServicio !== undefined && IdServicio !== null) {
                     if (parseInt($filter('date')(new Date($scope.FechaInicio), 'yyyyMMdd')) === parseInt($filter('date')(new Date(), 'yyyyMMdd'))) {
-                        if (parseInt($filter('date')(new Date($scope.HoraInicio), 'HHmm')) < (parseInt($filter('date')(new Date(), 'HHmm')) + 60)) {
+                        if (parseInt($filter('date')(new Date($scope.HoraInicio), 'HHmm')) < parseInt($filter('date')(new Date(), 'HHmm'))) {
                             toastr.info('Solo puede agendar citas a partir de la hora actual ', '', $scope.toastrOptions);
                             $scope.FechaHoraAgendaGeneral();
                             return;
