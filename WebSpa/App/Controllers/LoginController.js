@@ -4,7 +4,7 @@
 LoginController.$inject = ['$scope', '$state', '$location', '$mdDialog', '$rootScope', '$timeout', 'AuthService'];
 
 function LoginController($scope, $state, $location, $mdDialog, $rootScope, $timeout, authService) {
-    $rootScope.header = 'Agenda - Login';
+    $rootScope.header = 'Login';
     $scope.ValidarDatos = ValidarDatos;
     $scope.Login = Login;
     $scope.ValidarIntegracion = false;

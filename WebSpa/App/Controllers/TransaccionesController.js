@@ -4,7 +4,7 @@
 TransaccionesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
 function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
-    $rootScope.header = 'Agenda - Transacciones';
+    $rootScope.header = 'Transacciones';
     $scope.IdEmpresa = $rootScope.Id_Empresa;
     $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
     $scope.FechaBusqueda = new Date();

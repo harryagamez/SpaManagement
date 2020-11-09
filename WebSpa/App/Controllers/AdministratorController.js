@@ -4,7 +4,7 @@
 AdministratorController.$inject = ['$scope', '$state', '$location', '$mdDialog', '$rootScope', '$timeout', 'AuthService'];
 
 function AdministratorController($scope, $state, $location, $mdDialog, $rootScope, $timeout, authService) {
-    $rootScope.header = 'Agenda - Administrator';
+    $rootScope.header = 'Administrator';
     $scope.ValidarDatos = ValidarDatos;
     $scope.Login = Login;
     $scope.ValidarIntegracion = false;
