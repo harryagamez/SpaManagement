@@ -128,6 +128,8 @@ namespace Spa.Application.SpaService
 
         List<AplicacionPago> ConsultarPagosCliente(AplicacionPago aplicacionPago);
 
+        List<Agenda> ConsultarServiciosEmpleado(Agenda agenda);
+
         bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties);
     }
 }

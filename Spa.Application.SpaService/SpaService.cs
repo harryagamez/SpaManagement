@@ -25,7 +25,10 @@ namespace Spa.Application.SpaService
         {
             try
             {
+                DateTime fecha = DateTime.Now;
                 string encryptedPassword = SecurityHelper.EncryptPasswordHash(Password);
+
+                int anioActual = fecha.Year;
 
                 Usuario _usuario = _spaRepository.ValidarUsuario(Nombre, encryptedPassword, ValidarIntegracion, CodigoIntegracion);
 
@@ -41,7 +44,7 @@ namespace Spa.Application.SpaService
                            <table align=""center"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""900"">
                            <tr>
                            <td align=""center"" bgcolor=""#ffffff"" style=""padding: 30px 0 30px 0;"">
-                               <img src=""https://i.imgur.com/JsBabEb.jpg"" alt=""SPA MANAGEMENT"" style=""display: block; max-width:900px;""/>
+                               <img src=""https://i.postimg.cc/nz7nNcgQ/header-mail.jpg"" alt=""AGENDA"" style=""display: block; max-width:900px;""/>
                            </td>
                            </tr>
                            <tr>
@@ -51,7 +54,7 @@ namespace Spa.Application.SpaService
                            </tr>
                             <tr>
                            <td bgcolor=""#ffffff"" style=""padding: 20px 30px 20px 30px; color: grey; font-size:18px;"">
-                                <b>Gracias por crear una cuenta en SPA MANAGEMENT. Pero antes de poder acceder al sistema, deberá activar su cuenta. El siguiente es su código de activación:</b>
+                                <b>Gracias por crear una cuenta en eMAH AGENDA. Pero antes de poder acceder al sistema, deberá activar su cuenta. El siguiente es su código de activación:</b>
                            </td>
                            </tr>
                            <tr>
@@ -61,7 +64,7 @@ namespace Spa.Application.SpaService
                            </tr>
                            <tr>
                            <td bgcolor=""#212121"" style=""padding: 10px 30px 10px 30px; text-align:center; color: white;"" >
-                            <p>SPA MANAGEMENT © Todos los derechos reservados</p>
+                            <p>eMAH © 2020 - " + anioActual + @" Todos los derechos reservados</p>
                            </td>
                            </tr>
                            </table>
@@ -362,6 +365,8 @@ namespace Spa.Application.SpaService
             {
                 if (_Agenda != null)
                 {
+                    DateTime fechaActual = DateTime.Now; 
+                    int anioActual = fechaActual.Year;
                     var fecha = _Agenda.Fecha_Inicio.Value.ToString("dd-MM-yyyy");
                     var hora = _Agenda.Fecha_Inicio.Value.ToString("h:mm tt", CultureInfo.InvariantCulture);
                     string htmlString = @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">
@@ -374,7 +379,7 @@ namespace Spa.Application.SpaService
                            <table align=""center"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""900"">
                            <tr>
                            <td align=""center"" bgcolor=""#ffffff"" style=""padding: 5px 0 5px 0;"">
-                               <img src=""https://i.imgur.com/JsBabEb.jpg"" alt=""SPA MANAGEMENT"" style=""display: block; min-width:900px; max-width:900px; max-height:250px;""/>
+                               <img src=""https://i.postimg.cc/nz7nNcgQ/header-mail.jpg"" alt=""AGENDA"" style=""display: block; min-width:900px; max-width:900px; max-height:250px;""/>
                            </td>
                            </tr>
                            <tr>
@@ -394,7 +399,7 @@ namespace Spa.Application.SpaService
                            </tr>
                            <tr>
                            <td bgcolor=""#212121"" style=""padding: 10px 30px 10px 30px; text-align:center; color: white;"" >
-                            <p>SPA MANAGEMENT © Todos los derechos reservados</p>
+                            <p>eMAH © 2020 - " +anioActual + @" Todos los derechos reservados</p>
                            </td>
                            </tr>
                            </table>
@@ -451,6 +456,11 @@ namespace Spa.Application.SpaService
         public List<AplicacionPago> ConsultarPagosCliente(AplicacionPago aplicacionPago)
         {
             return _spaRepository.ConsultarPagosCliente(aplicacionPago);
+        }
+
+        public List<Agenda> ConsultarServiciosEmpleado(Agenda _Agenda)
+        {
+            return _spaRepository.ConsultarServiciosEmpleado(_Agenda);
         }
 
         public bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties)

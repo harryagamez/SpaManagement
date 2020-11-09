@@ -127,6 +127,8 @@ namespace Spa.Infrastructure.SpaRepository
 
         List<AplicacionPago> ConsultarPagosCliente(AplicacionPago aplicacionPago);
 
+        List<Agenda> ConsultarServiciosEmpleado(Agenda agenda);
+
         bool SincronizarDepartamentos(List<DepartmentProperties> departmentProperties);
     }
 }

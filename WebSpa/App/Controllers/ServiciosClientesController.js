@@ -303,7 +303,7 @@ function ServiciosClientesController($scope, $rootScope, $filter, $mdDialog, $md
                     ]
                 };
 
-                alasql('SELECT nombre_Servicio AS SERVICIO, valor_Servicio AS VALOR_SERVICIO, datetime(fecha_Inicio) AS FECHA, fechaInicio AS HORA_INICIO, fechaFin AS HORA_FIN, nombreApellido_Empleado AS EMPLEADO INTO XLSX("Servicios_cliente.xlsx",?) FROM ?', [mystyle, agendas]);
+                alasql('SELECT nombreApellido_Cliente AS CLIENTE, nombre_Servicio AS SERVICIO, valor_Servicio AS VALOR_SERVICIO, datetime(fecha_Inicio) AS FECHA, fechaInicio AS HORA_INICIO, fechaFin AS HORA_FIN, nombreApellido_Empleado AS EMPLEADO INTO XLSX("Servicios_cliente.xlsx",?) FROM ?', [mystyle, agendas]);
             } else {
                 toastr.info('No hay datos para exportar', '', $scope.toastrOptions);
             }

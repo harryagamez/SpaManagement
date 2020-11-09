@@ -94,6 +94,11 @@
                 templateUrl: 'Views/_pagosClientes.html',
                 controller: 'PagosClientesController'
             })
+            .state('home.reportes_spe', {
+                url: '/serviciosempleados',
+                templateUrl: 'Views/_serviciosEmpleados.html',
+                controller: 'ServiciosEmpleadosController'
+            })
             .state('home.reportes', {
             })
             .state('home.visitas', {
