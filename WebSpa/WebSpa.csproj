@@ -157,6 +157,8 @@
     <Content Include="Images\spa_header.png" />
     <Content Include="Images\spa_login.png" />
     <Content Include="Images\template\favicon.png" />
+    <Content Include="Images\template\spa_header_svg.svg" />
+    <Content Include="Images\template\spa_login_svg.svg" />
     <Content Include="Images\template\tulogo.png" />
     <Content Include="Scripts\Ag-Grid\v17.1.1\ag-grid.css" />
     <Content Include="Scripts\Ag-Grid\v17.1.1\ag-grid.min.js" />

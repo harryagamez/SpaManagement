@@ -77,7 +77,7 @@ namespace Spa.Application.SpaService
                         EmailModel _emailModel = new EmailModel
                         {
                             MailTo = _usuario.Mail,
-                            Subject = "Activación cuenta de usuario - SpaManagement",
+                            Subject = "Activación cuenta de usuario - Agenda",
                             Body = htmlString
                         };
 
