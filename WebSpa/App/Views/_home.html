@@ -4,7 +4,7 @@
         <div class="sidebar-user" style="text-align: center; color: white; font-weight: 600; margin-top: 10px;">{{ UsuarioSistema }}</div>
     </div>
     <ul>
-        <li class="li-padding" ng-repeat="item in Menu | filter:{ '_Level': 1 } : true" ui-sref-active="active" ng-click="fShowSubMenu = true" ng-mouseleave="fShowSubMenu = false">
+        <li class="li-padding" ng-repeat="item in Menu | filter:{ '_Level': 1 } : true" ui-sref-active="active" ng-mouseover="fShowSubMenu = true" ng-mouseleave="fShowSubMenu = false">
             <a ng-if="item._Level === 1 && item._Children === 0" ui-sref="{{item.ruta_Acceso}}"><img ng-src="data:image/png;base64,{{item.logo_Base64}}" style="max-width:23px; margin-right:15px; vertical-align:middle;">{{item.descripcion}}</a>
             <a style="cursor: pointer;" ng-if="item._Level === 1 && item._Children > 0"><img ng-src="data:image/png;base64,{{item.logo_Base64}}" style="max-width:23px; margin-right:15px; vertical-align:middle;">{{item.descripcion}} <i class="material-icons md-18" style="position:absolute; right:15px; top:6px; font-size:18px;">navigate_next</i></a>
             <ul class="sidebar-submenu" ng-if="fShowSubMenu && item._Children > 0">
