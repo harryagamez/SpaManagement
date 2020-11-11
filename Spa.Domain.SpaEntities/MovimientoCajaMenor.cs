@@ -11,7 +11,7 @@ namespace Spa.Domain.SpaEntities
 
         public float Acumulado { get; set; }
 
-        public DateTime Fecha { get; set; }
+        public string Fecha { get; set; }
 
         public float Compras { get; set; }
 

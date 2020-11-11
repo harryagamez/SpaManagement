@@ -1,5 +1,5 @@
 CREATE PROCEDURE ConsultarMovimientosCajaMenor(
-	@IdEmpresa VARCHAR(36),
+	@IdEmpresa	VARCHAR(36),
 	@FechaDesde CHAR(10),
 	@FechaHasta CHAR(10)
 )
@@ -7,20 +7,15 @@ AS
 BEGIN
 
 	DECLARE @Distribucion CHAR(12)
+	DECLARE @StartDate DATE = @FechaDesde
+	DECLARE @EndDate DATE = @FechaHasta
 
-	CREATE TABLE #TempMovimientos (Saldo_Inicial DECIMAL(18,2), Acumulado DECIMAL (18,2), Fecha DATETIME, Compras DECIMAL(18,2), Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), Varios DECIMAL(18,2), Facturado DECIMAL(18,2))	
+	CREATE TABLE #TempMovimientos (Saldo_Inicial DECIMAL(18,2), Acumulado DECIMAL (18,2), Fecha CHAR(10), Compras DECIMAL(18,2), Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), Varios DECIMAL(18,2), Facturado DECIMAL(18,2))
+	
+	CREATE TABLE #TempGastos (Fecha CHAR(10), Compras DECIMAL(18,2), Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), Varios DECIMAL(18,2))
+	CREATE TABLE #TempGastosFinal (Fecha CHAR(10), Compras DECIMAL(18,2), Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), Varios DECIMAL(18,2))
 
-	CREATE TABLE #TempCompras (Fecha DATETIME, Compras DECIMAL(18,2), Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), Varios DECIMAL(18,2), Facturado DECIMAL(18,2))
-
-	CREATE TABLE #TempNomina (Fecha DATETIME, Compras DECIMAL(18,2), Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), Varios DECIMAL(18,2), Facturado DECIMAL(18,2))
-
-	CREATE TABLE #TempPrestamos (Fecha DATETIME, Compras DECIMAL(18,2), Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), Varios DECIMAL(18,2), Facturado DECIMAL(18,2))
-
-	CREATE TABLE #TempServicios (Fecha DATETIME, Compras DECIMAL(18,2), Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), Varios DECIMAL(18,2), Facturado DECIMAL(18,2))
-
-	CREATE TABLE #TempVarios (Fecha DATETIME, Compras DECIMAL(18,2), Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), Varios DECIMAL(18,2), Facturado DECIMAL(18,2))
-
-	CREATE TABLE #TempFacturado (Fecha DATETIME, Compras DECIMAL(18,2), Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), Varios DECIMAL(18,2), Facturado DECIMAL(18,2))
+	CREATE TABLE #TempClientePagos (Fecha CHAR(10), Facturado DECIMAL(18,2))	
 
 	IF((SELECT TOP 1 DIA FROM CAJA_MENOR WHERE ID_EMPRESA = @IdEmpresa ORDER BY ID_REGISTRO DESC) IS NULL) BEGIN
 		SET @Distribucion = 'MENSUAL'
@@ -28,60 +23,59 @@ BEGIN
 	ELSE BEGIN
 		SET @Distribucion = 'DIARIA'
 	END
-	
-	INSERT INTO #TempCompras (Fecha, Compras)
-	SELECT
-		FECHA, VALOR
-	FROM GASTOS
-	WHERE ID_EMPRESA = @IdEmpresa AND TIPO_GASTO = 'COMPRAS' AND CONVERT(varchar(10),CONVERT(date,FECHA,106),103) BETWEEN @FechaDesde AND @FechaHasta
 
-	INSERT INTO #TempNomina (Fecha, Nomina)
-	SELECT
-		FECHA, VALOR
-	FROM GASTOS
-	WHERE ID_EMPRESA = @IdEmpresa AND TIPO_GASTO = 'NOMINA' AND CONVERT(varchar(10),CONVERT(date,FECHA,106),103) BETWEEN @FechaDesde AND @FechaHasta
+	;WITH cte AS (
+		SELECT @StartDate AS myDate
+		UNION ALL
+		SELECT DATEADD(day, 1, myDate) AS myDate
+		FROM cte
+		WHERE DATEADD(day, 1, myDate) <= @EndDate
+	)
+	INSERT INTO #TempMovimientos (Fecha)
+	SELECT CONVERT(varchar(10),CONVERT(date,myDate,106),103) AS Fecha
+	FROM cte
+	OPTION (MAXRECURSION 0)
 
-	INSERT INTO #TempPrestamos (Fecha, Prestamos)
-	SELECT
-		FECHA, VALOR
+	INSERT INTO #TempGastos (Fecha, Compras, Nomina, Prestamos, Servicios, Varios)
+	SELECT 
+		CONVERT(varchar(10),CONVERT(date,FECHA,106),103), 
+		CASE WHEN (TIPO_GASTO = 'COMPRAS') THEN VALOR END AS Compras, 
+		CASE WHEN (TIPO_GASTO = 'NOMINA') THEN VALOR END AS Nomina,
+		CASE WHEN (TIPO_GASTO = 'PRESTAMOS') THEN VALOR END AS Prestamos,
+		CASE WHEN (TIPO_GASTO = 'SERVICIOS') THEN VALOR END AS Servicios,
+		CASE WHEN (TIPO_GASTO = 'VARIOS') THEN VALOR END AS Varios
 	FROM GASTOS
-	WHERE ID_EMPRESA = @IdEmpresa AND TIPO_GASTO = 'PRESTAMOS' AND CONVERT(varchar(10),CONVERT(date,FECHA,106),103) BETWEEN @FechaDesde AND @FechaHasta
+	WHERE ID_EMPRESA = @IdEmpresa AND CONVERT(varchar(10),CONVERT(date,FECHA,106),103) BETWEEN @FechaDesde AND @FechaHasta
 
-	INSERT INTO #TempServicios (Fecha, Servicios)
+	INSERT INTO #TempGastosFinal (Fecha, Compras, Nomina, Prestamos, Servicios, Varios)
 	SELECT
-		FECHA, VALOR
-	FROM GASTOS
-	WHERE ID_EMPRESA = @IdEmpresa AND TIPO_GASTO = 'SERVICIOS' AND CONVERT(varchar(10),CONVERT(date,FECHA,106),103) BETWEEN @FechaDesde AND @FechaHasta
+		Fecha,
+		SUM(Compras) AS Compras,
+		SUM(Nomina) AS Nomina,
+		SUM(Prestamos) AS Prestamos,
+		SUM(Servicios) AS Servicios,
+		SUM(Varios) AS Varios
+	FROM #TempGastos
+	GROUP BY Fecha
 
-	INSERT INTO #TempVarios (Fecha, Varios)
+	INSERT INTO #TempClientePagos (Fecha, Facturado)
 	SELECT
-		FECHA, VALOR
-	FROM GASTOS
-	WHERE ID_EMPRESA = @IdEmpresa AND TIPO_GASTO = 'VARIOS' AND CONVERT(varchar(10),CONVERT(date,FECHA,106),103) BETWEEN @FechaDesde AND @FechaHasta
-
-	INSERT INTO #TempFacturado (Fecha, Facturado)
-	SELECT
-		FECHA, TOTAL
+		CONVERT(varchar(10),CONVERT(date,FECHA,106),103),
+		SUM(TOTAL)
 	FROM CLIENTE_PAGOS
-	WHERE ID_EMPRESA = @IdEmpresa AND CONVERT(varchar(10),CONVERT(date,FECHA,106),103) BETWEEN @FechaDesde AND @FechaHasta	
+	WHERE ID_EMPRESA = @IdEmpresa AND CONVERT(varchar(10),CONVERT(date,FECHA,106),103) BETWEEN @FechaDesde AND @FechaHasta
+	GROUP BY Fecha	
 
-	INSERT INTO #TempMovimientos (Fecha, Compras)
-	SELECT Fecha, Compras FROM #TempCompras	
-
-	INSERT INTO #TempMovimientos (Fecha, Nomina)
-	SELECT Fecha, Nomina FROM #TempNomina
-
-	INSERT INTO #TempMovimientos (Fecha, Prestamos)
-	SELECT Fecha, Prestamos FROM #TempPrestamos
-
-	INSERT INTO #TempMovimientos (Fecha, Servicios)
-	SELECT Fecha, Servicios FROM #TempServicios
-
-	INSERT INTO #TempMovimientos (Fecha, Varios)
-	SELECT Fecha, Varios FROM #TempVarios
-
-	INSERT INTO #TempMovimientos (Fecha, Facturado)
-	SELECT Fecha, Facturado FROM #TempFacturado
+	UPDATE Movimientos
+	SET Compras = Gastos.Compras,
+		Nomina = Gastos.Nomina,
+		Prestamos = Gastos.Prestamos,
+		Servicios = Gastos.Servicios,
+		Varios = Gastos.Varios,
+		Facturado = ClientePagos.Facturado
+	FROM #TempMovimientos Movimientos
+	INNER JOIN #TempGastosFinal Gastos ON Movimientos.Fecha = Gastos.Fecha
+	INNER JOIN #TempClientePagos ClientePagos ON Movimientos.Fecha = ClientePagos.Fecha
 
 	IF(@Distribucion = 'MENSUAL') BEGIN
 		UPDATE #TempMovimientos
@@ -105,16 +99,12 @@ BEGIN
 		ISNULL(Varios, 0) AS Varios, 
 		ISNULL(Facturado, 0) AS Facturado
 	FROM #TempMovimientos
-	ORDER BY Fecha DESC
-	
+	ORDER BY Fecha DESC	
 
-	IF OBJECT_ID('tempdb..#TempCompras') IS NOT NULL DROP TABLE #TempCompras
-	IF OBJECT_ID('tempdb..#TempPrestamos') IS NOT NULL DROP TABLE #TempPrestamos
-	IF OBJECT_ID('tempdb..#TempServicios') IS NOT NULL DROP TABLE #TempServicios
-	IF OBJECT_ID('tempdb..#TempVarios') IS NOT NULL DROP TABLE #TempVarios
-	IF OBJECT_ID('tempdb..#TempFacturado') IS NOT NULL DROP TABLE #TempFacturado
+	IF OBJECT_ID('tempdb..#TempGastos') IS NOT NULL DROP TABLE #TempGastos
+	IF OBJECT_ID('tempdb..#TempGastosFinal') IS NOT NULL DROP TABLE #TempGastosFinal
+	IF OBJECT_ID('tempdb..#TempClientePagos') IS NOT NULL DROP TABLE #TempClientePagos	
 	IF OBJECT_ID('tempdb..#TempMovimientos') IS NOT NULL DROP TABLE #TempMovimientos
-
 
 END
 
