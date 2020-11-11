@@ -445,7 +445,8 @@
             _liquidarNominaEmpleados: LiquidarNominaEmpleados,
             _consultarServiciosCliente: ConsultarServiciosCliente,
             _consultarPagosCliente: ConsultarPagosCliente,
-            _consultarServiciosEmpleado: ConsultarServiciosEmpleado
+            _consultarServiciosEmpleado: ConsultarServiciosEmpleado,
+            _consultarMovimientosCajaMenor: ConsultarMovimientosCajaMenor
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1291,6 +1292,18 @@
         function ConsultarServiciosEmpleado(agenda) {
             var deferred = $q.defer();
             serviceRest.Post('SPA', 'ConsultarServiciosEmpleado', agenda,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarMovimientosCajaMenor(idEmpresa, fechaDesde, fechaHasta) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarMovimientosCajaMenor?idEmpresa=' + idEmpresa + '&fechaDesde=' + fechaDesde + '&fechaHasta=' + fechaHasta,
                 function (data) {
                     deferred.resolve(data);
                 },

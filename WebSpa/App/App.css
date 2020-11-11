@@ -1323,6 +1323,12 @@ md-switch.md-default-theme.md-checked:not([disabled]) .md-bar, md-switch.md-chec
     background-color:rgba(68,90,158,0.5)
 }
 
+.ag-header-group-cell-label {
+    border-bottom: 1px solid white !important;
+    margin-left:-12px;
+    margin-right:-12px;
+}
+
 @media only screen and (max-width: 700px) {
     .bg {
         background-size: 300%;

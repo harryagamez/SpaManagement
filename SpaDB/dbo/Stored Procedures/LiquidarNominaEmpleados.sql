@@ -206,7 +206,7 @@ BEGIN
 			INSERT INTO GASTOS (TIPO_GASTO, DESCRIPCION, VALOR, FECHA, ESTADO, ID_EMPLEADO, FECHA_REGISTRO, FECHA_MODIFICACION, ID_EMPRESA)
 			SELECT 
 				'NOMINA', @MensajePagoNomina, Total_Pagado, 
-				@FechaNomina, 'PAGADA', Id_Empleado, @FechaActual, 
+				@FechaNomina, 'LIQUIDADO', Id_Empleado, @FechaActual, 
 				@FechaActual, @IdEmpresa
 			FROM #TempLiquidaciones_Empleados
 			WHERE Total_Pagado > 0

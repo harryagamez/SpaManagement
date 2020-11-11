@@ -99,6 +99,11 @@
                 templateUrl: 'Views/_serviciosEmpleados.html',
                 controller: 'ServiciosEmpleadosController'
             })
+            .state('home.reportes_mcm', {
+                url: '/movimientoscajamenor',
+                templateUrl: 'Views/_movimientosCajaMenor.html',
+                controller: 'MovimientosCajaMenorController'
+            })
             .state('home.reportes', {
             })
             .state('home.visitas', {

@@ -130,5 +130,7 @@ namespace Spa.Infrastructure.SpaRepository
         List<Agenda> ConsultarServiciosEmpleado(Agenda agenda);
 
         bool SincronizarDepartamentos(List<DepartmentProperties> departmentProperties);
+
+        List<MovimientoCajaMenor> ConsultarMovimientosCajaMenor(string idEmpresa, string fechaDesde, string fechaHasta);
     }
 }

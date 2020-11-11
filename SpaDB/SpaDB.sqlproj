@@ -299,6 +299,7 @@
     <Build Include="dbo\Stored Procedures\ConsultarServiciosCliente.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarPagosCliente.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarServiciosEmpleado.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarMovimientosCajaMenor.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

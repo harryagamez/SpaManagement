@@ -44,7 +44,7 @@ namespace Spa.Application.SpaService
                            <table align=""center"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""900"">
                            <tr>
                            <td align=""center"" bgcolor=""#ffffff"" style=""padding: 30px 0 30px 0;"">
-                               <img src=""https://i.postimg.cc/nz7nNcgQ/header-mail.jpg"" alt=""AGENDA"" style=""display: block; max-width:900px;""/>
+                               <img src=""https://i.postimg.cc/rsMBnc2M/header-mail.jpg"" alt=""AGENDA"" style=""display: block; max-width:900px;""/>
                            </td>
                            </tr>
                            <tr>
@@ -63,7 +63,7 @@ namespace Spa.Application.SpaService
                            </td>
                            </tr>
                            <tr>
-                           <td bgcolor=""#212121"" style=""padding: 10px 30px 10px 30px; text-align:center; color: white;"" >
+                           <td bgcolor=""#212121"" style=""padding: 5px 30px 5px 30px; text-align:center; color: white;"" >
                             <p>eMAH © 2020 - " + anioActual + @" Todos los derechos reservados</p>
                            </td>
                            </tr>
@@ -379,7 +379,7 @@ namespace Spa.Application.SpaService
                            <table align=""center"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""900"">
                            <tr>
                            <td align=""center"" bgcolor=""#ffffff"" style=""padding: 5px 0 5px 0;"">
-                               <img src=""https://i.postimg.cc/nz7nNcgQ/header-mail.jpg"" alt=""AGENDA"" style=""display: block; min-width:900px; max-width:900px; max-height:250px;""/>
+                               <img src=""https://i.postimg.cc/rsMBnc2M/header-mail.jpg"" alt=""AGENDA"" style=""display: block; min-width:900px; max-width:900px; max-height:250px;""/>
                            </td>
                            </tr>
                            <tr>
@@ -398,7 +398,7 @@ namespace Spa.Application.SpaService
                            </td>
                            </tr>
                            <tr>
-                           <td bgcolor=""#212121"" style=""padding: 10px 30px 10px 30px; text-align:center; color: white;"" >
+                           <td bgcolor=""#212121"" style=""padding: 5px 30px 5px 30px; text-align:center; color: white;"" >
                             <p>eMAH © 2020 - " +anioActual + @" Todos los derechos reservados</p>
                            </td>
                            </tr>
@@ -466,6 +466,11 @@ namespace Spa.Application.SpaService
         public bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties)
         {
             return _spaRepository.SincronizarDepartamentos(_departmentProperties);
+        }
+
+        public List<MovimientoCajaMenor> ConsultarMovimientosCajaMenor(string idEmpresa, string fechaDesde, string fechaHasta)
+        {
+            return _spaRepository.ConsultarMovimientosCajaMenor(idEmpresa, fechaDesde, fechaHasta);
         }
     }
 }

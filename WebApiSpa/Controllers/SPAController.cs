@@ -1014,5 +1014,22 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error consultando los servicios del empleado: " + ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarMovimientosCajaMenor")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarMovimientosCajaMenor(string idEmpresa, string fechaDesde, string fechaHasta)
+        {
+            try
+            {
+                List<MovimientoCajaMenor> _movimientoCajaMenor = _spaService.ConsultarMovimientosCajaMenor(idEmpresa, fechaDesde, fechaHasta);
+
+                return Content(HttpStatusCode.OK, _movimientoCajaMenor);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los movimientos de la caja menor: " + ex.Message);
+            }
+        }
     }
 }

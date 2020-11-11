@@ -1589,5 +1589,34 @@ namespace Spa.Infrastructure.SpaRepository
                 }
             }
         }
+
+        public List<MovimientoCajaMenor> ConsultarMovimientosCajaMenor(string idEmpresa, string fechaDesde, string fechaHasta)
+        {
+            DataTable _datatable = new DataTable();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarMovimientosCajaMenor";
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
+                    _command.Parameters.AddWithValue("@FechaDesde", fechaDesde);
+                    _command.Parameters.AddWithValue("@FechaHasta", fechaHasta);
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<MovimientoCajaMenor> _movimientosCajaMenor = _datatable.DataTableToList<MovimientoCajaMenor>();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _movimientosCajaMenor;
+                }
+            }
+        }
     }
 }
