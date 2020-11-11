@@ -44,26 +44,26 @@ namespace Spa.Application.SpaService
                            <table align=""center"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""900"">
                            <tr>
                            <td align=""center"" bgcolor=""#ffffff"" style=""padding: 30px 0 30px 0;"">
-                               <img src=""https://i.postimg.cc/rsMBnc2M/header-mail.jpg"" alt=""AGENDA"" style=""display: block; max-width:900px;""/>
+                               <img src=""https://i.postimg.cc/c1T3FmQN/header-mail.png"" alt=""AGENDA"" style=""display: block; max-width:900px;""/>
                            </td>
                            </tr>
                            <tr>
-                           <td bgcolor=""#ffffff"" style=""padding: 20px 30px 20px 30px; color: #1360a7; font-size:20px; text-align:center;"">
+                           <td bgcolor=""#ffffff"" style=""padding: 20px 30px 20px 30px; color: #67ddab; font-size:20px; text-align:center;"">
                                 <h2>¡Hola!, " + _usuario.Nombre + @"</h2>
                            </td>
                            </tr>
                             <tr>
-                           <td bgcolor=""#ffffff"" style=""padding: 20px 30px 20px 30px; color: grey; font-size:18px;"">
+                           <td bgcolor=""#ffffff"" style=""padding: 20px 30px 20px 30px; color: #566473; font-size:18px;"">
                                 <b>Gracias por crear una cuenta en eMAH AGENDA. Pero antes de poder acceder al sistema, deberá activar su cuenta. El siguiente es su código de activación:</b>
                            </td>
                            </tr>
                            <tr>
-                           <td bgcolor=""#ffffff"" style=""padding: 5px 30px 5px 30px; color: grey; font-size:16px; text-align:center;"">
+                           <td bgcolor=""#ffffff"" style=""padding: 5px 30px 5px 30px; color: #566473; font-size:16px; text-align:center;"">
                                 <p>" + _usuario.HashKey + @"</p>
                            </td>
                            </tr>
                            <tr>
-                           <td bgcolor=""#212121"" style=""padding: 5px 30px 5px 30px; text-align:center; color: white;"" >
+                           <td bgcolor=""#2c333c"" style=""padding: 3px 30px 3px 30px; text-align:center; color: white;"" >
                             <p>eMAH © 2020 - " + anioActual + @" Todos los derechos reservados</p>
                            </td>
                            </tr>
@@ -379,27 +379,27 @@ namespace Spa.Application.SpaService
                            <table align=""center"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""900"">
                            <tr>
                            <td align=""center"" bgcolor=""#ffffff"" style=""padding: 5px 0 5px 0;"">
-                               <img src=""https://i.postimg.cc/rsMBnc2M/header-mail.jpg"" alt=""AGENDA"" style=""display: block; min-width:900px; max-width:900px; max-height:250px;""/>
+                               <img src=""https://i.postimg.cc/c1T3FmQN/header-mail.png"" alt=""AGENDA"" style=""display: block; min-width:900px; max-width:900px; max-height:250px;""/>
                            </td>
                            </tr>
                            <tr>
-                           <td bgcolor=""#ffffff"" style=""padding: 5px 30px 5px 30px; color: #1360a7; font-size:20px; text-align:center;"">
+                           <td bgcolor=""#ffffff"" style=""padding: 5px 30px 5px 30px; color: #67ddab; font-size:20px; text-align:center;"">
                                 <h2>¡Hola!, " + _Agenda.NombreApellido_Cliente + @"</h2>
                            </td>
                            </tr>
                             <tr>
-                           <td bgcolor=""#ffffff"" style=""padding: 5px 30px 2px 30px; color: grey; font-size:18px; text-align:justify;"">
+                           <td bgcolor=""#ffffff"" style=""padding: 5px 30px 2px 30px; color: #566473; font-size:18px; text-align:justify;"">
                                 <b>Su cita en " + _Agenda.Nombre_Empresa + @", para el servicio: " + _Agenda.Nombre_Servicio + @", ha sido programada para el día: " + fecha + @" a las: " + hora + @".</b>
                            </td>
                            </tr>
                            <tr>
-                           <td bgcolor=""#ffffff"" style=""padding: 5px 30px 5px 30px; color: grey; font-size:16px; text-align:justify;"">
+                           <td bgcolor=""#ffffff"" style=""padding: 5px 30px 5px 30px; color: #566473; font-size:16px; text-align:justify;"">
                                 <p>Recuerde llegar con 20 minutos de anticipación. Si desea cancelar su cita, comuníquese con " + _Agenda.Nombre_Empresa + @" con 6 horas de anticipación.</p>
                            </td>
                            </tr>
                            <tr>
-                           <td bgcolor=""#212121"" style=""padding: 5px 30px 5px 30px; text-align:center; color: white;"" >
-                            <p>eMAH © 2020 - " +anioActual + @" Todos los derechos reservados</p>
+                           <td bgcolor=""#2c333c"" style=""padding: 3px 30px 3px 30px; text-align:center; color: white;"" >
+                            <p>eMAH © 2020 - " + anioActual + @" Todos los derechos reservados</p>
                            </td>
                            </tr>
                            </table>
