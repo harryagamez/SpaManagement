@@ -30,7 +30,7 @@ function MovimientosCajaMenorController($scope, $rootScope, $filter, $mdDialog, 
                         if (result.data !== undefined && result.data !== null && result.data.length > 0) {
                             $scope.MovimientosCajaMenor = [];
                             $scope.MovimientosCajaMenor = result.data;
-                            $scope.MovimientosCajaMenor = $filter('orderBy')($scope.MovimientosCajaMenor, 'fecha', false); 
+                            $scope.MovimientosCajaMenor = $filter('orderBy')($scope.MovimientosCajaMenor, 'fecha', true); 
                             $scope.MovimientosCajaMenorGridOptions.api.setRowData($scope.MovimientosCajaMenor);
 
                             $timeout(function () {
@@ -87,7 +87,7 @@ function MovimientosCajaMenorController($scope, $rootScope, $filter, $mdDialog, 
             headerGroupComponent: 'customHeaderGroupComponent',
             children: [
                 {
-                    headerName: "Saldo Inicial", field: 'saldo_Inicial', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+                    headerName: "Saldo Inicial", field: 'saldoInicial', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
                 },
                 {
                     headerName: "Acumulado", field: 'acumulado', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter

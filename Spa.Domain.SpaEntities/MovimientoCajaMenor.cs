@@ -7,7 +7,7 @@ namespace Spa.Domain.SpaEntities
     public class MovimientoCajaMenor
     {        
 
-        public float Saldo_Inicial { get; set; }
+        public float SaldoInicial { get; set; }
 
         public float Acumulado { get; set; }
 

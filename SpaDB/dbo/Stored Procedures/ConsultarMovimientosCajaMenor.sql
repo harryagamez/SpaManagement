@@ -10,10 +10,14 @@ BEGIN
 	DECLARE @StartDate DATE = @FechaDesde
 	DECLARE @EndDate DATE = @FechaHasta
 
-	CREATE TABLE #TempMovimientos (Saldo_Inicial DECIMAL(18,2), Acumulado DECIMAL (18,2), Fecha CHAR(10), Compras DECIMAL(18,2), Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), Varios DECIMAL(18,2), Facturado DECIMAL(18,2))
+	CREATE TABLE #TempMovimientos (SaldoInicial DECIMAL(18,2), Acumulado DECIMAL (18,2), Fecha CHAR(10), Compras DECIMAL(18,2), 
+	Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), Varios DECIMAL(18,2), Facturado DECIMAL(18,2))
 	
-	CREATE TABLE #TempGastos (Fecha CHAR(10), Compras DECIMAL(18,2), Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), Varios DECIMAL(18,2))
-	CREATE TABLE #TempGastosFinal (Fecha CHAR(10), Compras DECIMAL(18,2), Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), Varios DECIMAL(18,2))
+	CREATE TABLE #TempGastos (Fecha CHAR(10), Compras DECIMAL(18,2), Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), 
+	Varios DECIMAL(18,2))
+	
+	CREATE TABLE #TempGastosFinal (Fecha CHAR(10), Compras DECIMAL(18,2), Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), 
+	Varios DECIMAL(18,2))
 
 	CREATE TABLE #TempClientePagos (Fecha CHAR(10), Facturado DECIMAL(18,2))	
 
@@ -32,20 +36,20 @@ BEGIN
 		WHERE DATEADD(day, 1, myDate) <= @EndDate
 	)
 	INSERT INTO #TempMovimientos (Fecha)
-	SELECT CONVERT(varchar(10),CONVERT(date,myDate,106),103) AS Fecha
+	SELECT CONVERT(varchar(10), myDate,103) AS Fecha
 	FROM cte
 	OPTION (MAXRECURSION 0)
 
 	INSERT INTO #TempGastos (Fecha, Compras, Nomina, Prestamos, Servicios, Varios)
 	SELECT 
-		CONVERT(varchar(10),CONVERT(date,FECHA,106),103), 
+		CONVERT(varchar(10),FECHA,103), 
 		CASE WHEN (TIPO_GASTO = 'COMPRAS') THEN VALOR END AS Compras, 
 		CASE WHEN (TIPO_GASTO = 'NOMINA') THEN VALOR END AS Nomina,
 		CASE WHEN (TIPO_GASTO = 'PRESTAMOS') THEN VALOR END AS Prestamos,
 		CASE WHEN (TIPO_GASTO = 'SERVICIOS') THEN VALOR END AS Servicios,
 		CASE WHEN (TIPO_GASTO = 'VARIOS') THEN VALOR END AS Varios
 	FROM GASTOS
-	WHERE ID_EMPRESA = @IdEmpresa AND CONVERT(varchar(10),CONVERT(date,FECHA,106),103) BETWEEN @FechaDesde AND @FechaHasta	
+	WHERE ID_EMPRESA = @IdEmpresa AND CONVERT(varchar(10),FECHA,103) BETWEEN @FechaDesde AND @FechaHasta	
 
 	INSERT INTO #TempGastosFinal (Fecha, Compras, Nomina, Prestamos, Servicios, Varios)
 	SELECT
@@ -60,10 +64,10 @@ BEGIN
 
 	INSERT INTO #TempClientePagos (Fecha, Facturado)
 	SELECT
-		CONVERT(varchar(10),CONVERT(date,FECHA,106),103),
+		CONVERT(varchar(10),FECHA,103),
 		SUM(TOTAL)
 	FROM CLIENTE_PAGOS
-	WHERE ID_EMPRESA = @IdEmpresa AND CONVERT(varchar(10),CONVERT(date,FECHA,106),103) BETWEEN @FechaDesde AND @FechaHasta
+	WHERE ID_EMPRESA = @IdEmpresa AND CONVERT(varchar(10),FECHA,103) BETWEEN @FechaDesde AND @FechaHasta
 	GROUP BY Fecha
 
 	UPDATE Movimientos
@@ -83,23 +87,22 @@ BEGIN
 	IF(@Distribucion = 'MENSUAL') BEGIN
 		UPDATE Movimientos
 		SET Acumulado = CAJA_MENOR.ACUMULADO,
-		Saldo_Inicial = CAJA_MENOR.SALDO_INICIAL
+		SaldoInicial = CAJA_MENOR.SALDO_INICIAL
 		FROM #TempMovimientos Movimientos
-		INNER JOIN CAJA_MENOR ON YEAR(CAJA_MENOR.FECHA_REGISTRO) = YEAR(Movimientos.Fecha) AND MONTH(CAJA_MENOR.FECHA_REGISTRO) = MONTH(Movimientos.Fecha) AND ID_EMPRESA = @IdEmpresa		
+		INNER JOIN CAJA_MENOR ON YEAR(CAJA_MENOR.FECHA_REGISTRO) = YEAR(Movimientos.Fecha) AND MONTH(CAJA_MENOR.FECHA_REGISTRO) = MONTH(Movimientos.Fecha)
+		WHERE ID_EMPRESA = @IdEmpresa		
 	END
 	ELSE BEGIN
-
 		UPDATE Movimientos
 		SET Acumulado = CAJA_MENOR.ACUMULADO,
-		Saldo_Inicial = CAJA_MENOR.SALDO_INICIAL
+		SaldoInicial = CAJA_MENOR.SALDO_INICIAL
 		FROM #TempMovimientos Movimientos
-		INNER JOIN CAJA_MENOR ON YEAR(CAJA_MENOR.FECHA_REGISTRO) = YEAR(Movimientos.Fecha) AND MONTH(CAJA_MENOR.FECHA_REGISTRO) = MONTH(Movimientos.Fecha) AND DAY(CAJA_MENOR.FECHA_REGISTRO) = DAY(Movimientos.Fecha) AND ID_EMPRESA = @IdEmpresa
+		INNER JOIN CAJA_MENOR ON CONVERT(varchar(10),CAJA_MENOR.DIA,103) = Movimientos.Fecha 
+		WHERE ID_EMPRESA = @IdEmpresa
 	END
-	
-	DELETE FROM #TempMovimientos WHERE (ISNULL(Compras, 0) + ISNULL(Nomina, 0) + ISNULL(Prestamos, 0) + ISNULL(Servicios, 0) + ISNULL(Varios, 0) + ISNULL(Facturado, 0)) = 0
 
 	SELECT 
-		ISNULL(Saldo_Inicial, 0) AS Saldo_Inicial, 
+		ISNULL(SaldoInicial, 0) AS SaldoInicial, 
 		ISNULL(Acumulado, 0) AS Acumulado, 
 		RTRIM(Fecha) AS Fecha, 
 		ISNULL(Compras, 0) AS Compras, 
