@@ -1,4 +1,4 @@
-CREATE PROCEDURE GuardarServicio(
+CREATE PROCEDURE GuardarServicioConImagenes(
 	@JsonServicio NVARCHAR(MAX)
 )
 AS
@@ -36,7 +36,33 @@ BEGIN
 				TARGET.FECHA_MODIFICACION = GETDATE()
 		WHEN NOT MATCHED THEN
 			INSERT (ID_EMPRESA_SERVICIO, ID_SERVICIO, TIEMPO, VALOR, ESTADO, FECHA_REGISTRO, FECHA_MODIFICACION, ID_EMPRESA, LOGO_BASE64)
-			VALUES (@ServicioId, SOURCE.Id_Servicio, SOURCE.Tiempo, SOURCE.Valor, SOURCE.Estado, GETDATE(), GETDATE(), SOURCE.Id_Empresa, SOURCE.Logo_Base64);		
+			VALUES (@ServicioId, SOURCE.Id_Servicio, SOURCE.Tiempo, SOURCE.Valor, SOURCE.Estado, GETDATE(), GETDATE(), SOURCE.Id_Empresa, SOURCE.Logo_Base64);
+
+			
+		MERGE SERVICIO_IMAGENES AS TARGET
+		USING(
+			SELECT JsonServicioImagenes.*
+			FROM OPENJSON(@JsonServicio, '$')
+			WITH (
+				Id_Empresa_Servicio VARCHAR(36) '$.Id_Empresa_Servicio',
+				Id_Servicio INT '$.Id_Servicio',
+				Imagenes_Servicio NVARCHAR(MAX) '$.Imagenes_Servicio' AS JSON
+			) AS JsonServicio
+			CROSS APPLY OPENJSON(JsonServicio.Imagenes_Servicio)
+			WITH (
+				Id_Servicio_Imagen VARCHAR(36) '$.Id_Servicio_Imagen',
+				Id_Empresa_Servicio VARCHAR(36) '$.Id_Empresa_Servicio',
+				Id_Servicio INT '$.Id_Servicio',
+				Imagen_Base64 NVARCHAR(MAX) '$.Imagen_Base64',
+				TuvoCambios BIT '$.TuvoCambios'
+			) JsonServicioImagenes
+		) AS SOURCE(Id_Servicio_Imagen, Id_Empresa_Servicio, Id_Servicio, Imagen_Base64, TuvoCambios)
+		ON CAST(TARGET.ID_EMPRESA_SERVICIO AS VARCHAR(36)) = @ServicioId AND CAST(TARGET.ID_SERVICIO_IMAGEN as varchar(36)) = SOURCE.Id_Servicio_Imagen AND SOURCE.TuvoCambios = 'true'
+		WHEN MATCHED THEN
+			UPDATE SET TARGET.IMAGEN_BASE64 = SOURCE.Imagen_Base64, TARGET.FECHA_MODIFICACION = GETDATE()
+		WHEN NOT MATCHED AND SOURCE.TuvoCambios = 'true' THEN			
+			INSERT (ID_SERVICIO_IMAGEN, ID_EMPRESA_SERVICIO, ID_SERVICIO, IMAGEN_BASE64, FECHA_REGISTRO, FECHA_MODIFICACION) 
+			VALUES (NEWID(), @ServicioId, SOURCE.Id_Servicio, SOURCE.Imagen_Base64, GETDATE(), GETDATE());
 
 	END TRY
 
@@ -50,4 +76,3 @@ BEGIN
 END
 
 GO
-

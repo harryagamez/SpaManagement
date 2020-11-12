@@ -171,7 +171,8 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
 
     $scope.ConsultarServicio = function (data) {
         try {
-            $rootScope.ServicioImagenesAdjuntas = data.imagenes_Servicio;
+            
+            //$rootScope.ServicioImagenesAdjuntas = data.imagenes_Servicio;
             $scope.TipoServicioSeleccionado = -1;
 
             if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
@@ -193,7 +194,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
 
                 $scope.Servicio.Valor = data.valor;
                 $scope.Servicio.Id_Servicio = data.id_Servicio;
-                $scope.Servicio.Imagenes_Servicio = data.imagenes_Servicio;
+                //$scope.Servicio.Imagenes_Servicio = data.imagenes_Servicio;
                 $scope.TipoServicioSeleccionado = data.id_TipoServicio;
                 $scope.ModalEditarServicio();
 
@@ -337,7 +338,6 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
                 });
 
             $scope.LimpiarDatos();
-
             $scope.OcultarbtnNuevo = false;
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -359,12 +359,11 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
             })
                 .then(function () {
                 }, function () {
-                    $scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.filter(function (item) {
-                        return item.Id_Servicio !== -1;
-                    });
+                    //$scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.filter(function (item) {
+                    //    return item.Id_Servicio !== -1;
+                    //});
                     $('#txtBuscarServicio').focus();
-                    $scope.LimpiarDatos();
-                    $scope.ConsultarServicios();
+                    $scope.LimpiarDatos();                    
                 });
 
             $scope.NombreServicioReadOnly = true
@@ -477,7 +476,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
             },
         },
         {
-            headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+            headerName: "", field: "", suppressMenu: true, hide:true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
                 return "<i data-ng-click='VisualizarImagen(data)' data-toggle='tooltip' title='Ver imagen' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>image</i>";
             },

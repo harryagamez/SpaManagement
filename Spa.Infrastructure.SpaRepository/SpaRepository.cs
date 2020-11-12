@@ -335,6 +335,31 @@ namespace Spa.Infrastructure.SpaRepository
 
         public List<Servicio> ConsultarServicios(string IdEmpresa)
         {
+            DataTable _datatable = new DataTable();
+            List<Servicio> _servicios = new List<Servicio>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarServicios";
+                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+
+                    _servicios = _datatable.DataTableToList<Servicio>();
+                    return _servicios;
+                }
+            }
+        }
+
+        public List<Servicio> ConsultarServiciosConImagenes(string IdEmpresa)
+        {
             DataSet _dataset = new DataSet();
             List<Servicio> _servicios = new List<Servicio>();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -375,6 +400,31 @@ namespace Spa.Infrastructure.SpaRepository
         }
 
         public List<Servicio> ConsultarServiciosActivos(string IdEmpresa)
+        {
+            DataTable _datatable = new DataTable();
+            List<Servicio> _servicios = new List<Servicio>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarServiciosActivos";
+                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+
+                    _servicios = _datatable.DataTableToList<Servicio>();
+                    return _servicios;
+                }
+            }
+        }
+
+        public List<Servicio> ConsultarServiciosActivosConImagenes(string IdEmpresa)
         {
             DataSet _dataset = new DataSet();
             List<Servicio> _servicios = new List<Servicio>();

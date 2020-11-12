@@ -152,8 +152,8 @@
 
                             <div layout="row" layout-sm="column" layout-align="end center">
 
-                                <div flex="" class="material-app">
-                                    <md-button type="button" id="btnImagenesServicio" style="margin: 6px 3px !important; background-color:#566473;" class="groupX left btn-spa" data-toggle="tooltip" title="Seleccionar imagenes" ng-click="showReemplazarImagenesServicio()" tabindex=7>
+                                <div flex="" class="material-app" ng-show="false">
+                                    <md-button type="button" id="btnImagenesServicio" style="margin: 6px 3px !important; background-color:#566473; display:" class="groupX left btn-spa" data-toggle="tooltip" title="Seleccionar imagenes" ng-click="showReemplazarImagenesServicio()" tabindex=7>
                                         <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">image</i> Imágenes
                                     </md-button>
                                     <md-button type="button" style="margin-left: -10px; padding:0; min-width:20px; background-color:#566473;" class="groupX left btn-spa" data-toggle="tooltip" title="Imágenes Adjuntas" data-ng-click="showCustomImagenesAdjuntas()">
@@ -161,7 +161,7 @@
                                     </md-button>
                                 </div>
 
-                                <div flex="" style="right:15px; position: absolute;">
+                                <div flex="" style="bottom:10px; right:15px; position: absolute;">
                                     <md-button type="button" id="btnGuardar" style="margin: 6px 1px !important;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" ng-click="GuardarServicio()" tabindex=8>
                                         <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">save</i> Guardar
                                     </md-button>

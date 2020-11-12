@@ -300,6 +300,9 @@
     <Build Include="dbo\Stored Procedures\ConsultarPagosCliente.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarServiciosEmpleado.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarMovimientosCajaMenor.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarServicioConImagenes.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarServiciosConImagenes.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarServiciosActivosConImagenes.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

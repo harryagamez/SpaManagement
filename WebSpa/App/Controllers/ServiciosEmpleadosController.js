@@ -103,19 +103,7 @@ function ServiciosEmpleadosController($scope, $rootScope, $filter, $mdDialog, $m
             headerName: "Servicio", field: 'nombre_Servicio', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Estado Cita", field: 'estado', width: 140, cellStyle: function (params) {
-                if (params.value === 'PROGRAMADA') {
-                    return { 'background-color': '#e9e1cc', 'text-align': 'left', 'cursor': 'pointer', 'font-weight': 'bold' };
-                } else if (params.value === 'CONFIRMADA') {
-                    return { 'background-color': '#9dc', 'text-align': 'left', 'cursor': 'pointer', 'font-weight': 'bold' };
-                } else if (params.value === 'FACTURADA') {
-                    return { 'background-color': '#ffd', 'text-align': 'left', 'cursor': 'pointer', 'font-weight': 'bold' };
-                } else if (params.value === 'LIQUIDADA') {
-                    return { 'background-color': '#499977', 'text-align': 'left', 'cursor': 'pointer', 'font-weight': 'bold' };
-                } else if (params.value === 'CANCELADA') {
-                    return { 'background-color': '#c2dbdf', 'text-align': 'left', 'cursor': 'pointer', 'font-weight': 'bold' };
-                }
-            },
+            headerName: "Estado Cita", field: 'estado', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer', 'font-weight':'bold', },
         },
         {
             headerName: "Fecha", field: 'fecha_Inicio', width: 110, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter
