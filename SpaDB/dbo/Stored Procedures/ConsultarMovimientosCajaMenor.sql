@@ -45,7 +45,7 @@ BEGIN
 		CASE WHEN (TIPO_GASTO = 'SERVICIOS') THEN VALOR END AS Servicios,
 		CASE WHEN (TIPO_GASTO = 'VARIOS') THEN VALOR END AS Varios
 	FROM GASTOS
-	WHERE ID_EMPRESA = @IdEmpresa AND CONVERT(varchar(10),CONVERT(date,FECHA,106),103) BETWEEN @FechaDesde AND @FechaHasta
+	WHERE ID_EMPRESA = @IdEmpresa AND CONVERT(varchar(10),CONVERT(date,FECHA,106),103) BETWEEN @FechaDesde AND @FechaHasta	
 
 	INSERT INTO #TempGastosFinal (Fecha, Compras, Nomina, Prestamos, Servicios, Varios)
 	SELECT
@@ -56,7 +56,7 @@ BEGIN
 		SUM(Servicios) AS Servicios,
 		SUM(Varios) AS Varios
 	FROM #TempGastos
-	GROUP BY Fecha
+	GROUP BY Fecha	
 
 	INSERT INTO #TempClientePagos (Fecha, Facturado)
 	SELECT
@@ -64,28 +64,36 @@ BEGIN
 		SUM(TOTAL)
 	FROM CLIENTE_PAGOS
 	WHERE ID_EMPRESA = @IdEmpresa AND CONVERT(varchar(10),CONVERT(date,FECHA,106),103) BETWEEN @FechaDesde AND @FechaHasta
-	GROUP BY Fecha	
+	GROUP BY Fecha
 
 	UPDATE Movimientos
 	SET Compras = Gastos.Compras,
 		Nomina = Gastos.Nomina,
 		Prestamos = Gastos.Prestamos,
 		Servicios = Gastos.Servicios,
-		Varios = Gastos.Varios,
-		Facturado = ClientePagos.Facturado
+		Varios = Gastos.Varios		
 	FROM #TempMovimientos Movimientos
-	INNER JOIN #TempGastosFinal Gastos ON Movimientos.Fecha = Gastos.Fecha
+	INNER JOIN #TempGastosFinal Gastos ON Movimientos.Fecha = Gastos.Fecha	
+
+	UPDATE Movimientos
+	SET Facturado = ClientePagos.Facturado
+	FROM #TempMovimientos Movimientos	
 	INNER JOIN #TempClientePagos ClientePagos ON Movimientos.Fecha = ClientePagos.Fecha
 
 	IF(@Distribucion = 'MENSUAL') BEGIN
-		UPDATE #TempMovimientos
-		SET #TempMovimientos.Acumulado = (SELECT TOP 1 ACUMULADO FROM CAJA_MENOR WHERE YEAR(Convert(varchar(10),CONVERT(date,FECHA_REGISTRO,106),103)) = YEAR(#TempMovimientos.Fecha) AND MONTH(Convert(varchar(10),CONVERT(date,FECHA_REGISTRO,106),103)) = MONTH(#TempMovimientos.Fecha) AND ID_EMPRESA = @IdEmpresa),
-		#TempMovimientos.Saldo_Inicial = (SELECT TOP 1 SALDO_INICIAL FROM CAJA_MENOR WHERE YEAR(Convert(varchar(10),CONVERT(date,FECHA_REGISTRO,106),103)) = YEAR(#TempMovimientos.Fecha) AND MONTH(Convert(varchar(10),CONVERT(date,FECHA_REGISTRO,106),103)) = MONTH(#TempMovimientos.Fecha) AND ID_EMPRESA = @IdEmpresa)
+		UPDATE Movimientos
+		SET Acumulado = CAJA_MENOR.ACUMULADO,
+		Saldo_Inicial = CAJA_MENOR.SALDO_INICIAL
+		FROM #TempMovimientos Movimientos
+		INNER JOIN CAJA_MENOR ON YEAR(CAJA_MENOR.FECHA_REGISTRO) = YEAR(Movimientos.Fecha) AND MONTH(CAJA_MENOR.FECHA_REGISTRO) = MONTH(Movimientos.Fecha) AND ID_EMPRESA = @IdEmpresa		
 	END
 	ELSE BEGIN
-		UPDATE #TempMovimientos
-		SET #TempMovimientos.Acumulado = (SELECT TOP 1 ACUMULADO FROM CAJA_MENOR WHERE YEAR(Convert(varchar(10),CONVERT(date,FECHA_REGISTRO,106),103)) = YEAR(#TempMovimientos.Fecha) AND MONTH(Convert(varchar(10),CONVERT(date,FECHA_REGISTRO,106),103)) = MONTH(#TempMovimientos.Fecha) AND DAY(Convert(varchar(10),CONVERT(date,FECHA_REGISTRO,106),103)) = DAY(#TempMovimientos.Fecha) AND ID_EMPRESA = @IdEmpresa),
-		#TempMovimientos.Saldo_Inicial = (SELECT TOP 1 SALDO_INICIAL FROM CAJA_MENOR WHERE YEAR(Convert(varchar(10),CONVERT(date,FECHA_REGISTRO,106),103)) = YEAR(#TempMovimientos.Fecha) AND MONTH(Convert(varchar(10),CONVERT(date,FECHA_REGISTRO,106),103)) = MONTH(#TempMovimientos.Fecha) AND DAY(Convert(varchar(10),CONVERT(date,FECHA_REGISTRO,106),103)) = DAY(#TempMovimientos.Fecha) AND ID_EMPRESA = @IdEmpresa)
+
+		UPDATE Movimientos
+		SET Acumulado = CAJA_MENOR.ACUMULADO,
+		Saldo_Inicial = CAJA_MENOR.SALDO_INICIAL
+		FROM #TempMovimientos Movimientos
+		INNER JOIN CAJA_MENOR ON YEAR(CAJA_MENOR.FECHA_REGISTRO) = YEAR(Movimientos.Fecha) AND MONTH(CAJA_MENOR.FECHA_REGISTRO) = MONTH(Movimientos.Fecha) AND DAY(CAJA_MENOR.FECHA_REGISTRO) = DAY(Movimientos.Fecha) AND  ID_EMPRESA = @IdEmpresa
 	END	
 
 	SELECT 
@@ -105,6 +113,7 @@ BEGIN
 	IF OBJECT_ID('tempdb..#TempGastosFinal') IS NOT NULL DROP TABLE #TempGastosFinal
 	IF OBJECT_ID('tempdb..#TempClientePagos') IS NOT NULL DROP TABLE #TempClientePagos	
 	IF OBJECT_ID('tempdb..#TempMovimientos') IS NOT NULL DROP TABLE #TempMovimientos
+
 
 END
 
