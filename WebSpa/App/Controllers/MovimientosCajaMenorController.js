@@ -216,8 +216,7 @@ function MovimientosCajaMenorController($scope, $rootScope, $filter, $mdDialog, 
     }
 
     $scope.ExportarArchivo = function () {
-        try {
-            debugger;
+        try {            
             if ($scope.MovimientosCajaMenor !== null && $scope.MovimientosCajaMenor !== undefined && $scope.MovimientosCajaMenor.length > 0) {
 
                 let movimientosCajaMenor = [];
@@ -279,11 +278,46 @@ function MovimientosCajaMenorController($scope, $rootScope, $filter, $mdDialog, 
             '' +
         '<div class="customHeaderLabel" style="margin-left: auto; margin-right: auto; font-weight: 800;">'
             +this.params.displayName +
-        '</div>';
-    }        
+            '</div>';
+
+        this.onExpandButtonClickedListener = this.expandOrCollapse.bind(this);
+        this.eExpandButton = this.eGui.querySelector('.customExpandButton');       
+
+        this.onExpandChangedListener = this.syncExpandButtons.bind(this);
+        this.params.columnGroup
+            .getOriginalColumnGroup()
+            .addEventListener('expandedChanged', this.onExpandChangedListener);
+
+        this.syncExpandButtons();
+    };
 
     CustomHeaderGroup.prototype.getGui = function () {
         return this.eGui;
+    };
+
+    CustomHeaderGroup.prototype.expandOrCollapse = function () {
+        var currentState = this.params.columnGroup
+            .getOriginalColumnGroup()
+            .isExpanded();
+        this.params.setExpanded(!currentState);
+    };
+
+    CustomHeaderGroup.prototype.syncExpandButtons = function () {
+        function collapsed(toDeactivate) {            
+        }
+
+        function expanded(toActivate) {
+            toActivate.className = toActivate.className.split(' ')[0] + ' expanded';
+        }
+
+        if (this.params.columnGroup.getOriginalColumnGroup().isExpanded()) {
+            expanded(this.eExpandButton);
+        } else {
+            collapsed(this.eExpandButton);
+        }
+    };
+
+    CustomHeaderGroup.prototype.destroy = function () {        
     };
 
     window.onresize = function () {

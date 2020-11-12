@@ -88,55 +88,60 @@ function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     }
 
     $scope.ValidarDatosBusqueda = function () {
-        if ($scope.FechaDesde === null || $scope.FechaDesde === undefined || $scope.FechaDesde === '') {
-            toastr.warning('Formato de fecha incorrecto. Debe seleccionar una fecha válida', '', $scope.toastrOptions);
-            $timeout(function () {
-                angular.element(document.getElementById('dpFechaDesde')).find('input').focus();
-            }, 200);
-            return false;
-        }
-
-        if ($scope.FechaHasta === null || $scope.FechaHasta === undefined || $scope.FechaHasta === '') {
-            toastr.warning('Formato de fecha incorrecto. Debe seleccionar una fecha válida', '', $scope.toastrOptions);
-            $timeout(function () {
-                angular.element(document.getElementById('dpFechaHasta')).find('input').focus();
-            }, 200);
-            return false;
-        }
-
-        let fechaDesde = parseInt($filter('date')(new Date($scope.FechaDesde), 'yyyyMMdd'));
-        let fechaHasta = parseInt($filter('date')(new Date($scope.FechaHasta), 'yyyyMMdd'));
-
-        if (fechaDesde > fechaHasta) {
-            toastr.info('Rango de fecha inválido', '', $scope.toastrOptions);
-            $timeout(function () {
-                angular.element(document.getElementById('dpFechaDesde')).find('input').focus();
-            }, 200);
-            return false;
-        }
-
-        let _diasLimite = new Date($scope.FechaHasta);
-        _diasLimite.setDate(_diasLimite.getDate() - 5);
-
-        if ($filter('date')($scope.FechaDesde, 'yyyy/MM/dd') < $filter('date')(_diasLimite, 'yyyy/MM/dd')) {
-            if ($scope.ClienteSeleccionado === '' || $scope.ClienteSeleccionado === null || $scope.ClienteSeleccionado === undefined) {
-                toastr.info('Para un rango mayor a 5 días debe seleccionar un cliente', '', $scope.toastrOptions);
+        try {
+            if ($scope.FechaDesde === null || $scope.FechaDesde === undefined || $scope.FechaDesde === '') {
+                toastr.warning('Formato de fecha incorrecto. Debe seleccionar una fecha válida', '', $scope.toastrOptions);
                 $timeout(function () {
-                    angular.element(document.getElementById('acClientes')).find('input').focus();
+                    angular.element(document.getElementById('dpFechaDesde')).find('input').focus();
                 }, 200);
                 return false;
             }
-        }
 
-        $scope.AplicacionPago.Fecha_Desde = $scope.FechaDesde;
-        $scope.AplicacionPago.Fecha_Hasta = $scope.FechaHasta;
+            if ($scope.FechaHasta === null || $scope.FechaHasta === undefined || $scope.FechaHasta === '') {
+                toastr.warning('Formato de fecha incorrecto. Debe seleccionar una fecha válida', '', $scope.toastrOptions);
+                $timeout(function () {
+                    angular.element(document.getElementById('dpFechaHasta')).find('input').focus();
+                }, 200);
+                return false;
+            }
 
-        if ($scope.ClienteSeleccionado === '' || $scope.ClienteSeleccionado === null || $scope.ClienteSeleccionado === undefined)
-            $scope.AplicacionPago.Id_Cliente = -1;
-        else
-            $scope.AplicacionPago.Id_Cliente = $scope.ClienteSeleccionado.id_Cliente;        
+            let fechaDesde = parseInt($filter('date')(new Date($scope.FechaDesde), 'yyyyMMdd'));
+            let fechaHasta = parseInt($filter('date')(new Date($scope.FechaHasta), 'yyyyMMdd'));
 
-        return true;
+            if (fechaDesde > fechaHasta) {
+                toastr.info('Rango de fecha inválido', '', $scope.toastrOptions);
+                $timeout(function () {
+                    angular.element(document.getElementById('dpFechaDesde')).find('input').focus();
+                }, 200);
+                return false;
+            }
+
+            let _diasLimite = new Date($scope.FechaHasta);
+            _diasLimite.setDate(_diasLimite.getDate() - 5);
+
+            if ($filter('date')($scope.FechaDesde, 'yyyy/MM/dd') < $filter('date')(_diasLimite, 'yyyy/MM/dd')) {
+                if ($scope.ClienteSeleccionado === '' || $scope.ClienteSeleccionado === null || $scope.ClienteSeleccionado === undefined) {
+                    toastr.info('Para un rango mayor a 5 días debe seleccionar un cliente', '', $scope.toastrOptions);
+                    $timeout(function () {
+                        angular.element(document.getElementById('acClientes')).find('input').focus();
+                    }, 200);
+                    return false;
+                }
+            }
+
+            $scope.AplicacionPago.Fecha_Desde = $scope.FechaDesde;
+            $scope.AplicacionPago.Fecha_Hasta = $scope.FechaHasta;
+
+            if ($scope.ClienteSeleccionado === '' || $scope.ClienteSeleccionado === null || $scope.ClienteSeleccionado === undefined)
+                $scope.AplicacionPago.Id_Cliente = -1;
+            else
+                $scope.AplicacionPago.Id_Cliente = $scope.ClienteSeleccionado.id_Cliente;
+
+            return true;
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }        
     }
 
     $scope.PagosClienteGridOptionsColumns = [
@@ -224,8 +229,7 @@ function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     }   
 
     function OnRowSelectedPagos(event) {
-        try {           
-            
+        try {
             $scope.ObjetoPagosSeleccionados = [];
             $scope.ObjetoPagosSeleccionados = $scope.PagosClienteGridOptions.api.getSelectedRows();
 
@@ -261,41 +265,56 @@ function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     }   
 
     $scope.LimpiarDatos = function () {
-        $scope.AplicacionPago = {
-            Id_Cliente: -1,
-            Id_Servicios: [],
-            Fecha_Desde: null,
-            Fecha_Hasta: null,
-            Id_Empresa: $scope.IdEmpresa
-        }
+        try {
+            $scope.AplicacionPago = {
+                Id_Cliente: -1,
+                Id_Servicios: [],
+                Fecha_Desde: null,
+                Fecha_Hasta: null,
+                Id_Empresa: $scope.IdEmpresa
+            }
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }        
     }
 
     $scope.ResetearGrids = function () {
-        $scope.PagosCliente = [];
-        $scope.PagosClienteGridOptions.api.setRowData($scope.PagosCliente);
-        $timeout(function () {
-            $scope.PagosClienteGridOptions.api.sizeColumnsToFit();
-        }, 200);
+        try {
+            $scope.PagosCliente = [];
+            $scope.PagosClienteGridOptions.api.setRowData($scope.PagosCliente);
+            $timeout(function () {
+                $scope.PagosClienteGridOptions.api.sizeColumnsToFit();
+            }, 200);
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }        
     }    
 
     $scope.ResetearData = function () {
-        $scope.Pagos = [];
-        $scope.ObjetoPagosSeleccionados = [];
+        try {
+            $scope.Pagos = [];
+            $scope.ObjetoPagosSeleccionados = [];
 
-        $scope.AplicacionPago = {
-            Id_Cliente: -1,
-            Fecha_Desde: null,
-            Fecha_Hasta: null,
-            Id_Empresa: $scope.IdEmpresa
-        }
+            $scope.AplicacionPago = {
+                Id_Cliente: -1,
+                Fecha_Desde: null,
+                Fecha_Hasta: null,
+                Id_Empresa: $scope.IdEmpresa
+            }
 
-        $scope.ClienteSeleccionado = null;
-        $scope.FechaDesde = new Date();
-        $scope.FechaHasta = new Date();
+            $scope.ClienteSeleccionado = null;
+            $scope.FechaDesde = new Date();
+            $scope.FechaHasta = new Date();
 
-        $scope.PagosSubtotal = 0;
-        $scope.PagosDescuento = 0;
-        $scope.PagosTotal = 0;
+            $scope.PagosSubtotal = 0;
+            $scope.PagosDescuento = 0;
+            $scope.PagosTotal = 0;
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }        
     }
 
     function currencyFormatter(params) {
@@ -325,9 +344,14 @@ function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToas
     }
 
     window.onresize = function () {
-        $timeout(function () {
-            $scope.PagosClienteGridOptions.api.sizeColumnsToFit();
-        }, 300);
+        try {
+            $timeout(function () {
+                $scope.PagosClienteGridOptions.api.sizeColumnsToFit();
+            }, 300);
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
     }
 
     $scope.$on("CompanyChange", function () {
