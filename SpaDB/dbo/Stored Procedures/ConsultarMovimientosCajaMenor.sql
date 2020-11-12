@@ -94,7 +94,9 @@ BEGIN
 		Saldo_Inicial = CAJA_MENOR.SALDO_INICIAL
 		FROM #TempMovimientos Movimientos
 		INNER JOIN CAJA_MENOR ON YEAR(CAJA_MENOR.FECHA_REGISTRO) = YEAR(Movimientos.Fecha) AND MONTH(CAJA_MENOR.FECHA_REGISTRO) = MONTH(Movimientos.Fecha) AND DAY(CAJA_MENOR.FECHA_REGISTRO) = DAY(Movimientos.Fecha) AND  ID_EMPRESA = @IdEmpresa
-	END	
+	END
+	
+	DELETE FROM #TempMovimientos WHERE (ISNULL(Compras, 0) + ISNULL(Nomina, 0) + ISNULL(Prestamos, 0) + ISNULL(Servicios, 0) + ISNULL(Varios, 0) + ISNULL(Facturado, 0)) = 0
 
 	SELECT 
 		ISNULL(Saldo_Inicial, 0) AS Saldo_Inicial, 
