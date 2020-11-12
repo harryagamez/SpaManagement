@@ -20,13 +20,12 @@ function MovimientosCajaMenorController($scope, $rootScope, $filter, $mdDialog, 
     $scope.ConsultarMovimientosCajaMenor = function () {
         if ($scope.ValidarDatosBusqueda()) {
 
-            let fechaDesde = $filter('date')($scope.FechaDesde, 'dd/MM/yyyy');
-            let fechaHasta = $filter('date')($scope.FechaHasta, 'dd/MM/yyyy');
+            let fechaDesde = $filter('date')($scope.FechaDesde, 'yyyy-MM-dd');
+            let fechaHasta = $filter('date')($scope.FechaHasta, 'yyyy-MM-dd');
             
             SPAService._consultarMovimientosCajaMenor($scope.IdEmpresa, fechaDesde, fechaHasta)
                 .then(
                     function (result) {
-                        
                         if (result.data !== undefined && result.data !== null && result.data.length > 0) {
                             $scope.MovimientosCajaMenor = [];
                             $scope.MovimientosCajaMenor = result.data;
@@ -83,7 +82,7 @@ function MovimientosCajaMenorController($scope, $rootScope, $filter, $mdDialog, 
             headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
         },
         {
-            headerName: "CAJA MENOR",
+            headerName: "Caja Menor",
             headerGroupComponent: 'customHeaderGroupComponent',
             children: [
                 {
@@ -95,7 +94,7 @@ function MovimientosCajaMenorController($scope, $rootScope, $filter, $mdDialog, 
             ],
         },
         {
-            headerName: "MOVIMIENTOS - TIPO DE PAGO",
+            headerName: "Movimientos Egresos - Ingresos",
             headerGroupComponent: 'customHeaderGroupComponent',
             children: [
                 {
