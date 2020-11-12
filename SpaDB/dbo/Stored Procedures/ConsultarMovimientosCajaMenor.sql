@@ -1,16 +1,19 @@
 CREATE PROCEDURE ConsultarMovimientosCajaMenor(
 	@IdEmpresa	VARCHAR(36),
-	@FechaDesde CHAR(10),
-	@FechaHasta CHAR(10)
+	@FechaDesde DATE,
+	@FechaHasta DATE
 )
 AS
 BEGIN
 
 	DECLARE @Distribucion CHAR(12)
-	DECLARE @StartDate DATE = @FechaDesde
-	DECLARE @EndDate DATE = @FechaHasta
+	DECLARE @StartDate DATE
+	DECLARE @EndDate DATE
 
-	CREATE TABLE #TempMovimientos (SaldoInicial DECIMAL(18,2), Acumulado DECIMAL (18,2), Fecha CHAR(10), Compras DECIMAL(18,2), 
+	SET @StartDate = @FechaDesde
+	SET @EndDate = @FechaHasta
+
+	CREATE TABLE #TempMovimientos (SaldoInicial DECIMAL(18,2), Acumulado DECIMAL (18,2), Fecha DATE, Compras DECIMAL(18,2), 
 	Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), Varios DECIMAL(18,2), Facturado DECIMAL(18,2))
 	
 	CREATE TABLE #TempGastos (Fecha CHAR(10), Compras DECIMAL(18,2), Nomina DECIMAL(18,2), Prestamos DECIMAL(18,2), Servicios DECIMAL(18,2), 
@@ -28,28 +31,30 @@ BEGIN
 		SET @Distribucion = 'DIARIA'
 	END
 
-	;WITH cte AS (
+	;WITH CTE AS (
 		SELECT @StartDate AS myDate
 		UNION ALL
-		SELECT DATEADD(day, 1, myDate) AS myDate
-		FROM cte
-		WHERE DATEADD(day, 1, myDate) <= @EndDate
+		SELECT DATEADD(DAY, 1, myDate) AS myDate
+		FROM CTE
+		WHERE DATEADD(DAY, 1, myDate) <= @EndDate
 	)
+
 	INSERT INTO #TempMovimientos (Fecha)
-	SELECT CONVERT(varchar(10), myDate,103) AS Fecha
-	FROM cte
+	SELECT myDate
+	FROM CTE
 	OPTION (MAXRECURSION 0)
 
 	INSERT INTO #TempGastos (Fecha, Compras, Nomina, Prestamos, Servicios, Varios)
 	SELECT 
-		CONVERT(varchar(10),FECHA,103), 
+		CONVERT(VARCHAR(10),FECHA,121) AS Fecha, 
 		CASE WHEN (TIPO_GASTO = 'COMPRAS') THEN VALOR END AS Compras, 
 		CASE WHEN (TIPO_GASTO = 'NOMINA') THEN VALOR END AS Nomina,
 		CASE WHEN (TIPO_GASTO = 'PRESTAMOS') THEN VALOR END AS Prestamos,
 		CASE WHEN (TIPO_GASTO = 'SERVICIOS') THEN VALOR END AS Servicios,
 		CASE WHEN (TIPO_GASTO = 'VARIOS') THEN VALOR END AS Varios
 	FROM GASTOS
-	WHERE ID_EMPRESA = @IdEmpresa AND CONVERT(varchar(10),FECHA,103) BETWEEN @FechaDesde AND @FechaHasta	
+	WHERE ID_EMPRESA = @IdEmpresa 
+	AND CONVERT(VARCHAR(10), FECHA, 121) BETWEEN @FechaDesde AND @FechaHasta	
 
 	INSERT INTO #TempGastosFinal (Fecha, Compras, Nomina, Prestamos, Servicios, Varios)
 	SELECT
@@ -64,41 +69,49 @@ BEGIN
 
 	INSERT INTO #TempClientePagos (Fecha, Facturado)
 	SELECT
-		CONVERT(varchar(10),FECHA,103),
-		SUM(TOTAL)
+		CONVERT(VARCHAR(10), FECHA, 121) AS Fecha,
+		SUM(TOTAL) AS Facturado
 	FROM CLIENTE_PAGOS
-	WHERE ID_EMPRESA = @IdEmpresa AND CONVERT(varchar(10),FECHA,103) BETWEEN @FechaDesde AND @FechaHasta
+	WHERE ID_EMPRESA = @IdEmpresa 
+	AND CONVERT(VARCHAR(10), FECHA, 121) BETWEEN @FechaDesde AND @FechaHasta
 	GROUP BY Fecha
 
-	UPDATE Movimientos
-	SET Compras = Gastos.Compras,
+	UPDATE Movimientos SET 
+		Compras = Gastos.Compras,
 		Nomina = Gastos.Nomina,
 		Prestamos = Gastos.Prestamos,
 		Servicios = Gastos.Servicios,
 		Varios = Gastos.Varios		
 	FROM #TempMovimientos Movimientos
-	INNER JOIN #TempGastosFinal Gastos ON Movimientos.Fecha = Gastos.Fecha	
+	INNER JOIN #TempGastosFinal Gastos 
+	ON Movimientos.Fecha = Gastos.Fecha	
 
-	UPDATE Movimientos
-	SET Facturado = ClientePagos.Facturado
+	UPDATE Movimientos SET 
+		Facturado = ClientePagos.Facturado
 	FROM #TempMovimientos Movimientos	
-	INNER JOIN #TempClientePagos ClientePagos ON Movimientos.Fecha = ClientePagos.Fecha
+	INNER JOIN #TempClientePagos ClientePagos 
+	ON Movimientos.Fecha = ClientePagos.Fecha
 
 	IF(@Distribucion = 'MENSUAL') BEGIN
-		UPDATE Movimientos
-		SET Acumulado = CAJA_MENOR.ACUMULADO,
-		SaldoInicial = CAJA_MENOR.SALDO_INICIAL
+
+		UPDATE Movimientos SET 
+			Acumulado = CAJA_MENOR.ACUMULADO,
+			SaldoInicial = CAJA_MENOR.SALDO_INICIAL
 		FROM #TempMovimientos Movimientos
-		INNER JOIN CAJA_MENOR ON YEAR(CAJA_MENOR.FECHA_REGISTRO) = YEAR(Movimientos.Fecha) AND MONTH(CAJA_MENOR.FECHA_REGISTRO) = MONTH(Movimientos.Fecha)
-		WHERE ID_EMPRESA = @IdEmpresa		
+		INNER JOIN CAJA_MENOR ON YEAR(CAJA_MENOR.FECHA_REGISTRO) = YEAR(Movimientos.Fecha) 
+		AND MONTH(CAJA_MENOR.FECHA_REGISTRO) = MONTH(Movimientos.Fecha)
+		WHERE ID_EMPRESA = @IdEmpresa
+		
 	END
 	ELSE BEGIN
-		UPDATE Movimientos
-		SET Acumulado = CAJA_MENOR.ACUMULADO,
-		SaldoInicial = CAJA_MENOR.SALDO_INICIAL
+
+		UPDATE Movimientos SET 
+			Acumulado = CAJA_MENOR.ACUMULADO,
+			SaldoInicial = CAJA_MENOR.SALDO_INICIAL
 		FROM #TempMovimientos Movimientos
-		INNER JOIN CAJA_MENOR ON CONVERT(varchar(10),CAJA_MENOR.DIA,103) = Movimientos.Fecha 
+		INNER JOIN CAJA_MENOR ON CONVERT(VARCHAR(10), CAJA_MENOR.DIA, 121) = Movimientos.Fecha 
 		WHERE ID_EMPRESA = @IdEmpresa
+
 	END
 
 	SELECT 
