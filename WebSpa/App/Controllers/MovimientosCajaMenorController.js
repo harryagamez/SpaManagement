@@ -231,7 +231,7 @@ function MovimientosCajaMenorController($scope, $rootScope, $filter, $mdDialog, 
                     headers: true                    
                 };
 
-                alasql('SELECT saldo_Inicial AS SALDO_INICIAL, acumulado AS ACUMULADO, fecha AS FECHA, compras AS COMPRAS, nomina AS NOMINA, prestamos AS PRESTAMOS, servicios AS SERVICIOS, varios AS VARIOS, facturado AS FACTURADO INTO XLSX("Movimientos_caja.xlsx",?) FROM ?', [mystyle, movimientosCajaMenor]);
+                alasql('SELECT saldoInicial AS SALDO_INICIAL, acumulado AS ACUMULADO, fecha AS FECHA, compras AS COMPRAS, nomina AS NOMINA, prestamos AS PRESTAMOS, servicios AS SERVICIOS, varios AS VARIOS, facturado AS FACTURADO INTO XLSX("Movimientos_caja.xlsx",?) FROM ?', [mystyle, movimientosCajaMenor]);
             } else {
                 toastr.info('No hay datos para exportar', '', $scope.toastrOptions);
             }
