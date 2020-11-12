@@ -141,7 +141,8 @@ function MovimientosCajaMenorController($scope, $rootScope, $filter, $mdDialog, 
         fullWidthCellRenderer: true,
         animateRows: true,
         suppressRowClickSelection: true,
-        rowSelection: 'multiple'
+        rowSelection: 'multiple',
+        onRowSelected: OnRowSelectedMovimiento
     }
 
     $scope.ValidarDatosBusqueda = function () {
@@ -200,6 +201,46 @@ function MovimientosCajaMenorController($scope, $rootScope, $filter, $mdDialog, 
 
         $scope.SaldoInicial = 0;
         $scope.SaldoAcumulado = 0;
+    }
+
+    function OnRowSelectedMovimiento(event) {
+        try {
+
+            $scope.ObjetoMovimientoCajaSeleccionados = [];
+            $scope.ObjetoMovimientoCajaSeleccionados = $scope.MovimientosCajaMenorGridOptions.api.getSelectedRows();
+
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.ExportarArchivo = function () {
+        try {
+            debugger;
+            if ($scope.MovimientosCajaMenor !== null && $scope.MovimientosCajaMenor !== undefined && $scope.MovimientosCajaMenor.length > 0) {
+
+                let movimientosCajaMenor = [];
+
+                if ($scope.ObjetoMovimientoCajaSeleccionados !== undefined && $scope.ObjetoMovimientoCajaSeleccionados !== null && $scope.ObjetoMovimientoCajaSeleccionados.length > 0)
+                    movimientosCajaMenor = $scope.ObjetoMovimientoCajaSeleccionados;
+                else
+                    movimientosCajaMenor = $scope.MovimientosCajaMenor;
+
+                let mystyle = {
+                    sheetid: 'Movimientos caja menor',
+                    headers: true                    
+                };
+
+                alasql('SELECT saldo_Inicial AS SALDO_INICIAL, acumulado AS ACUMULADO, fecha AS FECHA, compras AS COMPRAS, nomina AS NOMINA, prestamos AS PRESTAMOS, servicios AS SERVICIOS, varios AS VARIOS, facturado AS FACTURADO INTO XLSX("Movimientos_caja.xlsx",?) FROM ?', [mystyle, movimientosCajaMenor]);
+            } else {
+                toastr.info('No hay datos para exportar', '', $scope.toastrOptions);
+            }
+
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
     }
 
     function currencyFormatter(params) {

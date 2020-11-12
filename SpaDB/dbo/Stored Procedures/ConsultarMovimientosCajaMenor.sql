@@ -93,7 +93,7 @@ BEGIN
 		SET Acumulado = CAJA_MENOR.ACUMULADO,
 		Saldo_Inicial = CAJA_MENOR.SALDO_INICIAL
 		FROM #TempMovimientos Movimientos
-		INNER JOIN CAJA_MENOR ON YEAR(CAJA_MENOR.FECHA_REGISTRO) = YEAR(Movimientos.Fecha) AND MONTH(CAJA_MENOR.FECHA_REGISTRO) = MONTH(Movimientos.Fecha) AND DAY(CAJA_MENOR.FECHA_REGISTRO) = DAY(Movimientos.Fecha) AND  ID_EMPRESA = @IdEmpresa
+		INNER JOIN CAJA_MENOR ON YEAR(CAJA_MENOR.FECHA_REGISTRO) = YEAR(Movimientos.Fecha) AND MONTH(CAJA_MENOR.FECHA_REGISTRO) = MONTH(Movimientos.Fecha) AND DAY(CAJA_MENOR.FECHA_REGISTRO) = DAY(Movimientos.Fecha) AND ID_EMPRESA = @IdEmpresa
 	END
 	
 	DELETE FROM #TempMovimientos WHERE (ISNULL(Compras, 0) + ISNULL(Nomina, 0) + ISNULL(Prestamos, 0) + ISNULL(Servicios, 0) + ISNULL(Varios, 0) + ISNULL(Facturado, 0)) = 0
@@ -115,7 +115,6 @@ BEGIN
 	IF OBJECT_ID('tempdb..#TempGastosFinal') IS NOT NULL DROP TABLE #TempGastosFinal
 	IF OBJECT_ID('tempdb..#TempClientePagos') IS NOT NULL DROP TABLE #TempClientePagos	
 	IF OBJECT_ID('tempdb..#TempMovimientos') IS NOT NULL DROP TABLE #TempMovimientos
-
 
 END
 
