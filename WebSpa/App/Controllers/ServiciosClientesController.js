@@ -1,7 +1,7 @@
 ﻿angular.module('app.controllers')
     .controller("ServiciosClientesController", ServiciosClientesController);
 
-ServiciosClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+ServiciosClientesController.$inject = ['$scope', '$rootScope', '$filter', '$timeout', 'SPAService'];
 
 function ServiciosClientesController($scope, $rootScope, $filter, $timeout, SPAService) {
     $rootScope.header = 'Reportes - Servicios por Cliente';

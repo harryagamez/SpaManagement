@@ -1,7 +1,7 @@
 ﻿angular.module('app.controllers')
     .controller("ServiciosEmpleadosController", ServiciosEmpleadosController);
 
-ServiciosEmpleadosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+ServiciosEmpleadosController.$inject = ['$scope', '$rootScope', '$filter', '$timeout', 'SPAService'];
 
 function ServiciosEmpleadosController($scope, $rootScope, $filter, $timeout, SPAService) {
     $rootScope.header = 'Reportes - Servicios por Empleado';

@@ -1,7 +1,7 @@
 ﻿angular.module('app.controllers')
     .controller("TransaccionesController", TransaccionesController);
 
-TransaccionesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+TransaccionesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$timeout', 'SPAService'];
 
 function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAService) {
     $rootScope.header = 'Transacciones';
