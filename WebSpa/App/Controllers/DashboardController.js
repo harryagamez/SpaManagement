@@ -489,7 +489,7 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
 
                 $scope.Agenda.Id_Servicio = $scope.ServicioSeleccionadoModal;
                 let servicionombre = Enumerable.From(angular.copy($scope.Servicios))
-                    .Where(function (x) { return x.id_Servicio = $scope.ServicioSeleccionadoModal })
+                    .Where(function (x) { return x.id_Servicio === $scope.ServicioSeleccionadoModal })
                     .ToArray();
 
                 $scope.Agenda.Nombre_Servicio = servicionombre[0].nombre;
