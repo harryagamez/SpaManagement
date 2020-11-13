@@ -1,9 +1,9 @@
 ﻿angular.module('app.controllers')
     .controller("LoginController", LoginController);
 
-LoginController.$inject = ['$scope', '$state', '$location', '$mdDialog', '$rootScope', '$timeout', 'AuthService'];
+LoginController.$inject = ['$scope', '$state', '$location', '$rootScope', '$timeout', 'AuthService'];
 
-function LoginController($scope, $state, $location, $mdDialog, $rootScope, $timeout, authService) {
+function LoginController($scope, $state, $location, $rootScope, $timeout, authService) {
     $rootScope.header = 'Login';
     $scope.ValidarDatos = ValidarDatos;
     $scope.Login = Login;

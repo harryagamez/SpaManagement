@@ -1,9 +1,9 @@
 ﻿angular.module('app.controllers')
     .controller("GastosController", GastosController);
 
-GastosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+GastosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$timeout', 'SPAService'];
 
-function GastosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAService) {
     $rootScope.header = 'Gastos';
     $scope.ObjetoGasto = [];
     $scope.ObjetoBorrarGasto = [];

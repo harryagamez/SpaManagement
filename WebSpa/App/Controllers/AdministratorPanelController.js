@@ -1,9 +1,9 @@
 ﻿angular.module('app.controllers')
     .controller("AdministratorPanelController", AdministratorPanelController);
 
-AdministratorPanelController.$inject = ['$scope', '$rootScope', '$state', '$location', '$filter', '$http', '$mdToast', '$document', '$mdDialog', '$rootScope', '$timeout', 'localStorageService', 'AuthService', 'SPAService'];
+AdministratorPanelController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$rootScope', '$timeout', 'AuthService', 'SPAService'];
 
-function AdministratorPanelController($scope, $rootScope, $state, $location, $filter, $http, $mdToast, $document, $mdDialog, $rootScope, $timeout, localStorageService, AuthService, SPAService) {
+function AdministratorPanelController($scope, $rootScope, $filter, $mdDialog, $rootScope, $timeout, AuthService, SPAService) {
     $rootScope.header = 'aPanel';
     $scope.fActiveTab = 'Datos Maestros';
     $scope.fActiveGrid = 'CategoriaServicio';

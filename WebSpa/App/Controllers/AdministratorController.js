@@ -1,9 +1,9 @@
 ﻿angular.module('app.controllers')
     .controller("AdministratorController", AdministratorController);
 
-AdministratorController.$inject = ['$scope', '$state', '$location', '$mdDialog', '$rootScope', '$timeout', 'AuthService'];
+AdministratorController.$inject = ['$scope', '$state', '$location', '$rootScope', '$timeout', 'AuthService'];
 
-function AdministratorController($scope, $state, $location, $mdDialog, $rootScope, $timeout, authService) {
+function AdministratorController($scope, $state, $location, $rootScope, $timeout, authService) {
     $rootScope.header = 'Administrator';
     $scope.ValidarDatos = ValidarDatos;
     $scope.Login = Login;

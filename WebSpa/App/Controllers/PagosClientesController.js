@@ -1,9 +1,9 @@
 ﻿angular.module('app.controllers')
     .controller("PagosClientesController", PagosClientesController);
 
-PagosClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+PagosClientesController.$inject = ['$scope', '$rootScope', '$filter', '$timeout', 'SPAService'];
 
-function PagosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAService) {
     $rootScope.header = 'Reportes - Pagos por Cliente';
     $scope.IdEmpresa = $rootScope.Id_Empresa;
 

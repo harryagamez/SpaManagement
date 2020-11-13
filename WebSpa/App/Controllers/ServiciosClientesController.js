@@ -3,7 +3,7 @@
 
 ServiciosClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
 
-function ServiciosClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+function ServiciosClientesController($scope, $rootScope, $filter, $timeout, SPAService) {
     $rootScope.header = 'Reportes - Servicios por Cliente';
     $scope.IdEmpresa = $rootScope.Id_Empresa;
     $scope.ServiciosCliente = [];

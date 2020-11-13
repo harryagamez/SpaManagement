@@ -1,9 +1,9 @@
 ﻿angular.module('app.controllers')
     .controller("EmpleadosController", EmpleadosController);
 
-EmpleadosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+EmpleadosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$timeout', 'SPAService'];
 
-function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAService) {
     $rootScope.header = 'Empleados';
     $scope.Empleados = [];
     $scope.Municipios = [];

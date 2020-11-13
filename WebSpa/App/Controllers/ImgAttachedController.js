@@ -1,9 +1,9 @@
 ﻿angular.module('app.controllers')
     .controller("ImgAttachedController", ImgAttachedController);
 
-ImgAttachedController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+ImgAttachedController.$inject = ['$scope', '$rootScope', '$mdDialog', 'SPAService'];
 
-function ImgAttachedController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+function ImgAttachedController($scope, $rootScope, $mdDialog, SPAService) {
     $scope.ServicioImagenesAdjuntas = $rootScope.ServicioImagenesAdjuntas;
     $scope.ImagenesAdjuntas = $rootScope.ImagenesAdjuntas;
     $scope.ImagenesxAdjuntar = $rootScope.ImagenesxAdjuntar;

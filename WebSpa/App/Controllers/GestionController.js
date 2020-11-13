@@ -1,9 +1,9 @@
 ﻿angular.module('app.controllers')
     .controller("GestionController", GestionController);
 
-GestionController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$timeout', '$http', 'SPAService', 'AuthService'];
+GestionController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$timeout', 'SPAService', 'AuthService'];
 
-function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, $http, SPAService, AuthService) {
+function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAService, AuthService) {
     $rootScope.header = 'Gestion';
     $scope.TipoPerfilSeleccionado = -1;
     $scope.NombreReadOnly = false;

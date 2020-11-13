@@ -1,9 +1,9 @@
 ﻿angular.module('app.controllers')
     .controller("ClientesController", ClientesController);
 
-ClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+ClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$timeout', 'SPAService'];
 
-function ClientesController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+function ClientesController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAService) {
 
     $rootScope.header = 'Clientes';
     $scope.Clientes = [];

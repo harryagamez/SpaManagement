@@ -1,9 +1,9 @@
 ﻿angular.module('app.controllers')
     .controller("DashboardController", DashboardController);
 
-DashboardController.$inject = ['$scope', '$rootScope', '$q', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+DashboardController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$timeout', 'SPAService'];
 
-function DashboardController($scope, $rootScope, $q, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAService) {
     $rootScope.header = 'Dashboard';
     $scope.Estado =
         [

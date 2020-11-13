@@ -1,9 +1,9 @@
 ﻿angular.module('app.controllers')
     .controller("MovimientosCajaMenorController", MovimientosCajaMenorController);
 
-MovimientosCajaMenorController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+MovimientosCajaMenorController.$inject = ['$scope', '$rootScope', '$filter', '$timeout', 'SPAService'];
 
-function MovimientosCajaMenorController($scope, $rootScope, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+function MovimientosCajaMenorController($scope, $rootScope, $filter, $timeout, SPAService) {
     $rootScope.header = 'Reportes - Movimientos Caja Menor';
     $scope.IdEmpresa = $rootScope.Id_Empresa;
 
@@ -76,7 +76,6 @@ function MovimientosCajaMenorController($scope, $rootScope, $filter, $mdDialog, 
                 })
     }
 
-
     $scope.MovimientosCajaMenorGridOptionsColumns = [
         {
             headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
@@ -91,7 +90,7 @@ function MovimientosCajaMenorController($scope, $rootScope, $filter, $mdDialog, 
                 {
                     headerName: "Acumulado", field: 'acumulado', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
                 },
-            ],
+            ]
         },
         {
             headerName: "Movimientos Egresos - Ingresos",
@@ -118,8 +117,8 @@ function MovimientosCajaMenorController($scope, $rootScope, $filter, $mdDialog, 
                 {
                     headerName: "Facturado", field: 'facturado', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
                 }
-            ],
-        },
+            ]
+        }
     ];
 
     $scope.MovimientosCajaMenorGridOptions = {

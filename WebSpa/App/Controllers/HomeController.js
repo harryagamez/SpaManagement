@@ -1,9 +1,9 @@
 ﻿angular.module('app.controllers')
     .controller("HomeController", HomeController);
 
-HomeController.$inject = ['$scope', '$state', '$rootScope', '$element', '$location', 'localStorageService', 'AuthService', 'SPAService'];
+HomeController.$inject = ['$scope', '$rootScope', '$location', 'AuthService'];
 
-function HomeController($scope, $state, $rootScope, $element, $location, localStorageService, authService, SPAService) {
+function HomeController($scope, $rootScope, $location, authService) {
     $rootScope.header = 'Inicio';
     $scope.UserAvatar = '../../Images/default_perfil_alt.png';
 

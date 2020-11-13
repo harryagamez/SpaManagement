@@ -1,9 +1,9 @@
 ﻿angular.module('app.controllers')
     .controller("ProductosController", ProductosController);
 
-ProductosController.$inject = ['$scope', '$rootScope', '$templateCache', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+ProductosController.$inject = ['$scope', '$rootScope', '$templateCache', '$filter', '$mdDialog', '$timeout', 'SPAService'];
 
-function ProductosController($scope, $rootScope, $templateCache, $filter, $mdDialog, $mdToast, $document, $timeout, $http, localStorageService, SPAService) {
+function ProductosController($scope, $rootScope, $templateCache, $filter, $mdDialog, $timeout, SPAService) {
     $rootScope.header = 'Productos';
     $scope.TipoTransacciones = [];
     $scope.ObjetoProducto = [];
