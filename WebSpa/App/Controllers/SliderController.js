@@ -1,7 +1,7 @@
 ﻿angular.module('app.controllers')
     .controller("SliderController", SliderController);
 
-SliderController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$mdToast', '$document', '$timeout', '$http', 'localStorageService', 'SPAService'];
+SliderController.$inject = ['$scope', '$rootScope', '$mdDialog'];
 
 function SliderController($scope, $rootScope, $mdDialog) {
     $scope.ServicioNombre = $rootScope.ServicioNombre;
