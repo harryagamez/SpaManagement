@@ -1734,7 +1734,6 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
     }
 
     $timeout(function () {
-        window.onresize();
         $scope.LimpiarDatos();
         $scope.ConsultarDepartamentos();
         $scope.ConsultarMunicipios();
@@ -1747,5 +1746,6 @@ function AdministratorPanelController($scope, $rootScope, $state, $location, $fi
         $scope.ConsultarTipoServicios();
         $scope.ConsultarBarriosAdmin();
         $scope.Inicializacion();
-    }, 200);
+        window.onresize();
+    }, 300);
 }

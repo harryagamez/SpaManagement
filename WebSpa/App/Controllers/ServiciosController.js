@@ -17,6 +17,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
     $scope.ImagenServicioBase64 = '';
     $scope.InformacionImagen = '';
     $rootScope.ImagenesxAdjuntar = 0;
+    $scope.ServicioReadOnly = false;
 
     $scope.DuracionServicio = [
         { Id_DuracionServicio: -1, Valor: '[Seleccione]' },
@@ -116,6 +117,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $mdToast, $
     }
 
     $scope.ConsultarServicios = function () {
+        debugger;
         SPAService._consultarServicios($scope.IdEmpresa)
             .then(
                 function (result) {
