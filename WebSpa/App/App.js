@@ -15,8 +15,6 @@
     ])
         .config(Configuration)
         .run(Initialize)
-        .filter('sumInventory', sumInventory)
-        .filter('sumShrink', sumShrink)
         .filter('mathOperation', mathOperation)
         .filter('decimalParseAmount', decimalParseAmount)
     Configuration.$inject = ['$stateProvider', '$urlRouterProvider', '$routeProvider', '$httpProvider', '$locationProvider', '$mdDateLocaleProvider', '$mdThemingProvider', 'ADMdtpProvider'];
@@ -148,6 +146,22 @@
         $rootScope.$on('$stateChangeStart', function (e, route) {
             if (route.controller !== "LoginController" && route.controller !== "AdministratorController") {
                 let _authentication = authService.authentication;
+
+                if (_authentication && _authentication.isAuth) {
+                    let _menu = $rootScope.Menu;
+                    if (_menu.length > 0) {
+                        let _access = Enumerable.From(angular.copy(_menu))
+                            .Where(function (x) { return x.ruta_Acceso === route.name })
+                            .ToArray();
+
+                        if (_access.length == 0) {
+                            e.preventDefault();
+                            $location.replace();
+                            $state.go('home');
+                        }
+                    }
+                }
+
                 if (route.controller === "AdministratorPanelController" && _authentication
                     && _authentication.isAuth && _authentication.userRole !== "[MANAGER]") {
                     e.preventDefault();
@@ -166,43 +180,6 @@
         $rootScope.$on('$viewContentLoaded', function () {
             $location.replace();
         });
-    }
-
-    function sumInventory() {
-        return function (data, key) {
-            if (typeof (data) === 'undefined' || typeof (key) === 'undefined') {
-                return 0;
-            }
-
-            var sum = 0;
-
-            for (var i = data.length - 1; i >= 0; i--) {
-                sum += parseInt(data[i]["Front"] + data[i]["Back"] + data[i]["Delivery"]);
-            }
-
-            if (sum == 0) {
-                sum = pad(sum, 2);
-            }
-            return sum;
-        };
-    }
-
-    function sumShrink() {
-        return function (data, key) {
-            if (typeof (data) === 'undefined' || typeof (key) === 'undefined') {
-                return 0;
-            }
-
-            var sum = 0;
-
-            for (var i = data.length - 1; i >= 0; i--) {
-                if (data[i][key] != undefined) {
-                    sum += parseInt(data[i][key]);
-                }
-            }
-
-            return sum;
-        };
     }
 
     function mathOperation() {

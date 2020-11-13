@@ -257,7 +257,7 @@
                 method: 'GET',
                 url: $rootScope.config.data.API_URL + 'SPA/ConsultarMenu?IdUsuario=' + parseInt(authorizationData.userId) + '&IdEmpresa=' + authorizationData.companyId + '&Perfil=' + authorizationData.userRole
             }).then(function (result) {
-                localStorageService.set('menu', result.data);                
+                localStorageService.set('menu', result.data);
                 $rootScope.Menu = result.data;
                 $rootScope.$broadcast('successfull.menuload');
                 localStorageService.set('masterdataMenu',
@@ -275,19 +275,15 @@
                 method: 'GET',
                 url: $rootScope.config.data.API_URL + 'SPA/ConsultarUserAvatar?UserId=' + parseInt(authorizationData.userId) + '&IdEmpresa=' + authorizationData.companyId
             }).then(function (result) {
-                if (result.data !== null)
-                    $rootScope.UserAvatar = result.data.logo_Base64;
-                else
-                    $rootScope.UserAvatar = '../../Images/default_perfil_alt.png';
-
-                $rootScope.$broadcast('successfull.useravatarload');
-
                 if (result.data !== null) {
+                    $rootScope.UserAvatar = result.data.logo_Base64;
                     localStorageService.set('masterdataUserAvatar',
                         {
                             useravatar: result.data.logo_Base64
                         });
-                }
+                } else { $rootScope.UserAvatar = '../../Images/default_perfil_alt.png' };
+
+                $rootScope.$broadcast('successfull.useravatarload');
             })
         }
 

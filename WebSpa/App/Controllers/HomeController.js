@@ -31,6 +31,8 @@ function HomeController($scope, $rootScope, $location, authService) {
 
     $scope.Logout = function () {
         authService.logOut();
+        $scope.UserAvatar = '../../Images/default_perfil_alt.png';
+        $rootScope.UserAvatar = '../../Images/default_perfil_alt.png';
         $('body>.tooltip').remove();
     }
 
