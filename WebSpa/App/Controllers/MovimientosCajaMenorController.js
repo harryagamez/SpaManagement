@@ -115,7 +115,7 @@ function MovimientosCajaMenorController($scope, $rootScope, $filter, $timeout, S
                     headerName: "Varios", field: 'varios', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
                 },
                 {
-                    headerName: "Facturado", field: 'facturado', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+                    headerName: "Facturado", field: 'facturado', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color':'rgb(73, 153, 119)', 'font-weight':'bold' }, valueFormatter: currencyFormatter
                 }
             ]
         }

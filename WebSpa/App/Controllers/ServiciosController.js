@@ -116,11 +116,10 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 })
     }
 
-    $scope.ConsultarServicios = function () {
-        debugger;
+    $scope.ConsultarServicios = function () {        
         SPAService._consultarServicios($scope.IdEmpresa)
             .then(
-                function (result) {
+                function (result) {                    
                     if (result.data !== undefined && result.data !== null) {
                         $scope.Servicios = [];
                         $scope.ServiciosSinAsignar = [];
@@ -180,6 +179,10 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
             if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
                 $scope.ServicioReadOnly = true;
                 $scope.ServiciosSinAsignar = angular.copy($scope.ServiciosMaestro);
+
+                $scope.ServiciosSinAsignar.push({ id_Servicio: -1, nombre: '[Seleccione]' });
+                $scope.ServiciosSinAsignar = $filter('orderBy')($scope.ServiciosSinAsignar, 'nombre', false);
+
                 $scope.Servicio.Id_Empresa_Servicio = data.id_Empresa_Servicio
                 $scope.ServicioSeleccionadoM = data.id_Servicio;
                 $scope.ServicioDescripcion = data.descripcion;
@@ -326,6 +329,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
             $rootScope.ImagenesAdjuntas = 0;
             $rootScope.ImagenesxAdjuntar = 0;
             $scope.Servicio.Imagenes_Servicio.length = 0;
+            $scope.ServicioSeleccionadoM = -1;
             $mdDialog.show({
                 contentElement: '#dlgNuevoServicio',
                 parent: angular.element(document.body),
@@ -333,13 +337,11 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 clickOutsideToClose: true,
                 multiple: true
             })
-                .then(function () {
-                }, function () {
-                    $('#txtBuscarServicio').focus();
-                    $scope.LimpiarDatos();
-                });
-
-            $scope.LimpiarDatos();
+            .then(function () {
+            }, function () {
+                $('#txtBuscarServicio').focus();
+                $scope.LimpiarDatos();
+            });            
             $scope.OcultarbtnNuevo = false;
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -364,6 +366,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                     //$scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.filter(function (item) {
                     //    return item.Id_Servicio !== -1;
                     //});
+                        $scope.ServicioReadOnly = false;
                     $('#txtBuscarServicio').focus();
                     $scope.LimpiarDatos();                    
                 });
