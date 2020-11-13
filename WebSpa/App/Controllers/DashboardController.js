@@ -467,8 +467,8 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 }
 
                 $scope.Agenda.Id_Empleado = $scope.EmpleadoSeleccionadoModal.id_Empleado;
-                $scope.Agenda.NombreApellido_Empleado = $scope.EmpleadoSeleccionadoModal.nombres + ' ' + $scope.EmpleadoSeleccionadoModal.apellidos;
-
+                $scope.Agenda.NombreApellido_Empleado = $scope.EmpleadoSeleccionadoModal.nombres;
+                
                 if ($scope.ClienteSeleccionadoModal === '' || $scope.ClienteSeleccionadoModal === null || $scope.ClienteSeleccionadoModal === undefined) {
                     toastr.info('Debe seleccionar un cliente', '', $scope.toastrOptions);
                     $timeout(function () {
@@ -478,6 +478,7 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 }
 
                 $scope.Agenda.Id_Cliente = $scope.ClienteSeleccionadoModal.id_Cliente;
+                
                 $scope.Agenda.NombreApellido_Cliente = $scope.ClienteSeleccionadoModal.nombres + ' ' + $scope.ClienteSeleccionadoModal.apellidos;
                 $scope.Agenda.Mail_Cliente = $scope.ClienteSeleccionadoModal.mail;
 
