@@ -1391,8 +1391,7 @@ function AdministratorPanelController($scope, $rootScope, $filter, $mdDialog, $r
                 }, function () {
                     $scope.LimpiarDatos();
                 });
-
-            $scope.OcultarbtnNuevo = false;
+            
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;

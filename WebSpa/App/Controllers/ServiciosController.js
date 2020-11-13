@@ -243,9 +243,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 $scope.Servicio.Tiempo = row.data.tiempo;
                 $scope.Servicio.Valor = row.data.valor;
                 $scope.Servicio.Id_Servicio = row.data.id_Servicio;
-                $scope.TipoServicioSeleccionado = row.data.id_TipoServicio;
-
-                $scope.OcultarbtnNuevo = true;
+                $scope.TipoServicioSeleccionado = row.data.id_TipoServicio;                
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -342,7 +340,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 $('#txtBuscarServicio').focus();
                 $scope.LimpiarDatos();
             });            
-            $scope.OcultarbtnNuevo = false;
+            
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -371,8 +369,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                     $scope.LimpiarDatos();                    
                 });
 
-            $scope.NombreServicioReadOnly = true
-            $scope.OcultarbtnNuevo = true;
+            $scope.NombreServicioReadOnly = true            
             $('#slTiempoServicio').focus();
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);

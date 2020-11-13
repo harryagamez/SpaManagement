@@ -142,8 +142,7 @@ function ProductosController($scope, $rootScope, $templateCache, $filter, $mdDia
                 $scope.Producto.Inventario = row.data.inventario;
                 $scope.Producto.Id_Tipo_Transaccion = $scope.TipoTransaccionSeleccionada;
 
-                $scope.NombreProductoReadOnly = true;
-                $scope.OcultarbtnNuevo = true;
+                $scope.NombreProductoReadOnly = true;                
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -261,8 +260,7 @@ function ProductosController($scope, $rootScope, $templateCache, $filter, $mdDia
                     $('#txtBuscarProducto').focus();
                 });
 
-            $scope.LimpiarDatos();
-            $scope.OcultarbtnNuevo = false;
+            $scope.LimpiarDatos();            
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -284,8 +282,7 @@ function ProductosController($scope, $rootScope, $templateCache, $filter, $mdDia
                     $('#txtBuscarProducto').focus();
                 });
 
-            $scope.NombreProductoReadOnly = true
-            $scope.OcultarbtnNuevo = true;
+            $scope.NombreProductoReadOnly = true;            
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
