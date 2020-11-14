@@ -618,7 +618,7 @@ md-list-item .md-list-item-inner {
             border-left: 1px solid #ddd;
             height: 40px !important;
             position: relative;
-            z-index: 1;
+            z-index: 1;            
         }
 
             .table-schedule td:focus {

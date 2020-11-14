@@ -166,8 +166,10 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
                         $scope.Empleados = [];
+                        $scope.EmpleadosDetallada = [];
                         $scope.Empleados = result.data;
                         $scope.Empleados = $filter('orderBy')($scope.Empleados, 'id_Empleado', false);
+                        $scope.EmpleadosDetallada = angular.copy($scope.Empleados);
 
                         if ($scope.Empleados.length < 9) {
                             for (i = 0; i < 10 - $scope.Empleados.length; i++) {
@@ -379,6 +381,7 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
             $scope.ClienteSeleccionado = null;
             $scope.EmpleadoSeleccionadoModal = null;
             $scope.EmpleadoSeleccionado = null;
+            $scope.EmpleadoSeleccionadoDetallada = null;
             $scope.AgendaServicios = [];
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
             $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
@@ -1015,6 +1018,40 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
             $scope.FechaFin = angular.copy($scope.FechaInicio);
             $scope.HoraInicio = new Date($scope.FechaInicio.getFullYear(), $scope.FechaInicio.getMonth(), $scope.FechaInicio.getDate(), $scope.FechaInicio.getHours(), $scope.FechaInicio.getMinutes());
             $scope.HoraFin = angular.copy($scope.HoraInicio);
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.FiltarEmpleadoDetallada = function () {
+        try {            
+            if ($scope.EmpleadoSeleccionadoDetallada !== null && $scope.EmpleadoSeleccionadoDetallada !== undefined) {                
+                $scope.EmpleadosDetallada = [];
+                $scope.BlankCells = [];
+                $scope.EmpleadosDetallada = $scope.Empleados.filter(function (e) {
+                    return e.id_Empleado === $scope.EmpleadoSeleccionadoDetallada.id_Empleado;
+                });
+
+                if ($scope.EmpleadosDetallada.length < 9) {
+                    for (i = 0; i < 10 - $scope.EmpleadosDetallada.length; i++) {
+                        $scope.BlankCells[i] = i + 1;
+                    }
+                }
+                else
+                    $scope.BlankCells[0] = 0;
+            } else {
+                $scope.BlankCells = []
+                $scope.EmpleadosDetallada = angular.copy($scope.Empleados);
+                if ($scope.EmpleadosDetallada.length < 9) {
+                    for (i = 0; i < 10 - $scope.EmpleadosDetallada.length; i++) {
+                        $scope.BlankCells[i] = i + 1;
+                    }
+                }
+                else
+                    $scope.BlankCells[0] = 0;
+            }        
+                
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
