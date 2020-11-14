@@ -1318,6 +1318,7 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
         $scope.ConsultarEmpleadosAutoComplete();
         $scope.ConsultarClientes();
         $scope.ConfiguracionEmpresaActual();
+        $scope.ConsultarAgenda();
         if ($scope.fActiveTab === 'General')
             $scope.ModalFiltrarCitas();
     });
@@ -1326,6 +1327,7 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
     $scope.ConsultarEmpleadosAutoComplete();
     $scope.ConsultarClientes();
     $scope.ConfiguracionEmpresaActual();
+    $scope.ConsultarAgenda();
 
     window.onresize = function () {
         $timeout(function () {
