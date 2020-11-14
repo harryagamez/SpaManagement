@@ -17,6 +17,7 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
     $scope.Estado = $filter('orderBy')($scope.Estado, 'Nombre', false);
 
     $scope.RangoHoras = [];
+    $scope.BlankCells = [];
 
     $scope.IdEmpresa = $rootScope.Id_Empresa;
     $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
@@ -164,20 +165,21 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
         SPAService._consultarEmpleadosAutoComplete($scope.IdEmpresa)
             .then(
                 function (result) {
-                    if (result.data !== undefined && result.data !== null) {
-                        $scope.Empleados = [];
+                    
+                    if (result.data !== undefined && result.data !== null) {                        
+                        $scope.Empleados = [];                        
                         $scope.EmpleadosDetallada = [];
                         $scope.Empleados = result.data;
                         $scope.Empleados = $filter('orderBy')($scope.Empleados, 'id_Empleado', false);
                         $scope.EmpleadosDetallada = angular.copy($scope.Empleados);
 
-                        if ($scope.Empleados.length < 9) {
-                            for (i = 0; i < 10 - $scope.Empleados.length; i++) {
+                        $scope.BlankCells = [];
+                        if ($scope.EmpleadosDetallada.length < 8) {                            
+                            for (i = 0; i < 8 - $scope.EmpleadosDetallada.length; i++) {
                                 $scope.BlankCells[i] = i + 1;
                             }
-                        }
-                        else
-                            $scope.BlankCells[0] = 0;
+                        }                        
+                            
                     }
                 }, function (err) {
                     toastr.remove();
@@ -1025,31 +1027,28 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
     }
 
     $scope.FiltarEmpleadoDetallada = function () {
-        try {            
-            if ($scope.EmpleadoSeleccionadoDetallada !== null && $scope.EmpleadoSeleccionadoDetallada !== undefined) {                
-                $scope.EmpleadosDetallada = [];
-                $scope.BlankCells = [];
+        try {      
+
+            $scope.BlankCells = [];
+
+            if ($scope.EmpleadoSeleccionadoDetallada !== null && $scope.EmpleadoSeleccionadoDetallada !== undefined) { 
+                $scope.EmpleadosDetallada = [];                
                 $scope.EmpleadosDetallada = $scope.Empleados.filter(function (e) {
                     return e.id_Empleado === $scope.EmpleadoSeleccionadoDetallada.id_Empleado;
                 });
 
-                if ($scope.EmpleadosDetallada.length < 9) {
-                    for (i = 0; i < 10 - $scope.EmpleadosDetallada.length; i++) {
+                if ($scope.EmpleadosDetallada.length < 8) {
+                    for (i = 0; i < 8 - $scope.EmpleadosDetallada.length; i++) {
                         $scope.BlankCells[i] = i + 1;
                     }
-                }
-                else
-                    $scope.BlankCells[0] = 0;
-            } else {
-                $scope.BlankCells = []
+                }                
+            } else {                
                 $scope.EmpleadosDetallada = angular.copy($scope.Empleados);
-                if ($scope.EmpleadosDetallada.length < 9) {
-                    for (i = 0; i < 10 - $scope.EmpleadosDetallada.length; i++) {
+                if ($scope.EmpleadosDetallada.length < 8) {
+                    for (i = 0; i < 8 - $scope.EmpleadosDetallada.length; i++) {
                         $scope.BlankCells[i] = i + 1;
                     }
-                }
-                else
-                    $scope.BlankCells[0] = 0;
+                }                
             }        
                 
         } catch (e) {
@@ -1188,8 +1187,7 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
         try {
             let cont = 0;
             let rangoinicial = '';
-            let rangofinal = '';
-            $scope.BlankCells = [];
+            let rangofinal = '';            
             $scope.RangoHoras = [];
 
             if ($scope.RHA !== null && $scope.RHA !== undefined && $scope.RHA !== '') {
