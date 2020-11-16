@@ -292,12 +292,12 @@ function ServiciosEmpleadosController($scope, $rootScope, $filter, $timeout, SPA
                     agendas = $scope.Agendas;
 
                 let mystyle = {
-                    sheetid: 'Cliente Servicios',
+                    sheetid: 'ServiciosEmpleados',
                     headers: true,
                     
                 };
 
-                alasql('SELECT nombreApellido_Empleado AS EMPLEADO, nombre_Servicio AS SERVICIO, estado AS ESTADO_CITA, datetime(fecha_Inicio) AS FECHA, fechaInicio AS HORA_INICIO, fechaFin AS HORA_FIN, nombreApellido_Cliente AS CLIENTE INTO XLSX("Servicios_empleado.xlsx",?) FROM ?', [mystyle, agendas]);
+                alasql('SELECT nombreApellido_Empleado AS EMPLEADO, nombre_Servicio AS SERVICIO, estado AS ESTADO_CITA, datetime(fecha_Inicio) AS FECHA, fechaInicio AS HORA_INICIO, fechaFin AS HORA_FIN, nombreApellido_Cliente AS CLIENTE INTO XLSX("ServiciosEmpleado.xlsx",?) FROM ?', [mystyle, agendas]);
             } else {
                 toastr.info('No hay datos para exportar', '', $scope.toastrOptions);
             }

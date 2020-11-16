@@ -132,5 +132,7 @@ namespace Spa.Infrastructure.SpaRepository
         bool SincronizarDepartamentos(List<DepartmentProperties> departmentProperties);
 
         List<MovimientoCajaMenor> ConsultarMovimientosCajaMenor(string idEmpresa, string fechaDesde, string fechaHasta);
+
+        bool GuardarPromocion(Promocion promocion);
     }
 }

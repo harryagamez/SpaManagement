@@ -206,7 +206,7 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
                     pagos = $scope.Pagos;
 
                 let mystyle = {
-                    sheetid: 'Cliente Pagos',
+                    sheetid: 'ClientePagos',
                     headers: true,                    
                     columns: [
                         { columnid: 'nombreApellido_Cliente', title: 'CLIENTE', width: 300  },
@@ -217,7 +217,7 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
                     ]
                 };
 
-                alasql('SELECT nombreApellido_Cliente AS CLIENTE, datetime(fecha) AS FECHA, subtotal AS SUBTOTAL, descuento AS DESCUENTO, total AS TOTAL INTO XLSX("Pagos_cliente.xlsx",?) FROM ?', [mystyle, pagos]);
+                alasql('SELECT nombreApellido_Cliente AS CLIENTE, datetime(fecha) AS FECHA, subtotal AS SUBTOTAL, descuento AS DESCUENTO, total AS TOTAL INTO XLSX("PagosCliente.xlsx",?) FROM ?', [mystyle, pagos]);
             } else {
                 toastr.info('No hay datos para exportar', '', $scope.toastrOptions);
             }

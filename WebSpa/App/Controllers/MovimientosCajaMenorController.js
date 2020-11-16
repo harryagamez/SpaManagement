@@ -225,11 +225,11 @@ function MovimientosCajaMenorController($scope, $rootScope, $filter, $timeout, S
                     movimientosCajaMenor = $scope.MovimientosCajaMenor;
 
                 let mystyle = {
-                    sheetid: 'Movimientos caja menor',
+                    sheetid: 'MovimientosCaja',
                     headers: true                    
                 };
 
-                alasql('SELECT saldoInicial AS SALDO_INICIAL, acumulado AS ACUMULADO, fecha AS FECHA, compras AS COMPRAS, nomina AS NOMINA, prestamos AS PRESTAMOS, servicios AS SERVICIOS, varios AS VARIOS, facturado AS FACTURADO INTO XLSX("Movimientos_caja.xlsx",?) FROM ?', [mystyle, movimientosCajaMenor]);
+                alasql('SELECT saldoInicial AS SALDO_INICIAL, acumulado AS ACUMULADO, fecha AS FECHA, compras AS COMPRAS, nomina AS NOMINA, prestamos AS PRESTAMOS, servicios AS SERVICIOS, varios AS VARIOS, facturado AS FACTURADO INTO XLSX("MovimientosCaja.xlsx",?) FROM ?', [mystyle, movimientosCajaMenor]);
             } else {
                 toastr.info('No hay datos para exportar', '', $scope.toastrOptions);
             }

@@ -40,7 +40,7 @@
                                         <label for="dateType" class="label-form-empleados" style="">
                                             Empleado:
                                         </label>
-                                        <md-autocomplete style="margin-top:2px;" aria-label="empleados detallado autocomplete" md-selected-item-change="FiltarEmpleadoDetallada()" md-input-id="acEmpleadoDetallada" id="acEmpleadoDetallada" md-input-name="acEmpleadoDetallada" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionadoDetallada" md-search-text="buscarEmpleado" md-items="empleado in BuscarEmpleado(buscarEmpleado)" md-item-text="empleado.nombres + ' ' + empleado.apellidos" tabindex="2">
+                                        <md-autocomplete style="margin-top:2px;" aria-label="empleados detallado autocomplete" md-selected-item-change="FiltarEmpleadoDetallada()" md-input-id="acEmpleadoDetallada" id="acEmpleadoDetallada" md-input-name="acEmpleadoDetallada" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionadoDetallada" md-search-text="buscarEmpleado" md-items="empleado in BuscarEmpleado(buscarEmpleado)" md-item-text="empleado.nombres + ' ' + empleado.apellidos" autocomplete="off" tabindex="2">
                                             <md-item-template>
                                                 <span md-highlight-text="buscarEmpleado" ng-bind="empleado.id_Empleado">{{empleado.nombres + ' ' + empleado.apellidos}}</span>
                                             </md-item-template>

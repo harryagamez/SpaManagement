@@ -28,7 +28,7 @@
                         <label for="dateType" class="label-form-empleados" style="">
                             Empleados:
                         </label>
-                        <md-autocomplete style="margin-top:2px;" aria-label="clientes autocomplete" md-input-id="acEmpleados" id="acEmpleados" md-input-name="acEmpleados" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionado" md-search-text="buscarEmpleado" md-items="empleado in BuscarEmpleado(buscarEmpleado)" md-item-text="empleado.nombres + ' ' + empleado.apellidos" tabindex="1">
+                        <md-autocomplete style="margin-top:2px;" aria-label="clientes autocomplete" md-input-id="acEmpleados" id="acEmpleados" md-input-name="acEmpleados" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionado" md-search-text="buscarEmpleado" md-items="empleado in BuscarEmpleado(buscarEmpleado)" md-item-text="empleado.nombres + ' ' + empleado.apellidos" autocomplete="off" tabindex="1">
                             <md-item-template>
                                 <span md-highlight-text="buscarCliente" ng-bind="empleado.id_Empleado">{{empleado.nombres + ' ' + empleado.apellidos}}</span>
                             </md-item-template>

@@ -148,16 +148,17 @@
                 let _authentication = authService.authentication;
 
                 if (_authentication && _authentication.isAuth) {
-                    let _menu = $rootScope.Menu;
-                    if (_menu.length > 0) {
-                        let _access = Enumerable.From(angular.copy(_menu))
-                            .Where(function (x) { return x.ruta_Acceso === route.name })
-                            .ToArray();
+                    if (_authentication.userRole !== "[MANAGER]") {
+                        let _menu = $rootScope.Menu;
+                        if (_menu.length > 0) {
+                            let _access = Enumerable.From(angular.copy(_menu))
+                                .Where(function (x) { return x.ruta_Acceso === route.name })
+                                .ToArray();
 
-                        if (_access.length == 0) {
-                            e.preventDefault();
-                            $location.replace();
-                            $state.go('home');
+                            if (_access.length == 0) {
+                                e.preventDefault();
+                                $location.replace();
+                            }
                         }
                     }
                 }

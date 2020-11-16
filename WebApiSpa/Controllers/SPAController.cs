@@ -1031,5 +1031,22 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error consultando los movimientos de la caja menor: " + ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("api/SPA/GuardarPromocion")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarPromocion(Promocion promocion)
+        {
+            try
+            {
+                bool result = _spaService.GuardarPromocion(promocion);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando la promoción: " + ex.Message);
+            }
+        }
     }
 }

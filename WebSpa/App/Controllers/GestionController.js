@@ -352,7 +352,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             }
 
             if (menuUnchecked === $scope.Usuario.Menu_Usuario.length) {
-                toastr.info('Debe asignar almenos un elemento del menú', '', $scope.toastrOptions);
+                toastr.info('Debe asignar al menos un elemento del menú', '', $scope.toastrOptions);
                 $scope.ModalMenu();
                 return false;
             }

@@ -133,5 +133,7 @@ namespace Spa.Application.SpaService
         bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties);
 
         List<MovimientoCajaMenor> ConsultarMovimientosCajaMenor(string idEmpresa, string fechaDesde, string fechaHasta);
+
+        bool GuardarPromocion(Promocion promocion);
     }
 }

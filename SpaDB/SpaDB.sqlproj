@@ -303,6 +303,9 @@
     <Build Include="dbo\Stored Procedures\GuardarServicioConImagenes.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarServiciosConImagenes.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarServiciosActivosConImagenes.sql" />
+    <Build Include="dbo\Tables\TIPO_PROMOCIONES.sql" />
+    <Build Include="dbo\Tables\PROMOCIONES.sql" />
+    <Build Include="dbo\Tables\DETALLE_PROMOCIONES.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

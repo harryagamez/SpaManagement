@@ -442,7 +442,8 @@
             _consultarServiciosCliente: ConsultarServiciosCliente,
             _consultarPagosCliente: ConsultarPagosCliente,
             _consultarServiciosEmpleado: ConsultarServiciosEmpleado,
-            _consultarMovimientosCajaMenor: ConsultarMovimientosCajaMenor
+            _consultarMovimientosCajaMenor: ConsultarMovimientosCajaMenor,
+            _guardarPromocion: GuardarPromocion
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1308,6 +1309,21 @@
                 });
             return deferred.promise;
         }
+
+        function GuardarPromocion(promocion) {
+            var deferred = $q.defer();
+
+            serviceRest.Post('SPA', 'GuardarPromocion', promocion,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
+            return deferred.promise;
+        }
+
     }
 
     function serviceRest($http, $q, $rootScope) {
