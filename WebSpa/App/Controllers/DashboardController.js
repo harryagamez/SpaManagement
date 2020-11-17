@@ -122,8 +122,10 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                         }
                     }, function (err) {
                         toastr.remove();
-                        if (err.data !== null && err.status === 500)
+                        if (err.data !== null && err.status === 500) {
                             toastr.error(err.data, '', $scope.toastrOptions);
+                            $scope.ConsultarAgenda();
+                        }    
                     })
         }
     }
@@ -139,8 +141,10 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                         }
                     }, function (err) {
                         toastr.remove();
-                        if (err.data !== null && err.status === 500)
+                        if (err.data !== null && err.status === 500) {
                             toastr.error(err.data, '', $scope.toastrOptions);
+                            $scope.ConsultarAgenda();
+                        }                            
                     })
         }
     }
