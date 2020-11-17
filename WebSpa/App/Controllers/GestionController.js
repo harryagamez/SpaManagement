@@ -5,6 +5,7 @@ GestionController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$t
 
 function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAService, AuthService) {
     $rootScope.header = 'Gestion';
+    $scope.TipoPromocionSeleccionada = '00000000-0000-0000-0000-000000000000';
     $scope.TipoPerfilSeleccionado = -1;
     $scope.NombreReadOnly = false;
     $scope.Confirmacion = '';
@@ -14,6 +15,8 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
     $scope.PasswordBackup = '';
     $scope.EmpresaPropiedades = [];
     $scope.SistemaPropiedades = [];
+    $scope.ServiciosPromocion = [];
+    $scope.ServiciosSeleccionados = [];
 
     let fechaactual = new Date();
     $scope.Rango = {
@@ -113,6 +116,22 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         }
     }
 
+    $scope.ConsultarServicios = function () {
+        SPAService._consultarServiciosActivos($scope.IdEmpresa)
+            .then(
+                function (result) {
+                    if (result.data !== undefined && result.data !== null) {
+                        $scope.Servicios = [];
+                        $scope.Servicios = result.data;
+                        $scope.Servicios = $filter('orderBy')($scope.Servicios, 'id_Servicio', false);
+                    }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
+    }
+
     $scope.GuardarUsuario = function () {
         if ($scope.ValidarUsuario()) {
             SPAService._guardarUsuario(JSON.stringify($scope.Usuario))
@@ -178,6 +197,23 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
 
     $scope.ConsultarEmpresaPropiedades = function (id_empresas) {
         AuthService.consultarEmpresaPropiedades(id_empresas);
+    }
+
+    $scope.ConsultarTipoPromociones = function () {
+        SPAService._consultarTipoPromociones()
+            .then(
+                function (result) {
+                    if (result.data !== undefined && result.data !== null) {
+                        $scope.TiposPromocion = [];
+                        $scope.TiposPromocion = result.data;
+                        $scope.TiposPromocion.push({ id_Tipo_Promocion: '00000000-0000-0000-0000-000000000000', descripcion:'[Seleccione]' });
+                        $scope.TiposPromocion = $filter('orderBy')($scope.TiposPromocion, 'id_Tipo_Promocion', false);
+                    }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
     }
 
     $scope.ConfiguracionEmpresaActual = function () {
@@ -274,6 +310,55 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         suppressRowClickSelection: true,
         rowSelection: 'multiple',
         onRowClicked: OnRowClicked
+    }
+
+    $scope.PromocionesGridOptionsColumns = [
+        {
+            headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
+        },
+        {
+            headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+            cellRenderer: function () {
+                return "<i data-ng-click='EditarPromocion (data)' data-toggle='tooltip' title='Editar Promoción' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>create</i>";
+            },
+        },
+        {
+            headerName: "Descripción", field: 'descripcion', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+        },
+        {
+            headerName: "Tipo Promoción", field: 'tipoPromocion', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+        },
+        {
+            headerName: "Valor", field: 'valor', width: 140, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', }, valueFormatter: currencyFormatter
+        },
+        {
+            headerName: "Estado", field: 'estado', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+        },
+        {
+            headerName: "Fecha", field: 'fecha', width: 110, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter
+        },
+        {
+            headerName: "Usuario", field: 'usuario', width: 110, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
+        }
+    ];
+
+    $scope.PromocionesGridOptions = {
+        defaultColDef: {
+            resizable: true
+        },
+        columnDefs: $scope.PromocionesGridOptionsColumns,
+        rowData: [],
+        enableSorting: true,
+        enableFilter: true,
+        enableColResize: true,
+        angularCompileRows: true,
+        onGridReady: function (params) {
+        },
+        fullWidthCellRenderer: true,
+        animateRows: true,
+        suppressRowClickSelection: true,
+        rowSelection: 'multiple',
+        onRowSelected: OnRowSelectedPromociones
     }
 
     $scope.ValidarUsuario = function () {
@@ -394,6 +479,8 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                 Desde: new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), 7, 0, 0),
                 Hasta: new Date(fechaactual.getFullYear(), fechaactual.getMonth(), fechaactual.getDate(), 21, 0, 0)
             }
+            $scope.ServiciosPromocion = [];
+            $scope.ServiciosSeleccionados = [];
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -436,6 +523,41 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                 $scope.NombreReadOnly = true;
                 $('#txtContrasenia').focus();
             }
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    function OnRowSelectedPromociones(event) {
+        try {
+
+            $scope.ObjetoPromocionesSeleccionadas = [];
+            $scope.ObjetoPromocionesSeleccionadas = $scope.PromocionesGridOptions.api.getSelectedRows();
+
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.ModalNuevaPromocion = function () {
+        try {            
+
+            $scope.AccionPromocion = 'Registrar Promoción';
+
+            $mdDialog.show({
+                contentElement: '#dlgNuevaPromocion',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                multiple: true
+            })
+            .then(function () {
+            }, function () {
+                $scope.LimpiarDatos();
+            });            
+            
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -542,9 +664,32 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         }
     }
 
+    $scope.AsignarRemover = function (ServiciosSeleccionados) {
+        try {            
+            if (ServiciosSeleccionados.length > 0)
+                $scope.ServiciosPromocion = ServiciosSeleccionados;
+            else
+                $scope.ServiciosPromocion.splice($scope.ServiciosPromocion.indexOf(ServiciosSeleccionados), 1);
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    function currencyFormatter(params) {
+        let valueGrid = params.value;
+        return $filter('currency')(valueGrid, '$', 0);
+    }
+
+    function dateFormatter(params) {
+        let valueGrid = params.value;
+        return $filter('date')(valueGrid, 'dd-MM-yyyy');
+    }
+
     window.onresize = function () {
         $timeout(function () {
             $scope.UsuariosGridOptions.api.sizeColumnsToFit();
+            $scope.PromocionesGridOptions.api.sizeColumnsToFit();
         }, 200);
     }
 
@@ -559,6 +704,8 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         $scope.ConfiguracionEmpresaActual();
         $scope.ConfiguracionSistemaPropiedades();
         $scope.ConsultarUsuarios();
+        $scope.ConsultarServicios();
+        $scope.ConsultarTipoPromociones();
         $scope.Inicializacion();
     });
 
@@ -566,4 +713,6 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
     $scope.ConfiguracionSistemaPropiedades();
     $scope.ConfiguracionEmpresaActual();
     $scope.ConsultarUsuarios();
+    $scope.ConsultarServicios();
+    $scope.ConsultarTipoPromociones();
 }

@@ -1032,6 +1032,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/SPA/ConsultarTipoPromociones")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarTipoPromociones()
+        {
+            try
+            {
+                List<TipoPromocion> _listTipoPromociones = _spaService.ConsultarTipoPromociones();
+
+                return Content(HttpStatusCode.OK, _listTipoPromociones);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los tipos de promoción: " + ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("api/SPA/GuardarPromocion")]
         [HttpCache(DefaultExpirySeconds = 2)]

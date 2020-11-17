@@ -443,7 +443,8 @@
             _consultarPagosCliente: ConsultarPagosCliente,
             _consultarServiciosEmpleado: ConsultarServiciosEmpleado,
             _consultarMovimientosCajaMenor: ConsultarMovimientosCajaMenor,
-            _guardarPromocion: GuardarPromocion
+            _guardarPromocion: GuardarPromocion,
+            _consultarTipoPromociones: ConsultarTipoPromociones
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1321,6 +1322,18 @@
                     deferred.reject(err);
                 });
 
+            return deferred.promise;
+        }
+
+        function ConsultarTipoPromociones() {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarTipoPromociones',
+                function (data) {                    
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
             return deferred.promise;
         }
 

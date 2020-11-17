@@ -1669,6 +1669,33 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public List<TipoPromocion> ConsultarTipoPromociones()
+        {
+            DataTable _datatable = new DataTable();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarTipoPromociones";
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<TipoPromocion> _listTipoPromociones = _datatable.DataTableToList<TipoPromocion>();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _listTipoPromociones;
+                }
+            }
+        }
+
+
         public bool GuardarPromocion(Promocion promocion)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))

@@ -133,6 +133,8 @@ namespace Spa.Infrastructure.SpaRepository
 
         List<MovimientoCajaMenor> ConsultarMovimientosCajaMenor(string idEmpresa, string fechaDesde, string fechaHasta);
 
+        List<TipoPromocion> ConsultarTipoPromociones();
+
         bool GuardarPromocion(Promocion promocion);
     }
 }

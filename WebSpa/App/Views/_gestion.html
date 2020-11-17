@@ -52,10 +52,10 @@
                                                 </td>
                                                 <td data-ng-show="propiedad.tipo == 'RANGO_HORA'">
                                                     <md-input-container style="margin:0; padding:0;">
-                                                        <input type="time" id="txtRangoDesde" class="form-control fix-display" data-ng-change="ValidarHora()" style="width:120px; margin:-3px 0; padding:0;" ng-model="Rango.Desde" />
+                                                        <input type="time" id="txtRangoDesdeGestion" class="form-control fix-display" aria-label="Rango Desde Gestion" data-ng-change="ValidarHora()" style="width:120px; margin:-3px 0; padding:0;" ng-model="Rango.Desde" />
                                                     </md-input-container>
                                                     <md-input-container style="margin:0; padding:0;">
-                                                        <input type="time" id="txtRangoHasta" class="form-control fix-display" data-ng-change="ValidarHora()" style="width:120px; margin:-3px 0; padding:0;" ng-model="Rango.Hasta" />
+                                                        <input type="time" id="txtRangoHastaGestion" class="form-control fix-display" aria-label="Rango Hasta Gestion" data-ng-change="ValidarHora()" style="width:120px; margin:-3px 0; padding:0;" ng-model="Rango.Hasta" />
                                                     </md-input-container>
                                                 </td>
                                                 <td data-ng-show="propiedad.tipo == 'TIPO_NOMINA'">
@@ -69,6 +69,45 @@
                                         </tbody>
                                     </table>
                                 </div>
+                            </div>
+                        </md-content>
+                    </md-tab-body>
+                </md-tab>
+
+                <md-tab>
+                    <md-tab-label>
+                        <i class="material-icons md-18" style="transform: scaleX(1); font-size:20px; font-weight:bold;">card_giftcard</i> Promociones
+                    </md-tab-label>
+
+                    <md-tab-body>
+
+                        <md-content style="background-color:transparent; overflow:hidden;">
+
+                            <div layout="row" layout-sm="column" style="margin-top:1px;">
+                                <div flex="" style="flex:none;">
+                                    <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px; margin-top:2px; margin-left:2px;">
+                                        <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin-left:-2px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevaPromocion()">
+                                            <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-3px;">note_add</i> Nuevo
+                                        </md-button>
+
+                                        <md-button type="button" id="btnExportar" class="btn-spa groupX middle" style="margin-left: -2px;" data-toggle="tooltip" title="Importar" data-ng-click="ExportarArchivo()">
+                                            <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-3px;">cloud_upload</i> Exportar
+                                        </md-button>
+                                    </section>
+                                </div>
+
+                                <div flex="" class="material-app">
+                                    <md-input-container style="margin-bottom:0;">
+                                        <label class="label-form-clientes" style="">
+                                            Promoción:
+                                        </label>
+                                        <input ng-keyup="onFilterTextBoxChanged()" id="txtBuscarPromocion" maxlength="60" type="text" style="min-width: 200px;" placeholder="Promoción a filtrar..." tabindex=1>
+                                    </md-input-container>
+                                </div>
+                            </div>
+
+                            <div id="divGridPromociones" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 190px); margin-top:-20px; overflow-y:auto;">
+                                <div id="divPromocionesGridOptions" data-ag-grid="PromocionesGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                             </div>
                         </md-content>
                     </md-tab-body>
@@ -166,6 +205,105 @@
         </form>
     </div>
 
+    <!-- Modal Nueva Promoción -->
+    <div style="visibility: hidden">        
+
+        <div class="md-dialog-container" id="dlgNuevaPromocion">
+            <md-dialog id="mdNuevaPromocion" aria-label="Nueva Promocion" style="min-width: 540px; max-width: 540px; min-height:300px; color: #666666;">
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2 style="font-size:16px;">{{ AccionPromocion }}</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="Cancelar()">
+                            <i class="material-icons" style="transform: scaleX(-1)">close</i>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+                <form id="frmServiciosModal" style="">
+                    <md-dialog-content style="overflow:visible;">
+
+                        <div layout="row" layout-align="">
+                            <div flex="" class="material-app">
+                                <md-input-container class="md-block" style="margin: 5px 0;">
+                                    <label class="label-form-servicios" style="">
+                                        Descripción Promoción:
+                                    </label>
+                                    <textarea ng-model="Promocion.Descripcion" md-autofocus id="txtDescripcionPromocion" type="text" placeholder="Descripción de la promoción ..." md-maxlength="200" rows="2" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2></textarea>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" layout-align="start start">
+
+                            <div style="flex:none; width:50%; z-index:99999;">
+                                <md-input-container class="md-block" style="margin:1px 0 0 0; padding:0;">
+                                    <label class="label-form-servicios" style="margin-bottom:-7px;">
+                                        Seleccionar Servicios:
+                                    </label>
+                                    <label class="" style="display:none;">
+                                        [Seleccione]
+                                    </label>
+                                    <md-select ng-model="ServiciosSeleccionados" multiple ng-change="AsignarRemover(ServiciosSeleccionados)" placeholder="" aria-label="checks servicios" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slServicios" tabindex=2>
+                                        <md-optgroup label="Servicios">
+                                            <md-option ng-value="servicio.id_Servicio" ng-repeat="servicio in Servicios track by servicio.nombre">{{servicio.nombre}}</md-option>
+                                        </md-optgroup>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+
+                            <div class="material-app" style="width: 50%; margin-left:10px;">
+                                <md-input-container style="margin: 8px 0 0 0;">
+                                    <label class="label-form-servicios" style="">
+                                        Tipo Promoción:
+                                    </label>
+                                    <md-select ng-model="TipoPromocionSeleccionada" style="min-width:240px; margin-top: 5px;" id="slTiposPromocion" tabindex=3>
+                                        <md-option ng-bind="item.descripcion" ng-value="item.id_Tipo_Promocion" ng-repeat="item in TiposPromocion track by $index"></md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                        </div>                        
+
+                        <div layout="row" layout-xs="column" layout-align="start start">
+
+                            <div class="material-app" style="width: 50%;">
+                                <md-input-container style="margin: 8px 0 0 0;">
+                                    <label class="label-form-servicios" style="">
+                                        Valor / %
+                                    </label>
+                                    <input ng-model="Promocion.Valor" id="txtValorPromocion" float-numbers-only ng-pattern="/(^[0-9]{1,9})+(\.[0-9]{1,4})?$/" type="text" style="min-width:250px; margin-top: -1px;" " placeholder="Digite el valor de la promoción ..." tabindex=4>
+                                </md-input-container>
+                            </div>
+
+                            <div class="material-app" style="width: 50%; margin-left:10px;">
+                                <md-input-container style="margin: 8px 0 0 0;">
+                                    <label class="label-form-servicios" style="">
+                                        Estado:
+                                    </label>
+                                    <md-select ng-model="EstadoSeleccionado" class="" style="min-width:240px; margin-top: 5px;" id="slEstado" tabindex=6>
+                                        <md-option value="ACTIVA" selected>ACTIVA</md-option>
+                                        <md-option value="INACTIVA">INACTIVA</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" layout-align="end center" style="margin-top:5px;">
+
+                            <div flex="" style="right:15px; position: absolute;">
+                                <md-button type="button" style="margin: 1px 1px !important;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" ng-click="GuardarPromocion()" tabindex=8>
+                                    <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">save</i> Guardar
+                                </md-button>
+                                <md-button type="button" style="margin: 1px 1px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()" tabindex=9>
+                                    <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">note_add</i> Nuevo
+                                </md-button>
+                            </div>
+                        </div>
+                    </md-dialog-content>
+                </form>
+            </md-dialog>
+        </div>
+    </div>
+
     <!-- Modal Menu-->
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgMenu">
@@ -186,10 +324,10 @@
                         <div layout="row" layout-sm="column" style="" layout-align="start start">
                             <div flex="">
                                 <md-list style="border:1px solid #e1e1e1;">
-                                    <md-list-item ng-repeat="item in Menu" style="min-height:20px; height:20px;">                                        
+                                    <md-list-item ng-repeat="item in Menu" style="min-height:20px; height:20px;">
                                         <md-switch ng-model="item.Estado" aria-label="menu estado" style="margin:2px 5px;">
                                             <span style="padding-left:10px; font-size:14px;">{{item.Descripcion}}</span>
-                                        </md-switch>                                        
+                                        </md-switch>
                                     </md-list-item>
                                 </md-list>
                             </div>

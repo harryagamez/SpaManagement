@@ -473,6 +473,11 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarMovimientosCajaMenor(idEmpresa, fechaDesde, fechaHasta);
         }
 
+        public List<TipoPromocion> ConsultarTipoPromociones()
+        {
+            return _spaRepository.ConsultarTipoPromociones();
+        }
+
         public bool GuardarPromocion(Promocion promocion)
         {
             return _spaRepository.GuardarPromocion(promocion);

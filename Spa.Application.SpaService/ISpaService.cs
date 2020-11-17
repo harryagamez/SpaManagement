@@ -134,6 +134,8 @@ namespace Spa.Application.SpaService
 
         List<MovimientoCajaMenor> ConsultarMovimientosCajaMenor(string idEmpresa, string fechaDesde, string fechaHasta);
 
+        List<TipoPromocion> ConsultarTipoPromociones();
+
         bool GuardarPromocion(Promocion promocion);
     }
 }
