@@ -94,7 +94,8 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                                 let fechaCita = $filter('date')(e.fechaCita, 'yyyy-MM-dd');
                                 e.mensaje_Whatsapp = 'Estimada/o ' + e.nombres_Cliente + ', le escribimos desde ' + e.nombre_Empresa + ' con el motivo de confirmar su asistencia a la cita del día ' + fechaCita + ' a las ' + e.fechaInicio + ' para el servicio de '+ e.nombre_Servicio +'. Esperamos su pronta respuesta.';
                                 return e;
-                            });                            
+                            });
+                            $scope.AgendasDetallada = angular.copy($scope.Agendas);
                         }
 
                         if ($scope.Agendas.length === 0) {
@@ -388,6 +389,7 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
             $scope.EmpleadoSeleccionadoModal = null;
             $scope.EmpleadoSeleccionado = null;
             $scope.EmpleadoSeleccionadoDetallada = null;
+            $scope.ClienteSeleccionadoDetallada = null;
             $scope.AgendaServicios = [];
             $scope.AgendaServicios.push({ id_Servicio: -1, nombre: '[Seleccione]' });
             $scope.FechaBusqueda = new Date(new Date().setHours(0, 0, 0, 0));
@@ -1030,7 +1032,7 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
         }
     }
 
-    $scope.FiltarEmpleadoDetallada = function () {
+    $scope.FiltrarEmpleadoDetallada = function () {
         try {      
 
             $scope.BlankCells = [];
@@ -1055,6 +1057,25 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 }                
             }        
                 
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.FiltrarClienteDetallada = function () {
+        try {            
+            
+            if ($scope.ClienteSeleccionadoDetallada !== null && $scope.ClienteSeleccionadoDetallada !== undefined) {
+                $scope.AgendasDetallada = [];
+                $scope.AgendasDetallada = $scope.Agendas.filter(function (e) {
+                    return e.id_Cliente === $scope.ClienteSeleccionadoDetallada.id_Cliente;
+                });
+                
+            } else {
+                $scope.AgendasDetallada = angular.copy($scope.Agendas);                
+            }
+
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
