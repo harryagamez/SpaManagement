@@ -243,9 +243,9 @@
                                     <label class="" style="display:none;">
                                         [Seleccione]
                                     </label>
-                                    <md-select ng-model="ServiciosSeleccionados" multiple ng-change="AsignarRemover(ServiciosSeleccionados)" placeholder="" aria-label="checks servicios" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slServicios" tabindex=2>
+                                    <md-select ng-model="ServiciosSeleccionados" multiple ng-change="AsignarRemover(ServiciosSeleccionados)" placeholder="" aria-label="checks servicios" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slServiciosPromocion" tabindex=2>
                                         <md-optgroup label="Servicios">
-                                            <md-option ng-value="servicio.id_Servicio" ng-repeat="servicio in Servicios track by servicio.nombre">{{servicio.nombre}}</md-option>
+                                            <md-option ng-value="servicio.id_Empresa_Servicio" ng-repeat="servicio in Servicios track by servicio.nombre">{{servicio.nombre}}</md-option>
                                         </md-optgroup>
                                     </md-select>
                                 </md-input-container>
@@ -256,7 +256,7 @@
                                     <label class="label-form-servicios" style="">
                                         Tipo Promoción:
                                     </label>
-                                    <md-select ng-model="TipoPromocionSeleccionada" style="min-width:240px; margin-top: 5px;" id="slTiposPromocion" tabindex=3>
+                                    <md-select ng-model="TipoPromocionSeleccionada" style="min-width:240px; margin-top: 5px;" ng-change="FocoMonto()" id="slTiposPromocion" tabindex=3>
                                         <md-option ng-bind="item.descripcion" ng-value="item.id_Tipo_Promocion" ng-repeat="item in TiposPromocion track by $index"></md-option>
                                     </md-select>
                                 </md-input-container>
@@ -270,7 +270,7 @@
                                     <label class="label-form-servicios" style="">
                                         Valor / %
                                     </label>
-                                    <input ng-model="Promocion.Valor" id="txtValorPromocion" float-numbers-only ng-pattern="/(^[0-9]{1,9})+(\.[0-9]{1,4})?$/" type="text" style="min-width:250px; margin-top: -1px;" " placeholder="Digite el valor de la promoción ..." tabindex=4>
+                                    <input ng-model="Promocion.Valor" id="txtValorPromocion" focus="selectChanged" float-numbers-only ng-pattern="/(^[0-9]{1,9})+(\.[0-9]{1,4})?$/" type="text" style="min-width:250px; margin-top: -1px;" placeholder="Digite el valor de la promoción ..." tabindex=4>
                                 </md-input-container>
                             </div>
 
@@ -279,7 +279,7 @@
                                     <label class="label-form-servicios" style="">
                                         Estado:
                                     </label>
-                                    <md-select ng-model="EstadoSeleccionado" class="" style="min-width:240px; margin-top: 5px;" id="slEstado" tabindex=6>
+                                    <md-select ng-model="EstadoPromocionSeleccionado" class="" style="min-width:240px; margin-top: 5px;" id="slEstado" tabindex=6>
                                         <md-option value="ACTIVA" selected>ACTIVA</md-option>
                                         <md-option value="INACTIVA">INACTIVA</md-option>
                                     </md-select>
