@@ -6,6 +6,7 @@ GestionController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$t
 function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAService, AuthService) {
     $rootScope.header = 'Gestion';
     $scope.IdEmpresa = $rootScope.Id_Empresa;
+    $scope.UsuarioSistema = $rootScope.userData.userName;
     $scope.TipoPromocionSeleccionada = '00000000-0000-0000-0000-000000000000';
     $scope.EstadoPromocionSeleccionado = 'ACTIVA';
     $scope.TipoPerfilSeleccionado = -1;
@@ -52,7 +53,9 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         Descripcion: '',
         Valor: 0,
         Estado: '',
-        Detalles_Promocion: []
+        Detalles_Promocion: [],
+        Usuario_Creacion: $scope.UsuarioSistema,
+        Usuario_Modificacion: $scope.UsuarioSistema
     }
 
     $scope.TipoPerfil = $filter('orderBy')($scope.TipoPerfil, 'Nombre', false);
@@ -590,7 +593,9 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                 Descripcion: '',
                 Valor: 0,
                 Estado: '',
-                Detalles_Promocion: []
+                Detalles_Promocion: [],
+                Usuario_Creacion: $scope.UsuarioSistema,
+                Usuario_Modificacion: $scope.UsuarioSistema
             }
             $scope.EstadoPromocionSeleccionado = 'ACTIVA';
             $scope.TipoPromocionSeleccionada = '00000000-0000-0000-0000-000000000000';
@@ -817,6 +822,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
     $scope.$on("CompanyChange", function () {
         $scope.LimpiarDatos();
         $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.UsuarioSistema = $rootScope.userData.userName;
         $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
         $scope.ConfiguracionEmpresaActual();
         $scope.ConfiguracionSistemaPropiedades();
