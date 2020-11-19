@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Spa.Domain.SpaEntities.Extensions;
 
 namespace Spa.Domain.SpaEntities
 {
-    public class Promocion
+    public class Promocion : BusquedaPromocion
     {
         public string Id_Promocion { get; set; }
         public string Id_Tipo_Promocion { get; set; }

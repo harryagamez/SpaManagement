@@ -1065,5 +1065,22 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error registrando la promoción: " + ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarPromociones")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarPromociones(string IdEmpresa)
+        {
+            try
+            {
+                List<Promocion> _promociones = _spaService.ConsultarPromociones(IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _promociones);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando las promociones: " + ex.Message);
+            }
+        }
     }
 }

@@ -137,5 +137,7 @@ namespace Spa.Application.SpaService
         List<TipoPromocion> ConsultarTipoPromociones();
 
         bool GuardarPromocion(Promocion promocion);
+
+        List<Promocion> ConsultarPromociones(string IdEmpresa);
     }
 }

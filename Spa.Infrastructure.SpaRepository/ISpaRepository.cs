@@ -136,5 +136,7 @@ namespace Spa.Infrastructure.SpaRepository
         List<TipoPromocion> ConsultarTipoPromociones();
 
         bool GuardarPromocion(Promocion promocion);
+
+        List<Promocion> ConsultarPromociones(string IdEmpresa);
     }
 }

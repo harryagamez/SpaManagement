@@ -482,5 +482,10 @@ namespace Spa.Application.SpaService
         {
             return _spaRepository.GuardarPromocion(promocion);
         }
+
+        public List<Promocion> ConsultarPromociones(string IdEmpresa)
+        {
+            return _spaRepository.ConsultarPromociones(IdEmpresa);
+        }
     }
 }

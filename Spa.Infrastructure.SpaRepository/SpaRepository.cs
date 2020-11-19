@@ -1715,5 +1715,46 @@ namespace Spa.Infrastructure.SpaRepository
                 }
             }
         }
+
+        public List<Promocion> ConsultarPromociones(string IdEmpresa)
+        {
+            DataSet _dataset = new DataSet();
+            List<Promocion> _promociones = new List<Promocion>();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarPromociones";
+                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_dataset);
+
+                    _dataset.Tables[0].TableName = "Promociones";
+                    _dataset.Tables[1].TableName = "Detalle_Promocion";
+
+                    _dataset.Relations.Add("DetallePromocion",
+                   _dataset.Tables["Promociones"].Columns["Id_Promocion"],
+                   _dataset.Tables["Detalle_Promocion"].Columns["Id_Promocion"]);
+
+                    _promociones = _dataset.Tables["Promociones"]
+                    .AsEnumerable()
+                    .Select(row =>
+                    {
+                        Promocion promocion = row.ToObject<Promocion>();
+                        promocion.Detalles_Promocion = row.GetChildRows("DetallePromocion").DataTableToList<DetallePromocion>();
+                        return promocion;
+                    })
+                    .ToList();
+
+                    return _promociones;
+                }
+            }
+        }
     }
 }

@@ -128,6 +128,26 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         }
     }
 
+    $scope.ConsultarPromociones = function () {
+        SPAService._consultarPromociones($scope.IdEmpresa)
+            .then(
+                function (result) {
+                    if (result.data !== undefined && result.data !== null) {
+                        $scope.Promociones = [];
+                        $scope.Promociones = result.data;
+                        $scope.PromocionesGridOptions.api.setRowData($scope.Promociones);
+
+                        $timeout(function () {
+                            $scope.PromocionesGridOptions.api.sizeColumnsToFit();
+                        }, 200);
+                    }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
+    }
+
     $scope.ConsultarServicios = function () {
         SPAService._consultarServiciosActivos($scope.IdEmpresa)
             .then(
@@ -170,7 +190,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                         if (result.data === true) {
                             toastr.success('Promoción registrada/actualizada correctamente', '', $scope.toastrOptions);
                             $scope.LimpiarDatos();
-                            //$scope.ConsultarPromociones();                            
+                            $scope.ConsultarPromociones();                            
                         }
                     }, function (err) {
                         toastr.remove();
@@ -353,22 +373,22 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             },
         },
         {
-            headerName: "Descripción", field: 'descripcion', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            headerName: "Descripción", field: 'descripcion', width: 320, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Tipo Promoción", field: 'tipoPromocion', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            headerName: "Tipo Promoción", field: 'tipo_Promocion', width: 120, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Valor", field: 'valor', width: 140, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', }, valueFormatter: currencyFormatter
+            headerName: "Valor", field: 'valor', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', }, valueFormatter: currencyFormatter
         },
         {
-            headerName: "Estado", field: 'estado', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            headerName: "Estado", field: 'estado', width: 90, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Fecha", field: 'fecha', width: 110, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter
+            headerName: "Fecha", field: 'fecha_Creacion', width: 90, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter
         },
         {
-            headerName: "Usuario", field: 'usuario', width: 110, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
+            headerName: "Usuario", field: 'usuario_Creacion', width: 140, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
         }
     ];
 
@@ -803,6 +823,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         $scope.ConsultarUsuarios();
         $scope.ConsultarServicios();
         $scope.ConsultarTipoPromociones();
+        $scope.ConsultarPromociones();
         $scope.Inicializacion();
     });
 
@@ -812,4 +833,5 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
     $scope.ConsultarUsuarios();
     $scope.ConsultarServicios();
     $scope.ConsultarTipoPromociones();
+    $scope.ConsultarPromociones();
 }
