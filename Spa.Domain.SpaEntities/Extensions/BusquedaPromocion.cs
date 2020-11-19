@@ -9,5 +9,7 @@ namespace Spa.Domain.SpaEntities.Extensions
         public string Nombre_Servicio { get; set; }
 
         public string Tipo_Promocion { get; set; }
+
+        public bool Has_Changed { get; set; }
     }
 }

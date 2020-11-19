@@ -13,6 +13,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
     $scope.NombreReadOnly = false;
     $scope.Confirmacion = '';
     $scope.EditarUsuario = false;
+    $scope.fEditarPromocion = false;
     $scope.ImagenUsuario = '../Images/template/default_logo.png';
     $scope.PasswordHasChanged = false;
     $scope.PasswordBackup = '';
@@ -54,8 +55,10 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         Valor: 0,
         Estado: '',
         Detalles_Promocion: [],
+        Id_Tipo_Promocion: '00000000-0000-0000-0000-000000000000',
         Usuario_Creacion: $scope.UsuarioSistema,
-        Usuario_Modificacion: $scope.UsuarioSistema
+        Usuario_Modificacion: $scope.UsuarioSistema,
+        Has_Changed: false
     }
 
     $scope.TipoPerfil = $filter('orderBy')($scope.TipoPerfil, 'Nombre', false);
@@ -139,10 +142,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                         $scope.Promociones = [];
                         $scope.Promociones = result.data;
                         $scope.PromocionesGridOptions.api.setRowData($scope.Promociones);
-
-                        $timeout(function () {
-                            $scope.PromocionesGridOptions.api.sizeColumnsToFit();
-                        }, 200);
+                        
                     }
                 }, function (err) {
                     toastr.remove();
@@ -191,9 +191,12 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                 .then(
                     function (result) {
                         if (result.data === true) {
-                            toastr.success('Promoción registrada/actualizada correctamente', '', $scope.toastrOptions);
+                            toastr.success('Promoción registrada/actualizada correctamente', '', $scope.toastrOptions);                            
+                            $scope.ConsultarPromociones();
+                            if ($scope.Promocion.Has_Changed) {
+                                $scope.Cancelar();                                
+                            }
                             $scope.LimpiarDatos();
-                            $scope.ConsultarPromociones();                            
                         }
                     }, function (err) {
                         toastr.remove();
@@ -414,6 +417,63 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         onRowSelected: OnRowSelectedPromociones
     }
 
+    $scope.PromocionDetalladaGridOptionsColumns = [        
+        {
+            headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' }, suppressSizeToFit: true,
+            cellRenderer: function () {
+                return "<i data-ng-click='EliminarServicio (data)' data-toggle='tooltip' title='Eliminar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>delete_sweep</i>";
+            },
+        },
+        {
+            headerName: "Servicio", field: 'nombre_Servicio', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
+        },
+    ];
+
+    $scope.PromocionDetalladaGridOptions = {
+        defaultColDef: {
+            resizable: true
+        },
+        columnDefs: $scope.PromocionDetalladaGridOptionsColumns,
+        rowData: [],
+        enableSorting: true,
+        enableFilter: true,
+        enableColResize: true,
+        angularCompileRows: true,
+        onGridReady: function (params) {
+        },
+        fullWidthCellRenderer: true,
+        animateRows: true,
+        suppressRowClickSelection: true,
+        rowSelection: 'multiple'
+    }
+
+    $scope.EditarPromocion = function (data) {
+        if (data !== undefined && data !== null) {
+            $scope.Promocion.Id_Promocion = data.id_Promocion;
+            $scope.Promocion.Descripcion = data.descripcion;
+            $scope.Promocion.Id_Tipo_Promocion = data.id_Tipo_Promocion;
+            $scope.Promocion.Valor = data.valor;
+            $scope.Promocion.Estado = data.estado;
+
+            let detallesPromocion = [];
+            detallesPromocion = data.detalles_Promocion;
+
+            $scope.ServiciosSinAsignar = [];
+            $scope.ServiciosSinAsignar = $scope.Servicios.filter(function (s) {
+                return !detallesPromocion.some(function (es) {
+                    return s.id_Empresa_Servicio === es.id_Empresa_Servicio;
+                });
+            });
+
+            $scope.TipoPromocionSeleccionada = data.id_Tipo_Promocion;
+            $scope.EstadoPromocionSeleccionado = data.estado; 
+            $scope.PromocionDetalladaGridOptions.api.setRowData(detallesPromocion);
+            
+            $scope.Promocion.Has_Changed = true;
+            $scope.ModalEditarPromocion();
+        }
+    }
+
     $scope.ValidarPromocion = function () {
         try {
             if ($scope.Promocion.Descripcion === null || $scope.Promocion.Descripcion === undefined || $scope.Promocion.Descripcion === '') {
@@ -421,16 +481,25 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                 $('#txtDescripcionPromocion').focus();
                 return false;
             }
-            
-            if ($scope.ServiciosSeleccionados === undefined || $scope.ServiciosSeleccionados === null || $scope.ServiciosSeleccionados.length === 0) {
-                toastr.info('Para crear una promoción debe seleccionar al menos un servicio', '', $scope.toastrOptions);
-                $('#slServiciosPromocion').focus();
-                return false;
-            }
 
-            $scope.Promocion.Detalles_Promocion = $scope.ServiciosSeleccionados.map(function (e) {
-                return { Id_Detalle_Promocion: '00000000-0000-0000-0000-000000000000', Id_Promocion: '00000000-0000-0000-0000-000000000000', Id_Empresa_Servicio: e}
-            });
+            if (!$scope.Promocion.Has_Changed) {
+                if ($scope.ServiciosSeleccionados === undefined || $scope.ServiciosSeleccionados === null || $scope.ServiciosSeleccionados.length === 0) {
+                    toastr.info('Para crear una promoción debe seleccionar al menos un servicio', '', $scope.toastrOptions);
+                    $('#slServiciosPromocion').focus();
+                    return false;
+                }
+            }            
+            
+            if ($scope.Promocion.Has_Changed) {
+                $scope.Promocion.Detalles_Promocion = $scope.ServiciosSeleccionados.map(function (e) {
+                    return { Id_Detalle_Promocion: '00000000-0000-0000-0000-000000000000', Id_Promocion: $scope.Promocion.Id_Promocion, Id_Empresa_Servicio: e }
+                });
+            } else {
+                $scope.Promocion.Detalles_Promocion = $scope.ServiciosSeleccionados.map(function (e) {
+                    return { Id_Detalle_Promocion: '00000000-0000-0000-0000-000000000000', Id_Promocion: '00000000-0000-0000-0000-000000000000', Id_Empresa_Servicio: e }
+                });
+            }
+            
             
             if ($scope.TipoPromocionSeleccionada === undefined || $scope.TipoPromocionSeleccionada === null || $scope.TipoPromocionSeleccionada === '00000000-0000-0000-0000-000000000000') {
                 toastr.info('Debe seleccionar un tipo de promoción', '', $scope.toastrOptions);
@@ -438,7 +507,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                 return false;
             }
 
-            $scope.Promocion.id_Tipo_Promocion = $scope.TipoPromocionSeleccionada;
+            $scope.Promocion.Id_Tipo_Promocion = $scope.TipoPromocionSeleccionada;
 
             let tipoPromocion = $scope.TiposPromocion.filter(function (e) {
                 return e.id_Tipo_Promocion === $scope.TipoPromocionSeleccionada;
@@ -459,7 +528,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             }
             
             $scope.Promocion.Estado = $scope.EstadoPromocionSeleccionado;
-
+            
             return true;
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -557,6 +626,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
     $scope.LimpiarDatos = function () {
         try {
             $scope.EditarUsuario = false;
+            $scope.fEditarPromocion = false;
             $scope.ImagenUsuario = '../Images/template/default_logo.png';
             $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
             $scope.Menu = $rootScope.Menu;
@@ -590,12 +660,14 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             $scope.Promocion = {
                 Id_Empresa: $scope.IdEmpresa,
                 Id_Promocion: '00000000-0000-0000-0000-000000000000',
+                Id_Tipo_Promocion: '00000000-0000-0000-0000-000000000000',
                 Descripcion: '',
                 Valor: 0,
                 Estado: '',
                 Detalles_Promocion: [],
                 Usuario_Creacion: $scope.UsuarioSistema,
-                Usuario_Modificacion: $scope.UsuarioSistema
+                Usuario_Modificacion: $scope.UsuarioSistema,
+                Has_Changed: false
             }
             $scope.EstadoPromocionSeleccionado = 'ACTIVA';
             $scope.TipoPromocionSeleccionada = '00000000-0000-0000-0000-000000000000';
@@ -676,6 +748,29 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                 $scope.LimpiarDatos();
             });            
             
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.ModalEditarPromocion = function () {
+        try {
+
+            $scope.AccionPromocion = 'Editar Promoción';
+
+            $mdDialog.show({
+                contentElement: '#dlgEditarPromocion',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                multiple: true
+            })
+                .then(function () {
+                }, function () {
+                    $scope.LimpiarDatos();
+                });
+
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -812,6 +907,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         $timeout(function () {
             $scope.UsuariosGridOptions.api.sizeColumnsToFit();
             $scope.PromocionesGridOptions.api.sizeColumnsToFit();
+            $scope.PromocionDetalladaGridOptions.api.sizeColumnsToFit();
         }, 200);
     }
 
