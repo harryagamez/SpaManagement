@@ -416,13 +416,15 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             },
         },
         {
-            headerName: "Descripción", field: 'descripcion', width: 320, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            headerName: "Descripción", field: 'descripcion', width: 320, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function (params) {
+                return "<span  data-toggle='tooltip' data-placement='left' title='{{data.descripcion}}'>{{data.descripcion}}</span>"
+            },
         },
         {
             headerName: "Tipo Promoción", field: 'tipo_Promocion', width: 120, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Valor", field: 'valor', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', }, valueFormatter: currencyFormatter
+            headerName: "Valor / %", field: 'valor', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#499977' }, valueFormatter: decimalFormatter
         },
         {
             headerName: "Estado", field: 'estado', width: 90, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -838,13 +840,13 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
     $scope.showConfirmEliminarServicioPromo = function (ev, data) {
         try {
             if ($scope.DetallesPromocionServicios.length === 1) {
-                $scope.AccionEliminarPromo = 'Al eliminar este último servicio se eliminará también la promoción. ';
+                $scope.AccionEliminarPromo = 'Al borrar este último servicio se eliminará también la promoción. ';
             } else {
                 $scope.AccionEliminarPromo = '';
             }
             let confirm = $mdDialog.confirm()
                 .title('Editar Promoción')
-                .textContent($scope.AccionEliminarPromo + '¿Seguro que deseas eliminar el servicio ' + data.nombre_Servicio + ' de la promoción ?')
+                .textContent($scope.AccionEliminarPromo + '¿Desea eliminar el servicio ' + data.nombre_Servicio + ' de la promoción ?')
                 .ariaLabel('Eliminar Servicio Promo')
                 .targetEvent(ev, data)
                 .ok('Sí')
@@ -860,6 +862,10 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
         }
+    }
+
+    $scope.onFilterTextBoxChanged = function () {
+        $scope.PromocionesGridOptions.api.setQuickFilter($('#txtBuscarPromocion').val());
     }
 
     $scope.SeleccionarImagen = function (event) {
@@ -958,9 +964,15 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         $scope.$broadcast('selectChanged');
     }
 
-    function currencyFormatter(params) {
-        let valueGrid = params.value;
-        return $filter('currency')(valueGrid, '$', 0);
+    function decimalFormatter(params) {
+        if (params.value <= 1) {
+            let valueGrid = params.value;
+            return $filter('currency')(valueGrid, '', 2);
+        }
+        else {
+            let valueGrid = params.value;
+            return $filter('currency')(valueGrid, '$', 0);
+        }
     }
 
     function dateFormatter(params) {
