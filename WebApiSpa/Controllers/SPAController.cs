@@ -1082,5 +1082,23 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error consultando las promociones: " + ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("api/SPA/EliminarServicioPromocion")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult EliminarServicioPromocion(string IdDetallePromocion, string IdPromocion)
+        {
+            try
+            {
+                bool result = _spaService.EliminarServicioPromocion(IdDetallePromocion, IdPromocion);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error eliminando el servicio de la promoción: " + ex.Message);
+            }
+        }
+
     }
 }

@@ -1756,5 +1756,27 @@ namespace Spa.Infrastructure.SpaRepository
                 }
             }
         }
+
+        public bool EliminarServicioPromocion(string IdDetallePromocion, string IdPromocion)
+        {
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "EliminarServicioPromocion";
+                    _command.Parameters.AddWithValue("@IdDetallePromocion", IdDetallePromocion);
+                    _command.Parameters.AddWithValue("@IdPromocion", IdPromocion);
+
+                    _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return true;
+                }
+            }
+        }
     }
 }

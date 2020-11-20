@@ -487,5 +487,10 @@ namespace Spa.Application.SpaService
         {
             return _spaRepository.ConsultarPromociones(IdEmpresa);
         }
+
+        public bool EliminarServicioPromocion(string IdDetallePromocion, string IdPromocion)
+        {
+            return _spaRepository.EliminarServicioPromocion(IdDetallePromocion, IdPromocion);
+        }
     }
 }

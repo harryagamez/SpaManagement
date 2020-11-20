@@ -151,6 +151,43 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                 })
     }
 
+    $scope.EliminarServicioPromocion = function (data) {
+
+        let IdDetallePromocion = data.id_Detalle_Promocion;
+        let IdPromocion = data.id_Promocion;
+
+        SPAService._eliminarServicioPromocion(IdDetallePromocion, IdPromocion)
+            .then(
+                function (result) {
+                    if (result.data === true) {
+                        toastr.success('El servicio ' + data.nombre_Servicio + ' se ha eliminado de la promoción correctamente', '', $scope.toastrOptions);
+
+                        $timeout(function () {
+                            $scope.ConsultarPromociones();
+                        }, 100);
+
+                        let index = $scope.DetallesPromocionServicios.indexOf(data);
+                        $scope.DetallesPromocionServicios.splice(index, 1);
+                        $scope.PromocionDetalladaGridOptions.api.setRowData($scope.DetallesPromocionServicios);
+
+                        $scope.ServiciosSinAsignar = [];
+                        $scope.ServiciosSinAsignar = $scope.Servicios.filter(function (s) {
+                            return !$scope.DetallesPromocionServicios.some(function (es) {
+                                return s.id_Empresa_Servicio === es.id_Empresa_Servicio;
+                            });
+                        });
+
+                        if ($scope.DetallesPromocionServicios.length === 0) {
+                            $scope.Cancelar();
+                        }
+                    }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
+    }
+
     $scope.ConsultarServicios = function () {
         SPAService._consultarServiciosActivos($scope.IdEmpresa)
             .then(
@@ -421,7 +458,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         {
             headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' }, suppressSizeToFit: true,
             cellRenderer: function () {
-                return "<i data-ng-click='EliminarServicio (data)' data-toggle='tooltip' title='Eliminar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>delete_sweep</i>";
+                return "<i data-ng-click='showConfirmEliminarServicioPromo (ev, data)' data-toggle='tooltip' title='Eliminar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>delete_sweep</i>";
             },
         },
         {
@@ -444,30 +481,31 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         fullWidthCellRenderer: true,
         animateRows: true,
         suppressRowClickSelection: true,
-        rowSelection: 'multiple'
-    }
+        rowSelection: 'single'
+    }    
 
     $scope.EditarPromocion = function (data) {
         if (data !== undefined && data !== null) {
+            
             $scope.Promocion.Id_Promocion = data.id_Promocion;
             $scope.Promocion.Descripcion = data.descripcion;
             $scope.Promocion.Id_Tipo_Promocion = data.id_Tipo_Promocion;
             $scope.Promocion.Valor = data.valor;
             $scope.Promocion.Estado = data.estado;
 
-            let detallesPromocion = [];
-            detallesPromocion = data.detalles_Promocion;
+            $scope.DetallesPromocionServicios = [];
+            $scope.DetallesPromocionServicios = data.detalles_Promocion;
 
             $scope.ServiciosSinAsignar = [];
             $scope.ServiciosSinAsignar = $scope.Servicios.filter(function (s) {
-                return !detallesPromocion.some(function (es) {
+                return !$scope.DetallesPromocionServicios.some(function (es) {
                     return s.id_Empresa_Servicio === es.id_Empresa_Servicio;
                 });
             });
 
             $scope.TipoPromocionSeleccionada = data.id_Tipo_Promocion;
             $scope.EstadoPromocionSeleccionado = data.estado; 
-            $scope.PromocionDetalladaGridOptions.api.setRowData(detallesPromocion);
+            $scope.PromocionDetalladaGridOptions.api.setRowData($scope.DetallesPromocionServicios);
             
             $scope.Promocion.Has_Changed = true;
             $scope.ModalEditarPromocion();
@@ -791,6 +829,33 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                 .then(function () {
                 }, function () {
                 });
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.showConfirmEliminarServicioPromo = function (ev, data) {
+        try {
+            if ($scope.DetallesPromocionServicios.length === 1) {
+                $scope.AccionEliminarPromo = 'Al eliminar este último servicio se eliminará también la promoción. ';
+            } else {
+                $scope.AccionEliminarPromo = '';
+            }
+            let confirm = $mdDialog.confirm()
+                .title('Editar Promoción')
+                .textContent($scope.AccionEliminarPromo + '¿Seguro que deseas eliminar el servicio ' + data.nombre_Servicio + ' de la promoción ?')
+                .ariaLabel('Eliminar Servicio Promo')
+                .targetEvent(ev, data)
+                .ok('Sí')
+                .cancel('No')
+                .multiple(true);
+
+            $mdDialog.show(confirm).then(function () {
+                $scope.EliminarServicioPromocion(data);
+            }, function () {
+                return;
+            });
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;

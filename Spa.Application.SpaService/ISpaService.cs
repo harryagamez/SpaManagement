@@ -139,5 +139,7 @@ namespace Spa.Application.SpaService
         bool GuardarPromocion(Promocion promocion);
 
         List<Promocion> ConsultarPromociones(string IdEmpresa);
+
+        bool EliminarServicioPromocion(string IdDetallePromocion, string IdPromocion);
     }
 }
