@@ -178,6 +178,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                         });
 
                         if ($scope.DetallesPromocionServicios.length === 0) {
+                            $scope.LimpiarDatos();
                             $scope.Cancelar();
                         }
                     }
