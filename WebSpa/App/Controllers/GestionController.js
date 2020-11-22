@@ -224,7 +224,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
     }
 
     $scope.GuardarPromocion = function () {
-        if ($scope.ValidarPromocion()) {
+        if ($scope.ValidarPromocion()) {            
             SPAService._guardarPromocion($scope.Promocion)
                 .then(
                     function (result) {
@@ -499,6 +499,9 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             $scope.DetallesPromocionServicios = [];
             $scope.DetallesPromocionServicios = data.detalles_Promocion;
 
+            $scope.TempDetallePromociones = [];
+            $scope.TempDetallePromociones = data.detalles_Promocion;
+
             $scope.ServiciosSinAsignar = [];
             $scope.ServiciosSinAsignar = $scope.Servicios.filter(function (s) {
                 return !$scope.DetallesPromocionServicios.some(function (es) {
@@ -535,6 +538,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                 $scope.Promocion.Detalles_Promocion = $scope.ServiciosSeleccionados.map(function (e) {
                     return { Id_Detalle_Promocion: '00000000-0000-0000-0000-000000000000', Id_Promocion: $scope.Promocion.Id_Promocion, Id_Empresa_Servicio: e }
                 });
+                $scope.Promocion.Detalles_Promocion = $scope.Promocion.Detalles_Promocion.concat($scope.TempDetallePromociones);
             } else {
                 $scope.Promocion.Detalles_Promocion = $scope.ServiciosSeleccionados.map(function (e) {
                     return { Id_Detalle_Promocion: '00000000-0000-0000-0000-000000000000', Id_Promocion: '00000000-0000-0000-0000-000000000000', Id_Empresa_Servicio: e }

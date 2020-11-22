@@ -5,33 +5,45 @@ CREATE PROCEDURE EliminarServicioPromocion(
 AS
 BEGIN
 	
-	DECLARE @IdPromocionExistente UNIQUEIDENTIFIER
-	DECLARE @RowsDetallePromo INT
-	DECLARE @RowsTempDetallePromo INT
+	IF OBJECT_ID('tempdb..#TempPromoUpdated') IS NOT NULL DROP TABLE #TempPromoUpdated
+	IF OBJECT_ID('tempdb..#TempDetallePromocionesExistente') IS NOT NULL DROP TABLE #TempDetallePromocionesExistente
 
-	CREATE TABLE #TempPromoUpdated (Id_Detalle_Promocion UNIQUEIDENTIFIER, Id_Promocion UNIQUEIDENTIFIER, Id_Empresa_Servicio UNIQUEIDENTIFIER)
+	DECLARE @IdPromocionExistente VARCHAR(36)	
+	DECLARE @RowsTempDetallePromo INT
+	DECLARE @Mensaje CHAR(200)
+
+	CREATE TABLE #TempPromoUpdated (Id_Detalle_Promocion VARCHAR(36), Id_Promocion VARCHAR(36), Id_Empresa_Servicio VARCHAR(36))
+	CREATE TABLE #TempDetallePromocionesExistente (Id_Promocion VARCHAR(36))
 
 	INSERT INTO #TempPromoUpdated (Id_Detalle_Promocion, Id_Promocion, Id_Empresa_Servicio)
 	SELECT ID_DETALLE_PROMOCION, ID_PROMOCION, ID_EMPRESA_SERVICIO FROM DETALLE_PROMOCIONES WHERE ID_PROMOCION = @IdPromocion
 
-	DELETE FROM #TempPromoUpdated WHERE Id_Detalle_Promocion = @IdDetallePromocion
-	   	  
-	SET @IdPromocionExistente = (SELECT TOP 1 t1.ID_PROMOCION 
-								FROM DETALLE_PROMOCIONES t1, DETALLE_PROMOCIONES t2
-								INNER JOIN #TempPromoUpdated ON #TempPromoUpdated.Id_Empresa_Servicio = t2.ID_EMPRESA_SERVICIO
-								WHERE t1.ID_PROMOCION = t2.ID_PROMOCION)						
+	DELETE FROM #TempPromoUpdated WHERE Id_Detalle_Promocion = @IdDetallePromocion	   	  
+	
+	DECLARE @NoRegistros INT = (SELECT COUNT(*) FROM #TempPromoUpdated)
 
-	
-	SET @RowsDetallePromo = (SELECT COUNT(ID_EMPRESA_SERVICIO) FROM DETALLE_PROMOCIONES WHERE ID_PROMOCION = @IdPromocionExistente)
-	SET @RowsTempDetallePromo = (SELECT COUNT(Id_Empresa_Servicio) FROM #TempPromoUpdated)
-	
-	
+	;WITH cte_detallePromocionExiste (	
+		Id_Promocion,	
+		X
+	)
+	AS (
+		SELECT		
+			dp.Id_Promocion,		
+			COUNT(*)
+		FROM
+			DETALLE_PROMOCIONES dp
+			INNER JOIN #TempPromoUpdated tdp ON tdp.Id_Empresa_Servicio = dp.ID_EMPRESA_SERVICIO
+			WHERE dp.ID_PROMOCION <> tdp.Id_Promocion
+			GROUP BY dp.Id_Promocion
+			HAVING COUNT(*) = @NoRegistros
+	)	
+	INSERT INTO #TempDetallePromocionesExistente (Id_Promocion) SELECT Id_Promocion FROM cte_detallePromocionExiste
+	SET @RowsTempDetallePromo = (SELECT COUNT(Id_Promocion) FROM #TempDetallePromocionesExistente)
+
 	IF(@RowsTempDetallePromo > 0) BEGIN
-		IF(@RowsDetallePromo = @RowsTempDetallePromo) BEGIN
-		DECLARE @Mensaje CHAR(200) = 'No puede eliminar este servicio porque ya existe una promoción con los servicios restantes'
+		SET @Mensaje  = 'No puede agregar el servicio porque ya hay una promoción con los servicios seleccionados'		
 		RAISERROR (@Mensaje, 16, 1)		
 		RETURN
-		END
 	END	
 
 	IF((SELECT COUNT(ID_DETALLE_PROMOCION) FROM DETALLE_PROMOCIONES WHERE ID_PROMOCION = @IdPromocion) = 1) BEGIN
@@ -43,6 +55,7 @@ BEGIN
 	END
 
 	IF OBJECT_ID('tempdb..#TempPromoUpdated') IS NOT NULL DROP TABLE #TempPromoUpdated
+	IF OBJECT_ID('tempdb..#TempDetallePromocionesExistente') IS NOT NULL DROP TABLE #TempDetallePromocionesExistente
 
 END
 
