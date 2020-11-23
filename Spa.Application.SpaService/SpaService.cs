@@ -44,7 +44,7 @@ namespace Spa.Application.SpaService
                            <table align=""center"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""900"">
                            <tr>
                            <td align=""center"" bgcolor=""#ffffff"" style=""padding: 30px 0 30px 0;"">
-                               <img src=""https://i.postimg.cc/c1T3FmQN/header-mail.png"" alt=""AGENDA"" style=""display: block; max-width:900px;""/>
+                               <img src=""https://i.postimg.cc/KzJZpgng/background-img.jpg"" alt=""AGENDA"" style=""display: block; max-width:900px;""/>
                            </td>
                            </tr>
                            <tr>
@@ -64,7 +64,7 @@ namespace Spa.Application.SpaService
                            </tr>
                            <tr>
                            <td bgcolor=""#2c333c"" style=""padding: 3px 30px 3px 30px; text-align:center; color: white;"" >
-                            <p>eMAH © 2020 - " + anioActual + @" Todos los derechos reservados</p>
+                            <p>beux © 2020 - " + anioActual + @" Todos los derechos reservados</p>
                            </td>
                            </tr>
                            </table>
@@ -379,7 +379,7 @@ namespace Spa.Application.SpaService
                            <table align=""center"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""900"">
                            <tr>
                            <td align=""center"" bgcolor=""#ffffff"" style=""padding: 5px 0 5px 0;"">
-                               <img src=""https://i.postimg.cc/c1T3FmQN/header-mail.png"" alt=""AGENDA"" style=""display: block; min-width:900px; max-width:900px; max-height:250px;""/>
+                               <img src=""https://i.postimg.cc/KzJZpgng/background-img.jpg"" alt=""AGENDA"" style=""display: block; min-width:900px; max-width:900px; max-height:250px;""/>
                            </td>
                            </tr>
                            <tr>
@@ -399,7 +399,7 @@ namespace Spa.Application.SpaService
                            </tr>
                            <tr>
                            <td bgcolor=""#2c333c"" style=""padding: 3px 30px 3px 30px; text-align:center; color: white;"" >
-                            <p>eMAH © 2020 - " + anioActual + @" Todos los derechos reservados</p>
+                            <p>beux© 2020 - " + anioActual + @" Todos los derechos reservados</p>
                            </td>
                            </tr>
                            </table>
