@@ -6,13 +6,10 @@ AS
 BEGIN
 
 	DECLARE @IdPromocionExistente VARCHAR(36)	
-	DECLARE @RowsTempDetallePromo INT
 	DECLARE @Mensaje CHAR(200)
 	DECLARE @PromocionesIguales INT
 
-	CREATE TABLE #TempPromoUpdated (Id INT IDENTITY(1,1), Id_Detalle_Promocion VARCHAR(36), Id_Promocion VARCHAR(36), Id_Empresa_Servicio VARCHAR(36))
-
-	CREATE TABLE #TempDetallePromocionesExistente (Id_Promocion VARCHAR(36))
+	CREATE TABLE #TempPromoUpdated (Id INT IDENTITY(1,1), Id_Detalle_Promocion VARCHAR(36), Id_Promocion VARCHAR(36), Id_Empresa_Servicio VARCHAR(36))	
 
 	CREATE TABLE #PromocionesServicios (Id_Promocion UNIQUEIDENTIFIER, ServiciosPromocion INT)
 
@@ -104,8 +101,7 @@ BEGIN
 		WHERE ID_DETALLE_PROMOCION = @IdDetallePromocion
 	END
 
-	IF OBJECT_ID('tempdb..#TempPromoUpdated') IS NOT NULL DROP TABLE #TempPromoUpdated
-	IF OBJECT_ID('tempdb..#TempDetallePromocionesExistente') IS NOT NULL DROP TABLE #TempDetallePromocionesExistente
+	IF OBJECT_ID('tempdb..#TempPromoUpdated') IS NOT NULL DROP TABLE #TempPromoUpdated	
 	IF OBJECT_ID('tempdb..#PromocionesServicios') IS NOT NULL DROP TABLE #PromocionesServicios
 	IF OBJECT_ID('tempdb..#PromocionesResultantes') IS NOT NULL DROP TABLE #PromocionesResultantes
 
