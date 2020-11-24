@@ -389,7 +389,7 @@ namespace Spa.Application.SpaService
                            </tr>
                             <tr>
                            <td bgcolor=""#ffffff"" style=""padding: 5px 30px 2px 30px; color: #566473; font-size:18px; text-align:justify;"">
-                                <b>Su cita en " + _Agenda.Nombre_Empresa + @", con el servicio: " + _Agenda.Nombre_Servicio + @", ha sido programada para el día: " + fecha + @" a las: " + hora + @".</b>
+                                <b>Su cita en " + _Agenda.Nombre_Empresa + @", con el servicio: " + _Agenda.Nombre_Servicio.Trim() + @", ha sido programada para el día: " + fecha + @" a las: " + hora + @".</b>
                            </td>
                            </tr>
                            <tr>
