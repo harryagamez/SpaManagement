@@ -674,12 +674,15 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             $scope.fEditarPromocion = false;
             $scope.ImagenUsuario = '../Images/template/default_logo.png';
             $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
-            $scope.Menu = $rootScope.Menu;
+            $scope.Menu = $rootScope.Menu.filter(function (e) {
+                return e._Level === 1;
+            });
+
+            $scope.Menu = $scope.Menu.map(function (e) {
+                return { Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
+            });
             $scope.PasswordHasChanged = false;
             $scope.PasswordBackup = '';
-            $scope.Menu = $scope.Menu.map(function (e) {
-                return { Id_Menu_Usuario: '', Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
-            });
             $('#txtUsuario').focus();
             $scope.TipoPerfilSeleccionado = -1;
             $scope.Confirmacion = '';
@@ -1000,6 +1003,13 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
     $scope.$on("CompanyChange", function () {
         $scope.LimpiarDatos();
         $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.Menu = $rootScope.Menu.filter(function (e) {
+            return e._Level === 1;
+        });
+
+        $scope.Menu = $scope.Menu.map(function (e) {
+            return { Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
+        }); 
         $scope.UsuarioSistema = $rootScope.userData.userName;
         $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
         $scope.ConfiguracionEmpresaActual();

@@ -1282,6 +1282,11 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
 
     $scope.LimpiarAgenda = function () {
         $scope.Agendas = [];
+        $scope.AgendasDetallada = [];
+        if ($scope.fActiveTab === 'Detallada')
+            $timeout(function () {
+                angular.element(document.getElementById('acEmpleadoDetallada')).find('input').focus();
+            }, 200);
     }
 
     $scope.MostrarMoreInfoDetallada = function ($event, estado) {
@@ -1344,8 +1349,9 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
         $scope.ConsultarClientes();
         $scope.ConfiguracionEmpresaActual();
         $scope.ConsultarAgenda();
-        if ($scope.fActiveTab === 'General')
-            $scope.ModalFiltrarCitas();
+        $timeout(function () {
+            angular.element(document.getElementById('acEmpleadoDetallada')).find('input').focus();
+        }, 200);        
     });
 
     $scope.ConsultarServiciosActivos();
@@ -1358,4 +1364,8 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
         $timeout(function () {
         }, 200);
     }
+
+    $timeout(function () {
+        angular.element(document.getElementById('acEmpleadoDetallada')).find('input').focus();
+    }, 200);
 }
