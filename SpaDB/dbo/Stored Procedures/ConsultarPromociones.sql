@@ -11,7 +11,7 @@ BEGIN
 
 	CREATE TABLE #TempDetallePromocion (Id_Detalle_Promocion VARCHAR(36) COLLATE SQL_Latin1_General_CP1_CI_AS, Id_Promocion VARCHAR(36) COLLATE SQL_Latin1_General_CP1_CI_AS, 
 	Id_Empresa_Servicio VARCHAR(36) COLLATE SQL_Latin1_General_CP1_CI_AS, Nombre_Servicio CHAR(30) COLLATE SQL_Latin1_General_CP1_CI_AS,
-	Nombre_Promocion VARCHAR(200) COLLATE SQL_Latin1_General_CP1_CI_AS)
+	Nombre_Promocion VARCHAR(200) COLLATE SQL_Latin1_General_CP1_CI_AS, Valor DECIMAL(18,2))
 
 	INSERT INTO #TempPromociones (Id_Promocion, Id_Tipo_Promocion, Descripcion, Tipo_Promocion, Valor, Estado, Id_Empresa, Fecha_Creacion, 
 	Fecha_Modificacion, Usuario_Creacion, Usuario_Modificacion)	
@@ -33,12 +33,12 @@ BEGIN
 	WHERE ID_EMPRESA = @IdEmpresa
 
 	INSERT INTO #TempDetallePromocion(Id_Detalle_Promocion, Id_Promocion, Id_Empresa_Servicio, 
-	Nombre_Servicio, Nombre_Promocion)	
+	Nombre_Servicio, Nombre_Promocion, Valor)	
 	SELECT 
 		ID_DETALLE_PROMOCION, DetallePromociones.ID_PROMOCION, DetallePromociones.ID_EMPRESA_SERVICIO, 
-		Servicios.NOMBRE AS Nombre_Servicio, #TempPromociones.Descripcion AS Nombre_Promocion
+		Servicios.NOMBRE AS Nombre_Servicio, #TempPromociones.Descripcion AS Nombre_Promocion, #TempPromociones.Valor AS Valor
 	FROM DETALLE_PROMOCIONES DetallePromociones
-	INNER JOIN #TempPromociones 
+	INNER JOIN #TempPromociones
 	ON DetallePromociones.ID_PROMOCION = #TempPromociones.Id_Promocion
 	INNER JOIN EMPRESA_SERVICIOS EmpresaServicios 
 	ON DetallePromociones.ID_EMPRESA_SERVICIO = EmpresaServicios.ID_EMPRESA_SERVICIO
@@ -64,7 +64,8 @@ BEGIN
 		RTRIM(Id_Promocion) AS Id_Promocion,
 		RTRIM(Id_Empresa_Servicio) AS Id_Empresa_Servicio,
 		RTRIM(Nombre_Servicio) AS Nombre_Servicio,
-		RTRIM(Nombre_Promocion) AS Nombre_Promocion
+		RTRIM(Nombre_Promocion) AS Nombre_Promocion,
+		Valor
 	FROM #TempDetallePromocion
 
 	IF OBJECT_ID('tempdb..#TempPromociones') IS NOT NULL DROP TABLE #TempPromociones

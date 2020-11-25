@@ -467,6 +467,9 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         {
             headerName: "Servicio", field: 'nombre_Servicio', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
         },
+        {
+            headerName: "Valor / %", field: 'valor', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#445a9e' }, valueFormatter: decimalFormatter
+        }
     ];
 
     $scope.PromocionDetalladaGridOptions = {
@@ -1006,7 +1009,8 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                     promocion.detalles_Promocion.map(function (detalle) {
                         this.push({
                             "PROMOCION": detalle.nombre_Promocion,
-                            "SERVICIO": detalle.nombre_Servicio
+                            "SERVICIO": detalle.nombre_Servicio,
+                            "VALOR": detalle.valor
                         });
                     }, excelDetallePromociones)
                 })

@@ -7,5 +7,7 @@
 
         public string Nombre_Promocion { get; set; }
 
+        public decimal Valor { get; set; }
+
     }
 }
