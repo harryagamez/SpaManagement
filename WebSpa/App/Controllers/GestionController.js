@@ -434,7 +434,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             headerName: "Fecha", field: 'fecha_Creacion', width: 90, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter
         },
         {
-            headerName: "Usuario", field: 'usuario_Creacion', width: 140, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
+            headerName: "Usuario", field: 'usuario_Creacion', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         }
     ];
 
@@ -468,7 +468,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             headerName: "Servicio", field: 'nombre_Servicio', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
         },
         {
-            headerName: "Valor / %", field: 'valor', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#445a9e' }, valueFormatter: decimalFormatter
+            headerName: "Valor", field: 'valor', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#445a9e' }, valueFormatter: decimalFormatter
         }
     ];
 
