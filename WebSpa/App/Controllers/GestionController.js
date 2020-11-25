@@ -69,14 +69,14 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
 
         $('#txtUsuario').focus();
     }
-    
+
     $scope.Menu = $rootScope.Menu.filter(function (e) {
         return e._Level === 1;
     });
 
     $scope.Menu = $scope.Menu.map(function (e) {
         return { Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
-    });    
+    });
 
     $scope.Usuario = {
         Id_Usuario: -1,
@@ -142,7 +142,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                         $scope.Promociones = [];
                         $scope.Promociones = result.data;
                         $scope.PromocionesGridOptions.api.setRowData($scope.Promociones);
-                        
+
                     }
                 }, function (err) {
                     toastr.remove();
@@ -195,7 +195,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
                         $scope.Servicios = [];
-                        $scope.Servicios = result.data;                        
+                        $scope.Servicios = result.data;
                         $scope.Servicios = $filter('orderBy')($scope.Servicios, 'id_Servicio', false);
                     }
                 }, function (err) {
@@ -224,15 +224,15 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
     }
 
     $scope.GuardarPromocion = function () {
-        if ($scope.ValidarPromocion()) {            
+        if ($scope.ValidarPromocion()) {
             SPAService._guardarPromocion($scope.Promocion)
                 .then(
                     function (result) {
                         if (result.data === true) {
-                            toastr.success('Promoción registrada/actualizada correctamente', '', $scope.toastrOptions);                            
+                            toastr.success('Promoción registrada/actualizada correctamente', '', $scope.toastrOptions);
                             $scope.ConsultarPromociones();
                             if ($scope.Promocion.Has_Changed) {
-                                $scope.Cancelar();                                
+                                $scope.Cancelar();
                             }
                             $scope.LimpiarDatos();
                         }
@@ -298,9 +298,9 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             .then(
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
-                        $scope.TiposPromocion = [];                        
+                        $scope.TiposPromocion = [];
                         $scope.TiposPromocion = result.data;
-                        $scope.TiposPromocion.push({ id_Tipo_Promocion: '00000000-0000-0000-0000-000000000000', descripcion:'[Seleccione]' });
+                        $scope.TiposPromocion.push({ id_Tipo_Promocion: '00000000-0000-0000-0000-000000000000', descripcion: '[Seleccione]' });
                         $scope.TiposPromocion = $filter('orderBy')($scope.TiposPromocion, 'id_Tipo_Promocion', false);
                     }
                 }, function (err) {
@@ -425,7 +425,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             headerName: "Tipo Promoción", field: 'tipo_Promocion', width: 120, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Valor / %", field: 'valor', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#499977' }, valueFormatter: decimalFormatter
+            headerName: "Valor / %", field: 'valor', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#445a9e' }, valueFormatter: decimalFormatter
         },
         {
             headerName: "Estado", field: 'estado', width: 90, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -457,7 +457,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         onRowSelected: OnRowSelectedPromociones
     }
 
-    $scope.PromocionDetalladaGridOptionsColumns = [        
+    $scope.PromocionDetalladaGridOptionsColumns = [
         {
             headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' }, suppressSizeToFit: true,
             cellRenderer: function () {
@@ -485,11 +485,11 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         animateRows: true,
         suppressRowClickSelection: true,
         rowSelection: 'single'
-    }    
+    }
 
     $scope.EditarPromocion = function (data) {
         if (data !== undefined && data !== null) {
-            
+
             $scope.Promocion.Id_Promocion = data.id_Promocion;
             $scope.Promocion.Descripcion = data.descripcion;
             $scope.Promocion.Id_Tipo_Promocion = data.id_Tipo_Promocion;
@@ -510,9 +510,9 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             });
 
             $scope.TipoPromocionSeleccionada = data.id_Tipo_Promocion;
-            $scope.EstadoPromocionSeleccionado = data.estado; 
+            $scope.EstadoPromocionSeleccionado = data.estado;
             $scope.PromocionDetalladaGridOptions.api.setRowData($scope.DetallesPromocionServicios);
-            
+
             $scope.Promocion.Has_Changed = true;
             $scope.ModalEditarPromocion();
         }
@@ -532,8 +532,8 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                     $('#slServiciosPromocion').focus();
                     return false;
                 }
-            }            
-            
+            }
+
             if ($scope.Promocion.Has_Changed) {
                 $scope.Promocion.Detalles_Promocion = $scope.ServiciosSeleccionados.map(function (e) {
                     return { Id_Detalle_Promocion: '00000000-0000-0000-0000-000000000000', Id_Promocion: $scope.Promocion.Id_Promocion, Id_Empresa_Servicio: e }
@@ -544,8 +544,8 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                     return { Id_Detalle_Promocion: '00000000-0000-0000-0000-000000000000', Id_Promocion: '00000000-0000-0000-0000-000000000000', Id_Empresa_Servicio: e }
                 });
             }
-            
-            
+
+
             if ($scope.TipoPromocionSeleccionada === undefined || $scope.TipoPromocionSeleccionada === null || $scope.TipoPromocionSeleccionada === '00000000-0000-0000-0000-000000000000') {
                 toastr.info('Debe seleccionar un tipo de promoción', '', $scope.toastrOptions);
                 $('#slTiposPromocion').focus();
@@ -561,7 +561,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             if (tipoPromocion[0].descripcion === 'PORCENTAJE') {
                 if ($scope.Promocion.Valor === undefined || $scope.Promocion.Valor === null || $scope.Promocion.Valor === 0 || $scope.Promocion.Valor > 1) {
                     toastr.info('Si el tipo de promoción es PORCENTAJE el valor de esta no puede ser igual a 0 o mayor a 1', '', $scope.toastrOptions);
-                    $scope.FocoMonto();                   
+                    $scope.FocoMonto();
                     return false;
                 }
             } else {
@@ -571,9 +571,9 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                     return false;
                 }
             }
-            
+
             $scope.Promocion.Estado = $scope.EstadoPromocionSeleccionado;
-            
+
             return true;
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -780,7 +780,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
     }
 
     $scope.ModalNuevaPromocion = function () {
-        try {            
+        try {
 
             $scope.AccionPromocion = 'Registrar Promoción';
 
@@ -791,11 +791,11 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                 clickOutsideToClose: true,
                 multiple: true
             })
-            .then(function () {
-            }, function () {
-                $scope.LimpiarDatos();
-            });            
-            
+                .then(function () {
+                }, function () {
+                    $scope.LimpiarDatos();
+                });
+
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -957,7 +957,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
     }
 
     $scope.AsignarRemover = function (ServiciosSeleccionados) {
-        try {            
+        try {
             if (ServiciosSeleccionados.length > 0)
                 $scope.ServiciosPromocion = ServiciosSeleccionados;
             else
@@ -983,33 +983,38 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                 }
 
                 let promociones = [];
-                let detallePromocion = [];                
+                let excelPromociones = [];
+                let excelDetallePromociones = [];
 
                 if ($scope.ObjetoPromocionesSeleccionadas !== undefined && $scope.ObjetoPromocionesSeleccionadas !== null && $scope.ObjetoPromocionesSeleccionadas.length > 0)
-                    promociones = $scope.ObjetoPromocionesSeleccionadas;
+                    promociones = angular.copy($scope.ObjetoPromocionesSeleccionadas);
                 else
-                    promociones = $scope.Promociones;
-               
-                let cont = 0;
-                for (let i = 0; i < promociones.length; i++) {
-                    for (let j = 0; j < promociones[i].detalles_Promocion.length; j++) {
-                        detallePromocion[cont] = promociones[i].detalles_Promocion[j];
-                        cont++;
-                    }
-                }
+                    promociones = angular.copy($scope.Promociones);
 
-                promociones = promociones.map(function (e) {
-                    return { DESCRIPCION: e.descripcion, TIPO_PROMOCION: e.tipo_Promocion, VALOR: e.valor, ESTADO: e.estado, FECHA: $filter('date')(e.fecha_Creacion, 'dd-MM-yyyy'), USUARIO: e.usuario_Creacion }
-                });
+                promociones.map(function (promocion) {
+                    this.push({
+                        "DESCRIPCION": promocion.descripcion,
+                        "TIPO_PROMOCION": promocion.tipo_Promocion,
+                        "VALOR / %": promocion.valor,
+                        "ESTADO": promocion.estado,
+                        "FECHA": $filter('date')(promocion.fecha_Creacion, 'dd-MM-yyyy'),
+                        "USUARIO_CREACION": promocion.usuario_Creacion
+                    });
+                }, excelPromociones)
 
-                detallePromocion = detallePromocion.map(function (e) {
-                    return {PROMOCION: e.nombre_Promocion, SERVICIO: e.nombre_Servicio }
-                });                
+                promociones.map(function (promocion) {
+                    promocion.detalles_Promocion.map(function (detalle) {
+                        this.push({
+                            "PROMOCION": detalle.nombre_Promocion,
+                            "SERVICIO": detalle.nombre_Servicio
+                        });
+                    }, excelDetallePromociones)
+                })
 
                 let opts = [
                     {
                         sheetid: 'Promociones',
-                        headers: true                    
+                        headers: true
                     },
                     {
                         sheetid: 'DetallePromociones',
@@ -1017,7 +1022,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                     }
                 ];
 
-                alasql('SELECT INTO XLSX("Promociones.xlsx",?) FROM ?', [opts, [promociones, detallePromocion]]);
+                alasql('SELECT INTO XLSX("Promociones.xlsx",?) FROM ?', [opts, [excelPromociones, excelDetallePromociones]]);
             } else {
                 toastr.info('No hay datos para exportar', '', $scope.toastrOptions);
             }
@@ -1069,7 +1074,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
 
         $scope.Menu = $scope.Menu.map(function (e) {
             return { Id_Usuario: -1, Id_Menu: e.id_Menu, Descripcion: e.descripcion, Estado: true }
-        }); 
+        });
         $scope.UsuarioSistema = $rootScope.userData.userName;
         $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
         $scope.ConfiguracionEmpresaActual();
