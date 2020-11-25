@@ -561,13 +561,13 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             if (tipoPromocion[0].descripcion === 'PORCENTAJE') {
                 if ($scope.Promocion.Valor === undefined || $scope.Promocion.Valor === null || $scope.Promocion.Valor === 0 || $scope.Promocion.Valor > 1) {
                     toastr.info('Si el tipo de promoción es PORCENTAJE el valor de esta no puede ser igual a 0 o mayor a 1', '', $scope.toastrOptions);
-                    $('#txtValorPromocion').focus();
+                    $scope.FocoMonto();                   
                     return false;
                 }
             } else {
                 if ($scope.Promocion.Valor === undefined || $scope.Promocion.Valor === null || $scope.Promocion.Valor === 0) {
                     toastr.info('Debe ingresar un valor para la promoción', '', $scope.toastrOptions);
-                    $('#txtValorPromocion').focus();
+                    $scope.FocoMonto();
                     return false;
                 }
             }
@@ -962,6 +962,66 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                 $scope.ServiciosPromocion = ServiciosSeleccionados;
             else
                 $scope.ServiciosPromocion.splice($scope.ServiciosPromocion.indexOf(ServiciosSeleccionados), 1);
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.ExportarArchivo = function () {
+        try {
+            if ($scope.Promociones !== null && $scope.Promociones !== undefined && $scope.Promociones.length > 0) {
+
+                alasql.fn.datetime = function (dateStr) {
+                    let date = $filter('date')(new Date(), 'dd-MM-yyyy');
+                    return date.toLocaleString();
+                };
+
+                alasql.fn.currencyFormatter = function (currencyStr) {
+                    let currency = $filter('currency')(currencyStr, '$', 0);
+                    return currency.toLocaleString();
+                }
+
+                let promociones = [];
+                let detallePromocion = [];                
+
+                if ($scope.ObjetoPromocionesSeleccionadas !== undefined && $scope.ObjetoPromocionesSeleccionadas !== null && $scope.ObjetoPromocionesSeleccionadas.length > 0)
+                    promociones = $scope.ObjetoPromocionesSeleccionadas;
+                else
+                    promociones = $scope.Promociones;
+               
+                let cont = 0;
+                for (let i = 0; i < promociones.length; i++) {
+                    for (let j = 0; j < promociones[i].detalles_Promocion.length; j++) {
+                        detallePromocion[cont] = promociones[i].detalles_Promocion[j];
+                        cont++;
+                    }
+                }
+
+                promociones = promociones.map(function (e) {
+                    return { DESCRIPCION: e.descripcion, TIPO_PROMOCION: e.tipo_Promocion, VALOR: e.valor, ESTADO: e.estado, FECHA: $filter('date')(e.fecha_Creacion, 'dd-MM-yyyy'), USUARIO: e.usuario_Creacion }
+                });
+
+                detallePromocion = detallePromocion.map(function (e) {
+                    return {PROMOCION: e.nombre_Promocion, SERVICIO: e.nombre_Servicio }
+                });                
+
+                let opts = [
+                    {
+                        sheetid: 'Promociones',
+                        headers: true                    
+                    },
+                    {
+                        sheetid: 'DetallePromociones',
+                        headers: true
+                    }
+                ];
+
+                alasql('SELECT INTO XLSX("Promociones.xlsx",?) FROM ?', [opts, [promociones, detallePromocion]]);
+            } else {
+                toastr.info('No hay datos para exportar', '', $scope.toastrOptions);
+            }
+
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;

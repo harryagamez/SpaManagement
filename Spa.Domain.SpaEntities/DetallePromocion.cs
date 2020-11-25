@@ -2,7 +2,7 @@
 
 namespace Spa.Domain.SpaEntities
 {
-    public class DetallePromocion: BusquedaPromocion
+    public class DetallePromocion: BusquedaDetallePromocion
     {
         public string Id_Detalle_Promocion { get; set; }
         public string Id_Promocion { get; set; }
