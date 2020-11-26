@@ -501,7 +501,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
             headerName: "Tipo", field: 'nombre_Tipo_Servicio', width: 100, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Estado", field: 'estado', width: 70, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' },
+            headerName: "Estado", field: 'estado', width: 70, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         }
 
     ];
