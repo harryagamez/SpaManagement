@@ -501,6 +501,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
 
             $scope.DetallesPromocionServicios = [];
             $scope.DetallesPromocionServicios = data.detalles_Promocion;
+            $scope.DetallesPromocionServicios = $filter('orderBy')($scope.DetallesPromocionServicios, 'nombre_Servicio', false);
 
             $scope.TempDetallePromociones = [];
             $scope.TempDetallePromociones = data.detalles_Promocion;
