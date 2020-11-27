@@ -1706,6 +1706,7 @@ namespace Spa.Infrastructure.SpaRepository
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "GuardarPromocion";
                     _command.Parameters.AddWithValue("@JsonPromocion", JsonConvert.SerializeObject(promocion));
+                    _command.CommandTimeout = 60;
 
                     _command.ExecuteNonQuery();
 
