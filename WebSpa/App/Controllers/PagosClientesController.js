@@ -227,8 +227,6 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
                 else
                     pagos = $scope.Pagos;
 
-                debugger;
-
                 let mystyle = {
                     sheetid: 'ClientePagos',
                     headers: true,
