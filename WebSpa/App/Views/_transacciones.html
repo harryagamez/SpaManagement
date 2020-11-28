@@ -75,8 +75,8 @@
                             </div>
 
                             <div style="height:calc(50vh - 74px); width:100%; position:relative;" layout="row">
-                                <div style="width:70%;">
-                                    <div layout="row" style="position:relative; width:100%;">
+                                <div style="width:60%; z-index:999; background:white;">
+                                    <div layout="row" style="position:relative; width:99%;">
                                         <div>
                                             <md-input-container style="width: 240px; margin-top: 18px; margin-bottom: 0;">
                                                 <label class="label-form-clientes">
@@ -89,7 +89,7 @@
                                         </div>
 
                                         <div>
-                                            <md-input-container style="width: 130px; margin-top: 18px; margin-bottom: 0;">
+                                            <md-input-container style="width: 117px; margin-top: 18px; margin-bottom: 0;">
                                                 <label class="label-form-clientes">
                                                     Tipo Transacción:
                                                 </label>
@@ -130,17 +130,17 @@
 
                                         <div id="divButtons" style="position:absolute;right:3px; margin-top:10px; margin-left:10px;">
                                             <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Agregar" data-ng-click="AgregarProductoGrilla()">
-                                                <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i> Agregar
+                                                <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
                                             </md-button>
                                         </div>
                                     </div>
 
-                                    <div id="divGridProductosTransaccion" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 118px); margin-top:-20px; overflow-y:auto;">
+                                    <div id="divGridProductosTransaccion" layout="row" layout-sm="column" style="width:99%; height: calc(50vh - 118px); margin-top:-20px; overflow-y:auto;">
                                         <div id="divProductosTransaccion" data-ag-grid="ProductosTransaccionGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                                     </div>
                                 </div>
-
-                                <div style="width:30%; padding-left:10px; bottom:40px; right:10px; position:absolute;">
+                                <div class="background-image-subtotal" style=""></div>
+                                <div style="width:40%; padding-left:10px; bottom:40px; right:10px; position:absolute; ">
                                     <div layout="row" style="position:relative;">
                                         <div style="margin-top:13px; width:100%;display:inline-flex;">
                                             <md-input-container style="margin-left: 10px; width: 50%; margin-top: -5px; margin-bottom: 7px;">
