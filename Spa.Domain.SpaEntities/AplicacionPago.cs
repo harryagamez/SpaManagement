@@ -9,7 +9,6 @@ namespace Spa.Domain.SpaEntities
 
         public List<Transaccion> Transacciones { get; set; }
 
-        public ClientePago Cliente_Pago { get; set; }
-        
+        public ClientePago Cliente_Pago { get; set; }      
     }
 }

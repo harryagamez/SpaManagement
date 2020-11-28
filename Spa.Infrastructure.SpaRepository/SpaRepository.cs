@@ -1198,6 +1198,33 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
+        public List<Agenda> ConsultarAgendaTransacciones(Agenda _Agenda)
+        {
+            DataTable _datatable = new DataTable();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarAgendaTransacciones";
+                    _command.Parameters.AddWithValue("@JsonAgenda", JsonConvert.SerializeObject(_Agenda));
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_datatable);
+                    List<Agenda> _agenda = _datatable.DataTableToList<Agenda>();
+
+                    _adapter.Dispose();
+                    _command.Dispose();
+
+                    return _agenda;
+                }
+            }
+        }
+
         public bool CancelarAgenda(int IdAgenda, string IdEmpresa)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
@@ -1586,7 +1613,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<AplicacionPago> ConsultarPagosCliente(AplicacionPago aplicacionPago)
+        public List<ClientePago> ConsultarPagosCliente(BusquedaPago busquedaPago)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -1599,16 +1626,16 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarPagosCliente";
-                    _command.Parameters.AddWithValue("@JsonPagos", JsonConvert.SerializeObject(aplicacionPago));
+                    _command.Parameters.AddWithValue("@JsonPagos", JsonConvert.SerializeObject(busquedaPago));
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
-                    List<AplicacionPago> _pagos = _datatable.DataTableToList<AplicacionPago>();
+                    List<ClientePago> _clientPagos = _datatable.DataTableToList<ClientePago>();
 
                     _adapter.Dispose();
                     _command.Dispose();
 
-                    return _pagos;
+                    return _clientPagos;
                 }
             }
         }
@@ -1776,6 +1803,48 @@ namespace Spa.Infrastructure.SpaRepository
                     _command.Dispose();
 
                     return true;
+                }
+            }
+        }
+
+        public Promocion ConsultarPromocion(string IdPromocion, string IdEmpresa)
+        {
+            DataSet _dataset = new DataSet();
+            Promocion _promocion = new Promocion();
+            SqlDataAdapter _adapter = new SqlDataAdapter();
+
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ConsultarPromocion";
+                    _command.Parameters.AddWithValue("@IdPromocion", IdPromocion);
+                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _adapter.SelectCommand = _command;
+
+                    _adapter.Fill(_dataset);
+
+                    _dataset.Tables[0].TableName = "Promocion";
+                    _dataset.Tables[1].TableName = "Detalle_Promocion";
+
+                    _dataset.Relations.Add("DetallePromocion",
+                   _dataset.Tables["Promocion"].Columns["Id_Promocion"],
+                   _dataset.Tables["Detalle_Promocion"].Columns["Id_Promocion"]);
+
+                    _promocion = _dataset.Tables["Promocion"]
+                    .AsEnumerable()
+                    .Select(row =>
+                    {
+                        Promocion promocion = row.ToObject<Promocion>();
+                        promocion.Detalles_Promocion = row.GetChildRows("DetallePromocion").DataTableToList<DetallePromocion>();
+                        return promocion;
+                    })
+                    .FirstOrDefault();
+
+                    return _promocion;
                 }
             }
         }

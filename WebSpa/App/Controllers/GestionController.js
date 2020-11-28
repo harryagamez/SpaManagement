@@ -413,7 +413,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
         {
             headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
-                return "<i data-ng-click='EditarPromocion (data)' data-toggle='tooltip' title='Editar Promoción' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>create</i>";
+                return "<i data-ng-click='EditarPromocion(data)' data-toggle='tooltip' title='Editar Promoción' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>create</i>";
             },
         },
         {

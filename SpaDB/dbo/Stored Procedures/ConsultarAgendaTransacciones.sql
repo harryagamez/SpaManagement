@@ -1,0 +1,194 @@
+﻿CREATE PROCEDURE [dbo].[ConsultarAgendaTransacciones] (
+	@JsonAgenda NVARCHAR(MAX)
+)
+AS
+BEGIN
+
+	DECLARE @IdEmpleado INT
+	DECLARE @IdCliente INT
+	DECLARE @IdServicio INT
+	DECLARE @FechaBusqueda DATE
+	DECLARE @IdEmpresa VARCHAR(36)
+	DECLARE @Estado CHAR(12)
+	DECLARE @MostrarCanceladas BIT
+
+	DECLARE @statement NVARCHAR(MAX) = N'';
+
+	CREATE TABLE #TempBusquedaAgenda (Id_Agenda INT, Fecha_Inicio DATETIME, Fecha_Fin DATETIME, Id_Cliente INT,
+	Id_Servicio INT, Id_Empleado INT, Estado CHAR(12), Id_Empresa UNIQUEIDENTIFIER, Mostrar_Canceladas BIT)
+
+	INSERT INTO #TempBusquedaAgenda (Id_Agenda, Fecha_Inicio, Fecha_Fin, Id_Cliente, Id_Servicio, Id_Empleado, 
+	Estado, Id_Empresa, Mostrar_Canceladas)
+	SELECT
+		Id_Agenda, Fecha_Inicio, Fecha_Fin, Id_Cliente, 
+		Id_Servicio, Id_Empleado, Estado, Id_Empresa, Traer_Canceladas
+	FROM
+		OPENJSON(@JsonAgenda)
+	WITH (
+		Id_Agenda INT '$.Id_Agenda', Fecha_Inicio DATETIME '$.Fecha_Inicio',
+		Fecha_Fin DATETIME '$.Fecha_Fin', Id_Cliente INT '$.Id_Cliente',
+		Id_Servicio INT '$.Id_Servicio', Id_Empleado INT '$.Id_Empleado',
+		Estado CHAR(12) '$.Estado', Id_Empresa UNIQUEIDENTIFIER '$.Id_Empresa',
+		Traer_Canceladas BIT '$.Traer_Canceladas'
+	)
+		
+	SET @IdEmpleado = (SELECT TOP 1 Id_Empleado FROM #TempBusquedaAgenda)	
+	SET @IdCliente = (SELECT TOP 1 Id_Cliente FROM #TempBusquedaAgenda)
+	SET @IdServicio = (SELECT TOP 1 Id_Servicio FROM #TempBusquedaAgenda)
+	SET @FechaBusqueda = (SELECT TOP 1 CAST(Fecha_Inicio AS DATE) FROM #TempBusquedaAgenda)
+	SET @IdEmpresa = (SELECT TOP 1 Id_Empresa FROM #TempBusquedaAgenda)
+	SET @Estado = (SELECT TOP 1 Estado FROM #TempBusquedaAgenda)
+	SET @MostrarCanceladas = (SELECT TOP 1 Mostrar_Canceladas FROM #TempBusquedaAgenda)
+
+	SET @statement = @statement + N' 
+	CREATE TABLE #EmpresaServicios (Id_Empresa_Servicio UNIQUEIDENTIFIER, Id_Servicio INT, Id_Empresa UNIQUEIDENTIFIER) '
+
+	SET @statement = @statement + N' 
+	SELECT ID_AGENDA,
+		RTRIM(LTRIM(LEFT(RIGHT(CONVERT(VARCHAR(20), FECHA_INICIO, 100), 7),5) + '' '' + RIGHT(CONVERT(VARCHAR(20), FECHA_INICIO, 100), 2))) AS FECHAINICIO,		 
+		RTRIM(LTRIM(LEFT(RIGHT(CONVERT(VARCHAR(20), FECHA_FIN, 100), 7),5) + '' '' + RIGHT(CONVERT(VARCHAR(20), FECHA_FIN, 100), 2))) AS FECHAFIN,
+		CONVERT(VARCHAR(10), FECHA_INICIO, 105) AS FECHACITA,
+		FECHA_INICIO,
+		FECHA_FIN,
+		EMPRESA_SERVICIOS.VALOR AS VALOR_SERVICIO,
+		AGENDA.ID_CLIENTE AS ID_CLIENTE, 
+		AGENDA.ID_SERVICIO AS ID_SERVICIO, 
+		AGENDA.ID_EMPLEADO AS ID_EMPLEADO,
+		RTRIM(EMPLEADOS.NOMBRES) AS NOMBRES_EMPLEADO,
+		RTRIM(EMPLEADOS.APELLIDOS) AS APELLIDOS_EMPLEADO,
+		RTRIM(CLIENTES.NOMBRES) AS NOMBRES_CLIENTE,
+		RTRIM(CLIENTES.APELLIDOS) AS APELLIDOS_CLIENTE,
+		RTRIM(CLIENTES.TELEFONO_FIJO) AS TELEFONO_FIJO_CLIENTE,
+		RTRIM(CLIENTES.TELEFONO_MOVIL) AS TELEFONO_MOVIL_CLIENTE,
+		RTRIM(CLIENTES.MAIL) AS MAIL_CLIENTE,
+		RTRIM(AGENDA.ESTADO) AS ESTADO, 
+		RTRIM(AGENDA.ID_EMPRESA) AS ID_EMPRESA,
+		RTRIM(EMPRESA.NOMBRE) AS NOMBRE_EMPRESA,
+		AGENDA.FECHA_REGISTRO AS FECHA_REGISTRO, 
+		AGENDA.FECHA_MODIFICACION AS FECHA_MODIFICACION, 
+		RTRIM(OBSERVACIONES) AS OBSERVACIONES, 
+		CONCAT(RTRIM(LEFT(CLIENTES.NOMBRES,(PATINDEX(''% %'',CLIENTES.NOMBRES)))),'' '' ,RTRIM(LEFT(CLIENTES.APELLIDOS,(PATINDEX(''% %'',CLIENTES.APELLIDOS))))) AS NOMBREAPELLIDO_CLIENTE, 
+		CONCAT(RTRIM(LEFT(EMPLEADOS.NOMBRES,(PATINDEX(''% %'',EMPLEADOS.NOMBRES)))),'' '' ,RTRIM(LEFT(EMPLEADOS.APELLIDOS,(PATINDEX(''% %'',EMPLEADOS.APELLIDOS))))) AS NOMBREAPELLIDO_EMPLEADO, 
+		RTRIM(SERVICIOS.NOMBRE) AS NOMBRE_SERVICIO,
+		''00000000-0000-0000-0000-000000000000'' AS ID_PROMOCION,
+		0 AS APLICA_PROMOCION,
+		CAST(0 AS DECIMAL(18,2)) AS VALOR_PROMOCION
+	INTO #AgendaTransacciones
+	FROM AGENDA
+		INNER JOIN CLIENTES 
+		ON CLIENTES.ID_CLIENTE = AGENDA.ID_CLIENTE
+		INNER JOIN EMPLEADOS 
+		ON EMPLEADOS.ID_EMPLEADO = AGENDA.ID_EMPLEADO
+		INNER JOIN SERVICIOS 
+		ON SERVICIOS.ID_SERVICIO = AGENDA.ID_SERVICIO
+		INNER JOIN EMPRESA 
+		ON EMPRESA.ID_EMPRESA = AGENDA.ID_EMPRESA
+		INNER JOIN EMPRESA_SERVICIOS 
+		ON EMPRESA_SERVICIOS.ID_SERVICIO = AGENDA.ID_SERVICIO 
+		AND EMPRESA_SERVICIOS.ID_EMPRESA = AGENDA.ID_EMPRESA
+	WHERE CONVERT(VARCHAR(10),FECHA_INICIO,120) =  @FechaBusqueda 
+	AND AGENDA.ID_EMPRESA = @IdEmpresa '
+
+	IF @Estado IS NULL AND @MostrarCanceladas = 0 BEGIN
+		SET @statement = @statement + N' AND AGENDA.ESTADO <> ''CANCELADA'' '
+	END	
+	
+	IF @IdEmpleado <> -1 BEGIN
+		SET @statement = @statement + N' AND AGENDA.ID_EMPLEADO = @IdEmpleado '
+	END
+
+	IF @IdCliente <> -1 BEGIN
+		SET @statement = @statement + N' AND AGENDA.ID_CLIENTE = @IdCliente '
+	END
+
+	IF @IdServicio <> -1 BEGIN
+		SET @statement = @statement + N' AND AGENDA.ID_SERVICIO = @IdServicio '
+	END
+
+	IF @Estado IS NOT NULL BEGIN
+		SET @statement = @statement + N' AND AGENDA.ESTADO = @Estado '
+	END
+
+	SET @statement = @statement + N' ORDER BY FECHA_INICIO DESC '
+
+	SET @statement = @statement + N' 
+	INSERT INTO #EmpresaServicios (Id_Servicio, Id_Empresa)
+	SELECT 
+		ID_SERVICIO,
+		ID_EMPRESA
+	FROM #AgendaTransacciones 
+	
+	UPDATE #EmpresaServicios 
+		SET Id_Empresa_Servicio = EMPRESA_SERVICIOS.ID_EMPRESA_SERVICIO 
+	FROM #EmpresaServicios 
+	INNER JOIN EMPRESA_SERVICIOS
+	ON #EmpresaServicios.Id_Empresa = EMPRESA_SERVICIOS.ID_EMPRESA
+	AND #EmpresaServicios.Id_Servicio = EMPRESA_SERVICIOS.ID_SERVICIO
+
+	SELECT 
+		DISTINCT PROMOCIONES.ID_PROMOCION,
+		PROMOCIONES.DESCRIPCION,
+		TIPO_PROMOCIONES.DESCRIPCION AS TIPO_PROMOCION,
+		PROMOCIONES.VALOR AS APLICACION_PROMOCION,
+		#EmpresaServicios.Id_Empresa_Servicio AS ID_EMPRESA_SERVICIO,
+		#EmpresaServicios.Id_Servicio AS ID_SERVICIO,
+		(SELECT COUNT(ID_EMPRESA_SERVICIO) FROM DETALLE_PROMOCIONES WHERE ID_PROMOCION = PROMOCIONES.ID_PROMOCION) AS CSP,
+		ROW_NUMBER() OVER(PARTITION BY PROMOCIONES.ID_PROMOCION ORDER BY Id_Servicio ASC) AS PSP
+	INTO #PromocionServicios
+	FROM #EmpresaServicios
+	INNER JOIN DETALLE_PROMOCIONES
+	ON #EmpresaServicios.Id_Empresa_Servicio = DETALLE_PROMOCIONES.ID_EMPRESA_SERVICIO
+	INNER JOIN PROMOCIONES 
+	ON PROMOCIONES.ID_PROMOCION = DETALLE_PROMOCIONES.ID_PROMOCION
+	INNER JOIN TIPO_PROMOCIONES
+	ON PROMOCIONES.ID_TIPO_PROMOCION = TIPO_PROMOCIONES.ID_TIPO_PROMOCION
+	WHERE ESTADO = ''ACTIVA''
+
+	SELECT 
+		ID_PROMOCION, 
+		MAX(CSP) AS MCS, 
+		MAX(PSP) AS MPS
+	INTO #CantidadServicios
+	FROM #PromocionServicios
+	GROUP BY ID_PROMOCION
+	HAVING MAX(PSP) = MAX(CSP)
+
+	DELETE 
+		Promocion 
+	FROM #PromocionServicios Promocion 
+	WHERE NOT EXISTS (
+		SELECT * 
+		FROM #CantidadServicios CantidadServicios 
+		WHERE CantidadServicios.ID_PROMOCION = Promocion.ID_PROMOCION
+	)
+
+	UPDATE #AgendaTransacciones 
+		SET 
+			ID_PROMOCION = #PromocionServicios.ID_PROMOCION,
+			VALOR_PROMOCION =  CASE WHEN TIPO_PROMOCION = ''VALOR FIJO'' 
+									THEN CAST((APLICACION_PROMOCION / CSP) AS DECIMAL(18,2))
+								WHEN TIPO_PROMOCION = ''PORCENTAJE''
+									THEN ROUND(VALOR_SERVICIO * APLICACION_PROMOCION, 0)
+								END,
+			APLICA_PROMOCION = 1
+	FROM #AgendaTransacciones 
+	INNER JOIN #PromocionServicios
+	ON #AgendaTransacciones.ID_SERVICIO = #PromocionServicios.ID_SERVICIO
+
+	SELECT * 
+	FROM #AgendaTransacciones 
+	ORDER BY FECHA_INICIO DESC '
+
+	SET @statement = @statement + N' 
+		IF OBJECT_ID(''tempdb..#AgendaTransacciones'') IS NOT NULL DROP TABLE #AgendaTransacciones 
+		IF OBJECT_ID(''tempdb..#EmpresaServicios'') IS NOT NULL DROP TABLE #EmpresaServicios
+		IF OBJECT_ID(''tempdb..#PromocionServicios'') IS NOT NULL DROP TABLE #PromocionServicios
+		IF OBJECT_ID(''tempdb..#CantidadServicios'') IS NOT NULL DROP TABLE #CantidadServicios '
+
+	EXECUTE sp_executesql @statement,
+	N'@FechaBusqueda DATE, @IdEmpresa VARCHAR(36), @IdCliente INT, @IdEmpleado INT, @IdServicio INT, @Estado CHAR(12)',
+	@FechaBusqueda, @IdEmpresa, @IdCliente, @IdEmpleado, @IdServicio, @Estado
+
+END
+
+GO

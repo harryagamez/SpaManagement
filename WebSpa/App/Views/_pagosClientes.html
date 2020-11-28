@@ -63,15 +63,45 @@
                 <div id="divPagosClienteGridOptions" data-ag-grid="PagosClienteGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
             </div>
 
-            <div layout="row" layout-sm="column" style="position:relative; margin-top:-5px;">                
+            <div layout="row" layout-sm="column" style="position:relative; margin-top:-5px;">
 
                 <div style="margin-top:-5px; width:200px;">
                     <md-input-container style="margin-left: 10px; width: 99%; margin-top: 0px; margin-bottom: 0; ">
                         <label class="label-form-servicios" style="font-size:11px; padding-bottom:5px;">
-                            Subtotal:
+                            Servicios:
                         </label>
                         <br />
-                        <div style="width: 98%; font-size:20px !important; font-weight:600; color:#566473; text-align:left; padding-right:10px;">{{PagosSubtotal | currency}}</div>
+                        <div style="width: 98%; font-size:20px !important; font-weight:600; color:#566473; text-align:left; padding-right:10px;">{{PagosTotalServicios | currency}}</div>
+                    </md-input-container>
+                </div>
+
+                <div style="margin-top:-5px; width:200px;">
+                    <md-input-container style="margin-left: 10px; width: 99%; margin-top: 0px; margin-bottom: 0; ">
+                        <label class="label-form-servicios" style="font-size:11px; padding-bottom:5px;">
+                            Promociones:
+                        </label>
+                        <br />
+                        <div style="width: 98%; font-size:20px !important; font-weight:600; color:#566473; text-align:left; padding-right:10px;">{{PagosTotalPromocion | currency}}</div>
+                    </md-input-container>
+                </div>
+
+                <div style="margin-top:-5px; width:200px;">
+                    <md-input-container style="margin-left: 10px; width: 99%; margin-top: 0px; margin-bottom: 0; ">
+                        <label class="label-form-servicios" style="font-size:11px; padding-bottom:5px;">
+                            Servicios sin Promo:
+                        </label>
+                        <br />
+                        <div style="width: 98%; font-size:20px !important; font-weight:600; color:#566473; text-align:left; padding-right:10px;">{{PagosTotalServiciosNoPromocion | currency}}</div>
+                    </md-input-container>
+                </div>
+
+                <div style="margin-top:-5px; width:200px;">
+                    <md-input-container style="margin-left: 10px; width: 99%; margin-top: 0px; margin-bottom: 0; ">
+                        <label class="label-form-servicios" style="font-size:11px; padding-bottom:5px;">
+                            Productos:
+                        </label>
+                        <br />
+                        <div style="width: 98%; font-size:20px !important; font-weight:600; color:#566473; text-align:left; padding-right:10px;">{{PagosTotalProductos | currency}}</div>
                     </md-input-container>
                 </div>
 
@@ -88,10 +118,10 @@
                 <div style="margin-top:-5px; width:200px;">
                     <md-input-container style="margin-left: 10px; width: 99%; margin-top: 0px; margin-bottom: 0;  ">
                         <label class="label-form-servicios" style="font-size:11px; padding-bottom:5px;">
-                            Total:
+                            Total Pagado:
                         </label>
                         <br />
-                        <div style="width: 98%; font-size:20px !important; font-weight:600; color:#566473; text-align:left; padding-right:10px;">{{PagosTotal | currency}}</div>
+                        <div style="width: 98%; font-size:20px !important; font-weight:600; color:#566473; text-align:left; padding-right:10px;">{{PagosTotalPagado | currency}}</div>
                     </md-input-container>
                 </div>
 

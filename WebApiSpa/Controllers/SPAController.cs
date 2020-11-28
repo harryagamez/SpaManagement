@@ -741,6 +741,23 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/SPA/ConsultarAgendaTransacciones")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarAgendaTransacciones(Agenda agenda)
+        {
+            try
+            {
+                List<Agenda> _agenda = _spaService.ConsultarAgendaTransacciones(agenda);
+
+                return Content(HttpStatusCode.OK, _agenda);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando la agenda: " + ex.Message);
+            }
+        }
+
         [HttpGet]
         [Route("api/SPA/CancelarAgenda")]
         [HttpCache(DefaultExpirySeconds = 2)]
@@ -984,13 +1001,13 @@ namespace WebApiSpa.Controllers
         [HttpPost]
         [Route("api/SPA/ConsultarPagosCliente")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult ConsultarPagosCliente(AplicacionPago aplicacionPago)
+        public IHttpActionResult ConsultarPagosCliente(BusquedaPago busquedaPago)
         {
             try
             {
-                List<AplicacionPago> _pagos = _spaService.ConsultarPagosCliente(aplicacionPago);
+                List<ClientePago> _clientePagos = _spaService.ConsultarPagosCliente(busquedaPago);
 
-                return Content(HttpStatusCode.OK, _pagos);
+                return Content(HttpStatusCode.OK, _clientePagos);
             }
             catch (Exception ex)
             {
@@ -1097,6 +1114,23 @@ namespace WebApiSpa.Controllers
             catch (Exception ex)
             {
                 return Content(HttpStatusCode.InternalServerError, "Error eliminando el servicio de la promoción: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarPromocion")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarPromocion(string IdPromocion, string IdEmpresa)
+        {
+            try
+            {
+                Promocion _promocion = _spaService.ConsultarPromocion(IdPromocion, IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _promocion);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando la promoción: " + ex.Message);
             }
         }
 

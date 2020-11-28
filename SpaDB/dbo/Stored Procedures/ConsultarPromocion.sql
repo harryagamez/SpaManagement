@@ -1,4 +1,5 @@
-CREATE PROCEDURE [dbo].[ConsultarPromociones] (
+﻿CREATE PROCEDURE [dbo].[ConsultarPromocion] (
+	@IdPromocion VARCHAR(36),
 	@IdEmpresa VARCHAR(36)
 )
 AS
@@ -31,12 +32,14 @@ BEGIN
 	INNER JOIN TIPO_PROMOCIONES TipoPromociones
 	ON TipoPromociones.ID_TIPO_PROMOCION = Promociones.ID_TIPO_PROMOCION
 	WHERE ID_EMPRESA = @IdEmpresa
+	AND ID_PROMOCION = @IdPromocion
 
 	INSERT INTO #TempDetallePromocion(Id_Detalle_Promocion, Id_Promocion, Id_Empresa_Servicio, 
 	Nombre_Servicio, Nombre_Promocion, Valor)	
 	SELECT 
 		ID_DETALLE_PROMOCION, DetallePromociones.ID_PROMOCION, DetallePromociones.ID_EMPRESA_SERVICIO, 
-		Servicios.NOMBRE AS Nombre_Servicio, #TempPromociones.Descripcion AS Nombre_Promocion, #TempPromociones.Valor AS Valor
+		Servicios.NOMBRE AS Nombre_Servicio, #TempPromociones.Descripcion AS Nombre_Promocion, 
+		EmpresaServicios.VALOR AS Valor
 	FROM DETALLE_PROMOCIONES DetallePromociones
 	INNER JOIN #TempPromociones
 	ON DetallePromociones.ID_PROMOCION = #TempPromociones.Id_Promocion

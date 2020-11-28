@@ -310,6 +310,8 @@
     <Build Include="dbo\Stored Procedures\ConsultarPromociones.sql" />
     <Build Include="dbo\Stored Procedures\GuardarPromocion.sql" />
     <Build Include="dbo\Stored Procedures\EliminarServicioPromocion.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarAgendaTransacciones.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarPromocion.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

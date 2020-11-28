@@ -6,14 +6,18 @@ TransaccionesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog
 function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAService) {
     $rootScope.header = 'Transacciones';
     $scope.IdEmpresa = $rootScope.Id_Empresa;
+    $scope.UsuarioSistema = $rootScope.userData.userName;
     $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
     $scope.FechaBusqueda = new Date();
     $scope.fActiveTab = 'Facturar Servicios';
     $scope.InventarioProducto = 0;
     $scope.PrecioProducto = 0;
     $scope.SubtotalTransaccion = 0;
+    $scope.TotalServiciosNoPromocionTransaccion = 0;
+    $scope.TotalProductosTransaccion = 0;
     $scope.TipoClienteTransaccion = '';
     $scope.TotalTransaccion = 0;
+    $scope.TotalPromocionTransaccion = 0;
     $scope.DescuentoTransaccion = 0;
     $scope.TotalProductos = 0;
     $scope.TotalServicios = 0;
@@ -22,9 +26,28 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
     $scope.NominaTotalSalarios = 0;
     $scope.NominaTotalPrestamos = 0;
     $scope.NominaTotalPagar = 0;
+    $scope.AccionPromocion = 'Detalle Promoción';
+    $scope.TiposPromocion = [];
+    $scope.TipoPromocionSeleccionada = '00000000-0000-0000-0000-000000000000';
+    $scope.EstadoPromocionSeleccionado = 'ACTIVA';
+    $scope.PromocionReadOnly = true;
+
+    $scope.Promocion = {
+        Id_Empresa: $scope.IdEmpresa,
+        Id_Promocion: '00000000-0000-0000-0000-000000000000',
+        Descripcion: '',
+        Valor: 0,
+        Estado: '',
+        Detalles_Promocion: [],
+        Id_Tipo_Promocion: '00000000-0000-0000-0000-000000000000',
+        Usuario_Creacion: $scope.UsuarioSistema,
+        Usuario_Modificacion: $scope.UsuarioSistema,
+        Has_Changed: false
+    }
 
     $scope.fPropertiesSetted = false;
     $scope.fTDN = false;
+    $scope.AplicarPromociones = false;
 
     $scope.FechaNomina = new Date();
     $scope.Anio = $scope.FechaNomina.getFullYear();
@@ -53,10 +76,12 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
     $scope.ClientePago = {
         Id_ClientePago: '00000000-0000-0000-0000-000000000000',
         Id_Cliente: -1,
-        Fecha: new Date(),
-        Subtotal: 0,
+        Total_Servicios: 0,
+        Total_Promocion: 0,
+        Total_Servicios_NoPromocion: 0,
+        Total_Productos: 0,
         Descuento: 0,
-        Total: 0,
+        Total_Pagado: 0,
         Id_Empresa: $scope.IdEmpresa
     }
 
@@ -123,13 +148,13 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
 
                         $timeout(function () {
                             $scope.NominaEmpleadosGridOptions.api.sizeColumnsToFit();
-                        }, 200);                        
+                        }, 200);
                     } else {
                         $scope.NominaTotalSalarios = 0;
                         $scope.NominaTotalPrestamos = 0;
                         $scope.NominaTotalPagar = 0;
                         $scope.ResetearGrids();
-                        toastr.info('La búsqueda no arrojó resultados', '', $scope.toastrOptions);                        
+                        toastr.info('La búsqueda no arrojó resultados', '', $scope.toastrOptions);
                     }
                 }, function (err) {
                     toastr.remove();
@@ -271,7 +296,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
         SPAService._consultarEmpleadoPrestamos(idEmpresa, idEmpleado)
             .then(
                 function (result) {
-                    if (result.data !== undefined && result.data !== null) {                        
+                    if (result.data !== undefined && result.data !== null) {
                         $scope.EmpleadoPrestamos = [];
                         $scope.EmpleadoPrestamos = result.data;
                         $scope.EmpleadoPrestamos = $filter('orderBy')($scope.EmpleadoPrestamos, 'fecha', false);
@@ -280,7 +305,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
                         $scope.ModalEmpleadoPrestamos();
                         $timeout(function () {
                             $scope.EmpleadoPrestamosGridOptions.api.sizeColumnsToFit();
-                        }, 200);                        
+                        }, 200);
                     }
                 }, function (err) {
                     toastr.remove();
@@ -290,15 +315,17 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
     }
 
     $scope.ConsultarServiciosAgenda = function () {
+        $scope.AplicarPromociones = false;
         if ($scope.ValidarDatosConsulta()) {
-            SPAService._consultarAgenda($scope.Agenda)
+            SPAService._consultarAgendaTransacciones($scope.Agenda)
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null) {
                             $scope.Agendas = [];
                             $scope.ObjetoAgendas = [];
-                            $scope.Agendas = result.data;
+                            $scope.Agendas = angular.copy(result.data);
                             $scope.ObjetoAgendas = angular.copy($scope.Agendas);
+                            $scope.ObjetoAgendas = $filter('orderBy')($scope.ObjetoAgendas, 'nombre_Servicio', false);
                             $scope.ServiciosAgendaGridOptions.api.setRowData($scope.ObjetoAgendas);
                             $timeout(function () {
                                 $scope.ServiciosAgendaGridOptions.api.sizeColumnsToFit();
@@ -338,15 +365,97 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
                 })
     }
 
+    $scope.ConsultarTipoPromociones = function () {
+        SPAService._consultarTipoPromociones()
+            .then(
+                function (result) {
+                    if (result.data !== undefined && result.data !== null) {
+                        $scope.TiposPromocion = [];
+                        $scope.TiposPromocion = result.data;
+                        $scope.TiposPromocion.push({ id_Tipo_Promocion: '00000000-0000-0000-0000-000000000000', descripcion: '[Seleccione]' });
+                        $scope.TiposPromocion = $filter('orderBy')($scope.TiposPromocion, 'id_Tipo_Promocion', false);
+                    }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
+    }
+
+    $scope.ConsultarPromocion = function (data) {
+        SPAService._consultarPromocion(data.id_Promocion, data.id_Empresa)
+            .then(
+                function (result) {
+                    if (result.data !== undefined && result.data !== null) {
+                        $scope.Promocion.Id_Empresa = result.data.id_Empresa;
+                        $scope.Promocion.Id_Promocion = result.data.id_Promocion;
+                        $scope.Promocion.Descripcion = result.data.descripcion;
+                        $scope.Promocion.Valor = result.data.valor;
+                        $scope.Promocion.Estado = result.data.estado;
+                        $scope.EstadoPromocionSeleccionado = $scope.Promocion.Estado;
+                        $scope.Promocion.Id_Tipo_Promocion = result.data.id_Tipo_Promocion;
+                        $scope.TipoPromocionSeleccionada = $scope.Promocion.Id_Tipo_Promocion;
+                        $scope.Promocion.Detalles_Promocion = result.data.detalles_Promocion;
+
+                        $scope.PromocionDetalladaGridOptions.api.setRowData($scope.Promocion.Detalles_Promocion);
+                        $timeout(function () {
+                            $scope.PromocionDetalladaGridOptions.api.sizeColumnsToFit();
+                        }, 200);
+
+                        $scope.ModalPromocion();
+                    }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
+    }
+
+    $scope.ModalPromocion = function () {
+        try {
+
+            $scope.AccionPromocion = 'Detalle Promoción';
+
+            $mdDialog.show({
+                contentElement: '#dlgEditarPromocion',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                multiple: true
+            })
+                .then(function () {
+                }, function () {
+                    $scope.LimpiarDatosPromocion();
+                });
+
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
     $scope.ServiciosAgendaGridOptionsColumns = [
         {
             headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
         },
         {
-            headerName: "Servicio", field: 'nombre_Servicio', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            headerName: "", field: "", colId: 'Consultar Servicios', suppressMenu: true, visible: true, width: 30, cellStyle: { 'display': 'flex', 'justify-content': 'center', 'cursor': 'pointer' },
+            cellRenderer: function (params) {
+                let aplica_Promocion = params.data.aplica_Promocion;
+                if (aplica_Promocion === true)
+                    return "<i data-ng-click='ConsultarPromocion(data)' data-toggle='tooltip' title='Consultar Promoción' class='material-icons' style='font-size:20px; margin-left:1px; margin-top:-1px; color:lightslategrey;'>done_all</i>";
+                else
+                    return
+            },
         },
         {
-            headerName: "Valor", field: 'valor_Servicio', width: 80, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#445a9e', 'font-weight':'bold' }, valueFormatter: currencyFormatter
+            headerName: "Servicio", field: 'nombre_Servicio', width: 220, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+        },
+        {
+            headerName: "Valor", field: 'valor_Servicio', width: 75, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#445a9e', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
+        },
+        {
+            headerName: "Promoción", field: 'valor_Promocion', width: 95, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#499977', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
         },
         {
             headerName: "Cliente:", field: 'nombreApellido_Cliente', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -355,13 +464,10 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
             headerName: "Atendido Por:", field: 'nombreApellido_Empleado', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Hora Inicio", field: 'fechaInicio', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
+            headerName: "Hora Inicio", field: 'fechaInicio', width: 105, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
         },
         {
-            headerName: "Hora Fin", field: 'fechaFin', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
-        },
-        {
-            headerName: "Observaciones", field: 'observaciones', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            headerName: "Hora Fin", field: 'fechaFin', width: 105, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
         }
     ];
 
@@ -395,7 +501,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
             headerName: "Producto", field: 'nombre', width: 280, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Precio", field: 'Precio', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color':'#445a9e','font-weight':'bold' }, valueFormatter: currencyFormatter
+            headerName: "Precio", field: 'Precio', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#445a9e', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
         },
         {
             headerName: "Cantidad", field: 'Cantidad', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
@@ -535,7 +641,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
             headerName: "Descripción", field: 'descripcion', width: 300, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
         },
         {
-            headerName: "Valor", field: 'valor', width: 150, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#445a9e'}, valueFormatter: currencyFormatter
+            headerName: "Valor", field: 'valor', width: 150, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#445a9e' }, valueFormatter: currencyFormatter
         },
         {
             headerName: "Fecha", field: 'fecha', width: 150, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter
@@ -559,6 +665,33 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
         suppressRowClickSelection: true,
         rowSelection: 'multiple',
         suppressRowClickSelection: true
+    }
+
+    $scope.PromocionDetalladaGridOptionsColumns = [
+        {
+            headerName: "Servicio", field: 'nombre_Servicio', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
+        },
+        {
+            headerName: "Valor", field: 'valor', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#445a9e' }, valueFormatter: decimalFormatter
+        }
+    ];
+
+    $scope.PromocionDetalladaGridOptions = {
+        defaultColDef: {
+            resizable: true
+        },
+        columnDefs: $scope.PromocionDetalladaGridOptionsColumns,
+        rowData: [],
+        enableSorting: true,
+        enableFilter: true,
+        enableColResize: true,
+        angularCompileRows: true,
+        onGridReady: function (params) {
+        },
+        fullWidthCellRenderer: true,
+        animateRows: true,
+        suppressRowClickSelection: true,
+        rowSelection: 'single'
     }
 
     $scope.ValidarDatosConsulta = function () {
@@ -645,7 +778,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
             return false;
         }
 
-        if ($scope.DescuentoTransaccion > $scope.SubtotalTransaccion) {
+        if (parseFloat($scope.DescuentoTransaccion) > $scope.SubtotalTransaccion) {
             toastr.warning('El descuento no puede ser mayor al subtotal de la transacción', '', $scope.toastrOptions);
             $('#txtDescuento').focus();
             return false;
@@ -663,16 +796,19 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
             return { Id_Transaccion: -1, Fecha: new Date($scope.FechaBusqueda + 'Z'), Id_Producto: e.Id_Producto, Cantidad: e.Cantidad, Id_TipoTransaccion: $scope.TipoTransaccionSeleccionada, Id_EmpleadoCliente: $scope.ClienteSeleccionado.id_Cliente, Id_Empresa: $scope.IdEmpresa }
         });
 
-        $scope.ClientePago.Id_Cliente = $scope.ClienteSeleccionado.id_Cliente;
+        $scope.ClientePago.Id_Cliente = parseInt($scope.ClienteSeleccionado.id_Cliente);
         $scope.ClientePago.Fecha = new Date($scope.FechaBusqueda + 'Z');
-        $scope.ClientePago.SubTotal = $scope.SubtotalTransaccion;
+        $scope.ClientePago.Total_Servicios = parseFloat($scope.TotalServicios);
+        $scope.ClientePago.Total_Promocion = parseFloat($scope.TotalPromocionTransaccion);
+        $scope.ClientePago.Total_Servicios_NoPromocion = parseFloat($scope.TotalServiciosNoPromocionTransaccion);
+        $scope.ClientePago.Total_Productos = parseFloat($scope.TotalProductosTransaccion);
 
         if ($scope.DescuentoTransaccion === '' || $scope.DescuentoTransaccion === null || $scope.DescuentoTransaccion === undefined)
             $scope.ClientePago.Descuento = 0;
         else
             $scope.ClientePago.Descuento = parseFloat($scope.DescuentoTransaccion);
 
-        $scope.ClientePago.Total = $scope.TotalTransaccion;
+        $scope.ClientePago.Total_Pagado = $scope.TotalTransaccion;
 
         $scope.AplicacionPagos = {
             Agendas: $scope.Servicios,
@@ -699,11 +835,11 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
-        }   
+        }
     }
 
     $scope.showConfirmDescuento = function (ev, data) {
-        try {            
+        try {
             let confirm = $mdDialog.confirm()
                 .title('Confirmar Descuento')
                 .textContent('¿Desea aplicar el descuento?')
@@ -718,7 +854,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
             }, function () {
                 $('#txtDescuento').focus();
             });
-            
+
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -738,7 +874,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
 
             $mdDialog.show(confirm).then(function () {
                 $scope.RegistrarFacturacionServicios();
-            }, function () {                
+            }, function () {
             });
 
         } catch (e) {
@@ -789,7 +925,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
             }, function () {
                 $('#txtDescuento').focus();
             });
-            
+
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -820,12 +956,15 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
         $scope.TipoClienteTransaccion = '';
         $scope.TotalTransaccion = 0;
         $scope.DescuentoTransaccion = 0;
-        $scope.TotalProductos = 0;
+        $scope.TotalProductosTransaccion = 0;
+        $scope.TotalPromocionTransaccion = 0;
+        $scope.TotalServiciosNoPromocionTransaccion = 0;
         $scope.TotalServicios = 0;
 
         $scope.NominaTotalSalarios = 0;
         $scope.NominaTotalPrestamos = 0;
         $scope.NominaTotalPagar = 0;
+        $scope.AplicarPromociones = false;
 
         $scope.Agenda = {
             Id_Agenda: -1,
@@ -850,9 +989,12 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
         $scope.ClientePago = {
             Id_ClientePago: '00000000-0000-0000-0000-000000000000',
             Id_Cliente: -1,
-            Subtotal: 0,
+            Total_Servicios: 0,
+            Total_Promocion: 0,
+            Total_Servicios_NoPromocion: 0,
+            Total_Productos: 0,
             Descuento: 0,
-            Total: 0,
+            Total_Pagado: 0,
             Id_Empresa: $scope.IdEmpresa
         }
 
@@ -874,6 +1016,34 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
         $timeout(function () {
             angular.element(document.getElementById('acClientes')).find('input').focus();
         }, 200);
+
+        $scope.Promocion = {
+            Id_Empresa: $scope.IdEmpresa,
+            Id_Promocion: '00000000-0000-0000-0000-000000000000',
+            Descripcion: '',
+            Valor: 0,
+            Estado: '',
+            Detalles_Promocion: [],
+            Id_Tipo_Promocion: '00000000-0000-0000-0000-000000000000',
+            Usuario_Creacion: $scope.UsuarioSistema,
+            Usuario_Modificacion: $scope.UsuarioSistema,
+            Has_Changed: false
+        }
+    }
+
+    $scope.LimpiarDatosPromocion = function () {
+        $scope.Promocion = {
+            Id_Empresa: $scope.IdEmpresa,
+            Id_Promocion: '00000000-0000-0000-0000-000000000000',
+            Descripcion: '',
+            Valor: 0,
+            Estado: '',
+            Detalles_Promocion: [],
+            Id_Tipo_Promocion: '00000000-0000-0000-0000-000000000000',
+            Usuario_Creacion: $scope.UsuarioSistema,
+            Usuario_Modificacion: $scope.UsuarioSistema,
+            Has_Changed: false
+        }
     }
 
     $scope.AgregarProductoGrilla = function () {
@@ -939,9 +1109,9 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
                 $scope.ProductosTransaccionGridOptions.api.sizeColumnsToFit();
             }, 200);
 
-            $scope.TotalProductos = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoProductosGrid, { property: "Total", operation: "+" }), '2', $scope);
+            $scope.TotalProductosTransaccion = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoProductosGrid, { property: "Total", operation: "+" }), '2', $scope);
 
-            $scope.SubtotalTransaccion = parseFloat($scope.TotalServicios) + parseFloat($scope.TotalProductos);
+            $scope.SubtotalTransaccion = parseFloat($scope.TotalPromocionTransaccion) + parseFloat($scope.TotalServiciosNoPromocionTransaccion) + parseFloat($scope.TotalProductosTransaccion);
             $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
 
             $scope.LimpiarProductos();
@@ -969,9 +1139,9 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
                     }
                 }
 
-                $scope.TotalProductos = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoProductosGrid, { property: "Total", operation: "+" }), '2', $scope);
+                $scope.TotalProductosTransaccion = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoProductosGrid, { property: "Total", operation: "+" }), '2', $scope);
 
-                $scope.SubtotalTransaccion = parseFloat($scope.TotalServicios) + parseFloat($scope.TotalProductos);
+                $scope.SubtotalTransaccion = parseFloat($scope.TotalPromocionTransaccion) + parseFloat($scope.TotalServiciosNoPromocionTransaccion) + parseFloat($scope.TotalProductosTransaccion);
                 $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
 
                 $scope.ProductosTransaccionGridOptions.api.setRowData($scope.ObjetoProductosGrid);
@@ -1076,23 +1246,62 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
         }
     }
 
+    // Promociones
+    $scope.RecalcularValorServicios = function (aplicarPromociones) {
+        let agendas = [];
+        if (aplicarPromociones === true) {
+            agendas = angular.copy($scope.ObjetoAgendas);
+            agendas.map(function (agenda) {
+                if (agenda.aplica_Promocion === true)
+                    agenda.valor_Servicio = agenda.valor_Promocion;
+            });
+
+            if (agendas.length > 0) {
+                $scope.ServiciosAgendaGridOptions.api.setRowData(agendas);
+                $scope.ServiciosAgendaGridOptions.api.refreshCells();
+            }
+
+        } else {
+            agendas = angular.copy($scope.Agendas);
+            $scope.ServiciosAgendaGridOptions.api.setRowData(agendas);
+            $scope.ServiciosAgendaGridOptions.api.refreshCells();
+            $scope.SubtotalTransaccion = 0;
+            $scope.TotalTransaccion = 0;
+            $scope.DescuentoTransaccion = 0;
+        }
+    }
+
     function OnRowSelectedFacturarServicios(event) {
         try {
-            let total = 0;
-
-            let checked = event.node.selected;
+            $scope.TotalPromocionTransaccion = 0;
+            $scope.TotalServiciosNoPromocionTransaccion = 0;
+            $scope.SubtotalTransaccion = 0;
             $scope.ObjetoAgendasSeleccionadas = [];
             $scope.ObjetoAgendasSeleccionadas = $scope.ServiciosAgendaGridOptions.api.getSelectedRows();
 
             if ($scope.ObjetoAgendasSeleccionadas.length > 0) {
-                $scope.TotalServicios = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoAgendasSeleccionadas, { property: "valor_Servicio", operation: "+" }), '2', $scope);
+                $scope.TotalServicios = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoAgendasSeleccionadas, { property: "valor_Servicio", operation: "+" }), '0', $scope);
+
+                $scope.ObjetoAgendasSeleccionadas.map(function (servicio) {
+                    if (servicio.aplica_Promocion === true)
+                        $scope.TotalPromocionTransaccion += servicio.valor_Promocion;
+                    else
+                        $scope.TotalServiciosNoPromocionTransaccion += servicio.valor_Servicio;
+                })
+
             } else {
                 $scope.TotalServicios = 0;
             }
 
+            $scope.TotalPromocionTransaccion = $filter('decimalParseAmount')($scope.TotalPromocionTransaccion, '0');
+            $scope.TotalServiciosNoPromocionTransaccion = $filter('decimalParseAmount')($scope.TotalServiciosNoPromocionTransaccion, '0');
+
             $scope.$apply(function () {
-                $scope.SubtotalTransaccion = parseFloat($scope.TotalServicios) + parseFloat($scope.TotalProductos);
+                $scope.SubtotalTransaccion = parseFloat($scope.TotalPromocionTransaccion) + parseFloat($scope.TotalServiciosNoPromocionTransaccion) + parseFloat($scope.TotalProductosTransaccion);
                 $scope.TotalTransaccion = angular.copy($scope.SubtotalTransaccion);
+
+                if ($scope.DescuentoTransaccion !== undefined && parseFloat($scope.DescuentoTransaccion) > 0)
+                    $scope.TotalTransaccion = $scope.TotalTransaccion - $scope.DescuentoTransaccion;
             });
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -1183,12 +1392,14 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
     $scope.$on("CompanyChange", function () {
         $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
+        $scope.UsuarioSistema = $rootScope.userData.userName;
         $scope.LimpiarDatos();
         $scope.ConfiguracionEmpresaActual();
         $scope.ConsultarClientes();
         $scope.ConsultarProductos();
         $scope.ConsultarTipoTransacciones();
         $scope.ConsultarCajaMenor();
+        $scope.ConsultarTipoPromociones();
         $scope.Inicializacion();
         $scope.ResetearGrids();
     });
@@ -1200,6 +1411,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
         $scope.ConsultarProductos();
         $scope.ConsultarTipoTransacciones();
         $scope.ConsultarCajaMenor();
+        $scope.ConsultarTipoPromociones();
         $scope.Inicializacion();
         angular.element(document.getElementById('acClientes')).find('input').focus();
     }, 200);

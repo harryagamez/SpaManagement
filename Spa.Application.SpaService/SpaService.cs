@@ -324,6 +324,11 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarAgenda(_Agenda);
         }
 
+        public List<Agenda> ConsultarAgendaTransacciones(Agenda _Agenda)
+        {
+            return _spaRepository.ConsultarAgendaTransacciones(_Agenda);
+        }
+
         public bool CancelarAgenda(int IdAgenda, string IdEmpresa)
         {
             return _spaRepository.CancelarAgenda(IdAgenda, IdEmpresa);
@@ -453,9 +458,9 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarServiciosCliente(_Agenda);
         }
 
-        public List<AplicacionPago> ConsultarPagosCliente(AplicacionPago aplicacionPago)
+        public List<ClientePago> ConsultarPagosCliente(BusquedaPago busquedaPago)
         {
-            return _spaRepository.ConsultarPagosCliente(aplicacionPago);
+            return _spaRepository.ConsultarPagosCliente(busquedaPago);
         }
 
         public List<Agenda> ConsultarServiciosEmpleado(Agenda _Agenda)
@@ -491,6 +496,11 @@ namespace Spa.Application.SpaService
         public bool EliminarServicioPromocion(string IdDetallePromocion, string IdPromocion)
         {
             return _spaRepository.EliminarServicioPromocion(IdDetallePromocion, IdPromocion);
+        }
+
+        public Promocion ConsultarPromocion(string IdPromocion, string IdEmpresa)
+        {
+            return _spaRepository.ConsultarPromocion(IdPromocion, IdEmpresa);
         }
     }
 }

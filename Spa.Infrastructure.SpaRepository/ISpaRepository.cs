@@ -95,6 +95,8 @@ namespace Spa.Infrastructure.SpaRepository
 
         List<Agenda> ConsultarAgenda(Agenda _Agenda);
 
+        List<Agenda> ConsultarAgendaTransacciones(Agenda _Agenda);
+
         bool CancelarAgenda(int IdAgenda, string IdEmpresa);
 
         bool ConfirmarAgenda(int IdAgenda, string IdEmpresa);
@@ -125,7 +127,7 @@ namespace Spa.Infrastructure.SpaRepository
 
         List<Agenda> ConsultarServiciosCliente(Agenda agenda);
 
-        List<AplicacionPago> ConsultarPagosCliente(AplicacionPago aplicacionPago);
+        List<ClientePago> ConsultarPagosCliente(BusquedaPago busquedaPago);
 
         List<Agenda> ConsultarServiciosEmpleado(Agenda agenda);
 
@@ -140,5 +142,7 @@ namespace Spa.Infrastructure.SpaRepository
         List<Promocion> ConsultarPromociones(string IdEmpresa);
 
         bool EliminarServicioPromocion(string IdDetallePromocion, string IdPromocion);
+
+        Promocion ConsultarPromocion(string IdPromocion, string IdEmpresa);
     }
 }

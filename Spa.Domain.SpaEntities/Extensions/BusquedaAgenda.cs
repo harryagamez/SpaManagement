@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Spa.Domain.SpaEntities.Extensions
 {
-    public class BusquedaAgenda
+    public class BusquedaAgenda: BusquedaAplicacionPromocion
     {
         public string Nombres_Cliente { get; set; }
         public string Nombre_Empresa { get; set; }

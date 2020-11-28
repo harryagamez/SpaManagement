@@ -416,6 +416,7 @@
             _consultarEmpleadosAutoComplete: ConsultarEmpleadosAutoComplete,
             _guardarActualizarAgenda: GuardarActualizarAgenda,
             _consultarAgenda: ConsultarAgenda,
+            _consultarAgendaTransacciones : ConsultarAgendaTransacciones,
             _cancelarAgenda: CancelarAgenda,
             _confirmarAgenda: ConfirmarAgenda,
             _consultarNumeroCitasDia: ConsultarNumeroCitasDia,
@@ -446,7 +447,8 @@
             _guardarPromocion: GuardarPromocion,
             _consultarTipoPromociones: ConsultarTipoPromociones,
             _consultarPromociones: ConsultarPromociones,
-            _eliminarServicioPromocion: EliminarServicioPromocion
+            _eliminarServicioPromocion: EliminarServicioPromocion,
+            _consultarPromocion: ConsultarPromocion
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -977,6 +979,18 @@
             return deferred.promise;
         }
 
+        function ConsultarAgendaTransacciones(agenda) {
+            var deferred = $q.defer();
+            serviceRest.Post('SPA', 'ConsultarAgendaTransacciones', agenda,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
         function CancelarAgenda(IdAgenda, IdEmpresa) {
             var deferred = $q.defer();
             serviceRest.Get('SPA', 'CancelarAgenda?IdAgenda=' + IdAgenda + '&IdEmpresa=' + IdEmpresa,
@@ -1277,9 +1291,9 @@
             return deferred.promise;
         }
 
-        function ConsultarPagosCliente(aplicacionPago) {
+        function ConsultarPagosCliente(busquedaPago) {
             var deferred = $q.defer();
-            serviceRest.Post('SPA', 'ConsultarPagosCliente', aplicacionPago,
+            serviceRest.Post('SPA', 'ConsultarPagosCliente', busquedaPago,
                 function (data) {
                     deferred.resolve(data);
                 },
@@ -1354,6 +1368,18 @@
         function EliminarServicioPromocion(IdDetallePromocion, IdPromocion) {
             var deferred = $q.defer();
             serviceRest.Get('SPA', 'EliminarServicioPromocion?IdDetallePromocion=' + IdDetallePromocion + '&IdPromocion=' + IdPromocion,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ConsultarPromocion(id_promocion, id_empresa) {
+            var deferred = $q.defer();
+            serviceRest.Get('SPA', 'ConsultarPromocion?IdPromocion=' + id_promocion + '&IdEmpresa=' + id_empresa, 
                 function (data) {
                     deferred.resolve(data);
                 },

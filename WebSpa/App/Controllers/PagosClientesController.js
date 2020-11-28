@@ -14,7 +14,14 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
     $scope.PagosDescuento = 0;
     $scope.PagosTotal = 0;
 
-    $scope.AplicacionPago = {
+    $scope.PagosTotalServicios = 0;
+    $scope.PagosTotalPromocion = 0;
+    $scope.PagosTotalServiciosNoPromocion = 0;
+    $scope.PagosTotalProductos = 0;
+    $scope.PagosDescuento = 0;
+    $scope.PagosTotalPagado = 0;
+
+    $scope.BusquedaPago = {
         Id_Cliente: -1,
         Fecha_Desde: null,
         Fecha_Hasta: null,
@@ -27,7 +34,7 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
 
     $scope.ConsultarPagosCliente = function () {
         if ($scope.ValidarDatosBusqueda()) {
-            SPAService._consultarPagosCliente($scope.AplicacionPago)
+            SPAService._consultarPagosCliente($scope.BusquedaPago)
                 .then(
                     function (result) {
                         if (result.data !== undefined && result.data !== null && result.data.length > 0) {
@@ -45,9 +52,12 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
                                 angular.element(document.getElementById('acClientes')).find('input').focus();
                             }, 200);
 
-                            $scope.PagosSubtotal = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "subtotal", operation: "+" }), '2', $scope);
+                            $scope.PagosTotalServicios = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "total_Servicios", operation: "+" }), '2', $scope);
+                            $scope.PagosTotalPromocion = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "total_Promocion", operation: "+" }), '2', $scope);
+                            $scope.PagosTotalServiciosNoPromocion = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "total_Servicios_NoPromocion", operation: "+" }), '2', $scope);
+                            $scope.PagosTotalProductos = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "total_Productos", operation: "+" }), '2', $scope);
                             $scope.PagosDescuento = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "descuento", operation: "+" }), '2', $scope);
-                            $scope.PagosTotal = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "total", operation: "+" }), '2', $scope);
+                            $scope.PagosTotalPagado = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "total_Pagado", operation: "+" }), '2', $scope);
 
                         } else {
 
@@ -128,20 +138,20 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
                     return false;
                 }
             }
-
-            $scope.AplicacionPago.Fecha_Desde = $scope.FechaDesde;
-            $scope.AplicacionPago.Fecha_Hasta = $scope.FechaHasta;
+     
+            $scope.BusquedaPago.Fecha_Desde = $filter('date')($scope.FechaDesde, 'yyyy-MM-dd');
+            $scope.BusquedaPago.Fecha_Hasta = $filter('date')($scope.FechaHasta, 'yyyy-MM-dd');
 
             if ($scope.ClienteSeleccionado === '' || $scope.ClienteSeleccionado === null || $scope.ClienteSeleccionado === undefined)
-                $scope.AplicacionPago.Id_Cliente = -1;
+                $scope.BusquedaPago.Id_Cliente = -1;
             else
-                $scope.AplicacionPago.Id_Cliente = $scope.ClienteSeleccionado.id_Cliente;
+                $scope.BusquedaPago.Id_Cliente = $scope.ClienteSeleccionado.id_Cliente;
 
             return true;
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
-        }        
+        }
     }
 
     $scope.PagosClienteGridOptionsColumns = [
@@ -149,19 +159,31 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
             headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
         },
         {
-            headerName: "Cliente", field: 'nombreApellido_Cliente', width: 200, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
-        },        
-        {
-            headerName: "Fecha", field: 'fecha', width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter
+            headerName: "Cliente", field: 'nombreApellido_Cliente', width: 220, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Subtotal", field: 'subtotal', width: 140, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#445a9e', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
+            headerName: "Fecha", field: 'fecha', width: 100, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter
         },
         {
-            headerName: "Descuento", field: 'descuento', width: 140, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+            headerName: "Servicios", field: 'total_Servicios', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#445a9e', 'font-weight': 'bold' }, valueFormatter: currencyFormatter,
+            cellRenderer: function (params) {
+                return "<span  data-toggle='tooltip' data-placement='left' title='Este valor representa, el valor real del servicio que tomó el cliente. Dicho valor se tiene en cuenta, cuando se debe aplicar una promoción establecida por porcentaje.'>{{data.total_Servicios}}</span>"
+            }
         },
         {
-            headerName: "Total", field: 'total', width: 140, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#499977', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
+            headerName: "Promo", field: 'total_Promocion', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#445a9e', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
+        },
+        {
+            headerName: "Sin Promo", field: 'total_Servicios_NoPromocion', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#445a9e', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
+        },
+        {
+            headerName: "Productos", field: 'total_Productos', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#445a9e', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
+        },
+        {
+            headerName: "Descuento", field: 'descuento', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
+        },
+        {
+            headerName: "Total Pagado", field: 'total_Pagado', width: 140, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#499977', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
         }
 
     ];
@@ -186,8 +208,8 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
     }
 
     $scope.ExportarArchivo = function () {
-        try {            
-            if ($scope.Pagos !== null && $scope.Pagos !== undefined && $scope.Pagos.length > 0) {                
+        try {
+            if ($scope.Pagos !== null && $scope.Pagos !== undefined && $scope.Pagos.length > 0) {
 
                 alasql.fn.datetime = function (dateStr) {
                     let date = $filter('date')(new Date(), 'dd-MM-yyyy');
@@ -200,33 +222,38 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
                 }
 
                 let pagos = [];
-                if ($scope.ObjetoPagosSeleccionados !== undefined && $scope.ObjetoPagosSeleccionados !==null && $scope.ObjetoPagosSeleccionados.length > 0)
+                if ($scope.ObjetoPagosSeleccionados !== undefined && $scope.ObjetoPagosSeleccionados !== null && $scope.ObjetoPagosSeleccionados.length > 0)
                     pagos = $scope.ObjetoPagosSeleccionados;
                 else
                     pagos = $scope.Pagos;
 
+                debugger;
+
                 let mystyle = {
                     sheetid: 'ClientePagos',
-                    headers: true,                    
+                    headers: true,
                     columns: [
-                        { columnid: 'nombreApellido_Cliente', title: 'CLIENTE', width: 300  },
+                        { columnid: 'nombreApellido_Cliente', title: 'CLIENTE', width: 300 },
                         { columnid: 'fecha', title: 'FECHA', width: 150 },
-                        { columnid: 'subtotal', title: 'SUBTOTAL', width: 150 },
-                        { columnid: 'descuento', title: 'DESCUENTO', width: 150 },
-                        { columnid: 'total', title: 'TOTAL', width: 150 },
+                        { columnid: 'totalServicios', title: 'TOTAL_SERVICIOS', width: 150 },
+                        { columnid: 'totalPromociones', title: 'TOTAL_PROMOCIONES', width: 150 },
+                        { columnid: 'totalServicionsSinPromo', title: 'TOTAL_SERVICIOS_SIN_PROMO', width: 150 },
+                        { columnid: 'totalProductos', title: 'TOTAL_PRODUCTOS', width: 150 },
+                        { columnid: 'totalDescuentos', title: 'TOTAL_DESCUENTOS', width: 150 },
+                        { columnid: 'totalPagado', title: 'TOTAL_PAGADO', width: 150 },
                     ]
                 };
 
-                alasql('SELECT nombreApellido_Cliente AS CLIENTE, datetime(fecha) AS FECHA, subtotal AS SUBTOTAL, descuento AS DESCUENTO, total AS TOTAL INTO XLSX("PagosCliente.xlsx",?) FROM ?', [mystyle, pagos]);
+                alasql('SELECT nombreApellido_Cliente AS CLIENTE, datetime(fecha) AS FECHA, total_Servicios AS TOTAL_SERVICIOS, total_Promocion AS TOTAL_PROMOCIONES, total_Servicios_NoPromocion AS TOTAL_SERVICIOS_SINPROMO, total_Productos AS TOTAL_PRODUCTOS, descuento AS TOTAL_DESCUENTOS, total_Pagado AS TOTAL_PAGADO INTO XLSX("PagosCliente.xlsx",?) FROM ?', [mystyle, pagos]);
             } else {
                 toastr.info('No hay datos para exportar', '', $scope.toastrOptions);
             }
-            
+
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
-        }        
-    }   
+        }
+    }
 
     function OnRowSelectedPagos(event) {
         try {
@@ -238,15 +265,15 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
                     $scope.PagosSubtotal = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoPagosSeleccionados, { property: "subtotal", operation: "+" }), '2', $scope);
                     $scope.PagosDescuento = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoPagosSeleccionados, { property: "descuento", operation: "+" }), '2', $scope);
                     $scope.PagosTotal = $filter('decimalParseAmount')($filter("mathOperation")($scope.ObjetoPagosSeleccionados, { property: "total", operation: "+" }), '2', $scope);
-                });                
+                });
             } else {
                 $scope.$apply(function () {
                     $scope.PagosSubtotal = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "subtotal", operation: "+" }), '2', $scope);
                     $scope.PagosDescuento = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "descuento", operation: "+" }), '2', $scope);
                     $scope.PagosTotal = $filter('decimalParseAmount')($filter("mathOperation")($scope.Pagos, { property: "total", operation: "+" }), '2', $scope);
-                });                
+                });
             }
-            
+
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -262,13 +289,12 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
         }
-    }   
+    }
 
     $scope.LimpiarDatos = function () {
         try {
-            $scope.AplicacionPago = {
+            $scope.BusquedaPago = {
                 Id_Cliente: -1,
-                Id_Servicios: [],
                 Fecha_Desde: null,
                 Fecha_Hasta: null,
                 Id_Empresa: $scope.IdEmpresa
@@ -276,7 +302,7 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
-        }        
+        }
     }
 
     $scope.ResetearGrids = function () {
@@ -289,8 +315,8 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
-        }        
-    }    
+        }
+    }
 
     $scope.ResetearData = function () {
         try {
@@ -314,7 +340,7 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
-        }        
+        }
     }
 
     function currencyFormatter(params) {
@@ -356,7 +382,7 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
 
     $scope.$on("CompanyChange", function () {
         $scope.IdEmpresa = $rootScope.Id_Empresa;
-        $scope.ConsultarClientes();        
+        $scope.ConsultarClientes();
         $scope.ResetearData();
         $scope.ResetearGrids();
         $scope.Inicializacion();
@@ -364,7 +390,7 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
 
     $timeout(function () {
         window.onresize();
-        $scope.ConsultarClientes();        
+        $scope.ConsultarClientes();
         $scope.Inicializacion();
         angular.element(document.getElementById('acClientes')).find('input').focus();
     }, 200);

@@ -94,6 +94,8 @@ namespace Spa.Application.SpaService
 
         List<Agenda> ConsultarAgenda(Agenda agenda);
 
+        List<Agenda> ConsultarAgendaTransacciones(Agenda agenda);
+
         bool CancelarAgenda(int IdAgenda, string IdEmpresa);
 
         bool ConfirmarAgenda(int IdAgenda, string IdEmpresa);
@@ -126,7 +128,7 @@ namespace Spa.Application.SpaService
 
         List<Agenda> ConsultarServiciosCliente(Agenda agenda);
 
-        List<AplicacionPago> ConsultarPagosCliente(AplicacionPago aplicacionPago);
+        List<ClientePago> ConsultarPagosCliente(BusquedaPago busquedaPago);
 
         List<Agenda> ConsultarServiciosEmpleado(Agenda agenda);
 
@@ -141,5 +143,7 @@ namespace Spa.Application.SpaService
         List<Promocion> ConsultarPromociones(string IdEmpresa);
 
         bool EliminarServicioPromocion(string IdDetallePromocion, string IdPromocion);
+
+        Promocion ConsultarPromocion(string IdPromocion, string IdEmpresa);
     }
 }

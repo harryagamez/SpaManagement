@@ -63,6 +63,11 @@
                                             </md-input-container>
                                         </div>
                                     </div>
+                                    <div style="margin-top:-5px; margin-left:10px;">
+                                        <md-switch ng-model="AplicarPromociones" ng-change="RecalcularValorServicios(AplicarPromociones)" aria-label="Aplicar promociones" ng-show="false">
+                                            Aplicar promociones
+                                        </md-switch>
+                                    </div>
                                 </div>
                                 <div id="divGridServiciosAgenda" layout="row" layout-sm="column" style="width:100%; height: calc(50vh - 115px); margin-top:-40px; overflow-y:auto;">
                                     <div id="divServiciosAgenda" data-ag-grid="ServiciosAgendaGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
@@ -137,29 +142,50 @@
 
                                 <div style="width:30%; padding-left:10px; bottom:40px; right:10px; position:absolute;">
                                     <div layout="row" style="position:relative;">
-                                        <div style="margin-top:13px; width:100%;">
-                                            <md-input-container style="margin-left: 10px; width: 100%; margin-top: -5px; margin-bottom: 7px;">
+                                        <div style="margin-top:13px; width:100%;display:inline-flex;">
+                                            <md-input-container style="margin-left: 10px; width: 50%; margin-top: -5px; margin-bottom: 7px;">
                                                 <label class="label-form-servicios" style="font-size: 11px; padding-bottom:0px;">
                                                     Subtotal:
                                                 </label>
                                                 <br />
-                                                <div style="width: 98%; color:#566473; font-size:20px !important; font-weight:600; border-bottom:1px dotted grey; text-align:right; padding-right:10px;">{{SubtotalTransaccion | currency}}</div>
+                                                <div style="width: 98%; color:#566473; font-size:20px !important; font-weight:600; border-bottom:1px dotted grey; text-align:right; padding-right:10px;">{{TotalServicios | currency}}</div>
                                             </md-input-container>
-                                        </div>
-                                    </div>
-                                    <div layout="row" style="position:relative;">
-                                        <div style="margin-top:13px; width:100%;">
-                                            <md-input-container style="margin-left: 10px; width: 100%; margin-top: 8px; margin-bottom: 0;">
-                                                <label class="label-form-servicios" style="">
-                                                    Descuento:
+                                            <md-input-container style="margin-left: 10px; width: 50%; margin-top: -5px; margin-bottom: 7px;">
+                                                <label class="label-form-servicios" style="font-size: 11px; padding-bottom:0px;">
+                                                    Promoción:
                                                 </label>
-                                                <input ng-model="DescuentoTransaccion" ng-readonly="SubtotalTransaccion === 0" numbers-only id="txtDescuento" type="text" class="" style="width:99%; text-align:right; font-size:18px !important; font-weight:600; padding-right:10px;" placeholder="">
+                                                <br />
+                                                <div style="width: 98%; color:#566473; font-size:20px !important; font-weight:600; border-bottom:1px dotted grey; text-align:right; padding-right:10px;">{{TotalPromocionTransaccion | currency}}</div>
                                             </md-input-container>
                                         </div>
                                     </div>
                                     <div layout="row" style="position:relative;">
-                                        <div style="margin-top:13px; width:100%;">
-                                            <md-input-container style="margin-left: 10px; width: 100%; margin-top: 0px; margin-bottom: 0; right:-5px; ">
+                                        <div style="margin-top:13px; width:100%;display:inline-flex">
+                                            <md-input-container style="margin-left: 10px; width: 50%; margin-top: -5px; margin-bottom: 7px;">
+                                                <label class="label-form-servicios" style="font-size: 11px; padding-bottom:0px;">
+                                                    Servicios:
+                                                </label>
+                                                <br />
+                                                <div style="width: 98%; color:#566473; font-size:20px !important; font-weight:600; border-bottom:1px dotted grey; text-align:right; padding-right:10px;">{{TotalServiciosNoPromocionTransaccion | currency}}</div>
+                                            </md-input-container>
+                                            <md-input-container style="margin-left: 10px; width: 50%; margin-top: -5px; margin-bottom: 7px;">
+                                                <label class="label-form-servicios" style="font-size: 11px; padding-bottom:0px;">
+                                                    Productos:
+                                                </label>
+                                                <br />
+                                                <div style="width: 98%; color:#566473; font-size:20px !important; font-weight:600; border-bottom:1px dotted grey; text-align:right; padding-right:10px;">{{TotalProductosTransaccion | currency}}</div>
+                                            </md-input-container>
+                                        </div>
+                                    </div>
+                                    <div layout="row" style="position:relative;">
+                                        <div style="margin-top:13px; width:100%;display:inline-flex">
+                                            <md-input-container style="margin-left: 10px; width: 50%; margin-top: 20px; margin-bottom: 0;">
+                                                <label class="label-form-servicios" style="">
+                                                    Otros Descuentos:
+                                                </label>
+                                                <input ng-model="DescuentoTransaccion" ng-readonly="TotalTransaccion === 0" numbers-only id="txtDescuento" type="text" class="" style="width:99%; text-align:right; font-size:20px !important; font-weight:600; padding-right:10px;margin-top:0 !important;" placeholder="" autocomplete="off">
+                                            </md-input-container>
+                                            <md-input-container style="margin-left: 10px; width:50%; margin-top: 0px; margin-bottom: 0; right:-5px; ">
                                                 <label class="label-form-servicios" style="font-size:11px; padding-bottom:5px;">
                                                     Total:
                                                 </label>
@@ -273,7 +299,7 @@
         </form>
     </div>
 
-    <!-- Modales Nomina Empleado Servicios-->
+    <!-- Modal Nomina Empleado Servicios-->
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgNominaEmpleadoServicios">
             <md-dialog id="mdNominaEmpleadoServicios" aria-label="" style="min-width: 850px !important; max-width:850px; color: #666666 !important;">
@@ -301,7 +327,7 @@
         </div>
     </div>
 
-    <!-- Modales Prestamo empleados-->
+    <!-- Modal Prestamo empleados-->
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgEmpleadoPrestamos">
             <md-dialog id="mdEmpleadoPrestamos" aria-label="" style="min-width: 600px !important; max-width:600px; color: #666666 !important;">
@@ -328,5 +354,78 @@
             </md-dialog>
         </div>
     </div>
+
+    <!-- Modal Ver Promocion -->
+    <div style="visibility: hidden">
+
+        <div class="md-dialog-container" id="dlgEditarPromocion">
+            <md-dialog id="mdNuevaPromocion" aria-label="Nueva Promocion" style="min-width: 540px; max-width: 540px; color: #666666; overflow:hidden;">
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2 style="font-size:16px;">{{ AccionPromocion }}</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="Cancelar()">
+                            <i class="material-icons" style="transform: scaleX(-1)">close</i>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+                <form id="frmServiciosModal" style="">
+                    <md-dialog-content style="overflow:visible;">
+
+                        <div layout="row" layout-align="">
+                            <div flex="" class="material-app">
+                                <md-input-container class="md-block" style="margin: 5px 0;">
+                                    <label class="label-form-servicios" style="">
+                                        Descripción Promoción:
+                                    </label>
+                                    <textarea ng-model="Promocion.Descripcion" md-autofocus id="txtDescripcionPromocion" ng-readonly="PromocionReadOnly" type="text" placeholder="Descripción de la promoción ..." md-maxlength="200" rows="2" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2></textarea>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" layout-align="start start">
+                            <div class="material-app" style="width: 50%; margin-left:10px;">
+                                <md-input-container style="margin:0px 7px 0px -11px;">
+                                    <label class="label-form-servicios" style="">
+                                        Tipo Promoción:
+                                    </label>
+                                    <md-select ng-model="TipoPromocionSeleccionada" ng-disabled="PromocionReadOnly" style="min-width:240px; margin-top: 5px;" id="slTiposPromocion" tabindex=3>
+                                        <md-option ng-bind="item.descripcion" ng-value="item.id_Tipo_Promocion" ng-repeat="item in TiposPromocion track by $index"></md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                            <div class="material-app" style="width: 50%;">
+                                <md-input-container style="margin: 0px 7px 0px -11px;">
+                                    <label class="label-form-servicios" style="">
+                                        Valor / %
+                                    </label>
+                                    <input ng-model="Promocion.Valor" ng-readonly="PromocionReadOnly" id="txtValorPromocion" focus="selectChanged" float-numbers-only ng-pattern="/(^[0-9]{1,9})+(\.[0-9]{1,4})?$/" type="text" style="min-width:250px; margin-top: -1px;" placeholder="Digite el valor de la promoción ..." autocomplete="off" spellcheck="false" tabindex=4>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-xs="column" layout-align="start start">
+                            <div class="material-app" style="width: 50%; margin-left:10px;">
+                                <md-input-container style="margin: 0px 7px 28px -11px;">
+                                    <label class="label-form-servicios" style="">
+                                        Estado:
+                                    </label>
+                                    <md-select ng-model="EstadoPromocionSeleccionado" ng-disabled="PromocionReadOnly" class="" style="min-width:240px; margin-top: 5px;" id="slEstado" tabindex=6>
+                                        <md-option value="ACTIVA" selected>ACTIVA</md-option>
+                                        <md-option value="INACTIVA">INACTIVA</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div id="divGridPromocionDetallada" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 500px); margin-top:-15px; overflow-y:auto;">
+                            <div id="divPromocionDetalladaGridOptions" data-ag-grid="PromocionDetalladaGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+                        </div>
+                    </md-dialog-content>
+                </form>
+            </md-dialog>
+        </div>
+    </div>
+
 </body>
 </html>

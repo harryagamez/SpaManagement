@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarMovimientosCajaMenor(
+CREATE PROCEDURE [dbo].[ConsultarMovimientosCajaMenor] (
 	@IdEmpresa	VARCHAR(36),
 	@FechaDesde DATE,
 	@FechaHasta DATE
@@ -70,7 +70,7 @@ BEGIN
 	INSERT INTO #TempClientePagos (Fecha, Facturado)
 	SELECT
 		CONVERT(VARCHAR(10), FECHA, 121) AS Fecha,
-		SUM(TOTAL) AS Facturado
+		SUM(TOTAL_PAGADO) AS Facturado
 	FROM CLIENTE_PAGOS
 	WHERE ID_EMPRESA = @IdEmpresa 
 	AND CONVERT(VARCHAR(10), FECHA, 121) BETWEEN @FechaDesde AND @FechaHasta
