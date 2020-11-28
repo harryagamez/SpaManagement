@@ -1723,7 +1723,7 @@ namespace Spa.Infrastructure.SpaRepository
         }
 
         public bool GuardarPromocion(Promocion promocion)
-        {
+        {            
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
                 _connection.Open();
