@@ -69,6 +69,18 @@
                     elem.draggable();
                 }
             };
+        })
+        .directive('draggable', function () {
+            return {               
+                restrict: 'A',                
+                link: function (scope, element, attrs) {
+                    element.draggable({
+                        stop: function (event, ui) {                            
+                            event.stopPropagation();
+                        }
+                    });
+                }
+            };
         });
 
     function cbutton() {
