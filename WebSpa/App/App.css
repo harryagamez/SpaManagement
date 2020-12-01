@@ -1344,6 +1344,10 @@ md-switch.md-default-theme.md-checked:not([disabled]) .md-bar, md-switch.md-chec
     margin-right:-12px;
 }
 
+md-input-container:not(.md-input-invalid).md-input-focused md-icon {
+    color: #67ddab;
+}
+
 @media only screen and (max-width: 700px) {
     .bg {
         background-size: 300%;
