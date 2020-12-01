@@ -167,7 +167,7 @@ function PagosClientesController($scope, $rootScope, $filter, $timeout, SPAServi
         {
             headerName: "Servicios", field: 'total_Servicios', width: 110, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#445a9e', 'font-weight': 'bold' }, valueFormatter: currencyFormatter,
             cellRenderer: function (params) {
-                return "<span  data-toggle='tooltip' data-placement='left' title='Este valor representa, el valor real del servicio que tomó el cliente. Dicho valor se tiene en cuenta, cuando se debe aplicar una promoción establecida por porcentaje.'>{{data.total_Servicios}}</span>"
+                return "<span  data-toggle='tooltip' data-placement='left' title='Este valor representa, el valor real del servicio que tomó el cliente. Dicho valor se tiene en cuenta, cuando se debe aplicar una promoción establecida por porcentaje.'>{{data.total_Servicios | currency: '$' : 0}}</span>"
             }
         },
         {
