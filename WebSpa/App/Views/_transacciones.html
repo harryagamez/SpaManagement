@@ -78,11 +78,11 @@
                                 <div style="width:59%; z-index:999; background:white;">
                                     <div layout="row" style="position:relative; width:100%;">
                                         <div>
-                                            <md-input-container style="width: 240px; margin-top: 18px; margin-bottom: 0;">
+                                            <md-input-container style="width: 220px; margin-top: 18px; margin-bottom: 0;">
                                                 <label class="label-form-clientes">
                                                     Seleccionar Producto:
                                                 </label>
-                                                <md-select ng-model="ProductoSeleccionado" ng-change="ConsultarInventario(ProductoSeleccionado)" style="display:inline-flex; max-width: 230px; min-width:230px; margin-top:1px;" id="slProductos" tabindex=3>
+                                                <md-select ng-model="ProductoSeleccionado" ng-change="ConsultarInventario(ProductoSeleccionado)" style="display:inline-flex; max-width: 210px; min-width:210px; margin-top:1px;" id="slProductos" tabindex=3>
                                                     <md-option ng-bind="item.nombre" ng-value="item.id_Producto" ng-repeat="item in Productos track by item.id_Producto"></md-option>
                                                 </md-select>
                                             </md-input-container>
@@ -93,14 +93,14 @@
                                                 <label class="label-form-clientes">
                                                     Tipo Transacción:
                                                 </label>
-                                                <md-select ng-model="TipoTransaccionSeleccionada" ng-disabled="true" style="display: inline-flex; max-width: 115px; min-width: 115px; margin-top: 1px;" id="slTipoTransaccion">
+                                                <md-select ng-model="TipoTransaccionSeleccionada" ng-disabled="true" style="display: inline-flex; max-width: 110px; min-width: 110px; margin-top: 1px;" id="slTipoTransaccion">
                                                     <md-option ng-bind="item.nombre" ng-value="item.id_TipoTransaccion" ng-repeat="item in TipoTransacciones track by $index"></md-option>
                                                 </md-select>
                                             </md-input-container>
                                         </div>
 
                                         <div>
-                                            <md-input-container style="margin-left: 10px; width: 50px; margin-top: 18px; margin-bottom: 0;">
+                                            <md-input-container style="margin-left: 5px; width: 48px; margin-top: 18px; margin-bottom: 0;">
                                                 <label class="label-form-servicios" style="">
                                                     Cantidad:
                                                 </label>
@@ -108,8 +108,8 @@
                                             </md-input-container>
                                         </div>
 
-                                        <div style="min-width:80px; max-width:80px; margin-left:10px;">
-                                            <md-input-container style="margin-left:10px; margin-top:-2px; width:110px;">
+                                        <div style="min-width:80px; max-width:80px; margin-left:5px;">
+                                            <md-input-container style="margin-left:10px; margin-top:-2px; width:90px;">
                                                 <label class="label-form-servicios" style="margin-bottom:8px; font-size:10px;">
                                                     Inventario:
                                                 </label>
@@ -118,7 +118,7 @@
                                             </md-input-container>
                                         </div>
 
-                                        <div style="min-width:120px; max-width:120px; margin-left:10px;">
+                                        <div style="min-width:120px; max-width:120px; margin-left:5px;">
                                             <md-input-container style="margin-top:-2px; width:110px;">
                                                 <label class="label-form-servicios" style="margin-bottom:8px; font-size:10px;">
                                                     Precio:
@@ -129,7 +129,7 @@
                                         </div>
 
                                         <div id="divButtons" style="position:absolute;right:3px; margin-top:10px; margin-left:10px;">
-                                            <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px; min-width:52px;" data-toggle="tooltip" title="Agregar" data-ng-click="AgregarProductoGrilla()">
+                                            <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px; min-width:40px;" data-toggle="tooltip" title="Agregar" data-ng-click="AgregarProductoGrilla()">
                                                 <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>
                                             </md-button>
                                         </div>
@@ -180,7 +180,7 @@
                                     </div>
                                     <div layout="row" style="position:relative;">
                                         <div style="margin-top:1px; width:100%;display:inline-flex">
-                                            <md-input-container style="margin-left: 7px; width: 50%; margin-top: 20px; margin-bottom: 0;">
+                                            <md-input-container style="margin-left: 7px; width: 50%; margin-top: 20px; margin-bottom: 0;" ng-hide="AOD === 'NO'">
                                                 <label class="label-form-servicios" style="">
                                                     Otros Descuentos:
                                                 </label>

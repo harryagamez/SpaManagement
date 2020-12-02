@@ -459,16 +459,16 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
 
     $scope.PromocionDetalladaGridOptionsColumns = [
         {
-            headerName: "", field: "", suppressMenu: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' }, suppressSizeToFit: true,
+            headerName: "", field: "", suppressMenu: true, visible: true, width: 40, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' }, suppressSizeToFit: true,
             cellRenderer: function () {
                 return "<i data-ng-click='showConfirmEliminarServicioPromo (ev, data)' data-toggle='tooltip' title='Eliminar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>delete_sweep</i>";
             },
         },
         {
-            headerName: "Servicio", field: 'nombre_Servicio', width: 110, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
+            headerName: "Servicio", field: 'nombre_Servicio', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }
         },
         {
-            headerName: "Valor", field: 'valor', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#445a9e' }, valueFormatter: decimalFormatter
+            headerName: "Valor", field: 'valor', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#445a9e' }, valueFormatter: decimalFormatter
         }
     ];
 

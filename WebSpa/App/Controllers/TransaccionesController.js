@@ -7,7 +7,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
     $rootScope.header = 'Transacciones';
     $scope.IdEmpresa = $rootScope.Id_Empresa;
     $scope.UsuarioSistema = $rootScope.userData.userName;
-    $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
+    $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });    
     $scope.FechaBusqueda = new Date();
     $scope.fActiveTab = 'Facturar Servicios';
     $scope.InventarioProducto = 0;
@@ -98,6 +98,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
         try {
             if ($scope.EmpresaPropiedades.length > 0) {
                 let tdn = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'TDN' });
+                let aod = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'AOD' });
                 $scope.TDN = '';
                 if (tdn.length > 0) {
                     $scope.fPropertiesSetted = true;
@@ -116,9 +117,15 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
                 else {
                     $scope.fPropertiesSetted = true;
                     $scope.fTDN = false;
+                }                
+                if (aod.length > 0) {
+                    $scope.AOD = aod[0].valor_Propiedad;
+                } else {
+                    $scope.AOD = 'NO';
                 }
             } else {
                 $scope.fPropertiesSetted = false;
+                $scope.AOD = 'NO';
                 toastr.warning('La empresa actual, no tiene propiedades definidas', '', $scope.toastrOptions);
             }
         } catch (e) {
@@ -1176,6 +1183,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
             if ($scope.ProductoSeleccionado === -1) {
                 $scope.InventarioProducto = 0;
                 $scope.PrecioProducto = 0;
+                $scope.CantidadInsumo = '';
                 return;
             }
             let filtrarEntrada = Enumerable.From($scope.Productos)
