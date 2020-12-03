@@ -159,6 +159,7 @@
     <Content Include="Images\favicon_48.png" />
     <Content Include="Images\favicon_64.png" />
     <Content Include="Images\favicon_96.png" />
+    <Content Include="Images\template\beux.png" />
     <Content Include="Images\template\construccion.png" />
     <Content Include="Images\template\default_logo.png" />
     <Content Include="Images\empresa.png" />
