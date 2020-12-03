@@ -143,6 +143,10 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
                         $scope.Promociones = result.data;
                         $scope.PromocionesGridOptions.api.setRowData($scope.Promociones);
 
+                        $timeout(function () {
+                            $scope.PromocionesGridOptions.api.sizeColumnsToFit();
+                        }, 200);
+
                     }
                 }, function (err) {
                     toastr.remove();
@@ -417,7 +421,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             },
         },
         {
-            headerName: "Descripción", field: 'descripcion', width: 320, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function (params) {
+            headerName: "Descripción", field: 'descripcion', width: 350, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, cellRenderer: function (params) {
                 return "<span  data-toggle='tooltip' data-placement='left' title='{{data.descripcion}}'>{{data.descripcion}}</span>"
             },
         },
@@ -425,10 +429,10 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             headerName: "Tipo Promoción", field: 'tipo_Promocion', width: 120, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Valor / %", field: 'valor', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#445a9e' }, valueFormatter: decimalFormatter
+            headerName: "Valor / %", field: 'valor', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#445a9e' }, valueFormatter: decimalFormatter
         },
         {
-            headerName: "Estado", field: 'estado', width: 90, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            headerName: "Estado", field: 'estado', width: 80, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
             headerName: "Fecha", field: 'fecha_Creacion', width: 90, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, valueFormatter: dateFormatter

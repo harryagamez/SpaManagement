@@ -15,5 +15,7 @@ namespace Spa.Domain.SpaEntities
         public float Total_Pagado { get; set; }
         public string Id_Empresa { get; set; }
         public string NombreApellido_Cliente { get; set; } = string.Empty;
+        public string Usuario_Creacion { get; set; } = string.Empty;
+        public string Usuario_Modificacion { get; set; } = string.Empty;
     }
 }

@@ -82,7 +82,9 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
         Total_Productos: 0,
         Descuento: 0,
         Total_Pagado: 0,
-        Id_Empresa: $scope.IdEmpresa
+        Id_Empresa: $scope.IdEmpresa,
+        Usuario_Creacion: $scope.UsuarioSistema,
+        Usuario_Modificacion: $scope.UsuarioSistema
     }
 
     $scope.ObjetoProductosGrid = [];
@@ -363,7 +365,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
                     }
                     else {
                         $scope.AcumuladoCajaMenor = 0;
-                        toastr.info('Debe configurar la caja menor', '', $scope.toastrOptions);
+                        toastr.info('Debe configurar la caja', '', $scope.toastrOptions);
                     }
                 }, function (err) {
                     toastr.remove();
@@ -450,7 +452,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
             cellRenderer: function (params) {
                 let aplica_Promocion = params.data.aplica_Promocion;
                 if (aplica_Promocion === true)
-                    return "<i data-ng-click='ConsultarPromocion(data)' data-toggle='tooltip' title='Consultar Promoción' class='material-icons' style='font-size:20px; margin-left:1px; margin-top:-1px; color:lightslategrey;'>done_all</i>";
+                    return "<i data-ng-click='ConsultarPromocion(data)' data-toggle='tooltip' title='Consultar Promoción' class='material-icons' style='font-size:20px; margin-left:1px; margin-top:-1px; color:lightslategrey;'>local_play</i>";
                 else
                     return
             },
@@ -505,16 +507,16 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
             },
         },
         {
-            headerName: "Producto", field: 'nombre', width: 280, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
+            headerName: "Producto", field: 'nombre', width: 340, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
         },
         {
-            headerName: "Precio", field: 'Precio', width: 120, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#445a9e', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
+            headerName: "Precio", field: 'Precio', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#445a9e', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
         },
         {
             headerName: "Cantidad", field: 'Cantidad', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
         },
         {
-            headerName: "Total", field: 'Total', width: 140, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#499977', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
+            headerName: "Total", field: 'Total', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'color': '#499977', 'font-weight': 'bold' }, valueFormatter: currencyFormatter
         }
     ];
 
@@ -537,7 +539,6 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
     }
 
     $scope.NominaEmpleadosGridOptionsColumns = [
-
         {
             headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" },
         },
@@ -752,7 +753,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
         }
 
         if ($scope.NominaTotalPagar > $scope.AcumuladoCajaMenor) {
-            toastr.warning('El saldo acumulado de la caja menor no es suficiente para liquidar ésta nómina', '', $scope.toastrOptions);
+            toastr.warning('El saldo acumulado de la caja no es suficiente para liquidar ésta nómina', '', $scope.toastrOptions);
             return false;
         }
 
@@ -1002,7 +1003,9 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
             Total_Productos: 0,
             Descuento: 0,
             Total_Pagado: 0,
-            Id_Empresa: $scope.IdEmpresa
+            Id_Empresa: $scope.IdEmpresa,
+            Usuario_Creacion: $scope.UsuarioSistema,
+            Usuario_Modificacion: $scope.UsuarioSistema
         }
 
         $scope.ProductoSeleccionado = -1;

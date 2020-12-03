@@ -4,7 +4,7 @@ CREATE PROCEDURE [dbo].[RegistrarFacturacionServicios] (
 AS
 BEGIN
 
-SET XACT_ABORT, NOCOUNT ON
+	SET XACT_ABORT, NOCOUNT ON
 
 	DECLARE @Fecha AS DATE
 	DECLARE @IdEmpresa AS VARCHAR(36)
@@ -22,10 +22,10 @@ SET XACT_ABORT, NOCOUNT ON
 	CREATE TABLE #TempTransacciones (Fecha DATETIME, Id_Producto INT, Cantidad INT, Id_TipoTransaccion INT, Id_EmpleadoCliente INT, Id_Empresa VARCHAR(36))
 
 	CREATE TABLE #TempClientePagos (Id_Cliente INT, Fecha DATETIME, Total_Servicios DECIMAL(18,2), Total_Promocion DECIMAL(18,2), Total_Servicios_NoPromocion DECIMAL(18,2), 
-	Total_Productos DECIMAL(18,2), Descuento DECIMAL(18,2), Total_Pagado DECIMAL(18,2), Id_Empresa VARCHAR(36))
+	Total_Productos DECIMAL(18,2), Descuento DECIMAL(18,2), Total_Pagado DECIMAL(18,2), Id_Empresa VARCHAR(36), Usuario_Creacion VARCHAR(25))
 
 	CREATE TABLE #TempCajaMenor (Id_Registro INT, Anio INT, Mes INT, Dia SMALLDATETIME, Quincena INT, Saldo_Inicial DECIMAL(18,2), Acumulado DECIMAL(18,2), Fecha_Registro DATETIME, 
-								Fecha_Modificacion DATETIME, Id_Empresa VARCHAR(36))
+	Fecha_Modificacion DATETIME, Id_Empresa VARCHAR(36))
 
 	INSERT INTO #TempAgenda(Id_Agenda, Estado, Id_Empresa)
 	SELECT 
@@ -68,7 +68,7 @@ SET XACT_ABORT, NOCOUNT ON
 	) Transaccion	
 
 	INSERT INTO #TempClientePagos(Id_Cliente, Fecha, Total_Servicios, Total_Promocion, Total_Servicios_NoPromocion, 
-	Total_Productos, Descuento, Total_Pagado, Id_Empresa)
+	Total_Productos, Descuento, Total_Pagado, Id_Empresa, Usuario_Creacion)
 	SELECT
 		PagoCliente.Id_Cliente,
 		PagoCliente.Fecha,
@@ -78,7 +78,8 @@ SET XACT_ABORT, NOCOUNT ON
 		PagoCliente.Total_Productos,
 		PagoCliente.Descuento,
 		PagoCliente.Total_Pagado,
-		PagoCliente.Id_Empresa
+		PagoCliente.Id_Empresa,
+		PagoCliente.Usuario_Creacion
 	FROM
 		OPENJSON(@JsonAplicacionPago, '$')
 	WITH(
@@ -94,7 +95,8 @@ SET XACT_ABORT, NOCOUNT ON
 		Total_Productos DECIMAL(18,2) '$.Total_Productos',
 		Descuento DECIMAL(18,2) '$.Descuento',
 		Total_Pagado DECIMAL(18,2) '$.Total_Pagado',
-		Id_Empresa VARCHAR(36) '$.Id_Empresa'		
+		Id_Empresa VARCHAR(36) '$.Id_Empresa',
+		Usuario_Creacion VARCHAR(25) '$.Usuario_Creacion'
 	) PagoCliente
 
 	SET @Fecha = (SELECT TOP 1 Fecha FROM #TempClientePagos)
@@ -123,7 +125,7 @@ SET XACT_ABORT, NOCOUNT ON
 	IF (@Dia IS NULL) BEGIN
 
 		IF(@Anio <> YEAR(@FechaActual) OR @Mes <> MONTH(@FechaActual)) BEGIN
-			SET @Mensaje = 'La configuración de caja menor mensual no está actualizada'
+			SET @Mensaje = 'La configuración de caja mensual no está actualizada'
 			RAISERROR (@Mensaje, 16, 1)		
 			RETURN
 		END	
@@ -132,7 +134,7 @@ SET XACT_ABORT, NOCOUNT ON
 	ELSE BEGIN
 
 		IF(@Dia <> DAY(@FechaActual) OR @Mes <> MONTH(@FechaActual) OR @Anio <> YEAR(@FechaActual)) BEGIN
-			SET @Mensaje = 'La configuración de caja menor diaria no está actualizada'
+			SET @Mensaje = 'La configuración de caja diaria no está actualizada'
 			RAISERROR (@Mensaje, 16, 1)		
 			RETURN
 		END	
@@ -176,12 +178,13 @@ SET XACT_ABORT, NOCOUNT ON
 					TOTAL_SERVICIOS_NOPROMOCION = (TARGET.TOTAL_SERVICIOS_NOPROMOCION + SOURCE.Total_Servicios_NoPromocion), 
 					TOTAL_PRODUCTOS = (TARGET.TOTAL_PRODUCTOS + SOURCE.Total_Productos),
 					DESCUENTO = (TARGET.DESCUENTO + SOURCE.Descuento), 
-					TOTAL_PAGADO = (TARGET.TOTAL_PAGADO + SOURCE.Total_Pagado)
+					TOTAL_PAGADO = (TARGET.TOTAL_PAGADO + SOURCE.Total_Pagado),
+					USUARIO_MODIFICACION = SOURCE.Usuario_Creacion
 			WHEN NOT MATCHED THEN
 				INSERT (ID_CLIENTEPAGO, ID_CLIENTE, FECHA, TOTAL_SERVICIOS, TOTAL_PROMOCION, TOTAL_SERVICIOS_NOPROMOCION, TOTAL_PRODUCTOS,
-				DESCUENTO, TOTAL_PAGADO, ID_EMPRESA)
+				DESCUENTO, TOTAL_PAGADO, ID_EMPRESA, USUARIO_CREACION)
 				VALUES (NEWID(), SOURCE.Id_Cliente, SOURCE.Fecha, SOURCE.Total_Servicios, SOURCE.Total_Promocion, SOURCE.Total_Servicios_NoPromocion, 
-				SOURCE.Total_Productos, SOURCE.Descuento, SOURCE.Total_Pagado, SOURCE.Id_Empresa);
+				SOURCE.Total_Productos, SOURCE.Descuento, SOURCE.Total_Pagado, SOURCE.Id_Empresa, SOURCE.Usuario_Creacion);
 
 			MERGE CAJA_MENOR AS TARGET
 			USING #TempCajaMenor AS SOURCE
@@ -192,7 +195,6 @@ SET XACT_ABORT, NOCOUNT ON
 					ACUMULADO = (TARGET.ACUMULADO + @TotalPagado), 
 					FECHA_MODIFICACION = @FechaActual;
 		
-
 		COMMIT TRANSACTION Tn_FacturacionServicios
 
 		IF OBJECT_ID('tempdb..#TempAgenda') IS NOT NULL DROP TABLE #TempAgenda
