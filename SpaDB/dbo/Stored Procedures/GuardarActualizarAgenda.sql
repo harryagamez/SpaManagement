@@ -1,4 +1,4 @@
-CREATE PROCEDURE GuardarActualizarAgenda(
+CREATE PROCEDURE [dbo].[GuardarActualizarAgenda](
 	@JsonAgenda NVARCHAR(MAX)
 )
 AS
@@ -13,14 +13,18 @@ BEGIN
 	DECLARE @Mensaje VARCHAR(200)
 	DECLARE @HoraInicioFormat VARCHAR(30)
 	DECLARE @HoraFinFormat VARCHAR(30)
+	DECLARE @FechaActual DATETIME = GETDATE()
 
 	CREATE TABLE #TempAgendaCita (Id_Agenda INT, Fecha_Inicio DATETIME, Fecha_Fin DATETIME, Id_Cliente INT,
-		Id_Servicio INT, Id_Empleado INT, Estado VARCHAR(12), Id_Empresa UNIQUEIDENTIFIER, Observaciones CHAR(200))
+	Id_Servicio INT, Id_Empleado INT, Estado VARCHAR(12), Id_Empresa UNIQUEIDENTIFIER, Observaciones CHAR(200),
+	Usuario_Registro CHAR(25))
 
-	INSERT INTO #TempAgendaCita(Id_Agenda, Fecha_Inicio, Fecha_Fin, Id_Cliente, Id_Servicio, Id_Empleado, Estado, Id_Empresa, Observaciones)
+	INSERT INTO #TempAgendaCita(Id_Agenda, Fecha_Inicio, Fecha_Fin, Id_Cliente, Id_Servicio, Id_Empleado, Estado, 
+	Id_Empresa, Observaciones, Usuario_Registro)
 	SELECT 
 		Id_Agenda, Fecha_Inicio, Fecha_Fin, Id_Cliente,
-		Id_Servicio, Id_Empleado, Estado, Id_Empresa, Observaciones
+		Id_Servicio, Id_Empleado, Estado, Id_Empresa, Observaciones,
+		Usuario_Registro
 	FROM 
 		OPENJSON(@JsonAgenda)
 	WITH (
@@ -28,7 +32,8 @@ BEGIN
 		Fecha_Fin DATETIME '$.Fecha_Fin', Id_Cliente INT '$.Id_Cliente',
 		Id_Servicio INT '$.Id_Servicio', Id_Empleado INT '$.Id_Empleado',
 		Estado VARCHAR(12) '$.Estado', Id_Empresa UNIQUEIDENTIFIER '$.Id_Empresa',
-		Observaciones CHAR(200) '$.Observaciones'		
+		Observaciones CHAR(200) '$.Observaciones',
+		Usuario_Registro CHAR(25) '$.Usuario_Registro'
 	)
 
 	SET @IdAgenda = (SELECT TOP 1 Id_Agenda FROM #TempAgendaCita)
@@ -99,13 +104,22 @@ BEGIN
 		USING #TempAgendaCita AS SOURCE
 		ON TARGET.ID_AGENDA = SOURCE.Id_Agenda AND TARGET.ID_EMPRESA = SOURCE.Id_Empresa
 		WHEN MATCHED THEN
-			UPDATE SET TARGET.FECHA_INICIO = SOURCE.Fecha_Inicio, TARGET.FECHA_FIN = SOURCE.Fecha_Fin, TARGET.ID_CLIENTE = SOURCE.Id_Cliente,
-			TARGET.ID_SERVICIO = SOURCE.Id_Servicio, TARGET.ID_EMPLEADO = SOURCE.Id_Empleado, TARGET.ESTADO = SOURCE.Estado,
-			TARGET.FECHA_MODIFICACION = GETDATE(), TARGET.OBSERVACIONES = SOURCE.Observaciones
+			UPDATE SET 
+				TARGET.FECHA_INICIO = SOURCE.Fecha_Inicio, 
+				TARGET.FECHA_FIN = SOURCE.Fecha_Fin, 
+				TARGET.ID_CLIENTE = SOURCE.Id_Cliente,
+				TARGET.ID_SERVICIO = SOURCE.Id_Servicio, 
+				TARGET.ID_EMPLEADO = SOURCE.Id_Empleado, 
+				TARGET.ESTADO = SOURCE.Estado,
+				TARGET.FECHA_MODIFICACION = @FechaActual, 
+				TARGET.USUARIO_MODIFICACION = SOURCE.Usuario_Registro,
+				TARGET.OBSERVACIONES = SOURCE.Observaciones
 		WHEN NOT MATCHED THEN
-			INSERT (FECHA_INICIO, FECHA_FIN, ID_CLIENTE, ID_SERVICIO, ID_EMPLEADO, ESTADO, ID_EMPRESA, FECHA_REGISTRO, FECHA_MODIFICACION, OBSERVACIONES)
-			VALUES (SOURCE.Fecha_Inicio, SOURCE.Fecha_Fin, SOURCE.Id_Cliente, SOURCE.Id_Servicio, SOURCE.Id_Empleado, SOURCE.Estado, SOURCE.Id_Empresa,
-			GETDATE(), GETDATE(), SOURCE.Observaciones);
+			INSERT (FECHA_INICIO, FECHA_FIN, ID_CLIENTE, ID_SERVICIO, ID_EMPLEADO, ESTADO, ID_EMPRESA, 
+			FECHA_REGISTRO, USUARIO_REGISTRO, OBSERVACIONES)
+			VALUES (SOURCE.Fecha_Inicio, SOURCE.Fecha_Fin, SOURCE.Id_Cliente, SOURCE.Id_Servicio, 
+			SOURCE.Id_Empleado, SOURCE.Estado, SOURCE.Id_Empresa, @FechaActual, SOURCE.Usuario_Registro, 
+			SOURCE.Observaciones);
 
 	END TRY
 

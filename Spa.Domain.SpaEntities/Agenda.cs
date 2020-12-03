@@ -14,7 +14,9 @@ namespace Spa.Domain.SpaEntities
         public string Estado { get; set; }
         public string Id_Empresa { get; set; }
         public DateTime? Fecha_Registro { get; set; }
+        public string Usuario_Registro { get; set; } = string.Empty;
         public DateTime? Fecha_Modificacion { get; set; }
+        public string Usuario_Modificacion { get; set; } = string.Empty;
         public string Observaciones { get; set; }
     }
 }

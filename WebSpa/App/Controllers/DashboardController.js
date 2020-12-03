@@ -5,6 +5,7 @@ DashboardController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '
 
 function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAService) {
     $rootScope.header = 'Dashboard';
+    $scope.UsuarioSistema = $rootScope.userData.userName;
     $scope.Estado =
         [
             { id_Estado: -1, Nombre: "[Seleccione]" },
@@ -59,6 +60,7 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
         Fecha_Inicio: new Date(),
         Fecha_Fin: '',
         Estado: 'PROGRAMADA',
+        Usuario_Registro: $scope.UsuarioSistema,
         Observaciones: '',
         Traer_Canceladas: false
     };
@@ -114,7 +116,7 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
 
     $scope.CancelarAgenda = function (data) {
         if (data !== null && data !== undefined) {
-            SPAService._cancelarAgenda(data.id_Agenda, data.id_Empresa)
+            SPAService._cancelarAgenda(data.id_Agenda, data.id_Empresa, $scope.UsuarioSistema)
                 .then(
                     function (result) {
                         if (result.data === true) {
@@ -133,7 +135,7 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
 
     $scope.ConfirmarAgenda = function (data) {
         if (data !== null && data !== undefined) {
-            SPAService._confirmarAgenda(data.id_Agenda, data.id_Empresa)
+            SPAService._confirmarAgenda(data.id_Agenda, data.id_Empresa, $scope.UsuarioSistema)
                 .then(
                     function (result) {
                         if (result.data === true) {
@@ -414,6 +416,7 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 Fecha_Inicio: new Date(),
                 Fecha_Fin: '',
                 Estado: 'PROGRAMADA',
+                Usuario_Registro: $scope.UsuarioSistema,
                 Observaciones: '',
                 NombreApellido_Empleado: '',
                 NombreApellido_Cliente: '',

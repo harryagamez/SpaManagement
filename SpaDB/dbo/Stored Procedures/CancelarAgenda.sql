@@ -1,11 +1,13 @@
-CREATE PROCEDURE CancelarAgenda(
+CREATE PROCEDURE [dbo].[CancelarAgenda](
 	@IdAgenda INT, 
-	@IdEmpresa VARCHAR(36)
+	@IdEmpresa VARCHAR(36),
+	@UsuarioSistema CHAR(25)
 )
 AS
 BEGIN
 	
 	DECLARE @Mensaje CHAR(200)
+	DECLARE @FechaActual DATETIME = GETDATE()
 
 	IF ((SELECT TOP 1 ESTADO FROM AGENDA WHERE ID_EMPRESA = @IdEmpresa AND ID_AGENDA = @IdAgenda) = 'CONFIRMADA') BEGIN
 		SET @Mensaje = 'Esta cita ya ha sido confirmada y no puede ser cancelada'
@@ -14,7 +16,9 @@ BEGIN
 	END
 
 	UPDATE AGENDA 
-	SET ESTADO = 'CANCELADA' 
+		SET ESTADO = 'CANCELADA',
+			USUARIO_MODIFICACION = @UsuarioSistema,
+			FECHA_MODIFICACION = @FechaActual
 	WHERE ID_AGENDA = @IdAgenda 
 	AND ID_EMPRESA = @IdEmpresa
 END

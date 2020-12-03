@@ -1225,7 +1225,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool CancelarAgenda(int IdAgenda, string IdEmpresa)
+        public bool CancelarAgenda(int IdAgenda, string IdEmpresa, string UsuarioSistema)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -1237,7 +1237,7 @@ namespace Spa.Infrastructure.SpaRepository
                     _command.CommandText = "CancelarAgenda";
                     _command.Parameters.AddWithValue("@IdAgenda", IdAgenda);
                     _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
-
+                    _command.Parameters.AddWithValue("@UsuarioSistema", UsuarioSistema);
                     _command.ExecuteNonQuery();
 
                     _command.Dispose();
@@ -1247,7 +1247,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool ConfirmarAgenda(int IdAgenda, string IdEmpresa)
+        public bool ConfirmarAgenda(int IdAgenda, string IdEmpresa, string UsuarioSistema)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -1259,7 +1259,7 @@ namespace Spa.Infrastructure.SpaRepository
                     _command.CommandText = "ConfirmarAgenda";
                     _command.Parameters.AddWithValue("@IdAgenda", IdAgenda);
                     _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
-
+                    _command.Parameters.AddWithValue("@UsuarioSistema", UsuarioSistema);
                     _command.ExecuteNonQuery();
 
                     _command.Dispose();

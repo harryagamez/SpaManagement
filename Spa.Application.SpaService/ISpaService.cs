@@ -96,9 +96,9 @@ namespace Spa.Application.SpaService
 
         List<Agenda> ConsultarAgendaTransacciones(Agenda agenda);
 
-        bool CancelarAgenda(int IdAgenda, string IdEmpresa);
+        bool CancelarAgenda(int IdAgenda, string IdEmpresa, string UsuarioSistema);
 
-        bool ConfirmarAgenda(int IdAgenda, string IdEmpresa);
+        bool ConfirmarAgenda(int IdAgenda, string IdEmpresa, string UsuarioSistema);
 
         int ConsultarNumeroCitasDia(string fechaConsulta, string idEmpresa);
 

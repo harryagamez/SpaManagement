@@ -699,9 +699,9 @@
             return deferred.promise;
         }
 
-        function AsignarEmpleadoServicio(empleadoservicio) {
+        function AsignarEmpleadoServicio(empleadoServicio) {
             var deferred = $q.defer();
-            serviceRest.Post('SPA', 'AsignarEmpleadoServicio', empleadoservicio,
+            serviceRest.Post('SPA', 'AsignarEmpleadoServicio', empleadoServicio,
                 function (data) {
                     deferred.resolve(data);
                 },
@@ -991,9 +991,9 @@
             return deferred.promise;
         }
 
-        function CancelarAgenda(IdAgenda, IdEmpresa) {
+        function CancelarAgenda(IdAgenda, IdEmpresa, UsuarioSistema) {
             var deferred = $q.defer();
-            serviceRest.Get('SPA', 'CancelarAgenda?IdAgenda=' + IdAgenda + '&IdEmpresa=' + IdEmpresa,
+            serviceRest.Get('SPA', 'CancelarAgenda?IdAgenda=' + IdAgenda + '&IdEmpresa=' + IdEmpresa + '&UsuarioSistema=' + UsuarioSistema,
                 function (data) {
                     deferred.resolve(data);
                 },
@@ -1003,9 +1003,9 @@
             return deferred.promise;
         }
 
-        function ConfirmarAgenda(IdAgenda, IdEmpresa) {
+        function ConfirmarAgenda(IdAgenda, IdEmpresa, UsuarioSistema) {
             var deferred = $q.defer();
-            serviceRest.Get('SPA', 'ConfirmarAgenda?IdAgenda=' + IdAgenda + '&IdEmpresa=' + IdEmpresa,
+            serviceRest.Get('SPA', 'ConfirmarAgenda?IdAgenda=' + IdAgenda + '&IdEmpresa=' + IdEmpresa + '&UsuarioSistema=' + UsuarioSistema,
                 function (data) {
                     deferred.resolve(data);
                 },

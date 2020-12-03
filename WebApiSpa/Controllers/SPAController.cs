@@ -316,11 +316,11 @@ namespace WebApiSpa.Controllers
         [HttpPost]
         [Route("api/SPA/AsignarEmpleadoServicio")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult AsignarEmpleadoServicio(List<EmpleadoServicio> empleadoservicio)
+        public IHttpActionResult AsignarEmpleadoServicio(List<EmpleadoServicio> empleadoServicios)
         {
             try
             {
-                bool result = _spaService.AsignarEmpleadoServicio(empleadoservicio);
+                bool result = _spaService.AsignarEmpleadoServicio(empleadoServicios);
 
                 return Content(HttpStatusCode.OK, result);
             }
@@ -761,11 +761,11 @@ namespace WebApiSpa.Controllers
         [HttpGet]
         [Route("api/SPA/CancelarAgenda")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult CancelarAgenda(int IdAgenda, string IdEmpresa)
+        public IHttpActionResult CancelarAgenda(int IdAgenda, string IdEmpresa, string UsuarioSistema)
         {
             try
             {
-                bool result = _spaService.CancelarAgenda(IdAgenda, IdEmpresa);
+                bool result = _spaService.CancelarAgenda(IdAgenda, IdEmpresa, UsuarioSistema);
 
                 return Content(HttpStatusCode.OK, result);
             }
@@ -778,11 +778,11 @@ namespace WebApiSpa.Controllers
         [HttpGet]
         [Route("api/SPA/ConfirmarAgenda")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult ConfirmarAgenda(int IdAgenda, string IdEmpresa)
+        public IHttpActionResult ConfirmarAgenda(int IdAgenda, string IdEmpresa, string UsuarioSistema)
         {
             try
             {
-                bool result = _spaService.ConfirmarAgenda(IdAgenda, IdEmpresa);
+                bool result = _spaService.ConfirmarAgenda(IdAgenda, IdEmpresa, UsuarioSistema);
 
                 return Content(HttpStatusCode.OK, result);
             }

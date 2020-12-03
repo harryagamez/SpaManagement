@@ -329,14 +329,14 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarAgendaTransacciones(_Agenda);
         }
 
-        public bool CancelarAgenda(int IdAgenda, string IdEmpresa)
+        public bool CancelarAgenda(int IdAgenda, string IdEmpresa, string UsuarioSistema)
         {
-            return _spaRepository.CancelarAgenda(IdAgenda, IdEmpresa);
+            return _spaRepository.CancelarAgenda(IdAgenda, IdEmpresa, UsuarioSistema);
         }
 
-        public bool ConfirmarAgenda(int IdAgenda, string IdEmpresa)
+        public bool ConfirmarAgenda(int IdAgenda, string IdEmpresa, string UsuarioSistema)
         {
-            return _spaRepository.ConfirmarAgenda(IdAgenda, IdEmpresa);
+            return _spaRepository.ConfirmarAgenda(IdAgenda, IdEmpresa, UsuarioSistema);
         }
 
         public int ConsultarNumeroCitasDia(string fechaConsulta, string idEmpresa)
@@ -501,6 +501,11 @@ namespace Spa.Application.SpaService
         public Promocion ConsultarPromocion(string IdPromocion, string IdEmpresa)
         {
             return _spaRepository.ConsultarPromocion(IdPromocion, IdEmpresa);
+        }
+
+        public bool ConfirmarAgenda(int IdAgenda, string IdEmpresa)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -5,6 +5,7 @@ EmpleadosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '
 
 function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAService) {
     $rootScope.header = 'Empleados';
+    $scope.UsuarioSistema = $rootScope.userData.userName;
     $scope.Empleados = [];
     $scope.Municipios = [];
     $scope.TipoPagos = [];
@@ -109,7 +110,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 let servicio = $scope.Servicios.filter(function (s) {
                     return s.id_Servicio === e;
                 });
-                return { Id_Empleado_Servicio: -1, Id_Empresa_Servicio: servicio[0].id_Empresa_Servicio, Id_Servicio: e, Id_Empleado: $scope.IdEmpleado }
+                return { Id_Empleado_Servicio: -1, Id_Empresa_Servicio: servicio[0].id_Empresa_Servicio, Id_Servicio: e, Id_Empleado: $scope.IdEmpleado, Usuario_Creacion: $scope.UsuarioSistema }
             });
             SPAService._asignarEmpleadoServicio(JSON.stringify($scope.ListaServiciosAsignados))
                 .then(
