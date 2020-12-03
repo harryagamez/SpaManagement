@@ -162,11 +162,10 @@
             position:relative;
         }
 
-li.active {
-    margin-left: 20px;
-    transition-duration: 0.4s;
-    transition-timing-function: linear;    
-}
+        #sidebar li.active {
+            border-left: 3px solid #67ddab;
+            background: #222c3a;
+        }
 
 #sidebar .toggle-btn {
     position: absolute;
@@ -461,7 +460,7 @@ label {
 }
 
 aside ul li:hover {
-    transition: all .3s ease-in-out;
+   /* transition: all .3s ease-in-out;*/
 }
 
 .form-control:focus {
@@ -1091,13 +1090,11 @@ input.form-control:focus {
     box-shadow: 5px 5px 10px #999;
 }
 
-.sidebar-user {
-    /*background-color: #6d7f93; */
+.sidebar-user {    
     width: 80%;
     position: relative;
     margin-left: auto;
-    margin-right: auto;
-    box-shadow: 10px 1px 10px #222;
+    margin-right: auto;    
     padding: 3px 0 6px 0;
     transition-duration: 0.2s;
     transition-timing-function: linear;
@@ -1105,6 +1102,21 @@ input.form-control:focus {
 
     .sidebar-user:hover {
         box-shadow: none;        
+    }
+
+
+.sidebar-footer {
+    width:200px;
+    position:relative;
+    bottom:0px;
+}
+
+    .sidebar-footer img {
+        display: block;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        opacity: 0.10;
     }
 
 .ag-theme-fresh .ag-header {
@@ -1126,8 +1138,12 @@ input.form-control:focus {
 #sidebar ul li.active,
 #sidebar ul li.active a {
     color: var(--light-text) !important;
-    font-weight: 600;
-    text-decoration: underline;
+    font-weight: 600;    
+}
+
+#sidebar ul li:hover,
+#sidebar ul li:active {
+    border-left: 3px solid #67ddab;    
 }
 
 .btn-spa:hover,
