@@ -1133,6 +1133,5 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error consultando la promoción: " + ex.Message);
             }
         }
-
     }
 }

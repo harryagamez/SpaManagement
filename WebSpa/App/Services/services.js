@@ -5,12 +5,12 @@
         .factory("AuthService", AuthService)
         .factory("SPAService", SPAService)
 
-    serviceRest.$inject = ['$http', '$q', '$rootScope'];
-    AuthtenticantionIntecerptorService.$inject = ['$q', '$location', 'localStorageService', '$stateParams'];
-    AuthService.$inject = ['$http', '$q', '$rootScope', '$state', 'localStorageService', '$timeout', '$filter', 'serviceRest'];
-    SPAService.$inject = ['$http', '$rootScope', '$q', 'serviceRest', 'localStorageService'];
+    serviceRest.$inject = ['$http', '$rootScope'];
+    AuthtenticantionIntecerptorService.$inject = ['$q', 'localStorageService'];
+    AuthService.$inject = ['$http', '$q', '$rootScope', '$state', 'localStorageService', '$timeout'];
+    SPAService.$inject = ['$q', 'serviceRest', 'localStorageService'];
 
-    function AuthtenticantionIntecerptorService($q, $location, localStorageService, $stateParams) {
+    function AuthtenticantionIntecerptorService($q, localStorageService) {
         var authInterceptorServiceFactory = {};
 
         var _request = function (config) {
@@ -33,7 +33,7 @@
         return authInterceptorServiceFactory;
     }
 
-    function AuthService($http, $q, $rootScope, $state, localStorageService, $timeout, $filter, serviceRest) {
+    function AuthService($http, $q, $rootScope, $state, localStorageService, $timeout) {
         var authServiceFactory = {};
 
         var _authentication = {
@@ -374,7 +374,7 @@
         return authServiceFactory;
     }
 
-    function SPAService($http, $rootScope, $q, serviceRest, localStorageService) {
+    function SPAService($q, serviceRest, localStorageService) {
         return {
             _registrarActualizarCliente: RegistrarActualizarCliente,
             _registrarClientes: RegistrarClientes,
@@ -1391,7 +1391,7 @@
 
     }
 
-    function serviceRest($http, $q, $rootScope) {
+    function serviceRest($http, $rootScope) {
         return {
             Get: function (controller, action, callback, errorCallback) {
                 var _Uri = $rootScope.config.data.API_URL + controller + (action.trim() != '' ? '/' + action : '');
