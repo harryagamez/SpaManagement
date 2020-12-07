@@ -9,5 +9,6 @@ namespace Spa.Domain.SpaEntities
         public DateTime Fecha_Nomina { get; set; }
         public string Id_Empresa { get; set; }
         public float Total_Nomina { get; set; }
+        public string Usuario_Registro { get; set; }
     }
 }

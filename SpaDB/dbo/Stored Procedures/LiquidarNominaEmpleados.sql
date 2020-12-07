@@ -1,4 +1,4 @@
-CREATE PROCEDURE LiquidarNominaEmpleados(
+CREATE PROCEDURE [dbo].[LiquidarNominaEmpleados](
 	@JsonAplicacionNomina NVARCHAR(MAX)
 )
 AS
@@ -8,7 +8,8 @@ BEGIN
 	
 	DECLARE @IdEmpresa AS VARCHAR(36)
 	DECLARE @FechaNomina AS DATETIME
-	DECLARE @TotalNomina AS REAL
+	DECLARE @TotalNomina AS DECIMAL(18,2)
+	DECLARE @UsuarioSistema CHAR(25)
 	DECLARE @Mensaje AS VARCHAR(200)	
 	DECLARE @TipoNomina CHAR(15)
 	DECLARE @FechaActual AS DATETIME =  GETDATE()
@@ -18,14 +19,16 @@ BEGIN
 	SELECT 
 		@IdEmpresa = Id_Empresa, 
 		@FechaNomina = Fecha_Nomina, 
-		@TotalNomina = Total_Nomina
+		@TotalNomina = Total_Nomina,
+		@UsuarioSistema = Usuario_Registro
 	FROM 
 		OPENJSON(@JsonAplicacionNomina)
-		WITH (
-			Id_Empresa VARCHAR(36) '$.Id_Empresa',
-			Fecha_Nomina DATETIME '$.Fecha_Nomina',
-			Total_Nomina REAL '$.Total_Nomina'
-		)
+	WITH (
+		Id_Empresa VARCHAR(36) '$.Id_Empresa',
+		Fecha_Nomina DATETIME '$.Fecha_Nomina',
+		Total_Nomina DECIMAL(18,2) '$.Total_Nomina',
+		Usuario_Registro CHAR(25) '$.Usuario_Registro'
+	)
 	
 	SET @TipoNomina = (
 		SELECT 
@@ -39,12 +42,13 @@ BEGIN
 	)
 
 	IF (@TipoNomina IS NULL) BEGIN
-		SET @Mensaje = 'Para poder realizar esta tarea debe configurar el tipo de nómina de la empresa'
+		SET @Mensaje = 'Para poder DECIMAL(18,2)izar esta tarea debe configurar el tipo de nómina de la empresa'
 		RAISERROR (@Mensaje, 16, 1)		
 		RETURN
 	END
 
-	CREATE TABLE #TempLiquidaciones_Empleados (Fecha DATETIME, Id_Empleado INT, Subtotal REAL, Total_Prestamos REAL, Total_Pagado REAL, Anio INT, Mes INT, Quincena INT, Dia SMALLDATETIME, Id_Empresa VARCHAR(36))
+	CREATE TABLE #TempLiquidaciones_Empleados (Fecha DATETIME, Id_Empleado INT, Subtotal  DECIMAL(18,2), Total_Prestamos  DECIMAL(18,2), Total_Pagado  DECIMAL(18,2), Anio INT, 
+	Mes INT, Quincena INT, Dia SMALLDATETIME, Id_Empresa VARCHAR(36))
 
 	IF(@TipoNomina = 'MENSUAL' OR @TipoNomina = 'POR_SERVICIOS') BEGIN
 
@@ -65,9 +69,9 @@ BEGIN
 		CROSS APPLY OPENJSON(JsonAplicacionNomina.Empleados)
 		WITH (
 			Id_Empleado INT '$.Id_Empleado',
-			Subtotal REAL '$.Subtotal',
-			Total_Prestamos REAL '$.Total_Prestamos',
-			Total_Pagado REAL '$.Total_Pagado'
+			Subtotal DECIMAL(18,2) '$.Subtotal',
+			Total_Prestamos DECIMAL(18,2) '$.Total_Prestamos',
+			Total_Pagado DECIMAL(18,2) '$.Total_Pagado'
 		) Liquidacion	
 
 	END
@@ -94,9 +98,9 @@ BEGIN
 			CROSS APPLY OPENJSON(JsonAplicacionNomina.Empleados)
 			WITH (
 				Id_Empleado INT '$.Id_Empleado',
-				Subtotal REAL '$.Subtotal',
-				Total_Prestamos REAL '$.Total_Prestamos',
-				Total_Pagado REAL '$.Total_Pagado'
+				Subtotal DECIMAL(18,2) '$.Subtotal',
+				Total_Prestamos DECIMAL(18,2) '$.Total_Prestamos',
+				Total_Pagado DECIMAL(18,2) '$.Total_Pagado'
 			) Liquidacion			
 
 		END
@@ -121,9 +125,9 @@ BEGIN
 			CROSS APPLY OPENJSON(JsonAplicacionNomina.Empleados)
 			WITH (
 				Id_Empleado INT '$.Id_Empleado',
-				Subtotal REAL '$.Subtotal',
-				Total_Prestamos REAL '$.Total_Prestamos',
-				Total_Pagado REAL '$.Total_Pagado'
+				Subtotal DECIMAL(18,2) '$.Subtotal',
+				Total_Prestamos DECIMAL(18,2) '$.Total_Prestamos',
+				Total_Pagado DECIMAL(18,2) '$.Total_Pagado'
 			) Liquidacion
 			
 		END
@@ -150,9 +154,9 @@ BEGIN
 		CROSS APPLY OPENJSON(JsonAplicacionNomina.Empleados)
 		WITH (
 			Id_Empleado INT '$.Id_Empleado',
-			Subtotal REAL '$.Subtotal',
-			Total_Prestamos REAL '$.Total_Prestamos',
-			Total_Pagado REAL '$.Total_Pagado'
+			Subtotal DECIMAL(18,2) '$.Subtotal',
+			Total_Prestamos DECIMAL(18,2) '$.Total_Prestamos',
+			Total_Pagado DECIMAL(18,2) '$.Total_Pagado'
 		) Liquidacion		
 	
 	END	
@@ -161,10 +165,12 @@ BEGIN
 
 		BEGIN TRANSACTION Tn_LiquidarNomina
 
-			INSERT INTO LIQUIDACIONES (FECHA, ID_EMPLEADO, SUBTOTAL, TOTAL_PRESTAMOS, TOTAL_PAGADO, ANIO, MES, QUINCENA, DIA, ID_EMPRESA)
+			INSERT INTO LIQUIDACIONES (FECHA, ID_EMPLEADO, SUBTOTAL, TOTAL_PRESTAMOS, TOTAL_PAGADO, ANIO, MES, QUINCENA, DIA, 
+			ID_EMPRESA, USUARIO_REGISTRO)
 			SELECT 
 				@FechaActual, Id_Empleado, Subtotal, Total_Prestamos, 
-				Total_Pagado, Anio, Mes, Quincena, Dia, Id_Empresa
+				Total_Pagado, Anio, Mes, Quincena, Dia, Id_Empresa,
+				@UsuarioSistema
 			FROM #TempLiquidaciones_Empleados
 			WHERE Total_Pagado > 0
 
@@ -172,7 +178,8 @@ BEGIN
 		
 				UPDATE Agenda 
 					SET ESTADO = 'LIQUIDADA', 
-					FECHA_MODIFICACION = @FechaActual
+					FECHA_MODIFICACION = @FechaActual,
+					USUARIO_MODIFICACION = @UsuarioSistema
 				FROM AGENDA Agenda
 				INNER JOIN #TempLiquidaciones_Empleados LiquidacionesEmpleados
 				ON LiquidacionesEmpleados.Id_Empleado = Agenda.ID_EMPLEADO 
@@ -184,7 +191,8 @@ BEGIN
 
 			UPDATE Gastos 
 				SET ESTADO = 'LIQUIDADO', 
-				FECHA_MODIFICACION = @FechaActual
+				FECHA_MODIFICACION = @FechaActual,
+				USUARIO_MODIFICACION = @UsuarioSistema
 			FROM GASTOS Gastos
 			INNER JOIN #TempLiquidaciones_Empleados LiquidacionesEmpleados
 			ON LiquidacionesEmpleados.Id_Empleado = Gastos.ID_EMPLEADO 
@@ -203,11 +211,12 @@ BEGIN
 
 			SET @MensajePagoNomina = 'Liquidación de nómina la cual fue abonada en su totalidad'
 
-			INSERT INTO GASTOS (TIPO_GASTO, DESCRIPCION, VALOR, FECHA, ESTADO, ID_EMPLEADO, FECHA_REGISTRO, FECHA_MODIFICACION, ID_EMPRESA)
+			INSERT INTO GASTOS (TIPO_GASTO, DESCRIPCION, VALOR, FECHA, ESTADO, ID_EMPLEADO, FECHA_REGISTRO, FECHA_MODIFICACION, 
+			ID_EMPRESA, USUARIO_REGISTRO, USUARIO_MODIFICACION)
 			SELECT 
 				'NOMINA', @MensajePagoNomina, Total_Pagado, 
 				@FechaNomina, 'LIQUIDADO', Id_Empleado, @FechaActual, 
-				@FechaActual, @IdEmpresa
+				@FechaActual, @IdEmpresa, @UsuarioSistema, @UsuarioSistema
 			FROM #TempLiquidaciones_Empleados
 			WHERE Total_Pagado > 0
 

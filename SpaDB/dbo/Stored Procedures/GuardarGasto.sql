@@ -1,4 +1,4 @@
-CREATE PROCEDURE GuardarGasto(
+CREATE PROCEDURE [dbo].[GuardarGasto](
 	@JsonGasto NVARCHAR(MAX)
 )
 AS
@@ -6,11 +6,14 @@ BEGIN
 
 	SET XACT_ABORT, NOCOUNT ON
 
-	DECLARE @Gasto REAL
+	DECLARE @TotalGasto DECIMAL(18,2)
 	DECLARE @IdEmpresa VARCHAR(36)
-	CREATE TABLE #TempGastos(Id_Gasto INT, Tipo_Gasto CHAR(15), Descripcion CHAR(300), Valor REAL, Fecha SMALLDATETIME, Estado CHAR(12), Id_Empleado INT, Fecha_Registro DATETIME, Fecha_Modificacion DATETIME, Id_Empresa VARCHAR(36))	
+	DECLARE @FechaActual AS DATETIME =  GETDATE()
 
-	INSERT INTO #TempGastos (Id_Gasto, Tipo_Gasto, Descripcion, Valor, Fecha, Estado, Id_Empleado, Id_Empresa)
+	CREATE TABLE #TempGastos(Id_Gasto INT, Tipo_Gasto CHAR(15), Descripcion CHAR(300), Valor DECIMAL(18,2), Fecha SMALLDATETIME, 
+	Estado CHAR(12), Id_Empleado INT, Fecha_Registro DATETIME, Fecha_Modificacion DATETIME, Id_Empresa VARCHAR(36), Usuario_Registro CHAR(25))	
+
+	INSERT INTO #TempGastos (Id_Gasto, Tipo_Gasto, Descripcion, Valor, Fecha, Estado, Id_Empleado, Id_Empresa, Usuario_Registro)
 	SELECT 
 		JSON_VALUE (C.value, '$.Id_Gasto') AS Id_Gasto,
 		JSON_VALUE (C.value, '$.Tipo_Gasto') AS Tipo_Gasto, 
@@ -19,11 +22,12 @@ BEGIN
 		JSON_VALUE (C.value, '$.Fecha') AS Fecha,
 		JSON_VALUE (C.value, '$.Estado') AS Estado,
 		JSON_VALUE (C.value, '$.Id_Empleado') AS Id_Empleado,				
-		JSON_VALUE (C.value, '$.Id_Empresa') AS Id_Empresa
+		JSON_VALUE (C.value, '$.Id_Empresa') AS Id_Empresa,
+		JSON_VALUE (C.value, '$.Usuario_Registro') AS Usuario_Registro
 	FROM OPENJSON(@JsonGasto) AS C
 			
 	SELECT 
-		@Gasto = Valor,
+		@TotalGasto = Valor,
 		@IdEmpresa = Id_Empresa
 	FROM #TempGastos
 
@@ -31,12 +35,16 @@ BEGIN
 
 		BEGIN TRANSACTION Tn_GuardarGasto		
 			
-			UPDATE CAJA_MENOR SET ACUMULADO = (ACUMULADO - @Gasto) WHERE ID_EMPRESA = @IdEmpresa
+			UPDATE CAJA_MENOR 
+				SET ACUMULADO = (ACUMULADO - @TotalGasto) 
+			WHERE ID_EMPRESA = @IdEmpresa
 
-			INSERT INTO GASTOS (TIPO_GASTO, DESCRIPCION, VALOR, FECHA, ESTADO, ID_EMPLEADO, FECHA_REGISTRO, FECHA_MODIFICACION, ID_EMPRESA)
+			INSERT INTO GASTOS (TIPO_GASTO, DESCRIPCION, VALOR, FECHA, ESTADO, ID_EMPLEADO, FECHA_REGISTRO, 
+			ID_EMPRESA, USUARIO_REGISTRO)
 			SELECT 
 				Tipo_Gasto, Descripcion, Valor, Fecha, Estado, 
-				Id_Empleado, GETDATE(), GETDATE(), Id_Empresa
+				Id_Empleado, @FechaActual, Id_Empresa,
+				Usuario_Registro
 			FROM #TempGastos
 			
 		COMMIT TRANSACTION Tn_GuardarGasto

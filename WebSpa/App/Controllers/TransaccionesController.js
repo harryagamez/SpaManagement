@@ -766,7 +766,8 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
             Empleados: $scope.LiquidacionEmpleados,
             Fecha_Nomina: $scope.FechaNomina,
             Id_Empresa: $scope.IdEmpresa,
-            Total_Nomina: $scope.NominaTotalPagar
+            Total_Nomina: $scope.NominaTotalPagar,
+            Usuario_Registro: $scope.UsuarioSistema
         }
 
         return true;
@@ -801,7 +802,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
         $scope.Transacciones = [];
 
         $scope.Transacciones = $scope.ObjetoProductosGrid.map(function (e) {
-            return { Id_Transaccion: -1, Fecha: new Date($scope.FechaBusqueda + 'Z'), Id_Producto: e.Id_Producto, Cantidad: e.Cantidad, Id_TipoTransaccion: $scope.TipoTransaccionSeleccionada, Id_EmpleadoCliente: $scope.ClienteSeleccionado.id_Cliente, Id_Empresa: $scope.IdEmpresa }
+            return { Id_Transaccion: -1, Fecha: new Date($scope.FechaBusqueda + 'Z'), Id_Producto: e.Id_Producto, Cantidad: e.Cantidad, Id_TipoTransaccion: $scope.TipoTransaccionSeleccionada, Id_Cliente: $scope.ClienteSeleccionado.id_Cliente, Id_Empresa: $scope.IdEmpresa }
         });
 
         $scope.ClientePago.Id_Cliente = parseInt($scope.ClienteSeleccionado.id_Cliente);

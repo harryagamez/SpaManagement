@@ -14,12 +14,13 @@ BEGIN
 	DECLARE @Dia AS INT
 	DECLARE @TotalPagado AS REAL
 	DECLARE @FechaActual AS DATETIME
+	DECLARE @UsuarioSistema CHAR(25)
 
 	SET @FechaActual = GETDATE()
 
 	CREATE TABLE #TempAgenda (Id_Agenda INT, Estado CHAR(12), Id_Empresa VARCHAR(36))
 
-	CREATE TABLE #TempTransacciones (Fecha DATETIME, Id_Producto INT, Cantidad INT, Id_TipoTransaccion INT, Id_EmpleadoCliente INT, Id_Empresa VARCHAR(36))
+	CREATE TABLE #TempTransacciones (Fecha SMALLDATETIME, Id_Producto INT, Cantidad INT, Id_TipoTransaccion INT, Id_Cliente INT, Id_Empresa VARCHAR(36))
 
 	CREATE TABLE #TempClientePagos (Id_Cliente INT, Fecha DATETIME, Total_Servicios DECIMAL(18,2), Total_Promocion DECIMAL(18,2), Total_Servicios_NoPromocion DECIMAL(18,2), 
 	Total_Productos DECIMAL(18,2), Descuento DECIMAL(18,2), Total_Pagado DECIMAL(18,2), Id_Empresa VARCHAR(36), Usuario_Creacion VARCHAR(25))
@@ -44,13 +45,13 @@ BEGIN
 		Id_Empresa VARCHAR(36) '$.Id_Empresa'
 	) Agenda
 
-	INSERT INTO #TempTransacciones(Fecha, Id_Producto, Cantidad, Id_TipoTransaccion, Id_EmpleadoCliente, Id_Empresa)
+	INSERT INTO #TempTransacciones(Fecha, Id_Producto, Cantidad, Id_TipoTransaccion, Id_Cliente, Id_Empresa)
 	SELECT
 		Transaccion.Fecha,
 		Transaccion.Id_Producto,
 		Transaccion.Cantidad,
 		Transaccion.Id_TipoTransaccion,
-		Transaccion.Id_EmpleadoCliente,
+		Transaccion.Id_Cliente,
 		Transaccion.Id_Empresa
 	FROM
 		OPENJSON(@JsonAplicacionPago, '$')
@@ -59,11 +60,11 @@ BEGIN
 	) AS JsonAplicacionPago
 	CROSS APPLY OPENJSON(JsonAplicacionPago.Transacciones)
 	WITH(		
-		Fecha DATETIME '$.Fecha',
+		Fecha SMALLDATETIME '$.Fecha',
 		Id_Producto INT '$.Id_Producto',
 		Cantidad INT '$.Cantidad',
 		Id_TipoTransaccion INT '$.Id_TipoTransaccion',
-		Id_EmpleadoCliente INT '$.Id_EmpleadoCliente',		
+		Id_Cliente INT '$.Id_Cliente',		
 		Id_Empresa VARCHAR(36) '$.Id_Empresa'
 	) Transaccion	
 
@@ -113,6 +114,7 @@ BEGIN
 	SELECT TOP 1 @Mes = Mes FROM #TempCajaMenor
 	SELECT TOP 1 @Dia = DAY(Dia) FROM #TempCajaMenor
 	SELECT TOP 1 @TotalPagado = Total_Pagado FROM #TempClientePagos
+	SELECT TOP 1 @UsuarioSistema = Usuario_Creacion FROM #TempClientePagos
 
 	IF (SELECT COUNT(*) FROM #TempCajaMenor) = 0 BEGIN
 
@@ -153,18 +155,21 @@ BEGIN
 				UPDATE SET 
 					TARGET.ESTADO = SOURCE.Estado;
 
-			INSERT INTO TRANSACCIONES (FECHA, ID_PRODUCTO, CANTIDAD, ID_TIPOTRANSACCION, ID_EMPLEADOCLIENTE, FECHA_REGISTRO, 
-			FECHA_MODIFICACION, ID_EMPRESA) 
+			INSERT INTO TRANSACCIONES (FECHA, ID_PRODUCTO, CANTIDAD, ID_TIPOTRANSACCION, ID_CLIENTE, FECHA_REGISTRO, 
+			FECHA_MODIFICACION, ID_EMPRESA, USUARIO_REGISTRO) 
 			SELECT 
 				Fecha, Id_Producto, Cantidad, Id_TipoTransaccion, 
-				Id_EmpleadoCliente, @FechaActual, @FechaActual, Id_Empresa 
+				Id_Cliente, @FechaActual, @FechaActual, 
+				Id_Empresa, @UsuarioSistema
 			FROM #TempTransacciones
 		
 			MERGE PRODUCTOS AS TARGET
 			USING #TempTransacciones AS SOURCE
-			ON TARGET.ID_PRODUCTO = SOURCE.Id_Producto AND TARGET.ID_EMPRESA = SOURCE.Id_Empresa
+			ON TARGET.ID_PRODUCTO = SOURCE.Id_Producto 
+			AND TARGET.ID_EMPRESA = SOURCE.Id_Empresa
 			WHEN MATCHED THEN
-				UPDATE SET INVENTARIO = (INVENTARIO - SOURCE.Cantidad);
+				UPDATE SET
+					TARGET.INVENTARIO = (TARGET.INVENTARIO - SOURCE.Cantidad);
 		
 			MERGE CLIENTE_PAGOS AS TARGET
 			USING #TempClientePagos AS SOURCE
@@ -173,13 +178,13 @@ BEGIN
 			AND CAST(TARGET.FECHA AS DATE) = CAST(SOURCE.Fecha AS DATE)
 			WHEN MATCHED THEN
 				UPDATE SET 
-					TOTAL_SERVICIOS = (TARGET.TOTAL_SERVICIOS + SOURCE.Total_Servicios), 
-					TOTAL_PROMOCION = (TARGET.TOTAL_PROMOCION + SOURCE.Total_Promocion), 
-					TOTAL_SERVICIOS_NOPROMOCION = (TARGET.TOTAL_SERVICIOS_NOPROMOCION + SOURCE.Total_Servicios_NoPromocion), 
-					TOTAL_PRODUCTOS = (TARGET.TOTAL_PRODUCTOS + SOURCE.Total_Productos),
-					DESCUENTO = (TARGET.DESCUENTO + SOURCE.Descuento), 
-					TOTAL_PAGADO = (TARGET.TOTAL_PAGADO + SOURCE.Total_Pagado),
-					USUARIO_MODIFICACION = SOURCE.Usuario_Creacion
+					TARGET.TOTAL_SERVICIOS = (TARGET.TOTAL_SERVICIOS + SOURCE.Total_Servicios), 
+					TARGET.TOTAL_PROMOCION = (TARGET.TOTAL_PROMOCION + SOURCE.Total_Promocion), 
+					TARGET.TOTAL_SERVICIOS_NOPROMOCION = (TARGET.TOTAL_SERVICIOS_NOPROMOCION + SOURCE.Total_Servicios_NoPromocion), 
+					TARGET.TOTAL_PRODUCTOS = (TARGET.TOTAL_PRODUCTOS + SOURCE.Total_Productos),
+					TARGET.DESCUENTO = (TARGET.DESCUENTO + SOURCE.Descuento), 
+					TARGET.TOTAL_PAGADO = (TARGET.TOTAL_PAGADO + SOURCE.Total_Pagado),
+					TARGET.USUARIO_MODIFICACION = SOURCE.Usuario_Creacion
 			WHEN NOT MATCHED THEN
 				INSERT (ID_CLIENTEPAGO, ID_CLIENTE, FECHA, TOTAL_SERVICIOS, TOTAL_PROMOCION, TOTAL_SERVICIOS_NOPROMOCION, TOTAL_PRODUCTOS,
 				DESCUENTO, TOTAL_PAGADO, ID_EMPRESA, USUARIO_CREACION)
@@ -192,8 +197,8 @@ BEGIN
 			AND TARGET.ID_REGISTRO = SOURCE.Id_Registro
 			WHEN MATCHED THEN
 				UPDATE SET 
-					ACUMULADO = (TARGET.ACUMULADO + @TotalPagado), 
-					FECHA_MODIFICACION = @FechaActual;
+					TARGET.ACUMULADO = (TARGET.ACUMULADO + @TotalPagado), 
+					TARGET.FECHA_MODIFICACION = @FechaActual;
 		
 		COMMIT TRANSACTION Tn_FacturacionServicios
 

@@ -74,9 +74,10 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                         Id_Transaccion: -1,
                         Id_Producto: $scope.ProductoSeleccionado,
                         Cantidad: $scope.CantidadInsumo,
-                        Id_EmpleadoCliente: $scope.IdEmpleado,
+                        Id_Empleado: $scope.IdEmpleado,
                         Id_TipoTransaccion: $scope.TipoTransaccionSeleccionada,
-                        Id_Empresa: $scope.IdEmpresa
+                        Id_Empresa: $scope.IdEmpresa,
+                        Usuario_Registro: $scope.UsuarioSistema
                     }
 
                     $scope.InsumoAsignado.push($scope.Insumo);
@@ -1053,7 +1054,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
             headerName: "Cantidad", field: 'cantidad', width: 100, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
         },
         {
-            headerName: "Fecha", field: 'fecha', width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
+            headerName: "Fecha", field: 'fecha_Registro', width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
                 return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy HH:mm:ss') : '';
             }
         }

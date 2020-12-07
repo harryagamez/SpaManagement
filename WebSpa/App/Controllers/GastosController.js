@@ -5,6 +5,7 @@ GastosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$ti
 
 function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAService) {
     $rootScope.header = 'Gastos';
+    $scope.UsuarioSistema = $rootScope.userData.userName;
     $scope.ObjetoGasto = [];
     $scope.ObjetoBorrarGasto = [];
     $scope.Gastos = [];
@@ -68,7 +69,8 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAS
         Tipo_Gasto: '',
         Fecha: new Date(),
         Valor: 0,
-        Estado: null
+        Estado: null,
+        Usuario_Registro: $scope.UsuarioSistema
     }
 
     $scope.GuardarNuevoGasto = function () {
@@ -150,7 +152,7 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAS
                     .then(
                         function (result) {
                             if (result.data === true) {
-                                toastr.success('Distribución de caja menor reemplazada correctamente', '', $scope.toastrOptions);
+                                toastr.success('Distribución de caja reemplazada correctamente', '', $scope.toastrOptions);
                                 if ($scope.AccionGasto == 'Caja Menor')
                                     $scope.Cancelar();
 
@@ -185,7 +187,7 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAS
                             $scope.Acumulado = $scope.Caja_Menor.acumulado;
                         }
                     }
-                    else toastr.info('Debe configurar la caja menor', '', $scope.toastrOptions);
+                    else toastr.info('Debe configurar la caja', '', $scope.toastrOptions);
                 }, function (err) {
                     toastr.remove();
                     if (err.data !== null && err.status === 500)
@@ -480,7 +482,8 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAS
                 Fecha: new Date(),
                 Valor: 0,
                 Estado: null,
-                Id_Empresa: $scope.IdEmpresa
+                Id_Empresa: $scope.IdEmpresa,
+                Usuario_Registro: $scope.UsuarioSistema
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
