@@ -211,9 +211,9 @@ namespace Spa.Application.SpaService
             return _spaRepository.DesasignarEmpleadoServicio(IdEmpleadoServicio);
         }
 
-        public bool EliminarEmpleadoInsumo(int IdTransaccion, int Cantidad, int IdProducto)
+        public bool EliminarEmpleadoInsumo(Transaccion transaccionInsumo)
         {
-            return _spaRepository.EliminarEmpleadoInsumo(IdTransaccion, Cantidad, IdProducto);
+            return _spaRepository.EliminarEmpleadoInsumo(transaccionInsumo);
         }
 
         public bool AsignarEmpleadoInsumo(List<Transaccion> _EmpleadoInsumo)
@@ -226,9 +226,9 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarEmpleadoServicio(IdEmpleado, IdEmpresa);
         }
 
-        public List<Transaccion> ConsultarEmpleadoInsumos(int IdEmpleado)
+        public List<Transaccion> ConsultarEmpleadoInsumos(int IdEmpleado, string IdEmpresa)
         {
-            return _spaRepository.ConsultarEmpleadoInsumos(IdEmpleado);
+            return _spaRepository.ConsultarEmpleadoInsumos(IdEmpleado, IdEmpresa);
         }
 
         public bool GuardarProducto(List<Producto> _Producto)

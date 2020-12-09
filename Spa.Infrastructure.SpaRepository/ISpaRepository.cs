@@ -57,11 +57,11 @@ namespace Spa.Infrastructure.SpaRepository
 
         bool AsignarEmpleadoInsumo(List<Transaccion> _EmpleadoInsumo);
 
-        bool EliminarEmpleadoInsumo(int IdTransaccion, int Cantidad, int IdProducto);
+        bool EliminarEmpleadoInsumo(Transaccion transaccionInsumo);
 
         List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado, string IdEmpresa);
 
-        List<Transaccion> ConsultarEmpleadoInsumos(int IdEmpleado);
+        List<Transaccion> ConsultarEmpleadoInsumos(int IdEmpleado, string IdEmpresa);
 
         bool GuardarProducto(List<Producto> _Producto);
 

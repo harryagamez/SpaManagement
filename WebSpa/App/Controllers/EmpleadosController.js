@@ -148,11 +148,15 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
     }
 
     $scope.EliminarEmpleadoInsumo = function (data) {
-        let IdTransaccion = data.id_Transaccion;
-        let Cantidad = data.cantidad;
-        let IdProducto = data.id_Producto;
+        let _transaccionInsumo = {
+            Id_Transaccion: data.id_Transaccion,
+            Id_Producto: data.id_Producto,
+            Cantidad: data.cantidad,
+            Id_Empleado: data.id_Empleado,
+            Id_Empresa: data.id_Empresa
+        };
 
-        SPAService._eliminarEmpleadoInsumo(IdTransaccion, Cantidad, IdProducto)
+        SPAService._eliminarEmpleadoInsumo(JSON.stringify(_transaccionInsumo))
             .then(
                 function (result) {
                     if (result.data === true) {
@@ -315,7 +319,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
     }
 
     $scope.ConsultarEmpleadoInsumos = function () {
-        SPAService._consultarEmpleadoInsumos($scope.IdEmpleado)
+        SPAService._consultarEmpleadoInsumos($scope.IdEmpleado, $scope.IdEmpresa)
             .then(
                 function (result) {
                     if (result.data !== undefined && result.data !== null) {
@@ -1055,7 +1059,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
         },
         {
             headerName: "Fecha", field: 'fecha_Registro', width: 120, cellStyle: { 'text-align': 'center', 'cursor': 'pointer' }, cellRenderer: (data) => {
-                return data.value ? $filter('date')(new Date(data.value), 'MM/dd/yyyy HH:mm:ss') : '';
+                return data.value ? $filter('date')(new Date(data.value), 'dd-MM-yyyy HH:mm:ss') : '';
             }
         }
 

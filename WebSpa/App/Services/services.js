@@ -737,9 +737,9 @@
             return deferred.promise;
         }
 
-        function EliminarEmpleadoInsumo(IdTransaccion, Cantidad, IdProducto) {
+        function EliminarEmpleadoInsumo(transaccionInsumo) {
             var deferred = $q.defer();
-            serviceRest.Get('SPA', 'EliminarEmpleadoInsumo?IdTransaccion=' + IdTransaccion + '&Cantidad=' + Cantidad + '&IdProducto=' + IdProducto,
+            serviceRest.Post('SPA', 'EliminarEmpleadoInsumo', transaccionInsumo,
                 function (data) {
                     deferred.resolve(data);
                 },
@@ -761,9 +761,9 @@
             return deferred.promise;
         }
 
-        function ConsultarEmpleadoInsumos(IdEmpleado) {
+        function ConsultarEmpleadoInsumos(IdEmpleado, IdEmpresa) {
             var deferred = $q.defer();
-            serviceRest.Get('SPA', 'ConsultarEmpleadoInsumos?IdEmpleado=' + IdEmpleado,
+            serviceRest.Get('SPA', 'ConsultarEmpleadoInsumos?IdEmpleado=' + IdEmpleado + '&IdEmpresa=' + IdEmpresa,
                 function (data) {
                     deferred.resolve(data);
                 },

@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[RegistrarFacturacionServicios] (
+CREATE PROCEDURE [dbo].[RegistrarFacturacionServicios](
 	@JsonAplicacionPago NVARCHAR(MAX)
 )
 AS

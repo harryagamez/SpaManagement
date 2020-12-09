@@ -590,7 +590,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Transaccion> ConsultarEmpleadoInsumos(int IdEmpleado)
+        public List<Transaccion> ConsultarEmpleadoInsumos(int IdEmpleado, string IdEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -604,6 +604,7 @@ namespace Spa.Infrastructure.SpaRepository
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarEmpleadoInsumos";
                     _command.Parameters.AddWithValue("@IdEmpleado", IdEmpleado);
+                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -774,7 +775,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool EliminarEmpleadoInsumo(int IdTransaccion, int Cantidad, int IdProducto)
+        public bool EliminarEmpleadoInsumo(Transaccion transaccionInsumo)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -784,9 +785,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "EliminarEmpleadoInsumo";
-                    _command.Parameters.AddWithValue("@IdTransaccion", IdTransaccion);
-                    _command.Parameters.AddWithValue("@Cantidad", Cantidad);
-                    _command.Parameters.AddWithValue("@IdProducto", IdProducto);
+                    _command.Parameters.AddWithValue("@JsonTransaccion", JsonConvert.SerializeObject(transaccionInsumo));
 
                     _command.ExecuteNonQuery();
 

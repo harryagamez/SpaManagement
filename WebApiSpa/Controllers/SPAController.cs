@@ -364,14 +364,14 @@ namespace WebApiSpa.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("api/SPA/EliminarEmpleadoInsumo")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult EliminarEmpleadoInsumo(int IdTransaccion, int Cantidad, int IdProducto)
+        public IHttpActionResult EliminarEmpleadoInsumo(Transaccion transaccionInsumo)
         {
             try
             {
-                bool result = _spaService.EliminarEmpleadoInsumo(IdTransaccion, Cantidad, IdProducto);
+                bool result = _spaService.EliminarEmpleadoInsumo(transaccionInsumo);
 
                 return Content(HttpStatusCode.OK, result);
             }
@@ -401,11 +401,11 @@ namespace WebApiSpa.Controllers
         [HttpGet]
         [Route("api/SPA/ConsultarEmpleadoInsumos")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult ConsultarEmpleadoInsumos(int IdEmpleado)
+        public IHttpActionResult ConsultarEmpleadoInsumos(int IdEmpleado, string IdEmpresa)
         {
             try
             {
-                List<Transaccion> _listEmpleadoInsumo = _spaService.ConsultarEmpleadoInsumos(IdEmpleado);
+                List<Transaccion> _listEmpleadoInsumo = _spaService.ConsultarEmpleadoInsumos(IdEmpleado, IdEmpresa);
 
                 return Content(HttpStatusCode.OK, _listEmpleadoInsumo);
             }
