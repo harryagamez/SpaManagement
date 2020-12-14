@@ -398,8 +398,13 @@ namespace Spa.Application.SpaService
                            </td>
                            </tr>
                            <tr>
-                           <td bgcolor=""#ffffff"" style=""padding: 5px 30px 5px 30px; color: #566473; font-size:16px; text-align:justify;"">
+                           <td bgcolor=""#ffffff"" style=""padding: 1px 30px 1px 30px; color: #566473; font-size:16px; text-align:justify;"">
                                 <p>Recuerde llegar con 20 minutos de anticipación. Si desea cancelar su cita, comuníquese con " + _Agenda.Nombre_Empresa + @" con 6 horas de anticipación.</p>
+                           </td>
+                           </tr>
+                           <tr>
+                           <td bgcolor=""#ffffff"" style=""padding: 1px 30px 1px 30px; color: #566473; font-size:10px; text-align:justify;"">
+                                <p>*Este correo es informativo, favor no responder a esta dirección de correo, ya que no se encuentra habilitada para recibir mensajes.</p>
                            </td>
                            </tr>
                            <tr>

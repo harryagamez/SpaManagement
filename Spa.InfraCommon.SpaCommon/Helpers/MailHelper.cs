@@ -12,19 +12,19 @@ namespace Spa.InfraCommon.SpaCommon.Helpers
             {
                 MailMessage message = new MailMessage
                 {
-                    From = new MailAddress("spapp.management@gmail.com"),
+                    From = new MailAddress("notificaciones@beuxit.com"),
                     Subject = eMailModel.Subject,
                     Body = eMailModel.Body
                 };
                 message.To.Add(eMailModel.MailTo);
                 message.IsBodyHtml = true;
 
-                SmtpClient smtp = new SmtpClient("smtp.gmail.com")
-                {
-                    Port = 587,
+                SmtpClient smtp = new SmtpClient("mail.beuxit.com", 587)
+                {                    
                     EnableSsl = true,
-                    UseDefaultCredentials = false,
-                    Credentials = new System.Net.NetworkCredential("spapp.management@gmail.com", "hemojolrmtqxpdvq"),
+                    Timeout = int.MaxValue,
+                    UseDefaultCredentials = false,                    
+                    Credentials = new System.Net.NetworkCredential("notificaciones@beuxit.com", "Midgardyggdrasil?"),
                 };
                 smtp.Send(message);
 
