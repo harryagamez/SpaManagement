@@ -29,6 +29,7 @@ namespace Spa.Application.SpaService
                 string encryptedPassword = SecurityHelper.EncryptPasswordHash(Password);
 
                 int anioActual = fecha.Year;
+                int anioSiguiente = anioActual + 1;
 
                 Usuario _usuario = _spaRepository.ValidarUsuario(Nombre, encryptedPassword, ValidarIntegracion, CodigoIntegracion);
 
@@ -64,7 +65,7 @@ namespace Spa.Application.SpaService
                            </tr>
                            <tr>
                            <td bgcolor=""#2c333c"" style=""padding: 3px 30px 3px 30px; text-align:center; color: white;"" >
-                            <p>beux © 2020 - " + anioActual + @" Todos los derechos reservados</p>
+                            <p>beux © "  + anioActual + " - " + anioSiguiente + @" Todos los derechos reservados</p>
                            </td>
                            </tr>
                            </table>
@@ -372,8 +373,11 @@ namespace Spa.Application.SpaService
                 {
                     DateTime fechaActual = DateTime.Now; 
                     int anioActual = fechaActual.Year;
+                    int anioSiguiente = anioActual + 1;
+
                     var fecha = _Agenda.Fecha_Inicio.Value.ToString("dd-MM-yyyy");
                     var hora = _Agenda.Fecha_Inicio.Value.ToString("h:mm tt", CultureInfo.InvariantCulture);
+
                     string htmlString = @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">
                     <html xmlns=""http://www.w3.org/1999/xhtml"">
                     <head>
@@ -409,7 +413,7 @@ namespace Spa.Application.SpaService
                            </tr>
                            <tr>
                            <td bgcolor=""#2c333c"" style=""padding: 3px 30px 3px 30px; text-align:center; color: white;"" >
-                            <p>beux© 2020 - " + anioActual + @" Todos los derechos reservados</p>
+                             <p>beux © " + anioActual + " - " + anioSiguiente + @" Todos los derechos reservados</p>
                            </td>
                            </tr>
                            </table>
