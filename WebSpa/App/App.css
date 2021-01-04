@@ -214,6 +214,10 @@
     padding: 10px;
 }
 
+    .login-footer p a {
+        color: var(--main-font);        
+    }
+
 .ag-theme-fresh .ag-header-select-all span {
     margin-left: 12px;
 }
@@ -848,6 +852,19 @@ md-card md-card-title {
 .table-propiedades {
     font-size: 13px;
     border: 1px solid #e1e1e1;
+    width:100%;
+}
+
+@media screen and (min-width: 800px) {
+    .table-propiedades {
+        width: 100%;
+    }        
+}
+
+@media screen and (min-width: 1000px) {
+    .table-propiedades {
+        width: 100%;
+    }        
 }
 
     .table-propiedades thead tr,
