@@ -1343,9 +1343,9 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
     }
 
     $scope.$on("CompanyChange", function () {
+        $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.LimpiarDatos();
         $scope.Agendas = [];
-        $scope.IdEmpresa = $rootScope.Id_Empresa;
         $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
         $scope.ConsultarServiciosActivos();
         $scope.ConsultarEmpleadosAutoComplete();

@@ -6,6 +6,7 @@ ClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$
 function ClientesController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAService) {
 
     $rootScope.header = 'Clientes';
+    $scope.UsuarioSistema = $rootScope.userData.userName;
     $scope.Clientes = [];
     $scope.ObjetoCliente = [];
     $scope.Municipios = [];
@@ -46,7 +47,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $timeout, SP
         Id_Tipo: -1,
         Estado: $scope.EstadoSeleccionado,
         Id_Empresa: $scope.IdEmpresa,
-        Id_Usuario_Creacion: $scope.IdUsuario
+        Usuario_Registro: $scope.UsuarioSistema
     }
 
     $scope.MunicipiosCopy = [];
@@ -426,7 +427,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $timeout, SP
                                     "Id_Tipo": 1,
                                     "Estado": "ACTIVO",
                                     "Id_Empresa": $scope.IdEmpresa,
-                                    "Id_Usuario_Creacion": $scope.IdUsuario
+                                    "Usuario_Registro": $scope.UsuarioSistema
                                 };
 
                                 $scope.ExcelClientes.push(cliente)
@@ -622,7 +623,7 @@ function ClientesController($scope, $rootScope, $filter, $mdDialog, $timeout, SP
                 Id_Tipo: -1,
                 Estado: $scope.EstadoSeleccionado,
                 Id_Empresa: $scope.IdEmpresa,
-                Id_Usuario_Creacion: $scope.IdUsuario
+                Usuario_Registro: $scope.UsuarioSistema
             }
 
             $scope.MunicipioSeleccionado = -1;

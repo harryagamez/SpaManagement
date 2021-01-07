@@ -44,6 +44,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
         Id_TipoPago: $scope.TipoPagoSeleccionado,
         Monto: '',
         Estado: $scope.EstadoSeleccionado,
+        Usuario_Registro: $scope.UsuarioSistema,
         Id_Empresa: $scope.IdEmpresa,
         Logo_Base64: null
     }
@@ -518,6 +519,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 Id_TipoPago: $scope.TipoPagoSeleccionado,
                 Monto: '',
                 Estado: $scope.EstadoSeleccionado,
+                Usuario_Registro: $scope.UsuarioSistema,
                 Id_Empresa: $scope.IdEmpresa,
                 Logo_Base64: null
             }
@@ -1156,8 +1158,8 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
     }
 
     $scope.$on("CompanyChange", function () {
-        $scope.LimpiarDatos();
         $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.LimpiarDatos();
         $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
         $scope.ConfiguracionEmpresaActual();
         $scope.ConsultarServicios();

@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarAgenda(
+CREATE PROCEDURE [dbo].[ConsultarAgenda](
 	@JsonAgenda NVARCHAR(MAX)
 )
 AS

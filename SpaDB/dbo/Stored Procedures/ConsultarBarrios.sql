@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE ConsultarBarrios(
+﻿CREATE PROCEDURE [dbo].[ConsultarBarrios](
 	@IdMunicipio INT
 )
 AS

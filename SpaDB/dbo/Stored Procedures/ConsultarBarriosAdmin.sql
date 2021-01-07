@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarBarriosAdmin
+CREATE PROCEDURE [dbo].[ConsultarBarriosAdmin]
 AS
 BEGIN
 

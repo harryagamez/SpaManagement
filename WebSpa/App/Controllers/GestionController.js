@@ -1075,8 +1075,8 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
     };
 
     $scope.$on("CompanyChange", function () {
-        $scope.LimpiarDatos();
         $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.LimpiarDatos();
         $scope.Menu = $rootScope.Menu.filter(function (e) {
             return e._Level === 1;
         });

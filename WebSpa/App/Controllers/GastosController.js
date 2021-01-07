@@ -270,11 +270,10 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAS
                 toastr.info('Fecha [Hasta] inválida', '', $scope.toastrOptions);
                 return false;
             }
-
             let DateLimit = new Date($scope.Filtros.Hasta);
             DateLimit.setDate(DateLimit.getDate() - 15);
 
-            if ($filter('date')($scope.Filtros.Desde, 'MM/dd/yyyy') < $filter('date')(DateLimit, 'MM/dd/yyyy')) {
+            if ($filter('date')($scope.Filtros.Desde, 'yyyy/MM/dd') < $filter('date')(DateLimit, 'yyyy/MM/dd')) {
                 if ($scope.TipoGastoSeleccionado === -1) {
                     toastr.info('Debe seleccionar un tipo de gasto', '', $scope.toastrOptions);
                     return false;

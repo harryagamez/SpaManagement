@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE ActualizarCodigoIntegracion(
+﻿CREATE PROCEDURE [dbo].[ActualizarCodigoIntegracion](
 	@IdUsuario INT, 
 	@IdEmpresa VARCHAR(36), 
 	@CodigoIntegracion VARCHAR(36)

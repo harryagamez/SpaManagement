@@ -222,7 +222,6 @@
     <Build Include="dbo\Stored Procedures\ConsultarMunicipios.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarBarrios.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarTipoClientes.sql" />
-    <Build Include="dbo\Stored Procedures\RegistrarActualizarClientes.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarCliente.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarTipoServicios.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarServicios.sql" />
@@ -312,6 +311,7 @@
     <Build Include="dbo\Stored Procedures\EliminarServicioPromocion.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarAgendaTransacciones.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarPromocion.sql" />
+    <Build Include="dbo\Stored Procedures\RegistrarActualizarCliente.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />

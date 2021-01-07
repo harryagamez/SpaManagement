@@ -5,6 +5,7 @@ ProductosController.$inject = ['$scope', '$rootScope', '$templateCache', '$filte
 
 function ProductosController($scope, $rootScope, $templateCache, $filter, $mdDialog, $timeout, SPAService) {
     $rootScope.header = 'Productos';
+    $scope.UsuarioSistema = $rootScope.userData.userName;
     $scope.TipoTransacciones = [];
     $scope.ObjetoProducto = [];
     $scope.Productos = [];
@@ -35,7 +36,8 @@ function ProductosController($scope, $rootScope, $templateCache, $filter, $mdDia
         Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
         Fecha_Modificacion: $filter('date')(new Date(), 'MM-dd-yyyy'),
         Id_Empresa: $scope.IdEmpresa,
-        Id_Tipo_Transaccion: $scope.TipoTransaccionSeleccionada
+        Id_Tipo_Transaccion: $scope.TipoTransaccionSeleccionada,
+        Usuario_Registro: $scope.UsuarioSistema
     }
 
     $scope.ConsultarTipoTransacciones = function () {
@@ -200,7 +202,8 @@ function ProductosController($scope, $rootScope, $templateCache, $filter, $mdDia
                 Fecha_Registro: $filter('date')(new Date(), 'MM-dd-yyyy'),
                 Fecha_Modificacion: $filter('date')(new Date(), 'MM-dd-yyyy'),
                 Id_Empresa: $scope.IdEmpresa,
-                Id_Tipo_Transaccion: $scope.TipoTransaccionSeleccionada
+                Id_Tipo_Transaccion: $scope.TipoTransaccionSeleccionada,
+                Usuario_Registro: $scope.UsuarioSistema
             }
 
             $scope.NombreProductoReadOnly = false;
