@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarCajaMenor(
+CREATE PROCEDURE [dbo].[ConsultarCajaMenor](
 	@IdEmpresa VARCHAR(36)
 )
 AS

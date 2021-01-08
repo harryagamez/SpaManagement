@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarEmpleado(
+CREATE PROCEDURE [dbo].[ConsultarEmpleado](
 	@CedulaEmpleado VARCHAR(15), 
 	@IdEmpresa VARCHAR(36)
 )

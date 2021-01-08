@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarCategoriaServicios
+CREATE PROCEDURE [dbo].[ConsultarCategoriaServicios]
 AS
 BEGIN
 

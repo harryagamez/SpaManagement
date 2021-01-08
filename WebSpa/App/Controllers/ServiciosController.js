@@ -5,6 +5,7 @@ ServiciosController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '
 
 function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAService) {
     $rootScope.header = 'Servicios';
+    $scope.UsuarioSistema = $rootScope.userData.userName;
     $scope.TipoServicios = [];
     $scope.ObjetoServicio = [];
     $scope.Servicios = [];
@@ -53,7 +54,8 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
         Id_Empresa_Servicio: '00000000-0000-0000-0000-000000000000',
         Tiempo: -1,
         Valor: 0,
-        Imagenes_Servicio: []
+        Imagenes_Servicio: [],
+        Usuario_Registro: $scope.UsuarioSistema
     }
 
     $scope.ServicioDescripcion = "";
@@ -268,7 +270,8 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 Id_Empresa_Servicio: '00000000-0000-0000-0000-000000000000',
                 Tiempo: -1,
                 Valor: 0,
-                Imagenes_Servicio: []
+                Imagenes_Servicio: [],
+                Usuario_Registro: $scope.UsuarioSistema
             }
 
             $rootScope.ServicioImagenesAdjuntas = [];

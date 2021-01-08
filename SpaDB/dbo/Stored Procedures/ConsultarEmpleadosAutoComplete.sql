@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarEmpleadosAutoComplete(
+CREATE PROCEDURE [dbo].[ConsultarEmpleadosAutoComplete](
 	@IdEmpresa VARCHAR(36)
 )
 AS

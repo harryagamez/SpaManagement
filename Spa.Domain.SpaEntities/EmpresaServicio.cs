@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Spa.Domain.SpaEntities
 {
-    public class Servicio : BusquedaServicio
+    public class EmpresaServicio : BusquedaServicio
     {
         public string Id_Empresa_Servicio { get; set; }
         public string Id_Empresa { get; set; }
@@ -14,6 +14,8 @@ namespace Spa.Domain.SpaEntities
         public List<ImagenServicio> Imagenes_Servicio { get; set; }
         public string Estado { get; set; }
         public DateTime? Fecha_Registro { get; set; }
+        public string Usuario_Registro { get; set; }
         public DateTime? Fecha_Modificacion { get; set; }
+        public string Usuario_Modificacion { get; set; }
     }
 }

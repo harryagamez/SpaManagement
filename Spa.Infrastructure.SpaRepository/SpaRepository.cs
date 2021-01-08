@@ -333,10 +333,10 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Servicio> ConsultarServicios(string IdEmpresa)
+        public List<EmpresaServicio> ConsultarServicios(string IdEmpresa)
         {
             DataTable _datatable = new DataTable();
-            List<Servicio> _servicios = new List<Servicio>();
+            List<EmpresaServicio> _servicios = new List<EmpresaServicio>();
             SqlDataAdapter _adapter = new SqlDataAdapter();
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
@@ -352,16 +352,16 @@ namespace Spa.Infrastructure.SpaRepository
 
                     _adapter.Fill(_datatable);
 
-                    _servicios = _datatable.DataTableToList<Servicio>();
+                    _servicios = _datatable.DataTableToList<EmpresaServicio>();
                     return _servicios;
                 }
             }
         }
 
-        public List<Servicio> ConsultarServiciosConImagenes(string IdEmpresa)
+        public List<EmpresaServicio> ConsultarServiciosConImagenes(string IdEmpresa)
         {
             DataSet _dataset = new DataSet();
-            List<Servicio> _servicios = new List<Servicio>();
+            List<EmpresaServicio> _servicios = new List<EmpresaServicio>();
             SqlDataAdapter _adapter = new SqlDataAdapter();
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
@@ -388,7 +388,7 @@ namespace Spa.Infrastructure.SpaRepository
                     .AsEnumerable()
                     .Select(row =>
                     {
-                        Servicio servicio = row.ToObject<Servicio>();
+                        EmpresaServicio servicio = row.ToObject<EmpresaServicio>();
                         servicio.Imagenes_Servicio = row.GetChildRows("ServicioImagenes").DataTableToList<ImagenServicio>();
                         return servicio;
                     })
@@ -399,10 +399,10 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Servicio> ConsultarServiciosActivos(string IdEmpresa)
+        public List<EmpresaServicio> ConsultarServiciosActivos(string IdEmpresa)
         {
             DataTable _datatable = new DataTable();
-            List<Servicio> _servicios = new List<Servicio>();
+            List<EmpresaServicio> _servicios = new List<EmpresaServicio>();
             SqlDataAdapter _adapter = new SqlDataAdapter();
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
@@ -418,16 +418,16 @@ namespace Spa.Infrastructure.SpaRepository
 
                     _adapter.Fill(_datatable);
 
-                    _servicios = _datatable.DataTableToList<Servicio>();
+                    _servicios = _datatable.DataTableToList<EmpresaServicio>();
                     return _servicios;
                 }
             }
         }
 
-        public List<Servicio> ConsultarServiciosActivosConImagenes(string IdEmpresa)
+        public List<EmpresaServicio> ConsultarServiciosActivosConImagenes(string IdEmpresa)
         {
             DataSet _dataset = new DataSet();
-            List<Servicio> _servicios = new List<Servicio>();
+            List<EmpresaServicio> _servicios = new List<EmpresaServicio>();
             SqlDataAdapter _adapter = new SqlDataAdapter();
 
             using (SqlConnection _connection = new SqlConnection(_connectionString))
@@ -454,7 +454,7 @@ namespace Spa.Infrastructure.SpaRepository
                     .AsEnumerable()
                     .Select(row =>
                     {
-                        Servicio servicio = row.ToObject<Servicio>();
+                        EmpresaServicio servicio = row.ToObject<EmpresaServicio>();
                         servicio.Imagenes_Servicio = row.GetChildRows("ServicioImagenes").DataTableToList<ImagenServicio>();
                         return servicio;
                     })
@@ -465,7 +465,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool GuardarServicio(List<Servicio> _Servicio)
+        public bool GuardarServicio(List<EmpresaServicio> _Servicio)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {

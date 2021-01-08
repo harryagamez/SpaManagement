@@ -31,11 +31,11 @@ namespace Spa.Infrastructure.SpaRepository
 
         List<ServicioMaestro> ConsultarServiciosMaestro(string CategoriaEmpresa);
 
-        List<Servicio> ConsultarServicios(string IdEmpresa);
+        List<EmpresaServicio> ConsultarServicios(string IdEmpresa);
 
-        List<Servicio> ConsultarServiciosActivos(string IdEmpresa);
+        List<EmpresaServicio> ConsultarServiciosActivos(string IdEmpresa);
 
-        bool GuardarServicio(List<Servicio> _Servicio);
+        bool GuardarServicio(List<EmpresaServicio> _Servicio);
 
         bool EliminarImagenAdjunta(string IdImagenAdjunta);
 

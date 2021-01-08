@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarNominaEmpleados (
+CREATE PROCEDURE [dbo].[ConsultarNominaEmpleados](
 	@IdEmpresa	VARCHAR(36),
 	@FechaNomina CHAR(12)
 )
@@ -19,7 +19,7 @@ BEGIN
 	)
 	
 	IF (@TipoNomina IS NULL) BEGIN
-		DECLARE @Mensaje CHAR(200) = 'Para poder realizar esta tarea debe configurar el tipo de nómina de la empresa'
+		DECLARE @Mensaje CHAR(200) = 'Para consultar la nómina, debe configurar el tipo de nómina de la empresa'
 		RAISERROR (@Mensaje, 16, 1)		
 		RETURN
 	END

@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarDepartamentos
+CREATE PROCEDURE [dbo].[ConsultarDepartamentos]
 AS
 BEGIN
 

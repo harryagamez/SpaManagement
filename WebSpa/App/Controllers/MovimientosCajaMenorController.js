@@ -81,7 +81,7 @@ function MovimientosCajaMenorController($scope, $rootScope, $filter, $timeout, S
             headerName: "", field: "Checked", suppressFilter: true, width: 30, checkboxSelection: true, headerCheckboxSelection: true, hide: false, headerCheckboxSelectionFilteredOnly: true, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer', "margin-top": "3px" }
         },
         {
-            headerName: "Caja Menor",
+            headerName: "Caja",
             headerGroupComponent: 'customHeaderGroupComponent',
             children: [
                 {

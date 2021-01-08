@@ -4,7 +4,6 @@
 ClientesController.$inject = ['$scope', '$rootScope', '$filter', '$mdDialog', '$timeout', 'SPAService'];
 
 function ClientesController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAService) {
-
     $rootScope.header = 'Clientes';
     $scope.UsuarioSistema = $rootScope.userData.userName;
     $scope.Clientes = [];

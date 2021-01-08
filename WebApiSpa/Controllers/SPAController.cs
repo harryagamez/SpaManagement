@@ -201,7 +201,7 @@ namespace WebApiSpa.Controllers
         {
             try
             {
-                List<Servicio> _servicios = _spaService.ConsultarServicios(IdEmpresa);
+                List<EmpresaServicio> _servicios = _spaService.ConsultarServicios(IdEmpresa);
 
                 return Content(HttpStatusCode.OK, _servicios);
             }
@@ -218,7 +218,7 @@ namespace WebApiSpa.Controllers
         {
             try
             {
-                List<Servicio> _servicios = _spaService.ConsultarServiciosActivos(IdEmpresa);
+                List<EmpresaServicio> _servicios = _spaService.ConsultarServiciosActivos(IdEmpresa);
 
                 return Content(HttpStatusCode.OK, _servicios);
             }
@@ -231,7 +231,7 @@ namespace WebApiSpa.Controllers
         [HttpPost]
         [Route("api/SPA/GuardarServicio")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult GuardarServicio(List<Servicio> servicio)
+        public IHttpActionResult GuardarServicio(List<EmpresaServicio> servicio)
         {
             try
             {
