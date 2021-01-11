@@ -19,6 +19,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
     $scope.InformacionImagen = '';
     $rootScope.ImagenesxAdjuntar = 0;
     $scope.ServicioReadOnly = false;
+    $scope.ConfigurarionPorServicios = false;
 
     $scope.DuracionServicio = [
         { Id_DuracionServicio: -1, Valor: '[Seleccione]' },
@@ -38,13 +39,23 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
     $scope.Inicializacion = function () {
         $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
         window.onresize();
-
         $('#txtBuscarServicio').focus();
+
+        if ($scope.EmpresaPropiedades.length > 0) {
+            let tdn = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'TDN' });
+            if (tdn.length > 0) {
+                $scope.TipoNomina = tdn[0].valor_Propiedad;
+                if ($scope.TipoNomina === 'POR_SERVICIOS')
+                    $scope.ConfigurarionPorServicios = true;
+            }
+        }
     }
 
     $scope.IdEmpresa = $rootScope.Id_Empresa;
     $scope.CategoriaEmpresa = $rootScope.Categoria_Empresa;
     $scope.IdUsuario = parseInt($rootScope.userData.userId);
+
+    $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
 
     $scope.Servicio =
     {
@@ -54,6 +65,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
         Id_Empresa_Servicio: '00000000-0000-0000-0000-000000000000',
         Tiempo: -1,
         Valor: 0,
+        Aplicacion_Nomina: null,
         Imagenes_Servicio: [],
         Usuario_Registro: $scope.UsuarioSistema
     }
@@ -118,10 +130,10 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 })
     }
 
-    $scope.ConsultarServicios = function () {        
+    $scope.ConsultarServicios = function () {
         SPAService._consultarServicios($scope.IdEmpresa)
             .then(
-                function (result) {                    
+                function (result) {
                     if (result.data !== undefined && result.data !== null) {
                         $scope.Servicios = [];
                         $scope.ServiciosSinAsignar = [];
@@ -174,10 +186,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
 
     $scope.ConsultarServicio = function (data) {
         try {
-            
-            //$rootScope.ServicioImagenesAdjuntas = data.imagenes_Servicio;
             $scope.TipoServicioSeleccionado = -1;
-
             if (data.id_Servicio !== undefined && data.id_Servicio !== null) {
                 $scope.ServicioReadOnly = true;
                 $scope.ServiciosSinAsignar = angular.copy($scope.ServiciosMaestro);
@@ -200,8 +209,8 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                     $scope.Servicio.Tiempo = data.tiempo;
 
                 $scope.Servicio.Valor = data.valor;
+                $scope.Servicio.Aplicacion_Nomina = data.aplicacion_Nomina;
                 $scope.Servicio.Id_Servicio = data.id_Servicio;
-                //$scope.Servicio.Imagenes_Servicio = data.imagenes_Servicio;
                 $scope.TipoServicioSeleccionado = data.id_TipoServicio;
                 $scope.ModalEditarServicio();
 
@@ -244,8 +253,9 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 $scope.Servicio.Id_Servicio = row.data.id_Servicio;
                 $scope.Servicio.Tiempo = row.data.tiempo;
                 $scope.Servicio.Valor = row.data.valor;
+                $scope.Servicio.Aplicacion_Nomina = row.data.aplicacion_Nomina;
                 $scope.Servicio.Id_Servicio = row.data.id_Servicio;
-                $scope.TipoServicioSeleccionado = row.data.id_TipoServicio;                
+                $scope.TipoServicioSeleccionado = row.data.id_TipoServicio;
             }
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -270,6 +280,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 Id_Empresa_Servicio: '00000000-0000-0000-0000-000000000000',
                 Tiempo: -1,
                 Valor: 0,
+                Aplicacion_Nomina: null,
                 Imagenes_Servicio: [],
                 Usuario_Registro: $scope.UsuarioSistema
             }
@@ -312,6 +323,20 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 return false;
             }
 
+            if ($scope.Servicio.Aplicacion_Nomina !== null && $scope.Servicio.Aplicacion_Nomina !== undefined) {
+                if (parseFloat($scope.Servicio.Aplicacion_Nomina) <= 0) {
+                    toastr.info('El Porcentaje de aplicación de nómina para el servicio, debe ser mayor que cero', '', $scope.toastrOptions);
+                    $('#txtAplicacionNominaServicio').focus();
+                    return false;
+                }
+
+                if ($scope.Servicio.Aplicacion_Nomina > 1) {
+                    toastr.info('El porcentaje de aplicación de nómina para el servicio, no puede ser mayor a 1', '', $scope.toastrOptions);
+                    $('#txtAplicacionNominaServicio').focus();
+                    return false;
+                }
+            }
+
             return true;
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -338,12 +363,12 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                 clickOutsideToClose: true,
                 multiple: true
             })
-            .then(function () {
-            }, function () {
-                $('#txtBuscarServicio').focus();
-                $scope.LimpiarDatos();
-            });            
-            
+                .then(function () {
+                }, function () {
+                    $('#txtBuscarServicio').focus();
+                    $scope.LimpiarDatos();
+                });
+
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -364,15 +389,12 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
             })
                 .then(function () {
                 }, function () {
-                    //$scope.Servicio.Imagenes_Servicio = $scope.Servicio.Imagenes_Servicio.filter(function (item) {
-                    //    return item.Id_Servicio !== -1;
-                    //});
-                        $scope.ServicioReadOnly = false;
+                    $scope.ServicioReadOnly = false;
                     $('#txtBuscarServicio').focus();
-                    $scope.LimpiarDatos();                    
+                    $scope.LimpiarDatos();
                 });
 
-            $scope.NombreServicioReadOnly = true            
+            $scope.NombreServicioReadOnly = true
             $('#slTiempoServicio').focus();
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
@@ -481,7 +503,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
             },
         },
         {
-            headerName: "", field: "", suppressMenu: true, hide:true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
+            headerName: "", field: "", suppressMenu: true, hide: true, visible: true, width: 20, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
             cellRenderer: function () {
                 return "<i data-ng-click='VisualizarImagen(data)' data-toggle='tooltip' title='Ver imagen' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>image</i>";
             },
@@ -495,10 +517,13 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
             },
         },
         {
-            headerName: "Tiempo", field: 'tiempo', width: 70, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
+            headerName: "Tiempo", field: 'tiempo', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' },
         },
         {
-            headerName: "Costo", field: 'valor', width: 60, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#445a9e' }, valueFormatter: currencyFormatter
+            headerName: "Valor", field: 'valor', width: 50, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#445a9e' }, valueFormatter: currencyFormatter
+        },
+        {
+            headerName: "% / Nómina", field: 'aplicacion_Nomina', width: 80, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#499977' },
         },
         {
             headerName: "Tipo", field: 'nombre_Tipo_Servicio', width: 100, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' },
@@ -640,6 +665,7 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
 
         $rootScope.Categoria_Empresa = empresa[0].id_Categoria_Servicio;
         $scope.CategoriaEmpresa = $rootScope.Categoria_Empresa;
+        $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
 
         $scope.LimpiarDatos();
         $scope.ConsultarServiciosMaestro();
