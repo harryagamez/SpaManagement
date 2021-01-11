@@ -144,5 +144,7 @@ namespace Spa.Infrastructure.SpaRepository
         bool EliminarServicioPromocion(string IdDetallePromocion, string IdPromocion);
 
         Promocion ConsultarPromocion(string IdPromocion, string IdEmpresa);
+
+        bool ActualizarEmpleadoServicio(EmpleadoServicio empleadoServicio);
     }
 }

@@ -1847,5 +1847,27 @@ namespace Spa.Infrastructure.SpaRepository
                 }
             }
         }
+
+        public bool ActualizarEmpleadoServicio(EmpleadoServicio empleadoServicio)
+        {
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "ActualizarEmpleadoServicio";
+                    _command.Parameters.AddWithValue("@JsonEmpleadoServicio", JsonConvert.SerializeObject(empleadoServicio));
+                    _command.CommandTimeout = 60;
+
+                    _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return true;
+                }
+            }
+        }
     }
 }

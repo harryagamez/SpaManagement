@@ -20,6 +20,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
     $scope.TipoPagoSeleccionado = '00000000-000-000-000000000000';
     $scope.InventarioProducto = 0;
     $scope.GridAccion = '';
+    $scope.HabilitarPorcentajeServicio = false;
 
     $scope.fEditarEmpleado = false;
     $scope.fPropertiesSetted = false;
@@ -61,6 +62,17 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
     $scope.Inicializacion = function () {
         $(".ag-header-cell[col-id='Checked']").find(".ag-cell-label-container").remove();
         window.onresize();
+
+        if ($scope.EmpresaPropiedades.length > 0) {
+            let tdn = $filter('filter')($scope.EmpresaPropiedades, { codigo: 'TDN' });
+            if (tdn.length > 0) {
+                $scope.TipoNomina = tdn[0].valor_Propiedad;
+                if ($scope.TipoNomina === 'POR_SERVICIOS')
+                    $scope.HabilitarPorcentajeServicio = true;
+                else
+                    $scope.HabilitarPorcentajeServicio = false;
+            }
+        }
 
         $('#txtCedula').focus();
     }
@@ -129,6 +141,22 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                             toastr.error(err.data, '', $scope.toastrOptions);
                     })
         } else toastr.info('Debe seleccionar al menos 1 servicio', '', $scope.toastrOptions);
+    }
+
+    $scope.ActualizarEmpleadoServicio = function (data) {
+        SPAService._actualizarEmpleadoServicio(data)
+            .then(
+                function (result) {
+                    if (result.data === true) {
+                        toastr.success('Servicio actualizado correctamente', '', $scope.toastrOptions);
+                        debugger;
+                        $scope.ConsultarEmpleadoServicio();
+                    }
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        toastr.error(err.data, '', $scope.toastrOptions);
+                })
     }
 
     $scope.DesasignarEmpleadoServicio = function (data) {
@@ -310,7 +338,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                         $scope.TempListadoServicios = $filter('orderBy')($scope.TempListadoServicios, 'nombre', false);
                         $timeout(function () {
                             $scope.EmpleadoServicioGridOptions.api.sizeColumnsToFit();
-                        }, 200);
+                        }, 300);
                     }
                 }, function (err) {
                     toastr.remove();
@@ -722,6 +750,9 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
                     $scope.TDN = tdn[0].valor_Propiedad;
                     $scope.fTDN = true;
 
+                    if ($scope.TDN === 'POR_SERVICIOS')
+                        $scope.HabilitarPorcentajeServicio = true;
+
                     let tipoPagoSeleccionado = $scope.TipoPagos.filter(function (e) {
                         return e.descripcion === $scope.TDN;
                     });
@@ -1023,8 +1054,10 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
         },
         {
             headerName: "Tipo", field: 'tipoServicio', width: 140, cellStyle: { 'text-align': 'left', 'cursor': 'pointer' }, suppressSizeToFit: true
-        }
-
+        },
+        {
+            headerName: "%", field: 'aplicacion_Nomina', editable: true, width: 30, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#499977' },
+        },
     ];
 
     $scope.EmpleadoServicioGridOptions = {
@@ -1042,7 +1075,53 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
         fullWidthCellRenderer: true,
         animateRows: true,
         suppressRowClickSelection: true,
-        rowSelection: 'multiple'
+        rowSelection: 'multiple',
+        onCellEditingStopped: onCellEditingStopped,
+    }
+
+    function onCellEditingStopped(empleado_Servicio) {
+        if (!$scope.HabilitarPorcentajeServicio) {
+            empleado_Servicio.data[empleado_Servicio.colDef.field] = '';
+            $scope.EmpleadoServicioGridOptions.api.refreshCells();
+            $("[data-ag-grid=EmpleadoServicioGridOptions]").find('.ag-cell-focus').removeClass('.ag-cell-focus').addClass('ag-cell-no-focus');
+            return;
+        }
+
+        if (!(/^[0-9]+([.][0-9]+)?$/.test(empleado_Servicio.data.aplicacion_Nomina))) {
+            toastr.warning('El porcentaje de aplicación de nómina para el servicio, debe ser una valor númerico', '', $scope.toastrOptions);
+            empleado_Servicio.data[empleado_Servicio.colDef.field] = '';
+            $scope.EmpleadoServicioGridOptions.api.refreshCells();
+            $("[data-ag-grid=EmpleadoServicioGridOptions]").find('.ag-cell-focus').removeClass('.ag-cell-focus').addClass('ag-cell-no-focus');
+            return;
+        }
+
+        if (parseFloat(empleado_Servicio.data.aplicacion_Nomina) <= 0) {
+            toastr.info('El Porcentaje de aplicación de nómina para el servicio, debe ser mayor que cero', '', $scope.toastrOptions);
+            empleado_Servicio.data[empleado_Servicio.colDef.field] = '';
+            $("[data-ag-grid=EmpleadoServicioGridOptions]").find('.ag-cell-focus').removeClass('.ag-cell-focus').addClass('ag-cell-no-focus');
+            return;
+        }
+
+        if (empleado_Servicio.data.aplicacion_Nomina > 1) {
+            toastr.info('El porcentaje de aplicación de nómina para el servicio, no puede ser mayor que 1', '', $scope.toastrOptions);
+            empleado_Servicio.data[empleado_Servicio.colDef.field] = '';
+            $scope.EmpleadoServicioGridOptions.api.refreshCells();
+            $("[data-ag-grid=EmpleadoServicioGridOptions]").find('.ag-cell-focus').removeClass('.ag-cell-focus').addClass('ag-cell-no-focus');
+            return;
+        }
+
+        let empleadoServicio = {
+            Id_Empleado_Servicio: empleado_Servicio.data.id_Empleado_Servicio,
+            Id_Empleado: empleado_Servicio.data.id_Empleado,
+            Id_Empresa_Servicio: empleado_Servicio.data.id_Empresa_Servicio,
+            Id_Servicio: empleado_Servicio.data.id_Servicio,
+            Aplicacion_Nomina: parseFloat(empleado_Servicio.data.aplicacion_Nomina),
+            Usuario_Modificacion: $scope.UsuarioSistema
+        };
+
+        $scope.ActualizarEmpleadoServicio(JSON.stringify(empleadoServicio));
+        
+        $("[data-ag-grid=EmpleadoServicioGridOptions]").find('.ag-cell-focus').removeClass('.ag-cell-focus').addClass('ag-cell-no-focus');
     }
 
     $scope.EmpleadoInsumosGridOptionsColumns = [
@@ -1147,13 +1226,13 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
         if ($scope.AccionEmpleado === 'Asignar Insumos') {
             $timeout(function () {
                 $scope.EmpleadoInsumosGridOptions.api.sizeColumnsToFit();
-            }, 200);
+            }, 300);
         }
 
         if ($scope.AccionEmpleado === 'Asignar Servicios') {
             $timeout(function () {
                 $scope.EmpleadoServicioGridOptions.api.sizeColumnsToFit();
-            }, 200);
+            }, 300);
         }
     }
 

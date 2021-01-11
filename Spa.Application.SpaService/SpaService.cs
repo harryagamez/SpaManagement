@@ -512,9 +512,9 @@ namespace Spa.Application.SpaService
             return _spaRepository.ConsultarPromocion(IdPromocion, IdEmpresa);
         }
 
-        public bool ConfirmarAgenda(int IdAgenda, string IdEmpresa)
+        public bool ActualizarEmpleadoServicio(EmpleadoServicio empleadoServicio)
         {
-            throw new NotImplementedException();
+            return _spaRepository.ActualizarEmpleadoServicio(empleadoServicio);
         }
     }
 }

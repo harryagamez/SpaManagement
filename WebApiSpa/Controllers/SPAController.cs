@@ -1133,5 +1133,22 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error consultando la promoción: " + ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("api/SPA/ActualizarEmpleadoServicio")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ActualizarEmpleadoServicio(EmpleadoServicio empleadoServicio)
+        {
+            try
+            {
+                bool _result = _spaService.ActualizarEmpleadoServicio(empleadoServicio);
+
+                return Content(HttpStatusCode.OK, _result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error actualizando el servicio asociado al empleado: " + ex.Message);
+            }
+        }
     }
 }

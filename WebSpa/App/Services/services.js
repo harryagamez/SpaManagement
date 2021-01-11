@@ -448,7 +448,8 @@
             _consultarTipoPromociones: ConsultarTipoPromociones,
             _consultarPromociones: ConsultarPromociones,
             _eliminarServicioPromocion: EliminarServicioPromocion,
-            _consultarPromocion: ConsultarPromocion
+            _consultarPromocion: ConsultarPromocion,
+            _actualizarEmpleadoServicio: ActualizarEmpleadoServicio
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1380,6 +1381,18 @@
         function ConsultarPromocion(id_promocion, id_empresa) {
             var deferred = $q.defer();
             serviceRest.Get('SPA', 'ConsultarPromocion?IdPromocion=' + id_promocion + '&IdEmpresa=' + id_empresa, 
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        }
+
+        function ActualizarEmpleadoServicio(empleado_servicio) {
+            var deferred = $q.defer();
+            serviceRest.Post('SPA', 'ActualizarEmpleadoServicio', empleado_servicio,
                 function (data) {
                     deferred.resolve(data);
                 },

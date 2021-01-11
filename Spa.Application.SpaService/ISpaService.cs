@@ -145,5 +145,7 @@ namespace Spa.Application.SpaService
         bool EliminarServicioPromocion(string IdDetallePromocion, string IdPromocion);
 
         Promocion ConsultarPromocion(string IdPromocion, string IdEmpresa);
+
+        bool ActualizarEmpleadoServicio(EmpleadoServicio empleadoServicio);
     }
 }
