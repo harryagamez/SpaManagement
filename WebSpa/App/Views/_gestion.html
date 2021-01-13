@@ -86,8 +86,8 @@
                             <div layout="row" layout-sm="column" style="margin-top:1px;">
                                 <div flex="" style="flex:none;">
                                     <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px; margin-top:2px; margin-left:2px;">
-                                        <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin-left:-2px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevaPromocion()">
-                                            <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-3px;">note_add</i> Nuevo
+                                        <md-button type="button" id="btnNuevo" ng-disabled="PerfilUsuario === 'Invitado'" class="btn-spa groupX middle" style="margin-left:-2px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevaPromocion()">
+                                            <i class="material-icons md-18"  style="transform: scaleX(-1); margin-top:-3px;">note_add</i> Nuevo
                                         </md-button>
 
                                         <md-button type="button" id="btnExportar" class="btn-spa groupX middle" style="margin-left: -2px;" data-toggle="tooltip" title="Importar" data-ng-click="ExportarArchivo()">
@@ -394,7 +394,7 @@
                         <div layout="row" layout-sm="column" layout-align="end center" style="margin-top:15px; margin-bottom:15px;">
 
                             <div flex="" style="right:14px; position:fixed; ">
-                                <md-button type="button" style="margin: 1px 1px !important;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" ng-click="GuardarPromocion()" tabindex=8>
+                                <md-button type="button" ng-disabled="PerfilUsuario === 'Invitado'" style="margin: 1px 1px !important;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" ng-click="GuardarPromocion()" tabindex=8>
                                     <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">save</i> Guardar
                                 </md-button>
                             </div>
