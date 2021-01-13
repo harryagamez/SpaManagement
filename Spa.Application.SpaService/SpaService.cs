@@ -65,7 +65,7 @@ namespace Spa.Application.SpaService
                            </tr>
                            <tr>
                            <td bgcolor=""#2c333c"" style=""padding: 3px 30px 3px 30px; text-align:center; color: white;"" >
-                            <p>beux © "  + anioActual + " - " + anioSiguiente + @" Todos los derechos reservados</p>
+                            <p>beux © "  + anioActual +  @" Todos los derechos reservados</p>
                            </td>
                            </tr>
                            </table>
@@ -413,7 +413,7 @@ namespace Spa.Application.SpaService
                            </tr>
                            <tr>
                            <td bgcolor=""#2c333c"" style=""padding: 3px 30px 3px 30px; text-align:center; color: white;"" >
-                             <p>beux © " + anioActual + " - " + anioSiguiente + @" Todos los derechos reservados</p>
+                             <p>beux © " + anioActual + @" Todos los derechos reservados</p>
                            </td>
                            </tr>
                            </table>
