@@ -466,7 +466,7 @@ function GestionController($scope, $rootScope, $filter, $mdDialog, $timeout, SPA
             headerName: "", field: "", suppressMenu: true, visible: true, width: 40, cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' }, suppressSizeToFit: true,
             cellRenderer: function () {
                 let perfilUsuario = $scope.PerfilUsuario;
-                if (perfilUsuario === 'Administrador')
+                if (perfilUsuario !== 'Invitado')
                     return "<i data-ng-click='showConfirmEliminarServicioPromo (ev, data)' data-toggle='tooltip' title='Eliminar Servicio' class='material-icons' style='font-size:20px;margin-top:-1px;color:lightslategrey;'>delete_sweep</i>";
             },
         },
