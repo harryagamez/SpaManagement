@@ -146,18 +146,19 @@
         $rootScope.$on('$stateChangeStart', function (e, route) {
             if (route.controller !== "LoginController" && route.controller !== "AdministratorController") {
                 let _authentication = authService.authentication;
-
                 if (_authentication && _authentication.isAuth) {
                     if (_authentication.userRole !== "[MANAGER]") {
                         let _menu = $rootScope.Menu;
                         if (_menu.length > 0) {
-                            let _access = Enumerable.From(angular.copy(_menu))
-                                .Where(function (x) { return x.ruta_Acceso === route.name })
-                                .ToArray();
+                            if (route.name !== "home") {
+                                let _access = Enumerable.From(angular.copy(_menu))
+                                    .Where(function (x) { return x.ruta_Acceso === route.name })
+                                    .ToArray();
 
-                            if (_access.length == 0) {
-                                e.preventDefault();
-                                $location.replace();
+                                if (_access.length == 0) {
+                                    e.preventDefault();
+                                    $location.replace();
+                                }
                             }
                         }
                     }
