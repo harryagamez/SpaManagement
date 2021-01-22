@@ -163,16 +163,15 @@ BEGIN
 
 	BEGIN TRY
 
-		BEGIN TRANSACTION Tn_LiquidarNomina
-
+		BEGIN TRANSACTION Tn_LiquidarNomina			
+			
 			INSERT INTO LIQUIDACIONES (FECHA, ID_EMPLEADO, SUBTOTAL, TOTAL_PRESTAMOS, TOTAL_PAGADO, ANIO, MES, QUINCENA, DIA, 
 			ID_EMPRESA, USUARIO_REGISTRO)
 			SELECT 
 				@FechaActual, Id_Empleado, Subtotal, Total_Prestamos, 
 				Total_Pagado, Anio, Mes, Quincena, Dia, Id_Empresa,
 				@UsuarioSistema
-			FROM #TempLiquidaciones_Empleados
-			WHERE Total_Pagado > 0
+			FROM #TempLiquidaciones_Empleados			
 
 			IF(@TipoNomina = 'POR_SERVICIOS') BEGIN
 		
@@ -196,8 +195,7 @@ BEGIN
 			FROM GASTOS Gastos
 			INNER JOIN #TempLiquidaciones_Empleados LiquidacionesEmpleados
 			ON LiquidacionesEmpleados.Id_Empleado = Gastos.ID_EMPLEADO 
-			AND LiquidacionesEmpleados.Id_Empresa = Gastos.ID_EMPRESA
-			WHERE LiquidacionesEmpleados.Subtotal >= LiquidacionesEmpleados.Total_Prestamos
+			AND LiquidacionesEmpleados.Id_Empresa = Gastos.ID_EMPRESA			
 
 			SET @MensajePrestamos = 'Excedente del valor de los prestamos el cual no pudo ser cancelado en ésta liquidación'
 
