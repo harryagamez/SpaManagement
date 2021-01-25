@@ -8,7 +8,7 @@ BEGIN
 
 	DECLARE @TotalGasto DECIMAL(18,2)
 	DECLARE @IdEmpresa VARCHAR(36)
-	DECLARE @FechaActual AS DATETIME =  GETDATE()
+	DECLARE @FechaActual AS DATETIME =  GETDATE()	
 
 	CREATE TABLE #TempGastos(Id_Gasto INT, Tipo_Gasto CHAR(15), Descripcion CHAR(300), Valor DECIMAL(18,2), Fecha SMALLDATETIME, 
 	Estado CHAR(12), Id_Empleado INT, Fecha_Registro DATETIME, Fecha_Modificacion DATETIME, Id_Empresa VARCHAR(36), Usuario_Registro CHAR(25))	
@@ -33,11 +33,16 @@ BEGIN
 
 	BEGIN TRY
 
-		BEGIN TRANSACTION Tn_GuardarGasto		
-			
-			UPDATE CAJA_MENOR 
-				SET ACUMULADO = (ACUMULADO - @TotalGasto) 
-			WHERE ID_EMPRESA = @IdEmpresa
+		BEGIN TRANSACTION Tn_GuardarGasto			
+
+			;WITH totalacumulado AS
+			(
+				SELECT TOP 1 * FROM CAJA_MENOR
+				WHERE ID_EMPRESA = @IdEmpresa
+				ORDER BY FECHA_REGISTRO DESC
+			)
+			UPDATE totalacumulado SET ACUMULADO = (ACUMULADO - @TotalGasto)
+
 
 			INSERT INTO GASTOS (TIPO_GASTO, DESCRIPCION, VALOR, FECHA, ESTADO, ID_EMPLEADO, FECHA_REGISTRO, 
 			ID_EMPRESA, USUARIO_REGISTRO)
@@ -63,5 +68,6 @@ BEGIN
 	END CATCH
 
 END
+
 
 GO

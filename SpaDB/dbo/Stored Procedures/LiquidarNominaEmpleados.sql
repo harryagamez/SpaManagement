@@ -15,6 +15,7 @@ BEGIN
 	DECLARE @FechaActual AS DATETIME =  GETDATE()
 	DECLARE @MensajePrestamos VARCHAR(100)
 	DECLARE @MensajePagoNomina VARCHAR(100)
+	DECLARE @AcumuladoActual DECIMAL(18,2)
 
 	SELECT 
 		@IdEmpresa = Id_Empresa, 
@@ -209,18 +210,22 @@ BEGIN
 
 			SET @MensajePagoNomina = 'Liquidación de nómina la cual fue abonada en su totalidad'
 
+			;WITH totalacumulado AS
+			(
+				SELECT TOP 1 * FROM CAJA_MENOR
+				WHERE ID_EMPRESA = @IdEmpresa
+				ORDER BY FECHA_REGISTRO DESC
+			)
+			UPDATE totalacumulado SET ACUMULADO = (totalacumulado.ACUMULADO - ISNULL(@TotalNomina, 0))
+			
 			INSERT INTO GASTOS (TIPO_GASTO, DESCRIPCION, VALOR, FECHA, ESTADO, ID_EMPLEADO, FECHA_REGISTRO, FECHA_MODIFICACION, 
 			ID_EMPRESA, USUARIO_REGISTRO, USUARIO_MODIFICACION)
 			SELECT 
 				'NOMINA', @MensajePagoNomina, Total_Pagado, 
 				@FechaNomina, 'LIQUIDADO', Id_Empleado, @FechaActual, 
-				@FechaActual, @IdEmpresa, @UsuarioSistema, @UsuarioSistema
+				@FechaActual, @IdEmpresa, @UsuarioSistema, @UsuarioSistema, @AcumuladoActual
 			FROM #TempLiquidaciones_Empleados
-			WHERE Total_Pagado > 0
-
-			UPDATE CAJA_MENOR 
-				SET ACUMULADO = (CAJA_MENOR.ACUMULADO - ISNULL(@TotalNomina, 0))
-			WHERE ID_EMPRESA = @IdEmpresa
+			WHERE Total_Pagado > 0			
 
 		COMMIT TRANSACTION Tn_LiquidarNomina
 
@@ -238,5 +243,6 @@ BEGIN
 	END CATCH	
 
 END
+
 
 GO
