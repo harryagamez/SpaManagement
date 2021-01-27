@@ -313,6 +313,7 @@
     <Build Include="dbo\Stored Procedures\ConsultarPromocion.sql" />
     <Build Include="dbo\Stored Procedures\RegistrarActualizarCliente.sql" />
     <Build Include="dbo\Stored Procedures\ActualizarEmpleadoServicio.sql" />
+    <Build Include="dbo\Tables\ACUMULADOS_CAJA.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />
