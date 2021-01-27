@@ -43,8 +43,7 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAS
         window.onresize();
         $scope.Filtros = { Desde: new Date(), Hasta: new Date() }
         $scope.TipoGastoSeleccionado = -1;
-        $scope.TipoGastoSeleccionadoModal = -1;
-        $scope.LimpiarDatosCajaMenor();        
+        $scope.TipoGastoSeleccionadoModal = -1;        
     }
 
     $scope.IdEmpresa = $rootScope.Id_Empresa;
@@ -57,9 +56,12 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAS
     };
 
     $scope.CajaMenor = {
+        Id_Registro: -1,
         Saldo_Inicial: 0,
         Acumulado: $scope.Acumulado,
-        Distribucion: $scope.TipoCajaSeleccionada
+        Distribucion: $scope.TipoCajaSeleccionada,
+        Id_Empresa: $scope.IdEmpresa,
+        Usuario_Registro: $scope.UsuarioSistema
     };
 
     $scope.Gasto = {
@@ -128,7 +130,7 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAS
             $scope.ObjetoCajaMenor = [];
             $scope.ObjetoCajaMenor.push($scope.CajaMenor);
 
-            if (!$scope.CambiarDistribucionCajaMenor) {
+            if (!$scope.CambiarDistribucionCajaMenor) {                
                 SPAService._guardarCajaMenor(JSON.stringify($scope.ObjetoCajaMenor))
                     .then(
                         function (result) {
@@ -171,11 +173,10 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAS
     $scope.ConsultarCajaMenor = function () {
         SPAService._consultarCajaMenor($scope.IdEmpresa)
             .then(
-                function (result) {
+                function (result) {                    
                     if (result.data !== undefined && result.data !== null) {
-                        $scope.Caja_Menor = [];
-                        $scope.Caja_Menor = result.data;
-
+                        $scope.Caja_Menor = [];                        
+                        $scope.Caja_Menor = result.data;                        
                         if ($scope.Caja_Menor.dia !== null) {
                             $scope.TipoCajaSeleccionada = 1;
                             $scope.DistribucionActual = $scope.TipoCajaSeleccionada;
@@ -187,7 +188,11 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAS
                             $scope.Acumulado = $scope.Caja_Menor.acumulado;
                         }
                     }
-                    else toastr.info('Debe configurar la caja', '', $scope.toastrOptions);
+                    else {
+                        $scope.Caja_Menor = [];
+                        $scope.Acumulado = 0;
+                        toastr.info('Debe configurar la caja', '', $scope.toastrOptions);
+                    }
                 }, function (err) {
                     toastr.remove();
                     if (err.data !== null && err.status === 500)
@@ -289,12 +294,13 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAS
     $scope.ValidarCajaMenor = function () {
         try {
             $scope.CajaMenor.Acumulado = $scope.Acumulado;
-            $scope.CajaMenor.Id_Empresa = $scope.IdEmpresa;
-
-            if ($scope.Caja_Menor !== null && $scope.Caja_Menor !== undefined) {
+            $scope.CajaMenor.Id_Empresa = $scope.IdEmpresa;            
+            if ($scope.Caja_Menor !== null && $scope.Caja_Menor !== undefined && $scope.Caja_Menor.length !== 0) {
                 $scope.CajaMenor.Id_Registro = $scope.Caja_Menor.id_Registro;
+            } else {
+                $scope.CajaMenor.Id_Registro = -1;
             }
-
+            
             if ($scope.IdEmpresa === null || $scope.IdEmpresa === undefined) {
                 toastr.info('Código de empresa inválido', '', $scope.toastrOptions);
                 return false;
@@ -457,11 +463,13 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAS
             $scope.CambiarDistribucionCajaMenor = false;
 
             $scope.CajaMenor = {
+                Id_Registro: -1,
                 Saldo_Inicial: 0,
                 Acumulado: $scope.Acumulado,
                 Distribucion: $scope.TipoCajaSeleccionada,
-                Id_Empresa: $scope.IdEmpresa
-            }
+                Id_Empresa: $scope.IdEmpresa,
+                Usuario_Registro: $scope.UsuarioSistema
+            };
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -639,6 +647,8 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAS
 
     $scope.$on("CompanyChange", function () {
         $scope.IdEmpresa = $rootScope.Id_Empresa;
+        $scope.LimpiarDatosCajaMenor();
+        $scope.LimpiarDatosGastos();
         $scope.Inicializacion();
         $scope.ResetearGrids();
     });

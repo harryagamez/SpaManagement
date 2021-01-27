@@ -39,7 +39,7 @@ BEGIN
 					SELECT JsonCajaMenor.Saldo_Inicial, JsonCajaMenor.Acumulado, JsonCajaMenor.Distribucion, JsonCajaMenor.Id_Empresa
 					FROM OPENJSON(@JsonCajaMenor) 
 					WITH (
-						Saldo_Inicial REAL '$.Saldo_Inicial', Acumulado REAL '$.Acumulado', Distribucion CHAR(10) '$.Distribucion', Id_Empresa VARCHAR(36) '$.Id_Empresa'				
+						Saldo_Inicial DECIMAL(18,2) '$.Saldo_Inicial', Acumulado DECIMAL(18,2) '$.Acumulado', Distribucion CHAR(10) '$.Distribucion', Id_Empresa VARCHAR(36) '$.Id_Empresa'				
 					) AS JsonCajaMenor
 				) AS SOURCE(Saldo_Inicial, Acumulado, Distribucion, Id_Empresa)		
 
@@ -60,7 +60,7 @@ BEGIN
 					SELECT JsonCajaMenor.Saldo_Inicial, JsonCajaMenor.Acumulado, JsonCajaMenor.Distribucion, JsonCajaMenor.Id_Empresa
 					FROM OPENJSON(@JsonCajaMenor) 
 					WITH (
-						Saldo_Inicial REAL '$.Saldo_Inicial', Acumulado REAL '$.Acumulado', Distribucion CHAR(10) '$.Distribucion', Id_Empresa VARCHAR(36) '$.Id_Empresa'				
+						Saldo_Inicial DECIMAL(18,2) '$.Saldo_Inicial', Acumulado DECIMAL(18,2) '$.Acumulado', Distribucion CHAR(10) '$.Distribucion', Id_Empresa VARCHAR(36) '$.Id_Empresa'				
 					) AS JsonCajaMenor
 				) AS SOURCE(Saldo_Inicial, Acumulado, Distribucion, Id_Empresa)		
 
