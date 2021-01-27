@@ -7,7 +7,7 @@ namespace Spa.Domain.SpaEntities
     {
         public int Id_Gasto { get; set; }
         public string Descripcion { get; set; } = string.Empty;
-        public float Valor { get; set; }
+        public double Valor { get; set; }
         public DateTime? Fecha { get; set; }
         public string Estado { get; set; } = string.Empty;
         public int? Id_Empleado { get; set; }

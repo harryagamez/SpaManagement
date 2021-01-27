@@ -191,6 +191,9 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAS
                     else {
                         $scope.Caja_Menor = [];
                         $scope.Acumulado = 0;
+                        $scope.TipoCajaSeleccionada = -1;
+                        $scope.DistribucionActual = -1;
+                        $scope.CambiarDistribucionCajaMenor = false;
                         toastr.info('Debe configurar la caja', '', $scope.toastrOptions);
                     }
                 }, function (err) {
@@ -322,6 +325,7 @@ function GastosController($scope, $rootScope, $filter, $mdDialog, $timeout, SPAS
                 $('#txtSaldoInicial').focus();
                 return false;
             }
+            
             return true;
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);

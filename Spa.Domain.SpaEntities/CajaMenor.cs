@@ -10,8 +10,8 @@ namespace Spa.Domain.SpaEntities
         public DateTime? Dia { get; set; }
         public string Distribucion { get; set; }
         public int? Quincena { get; set; }
-        public float Saldo_Inicial { get; set; }
-        public float Acumulado { get; set; }
+        public decimal Saldo_Inicial { get; set; }
+        public decimal Acumulado { get; set; }
         public DateTime? Fecha_Registro { get; set; }
         public DateTime? Fecha_Modificacion { get; set; }
         public string Id_Empresa { get; set; }

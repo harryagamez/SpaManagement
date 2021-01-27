@@ -2,14 +2,14 @@
 {
     public class MovimientoCajaMenor
     {        
-        public float SaldoInicial { get; set; }
-        public float Acumulado { get; set; }
+        public decimal SaldoInicial { get; set; }
+        public decimal Acumulado { get; set; }
         public string Fecha { get; set; }
-        public float Compras { get; set; }
-        public float Nomina { get; set; }
-        public float Prestamos { get; set; }
-        public float Servicios { get; set; }
-        public float Varios { get; set; }
-        public float Facturado { get; set; }
+        public decimal Compras { get; set; }
+        public decimal Nomina { get; set; }
+        public decimal Prestamos { get; set; }
+        public decimal Servicios { get; set; }
+        public decimal Varios { get; set; }
+        public decimal Facturado { get; set; }
     }
 }
