@@ -94,8 +94,7 @@ BEGIN
 
 	IF(@Distribucion = 'MENSUAL') BEGIN
 
-		UPDATE Movimientos SET 
-			Acumulado = CAJA_MENOR.ACUMULADO,
+		UPDATE Movimientos SET			
 			SaldoInicial = CAJA_MENOR.SALDO_INICIAL
 		FROM #TempMovimientos Movimientos
 		INNER JOIN CAJA_MENOR ON YEAR(CAJA_MENOR.FECHA_REGISTRO) = YEAR(Movimientos.Fecha) 
@@ -104,15 +103,19 @@ BEGIN
 		
 	END
 	ELSE BEGIN
-
-		UPDATE Movimientos SET 
-			Acumulado = CAJA_MENOR.ACUMULADO,
+		UPDATE Movimientos SET 			
 			SaldoInicial = CAJA_MENOR.SALDO_INICIAL
 		FROM #TempMovimientos Movimientos
 		INNER JOIN CAJA_MENOR ON CONVERT(VARCHAR(10), CAJA_MENOR.DIA, 121) = Movimientos.Fecha 
 		WHERE ID_EMPRESA = @IdEmpresa
 
 	END
+
+	UPDATE Movimientos SET
+		Acumulado = ACUMULADOS_CAJA.VALOR
+	FROM #TempMovimientos Movimientos
+	INNER JOIN ACUMULADOS_CAJA ON CONVERT(VARCHAR(10), ACUMULADOS_CAJA.FECHA_REGISTRO, 121) = Movimientos.Fecha
+	WHERE ID_EMPRESA = @IdEmpresa	
 
 	SELECT 
 		ISNULL(SaldoInicial, 0) AS SaldoInicial, 
