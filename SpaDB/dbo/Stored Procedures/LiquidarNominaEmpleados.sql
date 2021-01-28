@@ -14,8 +14,9 @@ BEGIN
 	DECLARE @TipoNomina CHAR(15)
 	DECLARE @FechaActual AS DATETIME =  GETDATE()
 	DECLARE @MensajePrestamos VARCHAR(100)
-	DECLARE @MensajePagoNomina VARCHAR(100)
-	DECLARE @AcumuladoActual DECIMAL(18,2)
+	DECLARE @MensajePagoNomina VARCHAR(100)	
+	DECLARE @ValorAcumulado DECIMAL(18,2)
+	DECLARE @IdCajaMenor INT
 
 	SELECT 
 		@IdEmpresa = Id_Empresa, 
@@ -48,8 +49,8 @@ BEGIN
 		RETURN
 	END
 
-	CREATE TABLE #TempLiquidaciones_Empleados (Fecha DATETIME, Id_Empleado INT, Subtotal  DECIMAL(18,2), Total_Prestamos  DECIMAL(18,2), Total_Pagado  DECIMAL(18,2), Anio INT, 
-	Mes INT, Quincena INT, Dia SMALLDATETIME, Id_Empresa VARCHAR(36))
+	CREATE TABLE #TempLiquidaciones_Empleados (Fecha DATETIME, Id_Empleado INT, Subtotal  DECIMAL(18,2), Total_Prestamos  DECIMAL(18,2), 
+	Total_Pagado  DECIMAL(18,2), Anio INT, Mes INT, Quincena INT, Dia SMALLDATETIME, Id_Empresa VARCHAR(36))
 
 	IF(@TipoNomina = 'MENSUAL' OR @TipoNomina = 'POR_SERVICIOS') BEGIN
 
@@ -160,7 +161,7 @@ BEGIN
 			Total_Pagado DECIMAL(18,2) '$.Total_Pagado'
 		) Liquidacion		
 	
-	END	
+	END
 
 	BEGIN TRY
 
@@ -216,16 +217,33 @@ BEGIN
 				WHERE ID_EMPRESA = @IdEmpresa
 				ORDER BY FECHA_REGISTRO DESC
 			)
-			UPDATE totalacumulado SET ACUMULADO = (totalacumulado.ACUMULADO - ISNULL(@TotalNomina, 0))
+			UPDATE totalacumulado SET ACUMULADO = (totalacumulado.ACUMULADO - ISNULL(@TotalNomina, 0)), 
+			FECHA_MODIFICACION = @FechaActual, USUARIO_MODIFICACION = @UsuarioSistema, @IdCajaMenor = totalacumulado.ID_REGISTRO, 
+			@ValorAcumulado = (totalacumulado.ACUMULADO - ISNULL(@TotalNomina, 0))
 			
-			INSERT INTO GASTOS (TIPO_GASTO, DESCRIPCION, VALOR, FECHA, ESTADO, ID_EMPLEADO, FECHA_REGISTRO, FECHA_MODIFICACION, 
-			ID_EMPRESA, USUARIO_REGISTRO, USUARIO_MODIFICACION)
+			INSERT INTO GASTOS (TIPO_GASTO, DESCRIPCION, VALOR, FECHA, ESTADO, ID_EMPLEADO, FECHA_REGISTRO, 
+			ID_EMPRESA, USUARIO_REGISTRO)
 			SELECT 
 				'NOMINA', @MensajePagoNomina, Total_Pagado, 
-				@FechaNomina, 'LIQUIDADO', Id_Empleado, @FechaActual, 
-				@FechaActual, @IdEmpresa, @UsuarioSistema, @UsuarioSistema, @AcumuladoActual
+				@FechaNomina, 'LIQUIDADO', Id_Empleado, @FechaActual,
+				@IdEmpresa, @UsuarioSistema
 			FROM #TempLiquidaciones_Empleados
-			WHERE Total_Pagado > 0			
+			WHERE Total_Pagado > 0
+			
+			IF(SELECT TOP 1 CONVERT(char(10), FECHA_REGISTRO,126) FROM ACUMULADOS_CAJA 
+			WHERE ID_EMPRESA = @IdEmpresa ORDER BY FECHA_REGISTRO DESC) = CONVERT(char(10), @FechaActual,126) BEGIN						
+				;WITH acumulado AS
+				(
+					SELECT TOP 1 * FROM ACUMULADOS_CAJA
+					WHERE ID_EMPRESA = @IdEmpresa
+					ORDER BY FECHA_REGISTRO DESC
+				)
+				UPDATE acumulado SET VALOR = @ValorAcumulado, USUARIO_MODIFICACION = @UsuarioSistema, FECHA_MODIFICACION = @FechaActual				
+			END
+			ELSE BEGIN				
+				INSERT INTO ACUMULADOS_CAJA (ID_REGISTRO, ID_CAJA_MENOR, VALOR, FECHA_REGISTRO, USUARIO_REGISTRO, ID_EMPRESA)
+				VALUES (NEWID(), @IdCajaMenor, @ValorAcumulado, @FechaActual, @UsuarioSistema, @IdEmpresa)
+			END
 
 		COMMIT TRANSACTION Tn_LiquidarNomina
 

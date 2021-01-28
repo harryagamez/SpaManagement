@@ -15,6 +15,8 @@ BEGIN
 	DECLARE @TotalPagado AS REAL
 	DECLARE @FechaActual AS DATETIME
 	DECLARE @UsuarioSistema CHAR(25)
+	DECLARE @ValorAcumulado AS DECIMAL(18,2)
+	DECLARE @IdCajaMenor INT
 
 	SET @FechaActual = GETDATE()
 
@@ -26,8 +28,9 @@ BEGIN
 	Total_Productos DECIMAL(18,2), Descuento DECIMAL(18,2), Total_Pagado DECIMAL(18,2), Id_Empresa VARCHAR(36), Usuario_Creacion VARCHAR(25))
 
 	CREATE TABLE #TempCajaMenor (Id_Registro INT, Anio INT, Mes INT, Dia SMALLDATETIME, Quincena INT, Saldo_Inicial DECIMAL(18,2), Acumulado DECIMAL(18,2), Fecha_Registro DATETIME, 
-	Fecha_Modificacion DATETIME, Id_Empresa VARCHAR(36))
+	Fecha_Modificacion DATETIME, Id_Empresa VARCHAR(36), Usuario_Registro CHAR(25), Usuario_Modificacion CHAR(25))
 
+	
 	INSERT INTO #TempAgenda(Id_Agenda, Estado, Id_Empresa)
 	SELECT 
 		Agenda.Id_Agenda,
@@ -102,7 +105,7 @@ BEGIN
 
 	SET @Fecha = (SELECT TOP 1 Fecha FROM #TempClientePagos)
 	SET @IdEmpresa = (SELECT TOP 1 Id_Empresa FROM #TempClientePagos)
-
+	
 	INSERT INTO #TempCajaMenor 
 	SELECT 
 		TOP 1 * 
@@ -198,8 +201,25 @@ BEGIN
 			AND TARGET.ID_REGISTRO = SOURCE.Id_Registro
 			WHEN MATCHED THEN
 				UPDATE SET 
-					TARGET.ACUMULADO = (TARGET.ACUMULADO + @TotalPagado), 
-					TARGET.FECHA_MODIFICACION = @FechaActual;
+					TARGET.ACUMULADO = (TARGET.ACUMULADO + @TotalPagado), TARGET.USUARIO_MODIFICACION = @UsuarioSistema,
+					TARGET.FECHA_MODIFICACION = @FechaActual, @ValorAcumulado = (TARGET.ACUMULADO + @TotalPagado), @IdCajaMenor = SOURCE.Id_Registro;
+			
+			
+			IF(SELECT TOP 1 CONVERT(char(10), FECHA_REGISTRO,126) FROM ACUMULADOS_CAJA 
+			WHERE ID_EMPRESA = @IdEmpresa ORDER BY FECHA_REGISTRO DESC) = CONVERT(char(10), @FechaActual,126) BEGIN						
+				;WITH totalacumulado AS
+				(
+					SELECT TOP 1 * FROM ACUMULADOS_CAJA
+					WHERE ID_EMPRESA = @IdEmpresa
+					ORDER BY FECHA_REGISTRO DESC
+				)
+				UPDATE totalacumulado SET VALOR = @ValorAcumulado, USUARIO_MODIFICACION = @UsuarioSistema, FECHA_MODIFICACION = @FechaActual
+				
+			END
+			ELSE BEGIN				
+				INSERT INTO ACUMULADOS_CAJA (ID_REGISTRO, ID_CAJA_MENOR, VALOR, FECHA_REGISTRO, USUARIO_REGISTRO, ID_EMPRESA )
+				VALUES (NEWID(), @IdCajaMenor, @ValorAcumulado, @FechaActual, @UsuarioSistema, @IdEmpresa)
+			END
 		
 		COMMIT TRANSACTION Tn_FacturacionServicios
 

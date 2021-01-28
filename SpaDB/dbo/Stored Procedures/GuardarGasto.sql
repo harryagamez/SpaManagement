@@ -9,6 +9,9 @@ BEGIN
 	DECLARE @TotalGasto DECIMAL(18,2)
 	DECLARE @IdEmpresa VARCHAR(36)
 	DECLARE @FechaActual AS DATETIME =  GETDATE()	
+	DECLARE @ValorAcumulado AS DECIMAL(18,2)
+	DECLARE @UsuarioRegistro AS CHAR(25)
+	DECLARE @IdCajaMenor INT
 
 	CREATE TABLE #TempGastos(Id_Gasto INT, Tipo_Gasto CHAR(15), Descripcion CHAR(300), Valor DECIMAL(18,2), Fecha SMALLDATETIME, 
 	Estado CHAR(12), Id_Empleado INT, Fecha_Registro DATETIME, Fecha_Modificacion DATETIME, Id_Empresa VARCHAR(36), Usuario_Registro CHAR(25))	
@@ -28,7 +31,8 @@ BEGIN
 			
 	SELECT 
 		@TotalGasto = Valor,
-		@IdEmpresa = Id_Empresa
+		@IdEmpresa = Id_Empresa,
+		@UsuarioRegistro = Usuario_Registro
 	FROM #TempGastos
 
 	BEGIN TRY
@@ -41,8 +45,24 @@ BEGIN
 				WHERE ID_EMPRESA = @IdEmpresa
 				ORDER BY FECHA_REGISTRO DESC
 			)
-			UPDATE totalacumulado SET ACUMULADO = (ACUMULADO - @TotalGasto)
-
+			UPDATE totalacumulado SET ACUMULADO = (ACUMULADO - @TotalGasto), @ValorAcumulado = (ACUMULADO - @TotalGasto), 
+			FECHA_MODIFICACION = @FechaActual, USUARIO_MODIFICACION = @UsuarioRegistro, @IdCajaMenor = ID_REGISTRO			
+			
+			IF(SELECT TOP 1 CONVERT(char(10), FECHA_REGISTRO,126) FROM ACUMULADOS_CAJA 
+			WHERE ID_EMPRESA = @IdEmpresa ORDER BY FECHA_REGISTRO DESC) = CONVERT(char(10), @FechaActual,126) BEGIN						
+				;WITH totalacumulado AS
+				(
+					SELECT TOP 1 * FROM ACUMULADOS_CAJA
+					WHERE ID_EMPRESA = @IdEmpresa
+					ORDER BY FECHA_REGISTRO DESC
+				)
+				UPDATE totalacumulado SET VALOR = @ValorAcumulado, USUARIO_MODIFICACION = @UsuarioRegistro, FECHA_MODIFICACION = @FechaActual				
+			END
+			ELSE BEGIN
+				INSERT INTO ACUMULADOS_CAJA (ID_REGISTRO, ID_CAJA_MENOR, VALOR, FECHA_REGISTRO, USUARIO_REGISTRO, ID_EMPRESA )
+				VALUES (NEWID(), @IdCajaMenor, @ValorAcumulado, @FechaActual, @UsuarioRegistro, @IdEmpresa)
+			END
+			
 
 			INSERT INTO GASTOS (TIPO_GASTO, DESCRIPCION, VALOR, FECHA, ESTADO, ID_EMPLEADO, FECHA_REGISTRO, 
 			ID_EMPRESA, USUARIO_REGISTRO)
@@ -68,6 +88,5 @@ BEGIN
 	END CATCH
 
 END
-
 
 GO
