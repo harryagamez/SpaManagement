@@ -36,7 +36,7 @@ BEGIN
 				SELECT JsonCajaMenor.Saldo_Inicial, JsonCajaMenor.Acumulado, JsonCajaMenor.Distribucion, JsonCajaMenor.Id_Empresa
 				FROM OPENJSON(@JsonCajaMenor) 
 				WITH (
-					Saldo_Inicial REAL '$.Saldo_Inicial', Acumulado REAL '$.Acumulado', Distribucion CHAR(10) '$.Distribucion', Id_Empresa VARCHAR(36) '$.Id_Empresa'				
+					Saldo_Inicial DECIMAL(18,2) '$.Saldo_Inicial', Acumulado DECIMAL(18,2) '$.Acumulado', Distribucion CHAR(10) '$.Distribucion', Id_Empresa VARCHAR(36) '$.Id_Empresa'				
 				) AS JsonCajaMenor
 			) AS SOURCE(Saldo_Inicial, Acumulado, Distribucion, Id_Empresa)		
 
@@ -49,11 +49,14 @@ BEGIN
 				VALUES (YEAR(@FechaActual), MONTH(@FechaActual), CAST(@FechaActual AS SMALLDATETIME), SOURCE.Saldo_Inicial, SOURCE.Saldo_Inicial, @FechaActual, @UsuarioRegistro, SOURCE.Id_Empresa);
 
 			IF (@IdRegistro = -1) BEGIN
+
 				SET @IdRegistro = SCOPE_IDENTITY()
 				INSERT INTO ACUMULADOS_CAJA (ID_REGISTRO, ID_CAJA_MENOR, VALOR, FECHA_REGISTRO, USUARIO_REGISTRO, FECHA_MODIFICACION, USUARIO_MODIFICACION, ID_EMPRESA)
 				VALUES (NEWID(), @IdRegistro, @Valor, @FechaActual, @UsuarioRegistro, null, null, @IdEmpresa)
+
 			END
 			ELSE BEGIN
+
 				;WITH acumulado AS
 				(
 					SELECT TOP 1 * FROM ACUMULADOS_CAJA
@@ -61,6 +64,7 @@ BEGIN
 					ORDER BY FECHA_REGISTRO DESC
 				)
 				UPDATE acumulado SET VALOR = acumulado.VALOR + @Valor, USUARIO_MODIFICACION = @UsuarioRegistro, FECHA_MODIFICACION = @FechaActual
+
 			END
 
 		END
@@ -72,11 +76,11 @@ BEGIN
 				SELECT JsonCajaMenor.Saldo_Inicial, JsonCajaMenor.Acumulado, JsonCajaMenor.Distribucion, JsonCajaMenor.Id_Empresa
 				FROM OPENJSON(@JsonCajaMenor) 
 				WITH (
-					Saldo_Inicial REAL '$.Saldo_Inicial', Acumulado REAL '$.Acumulado', Distribucion CHAR(10) '$.Distribucion', Id_Empresa VARCHAR(36) '$.Id_Empresa'				
+					Saldo_Inicial DECIMAL(18,2) '$.Saldo_Inicial', Acumulado DECIMAL(18,2) '$.Acumulado', Distribucion CHAR(10) '$.Distribucion', Id_Empresa VARCHAR(36) '$.Id_Empresa'				
 				) AS JsonCajaMenor
 			) AS SOURCE(Saldo_Inicial, Acumulado, Distribucion, Id_Empresa)		
 
-			ON  TARGET.ID_EMPRESA = SOURCE.Id_Empresa AND TARGET.ANIO = CAST(YEAR(@FechaActual) AS INT) AND TARGET.MES = CAST(MONTH(@FechaActual) AS INT)
+			ON  TARGET.ID_EMPRESA = SOURCE.Id_Empresa AND TARGET.ANIO = CAST(YEAR(@FechaActual) AS INT) AND TARGET.MES = CAST(MONTH(@FechaActual) AS INT) AND TARGET.DIA IS NULL
 			WHEN MATCHED THEN
 				UPDATE 
 					SET TARGET.ACUMULADO = (TARGET.ACUMULADO + SOURCE.Saldo_Inicial), TARGET.SALDO_INICIAL = (TARGET.SALDO_INICIAL + SOURCE.Saldo_Inicial), TARGET.FECHA_MODIFICACION = @FechaActual, TARGET.USUARIO_MODIFICACION = @UsuarioRegistro
@@ -86,11 +90,14 @@ BEGIN
 			
 			
 			IF (@IdRegistro = -1) BEGIN
+
 				SET @IdRegistro = SCOPE_IDENTITY()
 				INSERT INTO ACUMULADOS_CAJA (ID_REGISTRO, ID_CAJA_MENOR, VALOR, FECHA_REGISTRO, USUARIO_REGISTRO, FECHA_MODIFICACION, USUARIO_MODIFICACION, ID_EMPRESA)
 				VALUES (NEWID(), @IdRegistro, @Valor, @FechaActual, @UsuarioRegistro, null, null, @IdEmpresa)
+
 			END
 			ELSE BEGIN
+
 				;WITH acumulado AS
 				(
 					SELECT TOP 1 * FROM ACUMULADOS_CAJA
@@ -98,6 +105,7 @@ BEGIN
 					ORDER BY FECHA_REGISTRO DESC
 				)
 				UPDATE acumulado SET VALOR = acumulado.VALOR + @Valor, USUARIO_MODIFICACION = @UsuarioRegistro, FECHA_MODIFICACION = @FechaActual
+
 			END
 
 		END	
@@ -112,5 +120,4 @@ BEGIN
 	END CATCH
 
 END
-
 GO
