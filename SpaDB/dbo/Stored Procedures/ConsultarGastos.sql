@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE ConsultarGastos(
+﻿CREATE PROCEDURE [dbo].[ConsultarGastos](
 	@JsonBusqueda NVARCHAR(MAX)
 )
 AS

@@ -201,10 +201,11 @@ BEGIN
 			AND TARGET.ID_REGISTRO = SOURCE.Id_Registro
 			WHEN MATCHED THEN
 				UPDATE SET 
-					TARGET.ACUMULADO = (TARGET.ACUMULADO + @TotalPagado), TARGET.USUARIO_MODIFICACION = @UsuarioSistema,
-					TARGET.FECHA_MODIFICACION = @FechaActual, @ValorAcumulado = (TARGET.ACUMULADO + @TotalPagado), @IdCajaMenor = SOURCE.Id_Registro;
-			
-			
+					TARGET.ACUMULADO = (TARGET.ACUMULADO + @TotalPagado), 
+					TARGET.USUARIO_MODIFICACION = @UsuarioSistema,
+					TARGET.FECHA_MODIFICACION = @FechaActual, 
+					@ValorAcumulado = (TARGET.ACUMULADO + @TotalPagado), @IdCajaMenor = SOURCE.Id_Registro;
+						
 			IF(SELECT TOP 1 CONVERT(char(10), FECHA_REGISTRO,126) FROM ACUMULADOS_CAJA 
 			WHERE ID_EMPRESA = @IdEmpresa ORDER BY FECHA_REGISTRO DESC) = CONVERT(char(10), @FechaActual,126) BEGIN						
 				;WITH totalacumulado AS
@@ -213,7 +214,10 @@ BEGIN
 					WHERE ID_EMPRESA = @IdEmpresa
 					ORDER BY FECHA_REGISTRO DESC
 				)
-				UPDATE totalacumulado SET VALOR = @ValorAcumulado, USUARIO_MODIFICACION = @UsuarioSistema, FECHA_MODIFICACION = @FechaActual
+				UPDATE totalacumulado SET 
+					VALOR = @ValorAcumulado, 
+					USUARIO_MODIFICACION = @UsuarioSistema, 
+					FECHA_MODIFICACION = @FechaActual
 				
 			END
 			ELSE BEGIN				

@@ -1,4 +1,4 @@
-CREATE PROCEDURE EliminarGastos(
+CREATE PROCEDURE [dbo].[EliminarGastos](
 	@JsonGastos NVARCHAR(MAX)
 )
 AS
@@ -40,8 +40,12 @@ BEGIN
 				WHERE ID_EMPRESA = @IdEmpresa
 				ORDER BY FECHA_REGISTRO DESC
 			)
-			UPDATE totalacumulado SET ACUMULADO = (ACUMULADO + @Gasto), @ValorAcumulado = (ACUMULADO + @Gasto), 
-			FECHA_MODIFICACION = @FechaActual, USUARIO_MODIFICACION = @UsuarioSistema, @IdCajaMenor = ID_REGISTRO
+			UPDATE totalacumulado 
+				SET ACUMULADO = (ACUMULADO + @Gasto), 
+				@ValorAcumulado = (ACUMULADO + @Gasto), 
+				FECHA_MODIFICACION = @FechaActual, 
+				USUARIO_MODIFICACION = @UsuarioSistema, 
+				@IdCajaMenor = ID_REGISTRO
 
 			DELETE EMPRESA_GASTOS 
 				FROM GASTOS AS EMPRESA_GASTOS 
@@ -51,13 +55,13 @@ BEGIN
 
 			IF(SELECT TOP 1 CONVERT(char(10), FECHA_REGISTRO,126) FROM ACUMULADOS_CAJA 
 			WHERE ID_EMPRESA = @IdEmpresa ORDER BY FECHA_REGISTRO DESC) = CONVERT(char(10), @FechaActual,126) BEGIN							
-						;WITH totalacumulado AS
-						(
-							SELECT TOP 1 * FROM ACUMULADOS_CAJA
-							WHERE ID_EMPRESA = @IdEmpresa
-							ORDER BY FECHA_REGISTRO DESC
-						)
-						UPDATE totalacumulado SET VALOR = @ValorAcumulado, USUARIO_MODIFICACION = @UsuarioSistema, FECHA_MODIFICACION = @FechaActual
+				;WITH totalacumulado AS
+				(
+					SELECT TOP 1 * FROM ACUMULADOS_CAJA
+					WHERE ID_EMPRESA = @IdEmpresa
+					ORDER BY FECHA_REGISTRO DESC
+				)
+				UPDATE totalacumulado SET VALOR = @ValorAcumulado, USUARIO_MODIFICACION = @UsuarioSistema, FECHA_MODIFICACION = @FechaActual
 				
 			END
 			ELSE BEGIN				

@@ -1,4 +1,4 @@
-CREATE PROCEDURE ReemplazarCajaMenor(
+CREATE PROCEDURE [dbo].[ReemplazarCajaMenor](
 	@JsonCajaMenor NVARCHAR(MAX)
 )
 AS
