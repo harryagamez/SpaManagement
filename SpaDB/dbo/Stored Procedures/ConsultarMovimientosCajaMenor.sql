@@ -99,6 +99,7 @@ BEGIN
 		FROM #TempMovimientos Movimientos
 		INNER JOIN CAJA_MENOR ON YEAR(CAJA_MENOR.FECHA_REGISTRO) = YEAR(Movimientos.Fecha) 
 		AND MONTH(CAJA_MENOR.FECHA_REGISTRO) = MONTH(Movimientos.Fecha)
+		AND DIA IS NULL
 		WHERE ID_EMPRESA = @IdEmpresa
 		
 	END
@@ -128,6 +129,7 @@ BEGIN
 		ISNULL(Varios, 0) AS Varios, 
 		ISNULL(Facturado, 0) AS Facturado
 	FROM #TempMovimientos
+	WHERE Acumulado IS NOT NULL
 	ORDER BY Fecha DESC	
 
 	IF OBJECT_ID('tempdb..#TempGastos') IS NOT NULL DROP TABLE #TempGastos
