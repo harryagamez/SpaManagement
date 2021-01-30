@@ -118,18 +118,34 @@ BEGIN
 	INNER JOIN ACUMULADOS_CAJA ON CONVERT(VARCHAR(10), ACUMULADOS_CAJA.FECHA_REGISTRO, 121) = Movimientos.Fecha
 	WHERE ID_EMPRESA = @IdEmpresa	
 
+	UPDATE Movimientos SET
+		Compras = CASE WHEN Compras IS NULL THEN 0 ELSE Compras END,
+		Nomina = CASE WHEN Nomina IS NULL THEN 0 ELSE Nomina END,
+		Prestamos = CASE WHEN Prestamos IS NULL THEN 0 ELSE Prestamos END,
+		Servicios = CASE WHEN Servicios IS NULL THEN 0 ELSE Servicios END,
+		Varios = CASE WHEN Varios IS NULL THEN 0 ELSE Varios END,
+		Facturado = CASE WHEN Facturado IS NULL THEN 0 ELSE Facturado END
+	FROM #TempMovimientos Movimientos
+	WHERE 
+		Compras IS NULL OR 
+		Nomina IS NULL OR
+		Prestamos IS NULL OR
+		Servicios IS NULL OR
+		Varios IS NULL OR
+		Facturado IS NULL
+
 	SELECT 
 		ISNULL(SaldoInicial, 0) AS SaldoInicial, 
 		ISNULL(Acumulado, 0) AS Acumulado, 
 		RTRIM(Fecha) AS Fecha, 
-		ISNULL(Compras, 0) AS Compras, 
-		ISNULL(Nomina, 0) AS Nomina, 
-		ISNULL(Prestamos, 0) AS Prestamos, 
-		ISNULL(Servicios, 0) AS Servicios, 
-		ISNULL(Varios, 0) AS Varios, 
-		ISNULL(Facturado, 0) AS Facturado
+		Compras, 
+		Nomina, 
+		Prestamos, 
+		Servicios, 
+		Varios, 
+		Facturado
 	FROM #TempMovimientos
-	WHERE Acumulado IS NOT NULL
+	WHERE (Compras + Nomina + Prestamos + Servicios + Varios + Facturado) > 0
 	ORDER BY Fecha DESC	
 
 	IF OBJECT_ID('tempdb..#TempGastos') IS NOT NULL DROP TABLE #TempGastos
