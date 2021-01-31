@@ -36,7 +36,7 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
     $scope.FechaActual = new Date();
     $scope.HoraActual = new Date($scope.FechaActual.getFullYear(), $scope.FechaActual.getMonth(), $scope.FechaActual.getDate(), $scope.FechaActual.getHours(), $scope.FechaActual.getMinutes());
     $scope.fActiveTab = 'Detallada';
-    $scope.fForzarCita = true;
+    $scope.fForzarCita = false;
 
     $scope.fPropertiesSetted = false;
     $scope.PAPTS = false;
@@ -1356,7 +1356,7 @@ function DashboardController($scope, $rootScope, $filter, $mdDialog, $timeout, S
 
     $scope.$on("CompanyChange", function () {
         $scope.IdEmpresa = $rootScope.Id_Empresa;
-        $scope.fForzarCita = true;
+        $scope.fForzarCita = false;
         $scope.LimpiarDatos();
         $scope.Agendas = [];
         $scope.EmpresaPropiedades = $filter('filter')($rootScope.EmpresaPropiedades, { id_Empresa: $scope.IdEmpresa });
