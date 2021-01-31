@@ -68,8 +68,16 @@
                                 <div style="margin-top:-5px; margin-left:10px;">
                                     <md-switch ng-model="MostrarCanceladasDetallada" aria-label="Mostrar Canceladas">
                                         Mostrar Solo Canceladas
+                                        <i class="material-icons" style="font-size:20px; margin-top: -3px; font-weight:300; color: #6d7f93;" data-toggle="tooltip" title="Muestra solamente las citas que han sido canceladas">help</i>
                                     </md-switch>
-                                </div>                                
+                                </div>
+
+                                <div style="margin-top:-5px; margin-left:10px;">
+                                    <md-switch ng-model="fForzarCita" aria-label="Forzar Cita">
+                                        Forzar Cita
+                                        <i class="material-icons" style="font-size:20px; margin-top: -3px; font-weight:300; color: #6d7f93;" data-toggle="tooltip" title="Permite forzar la cita del día sin importar la hora">help</i>
+                                    </md-switch>                                    
+                                </div>
                             </div>
 
                             <div id="divScheduleCitas" layout="row" style="width:100%; height: calc(100vh - 215px); margin-top:-30px; overflow-y:auto; overflow-x:auto;">
