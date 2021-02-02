@@ -12,5 +12,6 @@
         public double Subtotal { get; set; }
         public double Total_Pagar { get; set; }
         public string Tipo_Nomina { get; set; }
+        public bool Set_Tooltip { get; set; } = false;
     }
 }

@@ -568,7 +568,16 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
             headerName: "Servicios", field: 'servicios', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: currencyFormatter
         },
         {
-            headerName: "Salario / % ", field: 'salario', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: decimalFormatter
+            headerName: "Salario / % ", field: 'salario', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: decimalFormatter,
+            cellRenderer: function (params) {
+                if (params.data.set_Tooltip)
+                    return "<span  data-toggle='tooltip' data-placement='bottom' title='Este valor es el resultante de promediar los porcentajes asignados a cada servicio'>{{data.salario}}</span>"
+                else if(params.data.salario <= 1)
+                    return "<span>{{data.salario}}</span>"
+                else
+                    return "<span>${{data.salario | number:0}}</span>"
+
+            },            
         },
         {
             headerName: "Subtotal", field: 'subtotal', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer', 'font-weight': 'bold', 'color': '#445a9e' }, valueFormatter: currencyFormatter
@@ -1372,7 +1381,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
     function decimalFormatter(params) {
         if (params.value <= 1) {
             let valueGrid = params.value;
-            return $filter('currency')(valueGrid, '', 2);
+            return $filter('currency')(valueGrid, '', 3);
         }
         else {
             let valueGrid = params.value;

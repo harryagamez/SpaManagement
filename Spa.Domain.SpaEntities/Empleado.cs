@@ -8,7 +8,7 @@ namespace Spa.Domain.SpaEntities
         public int Id_Empleado { get; set; }
         public string Cedula { get; set; } = string.Empty;
         public string Id_TipoPago { get; set; } = string.Empty;
-        public double Monto { get; set; }
+        public decimal Monto { get; set; }
         public string Nombres { get; set; } = string.Empty;
         public string Apellidos { get; set; } = string.Empty;
         public string Telefono_Fijo { get; set; } = string.Empty;

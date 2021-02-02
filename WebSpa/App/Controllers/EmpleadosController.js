@@ -148,8 +148,7 @@ function EmpleadosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
             .then(
                 function (result) {
                     if (result.data === true) {
-                        toastr.success('Servicio actualizado correctamente', '', $scope.toastrOptions);
-                        debugger;
+                        toastr.success('Servicio actualizado correctamente', '', $scope.toastrOptions);                        
                         $scope.ConsultarEmpleadoServicio();
                     }
                 }, function (err) {

@@ -24,9 +24,10 @@ BEGIN
 		RETURN
 	END
 
-	CREATE TABLE #TempNomina_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Nombres CHAR(60), Apellidos CHAR(60), Servicios REAL, Prestamos REAL, Salario REAL, Subtotal REAL, Total_Pagar REAL, Tipo_Nomina CHAR(15))	
-	CREATE TABLE #TempServicios_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Servicios REAL)
-	CREATE TABLE #TempPrestamos_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Prestamos REAL)
+	CREATE TABLE #TempNomina_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Nombres CHAR(60), Apellidos CHAR(60), Servicios DECIMAL(18,2), Prestamos DECIMAL(18,2), Salario DECIMAL(18,3), Subtotal DECIMAL(18,2), Total_Pagar DECIMAL(18,2), Tipo_Nomina CHAR(15), Set_Tooltip BIT)	
+	CREATE TABLE #TempServicios_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Servicios DECIMAL(18,2))
+	CREATE TABLE #TempServicios_Empleados_Monto(Id_Empresa VARCHAR(36), Id_Empleado INT, Porcentaje DECIMAL(18,3), Set_Tooltip INT)
+	CREATE TABLE #TempPrestamos_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Prestamos DECIMAL(18,2))
 
 	INSERT INTO #TempPrestamos_Empleados (Id_Empresa, Id_Empleado, Prestamos)		
 	SELECT 
@@ -139,6 +140,47 @@ BEGIN
 		AND YEAR(Agenda.FECHA_INICIO) = YEAR(@FechaNomina) 
 		AND MONTH(Agenda.FECHA_INICIO) = MONTH(@FechaNomina))
 		GROUP BY Agenda.ID_EMPRESA, Agenda.ID_EMPLEADO
+
+		INSERT INTO #TempServicios_Empleados_Monto(Id_Empresa, Id_Empleado, Porcentaje)
+		SELECT
+			Agenda.ID_EMPRESA, 
+			Agenda.ID_EMPLEADO,
+			CASE 
+				WHEN EMPLEADOS_SERVICIOS.APLICACION_NOMINA IS NOT NULL THEN EMPLEADOS_SERVICIOS.APLICACION_NOMINA
+				WHEN EMPRESA_SERVICIOS.APLICACION_NOMINA IS NOT NULL THEN EMPRESA_SERVICIOS.APLICACION_NOMINA 
+				ELSE EMPLEADOS.MONTO END AS Porcentaje
+		FROM AGENDA Agenda
+		INNER JOIN EMPLEADOS 
+		ON Agenda.ID_EMPLEADO = EMPLEADOS.ID_EMPLEADO
+		INNER JOIN EMPLEADOS_SERVICIOS
+		ON Agenda.ID_EMPLEADO = EMPLEADOS_SERVICIOS.ID_EMPLEADO AND Agenda.ID_SERVICIO = EMPLEADOS_SERVICIOS.ID_SERVICIO
+		INNER JOIN EMPRESA_SERVICIOS
+		ON EMPRESA_SERVICIOS.ID_SERVICIO = Agenda.ID_SERVICIO AND EMPRESA_SERVICIOS.ID_EMPRESA = Agenda.ID_EMPRESA
+		LEFT JOIN LIQUIDACIONES Liquidaciones 
+		ON Liquidaciones.ID_EMPLEADO = Agenda.ID_EMPLEADO 
+		AND Liquidaciones.ANIO = YEAR(@FechaNomina) 
+		AND Liquidaciones.MES = MONTH(@FechaNomina)
+		WHERE Liquidaciones.ID_EMPLEADO IS NULL 
+		AND (Agenda.ID_EMPRESA = @IdEmpresa 
+		AND Agenda.ESTADO = 'FACTURADA' 
+		AND YEAR(Agenda.FECHA_INICIO) = YEAR(@FechaNomina) 
+		AND MONTH(Agenda.FECHA_INICIO) = MONTH(@FechaNomina))
+
+		UPDATE Monto SET
+		Set_Tooltip = 1
+		FROM #TempServicios_Empleados_Monto Monto
+		INNER JOIN EMPLEADOS Empleados ON Monto.Id_Empleado = Empleados.ID_EMPLEADO
+		WHERE Monto.Porcentaje <> Empleados.MONTO		
+
+		UPDATE NominaEmpleados SET
+		Salario = (SELECT AVG(CAST(Porcentaje AS DECIMAL(18,3))) FROM #TempServicios_Empleados_Monto WHERE Id_Empleado = NominaEmpleados.Id_Empleado) 
+		FROM #TempNomina_Empleados NominaEmpleados
+		
+		UPDATE NominaEmpleados SET
+		Set_Tooltip = 1		
+		FROM #TempNomina_Empleados NominaEmpleados		
+		INNER JOIN EMPLEADOS Empleados ON NominaEmpleados.Id_Empleado = Empleados.ID_EMPLEADO
+		WHERE NominaEmpleados.Salario <> Empleados.MONTO
 		
 	END
 
@@ -167,7 +209,8 @@ BEGIN
 		SELECT 
 			Id_Empresa, Id_Empleado, RTRIM(Nombres) AS Nombres, RTRIM(Apellidos) AS Apellidos, Servicios, Prestamos, 
 			Salario, Subtotal, Total_Pagar, 
-			RTRIM(Tipo_Nomina) AS Tipo_Nomina
+			RTRIM(Tipo_Nomina) AS Tipo_Nomina,
+			ISNULL(Set_Tooltip, 0) AS Set_Tooltip
 		FROM #TempNomina_Empleados
 		WHERE (ISNULL(Subtotal, 0) > 0 OR ISNULL(Prestamos, 0) > 0)
 	END
@@ -178,7 +221,8 @@ BEGIN
 		 SELECT 
 			Id_Empresa, Id_Empleado, RTRIM(Nombres) AS Nombres, RTRIM(Apellidos) AS Apellidos, Servicios, Prestamos, 
 			Salario, Subtotal, Total_Pagar, 
-			RTRIM(Tipo_Nomina) AS Tipo_Nomina
+			RTRIM(Tipo_Nomina) AS Tipo_Nomina,
+			ISNULL(Set_Tooltip, 0) AS Set_Tooltip
 		 FROM #TempNomina_Empleados
 	END
 
