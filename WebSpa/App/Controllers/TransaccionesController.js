@@ -1334,7 +1334,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
         try {            
             let isSelected = event.node.isSelected();
             if (event.data.subtotal === 0 && event.data.prestamos >= 0 && event.data.total_Pagar <= 0 && isSelected) {                
-                toastr.warning('Este empleado no puede ser liquidado', '', $scope.toastrOptions);
+                toastr.warning('El subtotal del empleado seleccionado es cero por lo tanto no puede ser liquidado', '', $scope.toastrOptions);
                 $scope.NominaEmpleadosGridOptions.api.deselectNode(event.node);
                 return;
             }
