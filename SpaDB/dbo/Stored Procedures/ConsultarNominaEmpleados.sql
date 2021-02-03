@@ -24,9 +24,9 @@ BEGIN
 		RETURN
 	END
 
-	CREATE TABLE #TempNomina_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Nombres CHAR(60), Apellidos CHAR(60), Servicios DECIMAL(18,2), Prestamos DECIMAL(18,2), Salario DECIMAL(18,3), Subtotal DECIMAL(18,2), Total_Pagar DECIMAL(18,2), Tipo_Nomina CHAR(15), Set_Tooltip BIT)	
+	CREATE TABLE #TempNomina_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Nombres CHAR(60), Apellidos CHAR(60), Servicios DECIMAL(18,2), Prestamos DECIMAL(18,2), Salario DECIMAL(18,3), Subtotal DECIMAL(18,2), Total_Pagar DECIMAL(18,2), Tipo_Nomina CHAR(15), AplicaMultiplePorcentajes BIT)	
 	CREATE TABLE #TempServicios_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Servicios DECIMAL(18,2))
-	CREATE TABLE #TempServicios_Empleados_Monto(Id_Empresa VARCHAR(36), Id_Empleado INT, Porcentaje DECIMAL(18,3), Set_Tooltip INT)
+	CREATE TABLE #TempServicios_Empleados_Monto(Id_Empresa VARCHAR(36), Id_Empleado INT, Porcentaje DECIMAL(18,3), AplicaMultiplePorcentajes BIT)
 	CREATE TABLE #TempPrestamos_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Prestamos DECIMAL(18,2))
 
 	INSERT INTO #TempPrestamos_Empleados (Id_Empresa, Id_Empleado, Prestamos)		
@@ -129,7 +129,8 @@ BEGIN
 			SUM(EMPRESA_SERVICIOS.VALOR)
 		FROM AGENDA Agenda
 		INNER JOIN EMPRESA_SERVICIOS 
-		ON EMPRESA_SERVICIOS.ID_SERVICIO = Agenda.ID_SERVICIO AND EMPRESA_SERVICIOS.ID_EMPRESA = Agenda.ID_EMPRESA
+		ON EMPRESA_SERVICIOS.ID_SERVICIO = Agenda.ID_SERVICIO 
+		AND EMPRESA_SERVICIOS.ID_EMPRESA = Agenda.ID_EMPRESA
 		LEFT JOIN LIQUIDACIONES Liquidaciones 
 		ON Liquidaciones.ID_EMPLEADO = Agenda.ID_EMPLEADO 
 		AND Liquidaciones.ANIO = YEAR(@FechaNomina) 
@@ -153,9 +154,11 @@ BEGIN
 		INNER JOIN EMPLEADOS 
 		ON Agenda.ID_EMPLEADO = EMPLEADOS.ID_EMPLEADO
 		INNER JOIN EMPLEADOS_SERVICIOS
-		ON Agenda.ID_EMPLEADO = EMPLEADOS_SERVICIOS.ID_EMPLEADO AND Agenda.ID_SERVICIO = EMPLEADOS_SERVICIOS.ID_SERVICIO
+		ON Agenda.ID_EMPLEADO = EMPLEADOS_SERVICIOS.ID_EMPLEADO 
+		AND Agenda.ID_SERVICIO = EMPLEADOS_SERVICIOS.ID_SERVICIO
 		INNER JOIN EMPRESA_SERVICIOS
-		ON EMPRESA_SERVICIOS.ID_SERVICIO = Agenda.ID_SERVICIO AND EMPRESA_SERVICIOS.ID_EMPRESA = Agenda.ID_EMPRESA
+		ON EMPRESA_SERVICIOS.ID_SERVICIO = Agenda.ID_SERVICIO 
+		AND EMPRESA_SERVICIOS.ID_EMPRESA = Agenda.ID_EMPRESA
 		LEFT JOIN LIQUIDACIONES Liquidaciones 
 		ON Liquidaciones.ID_EMPLEADO = Agenda.ID_EMPLEADO 
 		AND Liquidaciones.ANIO = YEAR(@FechaNomina) 
@@ -167,19 +170,23 @@ BEGIN
 		AND MONTH(Agenda.FECHA_INICIO) = MONTH(@FechaNomina))
 
 		UPDATE Monto SET
-		Set_Tooltip = 1
+			AplicaMultiplePorcentajes = 1
 		FROM #TempServicios_Empleados_Monto Monto
-		INNER JOIN EMPLEADOS Empleados ON Monto.Id_Empleado = Empleados.ID_EMPLEADO
+		INNER JOIN EMPLEADOS Empleados 
+		ON Monto.Id_Empleado = Empleados.ID_EMPLEADO
+		AND Monto.Id_Empresa = @IdEmpresa
 		WHERE Monto.Porcentaje <> Empleados.MONTO		
 
 		UPDATE NominaEmpleados SET
-		Salario = (SELECT AVG(CAST(Porcentaje AS DECIMAL(18,3))) FROM #TempServicios_Empleados_Monto WHERE Id_Empleado = NominaEmpleados.Id_Empleado) 
+			Salario = (SELECT AVG(CAST(Porcentaje AS DECIMAL(18,3))) FROM #TempServicios_Empleados_Monto WHERE Id_Empleado = NominaEmpleados.Id_Empleado) 
 		FROM #TempNomina_Empleados NominaEmpleados
 		
 		UPDATE NominaEmpleados SET
-		Set_Tooltip = 1		
+			AplicaMultiplePorcentajes = 1		
 		FROM #TempNomina_Empleados NominaEmpleados		
-		INNER JOIN EMPLEADOS Empleados ON NominaEmpleados.Id_Empleado = Empleados.ID_EMPLEADO
+		INNER JOIN EMPLEADOS Empleados 
+		ON NominaEmpleados.Id_Empleado = Empleados.ID_EMPLEADO
+		AND NominaEmpleados.Id_Empresa = @IdEmpresa
 		WHERE NominaEmpleados.Salario <> Empleados.MONTO
 		
 	END
@@ -203,26 +210,30 @@ BEGIN
 	FROM #TempNomina_Empleados NominaEmpleados
 	
 	IF(@TipoNomina = 'POR_SERVICIOS') BEGIN
-		UPDATE #TempNomina_Empleados
-		SET Subtotal = (ISNULL(Servicios, 0) * ISNULL(Salario, 0)), Total_Pagar = ((ISNULL(Servicios, 0) * ISNULL(Salario, 0)) - ISNULL(Prestamos,0))		
+		UPDATE #TempNomina_Empleados SET 
+			Subtotal = (ISNULL(Servicios, 0) * ISNULL(Salario, 0)), 
+			Total_Pagar = ((ISNULL(Servicios, 0) * ISNULL(Salario, 0)) - ISNULL(Prestamos,0))		
 
 		SELECT 
-			Id_Empresa, Id_Empleado, RTRIM(Nombres) AS Nombres, RTRIM(Apellidos) AS Apellidos, Servicios, Prestamos, 
+			Id_Empresa, Id_Empleado, RTRIM(Nombres) AS Nombres, 
+			RTRIM(Apellidos) AS Apellidos, Servicios, Prestamos, 
 			Salario, Subtotal, Total_Pagar, 
 			RTRIM(Tipo_Nomina) AS Tipo_Nomina,
-			ISNULL(Set_Tooltip, 0) AS Set_Tooltip
+			ISNULL(AplicaMultiplePorcentajes, 0) AS AplicaMultiplePorcentajes
 		FROM #TempNomina_Empleados
 		WHERE (ISNULL(Subtotal, 0) > 0 OR ISNULL(Prestamos, 0) > 0)
 	END
 	ELSE BEGIN
-		UPDATE #TempNomina_Empleados
-		SET Subtotal = Salario, Total_Pagar = (Salario - ISNULL(Prestamos, 0))
+		UPDATE #TempNomina_Empleados SET 
+			Subtotal = Salario, 
+			Total_Pagar = (Salario - ISNULL(Prestamos, 0))
 		 
 		 SELECT 
-			Id_Empresa, Id_Empleado, RTRIM(Nombres) AS Nombres, RTRIM(Apellidos) AS Apellidos, Servicios, Prestamos, 
+			Id_Empresa, Id_Empleado, RTRIM(Nombres) AS Nombres, 
+			RTRIM(Apellidos) AS Apellidos, Servicios, Prestamos, 
 			Salario, Subtotal, Total_Pagar, 
 			RTRIM(Tipo_Nomina) AS Tipo_Nomina,
-			ISNULL(Set_Tooltip, 0) AS Set_Tooltip
+			ISNULL(AplicaMultiplePorcentajes, 0) AS AplicaMultiplePorcentajes
 		 FROM #TempNomina_Empleados
 	END
 
@@ -231,3 +242,5 @@ BEGIN
 	IF OBJECT_ID('tempdb..#TempPrestamos_Empleados') IS NOT NULL DROP TABLE #TempPrestamos_Empleados
 
 END
+
+GO

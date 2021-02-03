@@ -570,7 +570,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
         {
             headerName: "Salario / % ", field: 'salario', width: 180, cellStyle: { 'text-align': 'right', 'cursor': 'pointer' }, valueFormatter: decimalFormatter,
             cellRenderer: function (params) {
-                if (params.data.set_Tooltip)
+                if (params.data.aplicaMultiplePorcentajes)
                     return "<span  data-toggle='tooltip' data-placement='bottom' title='Este valor es el resultante de promediar los porcentajes asignados a cada servicio'>{{data.salario}}</span>"
                 else if(params.data.salario <= 1)
                     return "<span>{{data.salario}}</span>"
