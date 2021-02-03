@@ -24,7 +24,10 @@ BEGIN
 		RETURN
 	END
 
-	CREATE TABLE #TempNomina_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Nombres CHAR(60), Apellidos CHAR(60), Servicios DECIMAL(18,2), Prestamos DECIMAL(18,2), Salario DECIMAL(18,3), Subtotal DECIMAL(18,2), Total_Pagar DECIMAL(18,2), Tipo_Nomina CHAR(15), AplicaMultiplePorcentajes BIT)	
+	CREATE TABLE #TempNomina_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Nombres CHAR(60), Apellidos CHAR(60), 
+	Servicios DECIMAL(18,2), Prestamos DECIMAL(18,2), Salario DECIMAL(18,3), Subtotal DECIMAL(18,2), Total_Pagar DECIMAL(18,2), 
+	Tipo_Nomina CHAR(15), AplicaMultiplePorcentajes BIT)	
+
 	CREATE TABLE #TempServicios_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Servicios DECIMAL(18,2))
 	CREATE TABLE #TempServicios_Empleados_Monto(Id_Empresa VARCHAR(36), Id_Empleado INT, Porcentaje DECIMAL(18,3), AplicaMultiplePorcentajes BIT)
 	CREATE TABLE #TempPrestamos_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Prestamos DECIMAL(18,2))
