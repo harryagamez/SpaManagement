@@ -31,6 +31,7 @@ BEGIN
 	CREATE TABLE #TempServicios_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Servicios DECIMAL(18,2))
 	CREATE TABLE #TempServicios_Empleados_Monto(Id_Empresa VARCHAR(36), Id_Empleado INT, Porcentaje DECIMAL(18,3), AplicaMultiplePorcentajes BIT)
 	CREATE TABLE #TempPrestamos_Empleados(Id_Empresa VARCHAR(36), Id_Empleado INT, Prestamos DECIMAL(18,2))
+	CREATE TABLE #TempDistintosPorcentajes (Id_Empleado INT, CantidadRegistros INT)
 
 	INSERT INTO #TempPrestamos_Empleados (Id_Empresa, Id_Empleado, Prestamos)		
 	SELECT 
@@ -149,10 +150,7 @@ BEGIN
 		SELECT
 			Agenda.ID_EMPRESA, 
 			Agenda.ID_EMPLEADO,
-			CASE 
-				WHEN EMPLEADOS_SERVICIOS.APLICACION_NOMINA IS NOT NULL THEN EMPLEADOS_SERVICIOS.APLICACION_NOMINA
-				WHEN EMPRESA_SERVICIOS.APLICACION_NOMINA IS NOT NULL THEN EMPRESA_SERVICIOS.APLICACION_NOMINA 
-				ELSE EMPLEADOS.MONTO END AS Porcentaje
+			COALESCE(EMPLEADOS_SERVICIOS.APLICACION_NOMINA, EMPRESA_SERVICIOS.APLICACION_NOMINA, EMPLEADOS.MONTO) AS Porcentaje			
 		FROM AGENDA Agenda
 		INNER JOIN EMPLEADOS 
 		ON Agenda.ID_EMPLEADO = EMPLEADOS.ID_EMPLEADO
@@ -172,25 +170,19 @@ BEGIN
 		AND YEAR(Agenda.FECHA_INICIO) = YEAR(@FechaNomina) 
 		AND MONTH(Agenda.FECHA_INICIO) = MONTH(@FechaNomina))
 
-		UPDATE Monto SET
-			AplicaMultiplePorcentajes = 1
-		FROM #TempServicios_Empleados_Monto Monto
-		INNER JOIN EMPLEADOS Empleados 
-		ON Monto.Id_Empleado = Empleados.ID_EMPLEADO
-		AND Monto.Id_Empresa = @IdEmpresa
-		WHERE Monto.Porcentaje <> Empleados.MONTO		
+		INSERT INTO #TempDistintosPorcentajes (Id_Empleado, CantidadRegistros)		
+		SELECT Id_Empleado, COUNT(DISTINCT Porcentaje) FROM #TempServicios_Empleados_Monto GROUP BY Id_Empleado		
 
 		UPDATE NominaEmpleados SET
-			Salario = (SELECT AVG(CAST(Porcentaje AS DECIMAL(18,3))) FROM #TempServicios_Empleados_Monto WHERE Id_Empleado = NominaEmpleados.Id_Empleado) 
+			Salario = (SELECT AVG(CAST(Porcentaje AS DECIMAL(18,3))) FROM #TempServicios_Empleados_Monto WHERE Id_Empleado = NominaEmpleados.Id_Empleado)			 
 		FROM #TempNomina_Empleados NominaEmpleados
 		
 		UPDATE NominaEmpleados SET
 			AplicaMultiplePorcentajes = 1		
 		FROM #TempNomina_Empleados NominaEmpleados		
-		INNER JOIN EMPLEADOS Empleados 
-		ON NominaEmpleados.Id_Empleado = Empleados.ID_EMPLEADO
-		AND NominaEmpleados.Id_Empresa = @IdEmpresa
-		WHERE NominaEmpleados.Salario <> Empleados.MONTO
+		INNER JOIN #TempDistintosPorcentajes DistintosPorcentajes
+		ON DistintosPorcentajes.Id_Empleado = NominaEmpleados.Id_Empleado
+		WHERE DistintosPorcentajes.CantidadRegistros > 1	
 		
 	END
 
@@ -243,6 +235,7 @@ BEGIN
 	IF OBJECT_ID('tempdb..#TempNomina_Empleados') IS NOT NULL DROP TABLE #TempNomina_Empleados
 	IF OBJECT_ID('tempdb..#TempServicios_Empleados') IS NOT NULL DROP TABLE #TempServicios_Empleados
 	IF OBJECT_ID('tempdb..#TempPrestamos_Empleados') IS NOT NULL DROP TABLE #TempPrestamos_Empleados
+	IF OBJECT_ID('tempdb..#TempDistintosPorcentajes') IS NOT NULL DROP TABLE #TempDistintosPorcentajes
 
 END
 

@@ -6,8 +6,8 @@ BEGIN
 	
 	CREATE TABLE #TempBusquedaGasto(FechaDesde DATETIME, FechaHasta DATETIME, TipoGasto CHAR(15) NULL, IdEmpresa VARCHAR(36))
 	
-	DECLARE @FechaDesde VARCHAR(10)
-	DECLARE @FechaHasta VARCHAR(10)
+	DECLARE @FechaDesde CHAR(10)
+	DECLARE @FechaHasta CHAR(10)
 	DECLARE @IdEmpresa VARCHAR(36)
 	DECLARE @TipoGasto CHAR(15)
 
@@ -24,11 +24,11 @@ BEGIN
 		) AS JsonBusqueda
 
 		SELECT 
-			@FechaDesde = CONVERT(VARCHAR,FechaDesde,101),
-			@FechaHasta = CONVERT(VARCHAR,FechaHasta,101),
+			@FechaDesde = CONVERT(CHAR(10),FechaDesde,126),
+			@FechaHasta = CONVERT(CHAR(10),FechaHasta,126),
 			@TipoGasto = TipoGasto,
 			@IdEmpresa = IdEmpresa
-		FROM #TempBusquedaGasto
+		FROM #TempBusquedaGasto		
 
 		IF @TipoGasto IS NOT NULL BEGIN
 		
@@ -40,7 +40,7 @@ BEGIN
 			LEFT JOIN EMPLEADOS
 			ON GASTOS.ID_EMPLEADO = EMPLEADOS.ID_EMPLEADO
 			WHERE TIPO_GASTO = @TipoGasto AND CAST(GASTOS.ID_EMPRESA AS VARCHAR(36)) = @IdEmpresa
-			AND CONVERT(VARCHAR,FECHA,101) BETWEEN @FechaDesde AND @FechaHasta
+			AND CONVERT(CHAR(10),FECHA,126) BETWEEN @FechaDesde AND @FechaHasta
 			ORDER BY GASTOS.FECHA_REGISTRO DESC
 
 		END
@@ -54,7 +54,7 @@ BEGIN
 			LEFT JOIN EMPLEADOS
 			ON GASTOS.ID_EMPLEADO = EMPLEADOS.ID_EMPLEADO
 			WHERE CAST(GASTOS.ID_EMPRESA AS VARCHAR(36)) = @IdEmpresa
-			AND CONVERT(VARCHAR,FECHA,101) BETWEEN @FechaDesde AND @FechaHasta
+			AND CONVERT(CHAR(10),FECHA,126) BETWEEN @FechaDesde AND @FechaHasta
 			ORDER BY GASTOS.FECHA_REGISTRO DESC
 
 		END

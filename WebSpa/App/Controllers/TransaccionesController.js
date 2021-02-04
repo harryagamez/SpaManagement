@@ -773,7 +773,7 @@ function TransaccionesController($scope, $rootScope, $filter, $mdDialog, $timeou
 
         $scope.AplicacionNomina = {
             Empleados: $scope.LiquidacionEmpleados,
-            Fecha_Nomina: $scope.FechaNomina,
+            Fecha_Nomina: new Date($scope.FechaNomina + 'Z'),
             Id_Empresa: $scope.IdEmpresa,
             Total_Nomina: $scope.NominaTotalPagar,
             Usuario_Registro: $scope.UsuarioSistema
