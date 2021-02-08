@@ -1,11 +1,49 @@
 ﻿angular.module('app.controllers')
     .controller("HomeController", HomeController);
 
-HomeController.$inject = ['$scope', '$rootScope', '$location', 'AuthService'];
+HomeController.$inject = ['$scope', '$rootScope', '$timeout', '$location', 'AuthService', '$mdDialog'];
 
-function HomeController($scope, $rootScope, $location, authService) {
-    $rootScope.header = 'Inicio';
+function HomeController($scope, $rootScope, $timeout, $location, authService, $mdDialog) {
+    $rootScope.header = 'Inicio';    
     $scope.UserAvatar = '../../Images/default_perfil_alt.png';
+    $scope.UsuarioSistema = $rootScope.userData.userName;
+    $rootScope.CerrandoSesionMensajes = '';
+
+    $scope.ModalLogout = function () {
+        try {
+            $mdDialog.show({
+                contentElement: '#dlgLogout',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: false,
+                multiple: false,
+            })
+            .then(function () {
+            }, function () {
+            });            
+
+            $timeout(function () { $rootScope.CerrandoSesionMensajes = 'Limpiando datos de acceso de ' + $scope.UsuarioSistema; }, 100);
+            $timeout(function () { $rootScope.CerrandoSesionMensajes = 'Cerrando conexiones...'; }, 1800);
+            $timeout(function () { $rootScope.CerrandoSesionMensajes = 'Cerrando sesión...'; }, 2200);
+
+            $timeout(function () {
+                $scope.UserAvatar = '../../Images/default_perfil_alt.png';
+                $rootScope.UserAvatar = '../../Images/default_perfil_alt.png';
+                $('body>.tooltip').remove();
+                $scope.Cancelar();
+                authService.logOut();
+            },3000);
+            
+
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.Cancelar = function () {
+        $mdDialog.cancel();
+    };
 
     if ($rootScope.Empresas !== undefined) {
         if ($rootScope.Empresas.length === 0) {
@@ -29,11 +67,8 @@ function HomeController($scope, $rootScope, $location, authService) {
         }
     }
 
-    $scope.Logout = function () {
-        authService.logOut();
-        $scope.UserAvatar = '../../Images/default_perfil_alt.png';
-        $rootScope.UserAvatar = '../../Images/default_perfil_alt.png';
-        $('body>.tooltip').remove();
+    $scope.Logout = function () {       
+        $scope.ModalLogout();                
     }
 
     $scope.UsuarioSistema = $rootScope.userData.userName;
@@ -99,5 +134,5 @@ function HomeController($scope, $rootScope, $location, authService) {
         $scope.Menu = [];
         $scope.SubMenu = [];
         $scope.Empresas = [];
-    });
+    });    
 }

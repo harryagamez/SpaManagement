@@ -1,14 +1,47 @@
 ﻿angular.module('app.controllers')
     .controller("LoginController", LoginController);
 
-LoginController.$inject = ['$scope', '$state', '$location', '$rootScope', '$timeout', 'AuthService'];
+LoginController.$inject = ['$scope', '$state', '$location', '$rootScope', '$timeout', 'AuthService', '$mdDialog'];
 
-function LoginController($scope, $state, $location, $rootScope, $timeout, authService) {
+function LoginController($scope, $state, $location, $rootScope, $timeout, authService, $mdDialog) {
     $rootScope.header = 'Login';
+    $rootScope.IniciandoSesionMensajes = '';
     $scope.ValidarDatos = ValidarDatos;
     $scope.Login = Login;
     $scope.ValidarIntegracion = false;
     $scope.DatosUsuario = { Usuario: '', Clave: '', CodigoIntegracion: '' };
+
+    $scope.ModalLogin = function () {
+        try {
+            $mdDialog.show({
+                contentElement: '#dlgLogin',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: false,
+                multiple: false,
+            })
+                .then(function () {
+                }, function () {
+                });
+
+            $timeout(function () { $rootScope.IniciandoSesionMensajes = 'Cargando datos de usuario...'; }, 100);
+            $timeout(function () { $rootScope.IniciandoSesionMensajes = 'Cargando menús...'; }, 1800);
+            $timeout(function () { $rootScope.IniciandoSesionMensajes = 'Iniciando sesión...'; }, 2200);
+            $timeout(function () {
+                $scope.Cancelar();
+                $state.go('home');
+            }, 3000);
+
+
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.Cancelar = function () {
+        $mdDialog.cancel();
+    };
 
     $timeout(function () {
         $('#txtUsuario').focus();
@@ -32,7 +65,7 @@ function LoginController($scope, $state, $location, $rootScope, $timeout, authSe
                                     $('#ctlIntegration').focus();
                                 } else {
                                     $scope.DatosUsuario = { Usuario: '', Clave: '', CodigoIntegracion: '' };
-                                    $state.go('home');
+                                    $scope.ModalLogin();
                                 }
                             }
                         }
