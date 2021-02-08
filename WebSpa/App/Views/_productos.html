@@ -5,7 +5,7 @@
     <title>Productos</title>
 </head>
 <body>
-
+    <div us-spinner="{radius:30, width:8, length: 16}" style="backdrop-filter: blur(3px); position: fixed; margin-left:-160px; margin-top:-50px; background-color: rgba(0,0,0,0.3); width: 100%; height: 100%; z-index: 2000000000;"></div>
     <div layout="row" layout-wrap="" style="height: calc(100vh - 70px); overflow:auto;">
         <form id="frmProductos">
 
@@ -28,22 +28,22 @@
                                 <li class="list-group-item btn-informe">
                                     <md-switch ng-model="ListadoProductos" aria-label="Listado de productos" style="margin:2px 5px;">
                                         <span style="font-size:12px;">Listado de productos</span>
-                                    </md-switch>                                    
+                                    </md-switch>
                                 </li>
                                 <li class="list-group-item btn-informe">
                                     <md-switch ng-model="DetalladoProductos" aria-label="Detallado productos facturados" style="margin:2px 5px;">
                                         <span style="font-size:12px;">Detallado productos facturados</span>
-                                    </md-switch>                                    
+                                    </md-switch>
                                 </li>
                                 <li class="list-group-item btn-informe">
                                     <md-switch ng-model="GeneralProductos" aria-label="General productos facturados" style="margin:2px 5px;">
                                         <span style="font-size:12px;">General productos facturados</span>
-                                    </md-switch>                                    
+                                    </md-switch>
                                 </li>
                                 <li class="list-group-item btn-informe">
                                     <md-switch ng-model="DetalladoInsumosEmpleados" aria-label="Detallado insumos empleados" style="margin:2px 5px;">
                                         <span style="font-size:12px;">Detallado insumos empleados</span>
-                                    </md-switch>                                    
+                                    </md-switch>
                                 </li>
                             </ul>
                         </div>
@@ -149,10 +149,10 @@
                                     <md-button type="button" id="btnGuardar" class="btn-spa groupX middle" style="margin: 6px 2px;" data-toggle="tooltip" title="Guardar" ng-click="GuardarProducto()" tabindex=7>
                                         <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">save</i> Guardar
                                     </md-button>
-                                    
+
                                     <md-button type="button" id="btnNuevoModal" ng-hide="AccionProducto === 'Editar Producto'" style="margin: 6px 2px;" class="btn-spa groupX left" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
                                         <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">note_add</i> Nuevo
-                                    </md-button>                                    
+                                    </md-button>
                                 </div>
                             </div>
                         </md-dialog-content>

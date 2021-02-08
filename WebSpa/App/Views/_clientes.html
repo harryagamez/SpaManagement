@@ -5,6 +5,7 @@
     <title>Clientes</title>
 </head>
 <body>
+    <div us-spinner="{radius:30, width:8, length: 16}" style="backdrop-filter: blur(3px); position: fixed; margin-left:-160px; margin-top:-50px; background-color: rgba(0,0,0,0.3); width: 100%; height: 100%; z-index: 2000000000;"></div>
     <div layout="row" layout-wrap="" style="height: calc(100vh - 70px); overflow:auto;">
         <form id="frmClientes" style="">
 
@@ -31,17 +32,17 @@
                                 <li class="list-group-item btn-informe">
                                     <md-switch ng-model="ListadoClientes" aria-label="Listado de clientes" style="margin:2px 5px;">
                                         <span style="font-size:12px;">Listado de clientes</span>
-                                    </md-switch>                                    
+                                    </md-switch>
                                 </li>
                                 <li class="list-group-item btn-informe">
                                     <md-switch ng-model="DetalladoServicios" aria-label="Detallado servicios" style="margin:2px 5px;">
                                         <span style="font-size:12px;">Detallado servicios facturados</span>
-                                    </md-switch>                                    
+                                    </md-switch>
                                 </li>
                                 <li class="list-group-item btn-informe">
                                     <md-switch ng-model="GeneralServicios" aria-label="General servicios" style="margin:2px 5px;">
                                         <span style="font-size:12px;">General servicios facturados</span>
-                                    </md-switch>                                    
+                                    </md-switch>
                                 </li>
                             </ul>
                         </div>

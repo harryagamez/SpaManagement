@@ -24,15 +24,6 @@ function LoginController($scope, $state, $location, $rootScope, $timeout, authSe
                 }, function () {
                 });
 
-            $timeout(function () { $rootScope.IniciandoSesionMensajes = 'Cargando datos de usuario...'; }, 100);
-            $timeout(function () { $rootScope.IniciandoSesionMensajes = 'Cargando menús...'; }, 1800);
-            $timeout(function () { $rootScope.IniciandoSesionMensajes = 'Iniciando sesión...'; }, 2200);
-            $timeout(function () {
-                $scope.Cancelar();
-                $state.go('home');
-            }, 3000);
-
-
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;
@@ -53,6 +44,8 @@ function LoginController($scope, $state, $location, $rootScope, $timeout, authSe
 
     function Login() {
         if ($scope.ValidarDatos()) {
+            $scope.ModalLogin();
+            $rootScope.IniciandoSesionMensajes = 'Validando datos de usuario...';
             authService.login($scope.DatosUsuario.Usuario, $scope.DatosUsuario.Clave, $scope.ValidarIntegracion, $scope.DatosUsuario.CodigoIntegracion)
                 .then(
                     function (result) {
@@ -65,16 +58,28 @@ function LoginController($scope, $state, $location, $rootScope, $timeout, authSe
                                     $('#ctlIntegration').focus();
                                 } else {
                                     $scope.DatosUsuario = { Usuario: '', Clave: '', CodigoIntegracion: '' };
-                                    $scope.ModalLogin();
+                                    $timeout(function () { $rootScope.IniciandoSesionMensajes = 'Cargando datos de usuario...'; }, 100);
+                                    $timeout(function () { $rootScope.IniciandoSesionMensajes = 'Cargando menús...'; }, 1800);
+                                    $timeout(function () { $rootScope.IniciandoSesionMensajes = 'Iniciando sesión...'; }, 2200);                                   
+                                    $timeout(function () {
+                                        $state.go('home');
+                                        $scope.Cancelar();
+                                    }, 3000);
+
                                 }
                             }
                         }
                     }, function (err) {
                         toastr.remove();
-                        if (err.data.error == "invalid_grant" && err.status === 400)
-                            toastr.error(err.data.error_description, '', $scope.toastrOptions);
-                        else if (err.data !== null && err.status === 500)
+                        if (err.data.error == "invalid_grant" && err.status === 400) {
+                            $scope.Cancelar();
+                            toastr.error(err.data.error_description, '', $scope.toastrOptions);                            
+                        }                           
+                        else if (err.data !== null && err.status === 500) {
+                            $scope.Cancelar();
                             toastr.error(err.data, '', $scope.toastrOptions);
+                        }
+                            
                     })
         }
     }

@@ -5,7 +5,7 @@
     <title>Servicios</title>
 </head>
 <body>
-
+    <div us-spinner="{radius:30, width:8, length: 16}" style="backdrop-filter: blur(3px); position: fixed; margin-left:-160px; margin-top:-50px; background-color: rgba(0,0,0,0.3); width: 100%; height: 100%; z-index: 2000000000;"></div>
     <div layout="row" layout-wrap="" style="height: calc(100vh - 45px); overflow:auto;">
         <form id="frmServicios">
 
@@ -139,7 +139,7 @@
                                         <label class="label-form-servicios" style="">
                                             % / Nómina
                                         </label>
-                                        <input ng-model="Servicio.Aplicacion_Nomina" ng-readonly="!ConfigurarionPorServicios" id="txtAplicacionNominaServicio" float-numbers-only type="text" style="margin-top:-1px;" placeholder="Digite el porcentaje para el servicio ..."  autocomplete="off" tabindex=7>
+                                        <input ng-model="Servicio.Aplicacion_Nomina" ng-readonly="!ConfigurarionPorServicios" id="txtAplicacionNominaServicio" float-numbers-only type="text" style="margin-top:-1px;" placeholder="Digite el porcentaje para el servicio ..." autocomplete="off" tabindex=7>
                                     </md-input-container>
                                 </div>
                             </div>

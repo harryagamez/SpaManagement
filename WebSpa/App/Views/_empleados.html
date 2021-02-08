@@ -5,6 +5,7 @@
     <title>Empleados</title>
 </head>
 <body>
+    <div us-spinner="{radius:30, width:8, length: 16}" style="backdrop-filter: blur(3px); position: fixed; margin-left:-160px; margin-top:-50px; background-color: rgba(0,0,0,0.3); width: 100%; height: 100%; z-index: 2000000000;"></div>
     <div layout="row" layout-wrap="" style="height: calc(100vh - 70px); overflow:auto;">
 
         <form id="frmEmpleados" style="">
@@ -24,12 +25,12 @@
                         </md-button>
                         <div class="dropdown-menu">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item btn-informe">                                    
+                                <li class="list-group-item btn-informe">
                                     <md-switch ng-model="ListadoEmpleados" aria-label="Listado de empleados" style="margin:2px 5px;">
                                         <span style="font-size:12px;">Listado de empleados</span>
                                     </md-switch>
                                 </li>
-                                <li class="list-group-item btn-informe">                                    
+                                <li class="list-group-item btn-informe">
                                     <md-switch ng-model="DetalladoInsumosEmpleados" aria-label="Detallado insumos" style="margin:2px 5px;">
                                         <span style="font-size:12px;">Detallado insumos</span>
                                     </md-switch>
@@ -101,7 +102,7 @@
                                     <input ng-model="Empleado.Apellidos" id="txtApellido" maxlength="60" type="text" placeholder="Digite sus apellidos ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=3>
                                 </md-input-container>
                             </div>
-                            
+
                         </div>
 
                         <div layout="row" layout-sm="column" layout-align="start start" style="margin-top:0px; margin-bottom:0;">
@@ -170,7 +171,7 @@
                                 </md-input-container>
                             </div>
 
-                            
+
                         </div>
 
                         <div layout="row" layout-sm="column" layout-align="start start" style="margin-top:-5px;">
@@ -206,7 +207,7 @@
                                         <md-option ng-bind="barrio.nombre" ng-value="barrio.id_Barrio" ng-repeat="barrio in Barrios track by barrio.id_Barrio"></md-option>
                                     </md-select>
                                 </md-input-container>
-                            </div>                            
+                            </div>
                         </div>
 
                         <div layout="row" layout-sm="column" layout-align="start start" style="margin-top:25px;">
@@ -250,7 +251,7 @@
                                 </div>
                             </div>
 
-                            
+
                         </div>
 
                         <section id="divButtons" layout="row" layout-align="end center" style="margin-left:2px; margin-top:-10px;">
@@ -260,7 +261,7 @@
                             <md-button type="button" id="btnLimpiar" ng-hide="AccionEmpleado === 'Actualizar Empleado'" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()" tabindex=17>
                                 <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">note_add</i> Nuevo
                             </md-button>
-                        </section>                        
+                        </section>
 
                     </md-dialog-content>
                 </form>

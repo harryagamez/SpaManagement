@@ -5,6 +5,7 @@
     <title>Transacciones</title>
 </head>
 <body>
+    <div us-spinner="{radius:30, width:8, length: 16}" style="backdrop-filter: blur(3px); position: fixed; margin-left:-160px; margin-top:-50px; background-color: rgba(0,0,0,0.3); width: 100%; height: 100%; z-index: 2000000000;"></div>
     <div layout="row" style="height: calc(100vh - 70px);">
         <form id="frmGestion" autocomplete="nope" class="material-app">
             <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
@@ -139,9 +140,9 @@
                                         <div id="divProductosTransaccion" data-ag-grid="ProductosTransaccionGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                                     </div>
                                 </div>
-                                
+
                                 <div style="width:40%; bottom:-1px; right:-9px; margin:5px 0 5px 0; padding: 0px 15px 5px 5px; position:relative; box-shadow: 0px 0px 7px grey; background:#f9f9f9;">
-                                    
+
                                     <div layout="row" style="position:relative;">
                                         <div style="margin-top:10px; width:100%;display:inline-flex;">
                                             <md-input-container style="margin-left: 10px; width: 50%; margin-top: -5px; margin-bottom: 7px;">
@@ -204,7 +205,7 @@
                                                 <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">note_add</i> Nuevo
                                             </md-button>
                                         </div>
-                                    </div>                                                                       
+                                    </div>
                                 </div>
                             </div>
                         </md-content>

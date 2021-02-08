@@ -5,6 +5,7 @@
     <title>Gestión</title>
 </head>
 <body>
+    <div us-spinner="{radius:30, width:8, length: 16}" style="backdrop-filter: blur(3px); position: fixed; margin-left:-160px; margin-top:-50px; background-color: rgba(0,0,0,0.3); width: 100%; height: 100%; z-index: 2000000000;"></div>
     <div layout="row" style="height: calc(100vh - 70px);">
         <form id="frmGestion" autocomplete="nope" class="material-app">
             <md-tabs class="md-primary" style="min-height: calc(100vh - 70px) !important;">
@@ -87,7 +88,7 @@
                                 <div flex="" style="flex:none;">
                                     <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px; margin-top:2px; margin-left:2px;">
                                         <md-button type="button" id="btnNuevo" ng-disabled="PerfilUsuario === 'Invitado'" class="btn-spa groupX middle" style="margin-left:-2px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevaPromocion()">
-                                            <i class="material-icons md-18"  style="transform: scaleX(-1); margin-top:-3px;">note_add</i> Nuevo
+                                            <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-3px;">note_add</i> Nuevo
                                         </md-button>
 
                                         <md-button type="button" id="btnExportar" class="btn-spa groupX middle" style="margin-left: -2px;" data-toggle="tooltip" title="Importar" data-ng-click="ExportarArchivo()">
