@@ -516,5 +516,10 @@ namespace Spa.Application.SpaService
         {
             return _spaRepository.ActualizarEmpleadoServicio(empleadoServicio);
         }
+
+        public bool RegistrarSesion(Sesion _Sesion)        
+        {
+            return _spaRepository.RegistrarSesion(_Sesion);
+        }
     }
 }

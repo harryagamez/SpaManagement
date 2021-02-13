@@ -126,8 +126,7 @@ function AdministratorPanelController($scope, $rootScope, $filter, $mdDialog, $r
     }
 
     $scope.Logout = function () {
-        AuthService.logOut();
-        $('body>.tooltip').remove();
+        $scope.ModalLogout();
     }
 
     $scope.UsuarioSistema = $rootScope.userData.userName;
@@ -1436,6 +1435,37 @@ function AdministratorPanelController($scope, $rootScope, $filter, $mdDialog, $r
                 .then(function () {
                 }, function () {
                 });
+        } catch (e) {
+            toastr.error(e.message, '', $scope.toastrOptions);
+            return;
+        }
+    }
+
+    $scope.ModalLogout = function () {
+        try {
+            $mdDialog.show({
+                contentElement: '#dlgLogout',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: false,
+                multiple: false,
+            })
+                .then(function () {
+                }, function () {
+                });
+
+            $timeout(function () { $rootScope.CerrandoSesionMensajes = 'Limpiando datos de acceso de ' + $scope.UsuarioSistema; }, 100);
+            $timeout(function () { $rootScope.CerrandoSesionMensajes = 'Cerrando conexiones...'; }, 1800);
+            $timeout(function () { $rootScope.CerrandoSesionMensajes = 'Cerrando sesión...'; }, 2200);
+
+            $timeout(function () {
+                $scope.UserAvatar = '../../Images/default_perfil_alt.png';
+                $rootScope.UserAvatar = '../../Images/default_perfil_alt.png';
+                AuthService.logOut();
+                $('body>.tooltip').remove();
+                $scope.Cancelar();
+            }, 3000);            
+
         } catch (e) {
             toastr.error(e.message, '', $scope.toastrOptions);
             return;

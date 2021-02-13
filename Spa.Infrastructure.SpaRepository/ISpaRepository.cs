@@ -146,5 +146,7 @@ namespace Spa.Infrastructure.SpaRepository
         Promocion ConsultarPromocion(string IdPromocion, string IdEmpresa);
 
         bool ActualizarEmpleadoServicio(EmpleadoServicio empleadoServicio);
+
+        bool RegistrarSesion(Sesion sesion);
     }
 }

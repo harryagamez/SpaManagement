@@ -1150,5 +1150,22 @@ namespace WebApiSpa.Controllers
                 return Content(HttpStatusCode.InternalServerError, "Error actualizando el servicio asociado al empleado: " + ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("api/SPA/RegistrarSesion")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult RegistrarSesion(Sesion sesion)
+        {
+            try
+            {
+                bool result = _spaService.RegistrarSesion(sesion);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando la sesión del usuario: " + ex.Message);
+            }
+        }
     }
 }

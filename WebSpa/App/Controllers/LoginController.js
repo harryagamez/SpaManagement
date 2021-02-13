@@ -1,15 +1,58 @@
 ﻿angular.module('app.controllers')
     .controller("LoginController", LoginController);
 
-LoginController.$inject = ['$scope', '$state', '$location', '$rootScope', '$timeout', 'AuthService', '$mdDialog'];
+LoginController.$inject = ['$scope', '$state', '$location', '$rootScope', '$timeout', 'AuthService', '$mdDialog', 'SPAService', '$http'];
 
-function LoginController($scope, $state, $location, $rootScope, $timeout, authService, $mdDialog) {
+function LoginController($scope, $state, $location, $rootScope, $timeout, authService, $mdDialog, SPAService, $http) {
     $rootScope.header = 'Login';
     $rootScope.IniciandoSesionMensajes = '';
     $scope.ValidarDatos = ValidarDatos;
     $scope.Login = Login;
     $scope.ValidarIntegracion = false;
     $scope.DatosUsuario = { Usuario: '', Clave: '', CodigoIntegracion: '' };
+
+    $scope.RegistrarSesion = function () {        
+        $scope.SesionUsuario = {
+            Id_Registro: -1,
+            Usuario_Registro: $rootScope.userData.userName,
+            Ip_Address: $scope.Ip,
+            Hostname: $scope.Hostname,
+            Ciudad: $scope.Ciudad,
+            Region: $scope.Region,
+            Pais: $scope.Pais,
+            Localizacion: $scope.Localizacion,
+            Org: $scope.Org,
+            Codigo_Postal: $scope.Postal,
+            Zona_Horaria: $scope.TimeZone,
+            Id_Empresa: $rootScope.Id_Empresa
+        };       
+
+        SPAService._registrarSesion(JSON.stringify($scope.SesionUsuario))
+            .then(
+                function (result) {
+                    console.log('Sesión Registrada: ' + result.data);
+                }, function (err) {
+                    toastr.remove();
+                    if (err.data !== null && err.status === 500)
+                        console.log(err.data);
+                })        
+    }
+
+    $scope.GetUserData = function () {
+        $http.get("https://ipinfo.io/json?token=312ef10a0e7258").then(function (response) {
+            $scope.Ip = response.data.ip;
+            $scope.Hostname = response.data.hostname;
+            $scope.Ciudad = response.data.city;
+            $scope.Region = response.data.region;
+            $scope.Pais = response.data.country;
+            $scope.Localizacion = response.data.loc;
+            $scope.Org = response.data.org;
+            $scope.Postal = response.data.postal;
+            $scope.TimeZone = response.data.timezone;
+        });        
+    }
+
+    $scope.GetUserData();
 
     $scope.ModalLogin = function () {
         try {
@@ -58,13 +101,20 @@ function LoginController($scope, $state, $location, $rootScope, $timeout, authSe
                                     $('#ctlIntegration').focus();
                                 } else {
                                     $scope.DatosUsuario = { Usuario: '', Clave: '', CodigoIntegracion: '' };
+                                    $timeout(function () {
+                                        $scope.RegistrarSesion();
+                                    }, 0); 
                                     $timeout(function () { $rootScope.IniciandoSesionMensajes = 'Cargando datos de usuario...'; }, 100);
                                     $timeout(function () { $rootScope.IniciandoSesionMensajes = 'Cargando menús...'; }, 1800);
-                                    $timeout(function () { $rootScope.IniciandoSesionMensajes = 'Iniciando sesión...'; }, 2200);                                   
-                                    $timeout(function () {
-                                        $state.go('home');
-                                        $scope.Cancelar();
+                                    $timeout(function () { $rootScope.IniciandoSesionMensajes = 'Iniciando sesión...'; }, 2200);                                                                       
+
+                                    $timeout(function () {                                        
+                                        $state.go('home');                                        
                                     }, 3000);
+                                    $timeout(function () {
+                                        $scope.Cancelar();
+                                    }, 3500);
+
 
                                 }
                             }

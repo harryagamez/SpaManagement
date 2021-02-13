@@ -1869,5 +1869,26 @@ namespace Spa.Infrastructure.SpaRepository
                 }
             }
         }
+
+        public bool RegistrarSesion(Sesion _Sesion)
+        {
+            using (SqlConnection _connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+
+                using (SqlCommand _command = _connection.CreateCommand())
+                {
+                    _command.CommandType = CommandType.StoredProcedure;
+                    _command.CommandText = "RegistrarSesion";
+                    _command.Parameters.AddWithValue("@JsonSesion", JsonConvert.SerializeObject(_Sesion));
+
+                    _command.ExecuteNonQuery();
+
+                    _command.Dispose();
+
+                    return true;
+                }
+            }
+        }
     }
 }

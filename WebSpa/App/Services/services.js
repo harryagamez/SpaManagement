@@ -449,7 +449,8 @@
             _consultarPromociones: ConsultarPromociones,
             _eliminarServicioPromocion: EliminarServicioPromocion,
             _consultarPromocion: ConsultarPromocion,
-            _actualizarEmpleadoServicio: ActualizarEmpleadoServicio
+            _actualizarEmpleadoServicio: ActualizarEmpleadoServicio,
+            _registrarSesion: RegistrarSesion
         }
 
         function RegistrarActualizarCliente(cliente) {
@@ -1399,6 +1400,20 @@
                 function (err) {
                     deferred.reject(err);
                 });
+            return deferred.promise;
+        }
+
+        function RegistrarSesion(sesion) {
+            var deferred = $q.defer();
+
+            serviceRest.Post('SPA', 'RegistrarSesion', sesion,
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+
             return deferred.promise;
         }
 

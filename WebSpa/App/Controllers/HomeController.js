@@ -7,7 +7,8 @@ function HomeController($scope, $rootScope, $timeout, $location, authService, $m
     $rootScope.header = 'Inicio';    
     $scope.UserAvatar = '../../Images/default_perfil_alt.png';
     $scope.UsuarioSistema = $rootScope.userData.userName;
-    $rootScope.CerrandoSesionMensajes = '';
+    $scope.IdEmpresa = $rootScope.Id_Empresa;
+    $rootScope.CerrandoSesionMensajes = '';       
 
     $scope.ModalLogout = function () {
         try {
@@ -43,7 +44,7 @@ function HomeController($scope, $rootScope, $timeout, $location, authService, $m
 
     $scope.Cancelar = function () {
         $mdDialog.cancel();
-    };
+    };   
 
     if ($rootScope.Empresas !== undefined) {
         if ($rootScope.Empresas.length === 0) {
