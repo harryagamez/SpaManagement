@@ -39,16 +39,17 @@ function LoginController($scope, $state, $location, $rootScope, $timeout, authSe
     }
 
     $scope.GetUserData = function () {
-        $http.get("https://ipinfo.io/json?token=312ef10a0e7258").then(function (response) {
-            $scope.Ip = response.data.ip;
-            $scope.Hostname = response.data.hostname;
-            $scope.Ciudad = response.data.city;
-            $scope.Region = response.data.region;
-            $scope.Pais = response.data.country;
-            $scope.Localizacion = response.data.loc;
-            $scope.Org = response.data.org;
-            $scope.Postal = response.data.postal;
-            $scope.TimeZone = response.data.timezone;
+        $http.get("https://ipinfo.io/json?token=312ef10a0e7258")
+            .then(function (response) {
+                $scope.Ip = response.data.ip;
+                $scope.Hostname = response.data.hostname;
+                $scope.Ciudad = response.data.city;
+                $scope.Region = response.data.region;
+                $scope.Pais = response.data.country;
+                $scope.Localizacion = response.data.loc;
+                $scope.Org = response.data.org;
+                $scope.Postal = response.data.postal;
+                $scope.TimeZone = response.data.timezone;
         });        
     }
 
