@@ -1,6 +1,8 @@
-﻿namespace Spa.Domain.SpaEntities
+﻿using Spa.Domain.SpaEntities.Extensions;
+
+namespace Spa.Domain.SpaEntities
 {
-    public class Barrio
+    public class Barrio : BusquedaBarrio
     {
         public int Id_Barrio { get; set; }
         public string Nombre { get; set; }

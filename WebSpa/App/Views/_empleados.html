@@ -5,207 +5,274 @@
     <title>Empleados</title>
 </head>
 <body>
+    <div us-spinner="{radius:30, width:8, length: 16}" style="backdrop-filter: blur(3px); position: fixed; margin-left:-160px; margin-top:-50px; background-color: rgba(0,0,0,0.3); width: 100%; height: 100%; z-index: 2000000000;"></div>
     <div layout="row" layout-wrap="" style="height: calc(100vh - 70px); overflow:auto;">
 
         <form id="frmEmpleados" style="">
+            <div layout="row" layout-sm="column" style="">
+                <div flex="" style="flex:none;">
+                    <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px; margin-left:2px;">
 
-            <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
-                <md-button type="button" id="btnGuardar" class="btn-spa groupX left" style="margin-left: 0px;" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarEmpleado()">
-                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
-                </md-button>
+                        <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevoEmpleado()">
+                            <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">note_add</i> Nuevo
+                        </md-button>
 
-                <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
-                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                </md-button>
-
-                <md-button type="button" id="btnInformes" class="btn-spa groupX middle" style="margin-right:0;" data-toggle="tooltip" title="Informes">
-                    <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Informes
-                </md-button>
-                <md-button type="button" class="btn-spa dropdown-toggle-split groupX right" style="min-width:0; margin-left:-1px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons" style="transform: scaleX(-1); margin-top: -0px;">settings</i>
-                </md-button>
-                <div class="dropdown-menu">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="ListadoClientes" aria-label="Checkbox 1">
-                                Listado de empleados
-                            </md-checkbox>
-                        </li>
-                        <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="DetalladoInsumosEmpleados" aria-label="Checkbox 2">
-                                Detallado insumos
-                            </md-checkbox>
-                        </li>
-                    </ul>
-                </div>
-            </section>
-
-            <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-around center">
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Cédula:
-                        </label>
-                        <input ng-model="Empleado.Cedula" id="txtCedula" ng-readonly="CedulaReadOnly" numbers-only data-ng-enter="ConsultarEmpleado($event, Empleado.Cedula)" ng-blur="ConsultarEmpleado($event, Empleado.Cedula)" maxlength="15" type="text" placeholder="Digite su cédula ..." autocomplete="off" tabindex=1>
-                    </md-input-container>
+                        <md-button type="button" id="btnInformes" class="btn-spa groupX middle" style="margin-right:0;" data-toggle="tooltip" title="Informes">
+                            <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i> Informes
+                        </md-button>
+                        <md-button type="button" class="btn-spa dropdown-toggle-split groupX right" style="min-width:0; margin-left:-3px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons" style="transform: scaleX(-1); margin-top: -0px;">settings</i>
+                        </md-button>
+                        <div class="dropdown-menu">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item btn-informe">
+                                    <md-switch ng-model="ListadoEmpleados" aria-label="Listado de empleados" style="margin:2px 5px;">
+                                        <span style="font-size:12px;">Listado de empleados</span>
+                                    </md-switch>
+                                </li>
+                                <li class="list-group-item btn-informe">
+                                    <md-switch ng-model="DetalladoInsumosEmpleados" aria-label="Detallado insumos" style="margin:2px 5px;">
+                                        <span style="font-size:12px;">Detallado insumos</span>
+                                    </md-switch>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
                 </div>
 
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Nombre(s):
+                <div flex="" class="material-app">
+                    <md-input-container style="margin-bottom:0;">
+                        <label class="label-form-clientes" style="">
+                            Nombre Empleado:
                         </label>
-                        <input ng-model="Empleado.Nombres" id="txtNombre" maxlength="60" type="text" placeholder="Digite su nombre ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
-                    </md-input-container>
-                </div>
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Apellido(s):
-                        </label>
-                        <input ng-model="Empleado.Apellidos" id="txtApellido" maxlength="60" type="text" placeholder="Digite sus apellidos ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=3>
-                    </md-input-container>
-                </div>
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Dirección:
-                        </label>
-                        <input ng-model="Empleado.Direccion" id="txtDireccion" maxlength="25" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Digite su dirección ..." tabindex=4>
-                    </md-input-container>
-                </div>
-
-            </div>
-
-            <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-around center">
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Telefono Fijo:
-                        </label>
-                        <input ng-model="Empleado.Telefono_Fijo" maxlength="10" numbers-only id="txtFijo" type="text" placeholder="Digite su telefono fijo ..." autocomplete="off" tabindex=5>
-                    </md-input-container>
-                </div>
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Celular:
-                        </label>
-                        <input ng-model="Empleado.Telefono_Movil" id="txtMovil" maxlength="12" numbers-only type="text" placeholder="Digite su celular ..." autocomplete="off" tabindex=6>
-                    </md-input-container>
-                </div>
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Número de Hijos:
-                        </label>
-                        <input ng-model="Empleado.Numero_Hijos" id="txtHijos" numbers-only type="text" placeholder="Digite su número de hijos ..." autocomplete="off" tabindex=7>
-                    </md-input-container>
-                </div>
-
-                <div flex="">
-                    <md-input-container style="margin-left: -40px; min-width: 100%;">
-                        <label class="label-form-empleados" style="">
-                            Fecha Nacimiento:
-                        </label>
-                        <md-datepicker ng-model="Empleado.Fecha_Nacimiento" md-placeholder="Enter date" id="dpFechaNacimiento" tabindex=8></md-datepicker>
+                        <input ng-keyup="onFilterTextBoxChanged()" id="txtBuscarEmpleado" maxlength="60" type="text" style="min-width: 200px;" placeholder="Empleado a filtrar..." tabindex=1>
                     </md-input-container>
                 </div>
             </div>
 
-            <div layout="row" layout-sm="column" style="background-color:rgb(250,250,250);" layout-align="space-around center">
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Estado Civil:
-                        </label>
-                        <md-select ng-model="EstadoCivilSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slEstadoCivil" tabindex=9>
-                            <md-option value="SOLTERA" selected>SOLTERA(O)</md-option>
-                            <md-option value="CASADA">CASADA(O)</md-option>
-                            <md-option value="DIVORCIADA">DIVORCIADA(O)</md-option>
-                            <md-option value="UNIONLIBRE">UNIÓN LIBRE</md-option>
-                            <md-option value="VIUDA">VIUDA(O)</md-option>
-                        </md-select>
-                    </md-input-container>
-                </div>
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Estado:
-                        </label>
-                        <md-select ng-model="EstadoSeleccionado" class="" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slEstado" tabindex=10>
-                            <md-option value="ACTIVO" selected>ACTIVO</md-option>
-                            <md-option value="INACTIVO">INACTIVO</md-option>
-                        </md-select>
-                    </md-input-container>
-                </div>
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Municipio
-                        </label>
-                        <md-select ng-model="MunicipioSeleccionado" ng-change="FiltrarBarrios(MunicipioSeleccionado)" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slMunicipio" tabindex=11>
-                            <md-option ng-bind="municipio.nombre" ng-value="municipio.id_Municipio" ng-repeat="municipio in Municipios track by municipio.id_Municipio"></md-option>
-                        </md-select>
-                    </md-input-container>
-                </div>
-
-                <div flex="">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Barrio:
-                        </label>
-                        <md-select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado=='-1'" style="display:inline-flex; min-width: 100% !important; max-width: 170px; margin:15px 0;" id="slBarrio" tabindex=12>
-                            <md-option ng-bind="barrio.nombre" ng-value="barrio.id_Barrio" ng-repeat="barrio in Barrios track by barrio.id_Barrio"></md-option>
-                        </md-select>
-                    </md-input-container>
-                </div>
-
-            </div>
-
-            <div layout="row" layout-xs="column" style="background-color:rgb(250,250,250);" layout-align="start center">
-                <div flex="25">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="">
-                            Tipo Pago:
-                        </label>
-                        <md-select ng-model="TipoPagoSeleccionado" style="display:inline-flex; min-width: 100% !important; margin:15px 0;" id="slTipoPago" ng-change="FocoMonto()" tabindex=13>
-                            <md-option ng-bind="tipopago.descripcion" ng-value="tipopago.id_TipoPago" ng-repeat="tipopago in TipoPagos track by $index"></md-option>
-                        </md-select>
-                    </md-input-container>
-                </div>
-
-                <div flex="25">
-                    <md-input-container style="width:90%">
-                        <label class="label-form-empleados" style="margin-bottom:-8px;">
-                            Monto / %:
-                        </label>
-                        <input ng-model="Empleado.Monto" id="txtMonto" focus="selectChanged" type="text" float-numbers-only ng-pattern="/(^[0-9]{1,9})+(\.[0-9]{1,4})?$/" style="position:relative; margin-top:16px;" placeholder="Digite el monto a pagar ..." autocomplete="off" tabindex=14>
-                    </md-input-container>
-                </div>
-
-
-            </div>
-
-            <div id="divGridEmpleados" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 430px); margin-top:14px; overflow-y:auto;">
+            <div id="divGridEmpleados" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 145px); margin-top:-15px; overflow-y:auto;">
                 <div id="divEmpleadosGridOptions" data-ag-grid="EmpleadosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
             </div>
         </form>
     </div>
 
+    <!-- Modal Empleado -->
+    <div style="visibility: hidden">
+
+        <div class="md-dialog-container" id="dlgNuevoEmpleado">
+            <md-dialog id="mdNuevoEmpleado" aria-label="Nuevo Empleado" style="min-width: 780px; max-width: 780px; min-height:405px; max-height:405px; color: #666666 !important; cursor:default;" draggable>
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2 style="font-size:16px;">{{AccionEmpleado}}</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="Cancelar()">
+                            <i class="material-icons" style="transform: scaleX(-1)">close</i>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+                <form id="frmServiciosModal" style="">
+                    <md-dialog-content style="overflow:hidden;">
+
+                        <input type="file" name="file" id="ImagenEmpleado" style="visibility:hidden;" data-toggle="tooltip" title="Upload" data-file-model="SeleccionarImagen($event)" accept=".png, .jpg, .jpeg" />
+
+                        <div layout="row" layout-align="" style="margin-top:-17px;">
+                            <div style="width:200px;" class="material-app">
+                                <md-input-container style="width:190px; margin-top: 5px; margin-bottom: 0;">
+                                    <label class="label-form-empleados" style="">
+                                        Cédula:
+                                    </label>
+                                    <input ng-model="Empleado.Cedula" ng-disabled="AccionEmpleado === 'Actualizar Empleado'" md-autofocus="AccionEmpleado === 'Registrar Empleado'" id="txtCedula" ng-readonly="CedulaReadOnly" numbers-only data-ng-enter="ConsultarEmpleado($event, Empleado.Cedula)" ng-blur="ConsultarEmpleado($event, Empleado.Cedula)" maxlength="15" type="text" placeholder="Digite su cédula ..." autocomplete="off" tabindex=1>
+                                </md-input-container>
+                            </div>
+
+                            <div style="width:200px;" class="material-app">
+                                <md-input-container style="width: 190px; margin-top: 5px; margin-bottom: 0;">
+                                    <label class="label-form-empleados" style="">
+                                        Nombre(s):
+                                    </label>
+                                    <input ng-model="Empleado.Nombres" md-autofocus="AccionEmpleado === 'Actualizar Empleado'" id="txtNombres" ng-keyup="onFilterTextBoxChanged()" maxlength="60" type="text" placeholder="Digite su nombre ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2>
+                                </md-input-container>
+                            </div>
+
+                            <div style="width:200px;" class="material-app">
+                                <md-input-container style="width: 190px; margin-top: 5px; margin-bottom: 0;">
+                                    <label class="label-form-empleados" style="">
+                                        Apellido(s):
+                                    </label>
+                                    <input ng-model="Empleado.Apellidos" id="txtApellido" maxlength="60" type="text" placeholder="Digite sus apellidos ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=3>
+                                </md-input-container>
+                            </div>
+
+                        </div>
+
+                        <div layout="row" layout-sm="column" layout-align="start start" style="margin-top:0px; margin-bottom:0;">
+
+                            <div style="width:200px;" class="material-app">
+                                <md-input-container style="width: 190px; margin-top: 5px; margin-bottom: 0;">
+                                    <label class="label-form-empleados" style="">
+                                        Dirección:
+                                    </label>
+                                    <input ng-model="Empleado.Direccion" id="txtDireccion" maxlength="25" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Digite su dirección ..." tabindex=4>
+                                </md-input-container>
+                            </div>
+
+                            <div style="width:230px; margin-top:-14px;" class="material-app">
+                                <md-input-container style="margin-left: -40px; width:220px;">
+                                    <label class="label-form-empleados" style="">
+                                        Fecha Nacimiento:
+                                    </label>
+                                    <md-datepicker style="margin-top:-14px;" ng-model="Empleado.Fecha_Nacimiento" md-placeholder="Enter date" id="dpFechaNacimiento" tabindex=5></md-datepicker>
+                                </md-input-container>
+                            </div>
+
+                            <div style="width:200px;" class="material-app">
+                                <md-input-container style="width: 190px; margin-top: 0px; margin-bottom: 0; margin-left:-30px;">
+                                    <label class="label-form-empleados" style="">
+                                        Estado Civil:
+                                    </label>
+                                    <md-select ng-model="EstadoCivilSeleccionado" class="" style="display: inline-flex; min-width: 190px; max-width: 190px; margin-top: 7px;" id="slEstadoCivil" tabindex=6>
+                                        <md-option value="SOLTERA" selected>SOLTERA(O)</md-option>
+                                        <md-option value="CASADA">CASADA(O)</md-option>
+                                        <md-option value="DIVORCIADA">DIVORCIADA(O)</md-option>
+                                        <md-option value="UNIONLIBRE">UNIÓN LIBRE</md-option>
+                                        <md-option value="VIUDA">VIUDA(O)</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+
+                        </div>
+
+                        <div layout="row" layout-sm="column" layout-align="start start" style="margin-top:-15px; margin-bottom:5px;">
+
+                            <div style="width:200px;" class="material-app">
+                                <md-input-container style="width: 190px; margin-top: 5px; margin-bottom: 0;">
+                                    <label class="label-form-empleados" style="">
+                                        Telefono Fijo:
+                                    </label>
+                                    <input ng-model="Empleado.Telefono_Fijo" maxlength="10" numbers-only id="txtFijo" type="text" placeholder="Digite su telefono fijo ..." autocomplete="off" tabindex=7>
+                                </md-input-container>
+                            </div>
+
+                            <div style="width:200px;" class="material-app">
+                                <md-input-container style="width: 190px; margin-top: 5px; margin-bottom: 0;">
+                                    <label class="label-form-empleados" style="">
+                                        Celular:
+                                    </label>
+                                    <input ng-model="Empleado.Telefono_Movil" id="txtMovil" maxlength="12" numbers-only type="text" placeholder="Digite su celular ..." autocomplete="off" tabindex=8>
+                                </md-input-container>
+                            </div>
+
+                            <div style="width:200px;" class="material-app">
+                                <md-input-container style="width: 190px; margin-top: 5px; margin-bottom: 0;">
+                                    <label class="label-form-empleados" style="">
+                                        Número de Hijos:
+                                    </label>
+                                    <input ng-model="Empleado.Numero_Hijos" id="txtHijos" numbers-only type="text" placeholder="Digite su número de hijos ..." autocomplete="off" tabindex=9>
+                                </md-input-container>
+                            </div>
+
+
+                        </div>
+
+                        <div layout="row" layout-sm="column" layout-align="start start" style="margin-top:-5px;">
+
+                            <div style="width:200px;" class="material-app">
+                                <md-input-container style="width: 190px; margin-top: 0px; margin-bottom: 0; ">
+                                    <label class="label-form-clientes">
+                                        Departamento:
+                                    </label>
+                                    <md-select ng-model="DepartamentoSeleccionado" data-ng-change="FiltrarMunicipios(DepartamentoSeleccionado)" style="display: inline-flex; min-width: 190px; max-width: 190px; margin-top: 7px;" id="slDepartamentos4" tabindex=10>
+                                        <md-option ng-bind="item.nombre" ng-value="item.id_Departamento" ng-repeat="item in Departamentos track by item.id_Departamento"></md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+
+                            <div style="width:200px;" class="material-app">
+                                <md-input-container style="width: 190px; margin-top: 0px; margin-bottom: 0;">
+                                    <label class="label-form-empleados" style="">
+                                        Municipio
+                                    </label>
+                                    <md-select ng-model="MunicipioSeleccionado" ng-disabled="DepartamentoSeleccionado === -1" ng-change="FiltrarBarrios(MunicipioSeleccionado)" style="display: inline-flex; min-width: 190px; max-width: 190px; margin-top: 7px;" id="slMunicipio" tabindex=11>
+                                        <md-option ng-bind="municipio.nombre" ng-value="municipio.id_Municipio" ng-repeat="municipio in MunicipiosCopy track by municipio.id_Municipio"></md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+
+                            <div style="width:200px;" class="material-app">
+                                <md-input-container style="width: 190px; margin-top: 0px; margin-bottom: 0;">
+                                    <label class="label-form-empleados" style="">
+                                        Barrio:
+                                    </label>
+                                    <md-select ng-model="BarrioSeleccionado" ng-disabled="MunicipioSeleccionado === -1" style="display: inline-flex; min-width: 190px; max-width: 190px; margin-top: 7px;" id="slBarrio" tabindex=12>
+                                        <md-option ng-bind="barrio.nombre" ng-value="barrio.id_Barrio" ng-repeat="barrio in Barrios track by barrio.id_Barrio"></md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        <div layout="row" layout-sm="column" layout-align="start start" style="margin-top:25px;">
+
+                            <div style="width:200px;" class="material-app">
+                                <md-input-container style="width: 190px; margin-top: 5px; margin-bottom: 0;">
+                                    <label class="label-form-empleados" style="">
+                                        Estado:
+                                    </label>
+                                    <md-select ng-model="EstadoSeleccionado" class="" style="display: inline-flex; min-width: 190px; max-width: 190px; margin-top: 7px;" id="slEstado" tabindex=13>
+                                        <md-option value="ACTIVO" selected>ACTIVO</md-option>
+                                        <md-option value="INACTIVO">INACTIVO</md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+
+                            <div style="width:200px;" class="material-app">
+                                <md-input-container style="width: 190px; margin-top: 5px; margin-bottom: 0;">
+                                    <label class="label-form-empleados" style="">
+                                        Tipo Pago:
+                                    </label>
+                                    <md-select ng-model="TipoPagoSeleccionado" ng-disabled="true" style="display: inline-flex; min-width: 190px; max-width: 190px; margin-top: 7px;" id="slTipoPago" ng-change="FocoMonto()" tabindex=14>
+                                        <md-option ng-bind="tipopago.descripcion" ng-value="tipopago.id_TipoPago" ng-repeat="tipopago in TipoPagos"></md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+
+                            <div style="width:200px;" class="material-app">
+                                <md-input-container style="width: 190px; margin-top: 5px; margin-bottom: 0;">
+                                    <label class="label-form-empleados" style="">
+                                        Monto / %:
+                                    </label>
+                                    <input ng-model="Empleado.Monto" style="margin-top:0px;" id="txtMonto" focus="selectChanged" type="text" float-numbers-only ng-pattern="/(^[0-9]{1,9})+(\.[0-9]{1,4})?$/" placeholder="Digite el monto a pagar ..." autocomplete="off" tabindex=15>
+                                </md-input-container>
+                            </div>
+
+                            <div style="width:120px;">
+                                <div class="empresa-logo" style="top:60px; right:20px;">
+                                    <label class="label-imagen-usuario" ng-click="ProcesarImagen()"><i class="material-icons md-18" style="transform: scaleX(-1);">camera_alt</i>Cargar Avatar</label>
+                                    <img ng-src="{{ImagenEmpleado}}" />
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <section id="divButtons" layout="row" layout-align="end center" style="margin-left:2px; margin-top:-10px;">
+                            <md-button type="button" id="btnGuardarEmpresa" style="margin-right:-2px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Guardar" data-ng-click="GuardarEmpleado()" tabindex=16>
+                                <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">save</i> Guardar
+                            </md-button>
+                            <md-button type="button" id="btnLimpiar" ng-hide="AccionEmpleado === 'Actualizar Empleado'" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()" tabindex=17>
+                                <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">note_add</i> Nuevo
+                            </md-button>
+                        </section>
+
+                    </md-dialog-content>
+                </form>
+            </md-dialog>
+        </div>
+    </div>
+
     <!-- Modales Asignar Servicios-->
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgAsignarServicios">
-            <md-dialog id="mdAsignarServicios" aria-label="" style="min-width: 38% !important; max-width:38%; color: #666666 !important;">
+            <md-dialog id="mdAsignarServicios" aria-label="" style="min-width: 38% !important; max-width:38%; color: #666666 !important; cursor:default;" draggable>
                 <md-toolbar>
                     <div class="md-toolbar-tools">
                         <h2 style="font-size:16px;">{{AccionEmpleado}}: {{NombreEmpleado}}</h2>
@@ -216,11 +283,11 @@
                     </div>
                 </md-toolbar>
 
-                <form id="frmServicios" style="">
+                <form id="frmServiciosModal" style="">
 
-                    <md-dialog-content style="background-color: rgb(250,250,250);">
-                        <div layout="row" layout-sm="column" style="margin-top: 15px;" layout-align="center center">                            
-                            <div flex="">
+                    <md-dialog-content style="">
+                        <div layout="row" layout-sm="column" style="margin-top: 15px;" layout-align="center center">
+                            <div flex="" class="material-app">
                                 <md-input-container class="md-block" style="margin:0; padding: 0;">
                                     <label class="label-form-servicios" style="">
                                         Seleccionar Servicios:
@@ -236,8 +303,8 @@
                                 </md-input-container>
                             </div>
                             <div flex="25">
-                                <md-button type="button" id="btnAgregarServicio"  style="right: 8px; position: fixed; margin-top: -18px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Asignar Servicio" data-ng-click="AsignarEmpleadoServicio()">
-                                    Agregar<i class="material-icons md-18" style="transform: scaleX(-1)">add</i>
+                                <md-button type="button" id="btnAgregarServicio" style="right: 8px; position: fixed; margin-top: -18px;" class="btn-spa groupX middle" data-toggle="tooltip" title="Asignar Servicio" data-ng-click="AsignarEmpleadoServicio()">
+                                    <i class="material-icons md-18" style="transform: scaleX(-1)">add</i> Agregar
                                 </md-button>
                             </div>
                         </div>
@@ -247,10 +314,8 @@
                                 <div id="divEmpleadoServicioGridOptions" data-ag-grid="EmpleadoServicioGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                             </div>
                         </div>
-
                     </md-dialog-content>
                 </form>
-
             </md-dialog>
         </div>
     </div>
@@ -258,7 +323,7 @@
     <!-- Modales Asignar Insumos-->
     <div style="visibility: hidden">
         <div class="md-dialog-container" id="dlgAsignarInsumos">
-            <md-dialog id="mdAsignarInsumos" aria-label="" style="width: 46% !important; color: #666666 !important;">
+            <md-dialog id="mdAsignarInsumos" aria-label="" style="width: 46% !important; color: #666666 !important; cursor:default;" draggable>
 
                 <md-toolbar>
                     <div class="md-toolbar-tools">
@@ -270,9 +335,9 @@
                     </div>
                 </md-toolbar>
 
-                <form id="frmServicios" style="">
+                <form id="frmServiciosModal" style="">
 
-                    <md-dialog-content style="background-color: rgb(250,250,250);">
+                    <md-dialog-content style="">
                         <div layout="row" layout-sm="column" layout-align="center center">
 
                             <div flex="50" style="margin: 15px 5px;">
@@ -284,9 +349,7 @@
                                         Producto:
                                     </label>
                                     <md-select ng-model="ProductoSeleccionado" ng-change="ConsultarInventario(ProductoSeleccionado)" placeholder="PRODUCTO" aria-label="Seleccionar Producto:" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slProductos" tabindex=1>
-                                        <md-optgroup label="Producto">
-                                            <md-option ng-value="producto.id_Producto" ng-repeat="producto in Productos track by producto.nombre">{{producto.nombre}}</md-option>
-                                        </md-optgroup>
+                                        <md-option ng-value="producto.id_Producto" ng-repeat="producto in Productos track by producto.nombre">{{producto.nombre}}</md-option>
                                     </md-select>
                                 </md-input-container>
                             </div>
@@ -302,34 +365,34 @@
                                 </md-input-container>
                             </div>
 
-                            <div flex="25" style="margin: 15px 5px; padding-bottom:5px;">
-                                <md-input-container style="min-width:100%; margin:0; padding: 0; margin-top: 20px;">
-                                    <label class="label-form-servicios" style="margin-bottom:8px;">
+                            <div flex="25" style="">
+                                <md-input-container style="margin:0; padding: 0; position:fixed; top:43px; margin-left:10px;">
+                                    <label class="label-form-servicios" style="margin-bottom:8px; font-size:11px; color: #566473;">
                                         Inventario:
                                     </label>
-                                    <input ng-model="InventarioProducto" id="txtInvProd" maxlength="12" numbers-only ng-readonly="true" type="text" class="" style="min-width:100%; margin:0; padding: 0;" placeholder="" value="">
+                                    <br />
+                                    <div style="font-size:20px; color: #566473; font-weight:600; padding-top:9px; margin-left:5px;">{{InventarioProducto}}</div>
                                 </md-input-container>
                             </div>
-                        </div>                        
+                        </div>
 
-                        <div layout="row" layout-sm="column" layout-align="start center" style="margin-top:-15px;">                            
+                        <div layout="row" layout-sm="column" layout-align="start center" style="margin-top:-5px;">
 
-                            <div flex="75" style="margin: 0px 5px; padding-bottom:5px;">
+                            <div flex="75" style="margin: 0px 5px; padding-bottom:5px;" class="material-app">
                                 <md-input-container style="min-width:35%; max-width:35%; margin:0; padding: 0;">
                                     <label class="label-form-servicios" style="">
                                         Cantidad:
                                     </label>
-                                    <input ng-model="CantidadInsumo" focus="productChanged" id="txtCantidadInsumo" maxlength="12" numbers-only type="text" class="" style="min-width:100%; margin:0; padding: 0;" placeholder="" value="" tabindex=2 md-autofocus>
+                                    <input ng-model="CantidadInsumo" focus="productChanged" id="txtCantidadInsumo" maxlength="12" numbers-only type="text" class="" style="min-width:100%; margin:0; padding: 0;" placeholder="" value="" tabindex=2 autocomplete="off" md-autofocus>
                                 </md-input-container>
                             </div>
 
                             <div flex="">
-                                <md-button type="button" id="btnAgregarInsumo" class="btn-spa groupX left" style="margin-top: -25px; position: relative; float:right; right:6px; position:fixed;" data-toggle="tooltip" title="Agregar" ng-click="AsignarEmpleadoInsumo()" tabindex=7>
-                                    Agregar<i class="material-icons md-18" style="transform: scaleX(-1)">add</i>
+                                <md-button type="button" id="btnAgregarInsumo" class="btn-spa groupX left" style="margin-top: -25px; position: relative; float:right; right:8px; position:fixed;" data-toggle="tooltip" title="Agregar" ng-click="AsignarEmpleadoInsumo()" tabindex=7>
+                                    <i class="material-icons md-18" style="transform: scaleX(-1)">add</i> Agregar
                                 </md-button>
-                            </div> 
-                            
-                        </div>                        
+                            </div>
+                        </div>
 
                         <div layout="row" layout-align="center center">
                             <div id="divGridEmpleadoInsumos" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 500px); margin-top:-5px; overflow-y:auto;">
@@ -338,10 +401,8 @@
                         </div>
                     </md-dialog-content>
                 </form>
-
             </md-dialog>
         </div>
     </div>
-
 </body>
 </html>

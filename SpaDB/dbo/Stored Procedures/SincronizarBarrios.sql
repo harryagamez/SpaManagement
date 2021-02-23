@@ -1,4 +1,7 @@
-﻿CREATE PROCEDURE SincronizarBarrios(@Json NVARCHAR(MAX), @Municipio VARCHAR(20))
+﻿CREATE PROCEDURE [dbo].[SincronizarBarrios](
+	@Json NVARCHAR(MAX), 
+	@Municipio VARCHAR(20)
+)
 AS
 BEGIN
 	
@@ -6,7 +9,7 @@ BEGIN
 	Nombre VARCHAR(50) COLLATE SQL_Latin1_General_CP1_CI_AS, Tipo INT)
 
 	DECLARE @IdMunicipio INT
-	SET @IdMunicipio = (SELECT TOP 1 ID_MUNICIPIO FROM MUNICIPIOS WHERE RTRIM(NOMBRE) = @Municipio)
+	SET @IdMunicipio = (SELECT TOP 1 ID_MUNICIPIO FROM MUNICIPIOS WHERE RTRIM(NOMBRE) = RTRIM(@Municipio))
 
 	INSERT INTO #TempBarrios (ObjectId,Codigo,Nombre,Tipo)
 	SELECT 

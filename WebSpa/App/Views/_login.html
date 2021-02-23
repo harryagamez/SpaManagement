@@ -5,41 +5,41 @@
 </head>
 <body>
     <div class="background-image"></div>
-    <div class="wrapper">
+    <div class="wrapper" style="margin-top:15px;">
         <div layout="row" layout-wrap="" layout-align="center center">
             <div layout-sm="column">
                 <form class="form-container" style="min-width:320px; min-height: 365px;" autocomplete="new-password">
                     <div flex="" class="login-header">
-                        <img src="../../Images/logo-login.png" style="margin-left:auto; margin-right:auto; padding-top:20px; display:block;" />
+                        <img src="../../Images/spa_login.png" style="margin-left:auto; max-width: 225px; margin-left:40px; padding-top:40px; display:block;" />
                     </div>
-                    <div flex="" style="padding-top:5px;">
+                    <div flex="" style="padding-top:5px;" class="material-app">
                         <md-input-container style="width:100%; display:flex;">
                             <label>Usuario:</label>
                             <md-icon class="material-icons login-icons">person</md-icon>
-                            <input id="txtUsuario" type="text" ng-model="DatosUsuario.Usuario" class="form-control-login" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Nombre de usuario">
+                            <input id="txtUsuario" type="text" ng-model="DatosUsuario.Usuario" class="form-control-login" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Nombre de usuario" disallow-spaces>
                         </md-input-container>
                     </div>
-                    <div flex="" style="padding-top:5px;">
+                    <div flex="" style="padding-top:5px;" class="material-app">
                         <md-input-container style="display:flex; width:100%;">
                             <label>Contraseña:</label>
                             <md-icon class="material-icons login-icons">lock</md-icon>
-                            <input type="password" ng-model="DatosUsuario.Clave" data-ng-enter="Login()" class="form-control-login" id="txtContraseña" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Contraseña">
+                            <input type="password" ng-model="DatosUsuario.Clave" data-ng-enter="Login()" class="form-control-login" id="txtContraseña" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Contraseña" disallow-spaces>
                         </md-input-container>
                     </div>
-                    <div flex="" style="padding-top:5px;">
+                    <div flex="" style="padding-top:5px;" class="material-app">
                         <md-input-container style="display:flex; width:100%" data-ng-show="validarIntegracion">
                             <label>Código Validación:</label>
                             <md-icon class="material-icons login-icons">Warning</md-icon>
-                            <input id="ctlIntegration" type="text" ng-model="DatosUsuario.CodigoIntegracion" class="form-control-login" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Código validación">
+                            <input id="ctlIntegration" type="text" ng-model="DatosUsuario.CodigoIntegracion" class="form-control-login" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Código validación" disallow-spaces>
                         </md-input-container>
                     </div>
                     <div flex="">
                         <md-button class="btn-login" ng-click="Login()">Ingresar</md-button>
                     </div>
-                    <div flex="" class="login-footer">
-                        <p style="vertical-align:middle; width:100%;">¿Olvidaste tu contraseña?</p>
+                    <div flex="" class="login-footer">                        
+                        <p style="vertical-align:middle; width:100%;"><a href="https://beuxit.com" target="_blank">Beux</a> © <span id="copyright"><script>document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))</script></span></p>
                     </div>
-                </form>                
+                </form>
             </div>
         </div>
     </div>

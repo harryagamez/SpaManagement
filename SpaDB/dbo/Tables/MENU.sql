@@ -3,6 +3,9 @@
 	[RUTA_ACCESO] [varchar](50) NULL,
 	[DESCRIPCION] [varchar](30) NULL,
 	[LOGO_BASE64] [nvarchar](max) NULL,
+	[_PARENTID]	  [int] null,
+	[_LEVEL]	  [int] null,
+	[_CHILDREN]	  [int] null,
 	[FECHA_REGISTRO] [datetime] NULL,
 	[FECHA_MODIFICACION] [datetime] NULL,
  CONSTRAINT [PK_MENU] PRIMARY KEY CLUSTERED 

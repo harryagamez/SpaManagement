@@ -34,7 +34,6 @@ namespace WebApiSpa.Controllers
                     return Content(HttpStatusCode.OK, _usuario);
                 else
                     return Content(HttpStatusCode.NotFound, _usuario);
-
             }
             catch (Exception ex)
             {
@@ -179,13 +178,13 @@ namespace WebApiSpa.Controllers
         }
 
         [HttpGet]
-        [Route("api/SPA/ConsultarServicios")]
+        [Route("api/SPA/ConsultarServiciosMaestro")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult ConsultarServicios(string IdEmpresa)
+        public IHttpActionResult ConsultarServiciosMaestro(string CategoriaEmpresa)
         {
             try
             {
-                List<Servicio> _servicios = _spaService.ConsultarServicios(IdEmpresa);
+                List<ServicioMaestro> _servicios = _spaService.ConsultarServiciosMaestro(CategoriaEmpresa);
 
                 return Content(HttpStatusCode.OK, _servicios);
             }
@@ -195,10 +194,44 @@ namespace WebApiSpa.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/SPA/ConsultarServicios")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarServicios(string IdEmpresa)
+        {
+            try
+            {
+                List<EmpresaServicio> _servicios = _spaService.ConsultarServicios(IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _servicios);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los servicios: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarServiciosActivos")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarServiciosActivos(string IdEmpresa)
+        {
+            try
+            {
+                List<EmpresaServicio> _servicios = _spaService.ConsultarServiciosActivos(IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _servicios);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los servicios activos: " + ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("api/SPA/GuardarServicio")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult GuardarServicio(List<Servicio> servicio)
+        public IHttpActionResult GuardarServicio(List<EmpresaServicio> servicio)
         {
             try
             {
@@ -283,11 +316,11 @@ namespace WebApiSpa.Controllers
         [HttpPost]
         [Route("api/SPA/AsignarEmpleadoServicio")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult AsignarEmpleadoServicio(List<EmpleadoServicio> empleadoservicio)
+        public IHttpActionResult AsignarEmpleadoServicio(List<EmpleadoServicio> empleadoServicios)
         {
             try
             {
-                bool result = _spaService.AsignarEmpleadoServicio(empleadoservicio);
+                bool result = _spaService.AsignarEmpleadoServicio(empleadoServicios);
 
                 return Content(HttpStatusCode.OK, result);
             }
@@ -331,14 +364,14 @@ namespace WebApiSpa.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("api/SPA/EliminarEmpleadoInsumo")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult EliminarEmpleadoInsumo(int IdTransaccion, int Cantidad, int IdProducto)
+        public IHttpActionResult EliminarEmpleadoInsumo(Transaccion transaccionInsumo)
         {
             try
             {
-                bool result = _spaService.EliminarEmpleadoInsumo(IdTransaccion, Cantidad, IdProducto);
+                bool result = _spaService.EliminarEmpleadoInsumo(transaccionInsumo);
 
                 return Content(HttpStatusCode.OK, result);
             }
@@ -351,11 +384,11 @@ namespace WebApiSpa.Controllers
         [HttpGet]
         [Route("api/SPA/ConsultarEmpleadoServicio")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult ConsultarEmpleadoServicio(int IdEmpleado)
+        public IHttpActionResult ConsultarEmpleadoServicio(int IdEmpleado, string IdEmpresa)
         {
             try
             {
-                List<EmpleadoServicio> _listEmpleadoServicio = _spaService.ConsultarEmpleadoServicio(IdEmpleado);
+                List<EmpleadoServicio> _listEmpleadoServicio = _spaService.ConsultarEmpleadoServicio(IdEmpleado, IdEmpresa);
 
                 return Content(HttpStatusCode.OK, _listEmpleadoServicio);
             }
@@ -368,11 +401,11 @@ namespace WebApiSpa.Controllers
         [HttpGet]
         [Route("api/SPA/ConsultarEmpleadoInsumos")]
         [HttpCache(DefaultExpirySeconds = 2)]
-        public IHttpActionResult ConsultarEmpleadoInsumos(int IdEmpleado)
+        public IHttpActionResult ConsultarEmpleadoInsumos(int IdEmpleado, string IdEmpresa)
         {
             try
             {
-                List<Transaccion> _listEmpleadoInsumo = _spaService.ConsultarEmpleadoInsumos(IdEmpleado);
+                List<Transaccion> _listEmpleadoInsumo = _spaService.ConsultarEmpleadoInsumos(IdEmpleado, IdEmpresa);
 
                 return Content(HttpStatusCode.OK, _listEmpleadoInsumo);
             }
@@ -491,7 +524,7 @@ namespace WebApiSpa.Controllers
         {
             try
             {
-                List<CajaMenor> _cajamenor = _spaService.ConsultarCajaMenor(IdEmpresa);
+                CajaMenor _cajamenor = _spaService.ConsultarCajaMenor(IdEmpresa);
 
                 return Content(HttpStatusCode.OK, _cajamenor);
             }
@@ -515,6 +548,264 @@ namespace WebApiSpa.Controllers
             catch (Exception ex)
             {
                 return Content(HttpStatusCode.InternalServerError, "Error guardando el saldo en caja menor: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/ReemplazarCajaMenor")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ReemplazarCajaMenor(List<CajaMenor> cajamenor)
+        {
+            try
+            {
+                bool result = _spaService.ReemplazarCajaMenor(cajamenor);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error guardando el saldo en caja menor: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/GuardarGasto")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarGasto(List<Gasto> gasto)
+        {
+            try
+            {
+                bool result = _spaService.GuardarGasto(gasto);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando el gasto: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/EliminarGastos")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult EliminarGastos(List<Gasto> gastos)
+        {
+            try
+            {
+                bool result = _spaService.EliminarGastos(gastos);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error eliminando los gastos seleccionados: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarUsuarios")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarUsuarios(string IdEmpresa)
+        {
+            try
+            {
+                List<Usuario> _usuarios = _spaService.ConsultarUsuarios(IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _usuarios);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los usuarios: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarUsuario")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarUsuario(string Nombre)
+        {
+            try
+            {
+                bool result = _spaService.ConsultarUsuario(Nombre);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando el usuario: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/GuardarUsuario")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarUsuario(Usuario usuario)
+        {
+            try
+            {
+                bool result = _spaService.GuardarUsuario(usuario);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando/actualizando el usuario: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarUserAvatar")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarUserAvatar(int UserId, string IdEmpresa)
+        {
+            try
+            {
+                Usuario _usuario = _spaService.ConsultarUserAvatar(UserId, IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _usuario);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando el usuario: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarEmpresaPropiedades")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarEmpresaPropiedades(string IdEmpresa)
+        {
+            try
+            {
+                List<EmpresaPropiedad> _empresaPropiedades = _spaService.ConsultarEmpresaPropiedades(IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _empresaPropiedades);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando las propiedades de la empresa: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarEmpleadosAutoComplete")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarEmpleadosAutoComplete(string IdEmpresa)
+        {
+            try
+            {
+                List<Empleado> _empleados = _spaService.ConsultarEmpleadosAutoComplete(IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _empleados);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando la lista de empleados: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/GuardarActualizarAgenda")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarActualizarAgenda(Agenda agenda)
+        {
+            try
+            {
+                bool result = _spaService.GuardarActualizarAgenda(agenda);
+
+                if (agenda.Id_Agenda == -1)
+                    _spaService.EmailConfirmacionAgenda(agenda);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando la agenda: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/ConsultarAgenda")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarAgenda(Agenda agenda)
+        {
+            try
+            {
+                List<Agenda> _agenda = _spaService.ConsultarAgenda(agenda);
+
+                return Content(HttpStatusCode.OK, _agenda);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando la agenda: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/ConsultarAgendaTransacciones")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarAgendaTransacciones(Agenda agenda)
+        {
+            try
+            {
+                List<Agenda> _agenda = _spaService.ConsultarAgendaTransacciones(agenda);
+
+                return Content(HttpStatusCode.OK, _agenda);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando la agenda: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/CancelarAgenda")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult CancelarAgenda(int IdAgenda, string IdEmpresa, string UsuarioSistema)
+        {
+            try
+            {
+                bool result = _spaService.CancelarAgenda(IdAgenda, IdEmpresa, UsuarioSistema);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error cancelando la cita: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConfirmarAgenda")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConfirmarAgenda(int IdAgenda, string IdEmpresa, string UsuarioSistema)
+        {
+            try
+            {
+                bool result = _spaService.ConfirmarAgenda(IdAgenda, IdEmpresa, UsuarioSistema);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error confirmando la cita: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarNumeroCitasDia")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarNumeroCitasDia(string fechaConsulta, string idEmpresa)
+        {
+            try
+            {
+                int result = _spaService.ConsultarNumeroCitasDia(fechaConsulta, idEmpresa);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando el número de citas del día: " + ex.Message);
             }
         }
 
@@ -550,9 +841,331 @@ namespace WebApiSpa.Controllers
             }
             catch (Exception ex)
             {
-                return Content(HttpStatusCode.InternalServerError, "Error consultando las empresas: " + ex.Message);
+                return Content(HttpStatusCode.InternalServerError, "Error consultando las empresas asociadas al usuario: " + ex.Message);
             }
         }
 
+        [HttpGet]
+        [Route("api/SPA/ConsultarSistemaPropiedades")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarSistemaPropiedades()
+        {
+            try
+            {
+                List<SistemaPropiedad> _sistemaPropiedades = _spaService.ConsultarSistemaPropiedades();
+
+                return Content(HttpStatusCode.OK, _sistemaPropiedades);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando las propiedades del sistema: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/GuardarEmpresaPropiedades")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarEmpresaPropiedades(List<EmpresaPropiedad> empresaPropiedades)
+        {
+            try
+            {
+                bool result = _spaService.GuardarEmpresaPropiedades(empresaPropiedades);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error guardando las propiedades de la empresa: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/RegistrarClientes")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult RegistrarClientes(List<Cliente> clientes)
+        {
+            try
+            {
+                bool result = _spaService.RegistrarClientes(clientes);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error procesando el archivo de clientes: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/RegistrarFacturacionServicios")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult RegistrarFacturacionServicios(AplicacionPago aplicacionPago)
+        {
+            try
+            {
+                bool result = _spaService.RegistrarFacturacionServicios(aplicacionPago);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando la transacción: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarNominaEmpleados")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarNominaEmpleados(string idEmpresa, string fechaNomina)
+        {
+            try
+            {
+                List<EmpleadoNomina> _nominaEmpleados = _spaService.ConsultarNominaEmpleados(idEmpresa, fechaNomina);
+
+                return Content(HttpStatusCode.OK, _nominaEmpleados);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los empleados de la empresa para el módulo de transacciones: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarNominaEmpleadoServicios")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarNominaEmpleadoServicios(string idEmpresa, int IdEmpleado, string fechaNomina)
+        {
+            try
+            {
+                List<Agenda> _empleadoServicios = _spaService.ConsultarNominaEmpleadoServicios(idEmpresa, IdEmpleado, fechaNomina);
+
+                return Content(HttpStatusCode.OK, _empleadoServicios);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los servicios realizados por el empleado: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarEmpleadoPrestamos")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarEmpleadoPrestamos(string idEmpresa, int IdEmpleado)
+        {
+            try
+            {
+                List<Gasto> _empleadoPrestamos = _spaService.ConsultarEmpleadoPrestamos(idEmpresa, IdEmpleado);
+
+                return Content(HttpStatusCode.OK, _empleadoPrestamos);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los prestamos del empleado: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/LiquidarNominaEmpleados")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult LiquidarNominaEmpleados(AplicacionNomina aplicacionNomina)
+        {
+            try
+            {
+                bool result = _spaService.LiquidarNominaEmpleados(aplicacionNomina);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando la transacción: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/ConsultarServiciosCliente")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarServiciosCliente(Agenda agenda)
+        {
+            try
+            {
+                List<Agenda> _agenda = _spaService.ConsultarServiciosCliente(agenda);
+
+                return Content(HttpStatusCode.OK, _agenda);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los servicios del cliente: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/ConsultarPagosCliente")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarPagosCliente(BusquedaPago busquedaPago)
+        {
+            try
+            {
+                List<ClientePago> _clientePagos = _spaService.ConsultarPagosCliente(busquedaPago);
+
+                return Content(HttpStatusCode.OK, _clientePagos);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los pagos: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/ConsultarServiciosEmpleado")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarServiciosEmpleado(Agenda agenda)
+        {
+            try
+            {
+                List<Agenda> _agenda = _spaService.ConsultarServiciosEmpleado(agenda);
+
+                return Content(HttpStatusCode.OK, _agenda);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los servicios del empleado: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarMovimientosCajaMenor")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarMovimientosCajaMenor(string idEmpresa, string fechaDesde, string fechaHasta)
+        {
+            try
+            {
+                List<MovimientoCajaMenor> _movimientoCajaMenor = _spaService.ConsultarMovimientosCajaMenor(idEmpresa, fechaDesde, fechaHasta);
+
+                return Content(HttpStatusCode.OK, _movimientoCajaMenor);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los movimientos de la caja menor: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarTipoPromociones")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarTipoPromociones()
+        {
+            try
+            {
+                List<TipoPromocion> _listTipoPromociones = _spaService.ConsultarTipoPromociones();
+
+                return Content(HttpStatusCode.OK, _listTipoPromociones);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando los tipos de promoción: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/GuardarPromocion")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult GuardarPromocion(Promocion promocion)
+        {
+            try
+            {
+                bool result = _spaService.GuardarPromocion(promocion);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando la promoción: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarPromociones")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarPromociones(string IdEmpresa)
+        {
+            try
+            {
+                List<Promocion> _promociones = _spaService.ConsultarPromociones(IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _promociones);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando las promociones: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/EliminarServicioPromocion")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult EliminarServicioPromocion(string IdDetallePromocion, string IdPromocion)
+        {
+            try
+            {
+                bool result = _spaService.EliminarServicioPromocion(IdDetallePromocion, IdPromocion);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error eliminando el servicio de la promoción: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/SPA/ConsultarPromocion")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ConsultarPromocion(string IdPromocion, string IdEmpresa)
+        {
+            try
+            {
+                Promocion _promocion = _spaService.ConsultarPromocion(IdPromocion, IdEmpresa);
+
+                return Content(HttpStatusCode.OK, _promocion);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error consultando la promoción: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/ActualizarEmpleadoServicio")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult ActualizarEmpleadoServicio(EmpleadoServicio empleadoServicio)
+        {
+            try
+            {
+                bool _result = _spaService.ActualizarEmpleadoServicio(empleadoServicio);
+
+                return Content(HttpStatusCode.OK, _result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error actualizando el servicio asociado al empleado: " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SPA/RegistrarSesion")]
+        [HttpCache(DefaultExpirySeconds = 2)]
+        public IHttpActionResult RegistrarSesion(Sesion sesion)
+        {
+            try
+            {
+                bool result = _spaService.RegistrarSesion(sesion);
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error registrando la sesión del usuario: " + ex.Message);
+            }
+        }
     }
 }

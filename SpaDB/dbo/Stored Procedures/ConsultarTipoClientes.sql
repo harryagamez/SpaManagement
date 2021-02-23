@@ -1,6 +1,5 @@
-﻿CREATE PROCEDURE ConsultarTipoClientes
+﻿CREATE PROCEDURE [dbo].[ConsultarTipoClientes]
 AS
-
 BEGIN
 	
 	SELECT * FROM TIPO_CLIENTE

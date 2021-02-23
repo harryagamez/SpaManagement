@@ -1,16 +1,17 @@
 ﻿using Spa.Domain.SpaEntities;
+using Spa.Domain.SpaEntities.Extensions;
+using Spa.InfraCommon.SpaCommon.Helpers;
+using Spa.InfraCommon.SpaCommon.Models;
 using Spa.Infrastructure.SpaRepository;
 using System;
-using Spa.InfraCommon.SpaCommon.Models;
-using Spa.InfraCommon.SpaCommon.Helpers;
 using System.Collections.Generic;
-using Spa.Domain.SpaEntities.Extensions;
+using System.Globalization;
+using System.Threading.Tasks;
 
 namespace Spa.Application.SpaService
 {
     public class SpaService : ISpaService
     {
-
         protected ISpaRepository _spaRepository;
         protected readonly string _connectionString;
 
@@ -24,17 +25,61 @@ namespace Spa.Application.SpaService
         {
             try
             {
-                Usuario _usuario = _spaRepository.ValidarUsuario(Nombre, Password, ValidarIntegracion, CodigoIntegracion);
+                DateTime fecha = DateTime.Now;
+                string encryptedPassword = SecurityHelper.EncryptPasswordHash(Password);
+
+                int anioActual = fecha.Year;
+                int anioSiguiente = anioActual + 1;
+
+                Usuario _usuario = _spaRepository.ValidarUsuario(Nombre, encryptedPassword, ValidarIntegracion, CodigoIntegracion);
 
                 if (_usuario != null)
                 {
+                    string htmlString = @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">
+                    <html xmlns=""http://www.w3.org/1999/xhtml"">
+                    <head>
+                        <meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8""/>
+                        <meta name = ""viewport"" content = ""width=device-width, initial-scale=1.0""/>
+                    </head>
+                    <body style=""margin: 0; padding: 0;"">
+                           <table align=""center"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""900"">
+                           <tr>
+                           <td align=""center"" bgcolor=""#ffffff"" style=""padding: 30px 0 30px 0;"">
+                               <img src=""https://i.postimg.cc/KzJZpgng/background-img.jpg"" alt=""AGENDA"" style=""display: block; max-width:900px;""/>
+                           </td>
+                           </tr>
+                           <tr>
+                           <td bgcolor=""#ffffff"" style=""padding: 20px 30px 20px 30px; color: #67ddab; font-size:20px; text-align:center;"">
+                                <h2>¡Hola!, " + _usuario.Nombre + @"</h2>
+                           </td>
+                           </tr>
+                            <tr>
+                           <td bgcolor=""#ffffff"" style=""padding: 20px 30px 20px 30px; color: #566473; font-size:18px;"">
+                                <b>Gracias por crear una cuenta en eMAH AGENDA. Pero antes de poder acceder al sistema, deberá activar su cuenta. El siguiente es su código de activación:</b>
+                           </td>
+                           </tr>
+                           <tr>
+                           <td bgcolor=""#ffffff"" style=""padding: 5px 30px 5px 30px; color: #566473; font-size:16px; text-align:center;"">
+                                <p>" + _usuario.HashKey + @"</p>
+                           </td>
+                           </tr>
+                           <tr>
+                           <td bgcolor=""#2c333c"" style=""padding: 3px 30px 3px 30px; text-align:center; color: white;"" >
+                            <p>beux © "  + anioActual +  @" Todos los derechos reservados</p>
+                           </td>
+                           </tr>
+                           </table>
+                    </body>
+                    </html>
+                    ";
+
                     if (_usuario.Codigo_Integracion == null)
                     {
                         EmailModel _emailModel = new EmailModel
                         {
                             MailTo = _usuario.Mail,
-                            Subject = "Activación cuenta de usuario - SpaManagement",
-                            Body = "Su código de validación para iniciar sesión es: " + _usuario.HashKey
+                            Subject = "Activación cuenta de usuario - Agenda",
+                            Body = htmlString
                         };
 
                         if (MailHelper.SendMail(_emailModel))
@@ -54,56 +99,22 @@ namespace Spa.Application.SpaService
 
         public bool RegistrarActualizarCliente(List<Cliente> _Cliente)
         {
-            try
-            {
-                return _spaRepository.RegistrarActualizarCliente(_Cliente);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.RegistrarActualizarCliente(_Cliente);
         }
 
         public List<Menu> ConsultarMenu(int IdUsuario, string IdEmpresa, string Perfil)
         {
-            try
-            {
-                List<Menu> _listMenu = _spaRepository.ConsultarMenu(IdUsuario, IdEmpresa, Perfil);
-
-                return _listMenu;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarMenu(IdUsuario, IdEmpresa, Perfil);
         }
 
         public List<Cliente> ConsultarClientes(string IdEmpresa)
         {
-            try
-            {
-                List<Cliente> _clientes = _spaRepository.ConsultarClientes(IdEmpresa);
-
-                return _clientes;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarClientes(IdEmpresa);
         }
 
         public bool SincronizarBarrios(List<Properties> _Properties, string _Municipio)
         {
-            try
-            {
-                bool _result = _spaRepository.SincronizarBarrios(_Properties, _Municipio);
-
-                return _result;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.SincronizarBarrios(_Properties, _Municipio);
         }
 
         public void Dispose()
@@ -113,376 +124,402 @@ namespace Spa.Application.SpaService
 
         public List<Municipio> ConsultarMunicipios()
         {
-            try
-            {
-                List<Municipio> _municipios = _spaRepository.ConsultarMunicipios();
-
-                return _municipios;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarMunicipios();
         }
 
         public List<Barrio> ConsultarBarrios(int IdMunicipio)
         {
-            try
-            {
-                List<Barrio> _barrios = _spaRepository.ConsultarBarrios(IdMunicipio);
-
-                return _barrios;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarBarrios(IdMunicipio);
         }
 
         public List<TipoCliente> ConsultarTipoClientes()
         {
-            try
-            {
-                List<TipoCliente> _tipoClientes = _spaRepository.ConsultarTipoClientes();
-
-                return _tipoClientes;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarTipoClientes();
         }
 
         public Cliente ConsultarCliente(string Cedula, string IdEmpresa)
         {
-            try
-            {
-                Cliente _cliente = _spaRepository.ConsultarCliente(Cedula, IdEmpresa);
-
-                return _cliente;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarCliente(Cedula, IdEmpresa);
         }
 
         public List<TipoServicio> ConsultarTipoServicios()
         {
-            try
-            {
-                List<TipoServicio> _tipoServicios = _spaRepository.ConsultarTipoServicios();
-
-                return _tipoServicios;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarTipoServicios();
         }
 
-        public List<Servicio> ConsultarServicios(string IdEmpresa)
+        public List<ServicioMaestro> ConsultarServiciosMaestro(string CategoriaEmpresa)
         {
-            try
-            {
-                List<Servicio> _servicios = _spaRepository.ConsultarServicios(IdEmpresa);
-
-                return _servicios;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarServiciosMaestro(CategoriaEmpresa);
         }
 
-        public bool GuardarServicio(List<Servicio> _Servicio)
+        public List<EmpresaServicio> ConsultarServicios(string IdEmpresa)
         {
-            try
-            {
-                return _spaRepository.GuardarServicio(_Servicio);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarServicios(IdEmpresa);
+        }
+
+        public List<EmpresaServicio> ConsultarServiciosActivos(string IdEmpresa)
+        {
+            return _spaRepository.ConsultarServiciosActivos(IdEmpresa);
+        }
+
+        public bool GuardarServicio(List<EmpresaServicio> _Servicio)
+        {
+            return _spaRepository.GuardarServicio(_Servicio);
         }
 
         public bool EliminarImagenAdjunta(string IdImagenAdjunta)
         {
-            try
-            {
-                return _spaRepository.EliminarImagenAdjunta(IdImagenAdjunta);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.EliminarImagenAdjunta(IdImagenAdjunta);
         }
 
         public List<Empleado> ConsultarEmpleados(string IdEmpresa)
         {
-            try
-            {
-                List<Empleado> _empleados = _spaRepository.ConsultarEmpleados(IdEmpresa);
-
-                return _empleados;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarEmpleados(IdEmpresa);
         }
 
         public Empleado ConsultarEmpleado(string Cedula, string IdEmpresa)
         {
-            try
-            {
-                Empleado _empleado = _spaRepository.ConsultarEmpleado(Cedula, IdEmpresa);
-
-                return _empleado;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarEmpleado(Cedula, IdEmpresa);
         }
 
         public List<TipoTransaccion> ConsultarTipoTransacciones()
         {
-            try
-            {
-                List<TipoTransaccion> _tipoTransacciones = _spaRepository.ConsultarTipoTransacciones();
-
-                return _tipoTransacciones;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarTipoTransacciones();
         }
 
         public List<Producto> ConsultarProductos(string IdEmpresa)
         {
-            try
-            {
-                List<Producto> _productos = _spaRepository.ConsultarProductos(IdEmpresa);
-
-                return _productos;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarProductos(IdEmpresa);
         }
 
         public List<TipoPago> ConsultarTipoPagos()
         {
-            try
-            {
-                List<TipoPago> _tipopagos = _spaRepository.ConsultarTipoPagos();
-
-                return _tipopagos;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarTipoPagos();
         }
 
         public bool RegistrarActualizarEmpleado(List<Empleado> _Empleado)
         {
-            try
-            {
-                return _spaRepository.RegistrarActualizarEmpleado(_Empleado);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.RegistrarActualizarEmpleado(_Empleado);
         }
 
         public bool AsignarEmpleadoServicio(List<EmpleadoServicio> _EmpleadoServicio)
         {
-            try
-            {
-                return _spaRepository.AsignarEmpleadoServicio(_EmpleadoServicio);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.AsignarEmpleadoServicio(_EmpleadoServicio);
         }
 
         public bool DesasignarEmpleadoServicio(int IdEmpleadoServicio)
         {
-            try
-            {
-                return _spaRepository.DesasignarEmpleadoServicio(IdEmpleadoServicio);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.DesasignarEmpleadoServicio(IdEmpleadoServicio);
         }
 
-        public bool EliminarEmpleadoInsumo(int IdTransaccion, int Cantidad, int IdProducto)
+        public bool EliminarEmpleadoInsumo(Transaccion transaccionInsumo)
         {
-            try
-            {
-                return _spaRepository.EliminarEmpleadoInsumo(IdTransaccion, Cantidad, IdProducto);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.EliminarEmpleadoInsumo(transaccionInsumo);
         }
 
         public bool AsignarEmpleadoInsumo(List<Transaccion> _EmpleadoInsumo)
         {
-            try
-            {
-                return _spaRepository.AsignarEmpleadoInsumo(_EmpleadoInsumo);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.AsignarEmpleadoInsumo(_EmpleadoInsumo);
         }
 
-        public List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado)
+        public List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado, string IdEmpresa)
         {
-            try
-            {
-                List<EmpleadoServicio> _empleadoservicio = _spaRepository.ConsultarEmpleadoServicio(IdEmpleado);
-
-                return _empleadoservicio;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarEmpleadoServicio(IdEmpleado, IdEmpresa);
         }
 
-        public List<Transaccion> ConsultarEmpleadoInsumos(int IdEmpleado)
+        public List<Transaccion> ConsultarEmpleadoInsumos(int IdEmpleado, string IdEmpresa)
         {
-            try
-            {
-                List<Transaccion> _empleadoinsumo = _spaRepository.ConsultarEmpleadoInsumos(IdEmpleado);
-
-                return _empleadoinsumo;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarEmpleadoInsumos(IdEmpleado, IdEmpresa);
         }
 
         public bool GuardarProducto(List<Producto> _Producto)
         {
-            try
-            {
-                return _spaRepository.GuardarProducto(_Producto);
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.GuardarProducto(_Producto);
         }
 
         public List<Transaccion> ConsultarProductoTransacciones(int IdProducto, string IdEmpresa)
         {
-            try
-            {
-                List<Transaccion> _transacciones = _spaRepository.ConsultarProductoTransacciones(IdProducto, IdEmpresa);
-
-                return _transacciones;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarProductoTransacciones(IdProducto, IdEmpresa);
         }
 
         public List<Gasto> ConsultarGastos(BusquedaGasto _BusquedaGasto)
         {
-            try
-            {
-                List<Gasto> _gastos = _spaRepository.ConsultarGastos(_BusquedaGasto);
-
-                return _gastos;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarGastos(_BusquedaGasto);
         }
 
-        public List<CajaMenor> ConsultarCajaMenor(string IdEmpresa)
+        public CajaMenor ConsultarCajaMenor(string IdEmpresa)
         {
-            try
-            {
-                List<CajaMenor> _cajamenor = _spaRepository.ConsultarCajaMenor(IdEmpresa);
-
-                return _cajamenor;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarCajaMenor(IdEmpresa);
         }
 
         public bool GuardarCajaMenor(List<CajaMenor> _CajaMenor)
         {
-            try
+            return _spaRepository.GuardarCajaMenor(_CajaMenor);
+        }
+
+        public bool ReemplazarCajaMenor(List<CajaMenor> _CajaMenor)
+        {
+            return _spaRepository.ReemplazarCajaMenor(_CajaMenor);
+        }
+
+        public bool GuardarGasto(List<Gasto> _Gasto)
+        {
+            return _spaRepository.GuardarGasto(_Gasto);
+        }
+
+        public bool EliminarGastos(List<Gasto> _Gastos)
+        {
+            return _spaRepository.EliminarGastos(_Gastos);
+        }
+
+        public List<Usuario> ConsultarUsuarios(string IdEmpresa)
+        {
+            return _spaRepository.ConsultarUsuarios(IdEmpresa);
+        }
+
+        public bool ConsultarUsuario(string Nombre)
+        {
+            return _spaRepository.ConsultarUsuario(Nombre);
+        }
+
+        public bool GuardarUsuario(Usuario _Usuario)
+        {
+            if (_Usuario.PasswordHasChanged)
             {
-                return _spaRepository.GuardarCajaMenor(_CajaMenor);
+                string encryptedPassword = SecurityHelper.EncryptPasswordHash(_Usuario.Contrasenia);
+                _Usuario.Contrasenia = encryptedPassword;
             }
-            catch
-            {
-                throw;
-            }
+
+            return _spaRepository.GuardarUsuario(_Usuario);
         }
 
         public Usuario ValidarUsuarioAdmin(string Nombre, string Password)
         {
-            try
-            {
-                Usuario _usuario = _spaRepository.ValidarUsuarioAdmin(Nombre, Password);
+            string encryptedPassword = SecurityHelper.EncryptPasswordHash(Password);
 
-                return _usuario;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ValidarUsuarioAdmin(Nombre, encryptedPassword);
+        }
+
+        public Usuario ConsultarUserAvatar(int UserId, string IdEmpresa)
+        {
+            return _spaRepository.ConsultarUserAvatar(UserId, IdEmpresa);
+        }
+
+        public List<EmpresaPropiedad> ConsultarEmpresaPropiedades(string IdEmpresa)
+        {
+            return _spaRepository.ConsultarEmpresaPropiedades(IdEmpresa);
+        }
+
+        public List<Empleado> ConsultarEmpleadosAutoComplete(string IdEmpresa)
+        {
+            return _spaRepository.ConsultarEmpleadosAutoComplete(IdEmpresa);
+        }
+
+        public bool GuardarActualizarAgenda(Agenda _Agenda)
+        {
+            return _spaRepository.GuardarActualizarAgenda(_Agenda);
+        }
+
+        public List<Agenda> ConsultarAgenda(Agenda _Agenda)
+        {
+            return _spaRepository.ConsultarAgenda(_Agenda);
+        }
+
+        public List<Agenda> ConsultarAgendaTransacciones(Agenda _Agenda)
+        {
+            return _spaRepository.ConsultarAgendaTransacciones(_Agenda);
+        }
+
+        public bool CancelarAgenda(int IdAgenda, string IdEmpresa, string UsuarioSistema)
+        {
+            return _spaRepository.CancelarAgenda(IdAgenda, IdEmpresa, UsuarioSistema);
+        }
+
+        public bool ConfirmarAgenda(int IdAgenda, string IdEmpresa, string UsuarioSistema)
+        {
+            return _spaRepository.ConfirmarAgenda(IdAgenda, IdEmpresa, UsuarioSistema);
+        }
+
+        public int ConsultarNumeroCitasDia(string fechaConsulta, string idEmpresa)
+        {
+            return _spaRepository.ConsultarNumeroCitasDia(fechaConsulta, idEmpresa);
         }
 
         public List<Empresa> ConsultarEmpresas()
         {
-            try
-            {
-                List<Empresa> _empresas = _spaRepository.ConsultarEmpresas();
-
-                return _empresas;
-            }
-            catch
-            {
-                throw;
-            }
+            return _spaRepository.ConsultarEmpresas();
         }
 
         public List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario)
         {
-            try
-            {
-                List<Empresa> _empresas = _spaRepository.ConsultarUsuarioEmpresas(IdUsuario);
+            return _spaRepository.ConsultarUsuarioEmpresas(IdUsuario);
+        }
 
-                return _empresas;
-            }
-            catch
+        public List<SistemaPropiedad> ConsultarSistemaPropiedades()
+        {
+            return _spaRepository.ConsultarSistemaPropiedades();
+        }
+
+        public bool GuardarEmpresaPropiedades(List<EmpresaPropiedad> empresaPropiedades)
+        {
+            return _spaRepository.GuardarEmpresaPropiedades(empresaPropiedades);
+        }
+
+        public async Task EmailConfirmacionAgenda(Agenda _Agenda)
+        {
+            await Task.Run(() =>
             {
-                throw;
-            }
+                if (_Agenda != null)
+                {
+                    DateTime fechaActual = DateTime.Now; 
+                    int anioActual = fechaActual.Year;
+                    int anioSiguiente = anioActual + 1;
+
+                    var fecha = _Agenda.Fecha_Inicio.Value.ToString("dd-MM-yyyy");
+                    var hora = _Agenda.Fecha_Inicio.Value.ToString("h:mm tt", CultureInfo.InvariantCulture);
+
+                    string htmlString = @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">
+                    <html xmlns=""http://www.w3.org/1999/xhtml"">
+                    <head>
+                        <meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8""/>
+                        <meta name = ""viewport"" content = ""width=device-width, initial-scale=1.0""/>
+                    </head>
+                    <body style=""margin: 0; padding: 0;"">
+                           <table align=""center"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""900"">
+                           <tr>
+                           <td align=""center"" bgcolor=""#ffffff"" style=""padding: 5px 0 5px 0;"">
+                               <img src=""https://i.postimg.cc/KzJZpgng/background-img.jpg"" alt=""AGENDA"" style=""display: block; min-width:900px; max-width:900px; max-height:250px;""/>
+                           </td>
+                           </tr>
+                           <tr>
+                           <td bgcolor=""#ffffff"" style=""padding: 5px 30px 5px 30px; color: #67ddab; font-size:20px; text-align:center;"">
+                                <h2>¡Hola!, " + _Agenda.NombreApellido_Cliente + @"</h2>
+                           </td>
+                           </tr>
+                            <tr>
+                           <td bgcolor=""#ffffff"" style=""padding: 5px 30px 2px 30px; color: #566473; font-size:18px; text-align:justify;"">
+                                <b>Su cita en " + _Agenda.Nombre_Empresa + @", con el servicio: " + _Agenda.Nombre_Servicio.Trim() + @", ha sido programada para el día: " + fecha + @" a las: " + hora + @".</b>
+                           </td>
+                           </tr>
+                           <tr>
+                           <td bgcolor=""#ffffff"" style=""padding: 1px 30px 1px 30px; color: #566473; font-size:16px; text-align:justify;"">
+                                <p>Recuerde llegar con 20 minutos de anticipación. Si desea cancelar su cita, comuníquese con " + _Agenda.Nombre_Empresa + @" con 6 horas de anticipación.</p>
+                           </td>
+                           </tr>
+                           <tr>
+                           <td bgcolor=""#ffffff"" style=""padding: 1px 30px 1px 30px; color: #566473; font-size:10px; text-align:justify;"">
+                                <p>*Este correo es informativo, favor no responder a esta dirección de correo, ya que no se encuentra habilitada para recibir mensajes.</p>
+                           </td>
+                           </tr>
+                           <tr>
+                           <td bgcolor=""#2c333c"" style=""padding: 3px 30px 3px 30px; text-align:center; color: white;"" >
+                             <p>beux © " + anioActual + @" Todos los derechos reservados</p>
+                           </td>
+                           </tr>
+                           </table>
+                    </body>
+                    </html>
+                    ";
+                    EmailModel _emailModel = new EmailModel
+                    {
+                        MailTo = _Agenda.Mail_Cliente,
+                        Subject = "Notificación de cita programada",
+                        Body = htmlString
+                    };
+
+                    MailHelper.SendMail(_emailModel);
+                }
+            });
+        }
+
+        public bool RegistrarClientes(List<Cliente> clientes)
+        {
+            return _spaRepository.RegistrarClientes(clientes);
+        }
+
+        public bool RegistrarFacturacionServicios(AplicacionPago aplicacionPago)
+        {
+            return _spaRepository.RegistrarFacturacionServicios(aplicacionPago);
+        }
+
+        public List<EmpleadoNomina> ConsultarNominaEmpleados(string idEmpresa, string fechaBusqueda)
+        {
+            return _spaRepository.ConsultarNominaEmpleados(idEmpresa, fechaBusqueda);
+        }
+
+        public List<Agenda> ConsultarNominaEmpleadoServicios(string idEmpresa, int idEmpleado, string fechaBusqueda)
+        {
+            return _spaRepository.ConsultarNominaEmpleadoServicios(idEmpresa, idEmpleado, fechaBusqueda);
+        }
+
+        public List<Gasto> ConsultarEmpleadoPrestamos(string idEmpresa, int idEmpleado)
+        {
+            return _spaRepository.ConsultarEmpleadoPrestamos(idEmpresa, idEmpleado);
+        }
+
+        public bool LiquidarNominaEmpleados(AplicacionNomina aplicacionNomina)
+        {
+            return _spaRepository.LiquidarNominaEmpleados(aplicacionNomina);
+        }
+
+        public List<Agenda> ConsultarServiciosCliente(Agenda _Agenda)
+        {
+            return _spaRepository.ConsultarServiciosCliente(_Agenda);
+        }
+
+        public List<ClientePago> ConsultarPagosCliente(BusquedaPago busquedaPago)
+        {
+            return _spaRepository.ConsultarPagosCliente(busquedaPago);
+        }
+
+        public List<Agenda> ConsultarServiciosEmpleado(Agenda _Agenda)
+        {
+            return _spaRepository.ConsultarServiciosEmpleado(_Agenda);
+        }
+
+        public bool SincronizarDepartamentos(List<DepartmentProperties> _departmentProperties)
+        {
+            return _spaRepository.SincronizarDepartamentos(_departmentProperties);
+        }
+
+        public List<MovimientoCajaMenor> ConsultarMovimientosCajaMenor(string idEmpresa, string fechaDesde, string fechaHasta)
+        {
+            return _spaRepository.ConsultarMovimientosCajaMenor(idEmpresa, fechaDesde, fechaHasta);
+        }
+
+        public List<TipoPromocion> ConsultarTipoPromociones()
+        {
+            return _spaRepository.ConsultarTipoPromociones();
+        }
+
+        public bool GuardarPromocion(Promocion promocion)
+        {
+            return _spaRepository.GuardarPromocion(promocion);
+        }
+
+        public List<Promocion> ConsultarPromociones(string IdEmpresa)
+        {
+            return _spaRepository.ConsultarPromociones(IdEmpresa);
+        }
+
+        public bool EliminarServicioPromocion(string IdDetallePromocion, string IdPromocion)
+        {
+            return _spaRepository.EliminarServicioPromocion(IdDetallePromocion, IdPromocion);
+        }
+
+        public Promocion ConsultarPromocion(string IdPromocion, string IdEmpresa)
+        {
+            return _spaRepository.ConsultarPromocion(IdPromocion, IdEmpresa);
+        }
+
+        public bool ActualizarEmpleadoServicio(EmpleadoServicio empleadoServicio)
+        {
+            return _spaRepository.ActualizarEmpleadoServicio(empleadoServicio);
+        }
+
+        public bool RegistrarSesion(Sesion _Sesion)        
+        {
+            return _spaRepository.RegistrarSesion(_Sesion);
         }
     }
 }

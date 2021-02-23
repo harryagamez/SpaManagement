@@ -1,12 +1,14 @@
 ﻿CREATE TABLE [dbo].[PRODUCTOS] (
-    [ID_PRODUCTO]        INT              IDENTITY (1, 1) NOT NULL,
-    [NOMBRE]             CHAR (60)        NULL,
-    [DESCRIPCION]        CHAR (200)       NULL,
-    [PRECIO]             REAL             NULL,
-    [INVENTARIO]         INT              NULL,
-    [FECHA_REGISTRO]     DATETIME         NULL,
-    [FECHA_MODIFICACION] DATETIME         NULL,
-    [ID_EMPRESA]         UNIQUEIDENTIFIER NULL,
+    [ID_PRODUCTO]           INT              IDENTITY (1, 1) NOT NULL,
+    [NOMBRE]                CHAR (60)        NULL,
+    [DESCRIPCION]           CHAR (200)       NULL,
+    [PRECIO]                DECIMAL(18,2)    NULL,
+    [INVENTARIO]            INT              NULL,
+    [FECHA_REGISTRO]        DATETIME         NULL,
+    [USUARIO_REGISTRO]      CHAR(25)         NULL,
+    [FECHA_MODIFICACION]    DATETIME         NULL,
+    [USUARIO_MODIFICACION]  CHAR(25)         NULL,
+    [ID_EMPRESA]            UNIQUEIDENTIFIER NULL,
     CONSTRAINT [PK_PRODUCTOS] PRIMARY KEY CLUSTERED ([ID_PRODUCTO] ASC),
     CONSTRAINT [FK_ID_EMPRESA_PRODUCTO] FOREIGN KEY ([ID_EMPRESA]) REFERENCES [dbo].[EMPRESA] ([ID_EMPRESA])
 );

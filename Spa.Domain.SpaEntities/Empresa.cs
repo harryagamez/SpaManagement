@@ -1,6 +1,8 @@
-﻿namespace Spa.Domain.SpaEntities
+﻿using Spa.Domain.SpaEntities.Extensions;
+
+namespace Spa.Domain.SpaEntities
 {
-    public class Empresa
+    public class Empresa : BusquedaEmpresa
     {
         public string Id_Empresa { get; set; }
         public string Nombre { get; set; }
@@ -11,5 +13,9 @@
         public string Mail { get; set; }
         public string Logo { get; set; }
         public string Id_SedePrincipal { get; set; }
+        public string Id_Categoria_Servicio { get; set; }
+        public string Estado { get; set; }
+        public string Contacto { get; set; }
+        public int Id_Barrio { get; set; }
     }
 }

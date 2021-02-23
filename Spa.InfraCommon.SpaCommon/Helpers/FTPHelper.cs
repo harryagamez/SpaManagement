@@ -42,6 +42,9 @@ namespace Spa.InfraCommon.SpaCommon.Helpers
                 request.Credentials = new NetworkCredential(UserName, Password);
                 request.Method = WebRequestMethods.Ftp.ListDirectory;
                 FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+
+                response.Close();
+
                 return true;
             }
             catch (WebException ex)

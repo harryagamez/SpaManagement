@@ -147,7 +147,7 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Tables\VISITAS.sql">
+    <Build Include="dbo\Tables\CLIENTE_PAGOS.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
@@ -222,7 +222,6 @@
     <Build Include="dbo\Stored Procedures\ConsultarMunicipios.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarBarrios.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarTipoClientes.sql" />
-    <Build Include="dbo\Stored Procedures\RegistrarActualizarClientes.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarCliente.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarTipoServicios.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarServicios.sql" />
@@ -252,8 +251,80 @@
     <Build Include="dbo\Stored Procedures\EliminarImagenAdjunta.sql" />
     <Build Include="dbo\Stored Procedures\ConsultarCajaMenor.sql" />
     <Build Include="dbo\Stored Procedures\GuardarCajaMenor.sql" />
+    <Build Include="dbo\Stored Procedures\ReemplazarCajaMenor.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarGasto.sql" />
+    <Build Include="dbo\Stored Procedures\EliminarGastos.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarUsuarios.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarUsuario.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarUsuario.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarUserAvatar.sql" />
+    <Build Include="dbo\Tables\EMPRESA_PROPIEDADES.sql" />
+    <Build Include="dbo\Tables\SISTEMA_PROPIEDADES.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarEmpresaPropiedades.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarEmpleadosAutoComplete.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarActualizarAgenda.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarAgenda.sql" />
+    <Build Include="dbo\Stored Procedures\CancelarAgenda.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarSistemaPropiedades.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarEmpresaPropiedades.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarServiciosActivos.sql" />
+    <Build Include="dbo\Stored Procedures\ConfirmarAgenda.sql" />
+    <Build Include="dbo\Stored Procedures\RegistrarClientes.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarNumeroCitasDia.sql" />
+    <Build Include="dbo\Tables\CATEGORIA_SERVICIOS.sql" />
+    <Build Include="dbo\Tables\EMPRESA_SERVICIOS.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarServiciosMaestro.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarCategoriaServicios.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarSedesPrincipales.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarEmpresa.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarEmpresasAdmin.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarMenuAdmin.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarUsuariosAdmin.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarServiciosAdmin.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarServicioAdmin.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarBarriosAdmin.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarCategoriaServicio.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarTipoServicio.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarMunicipio.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarBarrio.sql" />
+    <Build Include="dbo\Tables\DEPARTAMENTOS.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarDepartamentos.sql" />
+    <Build Include="dbo\Stored Procedures\RegistrarFacturacionServicios.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarNominaEmpleados.sql" />
+    <Build Include="dbo\Stored Procedures\SincronizarDepartamentos.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarNominaEmpleadoServicios.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarEmpleadoPrestamos.sql" />
+    <Build Include="dbo\Stored Procedures\LiquidarNominaEmpleados.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarServiciosCliente.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarPagosCliente.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarServiciosEmpleado.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarMovimientosCajaMenor.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarServicioConImagenes.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarServiciosConImagenes.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarServiciosActivosConImagenes.sql" />
+    <Build Include="dbo\Tables\TIPO_PROMOCIONES.sql" />
+    <Build Include="dbo\Tables\PROMOCIONES.sql" />
+    <Build Include="dbo\Tables\DETALLE_PROMOCIONES.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarTipoPromociones.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarPromociones.sql" />
+    <Build Include="dbo\Stored Procedures\GuardarPromocion.sql" />
+    <Build Include="dbo\Stored Procedures\EliminarServicioPromocion.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarAgendaTransacciones.sql" />
+    <Build Include="dbo\Stored Procedures\ConsultarPromocion.sql" />
+    <Build Include="dbo\Stored Procedures\RegistrarActualizarCliente.sql" />
+    <Build Include="dbo\Stored Procedures\ActualizarEmpleadoServicio.sql" />
+    <Build Include="dbo\Tables\ACUMULADOS_CAJA.sql" />
+    <Build Include="dbo\Stored Procedures\RegistrarSesion.sql" />
+    <Build Include="dbo\Tables\REGISTRO_SESIONES.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ArtifactReference Include="$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\140\SqlSchemas\master.dacpac">
+      <HintPath>$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\140\SqlSchemas\master.dacpac</HintPath>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseVariableLiteralValue>master</DatabaseVariableLiteralValue>
+    </ArtifactReference>
   </ItemGroup>
 </Project>

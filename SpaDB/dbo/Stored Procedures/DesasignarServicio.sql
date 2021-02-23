@@ -1,6 +1,7 @@
-CREATE PROCEDURE DesasignarEmpleadoServicio(@IdEmpleadoServicio INT)
+CREATE PROCEDURE [dbo].[DesasignarEmpleadoServicio](
+	@IdEmpleadoServicio INT
+)
 AS
-
 BEGIN
 	
 	DELETE 

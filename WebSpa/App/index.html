@@ -2,7 +2,7 @@
 <html ng-app="app">
 <head>
 
-    <title>SPA</title>
+    <title ng-bind="header"></title>
 
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
@@ -12,9 +12,20 @@
     <meta http-equiv="Expires" content="0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <link rel="icon" type="image/png" href="../Images/favicon_16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="../Images/favicon_32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../Images/favicon_48.png" sizes="48x48">
+    <link rel="icon" type="image/png" href="../Images/favicon_64.png" sizes="64x64">
+    <link rel="icon" type="image/png" href="../Images/favicon_96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="../Images/favicon_128.png" sizes="128x128">
+    <link rel="icon" type="image/png" href="../Images/favicon_196.png" sizes="196x196">
+
     <!-- JQuery Plugins -->
     <script src="../Scripts/JQuery/v3.5.0/jquery.js"></script>
     <script src="../Scripts/JQueryUI/v1.12.1/jquery-ui.min.js"></script>
+
+    <!--Moment-->
+    <script src="../Scripts/Moment/moment.min.js"></script>
 
     <!--<%-- Bootstrap Plugins --%>-->
     <link href="../Scripts/Bootstrap/v4.0.0/bootstrap.min.css" rel="stylesheet" />
@@ -22,7 +33,7 @@
     <script src="../Scripts/Bootstrap/v4.0.0/popper.min.js"></script>
     <script src="../Scripts/Bootstrap/v4.0.0/bootstrap.min.js"></script>
 
-    <!--<%-- LINQ --%>-->
+    <!--<%-- Linq --%>-->
     <script src="../Scripts/Linq/linq3.js"></script>
 
     <!-- Angular Plugins -->
@@ -33,6 +44,8 @@
     <script src="../Scripts/Angular/angular-route.min.js"></script>
     <script src="../Scripts/Angular/angular-local-storage.min.js"></script>
     <script src="../Scripts/Angular/ui-bootstrap.min.js"></script>
+    <script src="../Scripts/Angular/ui-bootstrap-2.5.0.min.js"></script>
+    <script src="../Scripts/Angular/ui-bootstrap-tpls-2.5.0.min.js"></script>
 
     <!-- Angular Material -->
     <link href="../Scripts/Angular/Angular-Materialv1.1.22/angular-material.min.css" rel="stylesheet" />
@@ -52,6 +65,8 @@
     <!-- Angular DateTimePicker  -->
     <script type="text/javascript" src="../Scripts/AngularDatePicker/v1.2.0/ADM-dateTimePicker.js"></script>
     <link type="text/css" href="../Scripts/AngularDatePicker/v1.2.0/ADM-dateTimePicker.css" rel="stylesheet" />
+    <link type="text/css" href="../Scripts/Angular/font-awesome.css" rel="stylesheet" />
+    <link type="text/css" href="../Scripts/Angular/glyphicons.css" rel="stylesheet" />
 
     <!--<%-- Bootstrap DateTimePicker --%>-->
     <script src="../Scripts/Moment/Moment-Locales_2.20.0.js"></script>
@@ -70,20 +85,76 @@
     <link href="../Scripts/Toaster/v2.1.4/toastr.min.css" rel="stylesheet" />
     <script src="../Scripts/Toaster/v2.1.4/toastr.min.js"></script>
 
+    <!-- Excel Plugins-->
+    <script src="../Scripts/Xlsx/FileSaver.js"></script>
+    <script src="../Scripts/ExportTools/v0.3/alasql.min.js"></script>
+    <script src="../Scripts/Xlsx/xlsx.full.min.js"></script>
+    <script src="../Scripts/Xlsx/xlsx.core.min.js"></script>
+
     <!-- Core -->
     <link href="app.css" rel="stylesheet" />
     <link href="../Styles/wspa.common.css" rel="stylesheet" />
     <script src="app.js"></script>
-    <script src="Controllers/controller.js"></script>
+    <script src="Controllers/MainController.js"></script>
+    <script src="Controllers/DashboardController.js"></script>
+    <script src="Controllers/ClientesController.js"></script>
+    <script src="Controllers/ServiciosController.js"></script>
+    <script src="Controllers/HomeController.js"></script>
+    <script src="Controllers/EmpleadosController.js"></script>
+    <script src="Controllers/ProductosController.js"></script>
+    <script src="Controllers/GastosController.js"></script>
+    <script src="Controllers/GestionController.js"></script>
+    <script src="Controllers/LoginController.js"></script>
+    <script src="Controllers/AdministratorController.js"></script>
+    <script src="Controllers/AdministratorPanelController.js"></script>
+    <script src="Controllers/SliderController.js"></script>
+    <script src="Controllers/ImgAttachedController.js"></script>
+    <script src="Controllers/TransaccionesController.js"></script>
+    <script src="Controllers/ServiciosClientesController.js"></script>
+    <script src="Controllers/ServiciosEmpleadosController.js"></script>
+    <script src="Controllers/PagosClientesController.js"></script>
+    <script src="Controllers/MovimientosCajaMenorController.js"></script>
     <script src="Services/services.js"></script>
-    <script src="Directives/directives.js"></script>   
-
+    <script src="Directives/directives.js"></script>
 </head>
-<body>
-
-    <div us-spinner="{radius:30, width:8, length: 16}" style="position: fixed;background-color: rgba(0,0,0,0.3);width: 100%;height:100%;z-index: 2000000000;"></div>
+<body>   
 
     <ui-view></ui-view>
 
+    <div style="visibility: hidden">
+        <div class="md-dialog-container" id="dlgLogout">
+            <md-dialog id="mdLogout" aria-label="" style=" padding-top: 0; margin-top: 0; min-width: 100%; max-width:100%; min-height:100%; max-height:100%; color: #666666 !important; cursor:default;">
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <span flex></span>
+                    </div>
+                </md-toolbar>
+
+                <div class="logout-elements">
+                    <img src="../../Images/favicon_196.png" />
+                    <p>{{CerrandoSesionMensajes}}</p>
+                </div>
+
+            </md-dialog>
+        </div>
+    </div>
+
+    <div style="visibility: hidden">
+        <div class="md-dialog-container" id="dlgLogin">
+            <md-dialog id="mdLogin" aria-label="" style=" padding-top: 0; margin-top: 0; min-width: 100%; max-width:100%; min-height:100%; max-height:100%; color: #666666 !important; cursor:default;">
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <span flex></span>
+                    </div>
+                </md-toolbar>
+
+                <div class="logout-elements">
+                    <img src="../../Images/favicon_196.png" />
+                    <p>{{IniciandoSesionMensajes}}</p>
+                </div>
+
+            </md-dialog>
+        </div>
+    </div>
 </body>
 </html>

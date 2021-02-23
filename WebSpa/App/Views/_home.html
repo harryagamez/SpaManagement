@@ -1,42 +1,54 @@
-﻿<header id="header">
+﻿<aside id="sidebar">
+    <div style="position:relative; margin-bottom:-135px;">
+        <div style="text-align:center; margin-top:10px;"><img ng-src="{{UserAvatar}}" style="max-width:100px; max-height:100px; min-height:100px; min-width:100px; object-fit: cover; margin-right:7px; border-radius:50%; margin-top: -3px;cursor:pointer;" /></div>
+        <div class="sidebar-user" style="text-align: center; color: white; font-weight: 600; margin-top: 10px;">{{ UsuarioSistema }}</div>
+    </div>
+    <ul>
+        <li class="li-padding" ng-repeat="item in Menu | filter:{ '_Level': 1 } : true" ui-sref-active="active" ng-mouseover="fShowSubMenu = true" ng-mouseleave="fShowSubMenu = false">
+            <a ng-if="item._Level === 1 && item._Children === 0" ui-sref="{{item.ruta_Acceso}}"><img ng-src="data:image/png;base64,{{item.logo_Base64}}" style="max-width:23px; margin-right:15px; vertical-align:middle;">{{item.descripcion}}</a>
+            <a style="cursor: pointer;" ng-if="item._Level === 1 && item._Children > 0"><img ng-src="data:image/png;base64,{{item.logo_Base64}}" style="max-width:23px; margin-right:15px; vertical-align:middle;">{{item.descripcion}} <i class="material-icons md-18" style="position:absolute; right:15px; top:6px; font-size:18px;">navigate_next</i></a>
+            <ul class="sidebar-submenu" ng-if="fShowSubMenu && item._Children > 0">
+                <li ng-repeat="subitem in Menu | filter: {'_ParentId': item.id_Menu} : true">
+                    <a ui-sref="{{subitem.ruta_Acceso}}"><img ng-src="data:image/png;base64,{{subitem.logo_Base64}}" style="max-width:23px; margin-right:15px; vertical-align:middle;">{{subitem.descripcion}}</a>
+                </li>
+            </ul>            
+        </li>        
+        <li class="li-padding"><img src="../../Images/cerrar-sesion.png" style="max-width: 24px; max-height: 24px; min-height: 24px; min-width: 24px; margin-right:15px; vertical-align:middle;" /><a href="" ng-click="Logout()">Cerrar sesión</a></li>
+    </ul>
+    <div class="sidebar-footer"><a href="https://beuxit.com/" target="_blank"><img src="../../Images/template/beux.png" alt="beux" /></a></div>
+</aside>
+
+<header id="header">
     <div layout="row">
-        <div flex="44" flex-gt-sm="40">
-            <div class="site-title">
-                <a ui-sref="home"><img src="../../Images/logo-spa.png" style="max-height:48px; margin-top:-5px;" /></a>
+        <div>
+            <div class="site-title" style="margin-top:0px;">
+                <a ui-sref="home"><img src="../../Images/spa_header.png" style="max-height:64px;" /></a>
             </div>
         </div>
-        <div flex="56" flex-gt-sm="60">
-            <div class="site-widgets">
-                <ul style=" white-space: nowrap;">
-                    <li ng-show="!MultipleEmpresa"><span><img src="../../Images/empresa.png" style="max-width:30px; margin-top: -5px;cursor:pointer;" data-toggle="tooltip" title="Empresa activa en el sistema" />{{ NombreEmpresa }}</span></li>
+        <div>
+            <div class="site-widgets" style="top:7px;">
+                <ul style=" white-space: nowrap;">                    
+                    <li ng-show="!MultipleEmpresa"><span style="font-size:13px; font-weight:800;"><img src="../../Images/empresa.png" style="max-width:30px; margin-top: -5px; cursor:pointer;" />{{ NombreEmpresa }}</span></li>
                     <li ng-show="MultipleEmpresa">
                         <span>
-                            <img src="../../Images/empresa.png" style="max-width:30px; margin-top: -5px;cursor:pointer;" data-toggle="tooltip" title="Empresa activa en el sistema" />
+                            <img src="../../Images/empresa.png" style="max-width: 27px; max-height: 27px; min-height: 27px; min-width: 27px; margin-top: -5px; cursor: pointer; margin-right: -13px; z-index: 999; position: relative;" />
                         </span>
                     </li>
-                    <md-select ng-model="EmpresaSeleccionada" style="display:inline-flex; max-width: 55% !important;" id="slEstado" ng-show="MultipleEmpresa" ng-change="FiltrarEmpresa(EmpresaSeleccionada)">
+                    <md-select class="select-multiempresa" ng-model="EmpresaSeleccionada" style="font-size: 12px;" id="slEstado" ng-show="MultipleEmpresa" ng-change="FiltrarEmpresa(EmpresaSeleccionada)">
                         <md-option ng-bind="empresa.nombre" ng-value="empresa.id_Empresa" ng-repeat="empresa in Empresas track by empresa.id_Empresa"></md-option>
-                    </md-select>
-                    <li><span><img src="../../Images/usuario.png" style="max-width:24px; margin-top: -3px;cursor:pointer;" data-toggle="tooltip" title="Usuario activo en el sistema" />{{ UsuarioSistema }}</span></li>
-                    <li><a href="" ng-click="Logout()"><img src="../../Images/cerrar_sesion.png" style="max-width:24px; margin-top: -3px;" />Cerrar Sesión</a></li>
+                    </md-select>                    
                 </ul>
             </div>
         </div>
     </div>
 </header>
-<aside id="sidebar">
-    <ul>
-        <li class="li-padding" ng-repeat="item in Menu" ui-sref-active="active">
-            <a ui-sref="{{item.ruta_Acceso}}"><img ng-src="data:image/png;base64,{{item.logo_Base64}}" style="max-width:28px; margin-right:15px; vertical-align:middle;">{{item.descripcion}}</a>
-        </li>
-    </ul>
-</aside>
+
 <div class="background-image"></div>
 <div class="wrapper">
     <section id="section">
-        <img src="../../Images/spa_.png" style="display:block; margin:auto; width: 75%; opacity: 0.15; padding-top:30px; position:fixed; z-index:0; filter:grayscale(80%)" />
         <ui-view>
             <div>
+                
             </div>
         </ui-view>
     </section>

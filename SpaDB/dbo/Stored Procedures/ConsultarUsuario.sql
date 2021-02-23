@@ -1,0 +1,14 @@
+CREATE PROCEDURE [dbo].[ConsultarUsuario](
+	@Nombre CHAR(25)
+)
+AS
+BEGIN
+	
+	SELECT 
+		NOMBRE
+	FROM USUARIOS 
+	WHERE NOMBRE = @Nombre
+
+END
+
+GO

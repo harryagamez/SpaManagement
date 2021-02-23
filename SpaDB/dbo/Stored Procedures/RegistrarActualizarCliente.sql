@@ -1,14 +1,18 @@
-﻿CREATE PROCEDURE RegistrarActualizarCliente(@JsonCliente NVARCHAR(MAX))
+﻿CREATE PROCEDURE [dbo].[RegistrarActualizarCliente](
+	@JsonCliente NVARCHAR(MAX)
+)
 AS
 BEGIN
 	
 	CREATE TABLE #TempCliente(Id_Cliente INT, Cedula CHAR(15) COLLATE SQL_Latin1_General_CP1_CI_AS, Nombres CHAR(60) COLLATE SQL_Latin1_General_CP1_CI_AS, 
 	Apellidos CHAR(60) COLLATE SQL_Latin1_General_CP1_CI_AS, Telefono_Fijo CHAR(10) COLLATE SQL_Latin1_General_CP1_CI_AS, Telefono_Movil CHAR(12) COLLATE SQL_Latin1_General_CP1_CI_AS, 
 	Mail CHAR(60) COLLATE SQL_Latin1_General_CP1_CI_AS, Direccion CHAR(25) COLLATE SQL_Latin1_General_CP1_CI_AS, Id_Barrio INT, Fecha_Nacimiento SMALLDATETIME, Id_Tipo INT, 
-	Estado CHAR(10) COLLATE SQL_Latin1_General_CP1_CI_AS, Id_Empresa VARCHAR(36) COLLATE SQL_Latin1_General_CP1_CI_AS, Id_Usuario_Creacion INT)
+	Estado CHAR(10) COLLATE SQL_Latin1_General_CP1_CI_AS, Id_Empresa VARCHAR(36) COLLATE SQL_Latin1_General_CP1_CI_AS, Usuario_Registro CHAR(25))
+
+	DECLARE @FechaActual DATETIME = GETDATE()
 
 	INSERT INTO #TempCliente (Id_Cliente, Cedula, Nombres, Apellidos, Telefono_Fijo, Telefono_Movil, Mail, Direccion, Id_Barrio, Fecha_Nacimiento, Id_Tipo, Estado, 
-	Id_Empresa, Id_Usuario_Creacion)
+	Id_Empresa, Usuario_Registro)
 	SELECT 
 		JSON_VALUE (C.value, '$.Id_Cliente') AS Id_Cliente,
 		JSON_VALUE (C.value, '$.Cedula') AS Cedula, 
@@ -23,32 +27,44 @@ BEGIN
 		JSON_VALUE (C.value, '$.Id_Tipo') AS Id_Tipo,
 		JSON_VALUE (C.value, '$.Estado') AS Estado,
 		JSON_VALUE (C.value, '$.Id_Empresa') AS Id_Empresa,
-		JSON_VALUE (C.value, '$.Id_Usuario_Creacion') AS Id_Usuario_Creacion
+		JSON_VALUE (C.value, '$.Usuario_Registro') AS Usuario_Registro
 	FROM OPENJSON(@JsonCliente) AS C
 
 	BEGIN TRY
 		
 		MERGE CLIENTES AS TARGET
 		USING #TempCliente AS SOURCE
-		ON TARGET.ID_CLIENTE = SOURCE.Id_Cliente AND TARGET.CEDULA = SOURCE.Cedula AND TARGET.ID_EMPRESA = SOURCE.Id_Empresa 
+		ON TARGET.ID_CLIENTE = SOURCE.Id_Cliente 
+		AND TARGET.CEDULA = SOURCE.Cedula 
+		AND TARGET.ID_EMPRESA = SOURCE.Id_Empresa 
 		WHEN MATCHED THEN
-			UPDATE SET TARGET.NOMBRES = SOURCE.Nombres, TARGET.APELLIDOS = SOURCE.Apellidos, TARGET.TELEFONO_FIJO = SOURCE.Telefono_Fijo,
-			TARGET.TELEFONO_MOVIL = SOURCE.Telefono_Movil, TARGET.MAIL = SOURCE.Mail, TARGET.DIRECCION = SOURCE.Direccion,
-			TARGET.ID_BARRIO = SOURCE.Id_Barrio, TARGET.FECHA_NACIMIENTO = SOURCE.Fecha_Nacimiento, TARGET.ID_TIPO = SOURCE.Id_Tipo,
-			TARGET.ESTADO = SOURCE.Estado, TARGET.FECHA_MODIFICACION = GETDATE()
+			UPDATE SET 
+				TARGET.NOMBRES = SOURCE.Nombres, 
+				TARGET.APELLIDOS = SOURCE.Apellidos, 
+				TARGET.TELEFONO_FIJO = SOURCE.Telefono_Fijo,
+				TARGET.TELEFONO_MOVIL = SOURCE.Telefono_Movil, 
+				TARGET.MAIL = SOURCE.Mail, 
+				TARGET.DIRECCION = SOURCE.Direccion,
+				TARGET.ID_BARRIO = SOURCE.Id_Barrio, 
+				TARGET.FECHA_NACIMIENTO = SOURCE.Fecha_Nacimiento, 
+				TARGET.ID_TIPO = SOURCE.Id_Tipo,
+				TARGET.ESTADO = SOURCE.Estado, 
+				TARGET.FECHA_MODIFICACION = @FechaActual,
+				TARGET.USUARIO_MODIFICACION = SOURCE.Usuario_Registro
 		WHEN NOT MATCHED THEN
 			INSERT (CEDULA, NOMBRES, APELLIDOS, TELEFONO_FIJO, TELEFONO_MOVIL, MAIL, DIRECCION, ID_BARRIO, FECHA_NACIMIENTO, ID_TIPO,
-			ESTADO, FECHA_REGISTRO, FECHA_MODIFICACION, ID_EMPRESA, ID_USUARIO_CREACION)
+			ESTADO, FECHA_REGISTRO, USUARIO_REGISTRO, ID_EMPRESA)
 			VALUES (SOURCE.Cedula, SOURCE.Nombres, SOURCE.Apellidos, SOURCE.Telefono_Fijo, SOURCE.Telefono_Movil, SOURCE.Mail,
-			SOURCE.Direccion, SOURCE.Id_Barrio, SOURCE.Fecha_Nacimiento, SOURCE.Id_Tipo, SOURCE.Estado, GETDATE(), GETDATE(),
-			SOURCE.Id_Empresa, SOURCE.Id_Usuario_Creacion)
+			SOURCE.Direccion, SOURCE.Id_Barrio, SOURCE.Fecha_Nacimiento, SOURCE.Id_Tipo, SOURCE.Estado, @FechaActual, 
+			SOURCE.Usuario_Registro, SOURCE.Id_Empresa)
 		OUTPUT $action, inserted.*;
+
+		IF OBJECT_ID('tempdb..#TempCliente') IS NOT NULL DROP TABLE #TempCliente
 
 	END TRY
 	BEGIN CATCH
 
 		IF OBJECT_ID('tempdb..#TempCliente') IS NOT NULL DROP TABLE #TempCliente
-
         DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE()
         RAISERROR (@ErrorMessage, 16, 1)
 

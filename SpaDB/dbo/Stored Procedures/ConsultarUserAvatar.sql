@@ -1,0 +1,16 @@
+CREATE PROCEDURE [dbo].[ConsultarUserAvatar](
+	@UserId INT, 
+	@IdEmpresa VARCHAR(36)
+)
+AS
+BEGIN
+	
+	SELECT 
+		RTRIM(LOGO_BASE64) as LOGO_BASE64
+	FROM USUARIOS 
+	WHERE ID_USUARIO = @UserId 
+	AND ID_EMPRESA = @IdEmpresa
+
+END
+
+GO

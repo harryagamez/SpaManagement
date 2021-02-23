@@ -5,62 +5,63 @@
     <title>Productos</title>
 </head>
 <body>
-
+    <div us-spinner="{radius:30, width:8, length: 16}" style="backdrop-filter: blur(3px); position: fixed; margin-left:-160px; margin-top:-50px; background-color: rgba(0,0,0,0.3); width: 100%; height: 100%; z-index: 2000000000;"></div>
     <div layout="row" layout-wrap="" style="height: calc(100vh - 70px); overflow:auto;">
-
         <form id="frmProductos">
 
-            <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px;">
-                <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevoProducto()">
-                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                </md-button>
+            <div layout="row" layout-sm="column" style="">
+                <div flex="" style="flex:none;">
+                    <section id="divButtons" layout="row" layout-align="left center" style="margin-left: 2px;">
+                        <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin: -1px;" data-toggle="tooltip" title="Nuevo" data-ng-click="ModalNuevoProducto()">
+                            <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">note_add</i> Nuevo
+                        </md-button>
 
-                <md-button type="button" id="btnInformes" class="btn-spa groupX middle" style="margin-right:0;" data-toggle="tooltip" title="Informes">
-                    <i class="material-icons md-18" style="transform: scaleX(-1)">picture_as_pdf</i>Informes
-                </md-button>
+                        <md-button type="button" id="btnInformes" class="btn-spa groupX middle" style="margin-right:0;" data-toggle="tooltip" title="Informes">
+                            <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">picture_as_pdf</i> Informes
+                        </md-button>
 
-                <md-button type="button" class="btn-spa dropdown-toggle-split groupX right" style="min-width:0; margin-left:-1px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons" style="transform: scaleX(-1); margin-top: -0px;">settings</i>
-                </md-button>
-                <div class="dropdown-menu">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="ListadoProductos" aria-label="Checkbox 1">
-                                Listado de productos
-                            </md-checkbox>
-                        </li>
-                        <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="DetalladoProductos" aria-label="Checkbox 2">
-                                Detallado productos facturados
-                            </md-checkbox>
-                        </li>
-                        <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="GeneralProductos" aria-label="Checkbox 3">
-                                General productos facturados
-                            </md-checkbox>
-                        </li>
-                        <li class="list-group-item btn-informe">
-                            <md-checkbox ng-model="DetalladoInsumosEmpleados" aria-label="Checkbox 3">
-                                Detallado insumos empleados
-                            </md-checkbox>
-                        </li>
-                    </ul>
+                        <md-button type="button" class="btn-spa dropdown-toggle-split groupX right" style="min-width:0; margin-left:-3px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons" style="transform: scaleX(-1); margin-top:-2px;">settings</i>
+                        </md-button>
+                        <div class="dropdown-menu">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item btn-informe">
+                                    <md-switch ng-model="ListadoProductos" aria-label="Listado de productos" style="margin:2px 5px;">
+                                        <span style="font-size:12px;">Listado de productos</span>
+                                    </md-switch>
+                                </li>
+                                <li class="list-group-item btn-informe">
+                                    <md-switch ng-model="DetalladoProductos" aria-label="Detallado productos facturados" style="margin:2px 5px;">
+                                        <span style="font-size:12px;">Detallado productos facturados</span>
+                                    </md-switch>
+                                </li>
+                                <li class="list-group-item btn-informe">
+                                    <md-switch ng-model="GeneralProductos" aria-label="General productos facturados" style="margin:2px 5px;">
+                                        <span style="font-size:12px;">General productos facturados</span>
+                                    </md-switch>
+                                </li>
+                                <li class="list-group-item btn-informe">
+                                    <md-switch ng-model="DetalladoInsumosEmpleados" aria-label="Detallado insumos empleados" style="margin:2px 5px;">
+                                        <span style="font-size:12px;">Detallado insumos empleados</span>
+                                    </md-switch>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
                 </div>
-            </section>
 
-            <div layout="row" layout-sm="column" style="margin: 0 0 -35px 0">
-                <div flex="">
+                <div flex="" class="material-app">
                     <md-input-container>
                         <label class="label-form-clientes" style="">
                             Nombre Producto:
                         </label>
-                        <input ng-keyup="onFilterTextBoxChanged()" id="txtBuscarProducto" maxlength="25" data-ng-enter="ConsultarProducto($event, Producto.Nombre)" type="text" style="min-width: 200px;" placeholder="Digite el nombre del producto..." tabindex=1>
+                        <input ng-keyup="onFilterTextBoxChanged()" id="txtBuscarProducto" maxlength="25" data-ng-enter="ConsultarProducto($event, Producto.Nombre)" type="text" style="min-width: 200px;" placeholder="Producto a filtrar..." tabindex=1>
                     </md-input-container>
                 </div>
             </div>
 
-            <div id="divGridProductos" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 222px); margin-top:11px; overflow-y:auto;">
-                <div id="divProductosGridOptions" data-ag-grid="ProductosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+            <div id="divGridProductos" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 155px); margin-top:-35px; overflow-y:auto;">
+                <div id="divProductosGridOptions" data-ag-grid="ProductosGridOptions" class="ag-theme-fresh" style="width:100%; height:100%;"></div>
             </div>
         </form>
 
@@ -68,10 +69,10 @@
         <div style="visibility: hidden">
 
             <div class="md-dialog-container" id="dlgNuevoProducto">
-                <md-dialog id="mdNuevoProducto" aria-label="Nuevo Producto" style="width: 40% !important; color: #666666 !important;">
+                <md-dialog id="mdNuevoProducto" aria-label="Nuevo Producto" style="min-width: 480px; max-width:480px; color: #666666 !important; cursor:default;" draggable>
                     <md-toolbar>
                         <div class="md-toolbar-tools">
-                            <h2 style="font-size:16px;">{{ AccionProducto}}</h2>
+                            <h2 style="font-size:16px;">{{AccionProducto}}</h2>
                             <span flex></span>
                             <md-button class="md-icon-button" ng-click="Cancelar()">
                                 <i class="material-icons" style="transform: scaleX(-1)">close</i>
@@ -79,9 +80,9 @@
                         </div>
                     </md-toolbar>
                     <form id="frmServiciosModal" style="">
-                        <md-dialog-content style="background-color: rgb(250,250,250);">
+                        <md-dialog-content style="overflow:visible;">
                             <div layout="row" layout-align="">
-                                <div flex="">
+                                <div flex="" class="material-app">
                                     <md-input-container class="md-block" style="margin: 13px 0 0 0;">
                                         <label class="label-form-servicios" style="">
                                             Nombre Producto:
@@ -91,37 +92,27 @@
                                 </div>
                             </div>
                             <div layout="row" layout-align="">
-                                <div flex="">
+                                <div flex="" class="material-app">
                                     <md-input-container class="md-block" style="margin: 5px 0;">
                                         <label class="label-form-servicios" style="">
                                             Descripción Producto:
                                         </label>
                                         <textarea ng-model="Producto.Descripcion" id="txtDescripcionProducto" type="text" placeholder="Digite la descripción del producto ..." md-maxlength="200" rows="2" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex=2 md-autofocus="AccionProducto == 'Editar Producto'"></textarea>
                                     </md-input-container>
-
                                 </div>
                             </div>
 
                             <div layout="row" layout-sm="column" layout-align="center start">
-                                <div flex="">
+                                <div flex="" class="material-app">
                                     <md-input-container style="margin: 5px 0;">
                                         <label class="label-form-servicios" style="">
                                             Cantidad:
                                         </label>
                                         <input ng-model="Producto.Cantidad_Transaccion" id="txtCantidadProducto" numbers-only type="text" placeholder="Digite la cantidad ..." value="" tabindex=3>
                                     </md-input-container>
-
                                 </div>
-                                <div flex="">
-                                    <md-input-container style="margin: 5px 0;">
-                                        <label class="label-form-servicios" style="">
-                                            Inventario:
-                                        </label>
-                                        <input ng-model="Producto.Inventario" id="txtInventarioProducto" numbers-only type="text" ng-readonly="true" placeholder="Inventario producto..." value="" tabindex=3>
-                                    </md-input-container>
 
-                                </div>
-                                <div flex="">
+                                <div flex="" class="material-app">
                                     <md-input-container style="margin: 5px 0;">
                                         <label class="label-form-servicios" style="">
                                             Precio Venta:
@@ -129,42 +120,49 @@
                                         <input ng-model="Producto.Precio" id="txtValorProducto" numbers-only type="text" placeholder="Digite el valor del producto ..." value="" tabindex=4>
                                     </md-input-container>
                                 </div>
+
+                                <div flex="" style="" class="material-app">
+                                    <md-input-container style="margin: 5px 0; margin-top: -22px; position:fixed; right:120px; ">
+                                        <label class="label-form-servicios" style="font-size: 11px; color: #566473;">
+                                            Inventario:
+                                        </label>
+                                        <br />
+                                        <div style="font-size:18px; color: #566473; font-weight:600; padding-top:5px; text-align:center;">{{Producto.Inventario}}</div>
+                                    </md-input-container>
+                                </div>
                             </div>
 
                             <div layout="row" layout-sm="column" layout-align="center start">
-                                <div flex="">
+                                <div flex="" class="material-app">
                                     <md-input-container style="margin: 5px 0;">
                                         <label class="label-form-servicios" style="">
                                             Tipo Transacción:
                                         </label>
-                                        <!--<select ng-model="TipoTransaccionSeleccionada" ng-disabled="true" ng-options="item.id_TipoTransaccion as item.nombre for item in TipoTransacciones | orderBy:'nombre'" style="display:none; width:auto;" tabindex=5>
-                                        </select>-->
+
                                         <md-select ng-model="TipoTransaccionSeleccionada" ng-disabled="true" style="min-width:200px;" id="slTipoTransaccion" tabindex=4>
                                             <md-option ng-bind="item.nombre" ng-value="item.id_TipoTransaccion" ng-repeat="item in TipoTransacciones track by item.id_TipoTransaccion"></md-option>
                                         </md-select>
                                     </md-input-container>
                                 </div>
+
+                                <div flex="" style="position:fixed; right: 15px; margin-top: -5px;">
+                                    <md-button type="button" id="btnGuardar" class="btn-spa groupX middle" style="margin: 6px 2px;" data-toggle="tooltip" title="Guardar" ng-click="GuardarProducto()" tabindex=7>
+                                        <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">save</i> Guardar
+                                    </md-button>
+
+                                    <md-button type="button" id="btnNuevoModal" ng-hide="AccionProducto === 'Editar Producto'" style="margin: 6px 2px;" class="btn-spa groupX left" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
+                                        <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-2px;">note_add</i> Nuevo
+                                    </md-button>
+                                </div>
                             </div>
-
-                            <div layout="row" layout-align="end center">
-                                <md-button type="button" id="btnGuardar" class="btn-spa groupX left" style="margin-left: -10px;margin: 6px 4px !important;" data-toggle="tooltip" title="Guardar" ng-click="GuardarProducto()" tabindex=7>
-                                    <i class="material-icons md-18" style="transform: scaleX(-1)">save</i>Guardar
-                                </md-button>
-
-                                <md-button type="button" id="btnNuevoModal" ng-hide="OcultarbtnNuevo" style="margin: 6px 4px !important;" class="btn-spa groupX middle" data-toggle="tooltip" title="Nuevo" data-ng-click="LimpiarDatos()">
-                                    <i class="material-icons md-18" style="transform: scaleX(-1)">note_add</i>Nuevo
-                                </md-button>
-                            </div>
-
                         </md-dialog-content>
                     </form>
-
                 </md-dialog>
             </div>
 
             <div class="md-dialog-container" id="dlgProductoTransacciones">
 
-                <md-dialog id="mdProductoTransacciones" style="width: 50% !important; color: #666666 !important;">
+                <md-dialog id="mdProductoTransacciones" style="min-width: 680px; max-width:680px; color: #666666 !important; cursor:default;" draggable>
                     <md-toolbar>
                         <div class="md-toolbar-tools">
                             <h2 style="font-size:16px;">{{ DescripcionProductoTransacciones }}</h2>
@@ -177,22 +175,18 @@
 
                     <form id="frmServiciosModal">
 
-                        <md-dialog-content style="background-color: rgb(250,250,250);">
+                        <md-dialog-content style="">
 
                             <div layout="row" layout-align="center center">
                                 <div id="divGridProductoTransacciones" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 300px); margin-top:11px; overflow-y:auto;">
                                     <div id="divProductoTransaccionesGridOptions" data-ag-grid="ProductoTransaccionesGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
                                 </div>
                             </div>
-
                         </md-dialog-content>
                     </form>
-
                 </md-dialog>
             </div>
-
         </div>
-
     </div>
 </body>
 </html>
