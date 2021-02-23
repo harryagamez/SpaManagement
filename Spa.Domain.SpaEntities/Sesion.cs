@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Spa.Domain.SpaEntities
+﻿namespace Spa.Domain.SpaEntities
 {
     public class Sesion
     {
