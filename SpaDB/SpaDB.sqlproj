@@ -316,7 +316,6 @@
     <Build Include="dbo\Tables\ACUMULADOS_CAJA.sql" />
     <Build Include="dbo\Stored Procedures\RegistrarSesion.sql" />
     <Build Include="dbo\Tables\REGISTRO_SESIONES.sql" />
-    <Build Include="dbo\Scripts\Pre-Deployment_Inicial.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />
