@@ -1,4 +1,4 @@
-CREATE PROCEDURE GuardarServicioAdmin(
+CREATE PROCEDURE [dbo].[GuardarServicioAdmin](
 	@JsonServicio NVARCHAR(MAX)
 )
 AS

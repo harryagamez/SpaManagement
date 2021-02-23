@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarServiciosAdmin
+CREATE PROCEDURE [dbo].[ConsultarServiciosAdmin]
 AS
 BEGIN	
 	SELECT

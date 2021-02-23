@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarUsuariosAdmin
+CREATE PROCEDURE [dbo].[ConsultarUsuariosAdmin]
 AS
 BEGIN
 

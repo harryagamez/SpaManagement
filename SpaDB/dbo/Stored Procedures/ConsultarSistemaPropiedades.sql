@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE ConsultarSistemaPropiedades
+﻿CREATE PROCEDURE [dbo].[ConsultarSistemaPropiedades]
 AS
 BEGIN
 	

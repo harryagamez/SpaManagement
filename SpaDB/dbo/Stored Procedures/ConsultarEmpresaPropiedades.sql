@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarEmpresaPropiedades(
+CREATE PROCEDURE [dbo].[ConsultarEmpresaPropiedades](
 	@IdEmpresa NVARCHAR(MAX)
 )
 AS

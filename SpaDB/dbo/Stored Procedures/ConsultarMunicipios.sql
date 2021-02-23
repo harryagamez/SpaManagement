@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE ConsultarMunicipios
+﻿CREATE PROCEDURE [dbo].[ConsultarMunicipios]
 AS
 BEGIN
 	

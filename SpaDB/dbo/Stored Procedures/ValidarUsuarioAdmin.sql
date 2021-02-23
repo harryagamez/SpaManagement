@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE ValidarUsuarioAdmin(
+﻿CREATE PROCEDURE [dbo].[ValidarUsuarioAdmin](
 	@Nombre VARCHAR(25), 
 	@Password VARCHAR(100)
 )

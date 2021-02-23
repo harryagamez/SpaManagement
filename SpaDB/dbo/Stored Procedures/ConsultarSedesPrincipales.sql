@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarSedesPrincipales
+CREATE PROCEDURE [dbo].[ConsultarSedesPrincipales]
 AS
 BEGIN
 
@@ -20,6 +20,7 @@ BEGIN
 END
 
 GO
+
 
 
 

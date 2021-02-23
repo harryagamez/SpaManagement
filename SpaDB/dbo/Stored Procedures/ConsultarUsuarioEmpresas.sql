@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE ConsultarUsuarioEmpresas(
+﻿CREATE PROCEDURE [dbo].[ConsultarUsuarioEmpresas](
 	@IdUsuario INT
 )
 AS

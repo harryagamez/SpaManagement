@@ -1,4 +1,6 @@
-CREATE PROCEDURE GuardarBarrio(@JsonBarrio NVARCHAR(MAX))
+CREATE PROCEDURE [dbo].[GuardarBarrio](
+	@JsonBarrio NVARCHAR(MAX)
+)
 AS
 BEGIN
 	
@@ -56,3 +58,5 @@ BEGIN
 	END CATCH
 
 END
+
+GO

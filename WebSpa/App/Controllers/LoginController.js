@@ -55,7 +55,8 @@ function LoginController($scope, $state, $location, $rootScope, $timeout, authSe
 
     $scope.GetUserData();
 
-    $scope.ModalLogin = function () {
+    $scope.ModalLogin = function ()
+    {
         try {
             $mdDialog.show({
                 contentElement: '#dlgLogin',

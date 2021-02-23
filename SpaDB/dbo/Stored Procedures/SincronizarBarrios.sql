@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE SincronizarBarrios(
+﻿CREATE PROCEDURE [dbo].[SincronizarBarrios](
 	@Json NVARCHAR(MAX), 
 	@Municipio VARCHAR(20)
 )

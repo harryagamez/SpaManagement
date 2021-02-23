@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE ConsultarTipoTransacciones
+﻿CREATE PROCEDURE [dbo].[ConsultarTipoTransacciones]
 AS
 BEGIN
 

@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE GuardarEmpresaPropiedades(
+﻿CREATE PROCEDURE [dbo].[GuardarEmpresaPropiedades](
 	@JsonPropiedades NVARCHAR(MAX)
 )
 AS

@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE ConsultarEmpresas
+﻿CREATE PROCEDURE [dbo].[ConsultarEmpresas]
 AS 
 BEGIN
 

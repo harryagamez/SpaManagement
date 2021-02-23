@@ -1,4 +1,6 @@
-CREATE PROCEDURE ConsultarServiciosConImagenes(@IdEmpresa VARCHAR(36))
+CREATE PROCEDURE [dbo].[ConsultarServiciosConImagenes](
+	@IdEmpresa VARCHAR(36)
+)
 AS
 BEGIN
 

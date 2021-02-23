@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarUsuarios(
+CREATE PROCEDURE [dbo].[ConsultarUsuarios](
 	@IdEmpresa VARCHAR(36)
 )
 AS

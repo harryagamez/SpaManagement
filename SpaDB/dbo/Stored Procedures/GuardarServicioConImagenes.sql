@@ -1,4 +1,4 @@
-CREATE PROCEDURE GuardarServicioConImagenes(
+CREATE PROCEDURE [dbo].[GuardarServicioConImagenes](
 	@JsonServicio NVARCHAR(MAX)
 )
 AS
@@ -57,7 +57,7 @@ BEGIN
 				TuvoCambios BIT '$.TuvoCambios'
 			) JsonServicioImagenes
 		) AS SOURCE(Id_Servicio_Imagen, Id_Empresa_Servicio, Id_Servicio, Imagen_Base64, TuvoCambios)
-		ON CAST(TARGET.ID_EMPRESA_SERVICIO AS VARCHAR(36)) = @ServicioId AND CAST(TARGET.ID_SERVICIO_IMAGEN as varchar(36)) = SOURCE.Id_Servicio_Imagen AND SOURCE.TuvoCambios = 'true'
+		ON CAST(TARGET.ID_EMPRESA_SERVICIO AS VARCHAR(36)) = @ServicioId AND CAST(TARGET.ID_SERVICIO_IMAGEN AS VARCHAR(36)) = SOURCE.Id_Servicio_Imagen AND SOURCE.TuvoCambios = 'true'
 		WHEN MATCHED THEN
 			UPDATE SET TARGET.IMAGEN_BASE64 = SOURCE.Imagen_Base64, TARGET.FECHA_MODIFICACION = GETDATE()
 		WHEN NOT MATCHED AND SOURCE.TuvoCambios = 'true' THEN			

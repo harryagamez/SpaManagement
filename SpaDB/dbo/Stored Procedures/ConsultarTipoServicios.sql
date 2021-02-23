@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE ConsultarTipoServicios
+﻿CREATE PROCEDURE [dbo].[ConsultarTipoServicios]
 AS
 BEGIN
 

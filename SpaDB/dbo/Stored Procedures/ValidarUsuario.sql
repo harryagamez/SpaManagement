@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE ValidarUsuario(
+﻿CREATE PROCEDURE [dbo].[ValidarUsuario](
 	@Nombre VARCHAR(25), 
 	@Password VARCHAR(100), 
 	@ValidarIntegracion BIT = NULL, 

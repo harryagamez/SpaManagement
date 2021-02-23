@@ -1,11 +1,11 @@
-CREATE TABLE [dbo].[REGISTRO_SESIONES] (
+CREATE TABLE [dbo].[REGISTRO_SESIONES](
     [ID_REGISTRO]           UNIQUEIDENTIFIER NOT NULL,
     [USUARIO_REGISTRO]      CHAR(25)		 NOT NULL,    
     [FECHA_REGISTRO]        DATETIME         NOT NULL,    
     [IP_ADDRESS]			CHAR(15)         NULL,
     [HOSTNAME]              CHAR(60)         NULL,
     [REGION]                CHAR(60)         NULL,
-    [PAIS]                  VARCHAR(10)         NULL,
+    [PAIS]                  VARCHAR(10)      NULL,
     [LOCALIZACION]          GEOGRAPHY        NULL,
     [ORG]                   CHAR(100)        NULL,
     [CODIGO_POSTAL]         CHAR(32)         NULL,

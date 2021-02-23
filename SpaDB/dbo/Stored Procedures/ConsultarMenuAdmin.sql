@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarMenuAdmin
+CREATE PROCEDURE [dbo].[ConsultarMenuAdmin]
 AS
 BEGIN
 

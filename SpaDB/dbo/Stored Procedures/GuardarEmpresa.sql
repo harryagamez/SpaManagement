@@ -1,4 +1,4 @@
-CREATE PROCEDURE GuardarEmpresa(
+CREATE PROCEDURE [dbo].[GuardarEmpresa](
 	@JsonEmpresa NVARCHAR(MAX)
 )
 AS

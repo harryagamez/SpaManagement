@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarServiciosMaestro(
+CREATE PROCEDURE [dbo].[ConsultarServiciosMaestro](
 	@CategoriaEmpresa VARCHAR(36)
 )
 AS

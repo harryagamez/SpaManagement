@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE SincronizarDepartamentos(
+﻿CREATE PROCEDURE [dbo].[SincronizarDepartamentos](
 	@Json NVARCHAR(MAX)
 )
 AS

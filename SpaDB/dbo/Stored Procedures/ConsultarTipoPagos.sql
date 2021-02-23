@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarTipoPagos
+CREATE PROCEDURE [dbo].[ConsultarTipoPagos]
 AS
 BEGIN
 	

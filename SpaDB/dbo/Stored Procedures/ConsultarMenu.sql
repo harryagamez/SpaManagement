@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE ConsultarMenu(
+﻿CREATE PROCEDURE [dbo].[ConsultarMenu](
 	@IdUsuario INT, 
 	@IdEmpresa VARCHAR(36), 
 	@Perfil VARCHAR(25)
@@ -27,7 +27,6 @@ BEGIN
 		ORDER BY DESCRIPCION ASC
 
 	END
-
 
 END
 

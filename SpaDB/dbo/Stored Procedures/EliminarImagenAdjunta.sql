@@ -1,4 +1,4 @@
-CREATE PROCEDURE EliminarImagenAdjunta(
+CREATE PROCEDURE [dbo].[EliminarImagenAdjunta](
 	@IdImagenAdjunta VARCHAR(36)
 )
 AS

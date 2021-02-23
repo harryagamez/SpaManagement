@@ -1,4 +1,4 @@
-CREATE PROCEDURE GuardarMunicipio(
+CREATE PROCEDURE [dbo].[GuardarMunicipio](
 	@JsonMunicipio NVARCHAR(MAX)
 )
 AS

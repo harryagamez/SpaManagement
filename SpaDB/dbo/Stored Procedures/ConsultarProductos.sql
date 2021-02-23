@@ -1,4 +1,4 @@
-﻿ CREATE PROCEDURE ConsultarProductos(
+﻿ CREATE PROCEDURE [dbo].[ConsultarProductos](
 	@IdEmpresa VARCHAR(36)
 )
  AS

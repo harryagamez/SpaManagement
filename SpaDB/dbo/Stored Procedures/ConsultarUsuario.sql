@@ -1,8 +1,7 @@
-CREATE PROCEDURE ConsultarUsuario(
+CREATE PROCEDURE [dbo].[ConsultarUsuario](
 	@Nombre CHAR(25)
 )
 AS
-
 BEGIN
 	
 	SELECT 

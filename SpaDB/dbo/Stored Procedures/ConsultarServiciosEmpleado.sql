@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarServiciosEmpleado(
+CREATE PROCEDURE [dbo].[ConsultarServiciosEmpleado](
 	@JsonAgenda NVARCHAR(MAX)
 )
 AS
@@ -91,9 +91,9 @@ BEGIN
 	N'@FechaDesde DATE, @FechaHasta DATE, @IdEmpresa VARCHAR(36), @IdEmpleado INT',
 	@FechaDesde, @FechaHasta, @IdEmpresa, @IdEmpleado
 
-
 	IF OBJECT_ID('tempdb..#TempBusquedaAgenda') IS NOT NULL DROP TABLE #TempBusquedaAgenda
 	IF OBJECT_ID('tempdb..#TempServicios') IS NOT NULL DROP TABLE #TempServicios
+
 END
 
 GO

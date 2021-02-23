@@ -1,4 +1,4 @@
-CREATE PROCEDURE GuardarTipoServicio(
+CREATE PROCEDURE [dbo].[GuardarTipoServicio](
 	@JsonTipoServicio NVARCHAR(MAX)
 )
 AS

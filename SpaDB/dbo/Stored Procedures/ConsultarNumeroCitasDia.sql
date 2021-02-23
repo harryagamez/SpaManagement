@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarNumeroCitasDia(
+CREATE PROCEDURE [dbo].[ConsultarNumeroCitasDia](
 	@FechaConsulta CHAR(12), 
 	@IdEmpresa VARCHAR(36)
 )

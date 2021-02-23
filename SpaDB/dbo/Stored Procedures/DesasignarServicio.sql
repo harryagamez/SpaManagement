@@ -1,4 +1,4 @@
-CREATE PROCEDURE DesasignarEmpleadoServicio(
+CREATE PROCEDURE [dbo].[DesasignarEmpleadoServicio](
 	@IdEmpleadoServicio INT
 )
 AS

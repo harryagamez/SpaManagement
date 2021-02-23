@@ -1,4 +1,4 @@
-CREATE PROCEDURE ConsultarUserAvatar(
+CREATE PROCEDURE [dbo].[ConsultarUserAvatar](
 	@UserId INT, 
 	@IdEmpresa VARCHAR(36)
 )

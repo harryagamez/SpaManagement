@@ -1,4 +1,4 @@
-CREATE PROCEDURE GuardarUsuario(
+CREATE PROCEDURE [dbo].[GuardarUsuario](
 	@JsonUsuario NVARCHAR(MAX)
 )
 AS

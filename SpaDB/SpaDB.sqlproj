@@ -315,6 +315,7 @@
     <Build Include="dbo\Stored Procedures\ActualizarEmpleadoServicio.sql" />
     <Build Include="dbo\Tables\ACUMULADOS_CAJA.sql" />
     <Build Include="dbo\Stored Procedures\RegistrarSesion.sql" />
+    <Build Include="dbo\Tables\REGISTRO_SESIONES.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\Pre-Deployment.sql" />
