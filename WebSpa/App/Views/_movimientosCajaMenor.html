@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Movimientos Caja Menor</title>
+</head>
+<body>
+    <div us-spinner="{radius:30, width:8, length: 16}" style="backdrop-filter: blur(3px); position: fixed; margin-left:-160px; margin-top:-50px; background-color: rgba(0,0,0,0.3); width: 100%; height: 100%; z-index: 2000000000;"></div>
+    <div layout="row" layout-wrap="" style="height: calc(100vh - 70px); overflow:hidden;">
+        <form id="frmServicios" style="" class="material-app">
+            <div layout="row" layout-sm="column" style="position:relative;">
+
+                <div flex="" style="flex:none;">
+                    <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px; margin-left:2px;">
+
+                        <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin-left:-2px;" data-toggle="tooltip" title="Buscar" data-ng-click="ConsultarMovimientosCajaMenor()">
+                            <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-3px;">search</i> Buscar
+                        </md-button>
+
+                        <md-button type="button" id="btnImportar" class="btn-spa groupX middle" style="margin-left: -2px;" data-toggle="tooltip" title="Exportar" data-ng-click="ExportarArchivo()">
+                            <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-3px;">cloud_upload</i> Exportar
+                        </md-button>
+
+                    </section>
+                </div>
+
+                <div style="flex: none; margin-left:10px; margin-top:-5px; z-index:999;">
+                    <md-input-container style="margin-left: -40px;">
+                        <label class="label-form-clientes" style="margin-bottom:-2px;">
+                            Fecha desde:
+                        </label>
+                        <md-datepicker ng-model="FechaDesde" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=3 style="margin-bottom:0; margin-top:-5px; width:200px;"></md-datepicker>
+                    </md-input-container>
+                </div>
+
+                <div style="flex: none; margin-left:10px; margin-top:-5px; z-index:99;">
+                    <md-input-container style="margin-left: -40px;">
+                        <label class="label-form-clientes" style="margin-bottom:-2px;">
+                            Fecha hasta:
+                        </label>
+                        <md-datepicker ng-model="FechaHasta" md-placeholder="Enter date" class="dateClientes" id="dpFechaHasta" tabindex=4 style="margin-bottom:0; margin-top:-5px; width:200px;"></md-datepicker>
+                    </md-input-container>
+                </div>
+
+                <div style="margin-top:-5px; width:200px;">
+                    <md-input-container style="margin-left: 10px; width: 99%; margin-top: 2px; margin-bottom: 0;  ">
+                        <label class="label-form-servicios" style="font-size:10px; padding-bottom:5px;">
+                            Saldo Inicial:
+                        </label>
+                        <br />
+                        <div style="width: 98%; font-size:20px !important; font-weight:600; color:#566473; text-align:left; padding-right:10px;">{{SaldoInicial | currency}}</div>
+                    </md-input-container>
+                </div>
+
+                <div style="margin-top:-5px; width:200px;">
+                    <md-input-container style="margin-left: 10px; width: 99%; margin-top: 2px; margin-bottom: 0;  ">
+                        <label class="label-form-servicios" style="font-size:10px; padding-bottom:5px;">
+                            Saldo Acumulado:
+                        </label>
+                        <br />
+                        <div style="width: 98%; font-size:20px !important; font-weight:600; color:#566473; text-align:left; padding-right:10px;">{{SaldoAcumulado | currency}}</div>
+                    </md-input-container>
+                </div>
+
+            </div>
+
+            <div id="divGridMovimientosCajaMenor" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 145px); margin-top:-33px; overflow-y:auto;">
+                <div id="divMovimientosCajaMenorGridOptions" data-ag-grid="MovimientosCajaMenorGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

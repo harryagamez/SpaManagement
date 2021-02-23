@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>aPanel</title>
+</head>
+<body>
+    <div class="background-image"></div>
+    <div class="wrapper" style="margin-top:15px;">
+        <div layout="row" layout-wrap="" layout-align="center center">
+            <div layout-sm="column">
+                <form class="form-container" style="min-width:320px; min-height: 365px;" autocomplete="new-password">
+                    <div flex="" class="login-header">
+                        <div style="padding-top:70px; text-align:center; display:block;">
+                            <span style="font-size:48px; font-weight:800; color:#393b44; padding-left:25px; ">aPanel</span><i class="material-icons" style="font-size:28px; font-weight:600; color:#8d93ab; margin-top:-65px;">settings</i>
+                        </div>
+                    </div>
+                    <div flex="" style="padding-top:5px;" class="material-app">
+                        <md-input-container style="width:100%; display:flex;">
+                            <label>Usuario:</label>
+                            <md-icon class="material-icons login-icons">person</md-icon>
+                            <input id="txtUsuario" type="text" ng-model="DatosUsuario.Usuario" class="form-control-login" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Nombre de usuario">
+                        </md-input-container>
+                    </div>
+                    <div flex="" style="padding-top:5px;" class="material-app">
+                        <md-input-container style="display:flex; width:100%;">
+                            <label>Contraseña:</label>
+                            <md-icon class="material-icons login-icons">lock</md-icon>
+                            <input type="password" ng-model="DatosUsuario.Clave" data-ng-enter="Login()" class="form-control-login" id="txtContraseña" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Contraseña">
+                        </md-input-container>
+                    </div>
+                    <div flex="" style="padding-top:5px;" class="material-app">
+                        <md-input-container style="display:flex; width:100%" data-ng-show="validarIntegracion">
+                            <label>Código Validación:</label>
+                            <md-icon class="material-icons login-icons">Warning</md-icon>
+                            <input id="ctlIntegration" type="text" ng-model="DatosUsuario.CodigoIntegracion" class="form-control-login" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Código validación">
+                        </md-input-container>
+                    </div>
+                    <div flex="">
+                        <md-button class="btn-login" ng-click="Login()">Ingresar</md-button>
+                    </div>
+                    <div flex="" class="login-footer">                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

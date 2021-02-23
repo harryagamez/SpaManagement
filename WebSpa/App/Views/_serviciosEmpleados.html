@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Servicios por Empleado</title>
+</head>
+<body>
+    <div us-spinner="{radius:30, width:8, length: 16}" style="backdrop-filter: blur(3px); position: fixed; margin-left:-160px; margin-top:-50px; background-color: rgba(0,0,0,0.3); width: 100%; height: 100%; z-index: 2000000000;"></div>
+    <div layout="row" layout-wrap="" style="height: calc(100vh - 70px); overflow:hidden;">
+        <form id="frmServicios" style="" class="material-app">
+            <div layout="row" layout-sm="column" style="position:relative;">
+
+                <div flex="" style="flex:none;">
+                    <section id="divButtons" layout="row" layout-align="left center" style="margin-bottom: 5px; margin-left:2px;">
+
+                        <md-button type="button" id="btnNuevo" class="btn-spa groupX middle" style="margin-left:-2px;" data-toggle="tooltip" title="Buscar" data-ng-click="ConsultarServiciosEmpleado()">
+                            <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-3px;">search</i> Buscar
+                        </md-button>
+
+                        <md-button type="button" id="btnImportar" class="btn-spa groupX middle" style="margin-left: -2px;" data-toggle="tooltip" title="Exportar" data-ng-click="ExportarArchivo()">
+                            <i class="material-icons md-18" style="transform: scaleX(-1); margin-top:-3px;">cloud_upload</i> Exportar
+                        </md-button>
+
+                    </section>
+                </div>
+
+                <div style="flex:none; margin-left:10px;">
+                    <md-input-container style="margin:18px 0 0 0;padding:0;">
+                        <label for="dateType" class="label-form-empleados" style="">
+                            Empleados:
+                        </label>
+                        <md-autocomplete style="margin-top:2px;" aria-label="clientes autocomplete" md-input-id="acEmpleados" id="acEmpleados" md-input-name="acEmpleados" md-select-on-match="true" md-clear-button="false" md-menu-container-class="custom-autocomplete" md-no-cache="true" md-selected-item="EmpleadoSeleccionado" md-search-text="buscarEmpleado" md-items="empleado in BuscarEmpleado(buscarEmpleado)" md-item-text="empleado.nombres + ' ' + empleado.apellidos" autocomplete="off" tabindex="1">
+                            <md-item-template>
+                                <span md-highlight-text="buscarCliente" ng-bind="empleado.id_Empleado">{{empleado.nombres + ' ' + empleado.apellidos}}</span>
+                            </md-item-template>
+                            <md-not-found>
+                                No se encontraron resultados.
+                            </md-not-found>
+                        </md-autocomplete>
+                    </md-input-container>
+                </div>
+
+                <div style="flex:none; margin-left:10px; width:200px; z-index:99999;">
+                    <md-input-container class="md-block" style="margin:8px 0 0 0; padding:0;">
+                        <label class="label-form-servicios" style="margin-bottom:-7px;">
+                            Seleccionar Servicios:
+                        </label>
+                        <label class="" style="display:none;">
+                            [Seleccione]
+                        </label>
+                        <md-select ng-model="ServiciosSeleccionados" multiple ng-change="AsignarRemover(ServiciosSeleccionados)" placeholder="" aria-label="checks servicios" class="" style="display:inline-flex; min-width:100%; max-width: 100% !important; margin:15px 0;" id="slServicios" tabindex=2>
+                            <md-optgroup label="Servicios">
+                                <md-option ng-value="servicio.id_Servicio" ng-repeat="servicio in Servicios track by servicio.nombre">{{servicio.nombre}}</md-option>
+                            </md-optgroup>
+                        </md-select>
+                    </md-input-container>
+                </div>
+
+                <div style="flex: none; margin-left:10px; margin-top:-5px; z-index:999;">
+                    <md-input-container style="margin-left: -40px;">
+                        <label class="label-form-clientes" style="margin-bottom:-2px;">
+                            Fecha desde:
+                        </label>
+                        <md-datepicker ng-model="FechaDesde" md-placeholder="Enter date" class="dateClientes" id="dpFechaDesde" tabindex=3 style="margin-bottom:0; margin-top:-5px; width:200px;"></md-datepicker>
+                    </md-input-container>
+                </div>
+
+                <div style="flex: none; margin-left:10px; margin-top:-5px; z-index:99;">
+                    <md-input-container style="margin-left: -40px;">
+                        <label class="label-form-clientes" style="margin-bottom:-2px;">
+                            Fecha hasta:
+                        </label>
+                        <md-datepicker ng-model="FechaHasta" md-placeholder="Enter date" class="dateClientes" id="dpFechaHasta" tabindex=4 style="margin-bottom:0; margin-top:-5px; width:200px;"></md-datepicker>
+                    </md-input-container>
+                </div>
+
+            </div>
+
+            <div id="divGridServiciosEmpleado" layout="row" layout-sm="column" style="width:100%; height: calc(100vh - 145px); margin-top:-33px; overflow-y:auto;">
+                <div id="divServiciosEmpleadoGridOptions" data-ag-grid="ServiciosEmpleadoGridOptions" class="ag-theme-fresh" style="width:100%; height:100%; padding-bottom:10px"></div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
