@@ -676,8 +676,10 @@ function ServiciosController($scope, $rootScope, $filter, $mdDialog, $timeout, S
         return e.id_Empresa == $scope.IdEmpresa;
     });
 
-    $rootScope.Categoria_Empresa = empresa[0].id_Categoria_Servicio;
-    $scope.CategoriaEmpresa = $rootScope.Categoria_Empresa;
+    if (empresa !== null && empresa.length > 0) {
+        $rootScope.Categoria_Empresa = empresa[0].id_Categoria_Servicio;
+        $scope.CategoriaEmpresa = $rootScope.Categoria_Empresa;
+    }
 
     $scope.ConsultarTipoServicios();
     $scope.ConsultarServiciosMaestro();
