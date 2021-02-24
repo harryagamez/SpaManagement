@@ -20,7 +20,7 @@ namespace Spa.Infrastructure.SpaRepository
             _connectionString = ConnectionString;
         }
 
-        public Usuario ValidarUsuario(string Nombre, string Password, bool ValidarIntegracion, string CodigoIntegracion)
+        public Usuario ValidarUsuario(string nombre, string password, bool validarIntegracion, string codigoIntegracion)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -33,10 +33,10 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ValidarUsuario";
-                    _command.Parameters.AddWithValue("@Nombre", Nombre);
-                    _command.Parameters.AddWithValue("@Password", Password);
-                    _command.Parameters.AddWithValue("@ValidarIntegracion", ValidarIntegracion);
-                    _command.Parameters.AddWithValue("@CodigoIntegracion", CodigoIntegracion);
+                    _command.Parameters.AddWithValue("@Nombre", nombre);
+                    _command.Parameters.AddWithValue("@Password", password);
+                    _command.Parameters.AddWithValue("@ValidarIntegracion", validarIntegracion);
+                    _command.Parameters.AddWithValue("@CodigoIntegracion", codigoIntegracion);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -51,7 +51,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool ActualizarCodigoIntegracion(int IdUsuario, string IdEmpresa, string CodigoIntegracion)
+        public bool ActualizarCodigoIntegracion(int idUsuario, string idEmpresa, string codigoIntegracion)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -61,9 +61,9 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ActualizarCodigoIntegracion";
-                    _command.Parameters.AddWithValue("@IdUsuario", IdUsuario);
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
-                    _command.Parameters.AddWithValue("@CodigoIntegracion", CodigoIntegracion);
+                    _command.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
+                    _command.Parameters.AddWithValue("@CodigoIntegracion", codigoIntegracion);
 
                     _command.ExecuteNonQuery();
 
@@ -74,7 +74,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool RegistrarActualizarCliente(List<Cliente> _Cliente)
+        public bool RegistrarActualizarCliente(List<Cliente> cliente)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -84,7 +84,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "RegistrarActualizarCliente";
-                    _command.Parameters.AddWithValue("@JsonCliente", JsonConvert.SerializeObject(_Cliente));
+                    _command.Parameters.AddWithValue("@JsonCliente", JsonConvert.SerializeObject(cliente));
 
                     _command.ExecuteNonQuery();
 
@@ -95,7 +95,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Menu> ConsultarMenu(int IdUsuario, string IdEmpresa, string Perfil)
+        public List<Menu> ConsultarMenu(int idUsuario, string idEmpresa, string perfil)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -108,9 +108,9 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarMenu";
-                    _command.Parameters.AddWithValue("@IdUsuario", IdUsuario);
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
-                    _command.Parameters.AddWithValue("@Perfil", Perfil);
+                    _command.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
+                    _command.Parameters.AddWithValue("@Perfil", perfil);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -124,7 +124,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Cliente> ConsultarClientes(string IdEmpresa)
+        public List<Cliente> ConsultarClientes(string idEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -137,7 +137,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarClientes";
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -151,7 +151,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool SincronizarBarrios(List<Properties> _Properties, string _Municipio)
+        public bool SincronizarBarrios(List<Properties> properties, string municipio)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -161,8 +161,8 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "SincronizarBarrios";
-                    _command.Parameters.AddWithValue("@Json", JsonConvert.SerializeObject(_Properties));
-                    _command.Parameters.AddWithValue("@Municipio", _Municipio);
+                    _command.Parameters.AddWithValue("@Json", JsonConvert.SerializeObject(properties));
+                    _command.Parameters.AddWithValue("@Municipio", municipio);
 
                     _command.ExecuteNonQuery();
 
@@ -201,7 +201,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Barrio> ConsultarBarrios(int IdMunicipio)
+        public List<Barrio> ConsultarBarrios(int idMunicipio)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -214,7 +214,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarBarrios";
-                    _command.Parameters.AddWithValue("@IdMunicipio", IdMunicipio);
+                    _command.Parameters.AddWithValue("@IdMunicipio", idMunicipio);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -254,7 +254,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public Cliente ConsultarCliente(string Cedula, string IdEmpresa)
+        public Cliente ConsultarCliente(string cedula, string idEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -267,8 +267,8 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarCliente";
-                    _command.Parameters.AddWithValue("@CedulaCliente", Cedula);
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@CedulaCliente", cedula);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -308,7 +308,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<ServicioMaestro> ConsultarServiciosMaestro(string CategoriaEmpresa)
+        public List<ServicioMaestro> ConsultarServiciosMaestro(string categoriaEmpresa)
         {
             DataTable _datatable = new DataTable();
             List<ServicioMaestro> _serviciosMaestro = new List<ServicioMaestro>();
@@ -322,7 +322,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarServiciosMaestro";
-                    _command.Parameters.AddWithValue("@CategoriaEmpresa", CategoriaEmpresa);
+                    _command.Parameters.AddWithValue("@CategoriaEmpresa", categoriaEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -333,7 +333,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<EmpresaServicio> ConsultarServicios(string IdEmpresa)
+        public List<EmpresaServicio> ConsultarServicios(string idEmpresa)
         {
             DataTable _datatable = new DataTable();
             List<EmpresaServicio> _servicios = new List<EmpresaServicio>();
@@ -347,7 +347,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarServicios";
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -358,7 +358,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<EmpresaServicio> ConsultarServiciosConImagenes(string IdEmpresa)
+        public List<EmpresaServicio> ConsultarServiciosConImagenes(string idEmpresa)
         {
             DataSet _dataset = new DataSet();
             List<EmpresaServicio> _servicios = new List<EmpresaServicio>();
@@ -372,7 +372,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarServicios";
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_dataset);
@@ -399,7 +399,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<EmpresaServicio> ConsultarServiciosActivos(string IdEmpresa)
+        public List<EmpresaServicio> ConsultarServiciosActivos(string idEmpresa)
         {
             DataTable _datatable = new DataTable();
             List<EmpresaServicio> _servicios = new List<EmpresaServicio>();
@@ -413,7 +413,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarServiciosActivos";
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -424,7 +424,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<EmpresaServicio> ConsultarServiciosActivosConImagenes(string IdEmpresa)
+        public List<EmpresaServicio> ConsultarServiciosActivosConImagenes(string idEmpresa)
         {
             DataSet _dataset = new DataSet();
             List<EmpresaServicio> _servicios = new List<EmpresaServicio>();
@@ -438,7 +438,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarServiciosActivos";
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_dataset);
@@ -465,7 +465,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool GuardarServicio(List<EmpresaServicio> _Servicio)
+        public bool GuardarServicio(List<EmpresaServicio> servicio)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -475,7 +475,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "GuardarServicio";
-                    _command.Parameters.AddWithValue("@JsonServicio", JsonConvert.SerializeObject(_Servicio));
+                    _command.Parameters.AddWithValue("@JsonServicio", JsonConvert.SerializeObject(servicio));
 
                     _command.ExecuteNonQuery();
 
@@ -486,7 +486,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool EliminarImagenAdjunta(string IdImagenAdjunta)
+        public bool EliminarImagenAdjunta(string idImagenAdjunta)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -496,7 +496,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "EliminarImagenAdjunta";
-                    _command.Parameters.AddWithValue("@IdImagenAdjunta", IdImagenAdjunta);
+                    _command.Parameters.AddWithValue("@IdImagenAdjunta", idImagenAdjunta);
 
                     _command.ExecuteNonQuery();
 
@@ -507,7 +507,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Empleado> ConsultarEmpleados(string IdEmpresa)
+        public List<Empleado> ConsultarEmpleados(string idEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -520,7 +520,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarEmpleados";
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -534,7 +534,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public Empleado ConsultarEmpleado(string Cedula, string IdEmpresa)
+        public Empleado ConsultarEmpleado(string cedula, string idEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -547,8 +547,8 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarEmpleado";
-                    _command.Parameters.AddWithValue("@CedulaEmpleado", Cedula);
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@CedulaEmpleado", cedula);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -562,7 +562,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<EmpleadoServicio> ConsultarEmpleadoServicio(int IdEmpleado, string IdEmpresa)
+        public List<EmpleadoServicio> ConsultarEmpleadoServicio(int idEmpleado, string idEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -575,8 +575,8 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarEmpleadoServicio";
-                    _command.Parameters.AddWithValue("@IdEmpleado", IdEmpleado);
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -590,7 +590,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Transaccion> ConsultarEmpleadoInsumos(int IdEmpleado, string IdEmpresa)
+        public List<Transaccion> ConsultarEmpleadoInsumos(int idEmpleado, string idEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -603,8 +603,8 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarEmpleadoInsumos";
-                    _command.Parameters.AddWithValue("@IdEmpleado", IdEmpleado);
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -644,7 +644,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Producto> ConsultarProductos(string IdEmpresa)
+        public List<Producto> ConsultarProductos(string idEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -657,7 +657,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarProductos";
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -691,7 +691,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool RegistrarActualizarEmpleado(List<Empleado> _Empleado)
+        public bool RegistrarActualizarEmpleado(List<Empleado> empleado)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -701,7 +701,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "RegistrarActualizarEmpleado";
-                    _command.Parameters.AddWithValue("@JsonEmpleado", JsonConvert.SerializeObject(_Empleado));
+                    _command.Parameters.AddWithValue("@JsonEmpleado", JsonConvert.SerializeObject(empleado));
 
                     _command.ExecuteNonQuery();
 
@@ -712,7 +712,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool AsignarEmpleadoServicio(List<EmpleadoServicio> _EmpleadoServicio)
+        public bool AsignarEmpleadoServicio(List<EmpleadoServicio> empleadoInsumo)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -722,7 +722,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "AsignarEmpleadoServicio";
-                    _command.Parameters.AddWithValue("@JsonEmpleadoServicio", JsonConvert.SerializeObject(_EmpleadoServicio));
+                    _command.Parameters.AddWithValue("@JsonEmpleadoServicio", JsonConvert.SerializeObject(empleadoInsumo));
 
                     _command.ExecuteNonQuery();
 
@@ -733,7 +733,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool DesasignarEmpleadoServicio(int IdEmpleadoServicio)
+        public bool DesasignarEmpleadoServicio(int idEmpleadoServicio)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -743,7 +743,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "DesasignarEmpleadoServicio";
-                    _command.Parameters.AddWithValue("@IdEmpleadoServicio", IdEmpleadoServicio);
+                    _command.Parameters.AddWithValue("@IdEmpleadoServicio", idEmpleadoServicio);
 
                     _command.ExecuteNonQuery();
 
@@ -754,7 +754,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool AsignarEmpleadoInsumo(List<Transaccion> _EmpleadoInsumo)
+        public bool AsignarEmpleadoInsumo(List<Transaccion> empleadoInsumo)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -764,7 +764,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "AsignarEmpleadoInsumo";
-                    _command.Parameters.AddWithValue("@JsonEmpleadoInsumo", JsonConvert.SerializeObject(_EmpleadoInsumo));
+                    _command.Parameters.AddWithValue("@JsonEmpleadoInsumo", JsonConvert.SerializeObject(empleadoInsumo));
 
                     _command.ExecuteNonQuery();
 
@@ -796,7 +796,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool GuardarProducto(List<Producto> _Producto)
+        public bool GuardarProducto(List<Producto> producto)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -806,7 +806,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "GuardarProducto";
-                    _command.Parameters.AddWithValue("@JsonProducto", JsonConvert.SerializeObject(_Producto));
+                    _command.Parameters.AddWithValue("@JsonProducto", JsonConvert.SerializeObject(producto));
 
                     _command.ExecuteNonQuery();
 
@@ -817,7 +817,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Transaccion> ConsultarProductoTransacciones(int IdProducto, string IdEmpresa)
+        public List<Transaccion> ConsultarProductoTransacciones(int idProducto, string idEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -830,8 +830,8 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarProductoTransacciones";
-                    _command.Parameters.AddWithValue("@IdProducto", IdProducto);
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@IdProducto", idProducto);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -845,7 +845,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Gasto> ConsultarGastos(BusquedaGasto _BusquedaGasto)
+        public List<Gasto> ConsultarGastos(BusquedaGasto busquedaGasto)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -858,7 +858,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarGastos";
-                    _command.Parameters.AddWithValue("@JsonBusqueda", JsonConvert.SerializeObject(_BusquedaGasto));
+                    _command.Parameters.AddWithValue("@JsonBusqueda", JsonConvert.SerializeObject(busquedaGasto));
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -872,7 +872,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public CajaMenor ConsultarCajaMenor(string IdEmpresa)
+        public CajaMenor ConsultarCajaMenor(string idEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -885,7 +885,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarCajaMenor";
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -896,7 +896,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool GuardarCajaMenor(List<CajaMenor> _CajaMenor)
+        public bool GuardarCajaMenor(List<CajaMenor> cajaMenor)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -906,7 +906,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "GuardarCajaMenor";
-                    _command.Parameters.AddWithValue("@JsonCajaMenor", JsonConvert.SerializeObject(_CajaMenor));
+                    _command.Parameters.AddWithValue("@JsonCajaMenor", JsonConvert.SerializeObject(cajaMenor));
 
                     _command.ExecuteNonQuery();
 
@@ -917,7 +917,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool ReemplazarCajaMenor(List<CajaMenor> _CajaMenor)
+        public bool ReemplazarCajaMenor(List<CajaMenor> cajaMenor)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -927,7 +927,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ReemplazarCajaMenor";
-                    _command.Parameters.AddWithValue("@JsonCajaMenor", JsonConvert.SerializeObject(_CajaMenor));
+                    _command.Parameters.AddWithValue("@JsonCajaMenor", JsonConvert.SerializeObject(cajaMenor));
 
                     _command.ExecuteNonQuery();
 
@@ -938,7 +938,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool GuardarGasto(List<Gasto> _Gasto)
+        public bool GuardarGasto(List<Gasto> gasto)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -948,7 +948,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "GuardarGasto";
-                    _command.Parameters.AddWithValue("@JsonGasto", JsonConvert.SerializeObject(_Gasto));
+                    _command.Parameters.AddWithValue("@JsonGasto", JsonConvert.SerializeObject(gasto));
 
                     _command.ExecuteNonQuery();
 
@@ -959,7 +959,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool EliminarGastos(List<Gasto> _Gastos)
+        public bool EliminarGastos(List<Gasto> gastos)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -969,7 +969,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "EliminarGastos";
-                    _command.Parameters.AddWithValue("@JsonGastos", JsonConvert.SerializeObject(_Gastos));
+                    _command.Parameters.AddWithValue("@JsonGastos", JsonConvert.SerializeObject(gastos));
 
                     _command.ExecuteNonQuery();
 
@@ -980,7 +980,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Usuario> ConsultarUsuarios(string IdEmpresa)
+        public List<Usuario> ConsultarUsuarios(string idEmpresa)
         {
             DataSet _dataset = new DataSet();
             List<Usuario> _usuarios = new List<Usuario>();
@@ -994,7 +994,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarUsuarios";
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_dataset);
@@ -1021,7 +1021,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool ConsultarUsuario(string Nombre)
+        public bool ConsultarUsuario(string nombre)
         {
             bool existeRegistro;
 
@@ -1033,7 +1033,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarUsuario";
-                    _command.Parameters.AddWithValue("@Nombre", Nombre);
+                    _command.Parameters.AddWithValue("@Nombre", nombre);
 
                     SqlDataReader _reader = _command.ExecuteReader();
                     if (_reader.Read())
@@ -1049,7 +1049,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool GuardarUsuario(Usuario _Usuario)
+        public bool GuardarUsuario(Usuario usuario)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -1059,7 +1059,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "GuardarUsuario";
-                    _command.Parameters.AddWithValue("@JsonUsuario", JsonConvert.SerializeObject(_Usuario));
+                    _command.Parameters.AddWithValue("@JsonUsuario", JsonConvert.SerializeObject(usuario));
 
                     _command.ExecuteNonQuery();
 
@@ -1070,7 +1070,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public Usuario ConsultarUserAvatar(int UserId, string IdEmpresa)
+        public Usuario ConsultarUserAvatar(int userId, string idEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -1083,8 +1083,8 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarUserAvatar";
-                    _command.Parameters.AddWithValue("@UserId", UserId);
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@UserId", userId);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -1098,7 +1098,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<EmpresaPropiedad> ConsultarEmpresaPropiedades(string IdEmpresa)
+        public List<EmpresaPropiedad> ConsultarEmpresaPropiedades(string idEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -1111,7 +1111,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarEmpresaPropiedades";
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -1122,7 +1122,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Empleado> ConsultarEmpleadosAutoComplete(string IdEmpresa)
+        public List<Empleado> ConsultarEmpleadosAutoComplete(string idEmpresa)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -1135,7 +1135,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarEmpleadosAutoComplete";
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -1149,7 +1149,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool GuardarActualizarAgenda(Agenda _Agenda)
+        public bool GuardarActualizarAgenda(Agenda agenda)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -1159,7 +1159,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "GuardarActualizarAgenda";
-                    _command.Parameters.AddWithValue("@JsonAgenda", JsonConvert.SerializeObject(_Agenda));
+                    _command.Parameters.AddWithValue("@JsonAgenda", JsonConvert.SerializeObject(agenda));
 
                     _command.ExecuteNonQuery();
 
@@ -1170,7 +1170,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Agenda> ConsultarAgenda(Agenda _Agenda)
+        public List<Agenda> ConsultarAgenda(Agenda agenda)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -1183,7 +1183,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarAgenda";
-                    _command.Parameters.AddWithValue("@JsonAgenda", JsonConvert.SerializeObject(_Agenda));
+                    _command.Parameters.AddWithValue("@JsonAgenda", JsonConvert.SerializeObject(agenda));
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -1197,7 +1197,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Agenda> ConsultarAgendaTransacciones(Agenda _Agenda)
+        public List<Agenda> ConsultarAgendaTransacciones(Agenda agenda)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -1210,7 +1210,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarAgendaTransacciones";
-                    _command.Parameters.AddWithValue("@JsonAgenda", JsonConvert.SerializeObject(_Agenda));
+                    _command.Parameters.AddWithValue("@JsonAgenda", JsonConvert.SerializeObject(agenda));
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -1224,7 +1224,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool CancelarAgenda(int IdAgenda, string IdEmpresa, string UsuarioSistema)
+        public bool CancelarAgenda(int idAgenda, string idEmpresa, string usuarioSistema)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -1234,9 +1234,9 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "CancelarAgenda";
-                    _command.Parameters.AddWithValue("@IdAgenda", IdAgenda);
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
-                    _command.Parameters.AddWithValue("@UsuarioSistema", UsuarioSistema);
+                    _command.Parameters.AddWithValue("@IdAgenda", idAgenda);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
+                    _command.Parameters.AddWithValue("@UsuarioSistema", usuarioSistema);
                     _command.ExecuteNonQuery();
 
                     _command.Dispose();
@@ -1246,7 +1246,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool ConfirmarAgenda(int IdAgenda, string IdEmpresa, string UsuarioSistema)
+        public bool ConfirmarAgenda(int idAgenda, string idEmpresa, string usuarioSistema)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -1256,9 +1256,9 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConfirmarAgenda";
-                    _command.Parameters.AddWithValue("@IdAgenda", IdAgenda);
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
-                    _command.Parameters.AddWithValue("@UsuarioSistema", UsuarioSistema);
+                    _command.Parameters.AddWithValue("@IdAgenda", idAgenda);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
+                    _command.Parameters.AddWithValue("@UsuarioSistema", usuarioSistema);
                     _command.ExecuteNonQuery();
 
                     _command.Dispose();
@@ -1290,7 +1290,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public Usuario ValidarUsuarioAdmin(string Nombre, string Password)
+        public Usuario ValidarUsuarioAdmin(string nombre, string password)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -1303,8 +1303,8 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ValidarUsuarioAdmin";
-                    _command.Parameters.AddWithValue("@Nombre", Nombre);
-                    _command.Parameters.AddWithValue("@Password", Password);
+                    _command.Parameters.AddWithValue("@Nombre", nombre);
+                    _command.Parameters.AddWithValue("@Password", password);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -1344,7 +1344,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Empresa> ConsultarUsuarioEmpresas(int IdUsuario)
+        public List<Empresa> ConsultarUsuarioEmpresas(int idUsuario)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -1357,7 +1357,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarUsuarioEmpresas";
-                    _command.Parameters.AddWithValue("@IdUsuario", IdUsuario);
+                    _command.Parameters.AddWithValue("@IdUsuario", idUsuario);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -1585,7 +1585,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Agenda> ConsultarServiciosCliente(Agenda _Agenda)
+        public List<Agenda> ConsultarServiciosCliente(Agenda agenda)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -1598,7 +1598,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarServiciosCliente";
-                    _command.Parameters.AddWithValue("@JsonAgenda", JsonConvert.SerializeObject(_Agenda));
+                    _command.Parameters.AddWithValue("@JsonAgenda", JsonConvert.SerializeObject(agenda));
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -1639,7 +1639,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Agenda> ConsultarServiciosEmpleado(Agenda _Agenda)
+        public List<Agenda> ConsultarServiciosEmpleado(Agenda agenda)
         {
             DataTable _datatable = new DataTable();
             SqlDataAdapter _adapter = new SqlDataAdapter();
@@ -1652,7 +1652,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarServiciosEmpleado";
-                    _command.Parameters.AddWithValue("@JsonAgenda", JsonConvert.SerializeObject(_Agenda));
+                    _command.Parameters.AddWithValue("@JsonAgenda", JsonConvert.SerializeObject(agenda));
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_datatable);
@@ -1743,7 +1743,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public List<Promocion> ConsultarPromociones(string IdEmpresa)
+        public List<Promocion> ConsultarPromociones(string idEmpresa)
         {
             DataSet _dataset = new DataSet();
             List<Promocion> _promociones = new List<Promocion>();
@@ -1757,7 +1757,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarPromociones";
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_dataset);
@@ -1784,7 +1784,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool EliminarServicioPromocion(string IdDetallePromocion, string IdPromocion)
+        public bool EliminarServicioPromocion(string idDetallePromocion, string idPromocion)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -1794,8 +1794,8 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "EliminarServicioPromocion";
-                    _command.Parameters.AddWithValue("@IdDetallePromocion", IdDetallePromocion);
-                    _command.Parameters.AddWithValue("@IdPromocion", IdPromocion);
+                    _command.Parameters.AddWithValue("@IdDetallePromocion", idDetallePromocion);
+                    _command.Parameters.AddWithValue("@IdPromocion", idPromocion);
 
                     _command.ExecuteNonQuery();
 
@@ -1806,7 +1806,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public Promocion ConsultarPromocion(string IdPromocion, string IdEmpresa)
+        public Promocion ConsultarPromocion(string idPromocion, string idEmpresa)
         {
             DataSet _dataset = new DataSet();
             Promocion _promocion = new Promocion();
@@ -1820,8 +1820,8 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "ConsultarPromocion";
-                    _command.Parameters.AddWithValue("@IdPromocion", IdPromocion);
-                    _command.Parameters.AddWithValue("@IdEmpresa", IdEmpresa);
+                    _command.Parameters.AddWithValue("@IdPromocion", idPromocion);
+                    _command.Parameters.AddWithValue("@IdEmpresa", idEmpresa);
                     _adapter.SelectCommand = _command;
 
                     _adapter.Fill(_dataset);
@@ -1870,7 +1870,7 @@ namespace Spa.Infrastructure.SpaRepository
             }
         }
 
-        public bool RegistrarSesion(Sesion _Sesion)
+        public bool RegistrarSesion(Sesion sesion)
         {
             using (SqlConnection _connection = new SqlConnection(_connectionString))
             {
@@ -1880,7 +1880,7 @@ namespace Spa.Infrastructure.SpaRepository
                 {
                     _command.CommandType = CommandType.StoredProcedure;
                     _command.CommandText = "RegistrarSesion";
-                    _command.Parameters.AddWithValue("@JsonSesion", JsonConvert.SerializeObject(_Sesion));
+                    _command.Parameters.AddWithValue("@JsonSesion", JsonConvert.SerializeObject(sesion));
 
                     _command.ExecuteNonQuery();
 
